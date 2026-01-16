@@ -1,7 +1,28 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async rewrites() {
+    return [
+      // Sunday Squares
+      {
+        source: "/sundaysquares",
+        destination: "https://sunday-squares.vercel.app",
+      },
+      {
+        source: "/sundaysquares/:path*",
+        destination: "https://sunday-squares.vercel.app/:path*",
+      },
+      // Boundless
+      {
+        source: "/boundless",
+        destination: "https://boundless-ochre.vercel.app",
+      },
+      {
+        source: "/boundless/:path*",
+        destination: "https://boundless-ochre.vercel.app/:path*",
+      },
+    ];
+  },
 };
 
 export default nextConfig;
