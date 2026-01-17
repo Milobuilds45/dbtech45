@@ -15,11 +15,11 @@ const nextConfig: NextConfig = {
       // Boundless
       {
         source: "/boundless",
-        destination: "https://boundless-ochre.vercel.app",
+        destination: "https://boundless-ochre.vercel.app/boundless",
       },
       {
         source: "/boundless/:path*",
-        destination: "https://boundless-ochre.vercel.app/:path*",
+        destination: "https://boundless-ochre.vercel.app/boundless/:path*",
       },
     ];
   },
