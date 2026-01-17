@@ -6,11 +6,11 @@ const nextConfig: NextConfig = {
       // Sunday Squares
       {
         source: "/sundaysquares",
-        destination: "https://sunday-squares.vercel.app",
+        destination: "https://sunday-squares.vercel.app/sundaysquares",
       },
       {
         source: "/sundaysquares/:path*",
-        destination: "https://sunday-squares.vercel.app/:path*",
+        destination: "https://sunday-squares.vercel.app/sundaysquares/:path*",
       },
       // Boundless
       {
