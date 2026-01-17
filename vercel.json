@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/boundless/:path*",
+      "destination": "https://boundless-ochre.vercel.app/boundless/:path*"
+    },
+    {
+      "source": "/boundless",
+      "destination": "https://boundless-ochre.vercel.app/boundless"
+    }
+  ]
+}
