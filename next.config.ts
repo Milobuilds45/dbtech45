@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  webpack: (config: any) => {
-    return config;
-  },
   async rewrites() {
     return [
       // Sunday Squares
@@ -24,15 +21,7 @@ const nextConfig: NextConfig = {
         source: "/boundless/:path*",
         destination: "https://boundless-ochre.vercel.app/boundless/:path*",
       },
-      // Soulsolace
-      {
-        source: "/soulsolace",
-        destination: "https://soulsolace.vercel.app/soulsolace",
-      },
-      {
-        source: "/soulsolace/:path*",
-        destination: "https://soulsolace.vercel.app/soulsolace/:path*",
-      },
+      // Soul Solace now integrated at /soul
       // DB Tech OS
       {
         source: "/os",

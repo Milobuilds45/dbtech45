@@ -1154,3 +1154,469 @@ img { max-width: 100%; display: block; }
   margin: 0;
   border: none;
 }
+
+/* ========================================
+   SOUL SOLACE STYLES
+   ======================================== */
+
+/* iOS Safe Area Support */
+html {
+  /* Support for iOS safe areas */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* Hide scrollbar for horizontal nav */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch-friendly tap targets */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Glass card styles */
+.glass-card {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.glass-card-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-card-hover:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(1.01);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Enhanced glass card with gradient border */
+.glass-card-premium {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.glass-card-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0.1), rgba(255,255,255,0.3));
+  border-radius: inherit;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+}
+
+/* Button glow effect */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(45deg, #6366f1, #8b5cf6, #a855f7, #6366f1);
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: gradient-rotate 3s ease infinite;
+}
+
+.btn-glow:hover::before {
+  opacity: 0.7;
+}
+
+/* Floating background orb */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  opacity: 0.30;
+  pointer-events: none;
+}
+
+.orb-1 {
+  background: linear-gradient(to bottom right, #fde68a, #fdba74);
+  animation: float 8s ease-in-out infinite;
+}
+
+.orb-2 {
+  background: linear-gradient(to bottom right, #c7d2fe, #d8b4fe);
+  animation: float 10s ease-in-out infinite;
+  animation-delay: -2s;
+}
+
+.orb-3 {
+  background: linear-gradient(to bottom right, #a7f3d0, #99f6e4);
+  animation: float 12s ease-in-out infinite;
+  animation-delay: -4s;
+}
+
+/* Card shine effect on hover */
+.card-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 60%
+  );
+  transform: translateX(-100%) rotate(45deg);
+  transition: transform 0.6s ease;
+  pointer-events: none;
+}
+
+.card-shine:hover::after {
+  transform: translateX(100%) rotate(45deg);
+}
+
+/* Ripple effect container */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+  animation: ripple 0.6s ease-out forwards;
+}
+
+/* Progress bar with gradient */
+.progress-bar {
+  height: 0.375rem;
+  border-radius: 9999px;
+  overflow: hidden;
+  background-color: #e2e8f0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: all 0.5s ease-out;
+  background: linear-gradient(90deg, #f59e0b, #d97706, #f59e0b);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+/* Concentric rings loader */
+.ring-loader {
+  position: relative;
+}
+
+.ring-loader .ring {
+  position: absolute;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: transparent;
+  border-top-color: currentColor;
+}
+
+.ring-loader .ring-1 {
+  width: 5rem;
+  height: 5rem;
+  color: #f59e0b;
+  animation: spin 1.5s linear infinite;
+}
+
+.ring-loader .ring-2 {
+  width: 4rem;
+  height: 4rem;
+  color: #fbbf24;
+  top: 0.5rem;
+  left: 0.5rem;
+  animation: spin 2s linear infinite reverse;
+}
+
+.ring-loader .ring-3 {
+  width: 3rem;
+  height: 3rem;
+  color: #fcd34d;
+  top: 1rem;
+  left: 1rem;
+  animation: spin 2.5s linear infinite;
+}
+
+/* Phase indicator dots */
+.phase-dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.phase-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  background-color: #cbd5e1;
+  transition: all 0.3s ease;
+}
+
+.phase-dot.active {
+  background-color: #f59e0b;
+  transform: scale(1.25);
+}
+
+.phase-dot.completed {
+  background-color: #f59e0b;
+}
+
+/* Tab button enhanced */
+.tab-btn {
+  position: relative;
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+  color: white;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tab-btn.active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  z-index: -1;
+}
+
+.tab-btn:not(.active) {
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #64748b;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.tab-btn:not(.active):hover {
+  background-color: white;
+}
+
+/* Quotation decoration */
+.quote-decoration {
+  position: relative;
+}
+
+.quote-decoration::before {
+  content: '"';
+  position: absolute;
+  top: -1rem;
+  left: -0.5rem;
+  font-size: 3.75rem;
+  color: rgba(251, 191, 36, 0.5);
+  font-family: serif;
+  line-height: 1;
+}
+
+/* Focus indicator line */
+.focus-line {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  height: 0.125rem;
+  background-color: #6366f1;
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+  width: 0;
+}
+
+.focus-line.active {
+  width: 100%;
+}
+
+/* Character counter */
+.char-counter {
+  font-size: 0.75rem;
+  transition: color 0.2s ease;
+}
+
+.char-counter.warning {
+  color: #f59e0b;
+}
+
+.char-counter.error {
+  color: #ef4444;
+}
+
+/* RTL (Right-to-Left) language support */
+.rtl-text {
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: bidi-override;
+}
+
+/* Language-specific font stacks using system fonts */
+[lang="he"],
+[lang="hebrew"] {
+  font-family: 'SFMono-Regular', 'David', 'Narkisim', 'Times New Roman', serif;
+}
+
+[lang="ar"],
+[lang="arabic"] {
+  font-family: 'Geeza Pro', 'Traditional Arabic', 'Simplified Arabic', 'Times New Roman', serif;
+  line-height: 1.8;
+}
+
+[lang="sa"],
+[lang="sanskrit"],
+[lang="hi"] {
+  font-family: 'Devanagari MT', 'Devanagari Sangam MN', 'Kohinoor Devanagari', 'Noto Sans Devanagari', serif;
+  line-height: 1.8;
+}
+
+[lang="pi"],
+[lang="pali"] {
+  font-family: 'Noto Sans Myanmar', 'Noto Serif Myanmar', 'Padauk', serif;
+  line-height: 1.8;
+}
+
+[lang="la"],
+[lang="latin"] {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+
+[lang="el"],
+[lang="greek"] {
+  font-family: 'Times New Roman', 'Liberation Serif', serif;
+}
+
+/* Ensure proper rendering of non-Latin scripts */
+.rtl-text,
+[lang="he"],
+[lang="ar"],
+[lang="arabic"],
+[lang="hebrew"] {
+  font-feature-settings: "kern" 1;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Quote decoration adjustment for RTL */
+.rtl-text .quote-decoration::before,
+[dir="rtl"] .quote-decoration::before {
+  left: auto;
+  right: -0.5rem;
+}
+
+/* Soul-specific animations */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  25% { transform: translateY(-20px) translateX(10px); }
+  50% { transform: translateY(-10px) translateX(-10px); }
+  75% { transform: translateY(-25px) translateX(5px); }
+}
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.5; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes gradient-rotate {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Fade in up animation */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.4s ease-out forwards;
+}
+
+/* Fade in animation */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
+
+/* Scale in animation */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.2s ease-out forwards;
+}
+
+/* Breathing animation */
+@keyframes breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.animate-breathe {
+  animation: breathe 2s ease-in-out infinite;
+}
