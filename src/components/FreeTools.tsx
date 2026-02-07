@@ -1,100 +1,69 @@
-import Reveal from "@/components/Reveal";
-
-const TOOLS = [
-  {
-    name: "tipsplit-pro",
-    version: "v2.1.0",
-    title: "TipSplit Pro",
-    tagline: "Fair tip distribution for restaurants.",
-    description: "Split by hours, roles, or custom rules.",
-    usage: [
-      "tipsplit --mode [equal|hours|role]",
-      "tipsplit --team <count>",
-      "tipsplit --amount <total>",
-    ],
-    mailto: "mailto:derek@dbtech45.com?subject=TipSplit%20Pro%20Access",
-  },
-  {
-    name: "sunday-squares",
-    version: "v1.3.0",
-    title: "Sunday Squares",
-    tagline: "Super Bowl squares made easy.",
-    description: "Create a board. Invite friends. Play.",
-    usage: [
-      "squares --create <game-name>",
-      "squares --join <code>",
-      "squares --status",
-    ],
-    mailto: "mailto:derek@dbtech45.com?subject=Sunday%20Squares%20Access",
-  },
-];
+"use client";
+import { useEffect, useRef } from "react";
 
 export default function FreeTools() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      const revealElements = sectionRef.current.querySelectorAll('.reveal');
+      revealElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const tools = [
+    {
+      icon: "💰",
+      name: "TipSplit Pro",
+      help: "./tipsplit --calculate",
+      desc: "Professional tip calculator built for the restaurant industry. Handles complex splits, different tip rates, and tax calculations.",
+      link: "/sundaysquares"
+    },
+    {
+      icon: "🏈",
+      name: "Sunday Squares",
+      help: "./squares --generate",
+      desc: "Digital football squares for your game day pool. Auto-scoring, payout tracking, and shareable boards.",
+      link: "/sundaysquares"
+    }
+  ];
+
   return (
-    <section className="py-20 md:py-28">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <Reveal>
-          <div className="ascii-divider mb-12">
-            {`═══════════════ [ FREE TOOLS ] ═══════════════`}
+    <>
+      <hr className="section-divider" />
+      <section className="section" id="tools" aria-label="Free Tools section" ref={sectionRef}>
+        <div className="container">
+          <div className="reveal">
+            <div className="section-command">ls /usr/local/bin/tools/</div>
+            <h2 className="section-title">Free Tools</h2>
+            <p className="section-subtitle">Useful utilities I built and decided to share. No ads, no tracking, just tools that work.</p>
           </div>
-        </Reveal>
-
-        <div className="grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
-          {TOOLS.map((tool, idx) => (
-            <Reveal key={tool.name} delay={100 + idx * 150}>
-              <div className="terminal-card h-full flex flex-col">
-                <div className="terminal-header">
-                  <span className="terminal-dot" style={{ background: "#ff5f56" }} />
-                  <span className="terminal-dot" style={{ background: "#ffbd2e" }} />
-                  <span className="terminal-dot" style={{ background: "#27c93f" }} />
-                  <span className="ml-2 text-faint text-xs font-mono">
-                    {tool.name} — {tool.version}
-                  </span>
-                </div>
-
-                <div className="p-5 md:p-6 font-mono text-sm flex-1 flex flex-col">
-                  <p className="text-body mb-4">
-                    <span className="text-amber font-bold">$ </span>
-                    <span className="text-heading">
-                      {tool.name.replace("-", "")} --help
-                    </span>
-                  </p>
-
-                  <div className="h-px bg-edge mb-4" />
-
-                  <div className="space-y-1 flex-1">
-                    <p className="text-heading font-bold">&nbsp;&nbsp;{tool.title}</p>
-                    <p className="text-body">&nbsp;&nbsp;{tool.tagline}</p>
-                    <p className="text-body">&nbsp;&nbsp;{tool.description}</p>
-                    <p className="text-body">&nbsp;</p>
-                    <p className="text-faint uppercase text-xs tracking-wider">
-                      &nbsp;&nbsp;Usage:
-                    </p>
-                    {tool.usage.map((line, i) => (
-                      <p key={i} className="text-heading">
-                        &nbsp;&nbsp;&nbsp;&nbsp;{line}
-                      </p>
-                    ))}
-                    <p className="text-body mt-3">
-                      <span className="text-amber font-bold">&nbsp;&nbsp;$ </span>
-                      <span className="inline-block w-[2px] h-4 bg-amber align-middle animate-[blink-caret_0.75s_step-end_infinite]" />
-                    </p>
-                  </div>
-
-                  <div className="mt-5 pt-4 border-t border-edge">
-                    <a
-                      href={tool.mailto}
-                      className="block text-center text-amber border border-amber/30 px-4 py-2.5 font-mono text-xs tracking-wider hover:bg-amber hover:text-black transition-all duration-200"
-                    >
-                      [RUN {tool.name}]
-                    </a>
-                  </div>
-                </div>
+          <div className="tools-grid">
+            {tools.map((tool, index) => (
+              <div key={index} className="tool-card reveal">
+                <div className="tool-icon">{tool.icon}</div>
+                <h3 className="tool-name">{tool.name}</h3>
+                <div className="tool-help">{tool.help}</div>
+                <p className="tool-desc">{tool.desc}</p>
+                <a href={tool.link} className="btn btn-primary">Launch Tool →</a>
               </div>
-            </Reveal>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }

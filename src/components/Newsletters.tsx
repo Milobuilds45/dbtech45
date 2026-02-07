@@ -1,112 +1,88 @@
-import Reveal from "@/components/Reveal";
-
-const NEWSLETTERS = [
-  {
-    id: 1,
-    from: "signal-noise",
-    subject: "Markets & Trading — AI-powered intel",
-    freq: "Daily",
-    status: "COMING SOON",
-    desc: "AI-powered daily market intelligence. Futures, options, macro — the signal without the noise.",
-  },
-  {
-    id: 2,
-    from: "the-operator",
-    subject: "Restaurant Business — Ops without insanity",
-    freq: "Weekly",
-    status: "COMING SOON",
-    desc: "Running a restaurant without losing your mind. Operations, costs, people, and the grind.",
-  },
-  {
-    id: 3,
-    from: "dad-stack",
-    subject: "Parenting + Building — Real multithreading",
-    freq: "Weekly",
-    status: "COMING SOON",
-    desc: "Building an empire while raising 7 humans. The real multithreading.",
-  },
-];
+"use client";
+import { useEffect, useRef } from "react";
 
 export default function Newsletters() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      const revealElements = sectionRef.current.querySelectorAll('.reveal');
+      revealElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const newsletters = [
+    {
+      icon: "📡",
+      name: "Signal & Noise",
+      frequency: "Daily",
+      desc: "Market intelligence filtered through 15 years of trading experience. Technical analysis, macro themes, and conviction plays that matter.",
+      link: "#"
+    },
+    {
+      icon: "⚙️",
+      name: "The Operator",
+      frequency: "Weekly",
+      desc: "Business building, productivity systems, and the art of execution. Lessons from running restaurants and shipping software.",
+      link: "#"
+    },
+    {
+      icon: "👨‍👩‍👧‍👦",
+      name: "Dad Stack",
+      frequency: "Weekly",
+      desc: "Parenting seven kids while building companies. Real talk about balance, priorities, and what actually matters in life.",
+      link: "#"
+    }
+  ];
+
   return (
-    <section id="newsletters" className="py-20 md:py-28">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <Reveal>
-          <div className="ascii-divider mb-12">
-            {`═══════════════ [ NEWSLETTERS ] ═══════════════`}
+    <>
+      <hr className="section-divider" />
+      <section className="section" id="newsletters" aria-label="Newsletters section" ref={sectionRef}>
+        <div className="container">
+          <div className="reveal">
+            <div className="section-command">cat /etc/subscriptions</div>
+            <h2 className="section-title">Newsletters</h2>
+            <p className="section-subtitle">Three publications. Different perspectives. Same commitment to substance over noise.</p>
           </div>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <div className="terminal-card">
-            <div className="terminal-header">
-              <span className="terminal-dot" style={{ background: "#ff5f56" }} />
-              <span className="terminal-dot" style={{ background: "#ffbd2e" }} />
-              <span className="terminal-dot" style={{ background: "#27c93f" }} />
-              <span className="ml-2 text-faint text-xs font-mono">
-                mutt — 3 subscriptions
-              </span>
-            </div>
-
-            <div className="p-5 md:p-6 font-mono text-sm">
-              <div className="hidden md:grid grid-cols-[2rem_10rem_1fr_5rem_8rem] gap-2 text-faint text-xs uppercase tracking-wider mb-3 pb-2 border-b border-edge">
-                <span>#</span>
-                <span>FROM</span>
-                <span>SUBJECT</span>
-                <span>FREQ</span>
-                <span>STATUS</span>
+          <div className="newsletters-grid">
+            {newsletters.map((newsletter, index) => (
+              <div key={index} className="newsletter-card reveal">
+                <div className="newsletter-icon">{newsletter.icon}</div>
+                <h3 className="newsletter-name">{newsletter.name}</h3>
+                <div className="newsletter-freq">{newsletter.frequency}</div>
+                <p className="newsletter-desc">{newsletter.desc}</p>
+                <a href={newsletter.link} className="btn btn-primary">Subscribe</a>
               </div>
-
-              {NEWSLETTERS.map((nl) => (
-                <div key={nl.id} className="mb-5">
-                  <div className="hidden md:grid grid-cols-[2rem_10rem_1fr_5rem_8rem] gap-2 items-start leading-6">
-                    <span className="text-faint">{nl.id}</span>
-                    <span className="text-blue">{nl.from}</span>
-                    <span className="text-heading">{nl.subject}</span>
-                    <span className="text-amber">{nl.freq}</span>
-                    <span className="text-green">[{nl.status}]</span>
-                  </div>
-
-                  <div className="md:hidden space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="text-faint">{nl.id}</span>
-                      <span className="text-blue font-bold">{nl.from}</span>
-                      <span className="text-amber text-xs ml-auto">{nl.freq}</span>
-                    </div>
-                    <p className="text-heading text-xs pl-5">{nl.subject}</p>
-                    <p className="text-green text-xs pl-5">[{nl.status}]</p>
-                  </div>
-
-                  <p className="mt-1.5 pl-0 md:pl-8 text-body text-xs leading-relaxed">
-                    <span className="text-amber mr-1">{`>`}</span>
-                    <span className="text-faint">{nl.from}:</span>{" "}
-                    {nl.desc}
-                  </p>
-                </div>
-              ))}
-
-              <div className="h-px bg-edge mt-4 mb-5" />
-
-              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <span className="text-amber font-bold shrink-0">$ </span>
-                <span className="text-heading shrink-0">subscribe --email</span>
-                <input
-                  type="email"
-                  placeholder="you@domain.com"
-                  className="flex-1 min-w-0 bg-transparent border-b border-amber/30 text-amber font-mono text-sm py-1 px-1 outline-none focus:border-amber transition-colors placeholder:text-faint"
-                  aria-label="Email address"
-                />
-                <button
-                  type="button"
-                  className="text-amber border border-amber/30 px-4 py-1.5 font-mono text-xs tracking-wider hover:bg-amber hover:text-black transition-all duration-200 cursor-pointer"
-                >
-                  [ENTER]
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
-        </Reveal>
-      </div>
-    </section>
+          <div className="subscribe-bar reveal">
+            <div className="subscribe-prompt">
+              <span className="prompt-char">$</span> subscribe --email
+            </div>
+            <input 
+              type="email" 
+              className="subscribe-input" 
+              placeholder="your.email@domain.com" 
+              aria-label="Email address"
+            />
+            <button className="btn btn-primary">Join →</button>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

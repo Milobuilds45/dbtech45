@@ -1,135 +1,126 @@
-import Reveal from "@/components/Reveal";
-
-const BRANCHES = [
-  { type: "building", graph: "*", msg: "tickR MVP — Paper trading mode for kids" },
-  { type: "building", graph: "*", msg: "Signal & Noise v1 — Newsletter pipeline with Bobby" },
-  { type: "divider", graph: "|" },
-  { type: "shaping", graph: "| *", msg: "Receipt Scanner — Auto-categorize expenses" },
-  { type: "shaping", graph: "| *", msg: "Kitchen Cost Tracker — Real-time food cost alerts" },
-  { type: "merge", graph: "|/" },
-  { type: "spark", graph: "| *", msg: "AI Meal Planner — Weekly meal plans by budget" },
-  { type: "spark", graph: "| *", msg: "Contractor Bidder — Compare home project bids" },
-  { type: "spark", graph: "| *", msg: "Family Calendar AI — Smart scheduling for 7 kids" },
-  { type: "merge", graph: "|/" },
-  { type: "shipped", graph: "*", msg: 'init — "Every product starts as a spark"' },
-] as const;
-
-const TAG_STYLES: Record<string, string> = {
-  building: "text-amber",
-  shaping: "text-blue",
-  spark: "text-purple",
-  shipped: "text-faint",
-};
-
-const TAG_LABELS: Record<string, string> = {
-  building: "[Building]",
-  shaping: "[Shaping]",
-  spark: "[Spark]",
-  shipped: "[Shipped]",
-};
+"use client";
+import { useEffect, useRef } from "react";
 
 export default function IdeasLab() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      const revealElements = sectionRef.current.querySelectorAll('.reveal');
+      revealElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const gitEntries = {
+    building: [
+      {
+        hash: "a3f7c2d",
+        message: "tickR — Trading dashboard with AI signals and journaling"
+      },
+      {
+        hash: "b8e1d4f",
+        message: "Soul Solace — AI wellness companion and mood tracker"
+      },
+      {
+        hash: "c2a9f6e",
+        message: "Kitchen Cost Tracker — Multi-unit food cost management"
+      }
+    ],
+    shaping: [
+      {
+        hash: "d5b3e8a",
+        message: "Boundless — AI travel planning and itinerary builder"
+      },
+      {
+        hash: "e7c4f9b",
+        message: "Receipt Scanner — OCR expense extraction and categorization"
+      }
+    ],
+    spark: [
+      {
+        hash: "f1d6a2c",
+        message: "AI Meal Planner — Family-aware weekly meal generation"
+      },
+      {
+        hash: "g3e8b4d",
+        message: "Contractor Bidder — Scope management and bid comparison"
+      },
+      {
+        hash: "h5f9c6e",
+        message: "Family Calendar AI — Smart scheduling for a family of 9"
+      }
+    ]
+  };
+
   return (
-    <section id="ideas-lab" className="section-anchor py-20 md:py-28">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        <Reveal>
-          <div className="ascii-divider mb-12">
-            {`═══════════════ [ THE LAB ] ═══════════════`}
+    <>
+      <hr className="section-divider" />
+      <section className="section" id="ideas" aria-label="Ideas Lab section" ref={sectionRef}>
+        <div className="container">
+          <div className="reveal">
+            <div className="section-command">git log --oneline --graph</div>
+            <h2 className="section-title">Ideas Lab</h2>
+            <p className="section-subtitle">The pipeline. From spark to shipped — everything passes through here.</p>
           </div>
-        </Reveal>
-
-        <Reveal delay={100}>
-          <h2 className="text-3xl md:text-5xl font-display font-black amber-text mb-8">
-            IDEAS LAB
-          </h2>
-        </Reveal>
-
-        <Reveal delay={200}>
-          <div className="terminal-card">
-            <div className="terminal-header">
-              <span className="terminal-dot" style={{ background: "#ff5f56" }} />
-              <span className="terminal-dot" style={{ background: "#ffbd2e" }} />
-              <span className="terminal-dot" style={{ background: "#27c93f" }} />
-              <span className="ml-2 text-faint text-xs font-mono">
-                derek@dbtech45:~/lab (main)
-              </span>
+          <div className="git-log reveal">
+            {/* Building */}
+            <div className="git-group">
+              <div className="git-stage-label stage-building">Building</div>
+              {gitEntries.building.map((entry, index) => (
+                <div key={index} className="git-entry">
+                  <span className="hash">{entry.hash}</span>
+                  <span className="msg">
+                    <strong>{entry.message.split(' — ')[0]}</strong>
+                    {' — '}
+                    {entry.message.split(' — ')[1]}
+                  </span>
+                </div>
+              ))}
             </div>
-
-            <div className="p-5 md:p-6 font-mono text-sm space-y-0.5">
-              <p className="text-body mb-3">
-                <span className="text-amber font-bold">$ </span>
-                <span className="text-heading">
-                  git log --graph --oneline --all
-                </span>
-              </p>
-
-              <div className="h-px bg-edge mb-3" />
-
-              {BRANCHES.map((branch, i) => {
-                if (branch.type === "divider") {
-                  return (
-                    <p key={i} className="text-amber leading-6 select-none">
-                      {branch.graph}
-                    </p>
-                  );
-                }
-
-                if (branch.type === "merge") {
-                  return (
-                    <p key={i} className="text-amber leading-6 select-none">
-                      {branch.graph}
-                    </p>
-                  );
-                }
-
-                const tag = TAG_LABELS[branch.type];
-                const tagColor = TAG_STYLES[branch.type];
-
-                const isShipped = branch.type === "shipped";
-                const msgParts = isShipped && branch.msg
-                  ? branch.msg.split("— ")
-                  : null;
-
-                return (
-                  <p key={i} className="leading-6">
-                    <span className="text-amber">{branch.graph} </span>
-                    <span className={`${tagColor} font-bold`}>{tag}</span>
-                    <span className="text-heading">
-                      {" "}
-                      {isShipped && msgParts ? (
-                        <>
-                          {msgParts[0]}—{" "}
-                          <span className="text-amber italic">
-                            {msgParts[1]}
-                          </span>
-                        </>
-                      ) : (
-                        branch.msg
-                      )}
-                    </span>
-                  </p>
-                );
-              })}
+            {/* Shaping */}
+            <div className="git-group">
+              <div className="git-stage-label stage-shaping">Shaping</div>
+              {gitEntries.shaping.map((entry, index) => (
+                <div key={index} className="git-entry">
+                  <span className="hash">{entry.hash}</span>
+                  <span className="msg">
+                    <strong>{entry.message.split(' — ')[0]}</strong>
+                    {' — '}
+                    {entry.message.split(' — ')[1]}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {/* Spark */}
+            <div className="git-group">
+              <div className="git-stage-label stage-spark">Spark</div>
+              {gitEntries.spark.map((entry, index) => (
+                <div key={index} className="git-entry">
+                  <span className="hash">{entry.hash}</span>
+                  <span className="msg">
+                    <strong>{entry.message.split(' — ')[0]}</strong>
+                    {' — '}
+                    {entry.message.split(' — ')[1]}
+                  </span>
+                </div>
+              ))}
             </div>
           </div>
-        </Reveal>
-
-        <Reveal delay={400}>
-          <div className="mt-6 font-mono text-sm">
-            <p className="text-body">
-              <span className="text-amber font-bold">$ </span>
-              <span className="text-heading">echo &apos;</span>
-              <a
-                href="mailto:derek@dbtech45.com?subject=Idea%20Submission&body=Here%27s%20my%20idea..."
-                className="text-blue hover:underline"
-              >
-                Got an idea? Submit it
-              </a>
-              <span className="text-heading">&apos;</span>
-            </p>
-          </div>
-        </Reveal>
-      </div>
-    </section>
+        </div>
+      </section>
+    </>
   );
 }

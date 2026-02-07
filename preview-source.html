@@ -1,3 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBTech45 — Imagination → Implementation</title>
+<meta name="description" content="Derek Bobola / DBTech45 — Trade by day. Build by night. Dad of 7 always.">
+<meta name="theme-color" content="#0A0A0B">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
 /* ========================================
    CSS RESET & CUSTOM PROPERTIES
    ======================================== */
@@ -1154,3 +1166,505 @@ img { max-width: 100%; display: block; }
   margin: 0;
   border: none;
 }
+</style>
+</head>
+<body>
+
+<!-- ============ NAVIGATION ============ -->
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="DBTech45 Home">
+      <span class="prompt">~/</span>DBTech45
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">whoami</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#pit">the_pit</a></li>
+      <li><a href="#team">team</a></li>
+      <li><a href="#newsletters">newsletters</a></li>
+      <li><a href="#tools">tools</a></li>
+      <li><a href="#connect">connect</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" role="dialog" aria-label="Mobile navigation">
+  <a href="#about" class="mobile-link">$ whoami</a>
+  <a href="#projects" class="mobile-link">$ ls projects</a>
+  <a href="#pit" class="mobile-link">$ market</a>
+  <a href="#team" class="mobile-link">$ ps aux</a>
+  <a href="#ideas" class="mobile-link">$ git log</a>
+  <a href="#newsletters" class="mobile-link">$ cat subs</a>
+  <a href="#tools" class="mobile-link">$ ./tools</a>
+  <a href="#connect" class="mobile-link">$ ssh connect</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero" aria-label="Hero section">
+  <div class="hero-content">
+    <div class="hero-terminal" role="presentation">
+      <div class="terminal-bar">
+        <span class="terminal-dot red"></span>
+        <span class="terminal-dot yellow"></span>
+        <span class="terminal-dot green"></span>
+        <span class="terminal-bar-title">dbtech45 — zsh</span>
+      </div>
+      <div class="terminal-body" id="heroTerminal">
+        <div class="typed-line" data-delay="200"><span class="prompt-char">$</span> ./boot --system dbtech45</div>
+        <div class="typed-line" data-delay="800"><span class="amber-text">[OK]</span> Loading identity...</div>
+        <div class="typed-line" data-delay="1400"><span class="amber-text">[OK]</span> Modules: trader, builder, father</div>
+        <div class="typed-line" data-delay="2000"><span class="amber-text">[OK]</span> AI agents: 10 online</div>
+        <div class="typed-line" data-delay="2600"><span class="amber-text">[OK]</span> Status: shipping daily</div>
+        <div class="typed-line" data-delay="3200"><span class="prompt-char">$</span> echo "ready"<span class="cursor-blink"></span></div>
+      </div>
+    </div>
+    <h1 class="hero-name">DBTECH45</h1>
+    <p class="hero-tagline" id="heroTagline" aria-label="Imagination to Implementation"></p>
+    <p class="hero-sub">Trade by day. Build by night. Dad of 7 always.</p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn btn-primary">→ Explore Projects</a>
+      <a href="#connect" class="btn btn-secondary">⌘ Open Channel</a>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ ABOUT ============ -->
+<section class="section" id="about" aria-label="About section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">whoami</div>
+      <h2 class="section-title">The Builder Behind the Terminal</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-bio reveal">
+        <p><strong>Derek Bobola</strong> is a 45-year-old trader, restaurant owner, and self-taught technologist who builds software to solve problems he actually has.</p>
+        <p>No CS degree. No VC funding. No permission asked. Just a relentless drive to turn ideas into working products — from AI-powered trading tools to restaurant management systems to apps that make life easier for a family of nine.</p>
+        <p>By day, he's in the pit — trading futures, reading markets, building conviction. By night, he's shipping code, wrangling a team of AI agents, and prototyping the next thing that needs to exist.</p>
+      </div>
+      <div class="stats-grid reveal">
+        <div class="stat-card">
+          <div class="stat-number">7</div>
+          <div class="stat-label">Kids</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4</div>
+          <div class="stat-label">Restaurants</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">27</div>
+          <div class="stat-label">Repos</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10</div>
+          <div class="stat-label">AI Agents</div>
+        </div>
+      </div>
+    </div>
+    <blockquote class="about-quote reveal">
+      "You don't need a CS degree. You need a problem that pisses you off and the stubbornness to solve it."
+      <span class="attribution">— Derek Bobola</span>
+    </blockquote>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ PROJECTS ============ -->
+<section class="section" id="projects" aria-label="Projects section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">ls -la /projects/</div>
+      <h2 class="section-title">What I'm Building</h2>
+      <p class="section-subtitle">Real tools for real problems. Every project starts with friction and ends with a shipped product.</p>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card reveal">
+        <span class="project-icon">📈</span>
+        <h3 class="project-name">tickR</h3>
+        <p class="project-desc">Real-time trading dashboard with AI-powered signals, journaling, and performance analytics.</p>
+        <span class="project-badge badge-building">● Building</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">📡</span>
+        <h3 class="project-name">Signal & Noise</h3>
+        <p class="project-desc">Daily trading newsletter filtering market noise into actionable intelligence.</p>
+        <span class="project-badge badge-shipped">● Shipped</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🏈</span>
+        <h3 class="project-name">Sunday Squares</h3>
+        <p class="project-desc">Football squares game app — digital pools for game day with auto-scoring and payouts.</p>
+        <span class="project-badge badge-shipped">● Shipped</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">💰</span>
+        <h3 class="project-name">TipSplit Pro</h3>
+        <p class="project-desc">Tip calculation and splitting tool designed for restaurant industry workers.</p>
+        <span class="project-badge badge-shipped">● Shipped</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🧘</span>
+        <h3 class="project-name">Soul Solace</h3>
+        <p class="project-desc">AI-powered mental wellness companion — daily reflections, mood tracking, guided support.</p>
+        <span class="project-badge badge-building">● Building</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🌍</span>
+        <h3 class="project-name">Boundless</h3>
+        <p class="project-desc">Travel planning tool with AI-curated itineraries, budget tracking, and local insights.</p>
+        <span class="project-badge badge-shaping">● Shaping</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🧾</span>
+        <h3 class="project-name">Receipt Scanner</h3>
+        <p class="project-desc">Snap a receipt, extract line items, categorize expenses. OCR meets organization.</p>
+        <span class="project-badge badge-shaping">● Shaping</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">📊</span>
+        <h3 class="project-name">Kitchen Cost Tracker</h3>
+        <p class="project-desc">Restaurant food cost and inventory management system for multi-unit operators.</p>
+        <span class="project-badge badge-building">● Building</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🍽️</span>
+        <h3 class="project-name">AI Meal Planner</h3>
+        <p class="project-desc">Weekly meal planning powered by AI — dietary preferences, budget, family size aware.</p>
+        <span class="project-badge badge-spark">○ Spark</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">🔨</span>
+        <h3 class="project-name">Contractor Bidder</h3>
+        <p class="project-desc">Streamlined contractor bidding platform with scope management and comparison tools.</p>
+        <span class="project-badge badge-spark">○ Spark</span>
+      </div>
+      <div class="project-card reveal">
+        <span class="project-icon">📅</span>
+        <h3 class="project-name">Family Calendar AI</h3>
+        <p class="project-desc">Smart family scheduling that coordinates 9 people's lives with AI conflict resolution.</p>
+        <span class="project-badge badge-spark">○ Spark</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ THE PIT ============ -->
+<section class="section" id="pit" aria-label="Trading section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">market --status</div>
+      <h2 class="section-title">The Pit</h2>
+      <p class="section-subtitle">Futures, macro, conviction trades. Where the edge lives.</p>
+    </div>
+    <div class="pit-panel reveal">
+      <div class="ticker-strip" aria-label="Market ticker">
+        <div class="ticker-track" id="tickerTrack">
+          <div class="ticker-item">
+            <span class="ticker-symbol">ES</span>
+            <span class="ticker-price">5,487.25</span>
+            <span class="ticker-change up">+0.82%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">NQ</span>
+            <span class="ticker-price">19,812.50</span>
+            <span class="ticker-change up">+1.14%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">SPY</span>
+            <span class="ticker-price">547.32</span>
+            <span class="ticker-change up">+0.76%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">VIX</span>
+            <span class="ticker-price">14.28</span>
+            <span class="ticker-change down">-3.12%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">/GC</span>
+            <span class="ticker-price">2,341.80</span>
+            <span class="ticker-change up">+0.34%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">BTC</span>
+            <span class="ticker-price">67,842</span>
+            <span class="ticker-change up">+2.41%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">10Y</span>
+            <span class="ticker-price">4.287</span>
+            <span class="ticker-change down">-0.58%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">DXY</span>
+            <span class="ticker-price">104.32</span>
+            <span class="ticker-change down">-0.21%</span>
+          </div>
+          <!-- Duplicate for seamless scroll -->
+          <div class="ticker-item">
+            <span class="ticker-symbol">ES</span>
+            <span class="ticker-price">5,487.25</span>
+            <span class="ticker-change up">+0.82%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">NQ</span>
+            <span class="ticker-price">19,812.50</span>
+            <span class="ticker-change up">+1.14%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">SPY</span>
+            <span class="ticker-price">547.32</span>
+            <span class="ticker-change up">+0.76%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">VIX</span>
+            <span class="ticker-price">14.28</span>
+            <span class="ticker-change down">-3.12%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">/GC</span>
+            <span class="ticker-price">2,341.80</span>
+            <span class="ticker-change up">+0.34%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">BTC</span>
+            <span class="ticker-price">67,842</span>
+            <span class="ticker-change up">+2.41%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">10Y</span>
+            <span class="ticker-price">4.287</span>
+            <span class="ticker-change down">-0.58%</span>
+          </div>
+          <div class="ticker-item">
+            <span class="ticker-symbol">DXY</span>
+            <span class="ticker-price">104.32</span>
+            <span class="ticker-change down">-0.21%</span>
+          </div>
+        </div>
+      </div>
+      <div class="pit-content">
+        <div class="signal-log">
+          <div class="signal-entry">
+            <span class="signal-time">09:34 ET</span>
+            <span class="signal-level info">INFO</span>
+            <span class="signal-msg">ES breaking above 5,480 resistance — watching for retest and hold</span>
+          </div>
+          <div class="signal-entry">
+            <span class="signal-time">08:15 ET</span>
+            <span class="signal-level warn">WARN</span>
+            <span class="signal-msg">VIX compression to 14-handle — complacency zone, hedges cheap here</span>
+          </div>
+          <div class="signal-entry">
+            <span class="signal-time">07:02 ET</span>
+            <span class="signal-level hot">HOT</span>
+            <span class="signal-msg">BTC reclaiming 67K with volume — momentum flip confirmed on 4H</span>
+          </div>
+        </div>
+        <div class="pit-newsletter">
+          <div class="pit-newsletter-text">
+            <h4>📡 Signal & Noise</h4>
+            <p>Daily market intelligence. Filtered. Actionable. No fluff.</p>
+          </div>
+          <a href="#newsletters" class="btn btn-primary">Subscribe →</a>
+        </div>
+        <p class="pit-powered">Powered by Bobby // Trading Advisor AI</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ THE TEAM ============ -->
+<section class="section" id="team" aria-label="AI Team section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">ps aux --team</div>
+      <h2 class="section-title">The Team</h2>
+      <p class="section-subtitle">10 AI agents. One mission. Ship things that matter.</p>
+    </div>
+
+    <div class="team-stats reveal">
+      <div class="team-stat">
+        <div class="team-stat-label">Tasks Running</div>
+        <div class="team-stat-bar"><div class="team-stat-fill amber" data-width="78%"></div></div>
+        <div class="team-stat-value">78% capacity</div>
+      </div>
+      <div class="team-stat">
+        <div class="team-stat-label">CPU Usage</div>
+        <div class="team-stat-bar"><div class="team-stat-fill green" data-width="62%"></div></div>
+        <div class="team-stat-value">62% utilized</div>
+      </div>
+      <div class="team-stat">
+        <div class="team-stat-label">Memory</div>
+        <div class="team-stat-bar"><div class="team-stat-fill blue" data-width="45%"></div></div>
+        <div class="team-stat-value">45% allocated</div>
+      </div>
+    </div>
+
+    <div class="agents-grid">
+      <div class="agent-card reveal">
+        <div class="agent-avatar">🎯</div>
+        <div class="agent-info">
+          <div class="agent-name">Milo <span class="agent-status"></span></div>
+          <div class="agent-role">Head PA</div>
+          <div class="agent-desc">Chief orchestrator. Routes tasks, manages priorities, keeps the machine running.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">🎨</div>
+        <div class="agent-info">
+          <div class="agent-name">Paula <span class="agent-status"></span></div>
+          <div class="agent-role">Creative Director</div>
+          <div class="agent-desc">Design systems, brand identity, UI/UX. Makes everything look intentional.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">⚡</div>
+        <div class="agent-info">
+          <div class="agent-name">Anders <span class="agent-status"></span></div>
+          <div class="agent-role">Developer</div>
+          <div class="agent-desc">Full-stack engineer. Turns designs into deployed, production-grade code.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">📊</div>
+        <div class="agent-info">
+          <div class="agent-name">Bobby <span class="agent-status"></span></div>
+          <div class="agent-role">Trading Advisor</div>
+          <div class="agent-desc">Market analysis, signal generation, risk management. The edge finder.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">📢</div>
+        <div class="agent-info">
+          <div class="agent-name">Remy <span class="agent-status"></span></div>
+          <div class="agent-role">Marketing</div>
+          <div class="agent-desc">Growth strategy, audience building, campaign execution. Gets eyes on the work.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">⚙️</div>
+        <div class="agent-info">
+          <div class="agent-name">Tony <span class="agent-status"></span></div>
+          <div class="agent-role">Operations</div>
+          <div class="agent-desc">Systems, infrastructure, workflows. The invisible hand that keeps it all stable.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">✍️</div>
+        <div class="agent-info">
+          <div class="agent-name">Dax <span class="agent-status"></span></div>
+          <div class="agent-role">Content</div>
+          <div class="agent-desc">Writing, newsletters, storytelling. Turns ideas into words that land.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">🔍</div>
+        <div class="agent-info">
+          <div class="agent-name">Webb <span class="agent-status"></span></div>
+          <div class="agent-role">Research</div>
+          <div class="agent-desc">Deep dives, competitive analysis, data synthesis. Brings receipts.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">📰</div>
+        <div class="agent-info">
+          <div class="agent-name">Dwight <span class="agent-status"></span></div>
+          <div class="agent-role">News Intel</div>
+          <div class="agent-desc">Real-time news monitoring, event detection, macro awareness. Always watching.</div>
+        </div>
+      </div>
+      <div class="agent-card reveal">
+        <div class="agent-avatar">🏋️</div>
+        <div class="agent-info">
+          <div class="agent-name">Wendy <span class="agent-status"></span></div>
+          <div class="agent-role">Performance Coach</div>
+          <div class="agent-desc">Habits, focus, energy management. The accountability partner that doesn't quit.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ IDEAS LAB ============ -->
+<section class="section" id="ideas" aria-label="Ideas Lab section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">git log --oneline --graph</div>
+      <h2 class="section-title">Ideas Lab</h2>
+      <p class="section-subtitle">The pipeline. From spark to shipped — everything passes through here.</p>
+    </div>
+    <div class="git-log reveal">
+      <!-- Building -->
+      <div class="git-group">
+        <div class="git-stage-label stage-building">Building</div>
+        <div class="git-entry">
+          <span class="hash">a3f7c2d</span>
+          <span class="msg"><strong>tickR</strong> — Trading dashboard with AI signals and journaling</span>
+        </div>
+        <div class="git-entry">
+          <span class="hash">b8e1d4f</span>
+          <span class="msg"><strong>Soul Solace</strong> — AI wellness companion and mood tracker</span>
+        </div>
+        <div class="git-entry">
+          <span class="hash">c2a9f6e</span>
+          <span class="msg"><strong>Kitchen Cost Tracker</strong> — Multi-unit food cost management</span>
+        </div>
+      </div>
+      <!-- Shaping -->
+      <div class="git-group">
+        <div class="git-stage-label stage-shaping">Shaping</div>
+        <div class="git-entry">
+          <span class="hash">d5b3e8a</span>
+          <span class="msg"><strong>Boundless</strong> — AI travel planning and itinerary builder</span>
+        </div>
+        <div class="git-entry">
+          <span class="hash">e7c4f9b</span>
+          <span class="msg"><strong>Receipt Scanner</strong> — OCR expense extraction and categorization</span>
+        </div>
+      </div>
+      <!-- Spark -->
+      <div class="git-group">
+        <div class="git-stage-label stage-spark">Spark</div>
+        <div class="git-entry">
+          <span class="hash">f1d6a2c</span>
+          <span class="msg"><strong>AI Meal Planner</strong> — Family-aware weekly meal generation</span>
+        </div>
+        <div class="git-entry">
+          <span class="hash">g3e8b4d</span>
+          <span class="msg"><strong>Contractor Bidder</strong> — Scope management and bid comparison</span>
+        </div>
+        <div class="git-entry">
+          <span class="hash">h5f9c6e</span>
+          <span class="msg"><strong>Family Calendar AI</strong> — Smart scheduling for a family of 9</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ============ NEWSLETTERS ============ -->
+<section class="section" id="newsletters" aria-label="Newsletters section">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-command">cat /etc/subscriptions</div>
+      <h2 class="section-title">Newsletters</h2>
+      <p class="section-subtitle">Three publications</p>
+    </div>
+  </div>
+</section>

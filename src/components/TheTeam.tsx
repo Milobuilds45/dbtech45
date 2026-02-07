@@ -1,167 +1,153 @@
-import Reveal from "@/components/Reveal";
-
-const AGENTS = [
-  { pid: "001", name: "milo",   role: "chief-of-staff",       cpu: 92.1, mem: "2.4GB" },
-  { pid: "002", name: "bobby",  role: "trading-advisor",      cpu: 87.3, mem: "1.8GB" },
-  { pid: "003", name: "anders", role: "full-stack-architect",  cpu: 78.5, mem: "3.2GB" },
-  { pid: "004", name: "paula",  role: "creative-director",     cpu: 71.2, mem: "2.1GB" },
-  { pid: "005", name: "wendy",  role: "performance-coach",     cpu: 65.8, mem: "1.2GB" },
-  { pid: "006", name: "grant",  role: "content-strategist",    cpu: 69.4, mem: "1.6GB" },
-  { pid: "007", name: "tony",   role: "restaurant-ops",        cpu: 73.1, mem: "1.4GB" },
-  { pid: "008", name: "remy",   role: "restaurant-marketing",  cpu: 67.9, mem: "1.3GB" },
-  { pid: "009", name: "dwight", role: "weather-news",          cpu: 54.2, mem: "0.9GB" },
-  { pid: "010", name: "dax",    role: "data-analyst",          cpu: 82.6, mem: "2.8GB" },
-];
-
-function cpuColor(cpu: number): string {
-  if (cpu > 80) return "text-red";
-  if (cpu > 60) return "text-amber";
-  return "text-green";
-}
-
-function bar(pct: number, width: number): string {
-  const filled = Math.round((pct / 100) * width);
-  return "\u2588".repeat(filled) + "\u2591".repeat(width - filled);
-}
+"use client";
+import { useEffect, useRef } from "react";
 
 export default function TheTeam() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Animate stat bars when visible
+            const statFills = entry.target.querySelectorAll('.team-stat-fill');
+            statFills.forEach((fill) => {
+              const width = fill.getAttribute('data-width');
+              if (width) {
+                setTimeout(() => {
+                  (fill as HTMLElement).style.width = width;
+                }, 300);
+              }
+            });
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      const revealElements = sectionRef.current.querySelectorAll('.reveal');
+      revealElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  const agents = [
+    {
+      avatar: "🎯",
+      name: "Milo",
+      role: "Head PA",
+      desc: "Chief orchestrator. Routes tasks, manages priorities, keeps the machine running."
+    },
+    {
+      avatar: "🎨",
+      name: "Paula",
+      role: "Creative Director",
+      desc: "Design systems, brand identity, UI/UX. Makes everything look intentional."
+    },
+    {
+      avatar: "⚡",
+      name: "Anders",
+      role: "Developer",
+      desc: "Full-stack engineer. Turns designs into deployed, production-grade code."
+    },
+    {
+      avatar: "📊",
+      name: "Bobby",
+      role: "Trading Advisor",
+      desc: "Market analysis, signal generation, risk management. The edge finder."
+    },
+    {
+      avatar: "📢",
+      name: "Remy",
+      role: "Marketing",
+      desc: "Growth strategy, audience building, campaign execution. Gets eyes on the work."
+    },
+    {
+      avatar: "⚙️",
+      name: "Tony",
+      role: "Operations",
+      desc: "Systems, infrastructure, workflows. The invisible hand that keeps it all stable."
+    },
+    {
+      avatar: "✍️",
+      name: "Dax",
+      role: "Content",
+      desc: "Writing, newsletters, storytelling. Turns ideas into words that land."
+    },
+    {
+      avatar: "🔍",
+      name: "Webb",
+      role: "Research",
+      desc: "Deep dives, competitive analysis, data synthesis. Brings receipts."
+    },
+    {
+      avatar: "📰",
+      name: "Dwight",
+      role: "News Intel",
+      desc: "Real-time news monitoring, event detection, macro awareness. Always watching."
+    },
+    {
+      avatar: "🏋️",
+      name: "Wendy",
+      role: "Performance Coach",
+      desc: "Habits, focus, energy management. The accountability partner that doesn't quit."
+    }
+  ];
+
   return (
-    <section id="the-team" className="section-anchor py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <Reveal>
-          <p className="ascii-divider mb-10">
-            {"\u2550".repeat(15)} [ THE TEAM ] {"\u2550".repeat(15)}
-          </p>
-        </Reveal>
+    <>
+      <hr className="section-divider" />
+      <section className="section" id="team" aria-label="AI Team section" ref={sectionRef}>
+        <div className="container">
+          <div className="reveal">
+            <div className="section-command">ps aux --team</div>
+            <h2 className="section-title">The Team</h2>
+            <p className="section-subtitle">10 AI agents. One mission. Ship things that matter.</p>
+          </div>
 
-        <Reveal delay={80}>
-          <h2 className="amber-text font-display text-3xl md:text-4xl font-bold mb-2">
-            THE TEAM
-          </h2>
-        </Reveal>
-        <Reveal delay={120}>
-          <p className="text-body font-mono text-sm mb-8">
-            10 AI Agents. One Mission. Zero Excuses.
-          </p>
-        </Reveal>
-
-        <Reveal delay={160}>
-          <div className="terminal-card">
-            <div className="terminal-header">
-              <span className="terminal-dot" style={{ background: "#ff5f56" }} />
-              <span className="terminal-dot" style={{ background: "#ffbd2e" }} />
-              <span className="terminal-dot" style={{ background: "#27c93f" }} />
-              <span className="font-mono text-xs text-faint ml-2">
-                htop &mdash; 10 processes running
-              </span>
+          <div className="team-stats reveal">
+            <div className="team-stat">
+              <div className="team-stat-label">Tasks Running</div>
+              <div className="team-stat-bar">
+                <div className="team-stat-fill amber" data-width="78%"></div>
+              </div>
+              <div className="team-stat-value">78% capacity</div>
             </div>
-
-            <div className="p-4 md:p-6">
-              {/* Desktop table */}
-              <div className="hidden md:block overflow-x-auto">
-                <div className="grid grid-cols-[48px_90px_1fr_72px_72px_90px] gap-x-3 text-faint font-mono text-xs uppercase tracking-wider border-b border-edge pb-2 mb-2">
-                  <span>PID</span>
-                  <span>Name</span>
-                  <span>Role</span>
-                  <span>CPU%</span>
-                  <span>MEM</span>
-                  <span>Status</span>
-                </div>
-
-                {AGENTS.map((a, i) => (
-                  <Reveal key={a.pid} delay={200 + i * 50}>
-                    <div className="grid grid-cols-[48px_90px_1fr_72px_72px_90px] gap-x-3 items-center py-1.5 border-b border-edge/30 last:border-b-0 hover:bg-amber-ghost/40 transition-colors duration-200 font-mono text-xs md:text-sm">
-                      <span className="text-faint">{a.pid}</span>
-                      <span className="text-blue font-semibold">{a.name}</span>
-                      <span className="text-body">{a.role}</span>
-                      <span className={`${cpuColor(a.cpu)} font-semibold`}>
-                        {a.cpu.toFixed(1)}%
-                      </span>
-                      <span className="text-faint">{a.mem}</span>
-                      <span className="status-live text-green text-xs">
-                        RUNNING
-                      </span>
-                    </div>
-                  </Reveal>
-                ))}
+            <div className="team-stat">
+              <div className="team-stat-label">CPU Usage</div>
+              <div className="team-stat-bar">
+                <div className="team-stat-fill green" data-width="62%"></div>
               </div>
-
-              {/* Mobile cards */}
-              <div className="md:hidden flex flex-col gap-3">
-                {AGENTS.map((a, i) => (
-                  <Reveal key={a.pid} delay={200 + i * 50}>
-                    <div className="accent-card p-4 font-mono">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-faint text-[10px]">
-                            PID {a.pid}
-                          </span>
-                          <span className="text-blue font-semibold text-sm">
-                            {a.name}
-                          </span>
-                        </div>
-                        <span className="status-live text-green text-xs">
-                          RUNNING
-                        </span>
-                      </div>
-                      <p className="text-body text-xs mb-2">{a.role}</p>
-                      <div className="flex items-center gap-4 text-[10px]">
-                        <span>
-                          CPU:{" "}
-                          <span className={`${cpuColor(a.cpu)} font-semibold`}>
-                            {a.cpu.toFixed(1)}%
-                          </span>
-                        </span>
-                        <span className="text-faint">MEM: {a.mem}</span>
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
+              <div className="team-stat-value">62% utilized</div>
+            </div>
+            <div className="team-stat">
+              <div className="team-stat-label">Memory</div>
+              <div className="team-stat-bar">
+                <div className="team-stat-fill blue" data-width="45%"></div>
               </div>
-
-              {/* Summary */}
-              <Reveal delay={750}>
-                <div className="mt-6 pt-4 border-t border-edge font-mono text-xs space-y-2">
-                  <p className="text-body">
-                    <span className="text-heading font-semibold">Tasks:</span>{" "}
-                    10 total,{" "}
-                    <span className="text-green">10 running</span>,{" "}
-                    <span className="text-faint">0 sleeping</span>
-                  </p>
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-heading font-semibold w-8">CPU:</span>
-                    <span className="text-amber">74.2%</span>
-                    <div className="process-bar flex-1 max-w-xs">
-                      <div
-                        className="process-bar-fill"
-                        style={{ width: "74.2%" }}
-                      />
-                    </div>
-                    <span className="text-faint tracking-widest text-[10px] hidden sm:inline">
-                      [{bar(74.2, 26)}]
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <span className="text-heading font-semibold w-8">Mem:</span>
-                    <span className="text-amber">18.7GB / 32.0GB</span>
-                    <div className="process-bar flex-1 max-w-xs">
-                      <div
-                        className="process-bar-fill"
-                        style={{ width: "58.4%" }}
-                      />
-                    </div>
-                    <span className="text-faint tracking-widest text-[10px] hidden sm:inline">
-                      [{bar(58.4, 26)}]
-                    </span>
-                  </div>
-                </div>
-              </Reveal>
+              <div className="team-stat-value">45% allocated</div>
             </div>
           </div>
-        </Reveal>
-      </div>
-    </section>
+
+          <div className="agents-grid">
+            {agents.map((agent, index) => (
+              <div key={index} className="agent-card reveal">
+                <div className="agent-avatar">{agent.avatar}</div>
+                <div className="agent-info">
+                  <div className="agent-name">
+                    {agent.name} <span className="agent-status"></span>
+                  </div>
+                  <div className="agent-role">{agent.role}</div>
+                  <div className="agent-desc">{agent.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

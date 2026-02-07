@@ -1,151 +1,69 @@
-import Reveal from "@/components/Reveal";
+"use client";
+import { useEffect, useRef } from "react";
 
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      const revealElements = sectionRef.current.querySelectorAll('.reveal');
+      revealElements.forEach((el) => observer.observe(el));
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="about" className="section-anchor py-20 md:py-28 px-4 sm:px-6">
-      <Reveal className="mb-12">
-        <p className="ascii-divider">
-          {"\u2550".repeat(15)} [ ABOUT ] {"\u2550".repeat(15)}
-        </p>
-      </Reveal>
-
-      <Reveal delay={100} className="max-w-4xl mx-auto">
-        <div className="terminal-card">
-          <div className="terminal-header">
-            <span className="terminal-dot" style={{ background: "#ff5f56" }} />
-            <span className="terminal-dot" style={{ background: "#ffbd2e" }} />
-            <span className="terminal-dot" style={{ background: "#27c93f" }} />
-            <span className="font-mono text-xs text-faint ml-2">
-              derek@dbtech45:~/about
-            </span>
+    <>
+      <hr className="section-divider" />
+      <section className="section" id="about" aria-label="About section" ref={sectionRef}>
+        <div className="container">
+          <div className="reveal">
+            <div className="section-command">whoami</div>
+            <h2 className="section-title">The Builder Behind the Terminal</h2>
           </div>
-
-          <div className="p-6 md:p-8 space-y-0">
-            {/* whoami */}
-            <Reveal delay={200} className="mb-8">
-              <p className="font-mono text-sm">
-                <span className="text-amber font-bold">$ </span>
-                <span className="text-amber">whoami</span>
-              </p>
-              <p className="font-mono text-sm text-heading mt-1 pl-4">
-                {">"} Derek Bobola &mdash; Dad of 7, restaurant owner, trader, builder
-              </p>
-            </Reveal>
-
-            {/* cat stats.json */}
-            <Reveal delay={400} className="mb-8">
-              <p className="font-mono text-sm">
-                <span className="text-amber font-bold">$ </span>
-                <span className="text-amber">cat stats.json</span>
-              </p>
-              <div className="font-mono text-sm mt-1 pl-4">
-                <p className="text-faint">{"{"}</p>
-                <p>
-                  <span className="text-blue">{`  "kids"`}</span>
-                  <span className="text-faint">:</span>
-                  {"        "}
-                  <span className="text-purple">7</span>
-                  <span className="text-faint">,</span>
-                </p>
-                <p>
-                  <span className="text-blue">{`  "restaurants"`}</span>
-                  <span className="text-faint">:</span>
-                  {" "}
-                  <span className="text-purple">4</span>
-                  <span className="text-faint">,</span>
-                </p>
-                <p>
-                  <span className="text-blue">{`  "repos"`}</span>
-                  <span className="text-faint">:</span>
-                  {"       "}
-                  <span className="text-purple">27</span>
-                  <span className="text-faint">,</span>
-                </p>
-                <p>
-                  <span className="text-blue">{`  "ai_agents"`}</span>
-                  <span className="text-faint">:</span>
-                  {"   "}
-                  <span className="text-purple">9</span>
-                  <span className="text-faint">,</span>
-                </p>
-                <p>
-                  <span className="text-blue">{`  "status"`}</span>
-                  <span className="text-faint">:</span>
-                  {"      "}
-                  <span className="text-amber">{`"always shipping"`}</span>
-                </p>
-                <p className="text-faint">{"}"}</p>
+          <div className="about-grid">
+            <div className="about-bio reveal">
+              <p><strong>Derek Bobola</strong> is a 45-year-old trader, restaurant owner, and self-taught technologist who builds software to solve problems he actually has.</p>
+              <p>No CS degree. No VC funding. No permission asked. Just a relentless drive to turn ideas into working products — from AI-powered trading tools to restaurant management systems to apps that make life easier for a family of nine.</p>
+              <p>By day, he's in the pit — trading futures, reading markets, building conviction. By night, he's shipping code, wrangling a team of AI agents, and prototyping the next thing that needs to exist.</p>
+            </div>
+            <div className="stats-grid reveal">
+              <div className="stat-card">
+                <div className="stat-number">7</div>
+                <div className="stat-label">Kids</div>
               </div>
-            </Reveal>
-
-            {/* cat bio.txt */}
-            <Reveal delay={600} className="mb-8">
-              <p className="font-mono text-sm">
-                <span className="text-amber font-bold">$ </span>
-                <span className="text-amber">cat bio.txt</span>
-              </p>
-              <div className="font-mono text-sm text-body mt-1 pl-4 leading-relaxed">
-                <p>
-                  I run restaurants during the day, trade the markets before
-                </p>
-                <p>
-                  the bell, build apps after the kids go to bed, and raise
-                </p>
-                <p>
-                  seven humans in between. I don&apos;t wait for permission to
-                </p>
-                <p>build. If the idea won&apos;t leave me alone, I ship it.</p>
+              <div className="stat-card">
+                <div className="stat-number">4</div>
+                <div className="stat-label">Restaurants</div>
               </div>
-            </Reveal>
-
-            {/* ls -la identity/ */}
-            <Reveal delay={800}>
-              <p className="font-mono text-sm">
-                <span className="text-amber font-bold">$ </span>
-                <span className="text-amber">ls -la identity/</span>
-              </p>
-              <div className="font-mono text-sm mt-1 pl-4 space-y-0.5">
-                <p>
-                  <span className="text-faint">drwxr-xr-x  </span>
-                  <span className="text-amber">father/</span>
-                </p>
-                <p>
-                  <span className="text-faint">drwxr-xr-x  </span>
-                  <span className="text-amber">operator/</span>
-                </p>
-                <p>
-                  <span className="text-faint">drwxr-xr-x  </span>
-                  <span className="text-amber">trader/</span>
-                </p>
-                <p>
-                  <span className="text-faint">drwxr-xr-x  </span>
-                  <span className="text-amber">builder/</span>
-                </p>
-                <p>
-                  <span className="text-faint">-rw-r--r--  </span>
-                  <span className="text-blue">README.md</span>
-                </p>
-                <p className="text-amber italic pl-12 mt-1 leading-relaxed">
-                  &quot;You don&apos;t need a CS degree. You need a<br />
-                  {" "}problem that pisses you off and the<br />
-                  {" "}stubbornness to solve it.&quot;
-                </p>
+              <div className="stat-card">
+                <div className="stat-number">27</div>
+                <div className="stat-label">Repos</div>
               </div>
-            </Reveal>
-
-            {/* Blinking cursor */}
-            <div className="pt-6">
-              <span className="font-mono text-sm text-amber font-bold">$ </span>
-              <span
-                className="inline-block w-[8px] h-[16px] bg-amber"
-                style={{
-                  animation: "blink-caret 0.75s step-end infinite",
-                }}
-              />
+              <div className="stat-card">
+                <div className="stat-number">10</div>
+                <div className="stat-label">AI Agents</div>
+              </div>
             </div>
           </div>
+          <blockquote className="about-quote reveal">
+            "You don't need a CS degree. You need a problem that pisses you off and the stubbornness to solve it."
+            <span className="attribution">— Derek Bobola</span>
+          </blockquote>
         </div>
-      </Reveal>
-    </section>
+      </section>
+    </>
   );
 }

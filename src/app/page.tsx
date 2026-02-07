@@ -8,6 +8,7 @@ import IdeasLab from "@/components/IdeasLab";
 import Newsletters from "@/components/Newsletters";
 import FreeTools from "@/components/FreeTools";
 import Contact from "@/components/Contact";
+import OSLink from "@/components/OSLink";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -24,6 +25,7 @@ export default function Home() {
         <Newsletters />
         <FreeTools />
         <Contact />
+        <OSLink />
       </main>
       <Footer />
     </>
