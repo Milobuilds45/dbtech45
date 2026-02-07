@@ -40,16 +40,26 @@ export default function SoulPage() {
 
           {/* CTA */}
           <div className="space-y-4">
-            <a
-              href="https://soulsolace.vercel.app/soulsolace"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-amber-500 to-orange-600 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-amber-600 hover:to-orange-700 transition-all transform hover:scale-105"
-            >
-              Launch Soul Solace →
-            </a>
-            <div className="text-sm text-gray-500">
-              Opens in new window
+            <div className="space-y-3">
+              <a
+                href="https://soulsolace.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-gradient-to-r from-amber-500 to-orange-600 text-black px-8 py-4 rounded-lg font-semibold text-lg hover:from-amber-600 hover:to-orange-700 transition-all transform hover:scale-105"
+              >
+                Launch Soul Solace →
+              </a>
+              <div className="text-sm text-gray-400">
+                <p>Alternative link if above doesn&apos;t work:</p>
+                <a 
+                  href="https://soulsolace.vercel.app/soulsolace"
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-amber-400 hover:text-amber-300 underline"
+                >
+                  Direct App Link
+                </a>
+              </div>
             </div>
           </div>
 
