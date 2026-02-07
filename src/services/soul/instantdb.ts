@@ -6,16 +6,21 @@ import { Religion } from '../../lib/soul/types';
 const APP_ID = process.env.NEXT_PUBLIC_INSTANTDB_APP_ID || 'your-app-id-here';
 
 type Schema = {
-  users: {
-    id: string;
-    email: string;
-    religion?: Religion;
-    createdAt: number;
-    updatedAt: number;
+  entities: {
+    users: {
+      id: string;
+      email: string;
+      religion?: Religion;
+      createdAt: number;
+      updatedAt: number;
+    };
   };
+  links: {};
+  rooms: {};
+  withRoomSchema: true;
 };
 
-export const db = init<Schema>({ appId: APP_ID });
+export const db = init({ appId: APP_ID }) as any;
 
 // Auth helpers
 export const useAuth = () => {
