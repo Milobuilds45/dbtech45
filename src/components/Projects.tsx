@@ -86,7 +86,7 @@ const PROJECTS = [
     status: "LIVE" as const,
     size: "1.1M",
     name: "bobolas/",
-    href: "https://bobolas-site.vercel.app",
+    href: "https://bobolasnashua.com",
     desc: "Official restaurant site for Bobola's",
   },
   {
@@ -102,7 +102,7 @@ const PROJECTS = [
     status: "LIVE" as const,
     size: "0.4M",
     name: "back-nine/",
-    href: "https://backnine-ten.vercel.app",
+    href: "https://backnineshop.com",
     desc: "Golf scoring & handicap tracking",
   },
   {
@@ -110,7 +110,7 @@ const PROJECTS = [
     status: "LIVE" as const,
     size: "0.3M",
     name: "locals-diner/",
-    href: "https://localsdiner.vercel.app",
+    href: "https://localsdiner.com",
     desc: "Local restaurant discovery guide",
   },
   {
