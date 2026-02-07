@@ -26,13 +26,13 @@ export default function Header() {
             <span className="prompt">~/</span>DBTech45
           </a>
           <ul className="nav-links">
-            <li><a href="#about">whoami</a></li>
-            <li><a href="#projects">projects</a></li>
-            <li><a href="#pit">the_pit</a></li>
-            <li><a href="#team">team</a></li>
-            <li><a href="#newsletters">newsletters</a></li>
-            <li><a href="#tools">tools</a></li>
-            <li><a href="#connect">connect</a></li>
+            <li><a href="#about">>./about</a></li>
+            <li><a href="#projects">>./projects</a></li>
+            <li><a href="#pit">>./the-pit</a></li>
+            <li><a href="#team">>./the-team</a></li>
+            <li><a href="#ideas">>./lab</a></li>
+            <li><a href="#os">>./os</a></li>
+            <li><a href="#connect">>./contact</a></li>
           </ul>
           <button 
             className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} 
@@ -49,14 +49,13 @@ export default function Header() {
 
       {/* Mobile Menu */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} role="dialog" aria-label="Mobile navigation">
-        <a href="#about" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ whoami</a>
-        <a href="#projects" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ ls projects</a>
-        <a href="#pit" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ market</a>
-        <a href="#team" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ ps aux</a>
-        <a href="#ideas" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ git log</a>
-        <a href="#newsletters" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ cat subs</a>
-        <a href="#tools" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ ./tools</a>
-        <a href="#connect" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>$ ssh connect</a>
+        <a href="#about" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./about</a>
+        <a href="#projects" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./projects</a>
+        <a href="#pit" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./the-pit</a>
+        <a href="#team" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./the-team</a>
+        <a href="#ideas" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./lab</a>
+        <a href="#os" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./os</a>
+        <a href="#connect" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}>>./contact</a>
       </div>
     </>
   );
