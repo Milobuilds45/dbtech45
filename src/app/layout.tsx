@@ -1,27 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Outfit, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const outfit = Outfit({
   subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "DBtech45 | imagination → implementation",
-  description: "Where ideas become reality. A hub for projects, experiments, and ventures by Derek Bobola.",
-  keywords: ["dbtech", "derek bobola", "projects", "startups", "development"],
-  authors: [{ name: "Derek Bobola" }],
-  openGraph: {
-    title: "DBtech45 | imagination → implementation",
-    description: "Where ideas become reality. A hub for projects, experiments, and ventures.",
-    type: "website",
-  },
+  title: "DBTech45 — Imagination → Implementation",
+  description:
+    "Derek Bobola | Dad of 7. Restaurant owner. Trader. Builder. Turning ideas into products that ship.",
 };
 
 export default function RootLayout({
@@ -30,12 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#0a0a0a] text-white`}
-      >
-        {children}
-      </body>
+    <html lang="en" className={`${outfit.variable} ${jetbrains.variable}`}>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
