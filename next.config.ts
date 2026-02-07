@@ -21,6 +21,15 @@ const nextConfig: NextConfig = {
         source: "/boundless/:path*",
         destination: "https://boundless-ochre.vercel.app/boundless/:path*",
       },
+      // Soulsolace
+      {
+        source: "/soulsolace",
+        destination: "https://soulsolace.vercel.app/soulsolace",
+      },
+      {
+        source: "/soulsolace/:path*",
+        destination: "https://soulsolace.vercel.app/soulsolace/:path*",
+      },
       // DB Tech OS
       {
         source: "/os",
