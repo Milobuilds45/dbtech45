@@ -1652,6 +1652,150 @@
             border-color: rgba(239, 68, 68, 0.3);
         }
 
+        /* Skills Inventory */
+        .skill-list {
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .skill-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+        }
+
+        .skill-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .skill-agent {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: grid;
+            gap: var(--space-3);
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: var(--space-4);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+        }
+
+        .timeline-item.urgent {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.05);
+        }
+
+        .timeline-date {
+            min-width: 60px;
+            font-weight: 600;
+            font-size: 13px;
+            color: var(--accent);
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        /* Goals */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--space-5);
+        }
+
+        .goal-item {
+            margin-bottom: var(--space-4);
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-2);
+        }
+
+        .goal-name {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .goal-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .progress-bar-bg {
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Todo */
+        .todo-list {
+            display: grid;
+            gap: var(--space-2);
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            background: var(--bg-card-solid);
+            border: 1px solid var(--border);
+        }
+
+        .todo-checkbox {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+
+        .todo-content {
+            flex: 1;
+        }
+
+        .todo-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: var(--space-1);
+        }
+
+        .todo-meta {
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
         .priority-medium {
             color: var(--warning);
             background: rgba(245, 158, 11, 0.12);
@@ -3396,6 +3540,256 @@
                     </div>
                 </div>
 
+                <!-- ═══ SKILLS INVENTORY ═══ -->
+                <div class="section" id="section-skills-inventory">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Skills Inventory</h1>
+                            <p class="section-subtitle">Capability matrix across all 9 agents</p>
+                        </div>
+                    </div>
+
+                    <div class="skills-grid">
+                        <div class="card">
+                            <div class="card-title">🏗️ Development</div>
+                            <div class="skill-list">
+                                <div class="skill-item"><span class="skill-name">React / Next.js</span><span class="skill-agent">Anders, Paula</span></div>
+                                <div class="skill-item"><span class="skill-name">Node.js / APIs</span><span class="skill-agent">Anders</span></div>
+                                <div class="skill-item"><span class="skill-name">Python / Data</span><span class="skill-agent">Anders, Wren</span></div>
+                                <div class="skill-item"><span class="skill-name">Supabase / DB</span><span class="skill-agent">Anders</span></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">🎨 Design & Content</div>
+                            <div class="skill-list">
+                                <div class="skill-item"><span class="skill-name">UI/UX Design</span><span class="skill-agent">Paula</span></div>
+                                <div class="skill-item"><span class="skill-name">Brand Identity</span><span class="skill-agent">Paula</span></div>
+                                <div class="skill-item"><span class="skill-name">Copywriting</span><span class="skill-agent">Grant, Remy</span></div>
+                                <div class="skill-item"><span class="skill-name">Social Media</span><span class="skill-agent">Remy</span></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">📊 Research & Strategy</div>
+                            <div class="skill-list">
+                                <div class="skill-item"><span class="skill-name">Market Research</span><span class="skill-agent">Wren</span></div>
+                                <div class="skill-item"><span class="skill-name">Competitive Intel</span><span class="skill-agent">Wren</span></div>
+                                <div class="skill-item"><span class="skill-name">Financial Analysis</span><span class="skill-agent">Wren</span></div>
+                                <div class="skill-item"><span class="skill-name">Strategy</span><span class="skill-agent">Milo</span></div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">🤖 Operations</div>
+                            <div class="skill-list">
+                                <div class="skill-item"><span class="skill-name">Coordination</span><span class="skill-agent">Milo</span></div>
+                                <div class="skill-item"><span class="skill-name">Task Management</span><span class="skill-agent">Milo</span></div>
+                                <div class="skill-item"><span class="skill-name">QA Testing</span><span class="skill-agent">Echo</span></div>
+                                <div class="skill-item"><span class="skill-name">Documentation</span><span class="skill-agent">All Agents</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ SCHEDULE CENTER ═══ -->
+                <div class="section" id="section-schedule-center">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Schedule Center</h1>
+                            <p class="section-subtitle">Timeline of deadlines and milestones</p>
+                        </div>
+                    </div>
+
+                    <div class="schedule-grid">
+                        <div class="card card-glow">
+                            <div class="card-title">This Week</div>
+                            <div class="timeline">
+                                <div class="timeline-item urgent">
+                                    <div class="timeline-date">Today</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">DB Tech OS V3 sidebar complete</div>
+                                        <div class="text-secondary">Add 7 new sections, deploy to production</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Wed</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Sunday Squares launch prep</div>
+                                        <div class="text-secondary">Final QA, payment testing, invite list</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Fri</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Signal & Noise #12</div>
+                                        <div class="text-secondary">Weekly newsletter deadline</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Coming Up</div>
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Feb 17</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Boundless v2 Beta</div>
+                                        <div class="text-secondary">Internal testing begins</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Feb 24</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">MenuSparks demo</div>
+                                        <div class="text-secondary">Client presentation</div>
+                                    </div>
+                                </div>
+                                <div class="timeline-item">
+                                    <div class="timeline-date">Mar 1</div>
+                                    <div class="timeline-content">
+                                        <div class="timeline-title">Q1 Review</div>
+                                        <div class="text-secondary">Goals assessment</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ GOALS TRACKER ═══ -->
+                <div class="section" id="section-goals-tracker">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Goals Tracker</h1>
+                            <p class="section-subtitle">Progress on MRR targets and project completion</p>
+                        </div>
+                    </div>
+
+                    <div class="goals-grid">
+                        <div class="card card-glow">
+                            <div class="card-title">Revenue Goals</div>
+                            <div class="goal-item">
+                                <div class="goal-header">
+                                    <span class="goal-name">MRR Target</span>
+                                    <span class="goal-value">$2,400 / $10,000</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 24%; background: var(--accent);"></div>
+                                </div>
+                            </div>
+                            <div class="goal-item">
+                                <div class="goal-header">
+                                    <span class="goal-name">Subscribers</span>
+                                    <span class="goal-value">847 / 2,500</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 34%; background: var(--success);"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">Project Completion</div>
+                            <div class="goal-item">
+                                <div class="goal-header">
+                                    <span class="goal-name">Sunday Squares</span>
+                                    <span class="goal-value">92%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 92%; background: var(--success);"></div>
+                                </div>
+                            </div>
+                            <div class="goal-item">
+                                <div class="goal-header">
+                                    <span class="goal-name">Boundless v2</span>
+                                    <span class="goal-value">68%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 68%; background: var(--warning);"></div>
+                                </div>
+                            </div>
+                            <div class="goal-item">
+                                <div class="goal-header">
+                                    <span class="goal-name">Soul Solace</span>
+                                    <span class="goal-value">45%</span>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" style="width: 45%; background: var(--accent-secondary);"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ═══ MASTER TODO ═══ -->
+                <div class="section" id="section-master-todo">
+                    <div class="section-header">
+                        <div>
+                            <h1 class="section-title">Master Todo</h1>
+                            <p class="section-subtitle">Aggregated tasks from all agents and projects</p>
+                        </div>
+                    </div>
+
+                    <div class="todo-grid">
+                        <div class="card card-glow">
+                            <div class="card-title">🔥 High Priority</div>
+                            <div class="todo-list">
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">Deploy DB Tech OS V3 sidebar</div>
+                                        <div class="todo-meta">Anders • Due today</div>
+                                    </div>
+                                </div>
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">Sunday Squares payment integration</div>
+                                        <div class="todo-meta">Anders • Due Wed</div>
+                                    </div>
+                                </div>
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">Signal & Noise draft review</div>
+                                        <div class="todo-meta">Grant • Due Fri</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">📋 Backlog</div>
+                            <div class="todo-list">
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">Boundless onboarding redesign</div>
+                                        <div class="todo-meta">Paula • This week</div>
+                                    </div>
+                                </div>
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">MenuSparks demo prep</div>
+                                        <div class="todo-meta">Milo • Feb 24</div>
+                                    </div>
+                                </div>
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">tickR MVP scope document</div>
+                                        <div class="todo-meta">Wren • Next week</div>
+                                    </div>
+                                </div>
+                                <div class="todo-item">
+                                    <input type="checkbox" class="todo-checkbox">
+                                    <div class="todo-content">
+                                        <div class="todo-title">Soul Solace beta invite list</div>
+                                        <div class="todo-meta">Remy • Mar 1</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </main>
     </div>
@@ -3903,7 +4297,14 @@
             'daily-feed': 'Daily Feed',
             'quick-links': 'Quick Links',
             'kanban': 'Kanban Board',
-            'ideas-vault': 'Ideas Vault'
+            'ideas-vault': 'Ideas Vault',
+            'activity-dashboard': 'Activity Dashboard',
+            'dna': 'DNA',
+            'memory-bank': 'Memory Bank',
+            'skills-inventory': 'Skills Inventory',
+            'schedule-center': 'Schedule Center',
+            'goals-tracker': 'Goals Tracker',
+            'master-todo': 'Master Todo'
         };
 
         const BREADCRUMB_MAP = {
@@ -3914,7 +4315,14 @@
             'daily-feed': 'Activity Log',
             'quick-links': 'Links & Tools',
             'kanban': 'Task Board',
-            'ideas-vault': 'Idea Tracker'
+            'ideas-vault': 'Idea Tracker',
+            'activity-dashboard': 'Live Feed',
+            'dna': 'Values & Principles',
+            'memory-bank': 'Knowledge Base',
+            'skills-inventory': 'Agent Capabilities',
+            'schedule-center': 'Timeline',
+            'goals-tracker': 'Progress',
+            'master-todo': 'All Tasks'
         };
 
         function navigateTo(sectionId, updateHash = true) {
