@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 
 interface ModelConfig {
   id: string;
@@ -34,6 +34,11 @@ export default function ModelCounsel() {
   const [responses, setResponses] = useState<ModelResponse[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
+
+  const toggleCollapse = useCallback((modelId: string) => {
+    setCollapsed(prev => ({ ...prev, [modelId]: !prev[modelId] }));
+  }, []);
 
   const toggleModel = useCallback((modelId: string) => {
     setSelectedModels(prev =>
@@ -209,9 +214,18 @@ export default function ModelCounsel() {
                   className="rounded-xl border border-white/5 bg-[#11121c]/70 overflow-hidden
                            hover:border-white/10 transition-all"
                 >
-                  {/* Response Header */}
-                  <div className="flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#13141f]">
+                  {/* Response Header - Clickable */}
+                  <button
+                    onClick={() => toggleCollapse(response.modelId)}
+                    className="w-full flex items-center justify-between px-4 py-3 border-b border-white/5 bg-[#13141f] 
+                             hover:bg-[#181922] transition-colors cursor-pointer text-left"
+                  >
                     <div className="flex items-center gap-2">
+                      <span
+                        className={`transition-transform duration-200 text-[#505470] text-xs ${collapsed[response.modelId] ? '' : 'rotate-90'}`}
+                      >
+                        ▶
+                      </span>
                       <span
                         className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: response.color }}
@@ -219,24 +233,33 @@ export default function ModelCounsel() {
                       <span className="font-semibold text-sm text-white">
                         {response.name}
                       </span>
+                      {response.error && (
+                        <span className="text-xs text-red-400 ml-2">error</span>
+                      )}
                     </div>
                     <div className="flex gap-3 text-xs font-mono text-[#505470]">
                       <span>{response.latencyMs}ms</span>
                       <span>{response.tokens.input + response.tokens.output} tok</span>
                     </div>
-                  </div>
+                  </button>
 
-                  {/* Response Content */}
-                  <div className="p-4 max-h-[300px] overflow-y-auto">
-                    {response.error ? (
-                      <div className="text-red-400 text-sm">
-                        Error: {response.error}
-                      </div>
-                    ) : (
-                      <div className="text-sm text-[#8b8fa8] leading-relaxed whitespace-pre-wrap">
-                        {response.content}
-                      </div>
-                    )}
+                  {/* Response Content - Collapsible */}
+                  <div 
+                    className={`transition-all duration-200 ease-in-out overflow-hidden ${
+                      collapsed[response.modelId] ? 'max-h-0' : 'max-h-[400px]'
+                    }`}
+                  >
+                    <div className="p-4 max-h-[300px] overflow-y-auto">
+                      {response.error ? (
+                        <div className="text-red-400 text-sm">
+                          Error: {response.error}
+                        </div>
+                      ) : (
+                        <div className="text-sm text-[#8b8fa8] leading-relaxed whitespace-pre-wrap">
+                          {response.content}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
