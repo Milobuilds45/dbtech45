@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { brand } from '@/lib/brand';
 import {
   ChevronLeft,
@@ -325,10 +326,21 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       }}>
         <Link href="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center' }}>
           <div style={{
-            width: '32px', height: '32px', background: brand.amber, borderRadius: '8px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0,
-          }}>DB</div>
+            width: collapsed && !isMobile ? '36px' : '48px',
+            height: collapsed && !isMobile ? '36px' : '48px',
+            borderRadius: '10px',
+            overflow: 'hidden',
+            border: `2px solid ${brand.amber}`,
+            flexShrink: 0,
+          }}>
+            <Image
+              src="/derek-avatar.png"
+              alt="Derek"
+              width={48}
+              height={48}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+            />
+          </div>
           {!(collapsed && !isMobile) && (
             <div style={{ marginLeft: '12px', fontSize: '14px', fontWeight: 600 }}>
               <div style={{ color: brand.white }}>DB TECH OS</div>

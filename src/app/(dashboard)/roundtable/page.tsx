@@ -45,7 +45,16 @@ export default function RoundtablePage() {
   const [messages, setMessages] = useState<RoundMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const [currentRound, setCurrentRound] = useState(0);
+  const [collapsedResponses, setCollapsedResponses] = useState<Set<string>>(new Set());
   const chatRef = useRef<HTMLDivElement>(null);
+
+  const toggleResponseCollapse = (key: string) => {
+    setCollapsedResponses(prev => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key); else next.add(key);
+      return next;
+    });
+  };
 
   useEffect(() => {
     fetch('/api/roundtable')
@@ -233,15 +242,37 @@ export default function RoundtablePage() {
 
                 {messages.filter(m => m.round === round).map((msg, i) => {
                   const display = AGENT_DISPLAY[msg.agentId] || { initials: '??', label: msg.agentId, role: '', color: b.smoke };
+                  const responseKey = `${msg.agentId}-${round}-${i}`;
+                  const isCollapsed = collapsedResponses.has(responseKey);
+                  const tokenCount = msg.content ? msg.content.split(/\s+/).length : 0;
                   return (
-                    <div key={`${msg.agentId}-${round}-${i}`} style={{ padding: '14px 20px', borderLeft: `3px solid ${display.color}`, margin: '4px 12px', borderRadius: '0 8px 8px 0' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                    <div key={responseKey} style={{ padding: '0', borderLeft: `3px solid ${display.color}`, margin: '4px 12px', borderRadius: '0 8px 8px 0', overflow: 'hidden' }}>
+                      {/* Header - always visible, clickable to toggle */}
+                      <div
+                        onClick={() => toggleResponseCollapse(responseKey)}
+                        style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '14px 20px', cursor: 'pointer', userSelect: 'none' }}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={b.smoke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                          style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
+                          <polyline points="6 9 12 15 18 9"/>
+                        </svg>
                         <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: display.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: b.void, fontSize: '10px', fontWeight: 700 }}>{display.initials}</div>
                         <span style={{ fontWeight: 700, fontSize: '13px', color: display.color }}>{display.label}</span>
                         <span style={{ fontSize: '10px', color: b.smoke, background: b.graphite, padding: '2px 8px', borderRadius: '4px' }}>{display.role}</span>
-                        {msg.latencyMs > 0 && <span style={{ fontSize: '10px', color: b.smoke, marginLeft: 'auto' }}>{(msg.latencyMs / 1000).toFixed(1)}s</span>}
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto', fontSize: '10px', color: b.smoke }}>
+                          {tokenCount > 0 && <span>{tokenCount} words</span>}
+                          {msg.latencyMs > 0 && <span>{(msg.latencyMs / 1000).toFixed(1)}s</span>}
+                        </div>
                       </div>
-                      <div style={{ fontSize: '13px', color: b.silver, lineHeight: '1.7', paddingLeft: '38px' }}>{msg.content}</div>
+                      {/* Response body - collapsible */}
+                      <div style={{
+                        maxHeight: isCollapsed ? '0px' : '2000px',
+                        overflow: 'hidden',
+                        padding: isCollapsed ? '0 20px 0 62px' : '0 20px 14px 62px',
+                        transition: 'max-height 0.25s ease, padding 0.25s ease',
+                      }}>
+                        <div style={{ fontSize: '13px', color: b.silver, lineHeight: '1.7' }}>{msg.content}</div>
+                      </div>
                     </div>
                   );
                 })}
