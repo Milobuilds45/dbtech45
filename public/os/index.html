@@ -1530,9 +1530,7 @@
         .dna-grid,
         .memory-grid,
         .skills-grid,
-        .schedule-grid,
-        .okr-grid,
-        .todo-grid {
+        .okr-grid {
             display: grid;
             gap: var(--space-5);
         }
@@ -1540,9 +1538,7 @@
         .activity-grid,
         .dna-grid,
         .skills-grid,
-        .schedule-grid,
-        .okr-grid,
-        .todo-grid {
+        .okr-grid {
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
         }
 
@@ -1618,18 +1614,6 @@
             margin-bottom: var(--space-2);
         }
 
-        .schedule-day {
-            display: grid;
-            gap: var(--space-3);
-        }
-
-        .schedule-day-header {
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
         .time-block {
             padding: var(--space-3);
             border-radius: var(--radius-md);
@@ -1684,136 +1668,6 @@
         .skill-agent {
             font-size: 12px;
             color: var(--text-tertiary);
-        }
-
-        /* Timeline */
-        .timeline {
-            display: grid;
-            gap: var(--space-3);
-        }
-
-        .timeline-item {
-            display: flex;
-            gap: var(--space-4);
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
-            background: var(--bg-card-solid);
-            border: 1px solid var(--border);
-        }
-
-        .timeline-item.urgent {
-            border-color: var(--danger);
-            background: rgba(239, 68, 68, 0.05);
-        }
-
-        .timeline-date {
-            min-width: 60px;
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--accent);
-        }
-
-        .timeline-content {
-            flex: 1;
-        }
-
-        .timeline-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: var(--space-1);
-        }
-
-        /* Goals */
-        .goals-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--space-5);
-        }
-
-        .goal-item {
-            margin-bottom: var(--space-4);
-        }
-
-        .goal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: var(--space-2);
-        }
-
-        .goal-name {
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        .goal-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar-bg {
-            height: 8px;
-            background: var(--bg-input);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill {
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-        }
-
-        /* Todo */
-        .todo-list {
-            display: grid;
-            gap: var(--space-2);
-        }
-
-        .todo-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            border-radius: var(--radius-md);
-            background: var(--bg-card-solid);
-            border: 1px solid var(--border);
-        }
-
-        .todo-checkbox {
-            width: 18px;
-            height: 18px;
-            margin-top: 2px;
-            accent-color: var(--accent);
-            cursor: pointer;
-        }
-
-        .todo-content {
-            flex: 1;
-        }
-
-        .todo-title {
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: var(--space-1);
-        }
-
-        .todo-meta {
-            font-size: 12px;
-            color: var(--text-tertiary);
-        }
-
-        .priority-medium {
-            color: var(--warning);
-            background: rgba(245, 158, 11, 0.12);
-            border-color: rgba(245, 158, 11, 0.3);
-        }
-
-        .priority-low {
-            color: var(--success);
-            background: rgba(34, 197, 94, 0.12);
-            border-color: rgba(34, 197, 94, 0.3);
         }
 
         /* ═══════════════════════════════════════════
@@ -2763,6 +2617,73 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* N8N NODE SYSTEM */
+        .n8n-container { position: relative; }
+        .n8n-grid-bg { 
+            background-image: radial-gradient(circle, rgba(245,158,11,0.03) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        .n8n-node { 
+            background: #111; border: 1px solid #222; border-radius: 12px; 
+            position: relative; overflow: hidden; transition: all 0.3s;
+        }
+        .n8n-node:hover { border-color: rgba(245,158,11,0.3); box-shadow: 0 0 20px rgba(245,158,11,0.05); }
+        .n8n-node-header { 
+            padding: 12px 16px; border-bottom: 1px solid #1A1A1A;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .n8n-node-icon { 
+            width: 32px; height: 32px; border-radius: 8px; 
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; font-weight: 700; flex-shrink: 0;
+        }
+        .n8n-node-title { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: #fff; }
+        .n8n-node-subtitle { font-size: 10px; color: #666; margin-top: 2px; }
+        .n8n-node-body { padding: 12px 16px; }
+        .n8n-connector { 
+            position: absolute; width: 8px; height: 8px; border-radius: 50%; 
+            background: #333; border: 2px solid #222;
+        }
+        .n8n-connector.right { right: -4px; top: 50%; transform: translateY(-50%); }
+        .n8n-connector.left { left: -4px; top: 50%; transform: translateY(-50%); }
+        .n8n-connector.active { background: #F59E0B; border-color: #F59E0B; box-shadow: 0 0 6px rgba(245,158,11,0.4); }
+        .n8n-flow-line { 
+            position: absolute; height: 2px; background: linear-gradient(90deg, #F59E0B, rgba(245,158,11,0.1));
+        }
+        .n8n-badge { 
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px; border-radius: 4px; font-size: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(245,158,11,0.1); color: #F59E0B;
+        }
+        .n8n-search { 
+            width: 100%; background: #0F0F0F; border: 1px solid #222; border-radius: 8px;
+            padding: 10px 14px 10px 36px; color: #fff; font-size: 13px;
+            font-family: 'Inter', sans-serif;
+        }
+        .n8n-search:focus { outline: none; border-color: #F59E0B; }
+        .n8n-search-wrap { position: relative; }
+        .n8n-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #666; font-size: 14px; }
+
+        /* PIN GATE */
+        .pin-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 9999; display: flex; align-items: center; justify-content: center; }
+        .pin-modal { background: #0F0F0F; border: 1px solid #222; border-radius: 16px; padding: 40px; text-align: center; width: 320px; }
+        .pin-header { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #F59E0B; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 8px; }
+        .pin-subtitle { font-size: 13px; color: #666; margin-bottom: 24px; }
+        .pin-dots { display: flex; justify-content: center; gap: 12px; margin-bottom: 24px; }
+        .pin-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #333; background: transparent; transition: all 0.2s; display: inline-block; }
+        .pin-dot.filled { background: #F59E0B; border-color: #F59E0B; }
+        .pin-dot.error { border-color: #EF4444; background: #EF4444; }
+        .pin-error { color: #EF4444; font-size: 12px; margin-bottom: 12px; font-family: 'JetBrains Mono', monospace; }
+        .pin-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 240px; margin: 0 auto; }
+        .pin-key { background: #1A1A1A; border: 1px solid #222; border-radius: 8px; padding: 14px; font-size: 18px; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.15s; font-family: 'Space Grotesk', sans-serif; }
+        .pin-key:hover { background: #222; border-color: #F59E0B; }
+        .pin-key:active { background: #F59E0B; color: #000; }
+
+        @media (max-width: 768px) {
+            #section-activity-dashboard .n8n-container > div:first-child { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
@@ -2914,18 +2835,6 @@
                     <div class="nav-item" data-section="skills-inventory">
                         <span class="nav-icon">⧉</span>
                         <span>Skills Inventory</span>
-                    </div>
-                    <div class="nav-item" data-section="schedule-center">
-                        <span class="nav-icon">◷</span>
-                        <span>Schedule Center</span>
-                    </div>
-                    <div class="nav-item" data-section="goals-tracker">
-                        <span class="nav-icon">◈</span>
-                        <span>Goals Tracker</span>
-                    </div>
-                    <div class="nav-item" data-section="master-todo">
-                        <span class="nav-icon">☑</span>
-                        <span>Master Todo</span>
                     </div>
                 </div>
             </nav>
@@ -3344,91 +3253,42 @@
                     <div class="section-header">
                         <div>
                             <h1 class="section-title">Activity Dashboard</h1>
-                            <p class="section-subtitle">Recent activity across projects, people, and systems</p>
+                            <p class="section-subtitle">Live system telemetry · Agent activity · Deploy status</p>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <span class="n8n-badge"><span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#10B981;margin-right:4px;"></span> Live</span>
                         </div>
                     </div>
 
-                    <div class="activity-grid">
-                        <div class="card card-glow">
-                            <div class="activity-meta">
-                                <span>Recent Activity</span>
-                                <span>Last 24 hours</span>
+                    <div class="n8n-container n8n-grid-bg" style="padding: 20px; border-radius: 12px;">
+                        <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px;">
+                            <div class="n8n-node" style="text-align:center; padding: 16px;">
+                                <div style="font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:#F59E0B;">9</div>
+                                <div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Active Agents</div>
                             </div>
-                            <div class="feed-timeline">
-                                <div class="feed-item">
-                                    <div class="feed-dot active"></div>
-                                    <div class="feed-card">
-                                        <div class="feed-time">09:18 AM</div>
-                                        <div class="feed-agent">Scheduler</div>
-                                        <div class="feed-content">Locked focus block for Market Dashboard refresh and KPI review.</div>
-                                        <div class="feed-tags">
-                                            <span class="feed-tag">Ops</span>
-                                            <span class="feed-tag">Focus</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-dot active"></div>
-                                    <div class="feed-card">
-                                        <div class="feed-time">07:42 AM</div>
-                                        <div class="feed-agent">Projects Board</div>
-                                        <div class="feed-content">Milestone reached: Boundless v2 onboarding flow approved.</div>
-                                        <div class="feed-tags">
-                                            <span class="feed-tag">Product</span>
-                                            <span class="feed-tag">Milestone</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-dot"></div>
-                                    <div class="feed-card">
-                                        <div class="feed-time">Yesterday · 08:31 PM</div>
-                                        <div class="feed-agent">Markets</div>
-                                        <div class="feed-content">Signal & Noise draft queued with four key insights.</div>
-                                        <div class="feed-tags">
-                                            <span class="feed-tag">Research</span>
-                                            <span class="feed-tag">Writing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="feed-item">
-                                    <div class="feed-dot"></div>
-                                    <div class="feed-card">
-                                        <div class="feed-time">Yesterday · 05:04 PM</div>
-                                        <div class="feed-agent">Agent Fleet</div>
-                                        <div class="feed-content">New client briefing completed for MenuSparks growth sprint.</div>
-                                        <div class="feed-tags">
-                                            <span class="feed-tag">Client</span>
-                                            <span class="feed-tag">Sprint</span>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="n8n-node" style="text-align:center; padding: 16px;">
+                                <div style="font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:#10B981;">28</div>
+                                <div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Projects</div>
+                            </div>
+                            <div class="n8n-node" style="text-align:center; padding: 16px;">
+                                <div style="font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:#3B82F6;">147</div>
+                                <div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Commits (7d)</div>
+                            </div>
+                            <div class="n8n-node" style="text-align:center; padding: 16px;">
+                                <div style="font-family:'JetBrains Mono',monospace; font-size:24px; font-weight:700; color:#8B5CF6;">23</div>
+                                <div style="font-size:10px; color:#666; text-transform:uppercase; letter-spacing:0.05em; margin-top:4px;">Deploys (7d)</div>
                             </div>
                         </div>
 
-                        <div class="card">
-                            <div class="activity-meta">
-                                <span>Today’s Pulse</span>
-                                <span>Tue · Feb 10</span>
-                            </div>
-                            <div class="value-list">
-                                <div class="value-item">
-                                    <div class="value-title">Focus Block</div>
-                                    <div class="text-secondary">Market intel synthesis + weekly OKR review</div>
-                                    <div class="tag-row">
-                                        <span class="tag-pill">90 min</span>
-                                        <span class="tag-pill">Deep Work</span>
-                                    </div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Top 3 Priorities</div>
-                                    <div class="text-secondary">Finalize DB Tech OS V3 modules, polish Boundless v2 onboarding, prep Signal & Noise</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Energy Check</div>
-                                    <div class="text-secondary">Sleep 7h 22m · Hydration 76% · Training readiness: Good</div>
+                        <div class="n8n-node" style="max-height: 500px; overflow-y: auto;">
+                            <div class="n8n-node-header">
+                                <div class="n8n-node-icon" style="background: rgba(16,185,129,0.1); color: #10B981;">◎</div>
+                                <div>
+                                    <div class="n8n-node-title">Activity Stream</div>
+                                    <div class="n8n-node-subtitle">Last 24 hours</div>
                                 </div>
                             </div>
+                            <div class="n8n-node-body" id="activityStream"></div>
                         </div>
                     </div>
                 </div>
@@ -3438,62 +3298,25 @@
                     <div class="section-header">
                         <div>
                             <h1 class="section-title">DNA</h1>
-                            <p class="section-subtitle">Core values, principles, and decision filters</p>
+                            <p class="section-subtitle">Core principles · Decision filters · Operating system</p>
                         </div>
                     </div>
 
-                    <div class="dna-grid">
-                        <div class="card">
-                            <div class="card-title">Core Values</div>
-                            <div class="value-list">
-                                <div class="value-item">
-                                    <div class="value-title">Build foundations first</div>
-                                    <div class="text-secondary">Prioritize systems, compounding leverage, and long-term resiliency.</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Clarity beats speed</div>
-                                    <div class="text-secondary">Make the plan simple enough to execute under pressure.</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Integrity in every rep</div>
-                                    <div class="text-secondary">Win the moment without sacrificing the mission.</div>
+                    <div class="n8n-container n8n-grid-bg" style="padding: 20px; border-radius: 12px;">
+                        <div class="n8n-node" style="max-width: 400px; margin: 0 auto 24px; border-color: rgba(245,158,11,0.3);">
+                            <div class="n8n-connector right active"></div>
+                            <div class="n8n-connector left active"></div>
+                            <div style="padding: 20px; text-align: center;">
+                                <div style="font-family:'Space Grotesk',sans-serif; font-size:20px; font-weight:700; color:#F59E0B; letter-spacing:0.05em;">DB TECH</div>
+                                <div style="font-size:12px; color:#666; margin-top:4px;">Fueled by Caffeine and Chaos</div>
+                                <div style="margin-top:12px; display:flex; justify-content:center; gap:8px;">
+                                    <span class="n8n-badge">Builder</span>
+                                    <span class="n8n-badge">Dad of 7</span>
+                                    <span class="n8n-badge">Trader</span>
                                 </div>
                             </div>
                         </div>
-                        <div class="card">
-                            <div class="card-title">Operating Principles</div>
-                            <div class="value-list">
-                                <div class="value-item">
-                                    <div class="value-title">Default to action</div>
-                                    <div class="text-secondary">Move with velocity, then refine with feedback loops.</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Design for repeatability</div>
-                                    <div class="text-secondary">Every workflow should be teachable and scalable.</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Signal over noise</div>
-                                    <div class="text-secondary">Protect focus. Say no to shiny distractions.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">Decision Filters</div>
-                            <div class="value-list">
-                                <div class="value-item">
-                                    <div class="value-title">Does it compound?</div>
-                                    <div class="text-secondary">Will this create leverage or reduce future friction?</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Does it protect the brand?</div>
-                                    <div class="text-secondary">Everything ships with the DB Tech standard.</div>
-                                </div>
-                                <div class="value-item">
-                                    <div class="value-title">Does it energize the team?</div>
-                                    <div class="text-secondary">Momentum matters more than perfection.</div>
-                                </div>
-                            </div>
-                        </div>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;" id="dnaGrid"></div>
                     </div>
                 </div>
 
@@ -3502,66 +3325,17 @@
                     <div class="section-header">
                         <div>
                             <h1 class="section-title">Memory Bank</h1>
-                            <p class="section-subtitle">Saved notes, context, and long-term intelligence</p>
+                            <p class="section-subtitle">Knowledge graph · Decisions · Context</p>
                         </div>
+                        <div class="n8n-badge">17 entries</div>
                     </div>
 
-                    <div class="memory-grid">
-                        <div class="card">
-                            <div class="card-title">Pinned Context</div>
-                            <div class="memory-list">
-                                <div class="memory-item">
-                                    <div class="memory-title">DB Tech OS V3 rollout</div>
-                                    <div class="text-secondary">Phase 1 focuses on navigation expansion, activity modules, and onboarding polish.</div>
-                                    <div class="memory-meta">
-                                        <span>Updated 2 days ago</span>
-                                        <span>•</span>
-                                        <span>Priority: High</span>
-                                    </div>
-                                </div>
-                                <div class="memory-item">
-                                    <div class="memory-title">Signal & Noise voice</div>
-                                    <div class="text-secondary">Tight, decisive, data-first. No fluff. Close with actionable move.</div>
-                                    <div class="memory-meta">
-                                        <span>Updated 5 days ago</span>
-                                        <span>•</span>
-                                        <span>Newsletter</span>
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="n8n-container n8n-grid-bg" style="padding: 20px; border-radius: 12px; min-height: 500px;">
+                        <div class="n8n-search-wrap" style="margin-bottom: 20px;">
+                            <span class="n8n-search-icon">⌕</span>
+                            <input type="text" class="n8n-search" id="memorySearch" placeholder="Search memories, decisions, context..." oninput="filterMemories(this.value)">
                         </div>
-                        <div class="card">
-                            <div class="card-title">Recent Notes</div>
-                            <div class="memory-list">
-                                <div class="memory-item">
-                                    <div class="memory-title">MenuSparks client feedback</div>
-                                    <div class="text-secondary">Focus on menu optimization dashboards, weekly snapshots, and SMS alerts.</div>
-                                    <div class="memory-meta">
-                                        <span>Yesterday</span>
-                                        <span>•</span>
-                                        <span>Client</span>
-                                    </div>
-                                </div>
-                                <div class="memory-item">
-                                    <div class="memory-title">Boundless onboarding notes</div>
-                                    <div class="text-secondary">Simplify to three screens. Lead with identity, then habit trigger.</div>
-                                    <div class="memory-meta">
-                                        <span>Feb 7</span>
-                                        <span>•</span>
-                                        <span>Product</span>
-                                    </div>
-                                </div>
-                                <div class="memory-item">
-                                    <div class="memory-title">Agent fleet updates</div>
-                                    <div class="text-secondary">New QA checks for deploys, clearer escalation tags in Slack.</div>
-                                    <div class="memory-meta">
-                                        <span>Feb 6</span>
-                                        <span>•</span>
-                                        <span>Ops</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="memory-timeline" id="memoryTimeline"></div>
                     </div>
                 </div>
 
@@ -3570,251 +3344,45 @@
                     <div class="section-header">
                         <div>
                             <h1 class="section-title">Skills Inventory</h1>
-                            <p class="section-subtitle">Capability matrix across all 9 agents</p>
+                            <p class="section-subtitle">Agent capability matrix · Interconnected skill web</p>
                         </div>
+                        <div class="n8n-badge">9 agents</div>
                     </div>
 
-                    <div class="skills-grid">
-                        <div class="card">
-                            <div class="card-title">🏗️ Development</div>
-                            <div class="skill-list">
-                                <div class="skill-item"><span class="skill-name">React / Next.js</span><span class="skill-agent">Anders, Paula</span></div>
-                                <div class="skill-item"><span class="skill-name">Node.js / APIs</span><span class="skill-agent">Anders</span></div>
-                                <div class="skill-item"><span class="skill-name">Python / Data</span><span class="skill-agent">Anders, Wren</span></div>
-                                <div class="skill-item"><span class="skill-name">Supabase / DB</span><span class="skill-agent">Anders</span></div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">🎨 Design & Content</div>
-                            <div class="skill-list">
-                                <div class="skill-item"><span class="skill-name">UI/UX Design</span><span class="skill-agent">Paula</span></div>
-                                <div class="skill-item"><span class="skill-name">Brand Identity</span><span class="skill-agent">Paula</span></div>
-                                <div class="skill-item"><span class="skill-name">Copywriting</span><span class="skill-agent">Grant, Remy</span></div>
-                                <div class="skill-item"><span class="skill-name">Social Media</span><span class="skill-agent">Remy</span></div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">📊 Research & Strategy</div>
-                            <div class="skill-list">
-                                <div class="skill-item"><span class="skill-name">Market Research</span><span class="skill-agent">Wren</span></div>
-                                <div class="skill-item"><span class="skill-name">Competitive Intel</span><span class="skill-agent">Wren</span></div>
-                                <div class="skill-item"><span class="skill-name">Financial Analysis</span><span class="skill-agent">Wren</span></div>
-                                <div class="skill-item"><span class="skill-name">Strategy</span><span class="skill-agent">Milo</span></div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">🤖 Operations</div>
-                            <div class="skill-list">
-                                <div class="skill-item"><span class="skill-name">Coordination</span><span class="skill-agent">Milo</span></div>
-                                <div class="skill-item"><span class="skill-name">Task Management</span><span class="skill-agent">Milo</span></div>
-                                <div class="skill-item"><span class="skill-name">QA Testing</span><span class="skill-agent">Echo</span></div>
-                                <div class="skill-item"><span class="skill-name">Documentation</span><span class="skill-agent">All Agents</span></div>
-                            </div>
-                        </div>
+                    <div class="n8n-container n8n-grid-bg" style="padding: 20px; border-radius: 12px;">
+                        <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px;" id="agentSkillsGrid"></div>
                     </div>
                 </div>
 
-                <!-- ═══ SCHEDULE CENTER ═══ -->
-                <div class="section" id="section-schedule-center">
-                    <div class="section-header">
-                        <div>
-                            <h1 class="section-title">Schedule Center</h1>
-                            <p class="section-subtitle">Timeline of deadlines and milestones</p>
-                        </div>
-                    </div>
+            </div>
 
-                    <div class="schedule-grid">
-                        <div class="card card-glow">
-                            <div class="card-title">This Week</div>
-                            <div class="timeline">
-                                <div class="timeline-item urgent">
-                                    <div class="timeline-date">Today</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">DB Tech OS V3 sidebar complete</div>
-                                        <div class="text-secondary">Add 7 new sections, deploy to production</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Wed</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">Sunday Squares launch prep</div>
-                                        <div class="text-secondary">Final QA, payment testing, invite list</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Fri</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">Signal & Noise #12</div>
-                                        <div class="text-secondary">Weekly newsletter deadline</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">Coming Up</div>
-                            <div class="timeline">
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Feb 17</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">Boundless v2 Beta</div>
-                                        <div class="text-secondary">Internal testing begins</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Feb 24</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">MenuSparks demo</div>
-                                        <div class="text-secondary">Client presentation</div>
-                                    </div>
-                                </div>
-                                <div class="timeline-item">
-                                    <div class="timeline-date">Mar 1</div>
-                                    <div class="timeline-content">
-                                        <div class="timeline-title">Q1 Review</div>
-                                        <div class="text-secondary">Goals assessment</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- PIN Gate -->
+            <div class="pin-overlay" id="pinOverlay" style="display:none;">
+                <div class="pin-modal">
+                    <div class="pin-header">OPERATIONS ACCESS</div>
+                    <div class="pin-subtitle">Enter 4-digit PIN</div>
+                    <div class="pin-dots" id="pinDots">
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                        <span class="pin-dot"></span>
+                    </div>
+                    <div class="pin-error" id="pinError" style="display:none;">Invalid PIN</div>
+                    <div class="pin-keypad">
+                        <button class="pin-key" onclick="pinInput('1')">1</button>
+                        <button class="pin-key" onclick="pinInput('2')">2</button>
+                        <button class="pin-key" onclick="pinInput('3')">3</button>
+                        <button class="pin-key" onclick="pinInput('4')">4</button>
+                        <button class="pin-key" onclick="pinInput('5')">5</button>
+                        <button class="pin-key" onclick="pinInput('6')">6</button>
+                        <button class="pin-key" onclick="pinInput('7')">7</button>
+                        <button class="pin-key" onclick="pinInput('8')">8</button>
+                        <button class="pin-key" onclick="pinInput('9')">9</button>
+                        <button class="pin-key" onclick="pinClear()">CLR</button>
+                        <button class="pin-key" onclick="pinInput('0')">0</button>
+                        <button class="pin-key" onclick="pinBackspace()">⌫</button>
                     </div>
                 </div>
-
-                <!-- ═══ GOALS TRACKER ═══ -->
-                <div class="section" id="section-goals-tracker">
-                    <div class="section-header">
-                        <div>
-                            <h1 class="section-title">Goals Tracker</h1>
-                            <p class="section-subtitle">Progress on MRR targets and project completion</p>
-                        </div>
-                    </div>
-
-                    <div class="goals-grid">
-                        <div class="card card-glow">
-                            <div class="card-title">Revenue Goals</div>
-                            <div class="goal-item">
-                                <div class="goal-header">
-                                    <span class="goal-name">MRR Target</span>
-                                    <span class="goal-value">$2,400 / $10,000</span>
-                                </div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: 24%; background: var(--accent);"></div>
-                                </div>
-                            </div>
-                            <div class="goal-item">
-                                <div class="goal-header">
-                                    <span class="goal-name">Subscribers</span>
-                                    <span class="goal-value">847 / 2,500</span>
-                                </div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: 34%; background: var(--success);"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">Project Completion</div>
-                            <div class="goal-item">
-                                <div class="goal-header">
-                                    <span class="goal-name">Sunday Squares</span>
-                                    <span class="goal-value">92%</span>
-                                </div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: 92%; background: var(--success);"></div>
-                                </div>
-                            </div>
-                            <div class="goal-item">
-                                <div class="goal-header">
-                                    <span class="goal-name">Boundless v2</span>
-                                    <span class="goal-value">68%</span>
-                                </div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: 68%; background: var(--warning);"></div>
-                                </div>
-                            </div>
-                            <div class="goal-item">
-                                <div class="goal-header">
-                                    <span class="goal-name">Soul Solace</span>
-                                    <span class="goal-value">45%</span>
-                                </div>
-                                <div class="progress-bar-bg">
-                                    <div class="progress-bar-fill" style="width: 45%; background: var(--accent-secondary);"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ═══ MASTER TODO ═══ -->
-                <div class="section" id="section-master-todo">
-                    <div class="section-header">
-                        <div>
-                            <h1 class="section-title">Master Todo</h1>
-                            <p class="section-subtitle">Aggregated tasks from all agents and projects</p>
-                        </div>
-                    </div>
-
-                    <div class="todo-grid">
-                        <div class="card card-glow">
-                            <div class="card-title">🔥 High Priority</div>
-                            <div class="todo-list">
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">Deploy DB Tech OS V3 sidebar</div>
-                                        <div class="todo-meta">Anders • Due today</div>
-                                    </div>
-                                </div>
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">Sunday Squares payment integration</div>
-                                        <div class="todo-meta">Anders • Due Wed</div>
-                                    </div>
-                                </div>
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">Signal & Noise draft review</div>
-                                        <div class="todo-meta">Grant • Due Fri</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-title">📋 Backlog</div>
-                            <div class="todo-list">
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">Boundless onboarding redesign</div>
-                                        <div class="todo-meta">Paula • This week</div>
-                                    </div>
-                                </div>
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">MenuSparks demo prep</div>
-                                        <div class="todo-meta">Milo • Feb 24</div>
-                                    </div>
-                                </div>
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">tickR MVP scope document</div>
-                                        <div class="todo-meta">Wren • Next week</div>
-                                    </div>
-                                </div>
-                                <div class="todo-item">
-                                    <input type="checkbox" class="todo-checkbox">
-                                    <div class="todo-content">
-                                        <div class="todo-title">Soul Solace beta invite list</div>
-                                        <div class="todo-meta">Remy • Mar 1</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </main>
     </div>
@@ -4636,10 +4204,7 @@
             'activity-dashboard': 'Activity Dashboard',
             'dna': 'DNA',
             'memory-bank': 'Memory Bank',
-            'skills-inventory': 'Skills Inventory',
-            'schedule-center': 'Schedule Center',
-            'goals-tracker': 'Goals Tracker',
-            'master-todo': 'Master Todo'
+            'skills-inventory': 'Skills Inventory'
         };
 
         const BREADCRUMB_MAP = {
@@ -4654,13 +4219,226 @@
             'activity-dashboard': 'Live Feed',
             'dna': 'Values & Principles',
             'memory-bank': 'Knowledge Base',
-            'skills-inventory': 'Agent Capabilities',
-            'schedule-center': 'Timeline',
-            'goals-tracker': 'Progress',
-            'master-todo': 'All Tasks'
+            'skills-inventory': 'Agent Capabilities'
         };
 
+        // ═══ PIN GATE ═══════════════════════════════
+        let pinBuffer = '';
+        let opsUnlocked = false;
+        const OPS_PIN = '0256';
+        const OPS_SECTIONS = ['activity-dashboard', 'dna', 'memory-bank', 'skills-inventory'];
+        let pendingOpsSection = null;
+
+        function checkOpsAccess(section) {
+            if (opsUnlocked) return true;
+            pendingOpsSection = section;
+            document.getElementById('pinOverlay').style.display = 'flex';
+            pinBuffer = '';
+            updatePinDots();
+            document.getElementById('pinError').style.display = 'none';
+            return false;
+        }
+
+        function pinInput(digit) {
+            if (pinBuffer.length >= 4) return;
+            pinBuffer += digit;
+            updatePinDots();
+            if (pinBuffer.length === 4) {
+                setTimeout(function() {
+                    if (pinBuffer === OPS_PIN) {
+                        opsUnlocked = true;
+                        document.getElementById('pinOverlay').style.display = 'none';
+                        if (pendingOpsSection) navigateTo(pendingOpsSection);
+                    } else {
+                        document.getElementById('pinError').style.display = 'block';
+                        document.querySelectorAll('.pin-dot').forEach(function(d) { d.classList.add('error'); });
+                        setTimeout(function() {
+                            pinBuffer = '';
+                            updatePinDots();
+                            document.querySelectorAll('.pin-dot').forEach(function(d) { d.classList.remove('error'); });
+                            document.getElementById('pinError').style.display = 'none';
+                        }, 1000);
+                    }
+                }, 200);
+            }
+        }
+
+        function pinClear() { pinBuffer = ''; updatePinDots(); }
+        function pinBackspace() { pinBuffer = pinBuffer.slice(0, -1); updatePinDots(); }
+        function updatePinDots() {
+            document.querySelectorAll('.pin-dot').forEach(function(dot, i) {
+                dot.classList.toggle('filled', i < pinBuffer.length);
+            });
+        }
+
+        // ═══ MEMORY BANK DATA ═══════════════════════
+        const MEMORY_ENTRIES = [
+            { date: '2026-02-10', title: 'DB Tech OS V3 Modules', tags: ['shipped', 'dbtech-os'], content: 'Deployed sidebar expansion with 7 new sections. Activity Dashboard, DNA, Memory Bank, Skills Inventory.' },
+            { date: '2026-02-07', title: 'Signal & Noise Voice Guide', tags: ['newsletter', 'brand'], content: 'Tight, decisive, data-first. No fluff. Close with actionable move. Bobby handles market intel, Dax handles data synthesis.' },
+            { date: '2026-02-06', title: 'Agent Fleet Protocol Update', tags: ['ops', 'agents'], content: 'New QA checks for deploys, clearer escalation tags. Communication protocol established for agent-to-agent handoffs.' },
+            { date: '2026-02-05', title: 'Boundless V2 Onboarding', tags: ['product', 'boundless'], content: 'Simplify to three screens. Lead with identity, then habit trigger. Paula delivering design by EOW.' },
+            { date: '2026-02-04', title: 'SharpEdge AI Landing Page', tags: ['shipped', 'sharpedge'], content: 'Landing page deployed to Vercel. Next.js + Tailwind. Conversion-focused with clear CTAs.' },
+            { date: '2026-02-03', title: 'X/Twitter Trends Monitor', tags: ['research', 'social'], content: 'Set up automated tech trends scanning. Tracking AI, coding tools, and developer ecosystem.' },
+            { date: '2026-02-02', title: 'Sunday Squares Status', tags: ['product', 'sunday-squares'], content: 'Nearly done. Payment integration pending. Core game mechanics complete.' },
+            { date: '2026-02-01', title: 'MenuSparks Client Feedback', tags: ['client', 'menusparks'], content: 'Focus on menu optimization dashboards, weekly snapshots, and SMS alerts. Clients want simpler UX.' },
+            { date: '2026-01-31', title: 'Soul Solace Architecture', tags: ['product', 'soulsolace'], content: 'V2 spec finalized. Guided reflections, journaling, daily calm. InstantDB for real-time sync.' },
+            { date: '2026-01-30', title: 'Pour Plan Concept', tags: ['spark', 'pourplan'], content: 'Drink recipe and bar management app. Basic scaffolding started.' },
+            { date: '2026-01-29', title: 'Ticker App Research', tags: ['research', 'tickr'], content: 'Kids investing app concept. Teaching next generation about markets. Gamified learning approach.' },
+            { date: '2026-01-28', title: 'Brand System Established', tags: ['brand', 'design'], content: 'Amber (#F59E0B) as primary accent. Dark theme standard. Space Grotesk + Inter + JetBrains Mono typography stack.' }
+        ];
+
+        function renderMemoryTimeline(filter) {
+            filter = filter || '';
+            var timeline = document.getElementById('memoryTimeline');
+            if (!timeline) return;
+            var filtered = filter ? MEMORY_ENTRIES.filter(function(e) {
+                return e.title.toLowerCase().indexOf(filter.toLowerCase()) > -1 || 
+                    e.content.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+                    e.tags.some(function(t) { return t.toLowerCase().indexOf(filter.toLowerCase()) > -1; });
+            }) : MEMORY_ENTRIES;
+            timeline.innerHTML = filtered.map(function(entry, i) {
+                return '<div class="n8n-node memory-node ' + (i === 0 ? 'latest' : '') + '" style="margin-bottom:12px;" onclick="toggleMemoryExpand(this)">' +
+                    '<div class="n8n-connector left active"></div>' +
+                    '<div class="n8n-node-header">' +
+                        '<div class="n8n-node-icon" style="background:rgba(245,158,11,0.1);color:#F59E0B;">⬡</div>' +
+                        '<div style="flex:1;">' +
+                            '<div class="n8n-node-title">' + entry.title + '</div>' +
+                            '<div class="n8n-node-subtitle">' + entry.date + '</div>' +
+                        '</div>' +
+                        '<svg class="memory-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2" style="transition:transform 0.2s;flex-shrink:0;"><polyline points="6 9 12 15 18 9"/></svg>' +
+                    '</div>' +
+                    '<div class="n8n-node-body memory-body" style="display:none;border-top:1px solid #1A1A1A;">' +
+                        '<p style="font-size:13px;color:#aaa;line-height:1.6;margin-bottom:10px;">' + entry.content + '</p>' +
+                        '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                            entry.tags.map(function(t) { return '<span class="n8n-badge">' + t + '</span>'; }).join('') +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+            var badge = document.querySelector('#section-memory-bank .n8n-badge');
+            if (badge) badge.textContent = filtered.length + ' entries';
+        }
+        function toggleMemoryExpand(node) {
+            var body = node.querySelector('.memory-body');
+            var chevron = node.querySelector('.memory-chevron');
+            var isOpen = body.style.display !== 'none';
+            body.style.display = isOpen ? 'none' : 'block';
+            chevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+        function filterMemories(val) { renderMemoryTimeline(val); }
+
+        // ═══ ACTIVITY STREAM DATA ═══════════════════
+        const ACTIVITY_FEED = [
+            { time: '5:02 PM', type: 'deploy', agent: 'Anders', msg: 'AxeCap Terminal deployed to production', icon: '▲', color: '#10B981' },
+            { time: '4:45 PM', type: 'commit', agent: 'Anders', msg: 'feat: port projects enhancements to static OS page', icon: '◆', color: '#F59E0B' },
+            { time: '4:30 PM', type: 'commit', agent: 'Anders', msg: 'feat: sidebar avatar + roundtable collapse/expand', icon: '◆', color: '#F59E0B' },
+            { time: '3:15 PM', type: 'session', agent: 'Paula', msg: 'Brand Kit explorations — AxeCap Terminal wireframes', icon: '✦', color: '#EC4899' },
+            { time: '2:00 PM', type: 'deploy', agent: 'Anders', msg: 'Model Counsel collapse/expand deployed', icon: '▲', color: '#10B981' },
+            { time: '12:30 PM', type: 'session', agent: 'Milo', msg: 'Sprint coordination — prioritized Operations overhaul', icon: '⚡', color: '#A855F7' },
+            { time: '11:00 AM', type: 'commit', agent: 'Anders', msg: 'fix: Brand Kit + Brand Spec as native pages', icon: '◆', color: '#F59E0B' },
+            { time: '9:30 AM', type: 'session', agent: 'Bobby', msg: 'Morning market brief — ES holding above 6040 support', icon: '📊', color: '#EF4444' },
+            { time: '8:00 AM', type: 'cron', agent: 'Milo', msg: 'Daily briefing delivered to Derek via Telegram', icon: '⏰', color: '#3B82F6' },
+            { time: '7:00 AM', type: 'cron', agent: 'System', msg: 'All 6 cron jobs executed successfully', icon: '⚙', color: '#666' }
+        ];
+        function renderActivityStream() {
+            var stream = document.getElementById('activityStream');
+            if (!stream) return;
+            stream.innerHTML = ACTIVITY_FEED.map(function(item) {
+                return '<div style="display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #1A1A1A;">' +
+                    '<div style="width:28px;height:28px;border-radius:6px;background:' + item.color + '15;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;color:' + item.color + ';">' + item.icon + '</div>' +
+                    '<div style="flex:1;min-width:0;">' +
+                        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">' +
+                            '<span style="font-size:12px;font-weight:600;color:' + item.color + ';">' + item.agent + '</span>' +
+                            '<span class="n8n-badge">' + item.type + '</span>' +
+                            '<span style="font-family:JetBrains Mono,monospace;font-size:10px;color:#666;margin-left:auto;">' + item.time + '</span>' +
+                        '</div>' +
+                        '<div style="font-size:12px;color:#aaa;line-height:1.5;">' + item.msg + '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ═══ SKILLS INVENTORY DATA ═══════════════════
+        const AGENT_SKILLS = [
+            { name: 'Milo', role: 'Chief of Staff', color: '#A855F7', icon: '⚡', skills: ['Coordination', 'Strategy', 'Task Routing', 'Sprint Planning', 'Daily Briefings'] },
+            { name: 'Anders', role: 'Full Stack Architect', color: '#F97316', icon: 'AN', skills: ['React/Next.js', 'Node.js/APIs', 'Supabase', 'Vercel Deploy', 'Python'] },
+            { name: 'Paula', role: 'Creative Director', color: '#EC4899', icon: '✦', skills: ['UI/UX Design', 'Brand Identity', 'Figma', 'Design Systems', 'Color Theory'] },
+            { name: 'Bobby', role: 'Trading Analyst', color: '#EF4444', icon: 'AX', skills: ['Market Analysis', 'Options Flow', 'Technical Charts', 'Risk Assessment', 'Trade Journaling'] },
+            { name: 'Dwight', role: 'Intelligence Officer', color: '#3B82F6', icon: 'DW', skills: ['Model Evaluation', 'Resource Allocation', 'Benchmarking', 'Performance Testing', 'Cost Analysis'] },
+            { name: 'Dax', role: 'Data Scientist', color: '#06B6D4', icon: 'DX', skills: ['Data Analysis', 'Visualization', 'Newsletter Writing', 'Signal Processing', 'Trend Detection'] },
+            { name: 'Tony', role: 'Restaurant Ops', color: '#EAB308', icon: 'TN', skills: ['Menu Optimization', 'Inventory', 'Scheduling', 'Cost Control', 'Vendor Management'] },
+            { name: 'Remy', role: 'Marketing', color: '#22C55E', icon: 'RM', skills: ['Social Media', 'Content Strategy', 'Copywriting', 'Campaign Management', 'Analytics'] },
+            { name: 'Wendy', role: 'Psychology', color: '#8B5CF6', icon: 'WR', skills: ['Behavioral Analysis', 'User Research', 'Habit Design', 'Wellness Content', 'Mindfulness'] }
+        ];
+        function renderAgentSkills() {
+            var grid = document.getElementById('agentSkillsGrid');
+            if (!grid) return;
+            grid.innerHTML = AGENT_SKILLS.map(function(agent) {
+                return '<div class="n8n-node">' +
+                    '<div class="n8n-connector right active"></div>' +
+                    '<div class="n8n-node-header">' +
+                        '<div class="n8n-node-icon" style="background:' + agent.color + '20;color:' + agent.color + ';">' + agent.icon + '</div>' +
+                        '<div>' +
+                            '<div class="n8n-node-title">' + agent.name + '</div>' +
+                            '<div class="n8n-node-subtitle">' + agent.role + '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="n8n-node-body">' +
+                        '<div style="display:flex;flex-wrap:wrap;gap:6px;">' +
+                            agent.skills.map(function(s) { return '<span style="font-size:11px;padding:3px 8px;border-radius:4px;background:' + agent.color + '10;color:' + agent.color + ';border:1px solid ' + agent.color + '20;">' + s + '</span>'; }).join('') +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
+        // ═══ DNA DATA ═══════════════════════════════
+        const DNA_BRANCHES = [
+            { title: 'Core Values', icon: '⎈', color: '#F59E0B', items: [
+                { name: 'Build foundations first', desc: 'Prioritize systems, compounding leverage, and long-term resiliency.' },
+                { name: 'Clarity beats speed', desc: 'Make the plan simple enough to execute under pressure.' },
+                { name: 'Integrity in every rep', desc: 'Win the moment without sacrificing the mission.' }
+            ]},
+            { title: 'Operating Principles', icon: '◈', color: '#3B82F6', items: [
+                { name: 'Default to action', desc: 'Move with velocity, then refine with feedback loops.' },
+                { name: 'Design for repeatability', desc: 'Every workflow should be teachable and scalable.' },
+                { name: 'Signal over noise', desc: 'Protect focus. Say no to shiny distractions.' }
+            ]},
+            { title: 'Decision Filters', icon: '⧉', color: '#10B981', items: [
+                { name: 'Does it compound?', desc: 'Will this create leverage or reduce future friction?' },
+                { name: 'Does it protect the brand?', desc: 'Everything ships with the DB Tech standard.' },
+                { name: 'Does it energize the team?', desc: 'Momentum matters more than perfection.' }
+            ]},
+            { title: 'Anti-Patterns', icon: '⊘', color: '#EF4444', items: [
+                { name: 'No vanity metrics', desc: "If it doesn't move revenue or retention, skip it." },
+                { name: 'No premature optimization', desc: 'Ship it, validate it, then polish it.' },
+                { name: 'No single points of failure', desc: 'Systems > heroes. Document everything.' }
+            ]}
+        ];
+        function renderDNA() {
+            var grid = document.getElementById('dnaGrid');
+            if (!grid) return;
+            grid.innerHTML = DNA_BRANCHES.map(function(branch) {
+                return '<div class="n8n-node">' +
+                    '<div class="n8n-connector left active"></div>' +
+                    '<div class="n8n-node-header">' +
+                        '<div class="n8n-node-icon" style="background:' + branch.color + '20;color:' + branch.color + ';">' + branch.icon + '</div>' +
+                        '<div class="n8n-node-title">' + branch.title + '</div>' +
+                    '</div>' +
+                    '<div class="n8n-node-body">' +
+                        branch.items.map(function(item) {
+                            return '<div style="padding:8px 0;border-bottom:1px solid #1A1A1A;">' +
+                                '<div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:2px;">' + item.name + '</div>' +
+                                '<div style="font-size:11px;color:#888;line-height:1.5;">' + item.desc + '</div>' +
+                            '</div>';
+                        }).join('') +
+                    '</div>' +
+                '</div>';
+            }).join('');
+        }
+
         function navigateTo(sectionId, updateHash = true) {
+            if (OPS_SECTIONS.includes(sectionId) && !checkOpsAccess(sectionId)) return;
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.toggle('active', item.dataset.section === sectionId);
             });
@@ -5125,6 +4903,10 @@
         renderLinks();
         renderKanban();
         renderIdeas();
+        renderMemoryTimeline();
+        renderActivityStream();
+        renderAgentSkills();
+        renderDNA();
         handleHashRoute();
 
         // Animate counters after a brief delay
