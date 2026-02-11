@@ -31,7 +31,7 @@ export default function Header() {
             <li><a href="#pit"><span className="nav-prompt">&gt;</span>pit<span className="nav-slash">/</span></a></li>
             <li><a href="#team"><span className="nav-prompt">&gt;</span>team<span className="nav-slash">/</span></a></li>
             <li><a href="#ideas"><span className="nav-prompt">&gt;</span>lab<span className="nav-slash">/</span></a></li>
-            <li><a href="/os"><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a></li>
+            <li><a href="https://derek-os.vercel.app" target="_blank" rel="noopener noreferrer"><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a></li>
             <li><a href="#connect"><span className="nav-prompt">&gt;</span>contact<span className="nav-slash">/</span></a></li>
           </ul>
           <button 
@@ -54,7 +54,7 @@ export default function Header() {
         <a href="#pit" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>pit<span className="nav-slash">/</span></a>
         <a href="#team" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>team<span className="nav-slash">/</span></a>
         <a href="#ideas" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>lab<span className="nav-slash">/</span></a>
-        <a href="/os" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a>
+        <a href="https://derek-os.vercel.app" className="mobile-link" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a>
         <a href="#connect" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>contact<span className="nav-slash">/</span></a>
       </div>
     </>
