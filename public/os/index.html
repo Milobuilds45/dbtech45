@@ -1346,152 +1346,76 @@
         }
 
         /* ═══════════════════════════════════════════
-           MARKETS
+           AXECAP TERMINAL (MARKETS)
            ═══════════════════════════════════════════ */
 
-        .market-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: var(--space-4);
-            margin-bottom: var(--space-6);
-        }
+        .axecap-terminal { background: #0A0A0A; border: 1px solid #222; border-radius: 8px; overflow: hidden; }
+        .axecap-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #222; background: #0F0F0F; }
+        .axecap-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; color: #F59E0B; letter-spacing: 0.1em; text-transform: uppercase; }
+        .axecap-status { display: flex; align-items: center; gap: 6px; font-size: 11px; font-family: 'JetBrains Mono', monospace; color: #888; }
+        .axecap-status .dot { width: 6px; height: 6px; border-radius: 50%; animation: axecapBlink 2s ease-in-out infinite; }
+        .axecap-status .dot.live { background: #10B981; }
+        .axecap-status .dot.sim { background: #F59E0B; }
+        .axecap-refresh-btn { background: transparent; border: 1px solid #333; border-radius: 4px; padding: 4px 10px; color: #888; font-family: 'JetBrains Mono', monospace; font-size: 10px; cursor: pointer; transition: all 0.2s; }
+        .axecap-refresh-btn:hover { border-color: #F59E0B; color: #F59E0B; }
 
-        .ticker-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-4);
-            margin-bottom: var(--space-6);
-        }
+        .ticker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 1px; background: #222; }
+        .ticker-cell { background: #0F0F0F; padding: 12px; transition: background 0.2s; }
+        .ticker-cell:hover { background: #141414; }
+        .ticker-symbol { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 700; color: #F59E0B; }
+        .ticker-name { font-size: 10px; color: #666; margin-top: 2px; }
+        .ticker-price { font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700; color: #fff; margin-top: 8px; }
+        .ticker-change { font-family: 'JetBrains Mono', monospace; font-size: 12px; margin-top: 4px; }
+        .ticker-change.up { color: #10B981; }
+        .ticker-change.down { color: #EF4444; }
+        .ticker-range { display: flex; justify-content: space-between; margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #444; }
+        .ticker-sparkline { margin-top: 6px; height: 20px; display: flex; align-items: flex-end; gap: 1px; }
+        .ticker-sparkline .bar { width: 3px; background: #333; border-radius: 1px; transition: height 0.3s; }
+        .ticker-sparkline .bar.up { background: #10B981; }
+        .ticker-sparkline .bar.down { background: #EF4444; }
 
-        .ticker-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-5);
-            transition: all var(--transition-base);
-            position: relative;
-            overflow: hidden;
-        }
+        .watchlist-panel { padding: 12px 16px; border-top: 1px solid #222; }
+        .watchlist-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .watchlist-label { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; color: #F59E0B; letter-spacing: 0.08em; text-transform: uppercase; }
+        .watchlist-add { display: flex; gap: 8px; }
+        .watchlist-input { background: #1A1A1A; border: 1px solid #333; border-radius: 4px; padding: 6px 10px; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 12px; width: 100px; text-transform: uppercase; outline: none; transition: border-color 0.2s; }
+        .watchlist-input:focus { border-color: #F59E0B; }
+        .watchlist-input::placeholder { color: #444; text-transform: none; }
+        .watchlist-btn { background: #F59E0B; color: #000; border: none; border-radius: 4px; padding: 6px 12px; font-size: 11px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+        .watchlist-btn:hover { background: #D97706; }
+        .watchlist-table { width: 100%; border-collapse: collapse; }
+        .watchlist-table th { font-size: 10px; color: #666; text-transform: uppercase; letter-spacing: 0.05em; padding: 6px 8px; text-align: left; border-bottom: 1px solid #222; font-family: 'JetBrains Mono', monospace; }
+        .watchlist-table td { font-family: 'JetBrains Mono', monospace; font-size: 12px; padding: 8px; border-bottom: 1px solid #1A1A1A; color: #ccc; }
+        .watchlist-table tr:hover td { background: #141414; }
+        .watchlist-table td.wl-symbol { color: #F59E0B; font-weight: 700; }
+        .watchlist-table td.wl-price { color: #fff; font-weight: 700; }
+        .watchlist-remove { cursor: pointer; color: #666; font-size: 14px; background: none; border: none; padding: 2px 6px; transition: color 0.2s; }
+        .watchlist-remove:hover { color: #EF4444; }
+        .watchlist-empty { color: #444; font-size: 12px; font-family: 'JetBrains Mono', monospace; padding: 12px 0; text-align: center; }
 
-        .ticker-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-        }
+        .news-panel { padding: 12px 16px; border-top: 1px solid #222; max-height: 300px; overflow-y: auto; }
+        .news-panel::-webkit-scrollbar { width: 4px; }
+        .news-panel::-webkit-scrollbar-track { background: #0A0A0A; }
+        .news-panel::-webkit-scrollbar-thumb { background: #333; border-radius: 2px; }
+        .news-panel-header { font-family: 'Space Grotesk', sans-serif; font-size: 12px; font-weight: 700; color: #F59E0B; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; }
+        .news-item { padding: 8px 0; border-bottom: 1px solid #1A1A1A; }
+        .news-item:last-child { border-bottom: none; }
+        .news-meta { display: flex; align-items: center; gap: 8px; }
+        .news-time { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #666; }
+        .news-headline { font-size: 13px; color: #ccc; margin-top: 4px; line-height: 1.4; }
+        .news-source { font-size: 10px; color: #F59E0B; margin-top: 2px; display: inline; }
+        .news-ticker { background: rgba(245, 158, 11, 0.1); color: #F59E0B; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-family: 'JetBrains Mono', monospace; margin-left: 8px; display: inline; }
 
-        .ticker-card::before {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            border-radius: inherit;
-            padding: 1px;
-            background: var(--border-gradient);
-            background-size: 300% 300%;
-            animation: gradientRotate 4s linear infinite;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity var(--transition-base);
-        }
+        .axecap-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px; border-top: 1px solid #222; background: #0A0A0A; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #666; flex-wrap: wrap; gap: 8px; }
+        .axecap-statusbar-left { display: flex; align-items: center; gap: 12px; }
+        .axecap-statusbar-right { display: flex; align-items: center; gap: 12px; }
+        .axecap-statusbar .status-live { color: #10B981; }
+        .axecap-statusbar .status-sim { color: #F59E0B; }
 
-        .ticker-card:hover::before {
-            opacity: 1;
-        }
+        @keyframes axecapBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-        .ticker-symbol {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .ticker-name {
-            font-size: 10px;
-            color: var(--text-tertiary);
-            margin-top: 2px;
-        }
-
-        .ticker-price {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            margin-top: var(--space-2);
-        }
-
-        .ticker-change {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            font-weight: 500;
-            margin-top: 2px;
-        }
-
-        .ticker-change.up { color: var(--success); }
-        .ticker-change.down { color: var(--danger); }
-
-        .market-brief {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
-        }
-
-        .market-brief-header {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            margin-bottom: var(--space-4);
-        }
-
-        .market-brief-avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: var(--radius-sm);
-            background: var(--gradient-accent);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-        }
-
-        .market-brief-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .market-brief-time {
-            font-size: 11px;
-            color: var(--text-tertiary);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .market-brief-content {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        .market-brief-content p {
-            margin-bottom: var(--space-3);
-        }
-
-        .portfolio-card {
-            background: var(--bg-card);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: var(--space-6);
-        }
-
-        .portfolio-value {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin: var(--space-3) 0;
+        @media (max-width: 1024px) { .ticker-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 640px) { .ticker-grid { grid-template-columns: repeat(2, 1fr); } }
         }
 
         /* ═══════════════════════════════════════════
@@ -2534,8 +2458,6 @@
 
         @media (max-width: 1024px) {
             .stats-row { grid-template-columns: repeat(2, 1fr); }
-            .ticker-row { grid-template-columns: repeat(2, 1fr); }
-            .market-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
@@ -2555,7 +2477,6 @@
             .stats-row { grid-template-columns: repeat(2, 1fr); }
             .agents-grid { grid-template-columns: 1fr; }
             .projects-grid { grid-template-columns: 1fr; }
-            .ticker-row { grid-template-columns: repeat(2, 1fr); }
             .topbar-search { display: none; }
             .topbar-clock { display: none; }
             .links-grid { grid-template-columns: 1fr; }
@@ -2563,7 +2484,6 @@
 
         @media (max-width: 480px) {
             .stats-row { grid-template-columns: 1fr; }
-            .ticker-row { grid-template-columns: 1fr; }
         }
 
         /* ═══════════════════════════════════════════
@@ -3254,40 +3174,62 @@
                 <div class="section" id="section-markets">
                     <div class="section-header">
                         <div>
-                            <h1 class="section-title">Market Dashboard</h1>
-                            <p class="section-subtitle">Bobby's intel · Portfolio overview · Signal & Noise</p>
+                            <h1 class="section-title">AxeCap Terminal</h1>
+                            <p class="section-subtitle">Real-time market intelligence</p>
                         </div>
                     </div>
 
-                    <div class="ticker-row stagger-in" id="tickerRow">
-                        <!-- Populated by JS -->
-                    </div>
-
-                    <div class="market-grid">
-                        <div class="market-brief">
-                            <div class="market-brief-header">
-                                <div class="market-brief-avatar">📊</div>
-                                <div>
-                                    <div class="market-brief-title">Bobby's Daily Brief</div>
-                                    <div class="market-brief-time" id="briefTime">Loading...</div>
+                    <div class="axecap-terminal">
+                        <!-- Terminal Header -->
+                        <div class="axecap-header">
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <span class="axecap-title">AXECAP TERMINAL</span>
+                                <div class="axecap-status">
+                                    <span class="dot sim"></span>
+                                    <span id="axecapConnectionStatus">SIMULATED</span>
                                 </div>
                             </div>
-                            <div class="market-brief-content" id="bobbyBrief">
-                                <p><strong>Market Outlook:</strong> Cautiously bullish. Markets digesting recent macro data with tech leading the recovery. Volume has been above average on up days — a constructive sign.</p>
-                                <p><strong>Key Levels:</strong> SPY holding above 600 support. QQQ maintaining its 20-day MA. Watch NVDA earnings reaction for sector direction.</p>
-                                <p><strong>Trade Ideas:</strong> Looking at QQQ call spreads for a continuation play. AAPL showing relative strength — potential breakout above 235.</p>
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <span class="axecap-status" id="axecapHeaderTime"></span>
+                                <button class="axecap-refresh-btn" onclick="refreshMarketData()" title="Refresh data">↻ REFRESH</button>
                             </div>
                         </div>
 
-                        <div class="portfolio-card">
-                            <div class="stat-label">Portfolio Overview</div>
-                            <div class="portfolio-value text-gradient">$---,---</div>
-                            <div style="color: var(--text-tertiary); font-size: 13px;">Connect portfolio to see live data</div>
-                            <div class="glow-line"></div>
-                            <div style="margin-top: var(--space-4);">
-                                <div class="stat-label" style="margin-bottom: var(--space-3);">Signal & Noise</div>
-                                <a href="#" class="project-link" style="font-size: 12px;">📰 Latest Edition →</a>
-                                <p style="font-size: 12px; color: var(--text-tertiary); margin-top: var(--space-3);">Derek's daily market newsletter analyzing signal from noise in financial markets.</p>
+                        <!-- Ticker Board -->
+                        <div class="ticker-grid" id="axecapTickerGrid">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Watchlist Panel -->
+                        <div class="watchlist-panel">
+                            <div class="watchlist-header">
+                                <span class="watchlist-label">⬡ Watchlist</span>
+                                <div class="watchlist-add">
+                                    <input type="text" class="watchlist-input" id="watchlistInput" placeholder="Symbol" maxlength="5" onkeydown="if(event.key==='Enter')addToWatchlist()">
+                                    <button class="watchlist-btn" onclick="addToWatchlist()">+ ADD</button>
+                                </div>
+                            </div>
+                            <div id="axecapWatchlist">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- News Briefing Panel -->
+                        <div class="news-panel" id="axecapNewsPanel">
+                            <!-- Populated by JS -->
+                        </div>
+
+                        <!-- Status Bar -->
+                        <div class="axecap-statusbar">
+                            <div class="axecap-statusbar-left">
+                                <span>AXECAP TERMINAL v1.0</span>
+                                <span>|</span>
+                                <span class="status-sim" id="axecapStatusMode">⬤ SIMULATED</span>
+                            </div>
+                            <div class="axecap-statusbar-right">
+                                <span id="axecapLastRefresh">Last refresh: --:--:--</span>
+                                <span>|</span>
+                                <span id="axecapNextRefresh">Next: 15:00</span>
                             </div>
                         </div>
                     </div>
@@ -4006,11 +3948,65 @@
             { name: 'YourWebsiteSucks', desc: 'Brutally honest website review and roast service.', status: 'spark', progress: 20, color: '#f87171', url: '#', repo: 'Yourwebsitesucks', priority: 0 }
         ];
 
-        const TICKERS = [
-            { symbol: 'SPY', name: 'S&P 500 ETF', price: '604.52', change: '+1.23%', direction: 'up' },
-            { symbol: 'QQQ', name: 'Nasdaq 100 ETF', price: '527.84', change: '+1.67%', direction: 'up' },
-            { symbol: 'NVDA', name: 'NVIDIA Corp', price: '138.25', change: '+2.41%', direction: 'up' },
-            { symbol: 'AAPL', name: 'Apple Inc', price: '234.56', change: '-0.32%', direction: 'down' }
+        // ─── AXECAP TERMINAL DATA ────────────────
+        const AXECAP_CONFIG = {
+            defaultTickers: ['ES', 'NQ', 'SPY', 'VIX', 'BTC', '10Y'],
+            refreshIntervalMs: 15 * 60 * 1000,
+            version: '1.0'
+        };
+
+        const MARKET_DATA = {
+            'ES':  { name: 'E-Mini S&P 500', price: 6048.25, change: 12.50, changePct: 0.21, high: 6055.00, low: 6030.75, decimals: 2 },
+            'NQ':  { name: 'E-Mini Nasdaq', price: 21534.75, change: 89.25, changePct: 0.42, high: 21580.00, low: 21420.50, decimals: 2 },
+            'SPY': { name: 'SPDR S&P 500', price: 604.52, change: 1.23, changePct: 0.20, high: 605.80, low: 602.10, decimals: 2 },
+            'VIX': { name: 'CBOE Volatility', price: 15.42, change: -0.38, changePct: -2.40, high: 16.10, low: 15.20, decimals: 2 },
+            'BTC': { name: 'Bitcoin USD', price: 97284.50, change: 1842.30, changePct: 1.93, high: 98100.00, low: 95200.00, decimals: 2 },
+            '10Y': { name: '10Y Treasury', price: 4.485, change: -0.012, changePct: -0.27, high: 4.510, low: 4.470, decimals: 3 },
+            // Watchlist stocks
+            'AAPL': { name: 'Apple Inc', price: 234.56, change: -0.75, changePct: -0.32, high: 236.10, low: 233.80, decimals: 2 },
+            'NVDA': { name: 'NVIDIA Corp', price: 138.25, change: 3.25, changePct: 2.41, high: 139.80, low: 135.20, decimals: 2 },
+            'TSLA': { name: 'Tesla Inc', price: 352.80, change: 8.45, changePct: 2.45, high: 355.20, low: 344.10, decimals: 2 },
+            'META': { name: 'Meta Platforms', price: 612.30, change: 4.80, changePct: 0.79, high: 615.00, low: 607.50, decimals: 2 },
+            'AMZN': { name: 'Amazon.com', price: 225.40, change: -1.20, changePct: -0.53, high: 228.00, low: 224.10, decimals: 2 },
+            'MSFT': { name: 'Microsoft Corp', price: 449.20, change: 2.30, changePct: 0.51, high: 451.50, low: 446.80, decimals: 2 },
+            'GOOG': { name: 'Alphabet Inc', price: 178.90, change: 1.10, changePct: 0.62, high: 180.20, low: 177.50, decimals: 2 },
+            'AMD':  { name: 'AMD Inc', price: 162.45, change: -2.10, changePct: -1.28, high: 165.00, low: 161.30, decimals: 2 },
+            'NFLX': { name: 'Netflix Inc', price: 1048.50, change: 15.20, changePct: 1.47, high: 1052.00, low: 1030.00, decimals: 2 },
+            'JPM':  { name: 'JPMorgan Chase', price: 268.75, change: 1.85, changePct: 0.69, high: 270.00, low: 266.50, decimals: 2 },
+            'QQQ':  { name: 'Nasdaq 100 ETF', price: 527.84, change: 8.80, changePct: 1.69, high: 530.10, low: 519.40, decimals: 2 },
+        };
+
+        // Sparkline history (simulated)
+        const SPARKLINE_DATA = {};
+        function generateSparkline(symbol) {
+            const data = MARKET_DATA[symbol];
+            if (!data) return [];
+            const bars = [];
+            let val = data.price;
+            for (let i = 0; i < 12; i++) {
+                const delta = (Math.random() - 0.48) * data.price * 0.002;
+                val += delta;
+                bars.push({ value: Math.abs(delta), up: delta >= 0 });
+            }
+            return bars;
+        }
+        AXECAP_CONFIG.defaultTickers.forEach(s => { SPARKLINE_DATA[s] = generateSparkline(s); });
+
+        let axecapWatchlist = [];
+        let axecapRefreshTimer = null;
+        let axecapCountdownSeconds = 15 * 60;
+
+        const MARKET_NEWS = [
+            { time: '09:45', headline: 'S&P 500 futures push higher as tech sector leads pre-market gains', source: 'Bloomberg', ticker: 'ES' },
+            { time: '09:32', headline: 'NVIDIA announces next-gen Blackwell Ultra GPU architecture at GTC keynote', source: 'Reuters', ticker: 'NVDA' },
+            { time: '09:18', headline: 'Bitcoin breaks through $97K resistance level on institutional buying pressure', source: 'CoinDesk', ticker: 'BTC' },
+            { time: '09:05', headline: 'Fed minutes signal patience on rate cuts, treasury yields edge lower', source: 'CNBC', ticker: '10Y' },
+            { time: '08:52', headline: 'Apple Vision Pro sales exceed Q2 estimates, services revenue hits record', source: 'Bloomberg', ticker: 'AAPL' },
+            { time: '08:40', headline: 'Tesla Robotaxi program receives regulatory approval in three new states', source: 'Reuters', ticker: 'TSLA' },
+            { time: '08:25', headline: 'VIX drops below 16 as market volatility continues to compress', source: 'MarketWatch', ticker: 'VIX' },
+            { time: '08:10', headline: 'Meta reports strong ad revenue growth driven by AI-powered targeting', source: 'CNBC', ticker: 'META' },
+            { time: '07:55', headline: 'Amazon Web Services announces major expansion in European data centers', source: 'TechCrunch', ticker: 'AMZN' },
+            { time: '07:30', headline: 'Nasdaq futures indicate strong open as earnings season beats expectations', source: 'Bloomberg', ticker: 'NQ' }
         ];
 
         const FEED_ITEMS = [
@@ -4371,22 +4367,186 @@
             `}).join('');
         }
 
-        function renderTickers() {
-            const row = document.getElementById('tickerRow');
-            row.innerHTML = TICKERS.map(t => `
-                <div class="ticker-card">
-                    <div class="ticker-symbol">${t.symbol}</div>
-                    <div class="ticker-name">${t.name}</div>
-                    <div class="ticker-price">$${t.price}</div>
-                    <div class="ticker-change ${t.direction}">${t.change}</div>
+        // ─── AXECAP TERMINAL FUNCTIONS ──────────
+
+        function formatPrice(price, decimals) {
+            if (price >= 1000) return price.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+            return price.toFixed(decimals);
+        }
+
+        function renderTickerBoard() {
+            const grid = document.getElementById('axecapTickerGrid');
+            if (!grid) return;
+            grid.innerHTML = AXECAP_CONFIG.defaultTickers.map(symbol => {
+                const d = MARKET_DATA[symbol];
+                if (!d) return '';
+                const isUp = d.change >= 0;
+                const arrow = isUp ? '▲' : '▼';
+                const cls = isUp ? 'up' : 'down';
+                const prefix = symbol === 'BTC' ? '$' : (symbol === '10Y' ? '' : (d.price > 100 ? '$' : '$'));
+                const suffix = symbol === '10Y' ? '%' : '';
+                const sparkBars = (SPARKLINE_DATA[symbol] || []).map(b => {
+                    const h = Math.max(2, Math.min(18, (b.value / (d.price * 0.003)) * 18));
+                    return `<div class="bar ${b.up ? 'up' : 'down'}" style="height:${h}px"></div>`;
+                }).join('');
+                return `<div class="ticker-cell">
+                    <div class="ticker-symbol">${symbol}</div>
+                    <div class="ticker-name">${d.name}</div>
+                    <div class="ticker-price">${prefix}${formatPrice(d.price, d.decimals)}${suffix}</div>
+                    <div class="ticker-change ${cls}">${arrow} ${isUp ? '+' : ''}${d.change.toFixed(d.decimals)} (${isUp ? '+' : ''}${d.changePct.toFixed(2)}%)</div>
+                    <div class="ticker-sparkline">${sparkBars}</div>
+                    <div class="ticker-range"><span>L: ${prefix}${formatPrice(d.low, d.decimals)}${suffix}</span><span>H: ${prefix}${formatPrice(d.high, d.decimals)}${suffix}</span></div>
+                </div>`;
+            }).join('');
+        }
+
+        function renderWatchlist() {
+            const container = document.getElementById('axecapWatchlist');
+            if (!container) return;
+            if (axecapWatchlist.length === 0) {
+                container.innerHTML = '<div class="watchlist-empty">No symbols in watchlist. Add one above.</div>';
+                return;
+            }
+            let rows = axecapWatchlist.map(symbol => {
+                const d = MARKET_DATA[symbol.toUpperCase()];
+                if (!d) return `<tr><td class="wl-symbol">${symbol.toUpperCase()}</td><td colspan="3" style="color:#666;">No data</td><td><button class="watchlist-remove" onclick="removeFromWatchlist('${symbol}')">✕</button></td></tr>`;
+                const isUp = d.change >= 0;
+                const cls = isUp ? 'up' : 'down';
+                const arrow = isUp ? '▲' : '▼';
+                return `<tr>
+                    <td class="wl-symbol">${symbol.toUpperCase()}</td>
+                    <td style="color:#888;font-size:11px;">${d.name}</td>
+                    <td class="wl-price">$${formatPrice(d.price, d.decimals)}</td>
+                    <td class="ticker-change ${cls}">${arrow} ${isUp ? '+' : ''}${d.change.toFixed(d.decimals)} (${isUp ? '+' : ''}${d.changePct.toFixed(2)}%)</td>
+                    <td style="text-align:right;"><button class="watchlist-remove" onclick="removeFromWatchlist('${symbol}')">✕</button></td>
+                </tr>`;
+            }).join('');
+            container.innerHTML = `<table class="watchlist-table">
+                <thead><tr><th>Symbol</th><th>Name</th><th>Price</th><th>Change</th><th></th></tr></thead>
+                <tbody>${rows}</tbody>
+            </table>`;
+        }
+
+        function renderNews() {
+            const panel = document.getElementById('axecapNewsPanel');
+            if (!panel) return;
+            const today = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            let html = '<div class="news-panel-header">⬡ Market Briefing</div>';
+            html += MARKET_NEWS.map(n => `<div class="news-item">
+                <div class="news-meta">
+                    <span class="news-time">${n.time} ET · ${today}</span>
                 </div>
-            `).join('');
+                <div class="news-headline">${n.headline}</div>
+                <div><span class="news-source">${n.source}</span><span class="news-ticker">${n.ticker}</span></div>
+            </div>`).join('');
+            panel.innerHTML = html;
+        }
+
+        function addToWatchlist(symbolOverride) {
+            const input = document.getElementById('watchlistInput');
+            const symbol = (symbolOverride || (input ? input.value : '')).trim().toUpperCase();
+            if (!symbol) return;
+            if (axecapWatchlist.includes(symbol)) {
+                if (typeof showToast === 'function') showToast('Already in Watchlist', symbol + ' is already tracked', 'info');
+                if (input) input.value = '';
+                return;
+            }
+            // Generate simulated data for unknown symbols
+            if (!MARKET_DATA[symbol]) {
+                const fakePrice = Math.round((20 + Math.random() * 500) * 100) / 100;
+                const fakeChange = Math.round((Math.random() - 0.45) * fakePrice * 0.03 * 100) / 100;
+                MARKET_DATA[symbol] = {
+                    name: symbol,
+                    price: fakePrice,
+                    change: fakeChange,
+                    changePct: Math.round((fakeChange / fakePrice) * 10000) / 100,
+                    high: Math.round((fakePrice * 1.01) * 100) / 100,
+                    low: Math.round((fakePrice * 0.99) * 100) / 100,
+                    decimals: 2
+                };
+            }
+            axecapWatchlist.push(symbol);
+            localStorage.setItem('axecap-watchlist', JSON.stringify(axecapWatchlist));
+            if (input) input.value = '';
+            renderWatchlist();
+        }
+
+        function removeFromWatchlist(symbol) {
+            axecapWatchlist = axecapWatchlist.filter(s => s !== symbol.toUpperCase());
+            localStorage.setItem('axecap-watchlist', JSON.stringify(axecapWatchlist));
+            renderWatchlist();
+        }
+
+        function refreshMarketData() {
+            // Simulate small price movements
+            Object.keys(MARKET_DATA).forEach(symbol => {
+                const d = MARKET_DATA[symbol];
+                const volatility = symbol === 'BTC' ? 0.005 : (symbol === 'VIX' ? 0.008 : 0.002);
+                const delta = (Math.random() - 0.48) * d.price * volatility;
+                d.price = Math.round((d.price + delta) * Math.pow(10, d.decimals)) / Math.pow(10, d.decimals);
+                d.change = Math.round((d.change + delta * 0.3) * Math.pow(10, d.decimals)) / Math.pow(10, d.decimals);
+                d.changePct = Math.round((d.change / d.price) * 10000) / 100;
+                d.high = Math.max(d.high, d.price);
+                d.low = Math.min(d.low, d.price);
+            });
+            // Update sparklines
+            AXECAP_CONFIG.defaultTickers.forEach(s => { SPARKLINE_DATA[s] = generateSparkline(s); });
+            renderTickerBoard();
+            renderWatchlist();
+            updateStatusBar();
+            axecapCountdownSeconds = 15 * 60;
+        }
+
+        function updateStatusBar() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
+            const el = document.getElementById('axecapLastRefresh');
+            if (el) el.textContent = 'Last refresh: ' + timeStr;
+            const headerTime = document.getElementById('axecapHeaderTime');
+            if (headerTime) headerTime.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        }
+
+        function updateCountdown() {
+            axecapCountdownSeconds--;
+            if (axecapCountdownSeconds <= 0) {
+                refreshMarketData();
+                return;
+            }
+            const mins = Math.floor(axecapCountdownSeconds / 60);
+            const secs = axecapCountdownSeconds % 60;
+            const el = document.getElementById('axecapNextRefresh');
+            if (el) el.textContent = 'Next: ' + String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+        }
+
+        function startAutoRefresh() {
+            if (axecapRefreshTimer) clearInterval(axecapRefreshTimer);
+            axecapCountdownSeconds = 15 * 60;
+            axecapRefreshTimer = setInterval(updateCountdown, 1000);
+        }
+
+        function initAxeCap() {
+            // Load watchlist from localStorage
+            try {
+                const saved = localStorage.getItem('axecap-watchlist');
+                axecapWatchlist = saved ? JSON.parse(saved) : ['AAPL', 'NVDA', 'TSLA', 'META', 'AMZN'];
+            } catch(e) {
+                axecapWatchlist = ['AAPL', 'NVDA', 'TSLA', 'META', 'AMZN'];
+            }
+            if (!localStorage.getItem('axecap-watchlist')) {
+                localStorage.setItem('axecap-watchlist', JSON.stringify(axecapWatchlist));
+            }
+            renderTickerBoard();
+            renderWatchlist();
+            renderNews();
+            updateStatusBar();
+            startAutoRefresh();
         }
 
         function renderFeed() {
             const now = new Date();
             document.getElementById('feedDate').textContent = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-            document.getElementById('briefTime').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            const briefTimeEl = document.getElementById('briefTime');
+            if (briefTimeEl) briefTimeEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
 
             const timeline = document.getElementById('feedTimeline');
             timeline.innerHTML = FEED_ITEMS.map(item => `
@@ -4468,7 +4628,7 @@
             'mission-control': 'Mission Control',
             'model-counsel': 'Model Counsel',
             'projects': 'Projects Board',
-            'markets': 'Market Dashboard',
+            'markets': 'AxeCap Terminal',
             'daily-feed': 'Daily Feed',
             'quick-links': 'Quick Links',
             'kanban': 'Kanban Board',
@@ -4547,7 +4707,7 @@
                 randomizeAgentStatuses();
                 renderAgents();
                 renderProjects();
-                renderTickers();
+                initAxeCap();
                 renderFeed();
                 animateCounters();
                 btn.textContent = '↻ Refresh';
@@ -4960,7 +5120,7 @@
         randomizeAgentStatuses();
         renderAgents();
         renderProjects();
-        renderTickers();
+        initAxeCap();
         renderFeed();
         renderLinks();
         renderKanban();
