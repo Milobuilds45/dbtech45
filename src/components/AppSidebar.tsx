@@ -338,7 +338,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
               alt="Derek"
               width={48}
               height={48}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transform: 'scale(1.25)' }}
             />
           </div>
           {!(collapsed && !isMobile) && (
