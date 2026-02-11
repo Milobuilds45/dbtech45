@@ -55,6 +55,13 @@
             --status-progress: #D97706;
             --status-launched: #F59E0B;
             --status-paused: #FBBF24;
+            --status-shipped: #10B981;
+            --status-building: #F59E0B;
+            --status-beta: #8B5CF6;
+            --status-planning: #3B82F6;
+            --status-shaping: #06B6D4;
+            --status-spark: #EC4899;
+            --status-killed: #EF4444;
 
             /* Semantic */
             --success: #10B981;
@@ -762,6 +769,13 @@
         .badge-progress { background: rgba(217, 119, 6, 0.12); color: var(--status-progress); }
         .badge-launched { background: rgba(6, 182, 212, 0.12); color: var(--status-launched); }
         .badge-paused { background: rgba(245, 158, 11, 0.12); color: var(--status-paused); }
+        .badge-shipped { background: rgba(16, 185, 129, 0.12); color: var(--status-shipped); }
+        .badge-building { background: rgba(245, 158, 11, 0.12); color: var(--status-building); }
+        .badge-beta { background: rgba(139, 92, 246, 0.12); color: var(--status-beta); }
+        .badge-planning { background: rgba(59, 130, 246, 0.12); color: var(--status-planning); }
+        .badge-shaping { background: rgba(6, 182, 212, 0.12); color: var(--status-shaping); }
+        .badge-spark { background: rgba(236, 72, 153, 0.12); color: var(--status-spark); }
+        .badge-killed { background: rgba(239, 68, 68, 0.12); color: var(--status-killed); }
 
         .badge-dot {
             width: 6px;
@@ -1256,6 +1270,76 @@
         }
 
         .project-link:hover {
+            background: var(--accent-muted);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .project-card.killed {
+            opacity: 0.5;
+        }
+
+        .star-rating {
+            display: flex;
+            gap: 2px;
+            margin: 8px 0;
+        }
+
+        .star-rating .star {
+            cursor: pointer;
+            color: #333;
+            font-size: 16px;
+            transition: color 0.15s;
+            user-select: none;
+        }
+
+        .star-rating .star.filled,
+        .star-rating .star.hover {
+            color: #F59E0B;
+        }
+
+        .kanban-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 11px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+        }
+
+        .kanban-btn:hover {
+            background: var(--accent-muted);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .kanban-btn.sent {
+            background: rgba(16, 185, 129, 0.12);
+            border-color: #10B981;
+            color: #10B981;
+            pointer-events: none;
+        }
+
+        .sort-priority-btn {
+            padding: var(--space-2) var(--space-4);
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: inherit;
+        }
+
+        .sort-priority-btn:hover, .sort-priority-btn.active {
             background: var(--accent-muted);
             border-color: var(--accent);
             color: var(--accent);
@@ -3156,11 +3240,8 @@
                             <h1 class="section-title">Projects Board</h1>
                             <p class="section-subtitle">All ventures, products, and experiments</p>
                         </div>
-                        <div class="ideas-filters">
-                            <button class="filter-btn active" data-filter="all">All</button>
-                            <button class="filter-btn" data-filter="active">Active</button>
-                            <button class="filter-btn" data-filter="launched">Launched</button>
-                            <button class="filter-btn" data-filter="paused">Paused</button>
+                        <div class="ideas-filters" id="projectFilters">
+                            <!-- Populated dynamically by JS -->
                         </div>
                     </div>
 
@@ -3899,30 +3980,30 @@
 
         const PROJECTS = [
             // ── Top 8 ──
-            { name: 'Soul Solace', desc: 'Mindfulness and wellness app. Guided reflections, journaling, and daily calm.', status: 'active', progress: 45, color: '#a78bfa', url: 'soulsolace.vercel.app', repo: 'Soulsolace', category: 'active' },
-            { name: 'Sunday Squares', desc: 'Football squares app. Weekly pools, live scoring, and easy management.', status: 'active', progress: 35, color: '#fb923c', url: 'sunday-squares.vercel.app', repo: 'SundaySquares', category: 'active' },
-            { name: 'Boundless', desc: 'Journaling app. Thoughts on building, creating, and living without limits.', status: 'active', progress: 60, color: '#34d399', url: 'boundless-ochre.vercel.app', repo: 'boundless', category: 'active' },
-            { name: 'Ticker', desc: 'Kids investing app. Teaching the next generation about markets and money.', status: 'active', progress: 40, color: '#22d3ee', url: 'tick-r.vercel.app', repo: 'tickR', category: 'active' },
-            { name: 'Spend Signal', desc: 'Personal finance tracking and spending analysis dashboard.', status: 'active', progress: 70, color: '#06b6d4', url: 'spendsignal.vercel.app', repo: 'spendsignal', category: 'active' },
-            { name: 'Concrete Before Curtains', desc: 'Content brand about building foundations first. Substance over aesthetics.', status: 'active', progress: 25, color: '#94a3b8', url: '#', repo: '', category: 'active' },
-            { name: 'Mojo', desc: 'Coming soon.', status: 'active', progress: 10, color: '#f59e0b', url: '#', repo: '', category: 'active' },
-            { name: 'Signal & Noise', desc: 'Daily market newsletter separating signal from noise in financial markets.', status: 'active', progress: 80, color: '#f472b6', url: '#', repo: 'signal-and-noise', category: 'active' },
+            { name: 'Soul Solace', desc: 'Mindfulness and wellness app. Guided reflections, journaling, and daily calm.', status: 'building', progress: 45, color: '#a78bfa', url: 'soulsolace.vercel.app', repo: 'Soulsolace', priority: 0 },
+            { name: 'Sunday Squares', desc: 'Football squares app. Weekly pools, live scoring, and easy management.', status: 'building', progress: 35, color: '#fb923c', url: 'sunday-squares.vercel.app', repo: 'SundaySquares', priority: 0 },
+            { name: 'Boundless', desc: 'Journaling app. Thoughts on building, creating, and living without limits.', status: 'building', progress: 60, color: '#34d399', url: 'boundless-ochre.vercel.app', repo: 'boundless', priority: 0 },
+            { name: 'Ticker', desc: 'Kids investing app. Teaching the next generation about markets and money.', status: 'building', progress: 40, color: '#22d3ee', url: 'tick-r.vercel.app', repo: 'tickR', priority: 0 },
+            { name: 'Spend Signal', desc: 'Personal finance tracking and spending analysis dashboard.', status: 'building', progress: 70, color: '#06b6d4', url: 'spendsignal.vercel.app', repo: 'spendsignal', priority: 0 },
+            { name: 'Concrete Before Curtains', desc: 'Content brand about building foundations first. Substance over aesthetics.', status: 'shaping', progress: 25, color: '#94a3b8', url: '#', repo: '', priority: 0 },
+            { name: 'Mojo', desc: 'Coming soon.', status: 'spark', progress: 10, color: '#f59e0b', url: '#', repo: '', priority: 0 },
+            { name: 'Signal & Noise', desc: 'Daily market newsletter separating signal from noise in financial markets.', status: 'building', progress: 80, color: '#f472b6', url: '#', repo: 'signal-and-noise', priority: 0 },
             // ── Remaining ──
-            { name: 'dbtech45.com', desc: 'Personal portfolio and digital home base. The hub for everything DB Tech.', status: 'launched', progress: 100, color: '#fbbf24', url: 'dbtech45.vercel.app', repo: 'dbtech45', category: 'launched' },
-            { name: 'MenuSparks', desc: 'Menu special optimization. Helping restaurants maximize their menu performance.', status: 'active', progress: 50, color: '#f59e0b', url: 'menusparks.vercel.app', repo: 'menusparks', category: 'active' },
-            { name: 'Bobola\'s Site', desc: 'Official website for Bobola\'s restaurant. Menu, hours, and ordering.', status: 'launched', progress: 100, color: '#ef4444', url: 'bobolas-site.vercel.app', repo: 'Bobolas-site', category: 'launched' },
-            { name: 'PicForge', desc: 'AI image generation and editing tool. Create and transform visuals.', status: 'active', progress: 55, color: '#FBBF24', url: 'picforge.vercel.app', repo: 'picforge', category: 'active' },
-            { name: 'Mockavio', desc: 'Corporate video editing and production tool.', status: 'active', progress: 30, color: '#64748b', url: '#', repo: 'mockavio', category: 'active' },
-            { name: 'Pour Plan', desc: 'Drink recipe and bar management app.', status: 'active', progress: 35, color: '#f472b6', url: '#', repo: 'pourplan', category: 'active' },
-            { name: 'Back Nine', desc: 'Golf scoring and handicap tracking app.', status: 'launched', progress: 100, color: '#22c55e', url: 'backnine-ten.vercel.app', repo: 'backnine', category: 'launched' },
-            { name: 'Locals Diner', desc: 'Local restaurant discovery and community dining guide.', status: 'launched', progress: 100, color: '#fb923c', url: 'localsdiner.vercel.app', repo: 'Localsdiner', category: 'launched' },
-            { name: 'BullishIQ', desc: 'Market intelligence and trading education platform.', status: 'active', progress: 25, color: '#10b981', url: '#', repo: 'bullishIQ', category: 'active' },
-            { name: 'StockFool', desc: 'Stock market analysis and foolproof investing tools.', status: 'active', progress: 20, color: '#D97706', url: '#', repo: 'stockfool', category: 'active' },
-            { name: 'InventoryBuddy', desc: 'Inventory management and tracking for small businesses.', status: 'active', progress: 50, color: '#14b8a6', url: 'inventorybuddy-delta.vercel.app', repo: 'inventorybuddy', category: 'active' },
-            { name: 'Scheduler', desc: 'Scheduling and calendar management tool.', status: 'active', progress: 45, color: '#8b5cf6', url: 'scheduler-hazel-three.vercel.app', repo: 'Scheduler', category: 'active' },
-            { name: 'Santa25', desc: 'Christmas gift exchange and Secret Santa organizer.', status: 'launched', progress: 100, color: '#ef4444', url: 'santa25.vercel.app', repo: 'santa25', category: 'launched' },
-            { name: '7LL', desc: '7 Layer Labs. The parent brand and lab for all projects.', status: 'active', progress: 30, color: '#F59E0B', url: '#', repo: '7LL', category: 'active' },
-            { name: 'YourWebsiteSucks', desc: 'Brutally honest website review and roast service.', status: 'active', progress: 20, color: '#f87171', url: '#', repo: 'Yourwebsitesucks', category: 'active' }
+            { name: 'dbtech45.com', desc: 'Personal portfolio and digital home base. The hub for everything DB Tech.', status: 'shipped', progress: 100, color: '#fbbf24', url: 'dbtech45.vercel.app', repo: 'dbtech45', priority: 0 },
+            { name: 'MenuSparks', desc: 'Menu special optimization. Helping restaurants maximize their menu performance.', status: 'building', progress: 50, color: '#f59e0b', url: 'menusparks.vercel.app', repo: 'menusparks', priority: 0 },
+            { name: 'Bobola\'s Site', desc: 'Official website for Bobola\'s restaurant. Menu, hours, and ordering.', status: 'shipped', progress: 100, color: '#ef4444', url: 'bobolas-site.vercel.app', repo: 'Bobolas-site', priority: 0 },
+            { name: 'PicForge', desc: 'AI image generation and editing tool. Create and transform visuals.', status: 'building', progress: 55, color: '#FBBF24', url: 'picforge.vercel.app', repo: 'picforge', priority: 0 },
+            { name: 'Mockavio', desc: 'Corporate video editing and production tool.', status: 'planning', progress: 30, color: '#64748b', url: '#', repo: 'mockavio', priority: 0 },
+            { name: 'Pour Plan', desc: 'Drink recipe and bar management app.', status: 'building', progress: 35, color: '#f472b6', url: '#', repo: 'pourplan', priority: 0 },
+            { name: 'Back Nine', desc: 'Golf scoring and handicap tracking app.', status: 'shipped', progress: 100, color: '#22c55e', url: 'backnine-ten.vercel.app', repo: 'backnine', priority: 0 },
+            { name: 'Locals Diner', desc: 'Local restaurant discovery and community dining guide.', status: 'shipped', progress: 100, color: '#fb923c', url: 'localsdiner.vercel.app', repo: 'Localsdiner', priority: 0 },
+            { name: 'BullishIQ', desc: 'Market intelligence and trading education platform.', status: 'shaping', progress: 25, color: '#10b981', url: '#', repo: 'bullishIQ', priority: 0 },
+            { name: 'StockFool', desc: 'Stock market analysis and foolproof investing tools.', status: 'spark', progress: 20, color: '#D97706', url: '#', repo: 'stockfool', priority: 0 },
+            { name: 'InventoryBuddy', desc: 'Inventory management and tracking for small businesses.', status: 'building', progress: 50, color: '#14b8a6', url: 'inventorybuddy-delta.vercel.app', repo: 'inventorybuddy', priority: 0 },
+            { name: 'Scheduler', desc: 'Scheduling and calendar management tool.', status: 'building', progress: 45, color: '#8b5cf6', url: 'scheduler-hazel-three.vercel.app', repo: 'Scheduler', priority: 0 },
+            { name: 'Santa25', desc: 'Christmas gift exchange and Secret Santa organizer.', status: 'shipped', progress: 100, color: '#ef4444', url: 'santa25.vercel.app', repo: 'santa25', priority: 0 },
+            { name: '7LL', desc: '7 Layer Labs. The parent brand and lab for all projects.', status: 'planning', progress: 30, color: '#F59E0B', url: '#', repo: '7LL', priority: 0 },
+            { name: 'YourWebsiteSucks', desc: 'Brutally honest website review and roast service.', status: 'spark', progress: 20, color: '#f87171', url: '#', repo: 'Yourwebsitesucks', priority: 0 }
         ];
 
         const TICKERS = [
@@ -4150,27 +4231,117 @@
             `).join('');
         }
 
-        function renderProjects(filter = 'all') {
-            const grid = document.getElementById('projectsGrid');
-            const filtered = filter === 'all' ? PROJECTS : PROJECTS.filter(p => {
-                if (filter === 'active') return p.category === 'active';
-                if (filter === 'launched') return p.category === 'launched';
-                if (filter === 'paused') return p.status === 'paused';
-                return true;
+        // ─── PROJECT PRIORITIES (localStorage) ──────
+        let projectPriorities = {};
+        try {
+            const stored = localStorage.getItem('dbtech-project-priorities');
+            if (stored) projectPriorities = JSON.parse(stored);
+        } catch(e) {}
+
+        function saveProjectPriorities() {
+            localStorage.setItem('dbtech-project-priorities', JSON.stringify(projectPriorities));
+        }
+
+        function setProjectPriority(projectName, rating) {
+            if (projectPriorities[projectName] === rating) {
+                delete projectPriorities[projectName];
+            } else {
+                projectPriorities[projectName] = rating;
+            }
+            saveProjectPriorities();
+            renderProjects(currentProjectFilter);
+        }
+
+        function sendToKanban(btn, projectName) {
+            btn.classList.add('sent');
+            btn.innerHTML = 'Sent to Kanban ✓';
+            setTimeout(() => {
+                btn.classList.remove('sent');
+                btn.innerHTML = '▦ Send to Kanban';
+            }, 2000);
+        }
+
+        let currentProjectFilter = 'all';
+        let sortByPriority = false;
+
+        function buildProjectFilterTabs() {
+            const container = document.getElementById('projectFilters');
+            const statusLabels = {
+                'shipped': 'Shipped', 'building': 'Building', 'beta': 'Beta',
+                'planning': 'Planning', 'shaping': 'Shaping', 'spark': 'Spark',
+                'paused': 'Paused', 'killed': 'Killed'
+            };
+            const activeStatuses = [...new Set(PROJECTS.map(p => p.status))];
+            const statusOrder = ['shipped', 'building', 'beta', 'planning', 'shaping', 'spark', 'paused', 'killed'];
+            const orderedStatuses = statusOrder.filter(s => activeStatuses.includes(s));
+
+            let html = '<button class="filter-btn ' + (currentProjectFilter === 'all' ? 'active' : '') + '" data-filter="all">All</button>';
+            orderedStatuses.forEach(s => {
+                html += '<button class="filter-btn ' + (currentProjectFilter === s ? 'active' : '') + '" data-filter="' + s + '">' + (statusLabels[s] || s) + '</button>';
+            });
+            html += '<button class="sort-priority-btn ' + (sortByPriority ? 'active' : '') + '" id="sortPriorityBtn">⭐ Sort by Priority</button>';
+            container.innerHTML = html;
+
+            container.querySelectorAll('[data-filter]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    container.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentProjectFilter = btn.dataset.filter;
+                    renderProjects(currentProjectFilter);
+                });
             });
 
+            document.getElementById('sortPriorityBtn').addEventListener('click', () => {
+                sortByPriority = !sortByPriority;
+                document.getElementById('sortPriorityBtn').classList.toggle('active', sortByPriority);
+                renderProjects(currentProjectFilter);
+            });
+        }
+
+        function renderProjects(filter = 'all') {
+            currentProjectFilter = filter;
+            const grid = document.getElementById('projectsGrid');
+
+            const statusMap = {
+                'shipped': { label: 'Shipped', class: 'shipped' },
+                'building': { label: 'Building', class: 'building' },
+                'beta': { label: 'Beta', class: 'beta' },
+                'planning': { label: 'Planning', class: 'planning' },
+                'shaping': { label: 'Shaping', class: 'shaping' },
+                'spark': { label: 'Spark', class: 'spark' },
+                'paused': { label: 'Paused', class: 'paused' },
+                'killed': { label: 'Killed', class: 'killed' },
+                'active': { label: 'Building', class: 'building' },
+                'launched': { label: 'Shipped', class: 'shipped' },
+                'progress': { label: 'Building', class: 'building' }
+            };
+
+            let filtered = filter === 'all' ? [...PROJECTS] : PROJECTS.filter(p => p.status === filter);
+
+            if (sortByPriority) {
+                filtered.sort((a, b) => {
+                    const pa = projectPriorities[a.name] || 0;
+                    const pb = projectPriorities[b.name] || 0;
+                    return pb - pa;
+                });
+            }
+
             grid.innerHTML = filtered.map(project => {
-                const statusMap = {
-                    'active': { label: 'Active', class: 'active' },
-                    'progress': { label: 'In Progress', class: 'progress' },
-                    'launched': { label: 'Launched', class: 'launched' },
-                    'paused': { label: 'Paused', class: 'paused' }
-                };
-                const status = statusMap[project.status] || statusMap.active;
+                const status = statusMap[project.status] || statusMap.building;
                 const hasUrl = project.url && project.url !== '#';
+                const isKilled = project.status === 'killed';
+                const priority = projectPriorities[project.name] || 0;
+                const escapedName = project.name.replace(/'/g, "\\'");
+
+                const stars = [1,2,3,4,5].map(i =>
+                    '<span class="star ' + (i <= priority ? 'filled' : '') + '"' +
+                    ' onmouseenter="this.parentElement.querySelectorAll(\'.star\').forEach((s,idx) => { if(idx < ' + i + ') s.classList.add(\'hover\'); else s.classList.remove(\'hover\'); })"' +
+                    ' onmouseleave="this.parentElement.querySelectorAll(\'.star\').forEach(s => s.classList.remove(\'hover\'))"' +
+                    ' onclick="setProjectPriority(\'' + escapedName + '\', ' + i + ')">★</span>'
+                ).join('');
 
                 return `
-                <div class="project-card">
+                <div class="project-card ${isKilled ? 'killed' : ''}">
                     <div class="project-color-bar" style="background: ${project.color};"></div>
                     <div class="project-header">
                         <div class="project-name" style="color: ${project.color};">${project.name}</div>
@@ -4180,6 +4351,7 @@
                         </span>
                     </div>
                     <div class="project-desc">${project.desc}</div>
+                    <div class="star-rating">${stars}</div>
                     <div class="project-progress">
                         <div class="progress-bar-bg">
                             <div class="progress-bar-fill" style="width: ${project.progress}%; background: ${project.color};"></div>
@@ -4191,8 +4363,9 @@
                     </div>
                     <div class="project-links">
                         ${hasUrl ? `<a href="https://${project.url}" target="_blank" class="project-link">🌐 Live Site</a>` : ''}
-                        <a href="https://github.com/7LayerLabs/${project.repo}" target="_blank" class="project-link">◆ Repo</a>
+                        ${project.repo ? `<a href="https://github.com/7LayerLabs/${project.repo}" target="_blank" class="project-link">◆ Repo</a>` : ''}
                         <span class="project-link" onclick="navigateTo('mission-control')">👥 Team</span>
+                        <button class="kanban-btn" onclick="sendToKanban(this, '${escapedName}')">▦ Send to Kanban</button>
                     </div>
                 </div>
             `}).join('');
@@ -4602,13 +4775,7 @@
 
         // ─── FILTERS ────────────────────────────────
 
-        document.querySelectorAll('[data-filter]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.parentElement.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                renderProjects(btn.dataset.filter);
-            });
-        });
+        buildProjectFilterTabs();
 
         document.querySelectorAll('[data-idea-filter]').forEach(btn => {
             btn.addEventListener('click', () => {
