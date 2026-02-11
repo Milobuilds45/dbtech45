@@ -78,6 +78,20 @@ export default function ModelCounselPage() {
 
   const totalTokens = responses.reduce((sum, r) => sum + (r.tokens?.input || 0) + (r.tokens?.output || 0), 0);
 
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const copyResponse = (r: ModelResponse) => {
+    const text = [
+      `Model: ${r.name}`,
+      `Latency: ${r.latencyMs > 0 ? (r.latencyMs / 1000).toFixed(1) + 's' : 'N/A'}`,
+      `Tokens: ${(r.tokens?.input || 0) + (r.tokens?.output || 0)} (in: ${r.tokens?.input || 0}, out: ${r.tokens?.output || 0})`,
+      ``,
+      r.error ? `Error: ${r.error}` : r.content || '',
+    ].join('\n');
+    navigator.clipboard.writeText(text);
+    setCopiedId(r.modelId);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
+
   return (
     <div style={{ padding: '20px 30px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -208,9 +222,32 @@ export default function ModelCounselPage() {
                     <span style={{ fontWeight: 600, fontSize: '13px' }}>{r.name}</span>
                     {i === 0 && !r.error && <span style={{ fontSize: '10px', fontWeight: 600, color: b.amber, background: 'rgba(245,158,11,0.1)', padding: '2px 8px', borderRadius: '4px' }}>Fastest</span>}
                   </div>
-                  <div style={{ display: 'flex', gap: '10px', fontSize: '11px', color: b.smoke }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '11px', color: b.smoke }}>
                     {r.latencyMs > 0 && <span>{(r.latencyMs / 1000).toFixed(1)}s</span>}
                     {(r.tokens?.input > 0 || r.tokens?.output > 0) && <span>{r.tokens.input + r.tokens.output} tok</span>}
+                    <button
+                      onClick={() => copyResponse(r)}
+                      style={{
+                        background: copiedId === r.modelId ? 'rgba(16, 185, 129, 0.15)' : b.graphite,
+                        border: `1px solid ${copiedId === r.modelId ? b.success : b.border}`,
+                        borderRadius: '4px',
+                        padding: '3px 8px',
+                        cursor: 'pointer',
+                        fontSize: '11px',
+                        color: copiedId === r.modelId ? b.success : b.silver,
+                        transition: 'all 0.2s',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                      }}
+                      title="Copy model, time, tokens, and response"
+                    >
+                      {copiedId === r.modelId ? (
+                        <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied</>
+                      ) : (
+                        <><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy</>
+                      )}
+                    </button>
                   </div>
                 </div>
                 <div style={{ padding: '14px 16px', maxHeight: '350px', overflowY: 'auto' }}>
