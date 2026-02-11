@@ -19,19 +19,27 @@ const TAG_COLORS: Record<string, string> = {
   NOTE: brand.amber,
   IDEA: '#A855F7',
   SYSTEM: brand.smoke,
+  DESIGN: '#EC4899',
+  INFRASTRUCTURE: '#6366F1',
 };
 
-function formatTime(iso: string): string {
+function formatDateTime(iso: string): string {
   const d = new Date(iso);
-  const now = new Date();
-  const diffMs = now.getTime() - d.getTime();
-  const diffMin = Math.floor(diffMs / 60000);
-  const diffHr = Math.floor(diffMin / 60);
-  if (diffMin < 1) return 'just now';
-  if (diffMin < 60) return `${diffMin}m ago`;
-  if (diffHr < 24) return `${diffHr}h ago`;
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) +
-    ' ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+  const month = d.toLocaleDateString('en-US', { month: 'short' });
+  const day = d.getDate();
+  const time = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+  return `${month} ${day} · ${time}`;
+}
+
+function formatDateShort(date: Date): string {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(date);
+  target.setHours(0, 0, 0, 0);
+  const diff = Math.floor((today.getTime() - target.getTime()) / 86400000);
+  if (diff === 0) return 'Today';
+  if (diff === 1) return 'Yesterday';
+  return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
 }
 
 export default function DailyFeed() {
@@ -41,11 +49,24 @@ export default function DailyFeed() {
   const [noteProject, setNoteProject] = useState('');
   const [noteAgent, setNoteAgent] = useState('');
   const [filter, setFilter] = useState<string>('all');
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
-  const loadFeed = async () => {
+  const loadFeed = async (date: Date) => {
+    setLoading(true);
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
     const [notesRes, activitiesRes] = await Promise.all([
-      supabase.from('daily_notes').select('*').order('created_at', { ascending: false }).limit(50),
-      supabase.from('activities').select('*').order('created_at', { ascending: false }).limit(50),
+      supabase.from('daily_notes').select('*')
+        .gte('created_at', startOfDay.toISOString())
+        .lte('created_at', endOfDay.toISOString())
+        .order('created_at', { ascending: false }),
+      supabase.from('activities').select('*')
+        .gte('created_at', startOfDay.toISOString())
+        .lte('created_at', endOfDay.toISOString())
+        .order('created_at', { ascending: false }),
     ]);
 
     const noteEntries: FeedEntry[] = (notesRes.data || []).map((n: DailyNote) => ({
@@ -57,13 +78,16 @@ export default function DailyFeed() {
       noteId: n.id,
     }));
 
-    const activityEntries: FeedEntry[] = (activitiesRes.data || []).map((a: Activity) => ({
-      time: a.created_at,
-      tag: a.category === 'deployment' ? 'DEPLOY' : a.category === 'development' ? 'BUILD' : a.category.toUpperCase(),
-      color: TAG_COLORS[a.category === 'deployment' ? 'DEPLOY' : a.category === 'development' ? 'BUILD' : 'SYSTEM'] || brand.smoke,
-      text: a.title + (a.description ? ` -- ${a.description}` : '') + (a.agent ? ` @${a.agent}` : ''),
-      project: a.project || undefined,
-    }));
+    const activityEntries: FeedEntry[] = (activitiesRes.data || []).map((a: Activity) => {
+      const tagKey = a.category === 'deployment' ? 'DEPLOY' : a.category === 'development' ? 'BUILD' : a.category.toUpperCase();
+      return {
+        time: a.created_at,
+        tag: tagKey,
+        color: TAG_COLORS[tagKey] || brand.smoke,
+        text: a.title + (a.description ? ` -- ${a.description}` : '') + (a.agent ? ` @${a.agent}` : ''),
+        project: a.project || undefined,
+      };
+    });
 
     const all = [...noteEntries, ...activityEntries].sort(
       (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()
@@ -72,7 +96,20 @@ export default function DailyFeed() {
     setLoading(false);
   };
 
-  useEffect(() => { loadFeed(); }, []);
+  useEffect(() => { loadFeed(selectedDate); }, [selectedDate]);
+
+  const navigateDay = (offset: number) => {
+    const newDate = new Date(selectedDate);
+    newDate.setDate(newDate.getDate() + offset);
+    if (newDate <= new Date()) setSelectedDate(newDate);
+  };
+
+  const goToToday = () => setSelectedDate(new Date());
+
+  const isToday = () => {
+    const today = new Date();
+    return selectedDate.toDateString() === today.toDateString();
+  };
 
   const addNote = async () => {
     if (!noteText.trim()) return;
@@ -85,13 +122,13 @@ export default function DailyFeed() {
       setNoteText('');
       setNoteProject('');
       setNoteAgent('');
-      loadFeed();
+      loadFeed(selectedDate);
     }
   };
 
   const deleteNote = async (id: string) => {
     await supabase.from('daily_notes').delete().eq('id', id);
-    loadFeed();
+    loadFeed(selectedDate);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -106,10 +143,43 @@ export default function DailyFeed() {
     <div style={{ minHeight: '100vh', backgroundColor: brand.void, color: brand.white, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         <h1 style={{ color: brand.amber, fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700 }}>Daily Feed</h1>
-        <p style={{ color: brand.silver, marginBottom: '1.5rem' }}>
+        <p style={{ color: brand.silver, marginBottom: '1rem' }}>
           Live updates from Supabase. Notes, deploys, activity.
-          {!loading && <span style={{ color: brand.smoke, marginLeft: '8px' }}>({entries.length} entries)</span>}
         </p>
+
+        {/* Date Navigation */}
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px',
+          background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '10px', padding: '10px 16px',
+        }}>
+          <button onClick={() => navigateDay(-1)}
+            style={{ background: 'none', border: `1px solid ${brand.border}`, borderRadius: '6px', padding: '6px 12px', color: brand.silver, cursor: 'pointer', fontSize: '14px' }}>
+            &larr; Prev
+          </button>
+          <div style={{ flex: 1, textAlign: 'center' }}>
+            <span style={{ color: brand.white, fontWeight: 600, fontSize: '16px' }}>
+              {formatDateShort(selectedDate)}
+            </span>
+            <span style={{ color: brand.smoke, marginLeft: '8px', fontSize: '13px' }}>
+              {selectedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}
+            </span>
+            {!loading && <span style={{ color: brand.smoke, marginLeft: '8px', fontSize: '12px' }}>({entries.length} entries)</span>}
+          </div>
+          <button onClick={() => navigateDay(1)} disabled={isToday()}
+            style={{
+              background: 'none', border: `1px solid ${brand.border}`, borderRadius: '6px', padding: '6px 12px',
+              color: isToday() ? brand.smoke : brand.silver, cursor: isToday() ? 'not-allowed' : 'pointer', fontSize: '14px',
+              opacity: isToday() ? 0.4 : 1,
+            }}>
+            Next &rarr;
+          </button>
+          {!isToday() && (
+            <button onClick={goToToday}
+              style={{ background: brand.amber, border: 'none', borderRadius: '6px', padding: '6px 12px', color: brand.void, cursor: 'pointer', fontWeight: 600, fontSize: '12px' }}>
+              Today
+            </button>
+          )}
+        </div>
 
         {/* Quick Note Input */}
         <div style={{
@@ -179,7 +249,9 @@ export default function DailyFeed() {
         ) : (
           <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', overflow: 'hidden' }}>
             {filtered.length === 0 ? (
-              <div style={{ padding: '40px', textAlign: 'center', color: brand.smoke }}>No entries found.</div>
+              <div style={{ padding: '40px', textAlign: 'center', color: brand.smoke }}>
+                No entries for {formatDateShort(selectedDate)}. {!isToday() && 'Try navigating to another day.'}
+              </div>
             ) : filtered.map((e, i) => (
               <div key={`${e.time}-${i}`}
                 style={{
@@ -190,11 +262,11 @@ export default function DailyFeed() {
                 onMouseEnter={ev => ev.currentTarget.style.background = brand.graphite}
                 onMouseLeave={ev => ev.currentTarget.style.background = 'transparent'}
               >
-                <span style={{ color: brand.smoke, fontSize: '12px', whiteSpace: 'nowrap', fontFamily: "'JetBrains Mono', monospace", minWidth: '70px', paddingTop: '2px' }}>
-                  {formatTime(e.time)}
+                <span style={{ color: brand.smoke, fontSize: '12px', whiteSpace: 'nowrap', fontFamily: "'JetBrains Mono', monospace", minWidth: '120px', paddingTop: '2px' }}>
+                  {formatDateTime(e.time)}
                 </span>
                 <span style={{
-                  color: e.color, fontSize: '11px', fontWeight: 700, minWidth: '60px',
+                  color: e.color, fontSize: '11px', fontWeight: 700, minWidth: '70px',
                   fontFamily: "'JetBrains Mono', monospace", padding: '2px 8px', borderRadius: '4px',
                   background: `${e.color}15`, textAlign: 'center',
                 }}>{e.tag}</span>

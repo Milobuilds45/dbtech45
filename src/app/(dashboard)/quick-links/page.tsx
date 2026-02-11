@@ -1,11 +1,17 @@
 import { brand, styles } from "@/lib/brand";
 
 const groups = [
+  { title: "DBTech Infrastructure", links: [
+    { label: "Vercel Dashboard (DBTech45)", url: "https://vercel.com/milos-projects-b55f88cf/dbtech45" },
+    { label: "GitHub Repo (dbtech45)", url: "https://github.com/Milobuilds45/dbtech45" },
+    { label: "Supabase Console (dbtech45-os)", url: "https://supabase.com/dashboard/project/ltoejmkktovxrsqtopeg" },
+    { label: "Live Site", url: "https://dbtech45.vercel.app" },
+  ]},
   { title: "Development", links: [
-    { label: "Vercel Dashboard", url: "https://vercel.com/dashboard" },
-    { label: "GitHub Repos", url: "https://github.com/7LayerLabs" },
-    { label: "Supabase Console", url: "https://supabase.com/dashboard" },
+    { label: "GitHub Org (Milobuilds45)", url: "https://github.com/Milobuilds45" },
     { label: "Claude Console", url: "https://console.anthropic.com" },
+    { label: "Vercel Dashboard (All Projects)", url: "https://vercel.com/milos-projects-b55f88cf" },
+    { label: "Supabase Dashboard", url: "https://supabase.com/dashboard" },
   ]},
   { title: "Trading", links: [
     { label: "ThinkOrSwim", url: "https://thinkorswim.tdameritrade.com" },
@@ -18,12 +24,12 @@ const groups = [
     { label: "Claude.ai", url: "https://claude.ai" },
     { label: "ChatGPT", url: "https://chat.openai.com" },
     { label: "Gemini", url: "https://gemini.google.com" },
+    { label: "Grok (xAI)", url: "https://grok.x.ai" },
   ]},
-  { title: "Restaurant", links: [
-    { label: "POS System", url: "#" },
-    { label: "Inventory Manager", url: "#" },
-    { label: "Staff Scheduling", url: "#" },
-    { label: "Cost Tracker", url: "#" },
+  { title: "Brand & Design", links: [
+    { label: "Brand Kit", url: "/brand-kit" },
+    { label: "Design System Spec", url: "/brand-spec" },
+    { label: "Agent Icons Repo", url: "https://github.com/7LayerLabs/dbtech45-agent-icons-v3" },
   ]},
 ];
 
@@ -32,7 +38,7 @@ export default function QuickLinks() {
     <div style={styles.page}>
       <div style={styles.container}>
         <h1 style={styles.h1}>Quick Links</h1>
-        <p style={styles.subtitle}>Essential tools and resources for daily operations.</p>
+        <p style={styles.subtitle}>Essential tools and resources. All links verified against DBTech45 infrastructure.</p>
 
         <div style={styles.grid}>
           {groups.map((g, i) => (
@@ -40,9 +46,10 @@ export default function QuickLinks() {
               <h3 style={{ color: brand.amber, marginBottom: '1rem', fontSize: '14px', fontWeight: 600 }}>{g.title}</h3>
               {g.links.map((link, j) => (
                 <div key={j} style={{ marginBottom: '0.75rem' }}>
-                  <a href={link.url} target={link.url.startsWith('/') ? undefined : '_blank'}
-                    style={{ color: brand.silver, textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s' }}>
+                  <a href={link.url} target={link.url.startsWith('/') ? undefined : '_blank'} rel="noopener noreferrer"
+                    style={{ color: brand.silver, textDecoration: 'none', fontSize: '14px', transition: 'color 0.2s', display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {link.label}
+                    {!link.url.startsWith('/') && <span style={{ fontSize: '10px', color: brand.smoke }}>&#8599;</span>}
                   </a>
                 </div>
               ))}

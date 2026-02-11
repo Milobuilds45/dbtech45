@@ -73,11 +73,11 @@ const navItems: NavItem[] = [
 ];
 
 const toolItems: NavItem[] = [
-  { label: 'Quick Links', href: '/quick-links' },
-  { label: 'Kanban', href: '/kanban' },
   { label: 'Ideas Vault', href: '/ideas-vault' },
-  { label: 'Brand Kit', href: 'https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html', external: true },
-  { label: 'Brand Spec', href: 'https://7layerlabs.github.io/dbtech45-agent-icons-v3/brand-spec.html', external: true },
+  { label: 'Kanban', href: '/kanban' },
+  { label: 'Quick Links', href: '/quick-links' },
+  { label: 'Brand Kit', href: '/brand-kit' },
+  { label: 'Brand Spec', href: '/brand-spec' },
 ];
 
 const opsItems: NavItem[] = [
