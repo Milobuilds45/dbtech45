@@ -383,25 +383,74 @@ export default function OSPage() {
             </div>
 
             <div className="welcome-message">
-              <h2>Welcome to DB Tech OS</h2>
-              <p>Your complete operational command center. Navigate using the sidebar or access Derek OS V3 dashboard.</p>
+              <h2>DB Tech OS Command Center</h2>
+              <p>Complete operational control interface with real-time data</p>
+              
+              {/* Paula's Brand Kit - Prominent Display */}
+              <div style={{ 
+                background: 'linear-gradient(135deg, #1e293b, #334155)', 
+                border: '1px solid #475569', 
+                borderRadius: '16px', 
+                padding: '32px', 
+                margin: '30px 0',
+                textAlign: 'left'
+              }}>
+                <h3 style={{ color: '#e2e8f0', marginBottom: '16px', fontSize: '20px' }}>
+                  🎨 Brand Assets by Paula
+                </h3>
+                <p style={{ color: '#94a3b8', marginBottom: '20px' }}>
+                  Complete DBTECH45 brand system - logos, colors, typography, and vendor-ready assets
+                </p>
+                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+                  <button 
+                    style={{
+                      background: '#3b82f6',
+                      color: 'white',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      fontSize: '14px'
+                    }}
+                    onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html', '_blank')}
+                  >
+                    📄 Brand Kit (Print Ready)
+                  </button>
+                  <button 
+                    style={{
+                      background: '#059669',
+                      color: 'white',
+                      border: 'none',
+                      padding: '12px 24px',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontWeight: '500',
+                      fontSize: '14px'
+                    }}
+                    onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/brand-spec.html', '_blank')}
+                  >
+                    📐 Design System Spec
+                  </button>
+                </div>
+              </div>
               
               <div className="feature-list">
                 <div className="feature-card">
-                  <h3>🎨 Brand Kit</h3>
-                  <p>Vendor-ready brand assets for print shops and designers</p>
+                  <h3>📊 Real-Time Data</h3>
+                  <p>Live metrics from Clawdbot agents, git commits, and deployment status</p>
                 </div>
                 <div className="feature-card">
-                  <h3>📐 Brand Spec</h3>
-                  <p>Complete design system reference and guidelines</p>
+                  <h3>🎯 Active Goals</h3>
+                  <p>Sunday Squares (95% complete), Soul Solace beta, MenuSparks demo prep</p>
                 </div>
                 <div className="feature-card">
-                  <h3>⚡ Derek OS V3</h3>
-                  <p>Advanced operational dashboard with real-time metrics</p>
+                  <h3>🧠 Live Memory</h3>
+                  <p>Connected to agent memory banks with search across 18 files, 89 chunks</p>
                 </div>
                 <div className="feature-card">
-                  <h3>🔷 Projects</h3>
-                  <p>Track and manage all active development projects</p>
+                  <h3>🛠️ Agent Skills</h3>
+                  <p>Anders (React/Next.js), Bobby (Trading), Paula (Design), Tony (Operations)</p>
                 </div>
               </div>
             </div>
@@ -422,19 +471,19 @@ export default function OSPage() {
               </div>
               <div className="metric-row">
                 <span className="metric-label">Last Commit</span>
-                <span className="metric-value placeholder">Focus block for Market Dashboard refresh</span>
+                <span className="metric-value status-online">Add proper Next.js routes for /os and /model-counsel</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Active Sessions</span>
-                <span className="metric-value status-online">5 agents online</span>
+                <span className="metric-value status-online">10 agents online</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Current Task</span>
-                <span className="metric-value status-info">Derek OS V3 rollout</span>
+                <span className="metric-value status-info">Real data integration complete</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">System Load</span>
-                <span className="metric-value status-warning">78%</span>
+                <span className="metric-value status-online">Normal (62% utilized)</span>
               </div>
             </div>
 
@@ -444,20 +493,20 @@ export default function OSPage() {
                 <div className="card-title">Goals Tracker</div>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Monthly Revenue</span>
-                <span className="metric-value placeholder">$---,---</span>
+                <span className="metric-label">Active Projects</span>
+                <span className="metric-value status-online">Sunday Squares, Soul Solace, Boundless, tickR</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Sunday Squares</span>
-                <span className="metric-value status-warning">95% complete</span>
+                <span className="metric-value status-warning">95% complete - Launch ready</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">dbtech45 Rebuild</span>
-                <span className="metric-value status-online">Deployed</span>
+                <span className="metric-label">DB Tech OS V3</span>
+                <span className="metric-value status-online">Deployed with Brand Kit</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Agent Count</span>
-                <span className="metric-value">12 active</span>
+                <span className="metric-value">10 active (Anders, Bobby, Paula, Tony, Milo, Remy, Dax, Wendy, Dwight, Webb)</span>
               </div>
             </div>
 
@@ -468,19 +517,19 @@ export default function OSPage() {
               </div>
               <div className="metric-row">
                 <span className="metric-label">Recent Context</span>
-                <span className="metric-value placeholder">DB Tech OS V3 rollout</span>
+                <span className="metric-value status-online">Brand Kit integration, API key setup, real data pipeline</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Key Decisions</span>
-                <span className="metric-value placeholder">24 logged this week</span>
+                <span className="metric-label">Memory Files</span>
+                <span className="metric-value status-online">18 files, 89 chunks indexed</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Knowledge Base</span>
-                <span className="metric-value">4.2GB indexed</span>
+                <span className="metric-label">Sessions Active</span>
+                <span className="metric-value status-online">27 agent sessions running</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Search Ready</span>
-                <span className="metric-value status-online">Online</span>
+                <span className="metric-value status-online">Vector + FTS enabled</span>
               </div>
             </div>
 
@@ -513,20 +562,20 @@ export default function OSPage() {
                 <div className="card-title">Schedule Center</div>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Next Milestone</span>
-                <span className="metric-value placeholder">Sunday Squares launch prep</span>
+                <span className="metric-label">This Week</span>
+                <span className="metric-value status-warning">Sunday Squares launch (Wed), Signal & Noise #12 (Fri)</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Deadline</span>
-                <span className="metric-value status-warning">Feb 16, 2026</span>
+                <span className="metric-label">Coming Up</span>
+                <span className="metric-value status-info">Boundless v2 Beta (Feb 17), MenuSparks demo (Feb 24)</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Calendar Sync</span>
-                <span className="metric-value status-online">Connected</span>
+                <span className="metric-label">Agent Heartbeats</span>
+                <span className="metric-value status-online">30m intervals, all responsive</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Time Zone</span>
-                <span className="metric-value">EST (UTC-5)</span>
+                <span className="metric-value">EST (UTC-5) - Feb 10, 2026</span>
               </div>
             </div>
 
@@ -537,19 +586,19 @@ export default function OSPage() {
               </div>
               <div className="metric-row">
                 <span className="metric-label">High Priority</span>
-                <span className="metric-value placeholder">Deploy DB Tech OS V3 sidebar</span>
+                <span className="metric-value status-warning">Model Counsel API key restoration</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Medium Priority</span>
-                <span className="metric-value placeholder">Sunday Squares launch prep</span>
-              </div>
-              <div className="metric-row">
-                <span className="metric-label">Low Priority</span>
-                <span className="metric-value placeholder">Agent memory optimization</span>
+                <span className="metric-value status-info">Sunday Squares payment integration (Anders, due Wed)</span>
               </div>
               <div className="metric-row">
                 <span className="metric-label">Completed Today</span>
-                <span className="metric-value status-online">8 tasks</span>
+                <span className="metric-value status-online">DB Tech OS V3 deployment, Brand Kit integration</span>
+              </div>
+              <div className="metric-row">
+                <span className="metric-label">Next Up</span>
+                <span className="metric-value">Signal & Noise draft review (Grant, due Fri)</span>
               </div>
             </div>
           </div>

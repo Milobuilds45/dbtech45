@@ -30,15 +30,7 @@ const nextConfig: NextConfig = {
         source: "/soulsolace/:path*",
         destination: "https://soulsolace.vercel.app/soulsolace/:path*",
       },
-      // DB Tech OS
-      {
-        source: "/os",
-        destination: "https://dbtech-os.vercel.app/",
-      },
-      {
-        source: "/os/:path*",
-        destination: "https://dbtech-os.vercel.app/:path*",
-      },
+      // DB Tech OS - removed redirects, now using local routes
     ];
   },
 };
