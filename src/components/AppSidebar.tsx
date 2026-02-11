@@ -7,6 +7,7 @@ import { brand } from '@/lib/brand';
 import {
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
   Menu,
   X,
   ExternalLink,
@@ -92,20 +93,32 @@ const opsItems: NavItem[] = [
 // ─── Sidebar component ──────────────────────────────────────────────────
 
 const STORAGE_KEY = 'dbtech-sidebar-collapsed';
+const SECTIONS_KEY = 'dbtech-sidebar-sections';
 const SIDEBAR_WIDTH = 240;
 const COLLAPSED_WIDTH = 60;
+
+interface SectionState {
+  command: boolean;
+  tools: boolean;
+  operations: boolean;
+}
+
+const DEFAULT_SECTIONS: SectionState = { command: true, tools: true, operations: true };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [sections, setSections] = useState<SectionState>(DEFAULT_SECTIONS);
 
-  // Hydrate collapsed state from localStorage
+  // Hydrate collapsed state + section states from localStorage
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored === 'true') setCollapsed(true);
+      const storedSections = localStorage.getItem(SECTIONS_KEY);
+      if (storedSections) setSections(JSON.parse(storedSections));
     } catch {}
   }, []);
 
@@ -114,6 +127,15 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     setCollapsed(prev => {
       const next = !prev;
       try { localStorage.setItem(STORAGE_KEY, String(next)); } catch {}
+      return next;
+    });
+  }, []);
+
+  // Toggle section expand/collapse
+  const toggleSection = useCallback((section: keyof SectionState) => {
+    setSections(prev => {
+      const next = { ...prev, [section]: !prev[section] };
+      try { localStorage.setItem(SECTIONS_KEY, JSON.stringify(next)); } catch {}
       return next;
     });
   }, []);
@@ -199,28 +221,72 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     );
   };
 
-  // ─── Section label ────────────────────────────────────────────────────
+  // ─── Section header (collapsible) ───────────────────────────────────
 
-  const renderSectionLabel = (label: string) => {
+  const renderSectionHeader = (label: string, sectionKey: keyof SectionState) => {
+    const isOpen = sections[sectionKey];
+    
     if (collapsed && !isMobile) {
       return (
-        <div style={{
-          padding: '12px 0 4px',
-          borderTop: `1px solid ${brand.border}`,
-          margin: '8px 12px 0',
-        }} />
+        <div 
+          onClick={() => toggleSection(sectionKey)}
+          style={{
+            padding: '12px 0 4px',
+            borderTop: `1px solid ${brand.border}`,
+            margin: '8px 12px 0',
+            cursor: 'pointer',
+            display: 'flex',
+            justifyContent: 'center',
+            opacity: isOpen ? 1 : 0.4,
+          }}
+          title={`${isOpen ? 'Collapse' : 'Expand'} ${label}`}
+        >
+          <ChevronDown size={12} style={{ 
+            transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)', 
+            transition: 'transform 0.2s',
+            color: brand.smoke,
+          }} />
+        </div>
       );
     }
     return (
+      <div 
+        onClick={() => toggleSection(sectionKey)}
+        style={{
+          padding: '16px 20px 8px',
+          color: brand.smoke,
+          fontSize: '11px',
+          fontWeight: 600,
+          textTransform: 'uppercase',
+          letterSpacing: '0.05em',
+          cursor: 'pointer',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          userSelect: 'none',
+          transition: 'color 0.2s',
+        }}
+      >
+        <span>{label}</span>
+        <ChevronDown size={12} style={{ 
+          transform: isOpen ? 'rotate(0deg)' : 'rotate(-90deg)', 
+          transition: 'transform 0.2s',
+        }} />
+      </div>
+    );
+  };
+
+  // ─── Render section items with collapse animation ─────────────────────
+
+  const renderSection = (items: NavItem[], sectionKey: keyof SectionState) => {
+    const isOpen = sections[sectionKey];
+    return (
       <div style={{
-        padding: '16px 20px 8px',
-        color: brand.smoke,
-        fontSize: '11px',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-        letterSpacing: '0.05em',
+        maxHeight: isOpen ? `${items.length * 42}px` : '0px',
+        overflow: 'hidden',
+        transition: 'max-height 0.25s ease',
       }}>
-        {label}
+        {items.map(renderNavItem)}
       </div>
     );
   };
@@ -274,11 +340,12 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
       {/* Nav sections */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
-        {navItems.map(renderNavItem)}
-        {renderSectionLabel('Tools')}
-        {toolItems.map(renderNavItem)}
-        {renderSectionLabel('Operations')}
-        {opsItems.map(renderNavItem)}
+        {renderSectionHeader('Command Center', 'command')}
+        {renderSection(navItems, 'command')}
+        {renderSectionHeader('Tools', 'tools')}
+        {renderSection(toolItems, 'tools')}
+        {renderSectionHeader('Operations', 'operations')}
+        {renderSection(opsItems, 'operations')}
       </div>
 
       {/* Collapse toggle (desktop only) */}
