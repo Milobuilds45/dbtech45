@@ -81,9 +81,7 @@ export default function OSPage() {
             padding: '8px 20px', 
             margin: '2px 0', 
             fontSize: '14px',
-            cursor: 'pointer',
-            background: 'rgba(34, 197, 94, 0.1)',
-            borderLeft: '3px solid #22c55e'
+            cursor: 'pointer'
           }} onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html', '_blank')}>
             🎨 Brand Kit
           </div>
@@ -91,8 +89,7 @@ export default function OSPage() {
             padding: '8px 20px', 
             margin: '2px 0', 
             fontSize: '14px',
-            cursor: 'pointer',
-            background: 'rgba(34, 197, 94, 0.1)'
+            cursor: 'pointer'
           }} onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/brand-spec.html', '_blank')}>
             📐 Brand Spec
           </div>
