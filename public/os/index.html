@@ -2786,6 +2786,7 @@
             // Check if already authenticated
             if(localStorage.getItem('dbtech-os-auth')==='1'){
                 document.getElementById('authGate').style.display='none';
+                document.querySelector('.app').style.display='';
                 return;
             }
             const input=document.getElementById('authPassword');
@@ -2797,6 +2798,7 @@
             const hash=await hashPass(input.value);
             if(hash===PASS_HASH){
                 localStorage.setItem('dbtech-os-auth','1');
+                document.querySelector('.app').style.display='';
                 document.getElementById('authGate').style.opacity='1';
                 document.getElementById('authGate').style.transition='opacity 0.3s ease';
                 requestAnimationFrame(()=>{document.getElementById('authGate').style.opacity='0';});
@@ -2829,7 +2831,7 @@
         </defs>
     </svg>
 
-    <div class="app">
+    <div class="app" style="display:none">
         <!-- Sidebar Backdrop (Mobile) -->
         <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
