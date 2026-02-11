@@ -9,14 +9,25 @@ export default function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [isMobileMenuOpen]);
+
+  const navItems = [
+    { label: "about", href: "#about" },
+    { label: "projects", href: "#projects" },
+    { label: "swarm", href: "#swarm" },
+    { label: "os", href: "/os" },
+  ];
 
   return (
     <>
@@ -26,19 +37,19 @@ export default function Header() {
             <span className="prompt">~/</span>DBTech45
           </a>
           <ul className="nav-links">
-            <li><a href="#about"><span className="nav-prompt">&gt;</span>about<span className="nav-slash">/</span></a></li>
-            <li><a href="#projects"><span className="nav-prompt">&gt;</span>projects<span className="nav-slash">/</span></a></li>
-            <li><a href="#pit"><span className="nav-prompt">&gt;</span>pit<span className="nav-slash">/</span></a></li>
-            <li><a href="#team"><span className="nav-prompt">&gt;</span>team<span className="nav-slash">/</span></a></li>
-            <li><a href="#ideas"><span className="nav-prompt">&gt;</span>lab<span className="nav-slash">/</span></a></li>
-            <li><a href="/os"><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a></li>
-            <li><a href="#connect"><span className="nav-prompt">&gt;</span>contact<span className="nav-slash">/</span></a></li>
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <a href={item.href}>
+                  <span className="nav-prompt">&gt;</span> {item.label}
+                </a>
+              </li>
+            ))}
           </ul>
-          <button 
-            className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`} 
-            aria-label="Toggle menu" 
+          <button
+            className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
+            aria-label="Toggle menu"
             aria-expanded={isMobileMenuOpen}
-            onClick={toggleMobileMenu}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             <span></span>
             <span></span>
@@ -47,15 +58,16 @@ export default function Header() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`} role="dialog" aria-label="Mobile navigation">
-        <a href="#about" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>about<span className="nav-slash">/</span></a>
-        <a href="#projects" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>projects<span className="nav-slash">/</span></a>
-        <a href="#pit" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>pit<span className="nav-slash">/</span></a>
-        <a href="#team" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>team<span className="nav-slash">/</span></a>
-        <a href="#ideas" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>lab<span className="nav-slash">/</span></a>
-        <a href="/os" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>os<span className="nav-slash">/</span></a>
-        <a href="#connect" className="mobile-link" onClick={() => setIsMobileMenuOpen(false)}><span className="nav-prompt">&gt;</span>contact<span className="nav-slash">/</span></a>
+        {navItems.map((item) => (
+          <a
+            key={item.label}
+            href={item.href}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            <span className="nav-prompt">&gt;</span> {item.label}
+          </a>
+        ))}
       </div>
     </>
   );

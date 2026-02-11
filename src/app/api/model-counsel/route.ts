@@ -87,7 +87,7 @@ async function callGoogle(model: string, question: string) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: question }] }],
-      generationConfig: { maxOutputTokens: 2048 }
+      generationConfig: { maxOutputTokens: 65536 }
     })
   });
 
@@ -104,13 +104,19 @@ async function callGoogle(model: string, question: string) {
   }
 
   const candidate = data.candidates[0];
-  if (!candidate.content || !candidate.content.parts || candidate.content.parts.length === 0) {
-    const finishReason = candidate.finishReason || 'Unknown';
+  const finishReason = candidate.finishReason || 'Unknown';
+
+  // Extract content if available (even partial from MAX_TOKENS)
+  const hasContent = candidate.content?.parts?.length > 0 && candidate.content.parts[0].text;
+
+  if (!hasContent && finishReason !== 'STOP') {
     throw new Error(`No content returned (finishReason: ${finishReason})`);
   }
 
+  const text = hasContent ? candidate.content.parts[0].text : '';
+
   return {
-    content: candidate.content.parts[0].text,
+    content: finishReason === 'MAX_TOKENS' ? text + '\n\n[Response truncated - hit token limit]' : text,
     tokens: {
       input: data.usageMetadata?.promptTokenCount || 0,
       output: data.usageMetadata?.candidatesTokenCount || 0

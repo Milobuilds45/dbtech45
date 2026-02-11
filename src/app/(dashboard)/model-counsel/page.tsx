@@ -100,12 +100,12 @@ export default function ModelCounselPage() {
     const text = [
       `Question: ${question}`,
       `Models: ${sorted.length} | Total Tokens: ${totalTokens.toLocaleString()}`,
-      `${'═'.repeat(60)}`,
+      `${'='.repeat(60)}`,
       '',
       ...sorted.map((r, i) => [
-        `${'─'.repeat(40)}`,
-        `${i + 1}. ${r.name}${i === 0 && !r.error ? ' ⚡ Fastest' : ''}`,
-        `${'─'.repeat(40)}`,
+        `${'-'.repeat(40)}`,
+        `${i + 1}. ${r.name}${i === 0 && !r.error ? ' Fastest' : ''}`,
+        `${'-'.repeat(40)}`,
         formatResponse(r),
         '',
       ].join('\n')),
@@ -119,7 +119,7 @@ export default function ModelCounselPage() {
     <div style={{ padding: '20px 30px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700 }}>Model Counsel</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber }}>Model Counsel</div>
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Ask one question. Get every perspective.</div>
         </div>
         {responses.length > 0 && (
@@ -153,7 +153,7 @@ export default function ModelCounselPage() {
         )}
       </div>
 
-      {/* Model Selector — Square Boxes */}
+      {/* Model Selector - Centered Grid */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
           <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Select Models</span>
@@ -162,7 +162,7 @@ export default function ModelCounselPage() {
             <button onClick={selectNone} style={{ fontSize: '11px', padding: '4px 12px', borderRadius: '4px', background: b.graphite, border: `1px solid ${b.border}`, color: b.silver, cursor: 'pointer' }}>None</button>
           </div>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '10px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
           {Object.entries(models).map(([id, info]) => {
             const selected = selectedModels.includes(id);
             const display = MODEL_DISPLAY[id] || { initials: '??', desc: info.provider };
@@ -171,7 +171,7 @@ export default function ModelCounselPage() {
                 key={id}
                 onClick={() => toggleModel(id)}
                 style={{
-                  aspectRatio: '1', display: 'flex', flexDirection: 'column',
+                  width: '120px', height: '120px', display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: '6px',
                   borderRadius: '12px', cursor: 'pointer',
                   border: selected ? `2px solid ${info.color}` : `1px solid ${b.border}`,
@@ -276,15 +276,9 @@ export default function ModelCounselPage() {
                       style={{
                         background: copiedId === r.modelId ? 'rgba(16, 185, 129, 0.15)' : b.graphite,
                         border: `1px solid ${copiedId === r.modelId ? b.success : b.border}`,
-                        borderRadius: '4px',
-                        padding: '3px 8px',
-                        cursor: 'pointer',
-                        fontSize: '11px',
-                        color: copiedId === r.modelId ? b.success : b.silver,
-                        transition: 'all 0.2s',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
+                        borderRadius: '4px', padding: '3px 8px', cursor: 'pointer',
+                        fontSize: '11px', color: copiedId === r.modelId ? b.success : b.silver,
+                        transition: 'all 0.2s', display: 'flex', alignItems: 'center', gap: '4px',
                       }}
                       title="Copy model, time, tokens, and response"
                     >

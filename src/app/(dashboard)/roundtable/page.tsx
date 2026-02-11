@@ -39,7 +39,7 @@ export default function RoundtablePage() {
   };
 
   const [agents, setAgents] = useState<Record<string, AgentInfo>>({});
-  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
+  const [selectedAgents, setSelectedAgents] = useState<string[]>(Object.keys(AGENT_DISPLAY));
   const [topic, setTopic] = useState('');
   const [rounds, setRounds] = useState(2);
   const [messages, setMessages] = useState<RoundMessage[]>([]);
@@ -104,7 +104,7 @@ export default function RoundtablePage() {
       {/* Header */}
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: b.white }}>The Roundtable</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber }}>The Roundtable</div>
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Your agents debate. You decide.</div>
         </div>
         {loading && (
@@ -121,7 +121,7 @@ export default function RoundtablePage() {
           <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Panelists</span>
           <span style={{ fontSize: '11px', color: b.smoke }}>{selectedAgents.length} selected (min 2)</span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '10px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
           {Object.keys(AGENT_DISPLAY).map(id => {
             const agent = AGENT_DISPLAY[id];
             const selected = selectedAgents.includes(id);
@@ -130,7 +130,7 @@ export default function RoundtablePage() {
                 key={id}
                 onClick={() => toggleAgent(id)}
                 style={{
-                  aspectRatio: '1', display: 'flex', flexDirection: 'column',
+                  width: '100px', height: '100px', display: 'flex', flexDirection: 'column',
                   alignItems: 'center', justifyContent: 'center', gap: '6px',
                   borderRadius: '12px', cursor: 'pointer',
                   border: selected ? `2px solid ${agent.color}` : `1px solid ${b.border}`,
@@ -154,60 +154,60 @@ export default function RoundtablePage() {
         </div>
       </div>
 
-      {/* Topic Input + Controls */}
-      <div style={{ marginBottom: '24px', display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-        <div style={{ flex: 1 }}>
-          <textarea
-            value={topic}
-            onChange={e => setTopic(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Drop a topic for debate... (Ctrl+Enter to start)"
-            rows={3}
-            style={{
-              width: '100%', background: b.carbon, border: `1px solid ${b.border}`,
-              borderRadius: '10px', padding: '14px', color: b.white,
-              fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: '1.6',
-              resize: 'none', outline: 'none', boxSizing: 'border-box',
-            }}
-            onFocus={e => e.target.style.borderColor = b.amber}
-            onBlur={e => e.target.style.borderColor = b.border}
-          />
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '6px', fontSize: '11px', color: b.smoke }}>
-            <span>{selectedAgents.length} agent{selectedAgents.length !== 1 ? 's' : ''} selected</span>
-            <span>Ctrl+Enter to start</span>
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ fontSize: '11px', color: b.smoke }}>Rounds:</span>
+      {/* Topic Input */}
+      <div style={{ marginBottom: '16px' }}>
+        <textarea
+          value={topic}
+          onChange={e => setTopic(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Drop a topic for debate... (Ctrl+Enter to start)"
+          rows={3}
+          style={{
+            width: '100%', background: b.carbon, border: `1px solid ${b.border}`,
+            borderRadius: '10px', padding: '14px', color: b.white,
+            fontFamily: "'Inter', sans-serif", fontSize: '14px', lineHeight: '1.6',
+            resize: 'none', outline: 'none', boxSizing: 'border-box',
+          }}
+          onFocus={e => e.target.style.borderColor = b.amber}
+          onBlur={e => e.target.style.borderColor = b.border}
+        />
+      </div>
+
+      {/* Controls Row */}
+      <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <span style={{ fontSize: '11px', color: b.smoke, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Rounds:</span>
+          <div style={{ display: 'flex', gap: '6px' }}>
             {[2, 3, 4].map(r => (
               <button
                 key={r}
                 onClick={() => setRounds(r)}
                 style={{
-                  width: '30px', height: '30px', borderRadius: '6px',
+                  width: '36px', height: '36px', borderRadius: '8px',
                   border: `1px solid ${rounds === r ? b.amber : b.border}`,
                   background: rounds === r ? 'rgba(245, 158, 11, 0.1)' : b.carbon,
                   color: rounds === r ? b.amber : b.smoke,
-                  fontSize: '13px', fontWeight: 700, cursor: 'pointer',
+                  fontSize: '14px', fontWeight: 700, cursor: 'pointer',
+                  transition: 'all 0.2s',
                 }}
               >{r}</button>
             ))}
           </div>
-          <button
-            onClick={startRoundtable}
-            disabled={loading || !topic.trim() || selectedAgents.length < 2}
-            style={{
-              padding: '12px 24px', borderRadius: '8px', fontWeight: 600, fontSize: '14px',
-              border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
-              background: loading || !topic.trim() || selectedAgents.length < 2 ? b.graphite : b.amber,
-              color: loading || !topic.trim() || selectedAgents.length < 2 ? b.smoke : b.void,
-              transition: 'all 0.2s',
-            }}
-          >
-            {loading ? 'Debating...' : 'Start Debate'}
-          </button>
+          <span style={{ fontSize: '11px', color: b.smoke }}>{selectedAgents.length} agent{selectedAgents.length !== 1 ? 's' : ''} selected</span>
         </div>
+        <button
+          onClick={startRoundtable}
+          disabled={loading || !topic.trim() || selectedAgents.length < 2}
+          style={{
+            padding: '12px 28px', borderRadius: '8px', fontWeight: 600, fontSize: '14px',
+            border: 'none', cursor: loading ? 'not-allowed' : 'pointer',
+            background: loading || !topic.trim() || selectedAgents.length < 2 ? b.graphite : b.amber,
+            color: loading || !topic.trim() || selectedAgents.length < 2 ? b.smoke : b.void,
+            transition: 'all 0.2s',
+          }}
+        >
+          {loading ? 'Debating...' : 'Start Debate'}
+        </button>
       </div>
 
       {/* Debate Feed */}

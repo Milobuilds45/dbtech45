@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  env: {
+    OS_USER: process.env.OS_USER || "derek",
+    OS_PASSWORD: process.env.OS_PASSWORD || "caffeine45",
+  },
   async rewrites() {
     return [
       // Sunday Squares

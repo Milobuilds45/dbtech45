@@ -81,6 +81,14 @@ img { max-width: 100%; display: block; }
   color: var(--green);
   font-weight: 700;
 }
+/* Clean section command - subtle terminal ref without obscure CLI */
+.section-command-clean {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--amber);
+  margin-bottom: 12px;
+  letter-spacing: 0.02em;
+}
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(28px, 5vw, 42px);
@@ -328,30 +336,31 @@ img { max-width: 100%; display: block; }
 }
 @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-.hero-name {
-  font-family: var(--font-display);
-  font-size: clamp(48px, 10vw, 96px);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-  margin-bottom: 16px;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--amber) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* Hero text block - fades in after terminal */
+.hero-text-block {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.hero-tagline {
-  font-family: var(--font-mono);
-  font-size: clamp(16px, 3vw, 22px);
-  color: var(--amber);
-  margin-bottom: 8px;
-  min-height: 30px;
+.hero-text-block.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 8vw, 80px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  margin-bottom: 20px;
+  color: var(--text-primary);
 }
 .hero-sub {
-  font-size: 17px;
+  font-size: clamp(16px, 2.5vw, 20px);
   color: var(--text-secondary);
   margin-bottom: 40px;
   font-weight: 400;
+  line-height: 1.7;
 }
 .hero-ctas {
   display: flex;
@@ -1628,4 +1637,99 @@ html {
 
 .animate-breathe {
   animation: breathe 2s ease-in-out infinite;
+}
+
+/* ========================================
+   REDESIGN V2 — Caffeine & Chaos
+   ======================================== */
+
+/* Project cards — clean, no emoji icons */
+.project-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.project-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.status-live {
+  background: var(--green-dim);
+  color: var(--green);
+}
+.status-building {
+  background: var(--amber-glow);
+  color: var(--amber);
+}
+.status-shaping {
+  background: var(--blue-dim);
+  color: var(--blue);
+}
+.status-spark {
+  background: rgba(82, 82, 91, 0.2);
+  color: var(--text-dim);
+}
+
+/* Compact section variant */
+.section-compact { padding: 60px 0; }
+
+/* Newsletter hero */
+.newsletter-hero {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.newsletter-hero .section-command-clean {
+  justify-content: center;
+}
+.newsletter-pitch {
+  font-size: 17px;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 32px;
+  max-width: 540px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.newsletter-hero .subscribe-bar {
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.newsletter-hero .subscribe-input {
+  max-width: 320px;
+}
+
+/* Agent cards — no avatar, cleaner */
+.agent-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  transition: all var(--transition);
+}
+.agent-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+}
+
+/* Connect cards — center the icons */
+.connect-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+}
+.connect-card:hover .connect-card-icon {
+  color: var(--amber);
 }

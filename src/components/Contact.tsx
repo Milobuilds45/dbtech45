@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { Mail, Github } from "lucide-react";
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -8,91 +9,56 @@ export default function Contact() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
+          if (entry.isIntersecting) entry.target.classList.add("visible");
         });
       },
       { threshold: 0.1 }
     );
-
     if (sectionRef.current) {
-      const revealElements = sectionRef.current.querySelectorAll('.reveal');
-      revealElements.forEach((el) => observer.observe(el));
+      sectionRef.current.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
     }
-
     return () => observer.disconnect();
   }, []);
-
-  const connectOptions = [
-    {
-      icon: "📧",
-      title: "Email",
-      desc: "For business inquiries and collaboration",
-      link: "mailto:derek@dbtech45.com"
-    },
-    {
-      icon: "🐦",
-      title: "Twitter",
-      desc: "Daily thoughts on markets and building",
-      link: "https://twitter.com/dbtech45"
-    },
-    {
-      icon: "💼",
-      title: "LinkedIn",
-      desc: "Professional network and updates",
-      link: "https://linkedin.com/in/derekbobola"
-    }
-  ];
 
   return (
     <>
       <hr className="section-divider" />
       <section className="section" id="connect" aria-label="Contact section" ref={sectionRef}>
         <div className="container">
-          <div className="reveal">
-            <div className="section-command">ssh derek@dbtech45.com</div>
+          <div className="reveal" style={{ textAlign: "center" }}>
+            <p className="section-command-clean" style={{ justifyContent: "center" }}>&gt; contact</p>
             <h2 className="section-title">Open a Channel</h2>
-            <p className="section-subtitle">Got a project? Want to collaborate? Have a question about trading or building?</p>
+            <p className="section-subtitle" style={{ margin: "0 auto" }}>
+              Got a project? Want to collaborate? Always open to interesting conversations.
+            </p>
           </div>
-          
-          <div className="connect-terminal reveal">
-            <div className="terminal-bar">
-              <span className="terminal-dot red"></span>
-              <span className="terminal-dot yellow"></span>
-              <span className="terminal-dot green"></span>
-              <span className="terminal-bar-title">derek@dbtech45 — ssh</span>
-            </div>
-            <div className="terminal-body">
-              <div className="connect-line">
-                <span className="prompt-char">$</span> ssh derek@dbtech45.com
+          <div className="connect-options reveal">
+            <a href="mailto:derek@dbtech45.com" className="connect-card">
+              <div className="connect-card-icon">
+                <Mail size={32} strokeWidth={1.5} />
               </div>
-              <div className="connect-line">
-                Connecting to <span className="amber-text">dbtech45.com</span>...
-              </div>
-              <div className="connect-line">
-                <span className="amber-text">Welcome to the terminal.</span>
-              </div>
-              <div className="connect-line">
-                <span className="prompt-char">derek@dbtech45:~$</span> echo "Always open to interesting conversations"
-              </div>
-              <div className="connect-line">
-                Always open to interesting conversations
-              </div>
-              <div className="connect-line">
-                <span className="prompt-char">derek@dbtech45:~$</span> <span className="cursor-blink"></span>
-              </div>
-            </div>
-          </div>
+              <h3 className="connect-card-title">Email</h3>
+              <p className="connect-card-desc">derek@dbtech45.com</p>
+            </a>
 
-          <div className="connect-options">
-            {connectOptions.map((option, index) => (
-              <a key={index} href={option.link} className="connect-card" target="_blank" rel="noopener noreferrer">
-                <div className="connect-card-icon">{option.icon}</div>
-                <h3 className="connect-card-title">{option.title}</h3>
-                <p className="connect-card-desc">{option.desc}</p>
-              </a>
-            ))}
+            <a href="https://x.com/dbtech45" className="connect-card" target="_blank" rel="noopener noreferrer">
+              <div className="connect-card-icon">
+                {/* Simple Icons X mark */}
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+              </div>
+              <h3 className="connect-card-title">X</h3>
+              <p className="connect-card-desc">@dbtech45</p>
+            </a>
+
+            <a href="https://github.com/dbtech45" className="connect-card" target="_blank" rel="noopener noreferrer">
+              <div className="connect-card-icon">
+                <Github size={32} strokeWidth={1.5} />
+              </div>
+              <h3 className="connect-card-title">GitHub</h3>
+              <p className="connect-card-desc">dbtech45</p>
+            </a>
           </div>
         </div>
       </section>
