@@ -25,10 +25,10 @@ export default function Kanban() {
   const [draggedTask, setDraggedTask] = useState<any>(null);
 
   const columns = [
-    { id: 'todo', title: '📋 To Do', color: '#ef4444' },
-    { id: 'progress', title: '⚡ In Progress', color: '#f59e0b' },
-    { id: 'review', title: '👀 Review', color: '#8b5cf6' },
-    { id: 'done', title: '✅ Done', color: '#22c55e' }
+    { id: 'todo' as const, title: '📋 To Do', color: '#ef4444' },
+    { id: 'progress' as const, title: '⚡ In Progress', color: '#f59e0b' },
+    { id: 'review' as const, title: '👀 Review', color: '#8b5cf6' },
+    { id: 'done' as const, title: '✅ Done', color: '#22c55e' }
   ];
 
   const addTask = () => {
@@ -55,11 +55,11 @@ export default function Kanban() {
     e.preventDefault();
   };
 
-  const handleDrop = (e: any, targetColumn: string) => {
+  const handleDrop = (e: any, targetColumn: keyof typeof tasks) => {
     e.preventDefault();
     if (!draggedTask) return;
 
-    const sourceColumn = draggedTask.sourceColumn;
+    const sourceColumn = draggedTask.sourceColumn as keyof typeof tasks;
     if (sourceColumn === targetColumn) return;
 
     setTasks(prev => ({
@@ -151,11 +151,11 @@ export default function Kanban() {
                 borderBottom: `2px solid ${column.color}`,
                 paddingBottom: '0.5rem'
               }}>
-                {column.title} ({tasks[column.id].length})
+                {column.title} ({(tasks[column.id] || []).length})
               </h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                {tasks[column.id].map((task: any) => (
+                {(tasks[column.id] || []).map((task: any) => (
                   <div
                     key={task.id}
                     draggable
