@@ -26,9 +26,6 @@ import {
   Dna,
   Brain,
   Wrench,
-  CalendarDays,
-  Target,
-  ListChecks,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -51,9 +48,6 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'DNA':           <Dna size={ICON_SIZE} />,
   'Memory Bank':   <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
-  'Schedule Center': <CalendarDays size={ICON_SIZE} />,
-  'Goals Tracker': <Target size={ICON_SIZE} />,
-  'Master Todo':   <ListChecks size={ICON_SIZE} />,
 };
 
 // ─── Nav data ────────────────────────────────────────────────────────────
@@ -82,13 +76,10 @@ const toolItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
-  { label: 'Activity Dashboard', href: '/activity-dashboard' },
-  { label: 'DNA', href: '/dna' },
-  { label: 'Memory Bank', href: '/memory-bank' },
-  { label: 'Skills Inventory', href: '/skills-inventory' },
-  { label: 'Schedule Center', href: '/schedule-center' },
-  { label: 'Goals Tracker', href: '/goals-tracker' },
-  { label: 'Master Todo', href: '/master-todo' },
+  { label: 'Activity Dashboard', href: '/os#activity-dashboard', external: true },
+  { label: 'DNA', href: '/os#dna', external: true },
+  { label: 'Memory Bank', href: '/os#memory-bank', external: true },
+  { label: 'Skills Inventory', href: '/os#skills-inventory', external: true },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
@@ -200,7 +191,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                   fontSize: '11px', padding: '2px 6px', borderRadius: '10px', fontWeight: 600,
                 }}>{item.badge}</span>
               )}
-              {item.external && <ExternalLink size={10} />}
+              {item.external && !item.href.startsWith('/os') && <ExternalLink size={10} />}
             </span>
           </>
         )}
