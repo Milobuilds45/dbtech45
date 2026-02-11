@@ -1,42 +1,165 @@
 'use client';
 
-import { brand } from '@/lib/brand';
+import { brand, styles } from '@/lib/brand';
+
+const COLORS = [
+  { name: 'Void', hex: '#000000', desc: 'Primary background' },
+  { name: 'Carbon', hex: '#111111', desc: 'Card backgrounds' },
+  { name: 'Graphite', hex: '#1A1A1A', desc: 'Input fields, secondary bg' },
+  { name: 'Electric Amber', hex: '#F59E0B', desc: 'Primary accent, CTAs, headings' },
+  { name: 'Amber Light', hex: '#FBBF24', desc: 'Hover states, highlights' },
+  { name: 'Amber Dark', hex: '#D97706', desc: 'Active states, pressed' },
+  { name: 'White', hex: '#FFFFFF', desc: 'Primary text' },
+  { name: 'Silver', hex: '#A3A3A3', desc: 'Body text, descriptions' },
+  { name: 'Smoke', hex: '#737373', desc: 'Muted text, timestamps' },
+  { name: 'Success', hex: '#10B981', desc: 'Shipped, online, positive' },
+  { name: 'Error', hex: '#EF4444', desc: 'Critical, high priority' },
+  { name: 'Info', hex: '#3B82F6', desc: 'Links, informational' },
+  { name: 'Warning', hex: '#EAB308', desc: 'In progress, caution' },
+  { name: 'Border', hex: '#222222', desc: 'Card borders, dividers' },
+];
+
+const TYPOGRAPHY = [
+  { name: 'Inter', usage: 'All UI text, body copy, buttons', weight: '400, 500, 600, 700', sample: 'The quick brown fox jumps over the lazy dog' },
+  { name: 'JetBrains Mono', usage: 'Code, terminal, timestamps, hashes', weight: '400, 600', sample: '$ git commit -m "shipped"' },
+];
+
+const LOGOS = [
+  { name: 'DB Badge', element: 'DB', desc: 'Primary mark -- amber square with DB initials', bg: brand.amber, color: brand.void },
+  { name: 'Wordmark', element: 'DBTECH45', desc: 'Full wordmark for headers and nav', bg: 'transparent', color: brand.white },
+  { name: 'Terminal Prompt', element: '~/DBTech45', desc: 'Terminal-style logo for dev contexts', bg: 'transparent', color: brand.amber },
+];
+
+const AGENTS = [
+  { name: 'Anders', role: 'Full Stack Architect', initials: 'AN', color: '#F97316' },
+  { name: 'Paula', role: 'Design Director', initials: 'PA', color: '#EC4899' },
+  { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
+  { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#EF4444' },
+  { name: 'Remy', role: 'Marketing', initials: 'RM', color: '#22C55E' },
+  { name: 'Tony', role: 'Operations', initials: 'TN', color: '#EAB308' },
+  { name: 'Dax', role: 'Content / Data', initials: 'DX', color: '#06B6D4' },
+  { name: 'Webb', role: 'Research', initials: 'WB', color: '#3B82F6' },
+  { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1' },
+  { name: 'Wendy', role: 'Psychology', initials: 'WR', color: '#8B5CF6' },
+];
 
 export default function BrandKitPage() {
   return (
-    <div style={{ padding: '20px 30px', minHeight: '100vh', backgroundColor: brand.void }}>
+    <div style={styles.page}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <h1 style={{ color: brand.amber, fontSize: '2rem', fontWeight: 700, marginBottom: '0.5rem' }}>Brand Kit</h1>
-        <p style={{ color: brand.silver, marginBottom: '2rem' }}>Complete DBTECH45 brand system -- logos, colors, typography, and vendor-ready assets.</p>
+        <h1 style={styles.h1}>Brand Kit</h1>
+        <p style={styles.subtitle}>Complete DBTECH45 brand system. Colors, typography, logos, and agent identities.</p>
 
-        {/* Embed the brand kit */}
-        <div style={{
-          background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px',
-          overflow: 'hidden', marginBottom: '2rem',
-        }}>
-          <iframe
-            src="https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html"
-            style={{ width: '100%', height: '80vh', border: 'none' }}
-            title="DBTECH45 Brand Kit"
-          />
-        </div>
+        {/* Logo Marks */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Logo Marks</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+            {LOGOS.map(l => (
+              <div key={l.name} style={{ ...styles.card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '2rem' }}>
+                <div style={{
+                  background: l.bg, color: l.color, padding: l.bg === 'transparent' ? '0' : '16px 20px',
+                  borderRadius: l.bg === 'transparent' ? '0' : '12px', fontWeight: 700,
+                  fontSize: l.name === 'DB Badge' ? '24px' : '20px',
+                  fontFamily: l.name === 'Terminal Prompt' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
+                  letterSpacing: l.name === 'Wordmark' ? '0.1em' : undefined,
+                }}>
+                  {l.name === 'Terminal Prompt' && <span style={{ color: brand.smoke }}>~/</span>}
+                  {l.name === 'Terminal Prompt' ? 'DBTech45' : l.element}
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{l.name}</div>
+                  <div style={{ color: brand.smoke, fontSize: '12px', marginTop: '4px' }}>{l.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-        <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '2rem' }}>
-          <a href="https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html" target="_blank" rel="noopener noreferrer"
-            style={{
-              display: 'inline-block', padding: '10px 20px', borderRadius: '8px',
-              background: brand.amber, color: brand.void, fontWeight: 600, fontSize: '14px',
-              textDecoration: 'none',
-            }}>Open Full Brand Kit</a>
-          <a href="/brand-spec"
-            style={{
-              display: 'inline-block', padding: '10px 20px', borderRadius: '8px',
-              background: brand.graphite, color: brand.amber, fontWeight: 600, fontSize: '14px',
-              textDecoration: 'none', border: `1px solid ${brand.amber}`,
-            }}>Design System Spec</a>
-        </div>
+        {/* Color Palette */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Color Palette</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
+            {COLORS.map(c => (
+              <div key={c.name} style={{ ...styles.card, padding: '0', overflow: 'hidden' }}>
+                <div style={{ background: c.hex, height: '60px', borderBottom: `1px solid ${brand.border}` }} />
+                <div style={{ padding: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ color: brand.white, fontWeight: 600, fontSize: '13px' }}>{c.name}</span>
+                    <span style={{ color: brand.smoke, fontSize: '11px', fontFamily: "'JetBrains Mono', monospace" }}>{c.hex}</span>
+                  </div>
+                  <div style={{ color: brand.smoke, fontSize: '11px', marginTop: '4px' }}>{c.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Typography */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Typography</h2>
+          <div style={{ display: 'grid', gap: '16px' }}>
+            {TYPOGRAPHY.map(t => (
+              <div key={t.name} style={styles.card}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                  <h3 style={{ color: brand.white, fontSize: '16px', fontWeight: 600, margin: 0 }}>{t.name}</h3>
+                  <span style={{ color: brand.smoke, fontSize: '12px' }}>Weights: {t.weight}</span>
+                </div>
+                <p style={{ color: brand.silver, fontSize: '13px', marginBottom: '12px' }}>Usage: {t.usage}</p>
+                <div style={{
+                  background: brand.graphite, borderRadius: '8px', padding: '16px',
+                  fontFamily: t.name === 'JetBrains Mono' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
+                  color: brand.white, fontSize: '16px',
+                }}>{t.sample}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Agent Identities */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Agent Identities</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
+            {AGENTS.map(a => (
+              <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
+                <div style={{
+                  width: '40px', height: '40px', borderRadius: '10px', background: a.color,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: brand.void, fontWeight: 700, fontSize: '13px', flexShrink: 0,
+                }}>{a.initials}</div>
+                <div>
+                  <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{a.name}</div>
+                  <div style={{ color: brand.smoke, fontSize: '11px' }}>{a.role}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Usage Rules */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Usage Rules</h2>
+          <div style={styles.card}>
+            <div style={{ display: 'grid', gap: '12px' }}>
+              {[
+                'Amber is the primary accent. Use it for CTAs, headings, active states, and key UI elements.',
+                'Dark backgrounds only. Void (#000) for pages, Carbon (#111) for cards, Graphite (#1A1A1A) for inputs.',
+                'No emojis in agent UI. Use colored initial badges instead.',
+                'Inter for all UI text. JetBrains Mono for code, terminal, and technical displays.',
+                'Borders are subtle (#222). Amber border on hover/active states only.',
+                'Status colors: Green = shipped/success, Amber = building/warning, Red = critical/error, Blue = info.',
+                'No gradients. No shadows. Clean flat design with border definition.',
+              ].map((rule, i) => (
+                <div key={i} style={{ display: 'flex', gap: '10px', fontSize: '13px' }}>
+                  <span style={{ color: brand.amber, fontWeight: 700, flexShrink: 0 }}>{String(i + 1).padStart(2, '0')}</span>
+                  <span style={{ color: brand.silver, lineHeight: '1.5' }}>{rule}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         <div style={{ textAlign: 'center' }}>
+          <a href="/brand-spec" style={{ color: brand.amber, textDecoration: 'none', fontSize: '14px', fontWeight: 600, marginRight: '20px' }}>Design System Spec &rarr;</a>
           <a href="/os" style={{ color: brand.smoke, textDecoration: 'none', fontSize: '14px' }}>Back to Mission Control</a>
         </div>
       </div>
