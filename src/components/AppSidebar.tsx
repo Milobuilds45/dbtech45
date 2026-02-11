@@ -76,10 +76,10 @@ const toolItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
-  { label: 'Activity Dashboard', href: '/os#activity-dashboard', external: true },
-  { label: 'DNA', href: '/os#dna', external: true },
-  { label: 'Memory Bank', href: '/os#memory-bank', external: true },
-  { label: 'Skills Inventory', href: '/os#skills-inventory', external: true },
+  { label: 'Activity Dashboard', href: '/activity-dashboard' },
+  { label: 'DNA', href: '/dna' },
+  { label: 'Memory Bank', href: '/memory-bank' },
+  { label: 'Skills Inventory', href: '/skills-inventory' },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
