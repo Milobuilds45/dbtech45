@@ -4,13 +4,13 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
   'claude-opus': {
     name: 'Claude Opus 4.6',
     provider: 'anthropic',
-    model: 'claude-opus-4-5-20251101',
+    model: 'claude-opus-4-6',
     color: '#D97706'
   },
   'claude-sonnet': {
     name: 'Claude Sonnet 4.5',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-20250514',
+    model: 'claude-sonnet-4-5-20250929',
     color: '#EA580C'
   },
   'gemini-pro': {
@@ -25,16 +25,16 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     model: 'gemini-2.5-flash',
     color: '#0891B2'
   },
-  'gpt-4-turbo': {
-    name: 'GPT-4 Turbo',
+  'gpt-4o': {
+    name: 'GPT-4o',
     provider: 'openai',
-    model: 'gpt-4-turbo',
+    model: 'gpt-4o',
     color: '#059669'
   },
-  'llama-70b': {
-    name: 'Llama 3.3 70B',
-    provider: 'groq',
-    model: 'llama-3.3-70b-versatile',
+  'grok': {
+    name: 'Grok',
+    provider: 'xai',
+    model: 'grok-3-latest',
     color: '#7C3AED'
   }
 };
@@ -51,8 +51,8 @@ async function callAnthropic(model: string, question: string) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: model,
-      max_tokens: 1024,
+      model,
+      max_tokens: 2048,
       messages: [{ role: 'user', content: question }]
     })
   });
@@ -76,14 +76,12 @@ async function callGoogle(model: string, question: string) {
   const apiKey = process.env.GOOGLE_API_KEY;
   if (!apiKey) throw new Error('GOOGLE_API_KEY not configured');
 
-  const maxTokens = model.includes('pro') ? 8192 : 2048;
-
   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: [{ text: question }] }],
-      generationConfig: { maxOutputTokens: maxTokens }
+      generationConfig: { maxOutputTokens: 2048 }
     })
   });
 
@@ -125,8 +123,8 @@ async function callOpenAI(model: string, question: string) {
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      model: model,
-      max_tokens: 1024,
+      model,
+      max_tokens: 2048,
       messages: [{ role: 'user', content: question }]
     })
   });
@@ -146,26 +144,26 @@ async function callOpenAI(model: string, question: string) {
   };
 }
 
-async function callGroq(model: string, question: string) {
-  const apiKey = process.env.GROQ_API_KEY;
-  if (!apiKey) throw new Error('GROQ_API_KEY not configured');
+async function callXAI(model: string, question: string) {
+  const apiKey = process.env.XAI_API_KEY;
+  if (!apiKey) throw new Error('XAI_API_KEY not configured');
 
-  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  const response = await fetch('https://api.x.ai/v1/chat/completions', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`
     },
     body: JSON.stringify({
-      model: model,
-      max_tokens: 1024,
+      model,
+      max_tokens: 2048,
       messages: [{ role: 'user', content: question }]
     })
   });
 
   if (!response.ok) {
     const error = await response.text();
-    throw new Error(`Groq API error: ${error}`);
+    throw new Error(`xAI API error: ${error}`);
   }
 
   const data = await response.json();
@@ -195,8 +193,8 @@ async function callModel(modelId: string, question: string) {
     case 'openai':
       result = await callOpenAI(modelConfig.model, question);
       break;
-    case 'groq':
-      result = await callGroq(modelConfig.model, question);
+    case 'xai':
+      result = await callXAI(modelConfig.model, question);
       break;
     default:
       throw new Error(`Unknown provider: ${modelConfig.provider}`);
@@ -210,6 +208,10 @@ async function callModel(modelId: string, question: string) {
     tokens: result.tokens,
     latencyMs: Date.now() - startTime
   };
+}
+
+export async function GET() {
+  return Response.json({ models: MODELS });
 }
 
 export async function POST(request: Request) {
@@ -258,7 +260,7 @@ export async function OPTIONS() {
     status: 200,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
     },
   });
