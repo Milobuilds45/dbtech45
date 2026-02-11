@@ -1,77 +1,58 @@
+import { brand, styles } from "@/lib/brand";
+
+const tickers = [
+  { symbol: "ES", price: "5,487.25", change: "+0.82%", up: true },
+  { symbol: "NQ", price: "19,812.50", change: "+1.14%", up: true },
+  { symbol: "SPY", price: "547.32", change: "+0.76%", up: true },
+  { symbol: "VIX", price: "14.28", change: "-3.12%", up: false },
+  { symbol: "BTC", price: "67,842", change: "+2.41%", up: true },
+  { symbol: "10Y", price: "4.287", change: "-0.58%", up: false },
+];
+
+const signals = [
+  { time: "09:34 ET", level: "INFO", text: "ES breaking above 5,480 resistance — watching for retest and hold", color: brand.info },
+  { time: "08:15 ET", level: "WARN", text: "VIX compression to 14-handle — complacency zone, hedges cheap here", color: brand.warning },
+  { time: "07:02 ET", level: "HOT", text: "BTC reclaiming 67K with volume — momentum flip confirmed on 4H", color: brand.amber },
+];
+
 export default function Markets() {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0a', color: '#00ff00', padding: '2rem' }}>
-      <div className="terminal" style={{ maxWidth: '1200px', margin: '0 auto', fontFamily: 'monospace' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ color: '#666' }}>derek@dbtech45:~$ </span>
-          <span>market --status</span>
-        </div>
-        
-        <h1 style={{ color: '#00ff00', fontSize: '2rem', marginBottom: '1rem' }}>📈 The Pit</h1>
-        <p style={{ color: '#999', marginBottom: '2rem' }}>Futures, macro, conviction trades. Where the edge lives.</p>
-        
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>ES</div>
-            <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold' }}>5,487.25</div>
-            <div style={{ color: '#00ff00', fontSize: '12px' }}>+0.82%</div>
-          </div>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>NQ</div>
-            <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold' }}>19,812.50</div>
-            <div style={{ color: '#00ff00', fontSize: '12px' }}>+1.14%</div>
-          </div>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>SPY</div>
-            <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold' }}>547.32</div>
-            <div style={{ color: '#00ff00', fontSize: '12px' }}>+0.76%</div>
-          </div>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>VIX</div>
-            <div style={{ color: '#ff6666', fontSize: '18px', fontWeight: 'bold' }}>14.28</div>
-            <div style={{ color: '#ff6666', fontSize: '12px' }}>-3.12%</div>
-          </div>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>BTC</div>
-            <div style={{ color: '#00ff00', fontSize: '18px', fontWeight: 'bold' }}>67,842</div>
-            <div style={{ color: '#00ff00', fontSize: '12px' }}>+2.41%</div>
-          </div>
-          <div style={{ backgroundColor: '#111', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
-            <div style={{ color: '#999', fontSize: '12px' }}>10Y</div>
-            <div style={{ color: '#ff6666', fontSize: '18px', fontWeight: 'bold' }}>4.287</div>
-            <div style={{ color: '#ff6666', fontSize: '12px' }}>-0.58%</div>
-          </div>
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <h1 style={styles.h1}>The Pit</h1>
+        <p style={styles.subtitle}>Futures, macro, conviction trades. Where the edge lives.</p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
+          {tickers.map((t, i) => (
+            <div key={i} style={{ ...styles.card, textAlign: 'center' }}>
+              <div style={{ color: brand.smoke, fontSize: '12px', marginBottom: '4px' }}>{t.symbol}</div>
+              <div style={{ color: brand.white, fontSize: '18px', fontWeight: 700 }}>{t.price}</div>
+              <div style={{ color: t.up ? brand.success : brand.error, fontSize: '12px' }}>{t.change}</div>
+            </div>
+          ))}
         </div>
 
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>📡 Live Signals</h3>
-          <div style={{ marginBottom: '0.5rem' }}>
-            <span style={{ color: '#666' }}>09:34 ET</span>
-            <span style={{ color: '#00ff00', marginLeft: '1rem' }}>INFO</span>
-            <span style={{ color: '#999', marginLeft: '1rem' }}>ES breaking above 5,480 resistance — watching for retest and hold</span>
-          </div>
-          <div style={{ marginBottom: '0.5rem' }}>
-            <span style={{ color: '#666' }}>08:15 ET</span>
-            <span style={{ color: '#ffff00', marginLeft: '1rem' }}>WARN</span>
-            <span style={{ color: '#999', marginLeft: '1rem' }}>VIX compression to 14-handle — complacency zone, hedges cheap here</span>
-          </div>
-          <div>
-            <span style={{ color: '#666' }}>07:02 ET</span>
-            <span style={{ color: '#ff9900', marginLeft: '1rem' }}>HOT</span>
-            <span style={{ color: '#999', marginLeft: '1rem' }}>BTC reclaiming 67K with volume — momentum flip confirmed on 4H</span>
-          </div>
+        <div style={{ ...styles.card, marginBottom: '2rem' }}>
+          <h3 style={{ color: brand.amber, marginBottom: '1rem', fontSize: '16px' }}>Live Signals</h3>
+          {signals.map((s, i) => (
+            <div key={i} style={{ marginBottom: '0.75rem', display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
+              <span style={{ color: brand.smoke, fontSize: '13px', whiteSpace: 'nowrap' }}>{s.time}</span>
+              <span style={{ color: s.color, fontSize: '12px', fontWeight: 600, minWidth: '40px' }}>{s.level}</span>
+              <span style={{ color: brand.silver, fontSize: '14px' }}>{s.text}</span>
+            </div>
+          ))}
         </div>
 
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>🤖 Powered by Bobby AI</h3>
-          <p style={{ color: '#999' }}>
-            Trading advisor AI processing market data 24/7. Risk management, signal generation, 
+        <div style={styles.card}>
+          <h3 style={{ color: brand.amber, marginBottom: '1rem', fontSize: '16px' }}>Powered by Bobby AI</h3>
+          <p style={{ color: brand.silver, fontSize: '14px', lineHeight: '1.5' }}>
+            Trading advisor AI processing market data 24/7. Risk management, signal generation,
             and macro analysis powered by 15 years of trading experience.
           </p>
         </div>
-        
+
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="/os" style={{ color: '#666', textDecoration: 'none' }}>← Back to OS Command Center</a>
+          <a href="/os" style={styles.backLink}>Back to Mission Control</a>
         </div>
       </div>
     </div>
