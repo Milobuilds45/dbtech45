@@ -1,48 +1,57 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { brand } from '@/lib/brand';
+import {
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  X,
+  ExternalLink,
+  Zap,
+  MessageCircle,
+  FolderKanban,
+  TrendingUp,
+  Newspaper,
+  Link2,
+  LayoutDashboard,
+  Lightbulb,
+  Palette,
+  Ruler,
+  Activity,
+  Dna,
+  Brain,
+  Wrench,
+  CalendarDays,
+  Target,
+  ListChecks,
+} from 'lucide-react';
 
-// ─── Icons (inline SVG for zero-dependency) ────────────────────────────
+// ─── Icon size for nav items ────────────────────────────────────────────
+const ICON_SIZE = 18;
 
-const ChevronLeft = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
-);
-const ChevronRight = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
-);
-const MenuIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-);
-const XIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-);
-const ExternalIcon = () => (
-  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-);
+// ─── Section icon map using Lucide components ───────────────────────────
 
-// ─── Section icon map (first letter as fallback, real icons per section) ─
-
-const NAV_ICONS: Record<string, string> = {
-  'Model Counsel': '⚡',
-  'Roundtable':    '🔄',
-  'Projects':      '📁',
-  'Markets':       '📊',
-  'Daily Feed':    '📰',
-  'Quick Links':   '🔗',
-  'Kanban':        '📋',
-  'Ideas Vault':   '💡',
-  'Brand Kit':     '🎨',
-  'Brand Spec':    '📐',
-  'Activity Dashboard': '📈',
-  'DNA':           '🧬',
-  'Memory Bank':   '🧠',
-  'Skills Inventory': '🛠',
-  'Schedule Center': '📅',
-  'Goals Tracker': '🎯',
-  'Master Todo':   '✅',
+const NAV_ICONS: Record<string, ReactNode> = {
+  'Model Counsel': <Zap size={ICON_SIZE} />,
+  'Roundtable':    <MessageCircle size={ICON_SIZE} />,
+  'Projects':      <FolderKanban size={ICON_SIZE} />,
+  'Markets':       <TrendingUp size={ICON_SIZE} />,
+  'Daily Feed':    <Newspaper size={ICON_SIZE} />,
+  'Quick Links':   <Link2 size={ICON_SIZE} />,
+  'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
+  'Ideas Vault':   <Lightbulb size={ICON_SIZE} />,
+  'Brand Kit':     <Palette size={ICON_SIZE} />,
+  'Brand Spec':    <Ruler size={ICON_SIZE} />,
+  'Activity Dashboard': <Activity size={ICON_SIZE} />,
+  'DNA':           <Dna size={ICON_SIZE} />,
+  'Memory Bank':   <Brain size={ICON_SIZE} />,
+  'Skills Inventory': <Wrench size={ICON_SIZE} />,
+  'Schedule Center': <CalendarDays size={ICON_SIZE} />,
+  'Goals Tracker': <Target size={ICON_SIZE} />,
+  'Master Todo':   <ListChecks size={ICON_SIZE} />,
 };
 
 // ─── Nav data ────────────────────────────────────────────────────────────
@@ -131,7 +140,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   const renderNavItem = (item: NavItem) => {
     const active = !item.external && isActive(item.href);
-    const icon = NAV_ICONS[item.label] || item.label.charAt(0);
+    const icon = NAV_ICONS[item.label] || <span style={{ fontSize: '14px', fontWeight: 600 }}>{item.label.charAt(0)}</span>;
 
     const inner = (
       <div
@@ -154,11 +163,11 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
         title={collapsed && !isMobile ? item.label : undefined}
       >
         {collapsed && !isMobile ? (
-          <span style={{ fontSize: '16px', lineHeight: 1 }}>{icon}</span>
+          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', opacity: 0.8 }}>{icon}</span>
         ) : (
           <>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <span style={{ fontSize: '14px', width: '20px', textAlign: 'center' }}>{icon}</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '20px', opacity: 0.7 }}>{icon}</span>
               <span>{item.label}</span>
             </span>
             <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
@@ -168,7 +177,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                   fontSize: '11px', padding: '2px 6px', borderRadius: '10px', fontWeight: 600,
                 }}>{item.badge}</span>
               )}
-              {item.external && <ExternalIcon />}
+              {item.external && <ExternalLink size={10} />}
             </span>
           </>
         )}
@@ -289,7 +298,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           }}
           title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
         >
-          {collapsed ? <ChevronRight /> : <ChevronLeft />}
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           {!collapsed && <span style={{ marginLeft: '8px', fontSize: '12px' }}>Collapse</span>}
         </div>
       )}
@@ -321,7 +330,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       }}
       aria-label="Toggle navigation"
     >
-      {mobileOpen ? <XIcon /> : <MenuIcon />}
+      {mobileOpen ? <X size={20} /> : <Menu size={20} />}
     </button>
   ) : null;
 
