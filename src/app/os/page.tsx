@@ -51,16 +51,16 @@ export default function OSPage() {
             </div>
           </div>
           
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/model-counsel'}>
             🔥 Model Counsel
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/projects'}>
             🔷 Projects <span style={{ background: '#3b82f6', color: 'white', fontSize: '11px', padding: '2px 6px', borderRadius: '10px', marginLeft: '8px' }}>28</span>
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/markets'}>
             📈 Markets
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/daily-feed'}>
             📰 Daily Feed
           </div>
           
@@ -68,13 +68,13 @@ export default function OSPage() {
             TOOLS
           </div>
           
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/quick-links'}>
             🔗 Quick Links
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/kanban'}>
             📋 Kanban
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/ideas-vault'}>
             💡 Ideas Vault
           </div>
           <div style={{ 
@@ -101,22 +101,22 @@ export default function OSPage() {
             OPERATIONS
           </div>
           
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/activity-dashboard'}>
             📊 Activity Dashboard
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/dna'}>
             🧬 DNA
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/memory-bank'}>
             🧠 Memory Bank
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/skills-inventory'}>
             🛠️ Skills Inventory
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/schedule-center'}>
             ⏰ Schedule Center
           </div>
-          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px' }}>
+          <div style={{ padding: '8px 20px', margin: '2px 0', fontSize: '14px', cursor: 'pointer' }} onClick={() => window.location.href = '/goals-tracker'}>
             🎯 Goals Tracker
           </div>
           <div style={{ 
@@ -124,8 +124,9 @@ export default function OSPage() {
             margin: '2px 0', 
             fontSize: '14px',
             background: 'rgba(59, 130, 246, 0.15)',
-            borderRight: '2px solid #3b82f6'
-          }}>
+            borderRight: '2px solid #3b82f6',
+            cursor: 'pointer'
+          }} onClick={() => window.location.href = '/master-todo'}>
             📋 Master Todo
           </div>
         </div>
