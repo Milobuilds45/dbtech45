@@ -60,26 +60,26 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { label: 'Model Counsel', href: '/model-counsel' },
-  { label: 'Roundtable', href: '/roundtable' },
-  { label: 'Projects', href: '/projects', badge: '28' },
-  { label: 'Markets', href: '/markets' },
-  { label: 'Daily Feed', href: '/daily-feed' },
+  { label: 'Model Counsel', href: '/os/model-counsel' },
+  { label: 'Roundtable', href: '/os/roundtable' },
+  { label: 'Projects', href: '/os/projects', badge: '28' },
+  { label: 'Markets', href: '/os/markets' },
+  { label: 'Daily Feed', href: '/os/daily-feed' },
 ];
 
 const toolItems: NavItem[] = [
-  { label: 'Ideas Vault', href: '/ideas-vault' },
-  { label: 'Kanban', href: '/kanban' },
-  { label: 'Quick Links', href: '/quick-links' },
-  { label: 'Brand Kit', href: '/brand-kit' },
-  { label: 'Brand Spec', href: '/brand-spec' },
+  { label: 'Ideas Vault', href: '/os/ideas-vault' },
+  { label: 'Kanban', href: '/os/kanban' },
+  { label: 'Quick Links', href: '/os/quick-links' },
+  { label: 'Brand Kit', href: '/os/brand-kit' },
+  { label: 'Brand Spec', href: '/os/brand-spec' },
 ];
 
 const opsItems: NavItem[] = [
-  { label: 'Activity Dashboard', href: '/activity-dashboard' },
-  { label: 'DNA', href: '/dna' },
-  { label: 'Memory Bank', href: '/memory-bank' },
-  { label: 'Skills Inventory', href: '/skills-inventory' },
+  { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'DNA', href: '/os/dna' },
+  { label: 'Memory Bank', href: '/os/memory-bank' },
+  { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
@@ -424,3 +424,4 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
