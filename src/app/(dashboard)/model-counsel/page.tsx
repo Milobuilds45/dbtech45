@@ -79,17 +79,40 @@ export default function ModelCounselPage() {
   const totalTokens = responses.reduce((sum, r) => sum + (r.tokens?.input || 0) + (r.tokens?.output || 0), 0);
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedAll, setCopiedAll] = useState(false);
+
+  const formatResponse = (r: ModelResponse) => [
+    `Model: ${r.name}`,
+    `Latency: ${r.latencyMs > 0 ? (r.latencyMs / 1000).toFixed(1) + 's' : 'N/A'}`,
+    `Tokens: ${(r.tokens?.input || 0) + (r.tokens?.output || 0)} (in: ${r.tokens?.input || 0}, out: ${r.tokens?.output || 0})`,
+    ``,
+    r.error ? `Error: ${r.error}` : r.content || '',
+  ].join('\n');
+
   const copyResponse = (r: ModelResponse) => {
-    const text = [
-      `Model: ${r.name}`,
-      `Latency: ${r.latencyMs > 0 ? (r.latencyMs / 1000).toFixed(1) + 's' : 'N/A'}`,
-      `Tokens: ${(r.tokens?.input || 0) + (r.tokens?.output || 0)} (in: ${r.tokens?.input || 0}, out: ${r.tokens?.output || 0})`,
-      ``,
-      r.error ? `Error: ${r.error}` : r.content || '',
-    ].join('\n');
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(formatResponse(r));
     setCopiedId(r.modelId);
     setTimeout(() => setCopiedId(null), 2000);
+  };
+
+  const copyAllResponses = () => {
+    const sorted = [...responses].sort((a, a2) => (a.latencyMs || 99999) - (a2.latencyMs || 99999));
+    const text = [
+      `Question: ${question}`,
+      `Models: ${sorted.length} | Total Tokens: ${totalTokens.toLocaleString()}`,
+      `${'═'.repeat(60)}`,
+      '',
+      ...sorted.map((r, i) => [
+        `${'─'.repeat(40)}`,
+        `${i + 1}. ${r.name}${i === 0 && !r.error ? ' ⚡ Fastest' : ''}`,
+        `${'─'.repeat(40)}`,
+        formatResponse(r),
+        '',
+      ].join('\n')),
+    ].join('\n');
+    navigator.clipboard.writeText(text);
+    setCopiedAll(true);
+    setTimeout(() => setCopiedAll(false), 2000);
   };
 
   return (
@@ -100,9 +123,32 @@ export default function ModelCounselPage() {
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Ask one question. Get every perspective.</div>
         </div>
         {responses.length > 0 && (
-          <div style={{ display: 'flex', gap: '16px', fontSize: '12px', color: b.smoke }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: b.smoke }}>
             <span>{totalTokens.toLocaleString()} tokens</span>
             <span>{responses.filter(r => r.content).length}/{responses.length} succeeded</span>
+            <button
+              onClick={copyAllResponses}
+              style={{
+                background: copiedAll ? 'rgba(16, 185, 129, 0.15)' : b.graphite,
+                border: `1px solid ${copiedAll ? b.success : b.border}`,
+                borderRadius: '6px',
+                padding: '6px 14px',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: copiedAll ? b.success : b.silver,
+                transition: 'all 0.2s',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+              }}
+            >
+              {copiedAll ? (
+                <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Copied All</>
+              ) : (
+                <><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy All</>
+              )}
+            </button>
           </div>
         )}
       </div>
