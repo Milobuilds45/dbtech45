@@ -30,21 +30,21 @@ export default function Newsletters() {
       name: "Signal & Noise",
       frequency: "Daily",
       desc: "Market intelligence filtered through 15 years of trading experience. Technical analysis, macro themes, and conviction plays that matter.",
-      link: "#"
+      link: "/newsletter/signal-noise"
     },
     {
       icon: "⚙️",
       name: "The Operator",
       frequency: "Weekly",
       desc: "Business building, productivity systems, and the art of execution. Lessons from running restaurants and shipping software.",
-      link: "#"
+      link: "/newsletter/operator"
     },
     {
       icon: "👨‍👩‍👧‍👦",
       name: "Dad Stack",
       frequency: "Weekly",
       desc: "Parenting seven kids while building companies. Real talk about balance, priorities, and what actually matters in life.",
-      link: "#"
+      link: "/newsletter/dad-stack"
     }
   ];
 

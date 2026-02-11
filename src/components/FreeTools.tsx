@@ -30,7 +30,7 @@ export default function FreeTools() {
       name: "TipSplit Pro",
       help: "./tipsplit --calculate",
       desc: "Professional tip calculator built for the restaurant industry. Handles complex splits, different tip rates, and tax calculations.",
-      link: "/sundaysquares"
+      link: "/tipsplit"
     },
     {
       icon: "🏈",
