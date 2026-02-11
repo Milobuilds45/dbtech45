@@ -80,6 +80,17 @@ export default function ModelCounselPage() {
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [copiedAll, setCopiedAll] = useState(false);
+  const [collapsedModels, setCollapsedModels] = useState<Set<string>>(new Set());
+
+  const toggleCollapse = (modelId: string) => {
+    setCollapsedModels(prev => {
+      const next = new Set(prev);
+      if (next.has(modelId)) next.delete(modelId); else next.add(modelId);
+      return next;
+    });
+  };
+  const collapseAll = () => setCollapsedModels(new Set(responses.map(r => r.modelId)));
+  const expandAll = () => setCollapsedModels(new Set());
 
   const formatResponse = (r: ModelResponse) => [
     `Model: ${r.name}`,
@@ -126,6 +137,22 @@ export default function ModelCounselPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', fontSize: '12px', color: b.smoke }}>
             <span>{totalTokens.toLocaleString()} tokens</span>
             <span>{responses.filter(r => r.content).length}/{responses.length} succeeded</span>
+            <button
+              onClick={expandAll}
+              style={{
+                background: b.graphite, border: `1px solid ${b.border}`, borderRadius: '6px',
+                padding: '6px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600, color: b.silver,
+              }}
+              title="Expand all responses"
+            >Expand All</button>
+            <button
+              onClick={collapseAll}
+              style={{
+                background: b.graphite, border: `1px solid ${b.border}`, borderRadius: '6px',
+                padding: '6px 10px', cursor: 'pointer', fontSize: '11px', fontWeight: 600, color: b.silver,
+              }}
+              title="Collapse all responses"
+            >Collapse All</button>
             <button
               onClick={copyAllResponses}
               style={{
@@ -262,8 +289,15 @@ export default function ModelCounselPage() {
             {responses.sort((a, a2) => (a.latencyMs || 99999) - (a2.latencyMs || 99999)).map((r, i) => (
               <div key={r.modelId} style={{ background: b.carbon, border: `1px solid ${r.error ? b.error : b.border}`, borderRadius: '10px', overflow: 'hidden' }}>
                 <div style={{ height: '3px', background: r.error ? b.error : r.color }} />
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderBottom: `1px solid ${b.border}` }}>
+                <div
+                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px 16px', borderBottom: collapsedModels.has(r.modelId) ? 'none' : `1px solid ${b.border}`, cursor: 'pointer' }}
+                  onClick={() => toggleCollapse(r.modelId)}
+                >
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={b.smoke} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                      style={{ transform: collapsedModels.has(r.modelId) ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
+                      <polyline points="6 9 12 15 18 9"/>
+                    </svg>
                     <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: r.color }} />
                     <span style={{ fontWeight: 600, fontSize: '13px' }}>{r.name}</span>
                     {i === 0 && !r.error && <span style={{ fontSize: '10px', fontWeight: 600, color: b.amber, background: 'rgba(245,158,11,0.1)', padding: '2px 8px', borderRadius: '4px' }}>Fastest</span>}
@@ -272,7 +306,7 @@ export default function ModelCounselPage() {
                     {r.latencyMs > 0 && <span>{(r.latencyMs / 1000).toFixed(1)}s</span>}
                     {(r.tokens?.input > 0 || r.tokens?.output > 0) && <span>{r.tokens.input + r.tokens.output} tok</span>}
                     <button
-                      onClick={() => copyResponse(r)}
+                      onClick={(e) => { e.stopPropagation(); copyResponse(r); }}
                       style={{
                         background: copiedId === r.modelId ? 'rgba(16, 185, 129, 0.15)' : b.graphite,
                         border: `1px solid ${copiedId === r.modelId ? b.success : b.border}`,
@@ -290,7 +324,12 @@ export default function ModelCounselPage() {
                     </button>
                   </div>
                 </div>
-                <div style={{ padding: '14px 16px', maxHeight: '350px', overflowY: 'auto' }}>
+                <div style={{
+                  maxHeight: collapsedModels.has(r.modelId) ? '0px' : '350px',
+                  overflow: collapsedModels.has(r.modelId) ? 'hidden' : 'auto',
+                  padding: collapsedModels.has(r.modelId) ? '0 16px' : '14px 16px',
+                  transition: 'max-height 0.25s ease, padding 0.25s ease',
+                }}>
                   {r.error
                     ? <div style={{ color: b.error, fontSize: '12px' }}>Error: {r.error}</div>
                     : <div style={{ fontSize: '13px', color: b.silver, lineHeight: '1.7', whiteSpace: 'pre-wrap' }}>{r.content}</div>
