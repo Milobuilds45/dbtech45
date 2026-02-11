@@ -36,6 +36,12 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     provider: 'xai',
     model: 'grok-3-latest',
     color: '#7C3AED'
+  },
+  'llama': {
+    name: 'Llama 3.3 70B',
+    provider: 'groq',
+    model: 'llama-3.3-70b-versatile',
+    color: '#6366F1'
   }
 };
 
@@ -176,6 +182,38 @@ async function callXAI(model: string, question: string) {
   };
 }
 
+async function callGroq(model: string, question: string) {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error('GROQ_API_KEY not configured');
+
+  const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 2048,
+      messages: [{ role: 'user', content: question }]
+    })
+  });
+
+  if (!response.ok) {
+    const error = await response.text();
+    throw new Error(`Groq API error: ${error}`);
+  }
+
+  const data = await response.json();
+  return {
+    content: data.choices[0].message.content,
+    tokens: {
+      input: data.usage?.prompt_tokens || 0,
+      output: data.usage?.completion_tokens || 0
+    }
+  };
+}
+
 async function callModel(modelId: string, question: string) {
   const modelConfig = MODELS[modelId];
   if (!modelConfig) throw new Error(`Unknown model: ${modelId}`);
@@ -195,6 +233,9 @@ async function callModel(modelId: string, question: string) {
       break;
     case 'xai':
       result = await callXAI(modelConfig.model, question);
+      break;
+    case 'groq':
+      result = await callGroq(modelConfig.model, question);
       break;
     default:
       throw new Error(`Unknown provider: ${modelConfig.provider}`);
