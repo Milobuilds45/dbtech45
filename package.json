@@ -11,6 +11,7 @@
   "dependencies": {
     "@google/genai": "^1.40.0",
     "@instantdb/react": "^0.22.126",
+    "@supabase/supabase-js": "^2.95.3",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
     "posthog-js": "^1.342.1",
