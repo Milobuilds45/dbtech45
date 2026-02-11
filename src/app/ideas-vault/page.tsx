@@ -1,12 +1,21 @@
 'use client';
 import { useState } from "react";
 
+interface Idea {
+  id: string;
+  title: string;
+  description: string;
+  stage: 'building' | 'spark' | 'shipped';
+  priority: string;
+  date: string;
+}
+
 export default function IdeasVault() {
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');
-  const [ideas, setIdeas] = useState([
+  const [ideas, setIdeas] = useState<Idea[]>([
     {
-      hash: "a1b2c3d",
+      id: "a1b2c3d",
       title: "Voice Trading Journal",
       description: "AI voice assistant that listens to trades and automatically journals them. Just speak your entries/exits and it logs everything.",
       stage: "spark",
@@ -14,15 +23,15 @@ export default function IdeasVault() {
       date: "Feb 8"
     },
     {
-      hash: "e4f5g6h",
-      title: "Family Task Coordinator", 
+      id: "e4f5g6h",
+      title: "Family Task Coordinator",
       description: "AI that automatically assigns and tracks household tasks across 9 family members. Smart scheduling based on availability and preferences.",
       stage: "building",
-      priority: "High", 
+      priority: "High",
       date: "Feb 5"
     },
     {
-      hash: "i7j8k9l",
+      id: "i7j8k9l",
       title: "Receipt Text Extractor",
       description: "Snap photo of receipt, automatically extract line items and categorize expenses. Perfect for restaurant cost tracking.",
       stage: "shipped",
@@ -35,9 +44,9 @@ export default function IdeasVault() {
     if (newIdea.trim()) {
       const newHash = Math.random().toString(36).substring(2, 9);
       setIdeas([...ideas, {
-        hash: newHash,
+        id: newHash,
         title: newIdea,
-        description: newDescription,
+        description: newDescription || 'No description yet.',
         stage: "spark",
         priority: "Medium",
         date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
@@ -48,7 +57,7 @@ export default function IdeasVault() {
   };
 
   const getStageColor = (stage: string) => {
-    switch(stage) {
+    switch (stage) {
       case 'building': return '#f59e0b';
       case 'spark': return '#22c55e';
       case 'shipped': return '#3b82f6';
@@ -57,54 +66,52 @@ export default function IdeasVault() {
   };
 
   const getStageLabel = (stage: string) => {
-    switch(stage) {
-      case 'building': return '● Building';
-      case 'spark': return '○ Spark';
-      case 'shipped': return '✅ Shipped';
+    switch (stage) {
+      case 'building': return 'Building';
+      case 'spark': return 'Spark';
+      case 'shipped': return 'Shipped';
       default: return stage;
     }
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0a', color: '#00ff00', padding: '2rem' }}>
-      <div className="terminal" style={{ maxWidth: '900px', margin: '0 auto', fontFamily: 'monospace' }}>
+    <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0a', color: '#e2e8f0', padding: '2rem', fontFamily: "'Inter', monospace" }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+
         <div style={{ marginBottom: '2rem' }}>
-          <span style={{ color: '#666' }}>derek@dbtech45:~$ </span>
-          <span>git log --oneline --graph ideas/</span>
+          <h1 style={{ color: '#00ff00', fontSize: '2rem', marginBottom: '0.5rem' }}>Ideas Vault</h1>
+          <p style={{ color: '#999' }}>The pipeline. From spark to shipped — everything passes through here.</p>
         </div>
-        
-        <h1 style={{ color: '#00ff00', fontSize: '2rem', marginBottom: '1rem' }}>💡 Ideas Vault</h1>
-        <p style={{ color: '#999', marginBottom: '2rem' }}>The pipeline. From spark to shipped — everything passes through here.</p>
-        
+
         {/* Add New Idea */}
         <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem', border: '1px solid #333' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>+ Add New Idea</h3>
-          <input 
-            type="text" 
+          <h3 style={{ color: '#e2e8f0', marginBottom: '1rem', fontSize: '16px' }}>New Idea</h3>
+          <input
+            type="text"
             placeholder="What's the idea?"
             value={newIdea}
             onChange={(e) => setNewIdea(e.target.value)}
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem', 
-              backgroundColor: '#222', 
-              border: '1px solid #333', 
-              borderRadius: '4px', 
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: '#222',
+              border: '1px solid #333',
+              borderRadius: '4px',
               color: '#00ff00',
               fontFamily: 'monospace',
               marginBottom: '1rem'
             }}
           />
-          <textarea 
+          <textarea
             placeholder="Expand on it..."
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem', 
-              backgroundColor: '#222', 
-              border: '1px solid #333', 
-              borderRadius: '4px', 
+            style={{
+              width: '100%',
+              padding: '0.75rem',
+              backgroundColor: '#222',
+              border: '1px solid #333',
+              borderRadius: '4px',
               color: '#00ff00',
               fontFamily: 'monospace',
               height: '80px',
@@ -112,74 +119,68 @@ export default function IdeasVault() {
               marginBottom: '1rem'
             }}
           />
-          <button 
+          <button
             onClick={addIdea}
-            style={{ 
-              backgroundColor: '#00ff00', 
-              color: '#000', 
-              padding: '0.75rem 2rem', 
-              border: 'none', 
-              borderRadius: '4px', 
+            style={{
+              backgroundColor: '#00ff00',
+              color: '#000',
+              padding: '0.75rem 2rem',
+              border: 'none',
+              borderRadius: '4px',
               fontWeight: 'bold',
               cursor: 'pointer',
               fontFamily: 'monospace'
             }}
           >
-            Commit Idea →
+            Commit Idea
           </button>
         </div>
 
-        {/* Ideas by Stage */}
-        <div style={{ marginBottom: '2rem' }}>
-          {['building', 'spark', 'shipped'].map(stage => {
-            const stageIdeas = ideas.filter(idea => idea.stage === stage);
-            if (stageIdeas.length === 0) return null;
-            
-            return (
-              <div key={stage} style={{ marginBottom: '1.5rem' }}>
-                <h3 style={{ 
-                  color: getStageColor(stage), 
-                  marginBottom: '1rem',
-                  textTransform: 'capitalize'
-                }}>
-                  {getStageLabel(stage)}
-                </h3>
-                {stageIdeas.map((idea, index) => (
-                  <div key={index} style={{ 
-                    backgroundColor: '#111', 
-                    padding: '1.5rem', 
-                    borderRadius: '8px', 
-                    marginBottom: '1rem',
-                    border: '1px solid #333'
+        {/* Ideas Grid — tiles side by side */}
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {ideas.map((idea) => (
+            <div key={idea.id} style={{
+              backgroundColor: '#111',
+              padding: '1.5rem',
+              borderRadius: '8px',
+              border: '1px solid #333',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}>
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                  <h4 style={{ color: '#00ff00', margin: 0, fontSize: '16px' }}>{idea.title}</h4>
+                  <span style={{
+                    color: getStageColor(idea.stage),
+                    fontSize: '12px',
+                    backgroundColor: 'rgba(255,255,255,0.08)',
+                    padding: '3px 10px',
+                    borderRadius: '10px',
+                    fontWeight: 500
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
-                      <span style={{ color: '#666', marginRight: '1rem', fontSize: '14px' }}>{idea.hash}</span>
-                      <h4 style={{ color: '#00ff00', margin: 0, flex: 1 }}>{idea.title}</h4>
-                      <span style={{ 
-                        color: getStageColor(idea.stage), 
-                        fontSize: '12px',
-                        backgroundColor: 'rgba(255,255,255,0.1)',
-                        padding: '2px 8px',
-                        borderRadius: '10px'
-                      }}>
-                        {idea.priority}
-                      </span>
-                    </div>
-                    <p style={{ color: '#999', marginBottom: '0.5rem', lineHeight: '1.4' }}>
-                      {idea.description}
-                    </p>
-                    <div style={{ fontSize: '12px', color: '#666' }}>
-                      {idea.date} • {getStageLabel(idea.stage)}
-                    </div>
-                  </div>
-                ))}
+                    {getStageLabel(idea.stage)}
+                  </span>
+                </div>
+                <p style={{ color: '#999', lineHeight: '1.5', fontSize: '14px', marginBottom: '1rem' }}>
+                  {idea.description}
+                </p>
               </div>
-            );
-          })}
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#666', borderTop: '1px solid #222', paddingTop: '0.75rem' }}>
+                <span>{idea.date}</span>
+                <span style={{ color: getStageColor(idea.stage) }}>{idea.priority}</span>
+                <span style={{ color: '#555' }}>{idea.id}</span>
+              </div>
+            </div>
+          ))}
         </div>
-        
+
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="/os" style={{ color: '#666', textDecoration: 'none' }}>← Back to OS Command Center</a>
+          <a href="/os" style={{ color: '#666', textDecoration: 'none' }}>Back to OS Command Center</a>
         </div>
       </div>
     </div>
