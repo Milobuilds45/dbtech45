@@ -36,9 +36,9 @@ async function fetchYahooChart(symbol: string): Promise<{ price: number; change:
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 3000);
 
-    // Use 5m interval to get the most recent tick price
+    // Use 2m interval for most current candle data
     const res = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=5m&range=1d`,
+      `https://query2.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=2m&range=1d`,
       {
         signal: controller.signal,
         headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
@@ -52,16 +52,21 @@ async function fetchYahooChart(symbol: string): Promise<{ price: number; change:
     const meta = data?.chart?.result?.[0]?.meta;
     if (!meta) return null;
 
-    // regularMarketPrice is the most current price Yahoo has
-    const price = meta.regularMarketPrice ?? 0;
+    // Get the most current price: use last candle close (more current than meta for futures)
+    const indicators = data?.chart?.result?.[0]?.indicators?.quote?.[0];
+    const closes = (indicators?.close ?? []).filter((v: number | null) => v !== null);
+    const highs = (indicators?.high ?? []).filter((v: number | null) => v !== null);
+    const lows = (indicators?.low ?? []).filter((v: number | null) => v !== null);
+
+    // Last candle close is the most recent price tick
+    const lastCandleClose = closes.length ? closes[closes.length - 1] : 0;
+    const metaPrice = meta.regularMarketPrice ?? 0;
+    
+    // Use whichever is more recent (last candle for futures, meta for stocks)
+    const price = lastCandleClose || metaPrice;
     const prevClose = meta.chartPreviousClose ?? meta.previousClose ?? price;
     const change = price - prevClose;
     const pct = prevClose ? (change / prevClose) * 100 : 0;
-
-    // Get intraday high/low from the 5m candles
-    const indicators = data?.chart?.result?.[0]?.indicators?.quote?.[0];
-    const highs = (indicators?.high ?? []).filter((v: number | null) => v !== null);
-    const lows = (indicators?.low ?? []).filter((v: number | null) => v !== null);
 
     return {
       price,
