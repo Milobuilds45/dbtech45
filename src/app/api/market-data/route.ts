@@ -1,13 +1,14 @@
 import { NextResponse } from 'next/server';
 
 // Default tickers for AxeCap Terminal
-const DEFAULT_TICKERS = ['ES=F', 'NQ=F', 'SPY', 'VIX', 'BTC-USD', '^TNX'];
+const DEFAULT_TICKERS = ['ES=F', 'NQ=F', 'SPY', '^VIX', 'BTC-USD', '^TNX'];
 
 // Fallback data (realistic recent prices — updated manually or via cron)
 const FALLBACK_DATA: Record<string, { name: string; price: number; change: number; pct: number; high: number; low: number }> = {
   'ES=F':    { name: 'E-Mini S&P 500',  price: 6048.25, change: 12.50,   pct: 0.21,  high: 6055.00,  low: 6038.75 },
   'NQ=F':    { name: 'E-Mini Nasdaq',    price: 21534.75, change: 89.25,  pct: 0.42,  high: 21588.00, low: 21428.50 },
   'SPY':     { name: 'SPDR S&P 500',     price: 604.52,  change: 1.23,    pct: 0.20,  high: 605.80,   low: 602.10 },
+  '^VIX':    { name: 'CBOE Volatility',  price: 15.42,   change: -0.38,   pct: -2.40, high: 16.10,    low: 15.20 },
   'VIX':     { name: 'CBOE Volatility',  price: 15.42,   change: -0.38,   pct: -2.40, high: 16.10,    low: 15.20 },
   'BTC-USD': { name: 'Bitcoin USD',      price: 97284.50, change: 1842.30, pct: 1.93,  high: 98100.00, low: 95200.00 },
   '^TNX':    { name: '10Y Treasury',     price: 4.485,   change: -0.012,  pct: -0.27, high: 4.510,    low: 4.470 },
@@ -137,7 +138,7 @@ export async function GET(request: Request) {
       live: anyLive,
     });
 
-    resp.headers.set('Cache-Control', 'public, s-maxage=15, stale-while-revalidate=30');
+    resp.headers.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     return resp;
   } catch (error) {
     console.error('Market data route error:', error);

@@ -114,7 +114,7 @@ export default function Markets() {
   const fmt = (d: Date) => d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
   const fmtPrice = (p: number) => !p ? '--' : p > 1000 ? `$${p.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}` : `$${p.toFixed(p < 10 ? 3 : 2)}`;
 
-  const dispSym: Record<string, string> = { 'ES=F': 'ES', 'NQ=F': 'NQ', '^TNX': '10Y', 'BTC-USD': 'BTC' };
+  const dispSym: Record<string, string> = { 'ES=F': 'ES', 'NQ=F': 'NQ', '^TNX': '10Y', 'BTC-USD': 'BTC', '^VIX': 'VIX' };
   const getSym = (s: string) => dispSym[s] || s;
 
   return (

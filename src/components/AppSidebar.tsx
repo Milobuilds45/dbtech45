@@ -27,6 +27,11 @@ import {
   Brain,
   Wrench,
   Moon,
+  Bot,
+  Calendar,
+  Sparkles,
+  Package,
+  DollarSign,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -41,15 +46,20 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Markets':       <TrendingUp size={ICON_SIZE} />,
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
   'Quick Links':   <Link2 size={ICON_SIZE} />,
+  'Direct Chat':   <Bot size={ICON_SIZE} />,
+  'Overnight':     <Moon size={ICON_SIZE} />,
+  'Agent Ideas':   <Lightbulb size={ICON_SIZE} />,
+  'Agent Assist':  <Package size={ICON_SIZE} />,
+  '$1M SaaS':      <DollarSign size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
-  'Ideas Vault':   <Lightbulb size={ICON_SIZE} />,
+  'Ideas Vault':   <Sparkles size={ICON_SIZE} />,
   'Brand Kit':     <Palette size={ICON_SIZE} />,
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
   'DNA':           <Dna size={ICON_SIZE} />,
   'Memory Bank':   <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
-  'Overnight Sessions': <Moon size={ICON_SIZE} />,
+  'Overnight Sessions': <Calendar size={ICON_SIZE} />,
 };
 
 // ─── Nav data ────────────────────────────────────────────────────────────
@@ -66,8 +76,16 @@ const navItems: NavItem[] = [
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Projects', href: '/os/projects', badge: '28' },
   { label: 'Markets', href: '/os/markets' },
-      { label: 'Polymarket', href: '/os/polymarket' },
+  { label: 'Polymarket', href: '/os/polymarket' },
   { label: 'Daily Feed', href: '/os/daily-feed' },
+];
+
+const agentItems: NavItem[] = [
+  { label: 'Direct Chat', href: '/os/agents' },
+  { label: 'Overnight', href: '/os/agents/overnight' },
+  { label: 'Agent Ideas', href: '/os/agents/ideas' },
+  { label: 'Agent Assist', href: '/os/agents/assist' },
+  { label: '$1M SaaS', href: '/os/agents/saas' },
 ];
 
 const toolItems: NavItem[] = [
@@ -95,11 +113,12 @@ const COLLAPSED_WIDTH = 60;
 
 interface SectionState {
   command: boolean;
+  agents: boolean;
   tools: boolean;
   operations: boolean;
 }
 
-const DEFAULT_SECTIONS: SectionState = { command: true, tools: true, operations: true };
+const DEFAULT_SECTIONS: SectionState = { command: true, agents: true, tools: true, operations: true };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -349,6 +368,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {renderSectionHeader('Command Center', 'command')}
         {renderSection(navItems, 'command')}
+        {renderSectionHeader('Agents', 'agents')}
+        {renderSection(agentItems, 'agents')}
         {renderSectionHeader('Tools', 'tools')}
         {renderSection(toolItems, 'tools')}
         {renderSectionHeader('Operations', 'operations')}
