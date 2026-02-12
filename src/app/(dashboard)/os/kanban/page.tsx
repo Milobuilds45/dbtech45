@@ -18,6 +18,7 @@ const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb
 export default function Kanban() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [newTask, setNewTask] = useState('');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
   const [newAssignee, setNewAssignee] = useState('');
@@ -35,14 +36,10 @@ export default function Kanban() {
       
       const { data } = await Promise.race([dbCall, timeout]) as any;
       if (data) setTodos(data);
-    } catch (error) {
-      console.warn('Database load failed, using demo data:', error);
-      // Load demo data for fast display
-      setTodos([
-        { id: '1', title: 'Fix site performance issues', status: 'in_progress', priority: 'high', assignee: 'Milo', created_at: new Date().toISOString(), updated_at: new Date().toISOString(), description: null, due_date: null, project: 'dbtech45', tags: ['performance'] },
-        { id: '2', title: 'Update PolyMarkets categories', status: 'done', priority: 'medium', assignee: 'Milo', created_at: new Date().toISOString(), updated_at: new Date().toISOString(), description: null, due_date: null, project: 'dbtech45', tags: ['ui'] },
-        { id: '3', title: 'Add Derek avatar to brand kit', status: 'done', priority: 'low', assignee: 'Milo', created_at: new Date().toISOString(), updated_at: new Date().toISOString(), description: null, due_date: null, project: 'branding', tags: ['design'] }
-      ]);
+    } catch (err) {
+      console.error('Database load failed:', err);
+      setError('Failed to connect to database. Tasks unavailable.');
+      setTodos([]);
     }
     setLoading(false);
   };
@@ -135,6 +132,19 @@ export default function Kanban() {
             <button onClick={addTask} style={styles.button}>Add Task</button>
           </div>
         </div>
+
+        {error && (
+          <div style={{ 
+            ...styles.card, 
+            background: 'rgba(239,68,68,0.1)', 
+            border: `1px solid ${brand.error}`, 
+            textAlign: 'center', 
+            padding: '20px',
+            marginBottom: '20px'
+          }}>
+            <div style={{ color: brand.error, fontSize: '14px', fontWeight: 600 }}>⚠ {error}</div>
+          </div>
+        )}
 
         {loading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>

@@ -48,39 +48,27 @@ export default function Markets() {
         setTimeout(() => reject(new Error('API timeout')), 5000)
       );
       
-      // Load demo data immediately for fast display
-      const demoQuotes = [
-        { symbol: 'SPY', name: 'SPDR S&P 500', price: 585.23, change: 2.45, changePercent: 0.42, high: 587.10, low: 582.15 },
-        { symbol: 'QQQ', name: 'Invesco QQQ', price: 523.67, change: -1.23, changePercent: -0.23, high: 525.89, low: 521.45 },
-        { symbol: 'VIX', name: 'CBOE VIX', price: 12.45, change: 0.67, changePercent: 5.69, high: 12.89, low: 11.78 }
-      ];
-      
-      setQuotes(demoQuotes);
-      setWatchlistQuotes(demoQuotes.filter(q => watchlist.includes(q.symbol)));
-      setNews([]);
-      
-      // Try to fetch real data in background
-      Promise.race([
+      // Fetch real data with timeout
+      const [quotesData, watchlistData, newsData] = await Promise.race([
         Promise.all([
           fetch('/api/market-data').then(r => r.json()),
           fetch(`/api/market-data?symbols=${watchlist.join(',')}`).then(r => r.json()),
           fetch(`/api/market-news?symbols=${watchlist.slice(0, 3).join(',')}`).then(r => r.ok ? r.json() : { news: [] })
         ]),
         timeout
-      ]).then(([quotesData, watchlistData, newsData]) => {
-        setQuotes(quotesData.quotes || demoQuotes);
-        setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
-        setNews(newsData.news || []);
-        setIsLive(true);
-      }).catch(err => {
-        console.warn('Real-time data unavailable, using demo data:', err);
-        setIsLive(false);
-      });
-      setLastRefresh(new Date());
+      ]);
+      
+      setQuotes(quotesData.quotes || []);
+      setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
+      setNews(newsData.news || []);
       setIsLive(true);
+      setLastRefresh(new Date());
     } catch (err) {
       console.error('Market data error:', err);
-      setError('Failed to load market data');
+      setError('Failed to load market data. Check your connection.');
+      setQuotes([]);
+      setWatchlistQuotes([]);
+      setNews([]);
       setIsLive(false);
     } finally {
       setLoading(false);
