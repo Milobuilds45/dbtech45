@@ -1,10 +1,24 @@
 'use client';
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { brand, styles } from "@/lib/brand";
-import { supabase, type Todo } from "@/lib/supabase";
+import { init, id, tx } from "@instantdb/react";
 
 type ColumnId = 'backlog' | 'in_progress' | 'review' | 'done';
 type Priority = 'low' | 'medium' | 'high';
+
+interface Task {
+  id: string;
+  title: string;
+  status: ColumnId;
+  priority: Priority;
+  assignee: string | null;
+  project: string | null;
+  createdAt: number;
+  updatedAt: number;
+}
+
+const APP_ID = '424c5725-0cfa-44af-8491-dacc25fc78e3';
+const db = init({ appId: APP_ID });
 
 const columns: { id: ColumnId; title: string; color: string }[] = [
   { id: 'backlog', title: 'To Do', color: brand.error },
@@ -14,13 +28,11 @@ const columns: { id: ColumnId; title: string; color: string }[] = [
 ];
 
 const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb', 'Dwight', 'Wendy', 'Derek'];
-const CACHE_KEY = 'axecap-kanban-cache';
 
 export default function Kanban() {
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [dbConnected, setDbConnected] = useState(false);
+  const { isLoading, error, data } = db.useQuery({ todos: {} });
+  const todos: Task[] = (data?.todos || []) as Task[];
+
   const [newTask, setNewTask] = useState('');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
   const [newAssignee, setNewAssignee] = useState('');
@@ -28,106 +40,42 @@ export default function Kanban() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [dragOverCol, setDragOverCol] = useState<ColumnId | null>(null);
 
-  // Save to localStorage cache
-  const cacheLocally = useCallback((data: Todo[]) => {
-    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() })); } catch { /* full */ }
+  const addTask = useCallback(() => {
+    if (!newTask.trim()) return;
+    const now = Date.now();
+    db.transact(
+      tx.todos[id()].update({
+        title: newTask.trim(),
+        status: 'backlog',
+        priority: newPriority,
+        assignee: newAssignee || null,
+        project: null,
+        createdAt: now,
+        updatedAt: now,
+      })
+    );
+    setNewTask(''); setNewPriority('medium'); setNewAssignee('');
+  }, [newTask, newPriority, newAssignee]);
+
+  const moveTask = useCallback((taskId: string, newStatus: ColumnId) => {
+    db.transact(tx.todos[taskId].update({ status: newStatus, updatedAt: Date.now() }));
   }, []);
 
-  // Load from Supabase, fall back to localStorage
-  const loadTodos = useCallback(async () => {
-    try {
-      const { data, error: dbErr } = await supabase
-        .from('todos')
-        .select('*')
-        .order('created_at', { ascending: false })
-        .abortSignal(AbortSignal.timeout(6000));
+  const updatePriority = useCallback((taskId: string, priority: Priority) => {
+    db.transact(tx.todos[taskId].update({ priority, updatedAt: Date.now() }));
+  }, []);
 
-      if (dbErr) throw dbErr;
-      if (data) {
-        setTodos(data);
-        setDbConnected(true);
-        cacheLocally(data);
-        setError(null);
-        return;
-      }
-    } catch (err) {
-      console.error('Supabase load failed:', err);
-      setDbConnected(false);
-    }
+  const updateAssignee = useCallback((taskId: string, assignee: string) => {
+    db.transact(tx.todos[taskId].update({ assignee: assignee || null, updatedAt: Date.now() }));
+  }, []);
 
-    // Fallback: localStorage
-    try {
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        const { data } = JSON.parse(cached);
-        if (Array.isArray(data)) { setTodos(data); setError('Offline mode - changes saved locally'); return; }
-      }
-      // Try old cache format
-      const old = localStorage.getItem('kanban-cache');
-      if (old) {
-        const { data } = JSON.parse(old);
-        if (Array.isArray(data)) { setTodos(data); setError('Offline mode - changes saved locally'); return; }
-      }
-    } catch { /* ignore */ }
-    setError('Could not load tasks');
-  }, [cacheLocally]);
-
-  useEffect(() => { loadTodos().finally(() => setLoading(false)); }, [loadTodos]);
-
-  const addTask = useCallback(async () => {
-    if (!newTask.trim()) return;
-    const task = { title: newTask.trim(), status: 'backlog' as ColumnId, priority: newPriority, assignee: newAssignee || null };
-
-    if (dbConnected) {
-      const { error: err } = await supabase.from('todos').insert(task);
-      if (err) { console.error('Insert failed:', err); setError('Failed to add task'); return; }
-    } else {
-      // Local-only fallback
-      const localTask: Todo = { ...task, id: crypto.randomUUID(), description: null, due_date: null, project: null, tags: [], created_at: new Date().toISOString(), updated_at: new Date().toISOString() };
-      const next = [localTask, ...todos];
-      setTodos(next);
-      cacheLocally(next);
-    }
-    setNewTask(''); setNewPriority('medium'); setNewAssignee('');
-    if (dbConnected) loadTodos();
-  }, [newTask, newPriority, newAssignee, dbConnected, todos, cacheLocally, loadTodos]);
-
-  const moveTask = useCallback(async (taskId: string, newStatus: ColumnId) => {
-    // Optimistic update
-    const updated = todos.map(t => t.id === taskId ? { ...t, status: newStatus, updated_at: new Date().toISOString() } : t);
-    setTodos(updated);
-    cacheLocally(updated);
-
-    if (dbConnected) {
-      const { error: err } = await supabase.from('todos').update({ status: newStatus, updated_at: new Date().toISOString() }).eq('id', taskId);
-      if (err) { console.error('Move failed:', err); loadTodos(); }
-    }
-  }, [todos, dbConnected, cacheLocally, loadTodos]);
-
-  const updatePriority = useCallback(async (taskId: string, priority: Priority) => {
-    const updated = todos.map(t => t.id === taskId ? { ...t, priority, updated_at: new Date().toISOString() } : t);
-    setTodos(updated);
-    cacheLocally(updated);
-    if (dbConnected) { await supabase.from('todos').update({ priority, updated_at: new Date().toISOString() }).eq('id', taskId); }
-  }, [todos, dbConnected, cacheLocally]);
-
-  const updateAssignee = useCallback(async (taskId: string, assignee: string) => {
-    const updated = todos.map(t => t.id === taskId ? { ...t, assignee: assignee || null, updated_at: new Date().toISOString() } : t);
-    setTodos(updated);
-    cacheLocally(updated);
-    if (dbConnected) { await supabase.from('todos').update({ assignee: assignee || null, updated_at: new Date().toISOString() }).eq('id', taskId); }
-  }, [todos, dbConnected, cacheLocally]);
-
-  const deleteTask = useCallback(async (taskId: string) => {
-    const updated = todos.filter(t => t.id !== taskId);
-    setTodos(updated);
-    cacheLocally(updated);
+  const deleteTask = useCallback((taskId: string) => {
+    db.transact(tx.todos[taskId].delete());
     if (editingId === taskId) setEditingId(null);
-    if (dbConnected) { await supabase.from('todos').delete().eq('id', taskId); }
-  }, [todos, dbConnected, cacheLocally, editingId]);
+  }, [editingId]);
 
-  const handleDragStart = (e: React.DragEvent, id: string) => {
-    setDraggedId(id);
+  const handleDragStart = (e: React.DragEvent, taskId: string) => {
+    setDraggedId(taskId);
     e.dataTransfer.effectAllowed = 'move';
     if (e.currentTarget instanceof HTMLElement) e.currentTarget.style.opacity = '0.5';
   };
@@ -140,7 +88,9 @@ export default function Kanban() {
   const handleDrop = (e: React.DragEvent, col: ColumnId) => { e.preventDefault(); if (draggedId) moveTask(draggedId, col); setDraggedId(null); setDragOverCol(null); };
 
   const priorityColor = (p: string) => p === 'high' ? brand.error : p === 'medium' ? brand.amber : brand.success;
-  const getColumnTasks = (col: ColumnId) => todos.filter(t => t.status === col);
+  const getColumnTasks = (col: ColumnId) => todos.filter(t => t.status === col).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+  const activeTasks = todos.filter(t => t.status !== 'done').length;
 
   return (
     <div style={styles.page}>
@@ -148,8 +98,8 @@ export default function Kanban() {
         <h1 style={styles.h1}>Kanban Board</h1>
         <p style={styles.subtitle}>
           Drag cards between columns or use quick-move buttons.
-          {!loading && ` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
-          <span style={{ marginLeft: 8, fontSize: 11, color: dbConnected ? brand.success : brand.amber }}>{dbConnected ? 'Synced' : 'Local'}</span>
+          {!isLoading && ` ${activeTasks} active tasks.`}
+          <span style={{ marginLeft: 8, fontSize: 11, color: error ? brand.error : brand.success }}>{error ? 'Offline' : 'Real-time'}</span>
         </p>
 
         {/* Flow */}
@@ -184,12 +134,12 @@ export default function Kanban() {
         </div>
 
         {error && (
-          <div style={{ ...styles.card, background: 'rgba(245,158,11,0.08)', border: `1px solid ${brand.amber}`, textAlign: 'center', padding: '12px', marginBottom: '20px' }}>
-            <span style={{ color: brand.amber, fontSize: '13px' }}>{error}</span>
+          <div style={{ ...styles.card, background: 'rgba(239,68,68,0.08)', border: `1px solid ${brand.error}`, textAlign: 'center', padding: '12px', marginBottom: '20px' }}>
+            <span style={{ color: brand.error, fontSize: '13px' }}>Connection error - working offline</span>
           </div>
         )}
 
-        {loading ? (
+        {isLoading ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
             {columns.map(col => (
               <div key={col.id} style={{ ...styles.card, borderTop: `3px solid ${col.color}`, minHeight: '400px' }}>
