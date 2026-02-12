@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { createClient } from '@supabase/supabase-js';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -161,10 +161,15 @@ const mockResources: AgentResource[] = [
   },
 ];
 
+type GenerationMode = 'individual' | 'collaborative';
+type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
+
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>(mockResources);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
+  const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
+  const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
