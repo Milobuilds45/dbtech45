@@ -115,7 +115,7 @@ export default function Polymarket() {
                 padding: '6px 12px',
                 fontSize: 11,
                 background: !selectedCategory ? brand.amber : 'transparent',
-                color: !selectedCategory ? brand.black : brand.smoke,
+                color: !selectedCategory ? brand.void : brand.smoke,
                 border: `1px solid ${!selectedCategory ? brand.amber : brand.border}`,
               }}
             >
@@ -130,7 +130,7 @@ export default function Polymarket() {
                   padding: '6px 12px',
                   fontSize: 11,
                   background: selectedCategory === cat ? brand.amber : 'transparent',
-                  color: selectedCategory === cat ? brand.black : brand.smoke,
+                  color: selectedCategory === cat ? brand.void : brand.smoke,
                   border: `1px solid ${selectedCategory === cat ? brand.amber : brand.border}`,
                 }}
               >
@@ -237,3 +237,4 @@ export default function Polymarket() {
     </div>
   );
 }
+
