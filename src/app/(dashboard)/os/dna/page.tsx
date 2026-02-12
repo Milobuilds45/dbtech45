@@ -1,6 +1,7 @@
 'use client';
 import { brand, styles } from "@/lib/brand";
 import Image from 'next/image';
+// Paula's n8n-style workflow - deployed Feb 12
 
 const BRANCHES = [
   { title: 'Core Values', icon: '⎈', color: brand.amber, items: [
