@@ -573,9 +573,22 @@ export default function MillionDollarSaas() {
   };
 
   const updateStatus = (id: string, status: SaasIdea['status']) => {
-    setIdeas(prev => prev.map(idea => 
-      idea.id === id ? { ...idea, status, updatedAt: new Date().toISOString() } : idea
-    ));
+    console.log(`Updating idea ${id} to status: ${status}`);
+    setIdeas(prev => {
+      const updated = prev.map(idea => 
+        idea.id === id ? { ...idea, status, updatedAt: new Date().toISOString() } : idea
+      );
+      console.log('Updated ideas:', updated.find(i => i.id === id));
+      
+      // Show notification for new statuses
+      if (status === 'idea-vault') {
+        showNotification(`Idea moved to Idea Vault!`);
+      } else if (status === 'kanban') {
+        showNotification(`Idea moved to Kanban!`);
+      }
+      
+      return updated;
+    });
   };
 
   const getStatusColor = (status: string) => {
@@ -1223,7 +1236,10 @@ export default function MillionDollarSaas() {
                       </button>
 
                       <button
-                        onClick={() => updateStatus(idea.id, 'idea-vault')}
+                        onClick={() => {
+                          console.log('Idea Vault button clicked for:', idea.id);
+                          updateStatus(idea.id, 'idea-vault');
+                        }}
                         disabled={idea.status === 'idea-vault'}
                         style={{
                           background: idea.status === 'idea-vault' ? brand.warning : 'transparent',
@@ -1238,6 +1254,13 @@ export default function MillionDollarSaas() {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseDown={(e) => {
+                          e.currentTarget.style.transform = 'scale(0.95)';
+                        }}
+                        onMouseUp={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
                         }}
                       >
                         <Archive size={14} />
@@ -1245,7 +1268,10 @@ export default function MillionDollarSaas() {
                       </button>
 
                       <button
-                        onClick={() => updateStatus(idea.id, 'kanban')}
+                        onClick={() => {
+                          console.log('Kanban button clicked for:', idea.id);
+                          updateStatus(idea.id, 'kanban');
+                        }}
                         disabled={idea.status === 'kanban'}
                         style={{
                           background: idea.status === 'kanban' ? brand.info : 'transparent',
@@ -1260,6 +1286,13 @@ export default function MillionDollarSaas() {
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
+                          transition: 'all 0.2s ease',
+                        }}
+                        onMouseDown={(e) => {
+                          e.currentTarget.style.transform = 'scale(0.95)';
+                        }}
+                        onMouseUp={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
                         }}
                       >
                         <Zap size={14} />
