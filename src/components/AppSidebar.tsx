@@ -26,6 +26,7 @@ import {
   Dna,
   Brain,
   Wrench,
+  Moon,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -48,6 +49,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'DNA':           <Dna size={ICON_SIZE} />,
   'Memory Bank':   <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
+  'Overnight Sessions': <Moon size={ICON_SIZE} />,
 };
 
 // ─── Nav data ────────────────────────────────────────────────────────────
@@ -77,6 +79,7 @@ const toolItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
+  { label: 'Overnight Sessions', href: '/os/overnight' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'DNA', href: '/os/dna' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
