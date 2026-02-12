@@ -110,6 +110,11 @@ export default function MillionDollarSaas() {
           title: 'CulinaryFutures Exchange',
           description: 'First-ever restaurant commodity futures exchange where restaurants can hedge ingredient costs like institutional traders.',
           problemSolved: 'Food service industry has no protection against commodity price volatility like other industries.',
+        },
+        simple: {
+          title: 'Restaurant Finance Tracker',
+          description: 'Simple financial tracking app for restaurant owners to monitor daily expenses and revenue.',
+          problemSolved: 'Restaurant owners need basic financial oversight without complex features.',
         }
       },
       'paula,anders': {
@@ -127,6 +132,11 @@ export default function MillionDollarSaas() {
           title: 'Visual Programming OS',
           description: 'Operating system where all programming is done through visual design interfaces - no code required.',
           problemSolved: 'Programming complexity prevents millions of creative people from building digital products.',
+        },
+        simple: {
+          title: 'Design-to-Code Tool',
+          description: 'Simple tool that converts design mockups into basic HTML and CSS code.',
+          problemSolved: 'Designers want to create functional prototypes without learning to code.',
         }
       },
       'default': {
@@ -144,6 +154,11 @@ export default function MillionDollarSaas() {
           title: 'Consciousness-as-a-Service',
           description: 'Platform that simulates entire business ecosystems using collaborative AI consciousness.',
           problemSolved: 'Businesses make decisions based on incomplete information about complex interconnected systems.',
+        },
+        simple: {
+          title: 'Agent Workflow Builder',
+          description: 'Basic workflow builder that connects AI agents for simple business automation.',
+          problemSolved: 'Small businesses want simple AI automation without complex setup.',
         }
       }
     };
@@ -151,7 +166,7 @@ export default function MillionDollarSaas() {
     // Find the best match or use default
     const agentKey = agentIds.sort().join(',') as keyof typeof collaborativeIdeas;
     const ideaSet = collaborativeIdeas[agentKey] || collaborativeIdeas['default'];
-    const ideaTemplate = ideaSet[creativity];
+    const ideaTemplate = ideaSet[creativity] || ideaSet['creative'] || ideaSet['safe'];
     
     return {
       id: `collab-${Date.now()}`,
@@ -187,12 +202,23 @@ export default function MillionDollarSaas() {
           experimental: { title: 'Quantum Trading Oracle', description: 'Quantum computing-powered trading system that processes market data in parallel universes to find optimal trades.' },
           simple: { title: 'Simple Trading Alerts', description: 'Clean, straightforward trading alerts for retail investors without complex features.' }
         },
-        // Add more agents...
+        tony: {
+          safe: { title: 'RestaurantOS', description: 'Complete restaurant management platform with integrated POS and inventory tracking.' },
+          creative: { title: 'AI Kitchen Assistant', description: 'Smart kitchen automation that predicts demand and optimizes prep schedules using machine learning.' },
+          experimental: { title: 'Molecular Gastronomy AI', description: 'AI that creates new recipes by understanding molecular interactions and flavor compounds.' },
+          simple: { title: 'Daily Restaurant Tracker', description: 'Simple daily tracking for food costs, sales, and basic restaurant metrics.' }
+        },
+        paula: {
+          safe: { title: 'BrandBot AI', description: 'AI-powered brand identity generator that creates logos, colors, and guidelines instantly.' },
+          creative: { title: 'Emotional Design Engine', description: 'AI that creates designs based on target emotional responses and psychological triggers.' },
+          experimental: { title: 'Consciousness-Based UX', description: 'Design system that adapts in real-time based on user subconscious responses and biometric feedback.' },
+          simple: { title: 'Logo Maker', description: 'Simple tool for creating professional logos with minimal input required.' }
+        }
       };
 
       const ideaSet = agentIdeas[agentId as keyof typeof agentIdeas];
       if (ideaSet) {
-        const template = ideaSet[creativity];
+        const template = ideaSet[creativity] || ideaSet['creative'] || ideaSet['safe'];
         ideas.push({
           id: `${agentId}-${Date.now()}`,
           agentId,
