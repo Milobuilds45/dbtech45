@@ -650,224 +650,237 @@ export default function MillionDollarSaas() {
 
   return (
     <div style={styles.page}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '24px' }}>
-          <h1 style={{ ...styles.h1, display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <DollarSign size={32} style={{ color: brand.amber }} />
-            $1M SaaS Ideas
+      <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+        {/* Clean Header */}
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h1 style={{ 
+            color: brand.amber, 
+            fontSize: '28px', 
+            fontWeight: 700, 
+            marginBottom: '8px',
+            letterSpacing: '-0.02em'
+          }}>
+            Idea Generator
           </h1>
-          <p style={styles.subtitle}>Fresh daily business ideas from agents with $1M+ revenue potential</p>
+          <p style={{ color: brand.smoke, fontSize: '14px' }}>
+            AI-powered business ideas from your agent team
+          </p>
         </div>
 
-        {/* Idea Generation Controls */}
+        {/* Generator Card - Clean & Centered */}
         <div style={{
-          ...styles.card,
+          background: brand.carbon,
+          border: `1px solid ${brand.border}`,
+          borderRadius: '16px',
           padding: '32px',
           marginBottom: '32px',
-          background: `linear-gradient(135deg, ${brand.carbon} 0%, ${brand.graphite} 100%)`,
-          border: `2px solid ${brand.border}`,
-          borderRadius: '16px',
         }}>
-          <h3 style={{ 
-            color: brand.white, 
-            fontSize: '20px', 
-            fontWeight: 700, 
-            marginBottom: '24px', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '12px',
-            textAlign: 'center' as const,
-            justifyContent: 'center'
-          }}>
-            <Lightbulb size={24} style={{ color: brand.amber }} />
-            Generate New Ideas
-          </h3>
           
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
-            {/* Agent Selection - Stacked Layout */}
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '10px' }}>
+          {/* Agent Selection - Centered */}
+          <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+            <div style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              gap: '12px', 
+              marginBottom: '16px' 
+            }}>
+              <span style={{ 
+                color: brand.smoke, 
+                fontSize: '11px', 
+                fontWeight: 600, 
+                textTransform: 'uppercase', 
+                letterSpacing: '0.1em' 
+              }}>
                 Select Agents
-              </label>
-              {/* All Agents + Clear All row */}
-              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+              </span>
+              <button
+                onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
+                style={{
+                  background: 'transparent',
+                  color: selectedAgents.length === AGENTS.length ? brand.amber : brand.smoke,
+                  border: 'none',
+                  fontSize: '11px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.05em',
+                }}
+              >
+                All
+              </button>
+              <span style={{ color: brand.border }}>|</span>
+            </div>
+            {/* Agents grid - Centered */}
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'center' }}>
+              {AGENTS.map(agent => (
                 <button
-                  onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
+                  key={agent.id}
+                  onClick={() => handleAgentSelect(agent.id)}
                   style={{
                     background: brand.void,
-                    color: selectedAgents.length === AGENTS.length ? brand.amber : brand.white,
-                    border: selectedAgents.length === AGENTS.length 
-                      ? `2px solid ${brand.amber}` 
+                    color: brand.white,
+                    border: selectedAgents.includes(agent.id) 
+                      ? `2px solid ${agent.color}` 
                       : `1px solid ${brand.border}`,
                     borderRadius: '8px',
-                    padding: '10px 16px',
-                    fontSize: '14px',
+                    padding: '8px 14px',
+                    fontSize: '13px',
                     fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    opacity: selectedAgents.length === AGENTS.length ? 1 : 0.6,
+                    opacity: selectedAgents.includes(agent.id) ? 1 : 0.5,
+                    boxShadow: selectedAgents.includes(agent.id) 
+                      ? `0 0 12px ${agent.color}25` 
+                      : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!selectedAgents.includes(agent.id)) {
+                      e.currentTarget.style.borderColor = agent.color;
+                      e.currentTarget.style.opacity = '0.8';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!selectedAgents.includes(agent.id)) {
+                      e.currentTarget.style.borderColor = brand.border;
+                      e.currentTarget.style.opacity = '0.5';
+                    }
                   }}
                 >
-                  All Agents
+                  {agent.name}
                 </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div style={{ 
+            height: '1px', 
+            background: brand.border, 
+            margin: '24px 0' 
+          }} />
+
+          {/* Mode + Creativity Row - Centered */}
+          <div style={{ 
+            display: 'flex', 
+            gap: '32px', 
+            justifyContent: 'center', 
+            alignItems: 'flex-start',
+            flexWrap: 'wrap',
+            marginBottom: '24px'
+          }}>
+            {/* Mode Selection */}
+            <div style={{ textAlign: 'center' }}>
+              <label style={{ 
+                color: brand.smoke, 
+                fontSize: '11px', 
+                fontWeight: 600, 
+                display: 'block', 
+                marginBottom: '10px', 
+                textTransform: 'uppercase', 
+                letterSpacing: '0.1em' 
+              }}>
+                Mode
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
                 <button
-                  onClick={() => setSelectedAgents([])}
+                  onClick={() => setIdeaMode('individual')}
                   style={{
-                    background: brand.graphite,
-                    color: brand.smoke,
-                    border: `1px solid ${brand.border}`,
-                    borderRadius: '8px',
-                    padding: '10px 16px',
-                    fontSize: '14px',
-                    fontWeight: 500,
+                    background: brand.void,
+                    color: ideaMode === 'individual' ? brand.info : brand.white,
+                    border: ideaMode === 'individual' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
+                    borderRadius: '6px',
+                    padding: '8px 12px',
+                    fontSize: '13px',
+                    fontWeight: 600,
                     cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    opacity: ideaMode === 'individual' ? 1 : 0.6,
                     transition: 'all 0.2s ease',
                   }}
                 >
-                  Clear All
+                  <User size={14} />
+                  Individual
                 </button>
-              </div>
-              {/* Agents grid */}
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                {AGENTS.map(agent => (
-                  <button
-                    key={agent.id}
-                    onClick={() => handleAgentSelect(agent.id)}
-                    style={{
-                      background: brand.void,
-                      color: brand.white,
-                      border: selectedAgents.includes(agent.id) 
-                        ? `2px solid ${agent.color}` 
-                        : `1px solid ${brand.border}`,
-                      borderRadius: '8px',
-                      padding: '10px 16px',
-                      fontSize: '14px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      opacity: selectedAgents.includes(agent.id) ? 1 : 0.5,
-                      boxShadow: selectedAgents.includes(agent.id) 
-                        ? `0 0 12px ${agent.color}30, inset 0 0 20px ${agent.color}10` 
-                        : 'none',
-                    }}
-                    onMouseEnter={(e) => {
-                      if (!selectedAgents.includes(agent.id)) {
-                        e.currentTarget.style.borderColor = agent.color;
-                        e.currentTarget.style.opacity = '0.8';
-                      }
-                    }}
-                    onMouseLeave={(e) => {
-                      if (!selectedAgents.includes(agent.id)) {
-                        e.currentTarget.style.borderColor = brand.border;
-                        e.currentTarget.style.opacity = '0.5';
-                      }
-                    }}
-                  >
-                    {agent.name}
-                  </button>
-                ))}
+                <button
+                  onClick={() => setIdeaMode('collaborative')}
+                  style={{
+                    background: brand.void,
+                    color: ideaMode === 'collaborative' ? brand.info : brand.white,
+                    border: ideaMode === 'collaborative' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
+                    borderRadius: '6px',
+                    padding: '8px 12px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    opacity: ideaMode === 'collaborative' ? 1 : 0.6,
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  <Users size={14} />
+                  Collaborative
+                </button>
               </div>
             </div>
 
-            {/* Mode + Creativity Row */}
-            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
-              {/* Mode Selection */}
-              <div>
-                <label style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Generation Mode
-                </label>
-                <div style={{ display: 'flex', gap: '8px' }}>
-                  <button
-                    onClick={() => setIdeaMode('individual')}
-                    style={{
-                      background: brand.void,
-                      color: ideaMode === 'individual' ? brand.info : brand.white,
-                      border: ideaMode === 'individual' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
-                      borderRadius: '6px',
-                      padding: '8px 12px',
-                      fontSize: '13px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      opacity: ideaMode === 'individual' ? 1 : 0.6,
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    <User size={14} />
-                    Individual
-                  </button>
-                  <button
-                    onClick={() => setIdeaMode('collaborative')}
-                    style={{
-                      background: brand.void,
-                      color: ideaMode === 'collaborative' ? brand.info : brand.white,
-                      border: ideaMode === 'collaborative' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
-                      borderRadius: '6px',
-                      padding: '8px 12px',
-                      fontSize: '13px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      opacity: ideaMode === 'collaborative' ? 1 : 0.6,
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    <Users size={14} />
-                    Collaborative
-                  </button>
-                </div>
-              </div>
-
-              {/* Creativity Level */}
-              <div>
-                <label style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                  Creativity Level
-                </label>
-                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                  {[
-                    { value: 'safe', label: 'Safe', icon: Shield, color: brand.smoke },
-                    { value: 'creative', label: 'Creative', icon: Lightbulb, color: brand.amber },
-                    { value: 'experimental', label: 'Experimental', icon: Sparkles, color: '#A855F7' },
-                    { value: 'simple', label: 'Simple', icon: Brain, color: brand.info },
-                  ].map(level => {
-                    const IconComponent = level.icon;
-                    const isSelected = creativityLevel === level.value;
-                    return (
-                      <button
-                        key={level.value}
-                        onClick={() => setCreativityLevel(level.value as CreativityLevel)}
-                        style={{
-                          background: brand.void,
-                          color: isSelected ? level.color : brand.white,
-                          border: isSelected ? `2px solid ${level.color}` : `1px solid ${brand.border}`,
-                          borderRadius: '6px',
-                          padding: '8px 12px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px',
-                          opacity: isSelected ? 1 : 0.6,
-                          transition: 'all 0.2s ease',
-                        }}
-                      >
-                        <IconComponent size={12} />
-                        {level.label}
-                      </button>
-                    );
-                  })}
-                </div>
+            {/* Creativity Level */}
+            <div style={{ textAlign: 'center' }}>
+              <label style={{ 
+                color: brand.smoke, 
+                fontSize: '11px', 
+                fontWeight: 600, 
+                display: 'block', 
+                marginBottom: '10px', 
+                textTransform: 'uppercase', 
+                letterSpacing: '0.1em' 
+              }}>
+                Creativity
+              </label>
+              <div style={{ display: 'flex', gap: '6px' }}>
+                {[
+                  { value: 'safe', label: 'Safe', icon: Shield, color: brand.smoke },
+                  { value: 'creative', label: 'Creative', icon: Lightbulb, color: brand.amber },
+                  { value: 'experimental', label: 'Experimental', icon: Sparkles, color: '#A855F7' },
+                  { value: 'simple', label: 'Simple', icon: Brain, color: brand.info },
+                ].map(level => {
+                  const IconComponent = level.icon;
+                  const isSelected = creativityLevel === level.value;
+                  return (
+                    <button
+                      key={level.value}
+                      onClick={() => setCreativityLevel(level.value as CreativityLevel)}
+                      style={{
+                        background: brand.void,
+                        color: isSelected ? level.color : brand.white,
+                        border: isSelected ? `2px solid ${level.color}` : `1px solid ${brand.border}`,
+                        borderRadius: '6px',
+                        padding: '8px 12px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '4px',
+                        opacity: isSelected ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
+                      }}
+                    >
+                      <IconComponent size={12} />
+                      {level.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
 
           {/* Generate Button */}
-          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <button
               onClick={() => generateIdea(selectedAgents)}
               disabled={isLoading || selectedAgents.length === 0}
