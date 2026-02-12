@@ -2,10 +2,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
-import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
 const STORAGE_KEY = 'dbtech-agent-ideas';
+const REJECTED_KEY = 'dbtech-agent-ideas-rejected';
 
 interface AgentIdea {
   id: string;
@@ -501,7 +502,18 @@ export default function AgentIdeasPage() {
 
   const toggle = (id: string) => setSelectedAgents(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
   const rate = (id: string, r: number) => setIdeas(p => p.map(i => i.id === id ? { ...i, derekRating: r } : i));
-  const reject = (id: string) => setIdeas(p => p.map(i => i.id === id ? { ...i, status: 'rejected' as const } : i));
+  const reject = (id: string) => {
+    const idea = ideas.find(i => i.id === id);
+    if (!idea) return;
+    const rejected = { ...idea, status: 'rejected' as const, rejectedAt: new Date().toISOString() };
+    try {
+      const existing = JSON.parse(localStorage.getItem(REJECTED_KEY) || '[]');
+      existing.unshift(rejected);
+      localStorage.setItem(REJECTED_KEY, JSON.stringify(existing));
+    } catch {}
+    setIdeas(p => p.filter(i => i.id !== id));
+    router.push('/os/agents/ideas/rejected');
+  };
   const toggleExpand = useCallback((id: string) => {
     setExpandedIds(prev => {
       const next = new Set(prev);
@@ -710,6 +722,19 @@ export default function AgentIdeasPage() {
                     {idea.status}
                   </span>
 
+                  {/* Quick action buttons (always visible) */}
+                  <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }} onClick={e => e.stopPropagation()}>
+                    <button onClick={(e) => { e.stopPropagation(); reject(idea.id); }} style={{
+                      background: 'rgba(239,68,68,0.1)', color: brand.error,
+                      border: `1px solid rgba(239,68,68,0.25)`, borderRadius: '6px',
+                      padding: '5px 10px', fontSize: '11px', fontWeight: 600,
+                      cursor: 'pointer', fontFamily: "'Inter', sans-serif",
+                      display: 'flex', alignItems: 'center', gap: '4px',
+                    }}>
+                      <ThumbsDown size={11} />Reject
+                    </button>
+                  </div>
+
                   {/* Star rating inline */}
                   <div style={{ display: 'flex', gap: '1px', flexShrink: 0 }} onClick={e => e.stopPropagation()}>
                     {[1,2,3,4,5].map(s => (
@@ -816,8 +841,14 @@ export default function AgentIdeasPage() {
           </div>
         )}
 
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+        <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
           <a href="/os" style={styles.backLink}>Back to Mission Control</a>
+          <a href="/os/agents/ideas/rejected" style={{
+            color: brand.smoke, textDecoration: 'none', fontSize: '11px',
+            opacity: 0.4, display: 'flex', alignItems: 'center', gap: '5px',
+          }}>
+            <Skull size={11} />view rejected ideas
+          </a>
         </div>
       </div>
     </div>
