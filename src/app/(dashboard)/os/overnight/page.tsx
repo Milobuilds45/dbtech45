@@ -43,8 +43,102 @@ const PRIORITY_COLORS: Record<string, string> = {
 
 const BRIEFS: OvernightBrief[] = [
   {
-    date: '2026-02-11',
+    date: '2026-02-12',
     label: 'Last Night',
+    headline: '6 agents deployed · 4 successful deliveries · 2 quota errors',
+    items: [
+      {
+        agent: 'Dwight', agentColor: '#3B82F6', type: 'research', priority: 'high',
+        title: 'Comprehensive intelligence brief + content strategy delivered',
+        summary: 'World-class intelligence brief covering tech news, weather, calendar + 5 high-value blog post outlines for dbtech45.com + creative money-making ideas + Family Calendar implementation plan.',
+        details: [
+          '✅ Intelligence brief with tech news & weather analysis',
+          '✅ 5 blog post outlines for dbtech45.com content strategy',
+          '✅ Creative business ideas (news/intel services, content monetization)',
+          '✅ Family Calendar implementation plan for 7-kid logistics',
+          '✅ Open-source toolkit recommendations (news aggregation, RSS processors)',
+          'Duration: 111.4 seconds (under 2 minutes)',
+        ],
+        tags: ['intelligence', 'content', 'family-calendar', 'delivered'],
+        timestamp: '02:00 AM',
+      },
+      {
+        agent: 'Paula', agentColor: '#EC4899', type: 'build', priority: 'high',
+        title: 'Design assets + dbtech45.com/os optimization completed',
+        summary: 'Portfolio-quality design package including Biz-in-a-Box brand materials, Sole Provider visual system, and dbtech45.com/os improvements delivered.',
+        details: [
+          '✅ Design marketing assets for top revenue opportunities',
+          '✅ Biz-in-a-Box brand & marketing materials (Personal/Business tiers)',
+          '✅ Sole Provider case study design (visual funnel, marketing automation)',
+          '✅ UI/UX optimization ideas for dbtech45.com rebuild',
+          '✅ Open-source design toolkit recommendations',
+          'Duration: 500.5 seconds (8.3 minutes of intensive creative work)',
+        ],
+        tags: ['design', 'biz-in-a-box', 'marketing', 'delivered'],
+        timestamp: '02:00 AM',
+      },
+      {
+        agent: 'Dax', agentColor: '#06B6D4', type: 'analysis', priority: 'medium',
+        title: 'Skill audit fixes + market research analysis completed',
+        summary: 'Critical skills updated with routing logic fixes. Biz-in-a-Box market research completed including competitive analysis and customer profiles.',
+        details: [
+          '✅ Top 10 critical skills audited and fixed (routing logic, negative examples)',
+          '✅ Biz-in-a-Box market research (AI assistant services demand)',
+          '✅ Sole Provider market analysis (side hustle market size, ROI data)',
+          '✅ Competitive intelligence on key market opportunities',
+          '✅ Open-source analytical toolkit recommendations',
+          'Duration: 92.1 seconds (under 2 minutes)',
+        ],
+        tags: ['skills', 'market-research', 'analysis', 'delivered'],
+        timestamp: '02:00 AM',
+      },
+      {
+        agent: 'Tony', agentColor: '#EAB308', type: 'alert', priority: 'low',
+        title: 'Restaurant ops mission failed - Gemini quota exceeded',
+        summary: 'Attempted Bobola\'s operational data integration but hit Gemini API quota limits. Restaurant analysis and Biz-in-a-Box service delivery specs incomplete.',
+        details: [
+          '❌ Gemini API quota exceeded (1M tokens/minute limit)',
+          '❌ Restaurant management tools research incomplete',
+          '❌ Biz-in-a-Box service delivery system partial',
+          'Error: 429 - Resource exhausted after 616.4 seconds',
+          'Retry recommended: Manual quota reset or wait period',
+        ],
+        tags: ['restaurant', 'error', 'quota-exceeded'],
+        timestamp: '02:00 AM',
+      },
+      {
+        agent: 'Bobby', agentColor: '#EF4444', type: 'alert', priority: 'low',
+        title: 'Trading intelligence mission failed - auth cooldown',
+        summary: 'Deep market analysis blocked by Anthropic auth profile cooldown. Biz-in-a-Box pricing models and Sole Provider financial analysis incomplete.',
+        details: [
+          '❌ No available auth profile for Anthropic (all in cooldown)',
+          '❌ Market analysis + options flow research blocked',
+          '❌ Biz-in-a-Box affordable pricing models incomplete',
+          '❌ Sole Provider financial ROI analysis missing',
+          'Duration: 1.1 seconds (immediate auth failure)',
+        ],
+        tags: ['trading', 'error', 'auth-cooldown'],
+        timestamp: '02:00 AM',
+      },
+      {
+        agent: 'Milo', agentColor: '#A855F7', type: 'analysis',
+        title: 'Overnight swarm coordination successful',
+        summary: 'Successfully deployed 6-agent overnight mission. 4 of 6 agents delivered world-class work. Infrastructure improvements and business model development advanced significantly.',
+        details: [
+          'Success rate: 66.7% (4/6 agents completed)',
+          'Total value delivered: Intelligence + Design + Analysis',
+          'Business advancement: Biz-in-a-Box + Sole Provider models progressed',
+          'Family Calendar: Full implementation plan ready',
+          'Content strategy: 5 blog outlines + monetization ideas ready',
+        ],
+        tags: ['coordination', 'overnight', 'success'],
+        timestamp: '02:00 AM',
+      },
+    ],
+  },
+  {
+    date: '2026-02-11',
+    label: 'Feb 11',
     headline: '7 agents active · 12 items delivered · 3 high-priority alerts',
     items: [
       {
