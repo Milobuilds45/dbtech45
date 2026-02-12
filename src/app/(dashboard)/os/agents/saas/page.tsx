@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter } from 'lucide-react';
 
 interface SaasIdea {
@@ -144,9 +145,147 @@ const mockSaasIdeas: SaasIdea[] = [
 
 export default function MillionDollarSaas() {
   const [ideas, setIdeas] = useState<SaasIdea[]>(mockSaasIdeas);
+  const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClientComponentClient();
+
+  // Load real ideas from database and set up real-time subscription
+  useEffect(() => {
+    const loadIdeas = async () => {
+      const { data, error } = await supabase
+        .from('saas_ideas')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (!error && data) {
+        // Convert database format to component format
+        const convertedIdeas = data.map(item => ({
+          id: item.id,
+          agentId: item.agent_id,
+          agentName: item.agent_name,
+          title: item.title,
+          description: item.description,
+          problemSolved: item.problem_solved || '',
+          targetMarket: item.target_market || '',
+          businessModel: item.business_model || '',
+          revenueProjection: item.revenue_projection || '',
+          competitiveAdvantage: item.competitive_advantage || '',
+          tags: item.tags || [],
+          derekRating: item.derek_rating,
+          derekFeedback: item.derek_feedback,
+          agentConfidence: item.agent_confidence || 3,
+          marketSize: item.market_size || 'medium',
+          developmentTime: item.development_time || '',
+          status: item.status || 'submitted',
+          createdAt: item.created_at,
+          updatedAt: item.updated_at || item.created_at,
+        }));
+        setIdeas(convertedIdeas);
+      }
+    };
+
+    loadIdeas();
+
+    // Set up real-time subscription for new ideas
+    const subscription = supabase
+      .channel('saas_ideas_changes')
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'saas_ideas' },
+        (payload) => {
+          const newIdea = payload.new;
+          const convertedIdea = {
+            id: newIdea.id,
+            agentId: newIdea.agent_id,
+            agentName: newIdea.agent_name,
+            title: newIdea.title,
+            description: newIdea.description,
+            problemSolved: newIdea.problem_solved || '',
+            targetMarket: newIdea.target_market || '',
+            businessModel: newIdea.business_model || '',
+            revenueProjection: newIdea.revenue_projection || '',
+            competitiveAdvantage: newIdea.competitive_advantage || '',
+            tags: newIdea.tags || [],
+            derekRating: newIdea.derek_rating,
+            derekFeedback: newIdea.derek_feedback,
+            agentConfidence: newIdea.agent_confidence || 3,
+            marketSize: newIdea.market_size || 'medium',
+            developmentTime: newIdea.development_time || '',
+            status: newIdea.status || 'submitted',
+            createdAt: newIdea.created_at,
+            updatedAt: newIdea.updated_at || newIdea.created_at,
+          };
+          
+          setIdeas(prev => [convertedIdea, ...prev]);
+          
+          // Show notification
+          if (newIdea.auto_generated) {
+            showNotification(`💡 New SaaS idea from ${newIdea.agent_name}: ${newIdea.title}`);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
   const [selectedMarketSize, setSelectedMarketSize] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'confidence' | 'revenue'>('newest');
+
+  const showNotification = (message: string) => {
+    // Simple browser notification - could be enhanced with toast library
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(message);
+    } else {
+      // Fallback to console for now
+      console.log('💡 New idea:', message);
+    }
+  };
+
+  const generateIdea = async (agentId?: string) => {
+    setIsLoading(true);
+    try {
+      // This would typically send a message to the agent via API
+      // For now, simulate the flow
+      const message = agentId 
+        ? `${AGENTS.find(a => a.id === agentId)?.name}, give me a SaaS idea in your domain`
+        : 'Give me a creative SaaS business idea';
+      
+      // TODO: Implement actual agent communication
+      console.log('Would send to agent:', message);
+      
+      // Mock response for testing
+      setTimeout(() => {
+        const mockIdea = {
+          id: Date.now().toString(),
+          agentId: agentId || 'milo',
+          agentName: AGENTS.find(a => a.id === agentId)?.name || 'Milo',
+          title: 'AI-Generated SaaS Concept',
+          description: 'A dynamically generated business idea from agent expertise.',
+          problemSolved: 'Testing the idea generation system',
+          targetMarket: 'Early adopters and testers',
+          businessModel: 'Subscription-based model',
+          revenueProjection: '$100K ARR proof of concept',
+          competitiveAdvantage: 'First to market with agent-generated ideas',
+          tags: ['ai', 'generated', 'test'],
+          agentConfidence: 4,
+          marketSize: 'medium' as const,
+          developmentTime: 'Immediate',
+          status: 'submitted' as const,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        };
+        
+        setIdeas(prev => [mockIdea, ...prev]);
+        setIsLoading(false);
+        showNotification(`💡 New SaaS idea generated by ${mockIdea.agentName}!`);
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Failed to generate idea:', error);
+      setIsLoading(false);
+    }
+  };
 
   const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
   const statuses = Array.from(new Set(ideas.map(idea => idea.status)));
@@ -280,6 +419,54 @@ export default function MillionDollarSaas() {
           marginBottom: '20px',
         }}>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+            {/* Generate Ideas Button */}
+            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+              <select
+                style={{
+                  background: brand.graphite,
+                  border: `1px solid ${brand.border}`,
+                  borderRadius: '6px',
+                  padding: '6px 12px',
+                  color: brand.white,
+                  fontSize: '14px',
+                  outline: 'none',
+                }}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    generateIdea(e.target.value);
+                    e.target.value = '';
+                  }
+                }}
+              >
+                <option value="">✨ Generate Idea From...</option>
+                {AGENTS.map(agent => (
+                  <option key={agent.id} value={agent.id}>
+                    {agent.name}
+                  </option>
+                ))}
+              </select>
+              
+              <button
+                onClick={() => generateIdea()}
+                disabled={isLoading}
+                style={{
+                  background: isLoading ? brand.smoke : brand.amber,
+                  color: brand.void,
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  opacity: isLoading ? 0.7 : 1,
+                }}
+              >
+                {isLoading ? '⏳ Generating...' : '🚀 Any Agent'}
+              </button>
+            </div>
             <select
               value={selectedMarketSize || ''}
               onChange={(e) => setSelectedMarketSize(e.target.value || null)}

@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu } from 'lucide-react';
 
 interface AgentResource {
@@ -162,6 +163,133 @@ const mockResources: AgentResource[] = [
 
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>(mockResources);
+  const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClientComponentClient();
+
+  // Load real resources and set up real-time subscription
+  useEffect(() => {
+    const loadResources = async () => {
+      const { data, error } = await supabase
+        .from('assist_resources')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (!error && data) {
+        // Convert database format to component format
+        const convertedResources = data.map(item => ({
+          id: item.id,
+          agentId: item.agent_id,
+          agentName: item.agent_name,
+          title: item.title,
+          description: item.description,
+          url: item.url || '',
+          category: item.category,
+          type: item.type,
+          tags: item.tags || [],
+          useCase: item.use_case,
+          rating: item.rating || 3,
+          usefulFor: item.useful_for || [],
+          githubStars: item.github_stars,
+          lastUpdated: item.last_updated,
+          pricing: item.pricing,
+          createdAt: item.created_at,
+          addedBy: item.added_by || item.agent_name,
+        }));
+        setResources(convertedResources);
+      }
+    };
+
+    loadResources();
+
+    // Real-time subscription
+    const subscription = supabase
+      .channel('assist_resources_changes')
+      .on('postgres_changes', 
+        { event: 'INSERT', schema: 'public', table: 'assist_resources' },
+        (payload) => {
+          const newResource = payload.new;
+          const convertedResource = {
+            id: newResource.id,
+            agentId: newResource.agent_id,
+            agentName: newResource.agent_name,
+            title: newResource.title,
+            description: newResource.description,
+            url: newResource.url || '',
+            category: newResource.category,
+            type: newResource.type,
+            tags: newResource.tags || [],
+            useCase: newResource.use_case,
+            rating: newResource.rating || 3,
+            usefulFor: newResource.useful_for || [],
+            githubStars: newResource.github_stars,
+            lastUpdated: newResource.last_updated,
+            pricing: newResource.pricing,
+            createdAt: newResource.created_at,
+            addedBy: newResource.added_by || newResource.agent_name,
+          };
+          
+          setResources(prev => [convertedResource, ...prev]);
+          
+          if (newResource.auto_generated) {
+            showNotification(`🔧 New tool from ${newResource.agent_name}: ${newResource.title}`);
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [supabase]);
+
+  const showNotification = (message: string) => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification(message);
+    } else {
+      console.log('🔧 New resource:', message);
+    }
+  };
+
+  const generateResource = async (agentId?: string) => {
+    setIsLoading(true);
+    try {
+      const message = agentId 
+        ? `${AGENTS.find(a => a.id === agentId)?.name}, suggest a useful tool or resource in your domain`
+        : 'Suggest a useful tool or API';
+      
+      console.log('Would send to agent:', message);
+      
+      // Mock response for testing
+      setTimeout(() => {
+        const mockResource = {
+          id: Date.now().toString(),
+          agentId: agentId || 'milo',
+          agentName: AGENTS.find(a => a.id === agentId)?.name || 'Milo',
+          title: 'AI-Suggested Tool',
+          description: 'A dynamically recommended tool from agent expertise.',
+          url: 'https://example.com',
+          category: 'tool' as const,
+          type: 'open-source' as const,
+          tags: ['ai', 'generated', 'test'],
+          useCase: 'Testing the resource generation system',
+          rating: 4,
+          usefulFor: [agentId || 'general'],
+          githubStars: 1000,
+          pricing: 'Free',
+          createdAt: new Date().toISOString(),
+          addedBy: agentId || 'milo',
+        };
+        
+        setResources(prev => [mockResource, ...prev]);
+        setIsLoading(false);
+        showNotification(`🔧 New resource suggested by ${mockResource.agentName}!`);
+      }, 2000);
+      
+    } catch (error) {
+      console.error('Failed to generate resource:', error);
+      setIsLoading(false);
+    }
+  };
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -279,6 +407,58 @@ export default function AgentAssist() {
             gap: '16px',
             marginBottom: '16px',
           }}>
+            {/* Generate Resource Button */}
+            <div>
+              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
+                Generate New
+              </label>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <select
+                  style={{
+                    background: brand.graphite,
+                    border: `1px solid ${brand.border}`,
+                    borderRadius: '6px',
+                    padding: '8px 12px',
+                    color: brand.white,
+                    fontSize: '14px',
+                    outline: 'none',
+                    flex: 1,
+                  }}
+                  onChange={(e) => {
+                    if (e.target.value) {
+                      generateResource(e.target.value);
+                      e.target.value = '';
+                    }
+                  }}
+                  disabled={isLoading}
+                >
+                  <option value="">✨ Ask Agent...</option>
+                  {AGENTS.map(agent => (
+                    <option key={agent.id} value={agent.id}>
+                      {agent.name}
+                    </option>
+                  ))}
+                </select>
+                
+                <button
+                  onClick={() => generateResource()}
+                  disabled={isLoading}
+                  style={{
+                    background: isLoading ? brand.smoke : brand.amber,
+                    color: brand.void,
+                    border: 'none',
+                    borderRadius: '6px',
+                    padding: '8px 12px',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: isLoading ? 'not-allowed' : 'pointer',
+                    opacity: isLoading ? 0.7 : 1,
+                  }}
+                >
+                  {isLoading ? '⏳' : '🚀'}
+                </button>
+              </div>
+            </div>
             <div>
               <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
                 Search
