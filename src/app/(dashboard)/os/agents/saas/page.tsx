@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter } from 'lucide-react';
 
 interface SaasIdea {
@@ -146,7 +146,10 @@ const mockSaasIdeas: SaasIdea[] = [
 export default function MillionDollarSaas() {
   const [ideas, setIdeas] = useState<SaasIdea[]>(mockSaasIdeas);
   const [isLoading, setIsLoading] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  );
 
   // Load real ideas from database and set up real-time subscription
   useEffect(() => {

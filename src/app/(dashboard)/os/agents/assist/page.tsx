@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { createClient } from '@supabase/supabase-js';
 import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu } from 'lucide-react';
 
 interface AgentResource {
@@ -164,7 +164,10 @@ const mockResources: AgentResource[] = [
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>(mockResources);
   const [isLoading, setIsLoading] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+  );
 
   // Load real resources and set up real-time subscription
   useEffect(() => {
