@@ -1,10 +1,29 @@
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
 
-// Create client with fallback values to prevent build errors
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// Only create a real client if env vars are set; otherwise return a no-op stub
+function createSafeClient(): SupabaseClient {
+  if (supabaseUrl && supabaseAnonKey) {
+    return createClient(supabaseUrl, supabaseAnonKey)
+  }
+  // Return a stub that won't throw during build/prerender
+  const noop = () => ({ data: null, error: null, count: null, status: 200, statusText: 'OK' })
+  const chainable: Record<string, unknown> = {}
+  const methods = ['select', 'insert', 'update', 'delete', 'upsert', 'eq', 'neq', 'gt', 'lt', 'gte', 'lte', 'like', 'ilike', 'is', 'in', 'order', 'limit', 'single', 'maybeSingle', 'range', 'match', 'not', 'or', 'filter', 'contains', 'containedBy', 'textSearch']
+  const handler: ProxyHandler<Record<string, unknown>> = {
+    get: (_target, prop) => {
+      if (prop === 'then') return undefined // not a promise
+      if (methods.includes(prop as string)) return () => new Proxy(chainable, handler)
+      return noop
+    },
+  }
+  const queryProxy = new Proxy(chainable, handler)
+  return { from: () => queryProxy, rpc: noop, auth: { getSession: noop, getUser: noop, signInWithPassword: noop, signOut: noop, onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }) } } as unknown as SupabaseClient
+}
+
+export const supabase = createSafeClient()
 
 // Types
 export interface Idea {

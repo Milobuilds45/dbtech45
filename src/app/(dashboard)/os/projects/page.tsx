@@ -1,8 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { brand, styles } from "@/lib/brand";
-import { supabase } from "@/lib/supabase";
 
 type StatusKey = 'shipped' | 'building' | 'beta' | 'planning' | 'shaping' | 'spark' | 'paused' | 'killed';
 
@@ -69,22 +68,7 @@ const DEFAULT_PROJECTS: Project[] = [
   { title: "Family Calendar AI", desc: "Smart family scheduling that coordinates 9 people's lives with AI conflict resolution.", status: "spark", progress: 5, priority: 2 },
 ];
 
-const STORAGE_KEY = 'dbtech-projects-v1';
-
-function loadProjects(): Project[] {
-  if (typeof window === 'undefined') return DEFAULT_PROJECTS;
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) return JSON.parse(saved);
-  } catch { /* ignore */ }
-  return DEFAULT_PROJECTS;
-}
-
-function saveProjects(projects: Project[]) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
-  } catch { /* ignore */ }
-}
+// No localStorage - clean state every load
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
@@ -120,21 +104,12 @@ export default function Projects() {
   const [projects, setProjects] = useState<Project[]>(DEFAULT_PROJECTS);
   const [filter, setFilter] = useState<string>('all');
   const [editingIdx, setEditingIdx] = useState<number | null>(null);
-  const [sendingIdx, setSendingIdx] = useState<number | null>(null);
-  const [sentIdxs, setSentIdxs] = useState<Set<number>>(new Set());
   const [sortBy, setSortBy] = useState<'default' | 'priority' | 'status'>('default');
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
 
-  // Load from localStorage on mount
-  useEffect(() => {
-    setProjects(loadProjects());
-  }, []);
-
-  // Save to localStorage on change
   const updateProjects = (updated: Project[]) => {
     setProjects(updated);
-    saveProjects(updated);
   };
 
   const handleDragStart = (index: number) => {
@@ -175,23 +150,9 @@ export default function Projects() {
     updateProjects(updated);
   };
 
-  const sendToKanban = async (idx: number) => {
+  const sendToKanban = (idx: number) => {
     const project = projects[idx];
-    setSendingIdx(idx);
-    try {
-      await supabase.from('todos').insert({
-        title: project.title,
-        description: project.desc,
-        priority: project.priority >= 4 ? 'high' : project.priority >= 2 ? 'medium' : 'low',
-        status: 'backlog',
-        project: project.title,
-        tags: [project.status],
-      });
-      setSentIdxs(prev => new Set(prev).add(idx));
-    } catch (err) {
-      console.error('Failed to send to Kanban:', err);
-    }
-    setSendingIdx(null);
+    window.location.href = `/os/kanban?add_title=${encodeURIComponent(project.title)}&add_project=${encodeURIComponent(project.title)}`;
   };
 
   // Filtering
@@ -285,8 +246,6 @@ export default function Projects() {
             const realIdx = projects.indexOf(p);
             const cfg = STATUS_CONFIG[p.status];
             const isEditing = editingIdx === realIdx;
-            const isSending = sendingIdx === realIdx;
-            const isSent = sentIdxs.has(realIdx);
 
             return (
               <div
@@ -400,22 +359,20 @@ export default function Projects() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <button
                         onClick={() => sendToKanban(realIdx)}
-                        disabled={isSending || isSent}
                         style={{
-                          background: isSent ? brand.success : 'none',
-                          border: `1px solid ${isSent ? brand.success : brand.amber}`,
+                          background: 'none',
+                          border: `1px solid ${brand.amber}`,
                           borderRadius: '4px',
                           padding: '4px 12px',
-                          color: isSent ? brand.void : brand.amber,
-                          cursor: isSending || isSent ? 'default' : 'pointer',
+                          color: brand.amber,
+                          cursor: 'pointer',
                           fontSize: '12px',
                           fontWeight: 600,
-                          opacity: isSending ? 0.5 : 1,
                           transition: 'all 0.2s',
                         }}
                         title="Send to Kanban board as a new todo"
                       >
-                        {isSent ? 'Sent to Kanban' : isSending ? 'Sending...' : 'Send to Kanban'}
+                        Send to Kanban
                       </button>
                       <button
                         onClick={() => setEditingIdx(null)}
