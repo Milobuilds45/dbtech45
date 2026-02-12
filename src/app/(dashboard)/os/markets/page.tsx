@@ -49,14 +49,16 @@ export default function Markets() {
       );
       
       // Fetch real data with timeout
-      const [quotesData, watchlistData, newsData] = await Promise.race([
+      const results = await Promise.race([
         Promise.all([
           fetch('/api/market-data').then(r => r.json()),
           fetch(`/api/market-data?symbols=${watchlist.join(',')}`).then(r => r.json()),
           fetch(`/api/market-news?symbols=${watchlist.slice(0, 3).join(',')}`).then(r => r.ok ? r.json() : { news: [] })
         ]),
         timeout
-      ]);
+      ]) as [any, any, any];
+      
+      const [quotesData, watchlistData, newsData] = results;
       
       setQuotes(quotesData.quotes || []);
       setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
