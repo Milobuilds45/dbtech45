@@ -27,6 +27,10 @@ interface AgentIdea {
   status: 'submitted' | 'reviewed' | 'approved' | 'building' | 'rejected' | 'launched';
   createdAt: string;
   updatedAt: string;
+  // Enhanced ideabrowser-style fields
+  marketScenario?: string;
+  useCase?: string;
+  competitorGap?: string;
 }
 
 type IdeaMode = 'individual' | 'collaborative';
@@ -733,6 +737,34 @@ export default function AgentIdeasPage() {
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Competitive Advantage</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Development Time</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
                     </div>
+
+                    {/* Ideabrowser-style Market Intelligence */}
+                    {(idea as any).marketScenario && (
+                      <div style={{ ...sec, marginBottom: '12px', border: `1px solid ${brand.success}30`, background: `${brand.success}08` }}>
+                        <h4 style={{ color: brand.success, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Target size={13} />Market Scenario
+                        </h4>
+                        <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5' }}>{(idea as any).marketScenario}</p>
+                      </div>
+                    )}
+
+                    {(idea as any).useCase && (
+                      <div style={{ ...sec, marginBottom: '12px', border: `1px solid ${brand.info}30`, background: `${brand.info}08` }}>
+                        <h4 style={{ color: brand.info, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <User size={13} />Use Case
+                        </h4>
+                        <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5' }}>{(idea as any).useCase}</p>
+                      </div>
+                    )}
+
+                    {(idea as any).competitorGap && (
+                      <div style={{ ...sec, marginBottom: '12px', border: `1px solid ${brand.amber}30`, background: `${brand.amber}08` }}>
+                        <h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <Shield size={13} />Competitive Gap
+                        </h4>
+                        <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5' }}>{(idea as any).competitorGap}</p>
+                      </div>
+                    )}
 
                     {/* Risk Assessment */}
                     {idea.riskAssessment && (
