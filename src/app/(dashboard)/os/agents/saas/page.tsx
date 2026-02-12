@@ -92,27 +92,57 @@ export default function MillionDollarSaas() {
   };
 
   const generateCollaborativeIdea = (agentIds: string[], creativity: CreativityLevel): SaasIdea => {
-    // Use real agent collaboration engine
-    const collaborativeIdea = generateRealCollaboration(agentIds, creativity);
+    try {
+      // Use real agent collaboration engine
+      const collaborativeIdea = generateRealCollaboration(agentIds, creativity);
+      
+      // Convert to SaasIdea format
+      return {
+        id: `collab-${Date.now()}`,
+        agentId: 'collaborative',
+        agentName: collaborativeIdea.collaboratingAgents.map((id: string) => 
+          AGENTS.find(a => a.id === id)?.name || id
+        ).join(' + '),
+        title: collaborativeIdea.title,
+        description: collaborativeIdea.description,
+        problemSolved: collaborativeIdea.sevenLayers.problem,
+        targetMarket: collaborativeIdea.sevenLayers.people,
+        businessModel: `${collaborativeIdea.pricing.model} - $${collaborativeIdea.pricing.pricePoint}/month`,
+        revenueProjection: collaborativeIdea.sevenLayers.profit,
+        competitiveAdvantage: collaborativeIdea.competitiveAdvantage,
+        tags: [...collaborativeIdea.collaboratingAgents, 'collaborative', creativity, 'seven-layers'],
+        agentConfidence: 5,
+        marketSize: 'large' as const,
+        developmentTime: collaborativeIdea.realisticTimeline.total,
+        status: 'submitted' as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+    } catch (error) {
+      console.error('Collaboration engine error:', error);
+      // Fallback to simple collaborative idea
+      return generateFallbackCollaborativeIdea(agentIds, creativity);
+    }
+  };
+
+  const generateFallbackCollaborativeIdea = (agentIds: string[], creativity: CreativityLevel): SaasIdea => {
+    const agentNames = agentIds.map(id => AGENTS.find(a => a.id === id)?.name).filter(Boolean);
     
-    // Convert to SaasIdea format
     return {
       id: `collab-${Date.now()}`,
       agentId: 'collaborative',
-      agentName: collaborativeIdea.collaboratingAgents.map((id: string) => 
-        AGENTS.find(a => a.id === id)?.name || id
-      ).join(' + '),
-      title: collaborativeIdea.title,
-      description: collaborativeIdea.description,
-      problemSolved: collaborativeIdea.sevenLayers.problem,
-      targetMarket: collaborativeIdea.sevenLayers.people,
-      businessModel: `${collaborativeIdea.pricing.model} - $${collaborativeIdea.pricing.pricePoint}/month`,
-      revenueProjection: collaborativeIdea.sevenLayers.profit,
-      competitiveAdvantage: collaborativeIdea.competitiveAdvantage,
-      tags: [...collaborativeIdea.collaboratingAgents, 'collaborative', creativity, 'seven-layers'],
-      agentConfidence: 5,
+      agentName: agentNames.join(' + '),
+      title: 'Cross-Domain Innovation Platform',
+      description: `AI platform combining ${agentNames.join(' and ')} expertise for comprehensive business solutions.`,
+      problemSolved: 'Businesses need multiple expert perspectives but cannot afford diverse specialist consultants.',
+      targetMarket: 'Growing businesses needing multi-domain expertise (50-500 employees)',
+      businessModel: 'SaaS subscription: $299/month + per-consultation fees',
+      revenueProjection: '$1.2M ARR with 300 business subscribers',
+      competitiveAdvantage: `First platform combining ${agentNames.join(', ')} specialized knowledge in coordinated solutions`,
+      tags: [...agentIds, 'collaborative', creativity],
+      agentConfidence: 4,
       marketSize: 'large' as const,
-      developmentTime: collaborativeIdea.realisticTimeline.total,
+      developmentTime: '6-8 weeks (multi-agent coordination + specialized modules)',
       status: 'submitted' as const,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -592,32 +622,6 @@ export default function MillionDollarSaas() {
     }
   });
 
-  const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
-  const statuses = Array.from(new Set(ideas.map(idea => idea.status)));
-
-  const filteredIdeas = ideas.filter(idea => {
-    if (selectedMarketSize && idea.marketSize !== selectedMarketSize) return false;
-    if (selectedStatus && idea.status !== selectedStatus) return false;
-    return true;
-  });
-
-  const sortedIdeas = [...filteredIdeas].sort((a, b) => {
-    switch (sortBy) {
-      case 'newest':
-        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-      case 'rating':
-        return (b.derekRating || 0) - (a.derekRating || 0);
-      case 'confidence':
-        return b.agentConfidence - a.agentConfidence;
-      case 'revenue':
-        const aRevenue = parseFloat(a.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || '0');
-        const bRevenue = parseFloat(b.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || '0');
-        return bRevenue - aRevenue;
-      default:
-        return 0;
-    }
-  });
-
   return (
     <div style={styles.page}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
@@ -632,11 +636,24 @@ export default function MillionDollarSaas() {
         {/* Idea Generation Controls */}
         <div style={{
           ...styles.card,
-          padding: '24px',
-          marginBottom: '24px',
+          padding: '32px',
+          marginBottom: '32px',
+          background: `linear-gradient(135deg, ${brand.carbon} 0%, ${brand.graphite} 100%)`,
+          border: `2px solid ${brand.border}`,
+          borderRadius: '16px',
         }}>
-          <h3 style={{ color: brand.white, fontSize: '18px', fontWeight: 600, marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Lightbulb size={20} style={{ color: brand.amber }} />
+          <h3 style={{ 
+            color: brand.white, 
+            fontSize: '20px', 
+            fontWeight: 700, 
+            marginBottom: '24px', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '12px',
+            textAlign: 'center' as const,
+            justifyContent: 'center'
+          }}>
+            <Lightbulb size={24} style={{ color: brand.amber }} />
             Generate New Ideas
           </h3>
           
@@ -646,18 +663,36 @@ export default function MillionDollarSaas() {
               <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '12px' }}>
                 Select Agents
               </label>
-              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <button
                   onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                   style={{
-                    background: selectedAgents.length === AGENTS.length ? brand.amber : brand.graphite,
+                    background: selectedAgents.length === AGENTS.length 
+                      ? `linear-gradient(135deg, ${brand.amber} 0%, ${brand.amberLight} 100%)`
+                      : brand.graphite,
                     color: selectedAgents.length === AGENTS.length ? brand.void : brand.white,
-                    border: `1px solid ${selectedAgents.length === AGENTS.length ? brand.amber : brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px',
-                    fontSize: '13px',
+                    border: `2px solid ${selectedAgents.length === AGENTS.length ? brand.amber : brand.border}`,
+                    borderRadius: '8px',
+                    padding: '10px 16px',
+                    fontSize: '14px',
                     fontWeight: 600,
                     cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                    boxShadow: selectedAgents.length === AGENTS.length 
+                      ? '0 4px 12px rgba(245, 158, 11, 0.3)' 
+                      : 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    if (selectedAgents.length !== AGENTS.length) {
+                      e.currentTarget.style.borderColor = brand.amber;
+                      e.currentTarget.style.transform = 'translateY(-1px)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (selectedAgents.length !== AGENTS.length) {
+                      e.currentTarget.style.borderColor = brand.border;
+                      e.currentTarget.style.transform = 'translateY(0)';
+                    }
                   }}
                 >
                   All Agents
@@ -667,14 +702,32 @@ export default function MillionDollarSaas() {
                     key={agent.id}
                     onClick={() => handleAgentSelect(agent.id)}
                     style={{
-                      background: selectedAgents.includes(agent.id) ? agent.color : brand.graphite,
+                      background: selectedAgents.includes(agent.id) 
+                        ? `linear-gradient(135deg, ${agent.color} 0%, ${agent.color}CC 100%)`
+                        : brand.graphite,
                       color: selectedAgents.includes(agent.id) ? brand.void : brand.white,
-                      border: `1px solid ${selectedAgents.includes(agent.id) ? agent.color : brand.border}`,
-                      borderRadius: '6px',
-                      padding: '8px 12px',
-                      fontSize: '13px',
+                      border: `2px solid ${selectedAgents.includes(agent.id) ? agent.color : brand.border}`,
+                      borderRadius: '8px',
+                      padding: '10px 16px',
+                      fontSize: '14px',
                       fontWeight: 600,
                       cursor: 'pointer',
+                      transition: 'all 0.2s ease',
+                      boxShadow: selectedAgents.includes(agent.id) 
+                        ? `0 4px 12px ${agent.color}40` 
+                        : 'none',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (!selectedAgents.includes(agent.id)) {
+                        e.currentTarget.style.borderColor = agent.color;
+                        e.currentTarget.style.transform = 'translateY(-1px)';
+                      }
+                    }}
+                    onMouseLeave={(e) => {
+                      if (!selectedAgents.includes(agent.id)) {
+                        e.currentTarget.style.borderColor = brand.border;
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }
                     }}
                   >
                     {agent.name}
@@ -771,27 +824,45 @@ export default function MillionDollarSaas() {
           </div>
 
           {/* Generate Button */}
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: '8px' }}>
             <button
               onClick={() => generateIdea(selectedAgents)}
               disabled={isLoading || selectedAgents.length === 0}
               style={{
-                background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
+                background: isLoading || selectedAgents.length === 0 
+                  ? brand.smoke 
+                  : `linear-gradient(135deg, ${brand.amber} 0%, ${brand.amberLight} 100%)`,
                 color: brand.void,
                 border: 'none',
-                borderRadius: '8px',
-                padding: '16px 32px',
-                fontSize: '16px',
+                borderRadius: '12px',
+                padding: '20px 40px',
+                fontSize: '18px',
                 fontWeight: 700,
                 cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '10px',
+                gap: '12px',
                 opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
-                transition: 'all 0.2s ease',
+                transition: 'all 0.3s ease',
+                boxShadow: isLoading || selectedAgents.length === 0 
+                  ? 'none'
+                  : `0 8px 24px rgba(245, 158, 11, 0.3)`,
+                transform: isLoading || selectedAgents.length === 0 ? 'none' : 'translateY(-2px)',
+              }}
+              onMouseEnter={(e) => {
+                if (!isLoading && selectedAgents.length > 0) {
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(245, 158, 11, 0.4)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isLoading && selectedAgents.length > 0) {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(245, 158, 11, 0.3)';
+                }
               }}
             >
-              <Zap size={18} />
+              <Zap size={20} />
               {isLoading 
                 ? 'Generating...' 
                 : `Generate ${ideaMode === 'collaborative' ? 'Collaborative' : 'Individual'} Idea${ideaMode === 'individual' && selectedAgents.length > 1 ? 's' : ''} (${selectedAgents.length})`
