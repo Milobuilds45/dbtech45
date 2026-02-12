@@ -1,381 +1,164 @@
 // REAL AGENT COLLABORATION ENGINE
-// Uses actual agent personalities, skills, and domain knowledge
-
-export interface AgentProfile {
-  id: string;
-  name: string;
-  primarySkills: string[];
-  domainExpertise: string[];
-  problemSolvingStyle: string;
-  typicalSolutions: string[];
-  pricePoints: { min: number; max: number; target: string };
-}
-
+export interface AgentProfile { id: string; name: string; primarySkills: string[]; domainExpertise: string[]; problemSolvingStyle: string; typicalSolutions: string[]; pricePoints: { min: number; max: number; target: string }; }
 export const AGENT_PROFILES: Record<string, AgentProfile> = {
-  bobby: {
-    id: 'bobby',
-    name: 'Bobby',
-    primarySkills: ['Options Flow Analysis', 'Risk Management', 'Market Psychology', 'Trading Algorithms', 'Financial Modeling'],
-    domainExpertise: ['Derivatives Trading', 'Market Structure', 'Volatility Analysis', 'Portfolio Optimization', 'Quantitative Finance'],
-    problemSolvingStyle: 'Data-driven with risk assessment focus',
-    typicalSolutions: ['Trading platforms', 'Risk management tools', 'Market analysis dashboards', 'Financial APIs'],
-    pricePoints: { min: 49, max: 999, target: 'Professional traders and financial institutions' }
-  },
-  
-  tony: {
-    id: 'tony',
-    name: 'Tony',
-    primarySkills: ['Restaurant Operations', 'POS Systems', 'Inventory Management', 'Labor Optimization', 'Food Cost Analysis'],
-    domainExpertise: ['Kitchen Management', 'Supply Chain', 'Customer Service', 'Food Safety', 'Profit Margins'],
-    problemSolvingStyle: 'Practical efficiency with cost control focus',
-    typicalSolutions: ['POS integrations', 'Inventory trackers', 'Staff scheduling tools', 'Cost optimization platforms'],
-    pricePoints: { min: 29, max: 299, target: 'Small to medium restaurants (1-20 locations)' }
-  },
+  bobby: { id: 'bobby', name: 'Bobby', primarySkills: ['Options Flow Analysis','Risk Management','Market Psychology','Trading Algorithms','Financial Modeling'], domainExpertise: ['Derivatives Trading','Market Structure','Volatility Analysis','Portfolio Optimization','Quantitative Finance'], problemSolvingStyle: 'Data-driven with risk assessment', typicalSolutions: ['Trading platforms','Risk tools','Market dashboards','Financial APIs'], pricePoints: { min: 49, max: 999, target: 'Traders and financial institutions' } },
+  tony: { id: 'tony', name: 'Tony', primarySkills: ['Restaurant Operations','POS Systems','Inventory Management','Labor Optimization','Food Cost Analysis'], domainExpertise: ['Kitchen Management','Supply Chain','Customer Service','Food Safety','Profit Margins'], problemSolvingStyle: 'Practical efficiency with cost control', typicalSolutions: ['POS integrations','Inventory trackers','Scheduling tools','Cost platforms'], pricePoints: { min: 29, max: 299, target: 'Small to medium restaurants' } },
+  paula: { id: 'paula', name: 'Paula', primarySkills: ['Brand Design','UI/UX Systems','Visual Hierarchy','Color Psychology','Typography'], domainExpertise: ['Design Systems','User Experience','Creative Direction','Visual Communication','Brand Strategy'], problemSolvingStyle: 'User-centered design excellence', typicalSolutions: ['Design tools','Brand generators','UI libraries','Creative automation'], pricePoints: { min: 19, max: 199, target: 'Small businesses and freelancers' } },
+  anders: { id: 'anders', name: 'Anders', primarySkills: ['Full-Stack Development','System Architecture','API Design','Database Optimization','DevOps'], domainExpertise: ['React/Next.js','Node.js','PostgreSQL','Cloud Infrastructure','Performance'], problemSolvingStyle: 'Technical elegance with scalability', typicalSolutions: ['Dev platforms','API services','Deploy tools','DB solutions'], pricePoints: { min: 39, max: 499, target: 'Developers and tech companies' } },
+  dwight: { id: 'dwight', name: 'Dwight', primarySkills: ['Intelligence Gathering','Research Methodology','Data Synthesis','Pattern Recognition','Competitive Analysis'], domainExpertise: ['Market Research','Competitive Intelligence','Information Architecture','Trend Analysis','Strategic Planning'], problemSolvingStyle: 'Systematic research with insights', typicalSolutions: ['Research platforms','Intelligence dashboards','Monitoring tools','Analysis software'], pricePoints: { min: 99, max: 999, target: 'Businesses needing intelligence' } },
+  dax: { id: 'dax', name: 'Dax', primarySkills: ['Data Analysis','Statistical Modeling','Visualization','Machine Learning','Business Intelligence'], domainExpertise: ['Python/R','SQL','Data Warehousing','Predictive Analytics','Reporting'], problemSolvingStyle: 'Evidence-based predictive modeling', typicalSolutions: ['Analytics platforms','Reporting tools','Data pipelines','ML services'], pricePoints: { min: 59, max: 599, target: 'Data-driven businesses' } },
+  milo: { id: 'milo', name: 'Milo', primarySkills: ['Project Coordination','Workflow Optimization','Team Management','Process Design','Strategic Planning'], domainExpertise: ['Business Operations','Automation','Integration','Performance Tracking','Resource Allocation'], problemSolvingStyle: 'Systematic coordination', typicalSolutions: ['Management platforms','Automation tools','Integration services','Workflow builders'], pricePoints: { min: 49, max: 399, target: 'Small to medium businesses' } },
+  remy: { id: 'remy', name: 'Remy', primarySkills: ['Content Strategy','Copywriting','SEO Optimization','Social Media','Brand Voice'], domainExpertise: ['Content Marketing','Email Campaigns','Blog Writing','Video Scripts','Audience Growth'], problemSolvingStyle: 'Creative storytelling with conversion', typicalSolutions: ['Content platforms','Writing tools','Marketing automation','Social managers'], pricePoints: { min: 19, max: 299, target: 'Small businesses and creators' } },
+  wendy: { id: 'wendy', name: 'Wendy', primarySkills: ['Customer Support','Ticket Management','Sentiment Analysis','Escalation Design','Knowledge Bases'], domainExpertise: ['Support Automation','Customer Retention','Chatbot Design','CRM Systems','Onboarding'], problemSolvingStyle: 'Empathetic efficiency with retention', typicalSolutions: ['Support bots','Help desks','Feedback tools','Onboarding flows'], pricePoints: { min: 29, max: 399, target: 'SaaS and e-commerce' } },
+};
+export interface SevenLayerFramework { problem: string; people: string; purpose: string; product: string; process: string; performance: string; profit: string; }
+export interface RealisticTimeline { landingPage: string; backend: string; socialMedia: string; mvp: string; total: string; }
+export interface CollaborativeIdea { title: string; description: string; sevenLayers: SevenLayerFramework; collaboratingAgents: string[]; agentContributions: Record<string, string>; realisticTimeline: RealisticTimeline; pricing: { model: string; pricePoint: number; reasoning: string }; competitiveAdvantage: string; marketValidation: string; riskAssessment?: string; }
 
-  paula: {
-    id: 'paula',
-    name: 'Paula',
-    primarySkills: ['Brand Design', 'UI/UX Systems', 'Visual Hierarchy', 'Color Psychology', 'Typography'],
-    domainExpertise: ['Design Systems', 'User Experience', 'Creative Direction', 'Visual Communication', 'Brand Strategy'],
-    problemSolvingStyle: 'User-centered design with aesthetic excellence',
-    typicalSolutions: ['Design tools', 'Brand generators', 'UI component libraries', 'Creative automation'],
-    pricePoints: { min: 19, max: 199, target: 'Small businesses and freelancers' }
-  },
+type I = { t:string;d:string;prob:string;ppl:string;purp:string;prod:string;proc:string;perf:string;prof:string;c:Record<string,string>;pr:{m:string;p:number;r:string};edge:string;val:string;risk?:string; };
+function toC(i:I, ids:string[], tl:RealisticTimeline): CollaborativeIdea {
+  return { title:i.t, description:i.d, sevenLayers:{ problem:i.prob, people:i.ppl, purpose:i.purp, product:i.prod, process:i.proc, performance:i.perf, profit:i.prof }, collaboratingAgents:ids, agentContributions:i.c, realisticTimeline:tl, pricing:{ model:i.pr.m, pricePoint:i.pr.p, reasoning:i.pr.r }, competitiveAdvantage:i.edge, marketValidation:i.val, riskAssessment:i.risk };
+}
+const TL1:RealisticTimeline = { landingPage:'2 hours', backend:'3-5 days', socialMedia:'3 hours', mvp:'1-2 weeks', total:'2-3 weeks' };
+const TL2:RealisticTimeline = { landingPage:'2-3 hours', backend:'1-2 weeks', socialMedia:'4 hours', mvp:'2-3 weeks', total:'3-4 weeks' };
+const TL3:RealisticTimeline = { landingPage:'3 hours', backend:'3-4 weeks', socialMedia:'6 hours', mvp:'6-8 weeks', total:'8-10 weeks' };
 
-  anders: {
-    id: 'anders',
-    name: 'Anders',
-    primarySkills: ['Full-Stack Development', 'System Architecture', 'API Design', 'Database Optimization', 'DevOps'],
-    domainExpertise: ['React/Next.js', 'Node.js', 'PostgreSQL', 'Cloud Infrastructure', 'Performance Optimization'],
-    problemSolvingStyle: 'Technical elegance with scalability focus',
-    typicalSolutions: ['Development platforms', 'API services', 'Deployment tools', 'Database solutions'],
-    pricePoints: { min: 39, max: 499, target: 'Developers and growing tech companies' }
-  },
-
-  dwight: {
-    id: 'dwight',
-    name: 'Dwight',
-    primarySkills: ['Intelligence Gathering', 'Research Methodology', 'Data Synthesis', 'Pattern Recognition', 'Competitive Analysis'],
-    domainExpertise: ['Market Research', 'Competitive Intelligence', 'Information Architecture', 'Trend Analysis', 'Strategic Planning'],
-    problemSolvingStyle: 'Systematic research with actionable insights',
-    typicalSolutions: ['Research platforms', 'Intelligence dashboards', 'Monitoring tools', 'Analysis software'],
-    pricePoints: { min: 99, max: 999, target: 'Businesses needing competitive intelligence' }
-  },
-
-  dax: {
-    id: 'dax',
-    name: 'Dax',
-    primarySkills: ['Data Analysis', 'Statistical Modeling', 'Visualization', 'Machine Learning', 'Business Intelligence'],
-    domainExpertise: ['Python/R', 'SQL', 'Data Warehousing', 'Predictive Analytics', 'Reporting Systems'],
-    problemSolvingStyle: 'Evidence-based with predictive modeling',
-    typicalSolutions: ['Analytics platforms', 'Reporting tools', 'Data pipelines', 'ML services'],
-    pricePoints: { min: 59, max: 599, target: 'Data-driven businesses and analysts' }
-  },
-
-  milo: {
-    id: 'milo',
-    name: 'Milo',
-    primarySkills: ['Project Coordination', 'Workflow Optimization', 'Team Management', 'Process Design', 'Strategic Planning'],
-    domainExpertise: ['Business Operations', 'Automation', 'Integration', 'Performance Tracking', 'Resource Allocation'],
-    problemSolvingStyle: 'Systematic coordination with efficiency focus',
-    typicalSolutions: ['Management platforms', 'Automation tools', 'Integration services', 'Workflow builders'],
-    pricePoints: { min: 49, max: 399, target: 'Small to medium businesses' }
-  }
+const P: Record<string, Record<'simple'|'creative'|'experimental', I>> = {
+'bobby+tony': {
+  simple:{t:'RestaurantHedge Pro',d:'Food commodity price tracking and purchasing optimization for restaurants using trading-style risk management.',prob:'Restaurants lose 15-25% profit to food cost fluctuations',ppl:'Independent restaurants with $500K+ food costs',purp:'Stabilize restaurant profit with institutional risk management',prod:'SaaS with commodity alerts, bulk purchasing, supplier negotiation',proc:'Daily monitoring → risk alerts → group purchasing → negotiations',perf:'Food cost variance, profit stability, savings vs baseline',prof:'$147/month per location + 2% of savings',c:{bobby:'Builds price monitoring engine using options-style volatility models to flag ingredient price spikes before they hit',tony:'Designs restaurant workflow integration, maps real purchasing patterns, ensures tool fits kitchen operations without slowing service'},pr:{m:'SaaS + performance',p:147,r:'Must show ROI within 3-6 months'},edge:'Only platform combining institutional trading expertise with deep restaurant operations',val:'Restaurant food costs $240B/yr with 20%+ volatility',risk:'Low risk. Price tracking is proven. Main challenge is restaurant owner adoption.'},
+  creative:{t:'CulinaryFutures Exchange',d:'Restaurant commodity futures platform where restaurants hedge food costs and suppliers offer forward contracts.',prob:'Restaurant industry has zero commodity price protection',ppl:'Restaurant chains (10+ locations) and food suppliers',purp:'Financial stability for food service via modern hedging',prod:'B2B marketplace with futures contracts and risk management',proc:'Suppliers list contracts → restaurants hedge → platform settles',perf:'Contract volume, price stability, satisfaction',prof:'0.5% per contract + $499/month premium',c:{bobby:'Designs futures structure, risk modeling, settlement mechanics from real derivatives architecture',tony:'Maps supply chain for commodity selection, designs supplier onboarding, ensures terms match real purchasing'},pr:{m:'Transaction + subscription',p:499,r:'Hedging saves thousands annually'},edge:'First financial derivatives applied to restaurant supply chain',val:'Agriculture futures is $1.2T — restaurants untapped',risk:'Moderate risk. Two-sided marketplace. Restaurants may not understand futures. Regulatory considerations.'},
+  experimental:{t:'AI Restaurant Investment Fund',d:'Micro-investment platform letting retail investors buy fractional shares of restaurant revenue streams via tokenized POS data.',prob:'Owners need capital but hate equity dilution; investors want restaurant exposure',ppl:'Restaurant owners + retail investors in food industry',purp:'Democratize restaurant investment beyond franchises',prod:'Platform tokenizing revenue streams for fractional investment',proc:'Connect POS → AI evaluates → investors buy tokens → automated distributions',perf:'Returns, capital raised, default rates',prof:'3% of volume + 0.5% annual fee',c:{bobby:'Builds financial modeling, risk scoring, portfolio management — hedge fund quant analysis applied to restaurant data',tony:'Provides performance benchmarks, identifies success predictors, designs onboarding for data quality'},pr:{m:'Platform fees',p:0,r:'Free for restaurants; revenue from investor fees'},edge:'First fractional restaurant investment from real-time performance data',val:'Revenue-based financing growing 30% YoY. Restaurant investment $900B.',risk:'HIGH RISK. Securities regulation minefield — may need SEC registration. Revenue is volatile/seasonal. POS integration across hundreds of systems is a nightmare. Regulatory burden alone could cost $500K+ before launch.'},
+},
+'paula+anders': {
+  simple:{t:'DesignOps Studio',d:'Design system platform converting designs into production-ready React components with TypeScript.',prob:'Design-to-dev handoff wastes 40% of project time',ppl:'Dev teams and agencies (5-50 people) building React apps',purp:'Eliminate design-development friction',prod:'Design system builder with auto code generation',proc:'Upload designs → AI generates components → npm install → auto updates',perf:'Dev velocity, consistency, time-to-market',prof:'$39/month designer, $19/month developer',c:{paula:'Defines design tokens, component hierarchy, visual consistency validation — ensures components look professional',anders:'Builds code generation engine, npm pipeline, React output with TypeScript, a11y, and perf optimization'},pr:{m:'Per-seat SaaS',p:39,r:'Teams already budget for design tools'},edge:'Professional design thinking meets enterprise code generation',val:'Design-to-code is proven and growing',risk:'Low risk. Proven category. We differentiate through output quality.'},
+  creative:{t:'BrandCode Fusion',d:'AI generating complete brand systems and coding them into live responsive websites instantly.',prob:'Small businesses need branding + websites but can\'t afford both',ppl:'Entrepreneurs and freelancers launching ventures',purp:'Democratize professional brand and web presence',prod:'AI brand generator + instant website deploy + marketing assets',proc:'Input details → create brand → generate site → deploy → create assets',perf:'Consistency, performance, conversion',prof:'$97 basic, $197 premium with assets',c:{paula:'Trains brand AI on color psychology, typography, visual hierarchy — brands feel unique, not template-y',anders:'Builds website generation, hosting, ensures fast/responsive/SEO-optimized output'},pr:{m:'One-time + upgrades',p:97,r:'Small businesses budget $500-2K — 80% savings'},edge:'Brand identity to live website in minutes not weeks',val:'5.4M new businesses in 2023 all need branding + website',risk:'Moderate risk. AI brands may feel generic. Competing with Canva+Wix combo.'},
+  experimental:{t:'Living Design System',d:'AI design system that evolves autonomously from user behavior — learns what converts and redesigns itself.',prob:'Design stays static even when behavior data says it should change',ppl:'SaaS and e-commerce with 10K+ monthly users',purp:'Make design a living data-driven system',prod:'Self-evolving system A/B testing layout, color, typography from real interactions',proc:'Install SDK → analyze behavior → generate variants → A/B test → deploy winners',perf:'Conversion lift, engagement, iteration speed',prof:'$299/month + $0.001 per interaction',c:{paula:'Defines aesthetic guardrails so AI can\'t create ugly/inaccessible variants — the constraint system keeping output professional',anders:'Architects real-time A/B infra, tracking SDK, deployment pipeline swapping tokens without downtime'},pr:{m:'SaaS + usage',p:299,r:'Replaces $10K+/month CRO consultants'},edge:'First design system improving autonomously from user data',val:'A/B testing market $1.2B growing 12% YoY',risk:'HIGH RISK. Could break brand consistency or accessibility. Small sites lack traffic for signal. Design is subjective — automated aesthetics may alienate brand-conscious companies.'},
+},
+'dwight+dax': {
+  simple:{t:'CompetitorIQ',d:'Automated competitive intelligence with predictive analytics and weekly reports.',prob:'Businesses decide blindly while competitors move faster',ppl:'B2B SaaS and strategy consultants (10-500 employees)',purp:'Democratize enterprise competitive intelligence',prod:'AI monitoring with predictive insights and reporting',proc:'Setup tracking → monitor → analyze → deliver → predict',perf:'Accuracy, response time, decision improvement',prof:'$199 startup, $499 growth, $999 enterprise/month',c:{dwight:'Designs collection methodology, source scoring, insight synthesis — signal not noise',dax:'Builds predictive models, anomaly detection, trend viz — raw intel into forecasts'},pr:{m:'Tiered SaaS',p:499,r:'10-50x less than consultants'},edge:'Investigative rigor meets predictive analytics',val:'$2B+ annual spend on competitive intelligence',risk:'Low risk. Proven market with existing budget allocation.'},
+  creative:{t:'TrendRadar',d:'AI detecting weak signals across news, patents, job postings, social to predict trends 6-12 months early.',prob:'Businesses react to trends instead of anticipating them',ppl:'VCs, consultants, Fortune 500 innovation teams',purp:'Turn trend prediction from art into science',prod:'Multi-source platform with proprietary trend scoring',proc:'Ingest 500+ sources → detect anomalies → score probability → alert → track accuracy',perf:'Accuracy, lead time, subscriber ROI',prof:'$2,999/month + custom research $10K-$50K',c:{dwight:'Curates 500+ sources, designs weak signal methodology, validates hypotheses against history',dax:'Builds statistical scoring models, early warning algorithms, intuitive trend visualizations'},pr:{m:'Enterprise + custom',p:2999,r:'McKinsey charges $500K+ for trend reports'},edge:'Investigative source networks + statistical modeling',val:'McKinsey charges $500K+ for what we automate 80% of',risk:'Moderate risk. Trend prediction inherently uncertain. Enterprise sales cycles 3-6 months.'},
+  experimental:{t:'Collective Intelligence Market',d:'Prediction market where human analysts and AI compete to forecast business outcomes with real stakes.',prob:'Analysis is either expensive experts or unreliable AI — combining both surfaces truth',ppl:'Hedge funds, strategy teams, intelligence agencies',purp:'Most accurate prediction via human-AI collaboration',prod:'Market where analysts stake reputation, AI provides base, market aggregates signal',proc:'AI forecasts → analysts adjust → market aggregates → accuracy tracked → top predictors rewarded',perf:'Accuracy vs baselines, retention, volume',prof:'$5K/month enterprise + 20% of rewards',c:{dwight:'Designs analyst vetting, methodology standards, quality scoring — credible incentive-aligned contributors',dax:'Builds prediction models, aggregation algorithms, accuracy tracking — statistical engine for human+AI signals'},pr:{m:'Enterprise + marketplace',p:5000,r:'Replaces $50K+/month consulting'},edge:'First human-AI prediction market for business intelligence',val:'Prediction markets beat experts in politics — business is next',risk:'HIGH RISK. Regulatory scrutiny on prediction markets. Recruiting analysts expensive. Cold start problem. Incentive design is hard — too little reward nobody shows, too much and people game it.'},
+},
+'bobby+dax': {
+  simple:{t:'TradingMetrics Dashboard',d:'Real-time trading analytics turning raw market data into clear visual insights.',prob:'Retail traders drown in data without tools to spot patterns',ppl:'Retail traders with $10K-$500K accounts',purp:'Institutional analysis visually accessible',prod:'Dashboard with charts, flow viz, pattern alerts',proc:'Connect brokerage → ingest → visualize → detect → alert',perf:'Engagement, accuracy, retention',prof:'$59 retail, $199 pro/month',c:{bobby:'Defines which data matters, designs flow analysis and pattern detection algorithms',dax:'Creates data pipeline, real-time viz engine, statistical models surfacing patterns from noise'},pr:{m:'Tiered SaaS',p:59,r:'Traders spend $50-200/month — replaces several'},edge:'Deep trading knowledge meets best-in-class visualization',val:'15M US retail traders, 40% pay for analytics',risk:'Low risk. Dashboards are proven. Differentiation is the challenge.'},
+  creative:{t:'AlphaSignal AI',d:'ML platform finding trading signals from alternative data — satellite, social, supply chain.',prob:'Traditional data is priced in — alpha comes from alt data nobody analyzes',ppl:'Quant funds and professional traders',purp:'Democratize $100K+/year alt data analysis',prod:'Platform ingesting alt data with ML signals and confidence levels',proc:'Ingest → clean → model → score → deliver via API',perf:'Signal accuracy, information ratio, alpha',prof:'$999 pro, $5K enterprise/month + performance share',c:{bobby:'Defines tradeable signals, backtests against history, designs risk-adjusted scoring',dax:'Builds ML pipeline, feature engineering, statistical validation — genuinely predictive not overfitted'},pr:{m:'SaaS + performance',p:999,r:'Profitable signals worth 100x subscription'},edge:'Real trading expertise + rigorous statistics = no garbage signals',val:'Alt data market $7B growing 40% YoY',risk:'Moderate risk. Alpha decays with adoption. Alt data expensive to source.'},
+  experimental:{t:'Autonomous Trading Swarm',d:'Specialized AI agents — analyst, risk manager, executor, strategist — coordinating like an AI trading desk.',prob:'Single-strategy systems fail in regime changes. Swarm adapts.',ppl:'Prop firms and crypto funds',purp:'First multi-agent trading with specialization',prod:'Multi-agent platform with role specialization',proc:'Deploy → specialize → coordinate → execute → self-optimize from P&L',perf:'Sharpe ratio, max drawdown, adaptation speed',prof:'20% performance + $10K/month platform',c:{bobby:'Designs strategy framework, risk agent, regime detection — domain knowledge preventing blowups',dax:'Architects multi-agent coordination, ML per specialist, meta-learning for self-improvement'},pr:{m:'Platform + performance',p:10000,r:'Profitable autonomous trading worth any price'},edge:'First multi-agent trading with genuine specialization',val:'Algo trading is 60-73% of US equity volume',risk:'VERY HIGH RISK. Autonomous systems lose real money fast. Multi-agent coordination in adversarial markets unsolved. Agents could conflict or amplify losses. Nobody has proven this works.'},
+},
+'bobby+paula': {
+  simple:{t:'TraderBrand Kit',d:'Professional branding for trading educators, signal services, fintech startups.',prob:'Financial services look boring-corporate or scammy — no credible middle',ppl:'Trading educators, signal providers, fintech startups',purp:'Institutional visual credibility for indie finance pros',prod:'Brand kit with finance templates and compliance disclaimers',proc:'Select niche → generate brand → download → apply everywhere',perf:'Downloads, conversion, growth',prof:'$79 basic, $149 premium',c:{bobby:'Provides financial context — credible vs scammy, compliance needs, trading business requirements',paula:'Creates brand templates with visual hierarchy communicating trust and expertise'},pr:{m:'One-time',p:79,r:'Trading educators spend $500-2K — 90% savings'},edge:'Only brand tool for financial services aesthetic',val:'50K+ trading educators with terrible branding',risk:'Low risk. Templates are proven. Niche focus is an advantage.'},
+  creative:{t:'FinViz Pro',d:'AI financial visualizations that are actually beautiful — institutional analysis with designer presentation.',prob:'Charts are ugly. Designers don\'t get finance. Finance can\'t design.',ppl:'Advisors, analysts, fintech presenting to non-technical audiences',purp:'Bridge financial depth with visual clarity',prod:'Platform generating beautiful branded viz from financial data',proc:'Import data → select style → AI generates charts → export',perf:'Speed, comprehension, retention',prof:'$89 individual, $249 team/month',c:{bobby:'Defines important metrics, ensures proper representation, prevents misleading charts',paula:'Designs viz system, data-readable palettes, brand-consistent templates'},pr:{m:'SaaS',p:89,r:'Finance pros need this — fills the presentation gap'},edge:'First tool where financial accuracy meets design excellence',val:'300K+ advisors presenting in ugly Excel',risk:'Moderate risk. Must balance beauty and accuracy. Finance is conservative.'},
+  experimental:{t:'Sentiment Canvas',d:'Real-time market sentiment as evolving abstract art — making invisible market psychology visible.',prob:'Sentiment drives 70% of short-term moves but is invisible',ppl:'Trading floors, fintech, financial media',purp:'Transform market psychology into visual understanding',prod:'Generative art from sentiment — fear/greed/uncertainty as visual characteristics',proc:'Ingest feeds → map to visuals → generate art → overlay metrics',perf:'Media coverage, adoption, correlation with moves',prof:'$2K/display + $5K media licensing/month',c:{bobby:'Maps psychology to quantifiable metrics, validates visual-behavior correlation',paula:'Creates generative art system, designs emotion-to-visual translation'},pr:{m:'Enterprise licensing',p:2000,r:'Trading floors spend $50K+ on displays'},edge:'Nothing like this exists. Art + data + finance.',val:'Speculative. Bloomberg hasn\'t innovated viz in 20 years.',risk:'HIGH RISK. Too weird for conservative finance? No proven "sentiment art" market. This might not work because finance trusts numbers not art.'},
+},
+'tony+wendy': {
+  simple:{t:'DineReply',d:'Automated review response and complaint management for restaurants.',prob:'Owners get destroyed by bad reviews they never answer — too busy',ppl:'Independent restaurant owners (1-5 locations)',purp:'Protect reputations with professional responses',prod:'AI monitoring reviews, drafting responses, escalating complaints',proc:'Monitor → classify → draft → approve → track',perf:'Response rate, star improvement, return rate',prof:'$49/month per location',c:{tony:'Restaurant-specific templates, what actually fixes complaints (comps, callbacks), operational reality mapping',wendy:'Sentiment analysis, escalation logic, response generation that sounds human and empathetic'},pr:{m:'Per-location SaaS',p:49,r:'One bad review costs more than a year of service'},edge:'Built by people who understand restaurants AND support',val:'1M+ US restaurants. 0.5 star improvement = 5-9% more revenue.',risk:'Low risk. Review management proven. Restaurant focus is clear niche.'},
+  creative:{t:'GuestIntel AI',d:'AI recognizing returning guests, remembering preferences, enabling personalized service at scale.',prob:'Staff turnover destroys knowledge about best customers',ppl:'Upscale casual and fine dining where regulars drive 40%+ revenue',purp:'Every restaurant gets the memory of a 30-year owner',prod:'Guest recognition + preference tracking with POS/reservation integration',proc:'Guest arrives → surface history/allergies/prefs → personalize → guest feels known',perf:'Repeat visits, check size, satisfaction',prof:'$149/month + $0.10 per interaction',c:{tony:'Defines which guest data matters, maps server workflows, ensures tech doesn\'t slow service',wendy:'Builds preference engine, communication system, accumulating "memory" per guest'},pr:{m:'SaaS + usage',p:149,r:'5 extra regulars pays for a year'},edge:'Guest intelligence designed around actual service flow',val:'Fine dining $100B+. Personalization drives loyalty.',risk:'Moderate risk. Privacy concerns. POS integration complex. Staff adoption friction.'},
+  experimental:{t:'Predictive Hospitality Engine',d:'AI predicting what guests want before they ask — table, dishes, timing, check-in.',prob:'Great hospitality is anticipatory but training takes years',ppl:'Restaurant groups (10+) systematizing exceptional service',purp:'Encode world-class hospitality intuition into AI',prod:'AI analyzing behavior, history, environment to guide staff real-time',proc:'Guest enters → AI assesses → suggests actions → staff executes → learns',perf:'Satisfaction, check size, tips, efficiency',prof:'$399/location/month + $2K setup',c:{tony:'Hospitality intuition database — what great servers notice, how they anticipate, translated to patterns',wendy:'Behavioral prediction, real-time suggestions, feedback loop improving over time'},pr:{m:'Enterprise SaaS',p:399,r:'Great service = higher checks + tips + retention'},edge:'First AI encoding hospitality intuition, not just efficiency',val:'Hospitality consulting is $3B. We automate the hardest part.',risk:'HIGH RISK. Guests may resist feeling "predicted." Staff may reject AI direction. This might not work because great service magic is spontaneity — systematizing it may destroy what makes it special.'},
+},
+'remy+paula': {
+  simple:{t:'BrandContent Kit',d:'Month of on-brand social content with matching visuals in one session.',prob:'Content must be well-written AND visually consistent — hard to do both',ppl:'Small business owners doing their own marketing',purp:'Professional branded content for everyone',prod:'Tool generating copy + matching graphics + scheduling recs',proc:'Input brand → generate posts → create graphics → export',perf:'Quality, engagement, time saved',prof:'$39/month or $349/year',c:{remy:'Writes copy with brand voice, CTAs, hooks — every post has a purpose',paula:'Creates matching visual templates with color/typography consistency'},pr:{m:'SaaS',p:39,r:'Cheaper than one freelance post'},edge:'Only tool generating copy AND matching visuals simultaneously',val:'30M small businesses need content but can\'t afford agencies',risk:'Low risk. Content tools proven. Combined copy+design differentiates.'},
+  creative:{t:'StoryBrand Engine',d:'AI creating complete brand narratives with matching visual identity — story to social to pitch decks.',prob:'Most brands have no coherent story. Visuals and copy contradict each other.',ppl:'Startups at the brand-building stage',purp:'Unite brand story and visual identity from one DNA',prod:'Platform generating narrative + visual identity + all content',proc:'Define values → generate story → create visuals → produce content from single source',perf:'Coherence, engagement, recognition',prof:'$197 one-time + $49/month content',c:{remy:'Crafts narrative architecture — founding story, mission, voice guide, messaging framework',paula:'Translates narrative into visual identity — logo, colors, typography embodying the story'},pr:{m:'One-time + subscription',p:197,r:'Agencies charge $10K-$50K'},edge:'Brand story and visual identity from the same DNA',val:'Brand identity market $50B+ and growing',risk:'Moderate risk. AI stories may lack authenticity. Quality perception is everything.'},
+  experimental:{t:'Adaptive Brand AI',d:'Brand system evolving voice and visuals autonomously from audience response data.',prob:'Brands spend millions on identity then discover the audience wants something different',ppl:'DTC brands letting data drive evolution',purp:'Brands that evolve toward what resonates',prod:'AI tracking performance and adjusting voice/visuals/messaging autonomously',proc:'Launch → track response → find patterns → evolve → A/B test → repeat',perf:'Engagement growth, conversion, recognition',prof:'$299/month + $0.05 per interaction',c:{remy:'Designs voice evolution — how tone and messaging adapt from engagement signals',paula:'Builds visual evolution — how colors and imagery adapt while maintaining identity'},pr:{m:'SaaS + usage',p:299,r:'Brand retainers are $5K-$20K/month'},edge:'First self-evolving brand from real audience data',val:'A/B testing for ads is $3B. Nobody does this for brand identity.',risk:'HIGH RISK. Evolution could alienate existing customers. Constant change contradicts brand recognition. This might not work because brands need stability — perpetual evolution defeats the purpose.'},
+},
+'milo+anders': {
+  simple:{t:'ProjectPilot',d:'PM tool with automated dev task tracking from git commits and PRs.',prob:'PMs and developers live in different tools — nobody knows real status',ppl:'Small dev teams (3-15) using git workflows',purp:'Bridge project management and actual development',prod:'PM tool auto-updating from git — zero manual status entry',proc:'Connect repo → detect tasks from PRs → update status → report',perf:'Status accuracy, time saved, velocity',prof:'$29/month per team',c:{milo:'Designs workflow templates, milestone tracking, reporting views PMs actually need',anders:'Builds git integration, auto-detection of task completion, real-time code-to-status sync'},pr:{m:'Team SaaS',p:29,r:'Cheaper than Jira, smarter than Trello'},edge:'Auto-updates from code activity — zero manual entry',val:'28M developers. PM tracking is universal pain.',risk:'Low risk. PM tools massive market. Git integration differentiates.'},
+  creative:{t:'AgentOps Platform',d:'Deploy, monitor, and coordinate AI agent teams in production.',prob:'Companies want AI agents but can\'t manage/monitor/coordinate them',ppl:'Tech-forward businesses deploying multiple AI agents',purp:'Operating system for AI agent teams',prod:'Agent deployment, monitoring, coordination, performance management',proc:'Define roles → deploy → monitor → coordinate handoffs → optimize',perf:'Uptime, completion rate, coordination efficiency',prof:'$199/month + $49/agent',c:{milo:'Designs coordination workflows, role definitions, performance tracking, escalation when agents fail',anders:'Builds deployment infra, monitoring, inter-agent communication, scaling architecture'},pr:{m:'Platform + per-agent',p:199,r:'No standard tool exists — first-mover pricing'},edge:'First purpose-built platform for managing AI agents in production',val:'AI agent deployment exploding but tooling 2 years behind',risk:'Moderate risk. Early market, no standards yet. Could be too early for revenue.'},
+  experimental:{t:'Self-Building Software',d:'Describe a business process in English and it builds, deploys, and maintains the software autonomously.',prob:'Business people know what they need but can\'t communicate to developers',ppl:'Ops teams tired of waiting 6 months for IT tools',purp:'Business people build software without coding or describing code',prod:'English → architecture → code → deploy → monitor → self-heal',proc:'Describe process → AI architects → generates → deploys → monitors → fixes → iterates',perf:'Build accuracy, deploy success, maintenance autonomy',prof:'$999/process/month + $199 maintenance',c:{milo:'Designs business process translation — converting vague descriptions into specs AI can build from',anders:'Builds code generation, deployment, monitoring, self-healing systems producing working software'},pr:{m:'Per-process + maintenance',p:999,r:'Custom tools cost $50K-$500K'},edge:'First system from English description to production software',val:'No-code is $13B but still requires technical thinking',risk:'VERY HIGH RISK. Natural language is ambiguous. "Build me a CRM" means different things to everyone. Generated code quality unreliable. Self-healing may introduce new bugs. This might not work because the gap between intent and specification is computing\'s oldest unsolved problem.'},
+},
+'dwight+remy': {
+  simple:{t:'InsightBrief',d:'Automated industry newsletters combining intelligence with engaging writing.',prob:'Newsletters are either data-dense and boring or well-written and shallow',ppl:'Business professionals wanting actionable intelligence',purp:'Make competitive intelligence readable',prod:'AI-curated newsletter with research depth and storytelling',proc:'Monitor → identify stories → research → write → distribute',perf:'Open rates, growth, cited decisions',prof:'$19 individual, $99 team/month',c:{dwight:'Curates sources, validates info, identifies stories that matter from noise',remy:'Transforms dry intelligence into narrative people actually read and share'},pr:{m:'Subscription',p:19,r:'Newsletters are $10-$50/month'},edge:'Investigative sourcing + professional writing',val:'Newsletter market $12B. Morning Brew sold for $75M.',risk:'Low risk. Proven model. The combination differentiates.'},
+  creative:{t:'Thought Leadership Factory',d:'AI turning competitive research into branded thought leadership content — reports, posts, talks.',prob:'Companies want to be thought leaders but their research is boring and their content is empty',ppl:'B2B companies wanting thought leadership positioning',purp:'Turn intelligence into influence',prod:'Pipeline from research → insights → branded content across formats',proc:'Research topic → synthesize findings → generate report → create social posts → build talk outline',perf:'Engagement, leads generated, brand authority',prof:'$299/month + $2K per research report',c:{dwight:'Conducts the actual research, validates sources, generates genuine insights worth sharing',remy:'Transforms insights into compelling content — reports, posts, talk scripts that position the brand as an authority'},pr:{m:'Subscription + per-report',p:299,r:'Thought leadership agencies charge $10K+/month'},edge:'Real research depth + professional content quality in one pipeline',val:'Content marketing is $72B. Thought leadership is the premium tier.',risk:'Moderate risk. "Thought leadership" is oversaturated. Quality must be genuinely insightful or it\'s just noise.'},
+  experimental:{t:'Narrative Intelligence Platform',d:'AI that discovers hidden stories in business data and tells them as compelling narratives that drive decisions.',prob:'Data tells you what happened. Stories tell you why it matters. Nobody connects the two at scale.',ppl:'Strategy teams, investors, journalists covering business',purp:'Transform raw intelligence into decision-driving narratives',prod:'Platform ingesting data/research and outputting narrative analysis — "here\'s the story the data tells"',proc:'Ingest sources → detect narrative threads → synthesize story → validate with data → deliver as interactive narrative',perf:'Decision influence, prediction accuracy of narrative framing, engagement',prof:'$1,999/month enterprise + custom narratives',c:{dwight:'Builds the intelligence layer — identifies the real stories hiding in data patterns and connects disparate signals',remy:'Creates the narrative engine — transforms analytical insights into stories that decision-makers remember and act on'},pr:{m:'Enterprise SaaS',p:1999,r:'Strategy consultants charge $50K+ for narrative analysis'},edge:'First platform combining investigative intelligence with narrative generation',val:'Business intelligence is $33B but reports are unreadable. Narrative is the missing layer.',risk:'HIGH RISK. Narratives can be misleading — stories that feel true but aren\'t. AI-generated narratives may over-simplify complex situations. This might not work because the gap between "data story" and "actually useful strategic narrative" is enormous and may require human judgment AI can\'t replicate.'},
+},
+'milo+wendy': {
+  simple:{t:'OnboardFlow',d:'Automated customer onboarding workflows with built-in support touchpoints.',prob:'New customers churn because onboarding is confusing and support is reactive',ppl:'SaaS companies with self-serve onboarding',purp:'Turn onboarding from churn risk into retention driver',prod:'Workflow builder with automated steps, check-ins, and proactive support triggers',proc:'Map onboarding steps → automate triggers → detect stuck users → proactive outreach',perf:'Onboarding completion rate, time-to-value, early churn reduction',prof:'$79/month + $0.50 per onboarded user',c:{milo:'Designs the workflow templates, milestone tracking, and process optimization for different business types',wendy:'Builds proactive support triggers, sentiment detection for stuck users, and automated help interventions'},pr:{m:'SaaS + usage',p:79,r:'Reducing early churn by 10% is worth 10x this price'},edge:'Only onboarding tool with built-in proactive support intelligence',val:'SaaS churn costs $136B annually. Onboarding is where most of it happens.',risk:'Low risk. Onboarding tools exist but lack support intelligence. Clear gap.'},
+  creative:{t:'Customer Health AI',d:'AI monitoring customer health scores across product usage, support, billing to predict and prevent churn.',prob:'Companies discover churn after it happens — too late to save the customer',ppl:'SaaS companies with 500+ customers',purp:'See churn coming months early and intervene automatically',prod:'Health scoring platform combining usage, support sentiment, billing patterns with automated interventions',proc:'Ingest signals → score health → detect risk → trigger intervention → track save rate',perf:'Prediction accuracy, intervention success, net revenue retention',prof:'$199/month base + $2 per monitored customer',c:{milo:'Designs the health scoring framework, intervention workflows, and team coordination for save campaigns',wendy:'Builds sentiment analysis from support tickets, detects frustration patterns, designs the intervention playbooks'},pr:{m:'SaaS + per-customer',p:199,r:'Saving one enterprise customer pays for years of service'},edge:'First platform combining operational metrics with support sentiment for churn prediction',val:'Customer success platforms are a $1.5B market growing 25% YoY',risk:'Moderate risk. Health scoring requires good data. Companies with messy data won\'t get value.'},
+  experimental:{t:'Autonomous Customer Success',d:'AI that manages the entire customer lifecycle autonomously — onboarding, adoption, expansion, renewal — with humans only for exceptions.',prob:'Customer success is expensive to staff and doesn\'t scale — but bad CS kills growth',ppl:'High-growth SaaS scaling past what their CS team can handle',purp:'Scale customer success infinitely without proportional headcount',prod:'Autonomous CS agent handling routine lifecycle management with human escalation for complex cases',proc:'Customer signs up → AI onboards → monitors adoption → suggests expansion → handles renewal → escalates only when needed',perf:'CS team efficiency, NPS, expansion revenue, retention',prof:'$499/month + $5 per managed account',c:{milo:'Designs the lifecycle workflows, escalation criteria, and coordination between AI and human CS managers',wendy:'Builds the customer interaction engine — knows when to reach out, what to say, and how to read customer sentiment'},pr:{m:'SaaS + per-account',p:499,r:'CS managers cost $80K+/year. This handles 80% of their work.'},edge:'First fully autonomous customer success system with intelligent human escalation',val:'Companies spend $15B+ on CS headcount. Automation is inevitable.',risk:'HIGH RISK. Customers may hate talking to AI for success conversations. Wrong escalation decisions destroy trust. "Autonomous" CS could feel like the company doesn\'t care. This might not work because customer success is fundamentally a relationship — and relationships resist automation.'},
+},
 };
 
-export interface SevenLayerFramework {
-  problem: string;      // 1. What specific problem does this solve?
-  people: string;       // 2. Who exactly needs this solution?
-  purpose: string;      // 3. Why does this matter/mission?
-  product: string;      // 4. What exactly are we building?
-  process: string;      // 5. How will this work/be delivered?
-  performance: string;  // 6. How do we measure success?
-  profit: string;       // 7. How does this make money sustainably?
-}
+// ── Generic multi-agent collaboration for any pair not in templates ────
+function getGenericIdea(agents: AgentProfile[], level: 'simple'|'creative'|'experimental'): CollaborativeIdea {
+  const names = agents.map(a => a.name);
+  const ids = agents.map(a => a.id);
+  const allSkills = agents.flatMap(a => a.primarySkills.slice(0,2));
+  const allDomains = agents.flatMap(a => a.domainExpertise.slice(0,2));
+  const contribs: Record<string,string> = {};
+  agents.forEach(a => {
+    contribs[a.id] = 'Brings ' + a.domainExpertise.slice(0,2).join(' and ') + ' expertise. ' + a.problemSolvingStyle + ' approach applied to identify opportunities and design the ' + a.typicalSolutions[0].toLowerCase() + ' component of the solution.';
+  });
+  const avgMin = Math.round(agents.reduce((s,a)=>s+a.pricePoints.min,0)/agents.length);
+  const avgMax = Math.round(agents.reduce((s,a)=>s+a.pricePoints.max,0)/agents.length);
+  const price = level === 'simple' ? avgMin : level === 'creative' ? Math.round((avgMin+avgMax)/2) : avgMax;
 
-export interface RealisticTimeline {
-  landingPage: string;    // AI can build in hours
-  backend: string;        // AI can architect and deploy quickly
-  socialMedia: string;    // AI can generate content and setup
-  mvp: string;           // Complete minimum viable product
-  total: string;         // From idea to live product
-}
-
-export interface CollaborativeIdea {
-  title: string;
-  description: string;
-  sevenLayers: SevenLayerFramework;
-  collaboratingAgents: string[];
-  agentContributions: Record<string, string>;
-  realisticTimeline: RealisticTimeline;
-  pricing: {
-    model: string;
-    pricePoint: number;
-    reasoning: string;
+  const simpleIdeas: Record<string, {t:string;d:string}> = {
+    '2': { t: `${names[0]}×${names[1]} Quick Launch`, d: `Combining ${agents[0].domainExpertise[0]} with ${agents[1].domainExpertise[0]} for a focused, easy-to-build product.` },
+    '3': { t: `${names.join('+')} Triple Play`, d: `Three-way collaboration combining ${allDomains.slice(0,3).join(', ')} into one streamlined solution.` },
+    'default': { t: `${names.join('+')} Alliance`, d: `Multi-agent collaboration combining ${allDomains.slice(0,4).join(', ')} expertise.` },
   };
-  competitiveAdvantage: string;
-  marketValidation: string;
+  const creativeIdeas: Record<string, {t:string;d:string}> = {
+    '2': { t: `${names[0]}×${names[1]} Innovation Lab`, d: `Creative fusion of ${agents[0].domainExpertise[0]} and ${agents[1].domainExpertise[0]} tackling an underserved market.` },
+    '3': { t: `${names.join('+')} Convergence Engine`, d: `Novel platform where ${allDomains.slice(0,3).join(', ')} converge to create something new.` },
+    'default': { t: `${names.join('+')} Superteam`, d: `Ambitious multi-domain platform spanning ${allDomains.slice(0,4).join(', ')}.` },
+  };
+  const expIdeas: Record<string, {t:string;d:string}> = {
+    '2': { t: `${names[0]}×${names[1]} Moonshot`, d: `Experimental fusion of ${agents[0].domainExpertise[0]} and ${agents[1].domainExpertise[0]} pushing into uncharted territory.` },
+    '3': { t: `${names.join('+')} Quantum Leap`, d: `Radical three-way experiment combining ${allDomains.slice(0,3).join(', ')} in ways nobody has tried.` },
+    'default': { t: `${names.join('+')} Genesis Project`, d: `Highly experimental multi-agent venture spanning ${allDomains.slice(0,4).join(', ')}.` },
+  };
+
+  const key = String(agents.length) in simpleIdeas ? String(agents.length) : 'default';
+  const meta = level === 'simple' ? simpleIdeas[key] : level === 'creative' ? creativeIdeas[key] : expIdeas[key];
+
+  const riskMap = {
+    simple: 'Low risk. Straightforward combination of proven skills. Main challenge is differentiation in existing markets.',
+    creative: `Moderate risk. Interesting cross-domain combination but unproven together. Need to validate that ${names[0]} and ${names[1] || names[0]} expertise actually creates synergy customers will pay for.`,
+    experimental: `HIGH RISK. Multi-agent experimental venture with no proven playbook. Combining ${allDomains.slice(0,3).join(', ')} is novel but untested. This might not work because cross-domain synergy is often theoretically appealing but practically difficult — each expert optimizes for their own domain at the expense of coherent product vision.`,
+  };
+
+  const tl = level === 'simple' ? TL1 : level === 'creative' ? TL2 : TL3;
+
+  return {
+    title: meta.t,
+    description: meta.d,
+    sevenLayers: {
+      problem: `Businesses need combined ${allDomains.slice(0,3).join(' + ')} expertise but cannot afford or coordinate multiple specialists`,
+      people: agents.map(a => a.pricePoints.target).join('; '),
+      purpose: `Unlock value at the intersection of ${allDomains.slice(0,3).join(', ')}`,
+      product: `AI platform combining ${allSkills.slice(0,4).join(', ')} into one coordinated solution`,
+      process: `${agents.map(a => `${a.name} handles ${a.typicalSolutions[0].toLowerCase()}`).join(' → ')} → integrated delivery`,
+      performance: `Cross-domain solution quality, customer ROI, coordination efficiency`,
+      profit: `$${price}/month subscription`,
+    },
+    collaboratingAgents: ids,
+    agentContributions: contribs,
+    realisticTimeline: tl,
+    pricing: { model: level === 'simple' ? 'SaaS' : level === 'creative' ? 'SaaS + usage' : 'Enterprise + custom', pricePoint: price, reasoning: `Priced based on combined value of ${names.join(' + ')} expertise` },
+    competitiveAdvantage: `First platform combining ${agents.map(a=>a.name).join(', ')} specialized knowledge into coordinated solutions`,
+    marketValidation: `Each agent serves a proven market. The intersection creates a new, underserved niche.`,
+    riskAssessment: riskMap[level],
+  };
 }
 
+// ── Main export ───────────────────────────────────────────────────────
 export function generateCollaborativeIdea(
-  agentIds: string[], 
-  creativityLevel: 'safe' | 'creative' | 'experimental' | 'simple'
+  agentIds: string[],
+  creativityLevel: 'simple' | 'creative' | 'experimental'
 ): CollaborativeIdea {
   const agents = agentIds.map(id => AGENT_PROFILES[id]).filter(Boolean);
-  
-  if (agents.length === 0) {
-    throw new Error('No valid agents provided');
+  if (agents.length === 0) throw new Error('No valid agents provided');
+
+  // Check for pair template (order-independent)
+  if (agentIds.length === 2) {
+    const k1 = `${agentIds[0]}+${agentIds[1]}`;
+    const k2 = `${agentIds[1]}+${agentIds[0]}`;
+    const pair = P[k1] || P[k2];
+    if (pair) {
+      const idea = pair[creativityLevel];
+      const tl = creativityLevel === 'simple' ? TL1 : creativityLevel === 'creative' ? TL2 : TL3;
+      return toC(idea, agentIds, tl);
+    }
   }
 
-  // Find skill intersections and complementary expertise
-  const skillIntersections = findSkillIntersections(agents);
-  const complementarySkills = findComplementarySkills(agents);
-  
-  // Generate idea based on real agent collaboration
-  if (agentIds.includes('bobby') && agentIds.includes('tony')) {
-    return generateBobbyTonyCollaboration(creativityLevel);
-  } else if (agentIds.includes('paula') && agentIds.includes('anders')) {
-    return generatePaulaAndersCollaboration(creativityLevel);
-  } else if (agentIds.includes('dwight') && agentIds.includes('dax')) {
-    return generateDwightDaxCollaboration(creativityLevel);
-  } else {
-    return generateMultiAgentCollaboration(agents, creativityLevel);
-  }
-}
-
-function generateBobbyTonyCollaboration(creativityLevel: string): CollaborativeIdea {
-  const ideas = {
-    safe: {
-      title: 'RestaurantHedge Pro',
-      description: 'Food commodity price tracking and purchasing optimization platform for restaurants using trading-style risk management.',
-      problem: 'Restaurants lose 15-25% profit margin to unpredictable food cost fluctuations',
-      people: 'Independent restaurants and small chains (3-50 locations) with $500K+ annual food costs',
-      purpose: 'Stabilize restaurant profitability by applying institutional trading risk management to food purchasing',
-      product: 'SaaS platform with commodity price alerts, bulk purchasing coordination, and supplier negotiation tools',
-      process: 'Daily price monitoring → risk alerts → group purchasing recommendations → supplier negotiations',
-      performance: 'Track food cost variance, profit margin stability, purchasing savings vs. baseline',
-      profit: 'SaaS subscription: $147/month per location + 2% of documented savings',
-      bobbyContribution: 'Risk management algorithms, price volatility analysis, hedging strategies',
-      tonyContribution: 'Restaurant operations integration, supplier relationships, practical implementation',
-    },
-    creative: {
-      title: 'CulinaryFutures Exchange',
-      description: 'First restaurant commodity futures platform where restaurants can hedge food costs and suppliers offer forward contracts.',
-      problem: 'Restaurant industry has no protection against commodity price volatility unlike other industries',
-      people: 'Restaurant chains (10+ locations) and food suppliers looking for price stability',
-      purpose: 'Create financial stability in the food service industry through modern hedging instruments',
-      product: 'B2B marketplace with futures contracts, price discovery, and risk management tools',
-      process: 'Suppliers list forward contracts → restaurants hedge purchases → platform facilitates settlement',
-      performance: 'Contract volume, price stability improvement, participant satisfaction scores',
-      profit: 'Transaction fees: 0.5% per contract + premium features $499/month',
-      bobbyContribution: 'Futures contract design, risk modeling, trading infrastructure',
-      tonyContribution: 'Restaurant needs analysis, supplier onboarding, practical contract terms',
-    }
-  };
-
-  const idea = ideas[creativityLevel as keyof typeof ideas] || ideas.safe;
-
-  return {
-    title: idea.title,
-    description: idea.description,
-    sevenLayers: {
-      problem: idea.problem,
-      people: idea.people,
-      purpose: idea.purpose,
-      product: idea.product,
-      process: idea.process,
-      performance: idea.performance,
-      profit: idea.profit,
-    },
-    collaboratingAgents: ['bobby', 'tony'],
-    agentContributions: {
-      bobby: idea.bobbyContribution,
-      tony: idea.tonyContribution,
-    },
-    realisticTimeline: {
-      landingPage: '2 hours (AI-generated copy + design)',
-      backend: '3-5 days (API integrations + basic platform)',
-      socialMedia: '4 hours (AI content + automated posting setup)',
-      mvp: '1-2 weeks (core functionality + user testing)',
-      total: '2-3 weeks from concept to live customers',
-    },
-    pricing: {
-      model: 'SaaS + performance fees',
-      pricePoint: 147,
-      reasoning: 'Restaurant margins are tight - price must show clear ROI within 3-6 months of food cost savings',
-    },
-    competitiveAdvantage: 'Only platform combining institutional trading expertise with deep restaurant operations knowledge',
-    marketValidation: 'Restaurant food costs are $240B annually with 20%+ volatility - clear pain point with measurable ROI',
-  };
-}
-
-function generatePaulaAndersCollaboration(creativityLevel: string): CollaborativeIdea {
-  const ideas = {
-    safe: {
-      title: 'DesignOps Studio',
-      description: 'Design system platform that automatically converts designs into production-ready React components with full TypeScript support.',
-      problem: 'Design-to-development handoff wastes 40% of project time and creates inconsistencies',
-      people: 'Small development teams and agencies (5-50 people) building React applications',
-      purpose: 'Eliminate design-development friction and accelerate product delivery',
-      product: 'Design system builder with automatic code generation and component library management',
-      process: 'Upload designs → AI generates components → developers install via npm → automatic updates',
-      performance: 'Development velocity, design consistency score, time-to-market improvement',
-      profit: 'Tiered SaaS: $39/month per designer, $19/month per developer',
-      paulaContribution: 'Design system architecture, component design patterns, visual consistency rules',
-      andersContribution: 'Code generation algorithms, React optimization, developer workflow integration',
-    },
-    creative: {
-      title: 'BrandCode Fusion',
-      description: 'AI platform that generates complete brand systems and automatically codes them into live, responsive websites.',
-      problem: 'Small businesses need cohesive branding and websites but cannot afford separate design and development',
-      people: 'Small business owners, entrepreneurs, and freelancers launching new ventures',
-      purpose: 'Democratize professional brand and web presence for everyone',
-      product: 'AI brand generator with instant website deployment and marketing asset creation',
-      process: 'Input business details → AI creates brand system → generates website → deploys live → creates marketing assets',
-      performance: 'Brand consistency ratings, website performance scores, customer conversion rates',
-      profit: 'One-time purchase: $97 basic brand + site, $197 premium with marketing assets',
-      paulaContribution: 'Brand psychology, visual hierarchy systems, aesthetic consistency algorithms',
-      andersContribution: 'Website generation, performance optimization, hosting infrastructure',
-    }
-  };
-
-  const idea = ideas[creativityLevel as keyof typeof ideas] || ideas.safe;
-
-  return {
-    title: idea.title,
-    description: idea.description,
-    sevenLayers: {
-      problem: idea.problem,
-      people: idea.people,
-      purpose: idea.purpose,
-      product: idea.product,
-      process: idea.process,
-      performance: idea.performance,
-      profit: idea.profit,
-    },
-    collaboratingAgents: ['paula', 'anders'],
-    agentContributions: {
-      paula: idea.paulaContribution,
-      anders: idea.andersContribution,
-    },
-    realisticTimeline: {
-      landingPage: '1 hour (Paula designs + Anders codes)',
-      backend: '4-6 days (design processing + code generation + deployment)',
-      socialMedia: '2 hours (brand-consistent social templates)',
-      mvp: '1 week (core brand generation + basic website output)',
-      total: '10-14 days from concept to paying customers',
-    },
-    pricing: {
-      model: 'One-time purchase with optional upgrades',
-      pricePoint: 97,
-      reasoning: 'Small businesses typically budget $500-2000 for branding + website - our price point offers 80% savings',
-    },
-    competitiveAdvantage: 'Only platform combining professional design system thinking with enterprise-grade code generation',
-    marketValidation: '32M small businesses in US alone, 60% need branding help but find traditional services too expensive',
-  };
-}
-
-function generateDwightDaxCollaboration(creativityLevel: string): CollaborativeIdea {
-  const ideas = {
-    safe: {
-      title: 'CompetitorIQ',
-      description: 'Automated competitive intelligence platform that monitors competitors and provides actionable business insights with predictive analytics.',
-      problem: 'Businesses make strategic decisions blindly while competitors move faster with better information',
-      people: 'B2B SaaS companies, marketing teams, and strategy consultants (10-500 employees)',
-      purpose: 'Level the playing field by democratizing enterprise-grade competitive intelligence',
-      product: 'AI-powered monitoring platform with predictive insights and automated reporting',
-      process: 'Setup competitor tracking → AI monitors all channels → analyzes patterns → delivers insights → predicts moves',
-      performance: 'Intelligence accuracy, response time to competitor moves, strategic decision improvement',
-      profit: 'Tiered SaaS: $199/month startup, $499/month growth, $999/month enterprise',
-      dwightContribution: 'Intelligence gathering methodologies, source validation, insight synthesis',
-      daxContribution: 'Predictive modeling, pattern recognition algorithms, data visualization',
-    }
-  };
-
-  const idea = ideas[creativityLevel as keyof typeof ideas] || ideas.safe;
-
-  return {
-    title: idea.title,
-    description: idea.description,
-    sevenLayers: {
-      problem: idea.problem,
-      people: idea.people,
-      purpose: idea.purpose,
-      product: idea.product,
-      process: idea.process,
-      performance: idea.performance,
-      profit: idea.profit,
-    },
-    collaboratingAgents: ['dwight', 'dax'],
-    agentContributions: {
-      dwight: idea.dwightContribution,
-      dax: idea.daxContribution,
-    },
-    realisticTimeline: {
-      landingPage: '3 hours (research-focused copy + data visualizations)',
-      backend: '5-7 days (data collection APIs + analysis engine)',
-      socialMedia: '3 hours (thought leadership content + automation)',
-      mvp: '2 weeks (core monitoring + basic insights)',
-      total: '3-4 weeks from concept to enterprise demos',
-    },
-    pricing: {
-      model: 'Tiered SaaS based on company size',
-      pricePoint: 499,
-      reasoning: 'Competitive intelligence has high ROI - companies spend 10-50x this on consultants for less comprehensive data',
-    },
-    competitiveAdvantage: 'Only platform combining investigative journalism rigor with advanced predictive analytics',
-    marketValidation: 'Companies spend $2B+ annually on competitive intelligence - clear market with budget allocation',
-  };
-}
-
-function generateMultiAgentCollaboration(agents: AgentProfile[], creativityLevel: string): CollaborativeIdea {
-  // Generate ideas based on actual skill combinations
-  const skills = agents.flatMap(agent => agent.primarySkills);
-  const domains = agents.flatMap(agent => agent.domainExpertise);
-  
-  return {
-    title: 'Multi-Agent Solution Platform',
-    description: 'Collaborative platform leveraging multiple agent specialties',
-    sevenLayers: {
-      problem: 'Complex business problems require multiple expert perspectives',
-      people: 'Growing businesses needing diverse expertise',
-      purpose: 'Democratize access to multi-disciplinary business solutions',
-      product: 'AI-powered consulting platform with specialized modules',
-      process: 'Problem assessment → expert routing → collaborative solution → implementation',
-      performance: 'Solution quality, implementation success, time savings',
-      profit: 'Usage-based pricing: $99/month + per-consultation fees',
-    },
-    collaboratingAgents: agents.map(a => a.id),
-    agentContributions: agents.reduce((acc, agent) => {
-      acc[agent.id] = agent.primarySkills.slice(0, 2).join(' + ');
-      return acc;
-    }, {} as Record<string, string>),
-    realisticTimeline: {
-      landingPage: '2-3 hours',
-      backend: '1 week',
-      socialMedia: '4 hours',
-      mvp: '2-3 weeks',
-      total: '3-4 weeks',
-    },
-    pricing: {
-      model: 'Subscription + usage',
-      pricePoint: 99,
-      reasoning: 'Multi-agent solutions provide high value but must remain accessible to SMBs',
-    },
-    competitiveAdvantage: 'First platform to combine multiple AI agent specialties in coordinated solutions',
-    marketValidation: 'Businesses increasingly need diverse expertise but cannot afford multiple specialists',
-  };
-}
-
-function findSkillIntersections(agents: AgentProfile[]): string[] {
-  // Find common skills across agents
-  const allSkills = agents.map(agent => agent.primarySkills);
-  return allSkills.reduce((common, skills) => 
-    common.filter(skill => skills.includes(skill))
-  );
-}
-
-function findComplementarySkills(agents: AgentProfile[]): string[] {
-  // Find skills that complement each other
-  return agents.flatMap(agent => agent.primarySkills);
+  // Generic fallback for any combination
+  return getGenericIdea(agents, creativityLevel);
 }
