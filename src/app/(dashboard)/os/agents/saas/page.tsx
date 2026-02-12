@@ -683,13 +683,14 @@ export default function MillionDollarSaas() {
             Generate New Ideas
           </h3>
           
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginBottom: '24px' }}>
-            {/* Agent Selection */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '24px' }}>
+            {/* Agent Selection - Stacked Layout */}
             <div>
-              <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '12px' }}>
+              <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '10px' }}>
                 Select Agents
               </label>
-              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {/* All Agents + Clear All row */}
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
                 <button
                   onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                   style={{
@@ -712,7 +713,7 @@ export default function MillionDollarSaas() {
                 <button
                   onClick={() => setSelectedAgents([])}
                   style={{
-                    background: brand.void,
+                    background: brand.graphite,
                     color: brand.smoke,
                     border: `1px solid ${brand.border}`,
                     borderRadius: '8px',
@@ -721,11 +722,13 @@ export default function MillionDollarSaas() {
                     fontWeight: 500,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    opacity: 0.6,
                   }}
                 >
                   Clear All
                 </button>
+              </div>
+              {/* Agents grid */}
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
                 {AGENTS.map(agent => (
                   <button
                     key={agent.id}
@@ -766,96 +769,99 @@ export default function MillionDollarSaas() {
               </div>
             </div>
 
-            {/* Mode Selection */}
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '12px' }}>
-                Generation Mode
-              </label>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <button
-                  onClick={() => setIdeaMode('individual')}
-                  style={{
-                    background: brand.void,
-                    color: ideaMode === 'individual' ? brand.info : brand.white,
-                    border: ideaMode === 'individual' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    opacity: ideaMode === 'individual' ? 1 : 0.6,
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <User size={14} />
-                  Individual Ideas
-                </button>
-                <button
-                  onClick={() => setIdeaMode('collaborative')}
-                  style={{
-                    background: brand.void,
-                    color: ideaMode === 'collaborative' ? brand.info : brand.white,
-                    border: ideaMode === 'collaborative' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px',
-                    fontSize: '13px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    opacity: ideaMode === 'collaborative' ? 1 : 0.6,
-                    transition: 'all 0.2s ease',
-                  }}
-                >
-                  <Users size={14} />
-                  Collaborative
-                </button>
+            {/* Mode + Creativity Row */}
+            <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
+              {/* Mode Selection */}
+              <div>
+                <label style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Generation Mode
+                </label>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => setIdeaMode('individual')}
+                    style={{
+                      background: brand.void,
+                      color: ideaMode === 'individual' ? brand.info : brand.white,
+                      border: ideaMode === 'individual' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
+                      borderRadius: '6px',
+                      padding: '8px 12px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      opacity: ideaMode === 'individual' ? 1 : 0.6,
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <User size={14} />
+                    Individual
+                  </button>
+                  <button
+                    onClick={() => setIdeaMode('collaborative')}
+                    style={{
+                      background: brand.void,
+                      color: ideaMode === 'collaborative' ? brand.info : brand.white,
+                      border: ideaMode === 'collaborative' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
+                      borderRadius: '6px',
+                      padding: '8px 12px',
+                      fontSize: '13px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      opacity: ideaMode === 'collaborative' ? 1 : 0.6,
+                      transition: 'all 0.2s ease',
+                    }}
+                  >
+                    <Users size={14} />
+                    Collaborative
+                  </button>
+                </div>
               </div>
-            </div>
 
-            {/* Creativity Level */}
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '14px', fontWeight: 600, display: 'block', marginBottom: '12px' }}>
-                Creativity Level
-              </label>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
-                {[
-                  { value: 'safe', label: 'Safe', icon: Shield, color: brand.smoke },
-                  { value: 'creative', label: 'Creative', icon: Lightbulb, color: brand.amber },
-                  { value: 'experimental', label: 'Experimental', icon: Sparkles, color: '#A855F7' },
-                  { value: 'simple', label: 'Simple', icon: Brain, color: brand.info },
-                ].map(level => {
-                  const IconComponent = level.icon;
-                  const isSelected = creativityLevel === level.value;
-                  return (
-                    <button
-                      key={level.value}
-                      onClick={() => setCreativityLevel(level.value as CreativityLevel)}
-                      style={{
-                        background: brand.void,
-                        color: isSelected ? level.color : brand.white,
-                        border: isSelected ? `2px solid ${level.color}` : `1px solid ${brand.border}`,
-                        borderRadius: '6px',
-                        padding: '8px 10px',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        opacity: isSelected ? 1 : 0.6,
-                        transition: 'all 0.2s ease',
-                      }}
-                    >
-                      <IconComponent size={12} />
-                      {level.label}
-                    </button>
-                  );
-                })}
+              {/* Creativity Level */}
+              <div>
+                <label style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, display: 'block', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  Creativity Level
+                </label>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  {[
+                    { value: 'safe', label: 'Safe', icon: Shield, color: brand.smoke },
+                    { value: 'creative', label: 'Creative', icon: Lightbulb, color: brand.amber },
+                    { value: 'experimental', label: 'Experimental', icon: Sparkles, color: '#A855F7' },
+                    { value: 'simple', label: 'Simple', icon: Brain, color: brand.info },
+                  ].map(level => {
+                    const IconComponent = level.icon;
+                    const isSelected = creativityLevel === level.value;
+                    return (
+                      <button
+                        key={level.value}
+                        onClick={() => setCreativityLevel(level.value as CreativityLevel)}
+                        style={{
+                          background: brand.void,
+                          color: isSelected ? level.color : brand.white,
+                          border: isSelected ? `2px solid ${level.color}` : `1px solid ${brand.border}`,
+                          borderRadius: '6px',
+                          padding: '8px 12px',
+                          fontSize: '12px',
+                          fontWeight: 600,
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          opacity: isSelected ? 1 : 0.6,
+                          transition: 'all 0.2s ease',
+                        }}
+                      >
+                        <IconComponent size={12} />
+                        {level.label}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
