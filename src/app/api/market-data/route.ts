@@ -36,11 +36,13 @@ async function fetchYahooChart(symbol: string): Promise<{ price: number; change:
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 3000);
 
+    // Use 5m interval to get the most recent tick price
     const res = await fetch(
-      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=1d&range=1d`,
+      `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?interval=5m&range=1d`,
       {
         signal: controller.signal,
         headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
+        cache: 'no-store',
       }
     );
     clearTimeout(timeout);
@@ -50,20 +52,23 @@ async function fetchYahooChart(symbol: string): Promise<{ price: number; change:
     const meta = data?.chart?.result?.[0]?.meta;
     if (!meta) return null;
 
+    // regularMarketPrice is the most current price Yahoo has
     const price = meta.regularMarketPrice ?? 0;
     const prevClose = meta.chartPreviousClose ?? meta.previousClose ?? price;
     const change = price - prevClose;
     const pct = prevClose ? (change / prevClose) * 100 : 0;
+
+    // Get intraday high/low from the 5m candles
     const indicators = data?.chart?.result?.[0]?.indicators?.quote?.[0];
-    const highs = indicators?.high?.filter((v: number | null) => v !== null) ?? [];
-    const lows = indicators?.low?.filter((v: number | null) => v !== null) ?? [];
+    const highs = (indicators?.high ?? []).filter((v: number | null) => v !== null);
+    const lows = (indicators?.low ?? []).filter((v: number | null) => v !== null);
 
     return {
       price,
       change,
       pct,
-      high: highs.length ? Math.max(...highs) : price,
-      low: lows.length ? Math.min(...lows) : price,
+      high: highs.length ? Math.max(...highs) : (meta.regularMarketDayHigh ?? price),
+      low: lows.length ? Math.min(...lows) : (meta.regularMarketDayLow ?? price),
       name: meta.shortName || meta.symbol || symbol,
     };
   } catch {
