@@ -70,7 +70,7 @@ type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
 export default function MillionDollarSaas() {
   const [ideas, setIdeas] = useState<SaasIdea[]>(mockSaasIdeas);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
+  const [selectedAgents, setSelectedAgents] = useState<string[]>(AGENTS.map(a => a.id));
   const [ideaMode, setIdeaMode] = useState<IdeaMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
   const [selectedMarketSize, setSelectedMarketSize] = useState<string | null>(null);
@@ -437,7 +437,7 @@ export default function MillionDollarSaas() {
       const ideaSet = agentIdeas[agentId as keyof typeof agentIdeas];
       if (ideaSet) {
         const template = ideaSet[creativity as keyof typeof ideaSet] || ideaSet['creative'] || ideaSet['safe'];
-        if (!template) continue;
+        if (!template) return;
         ideas.push({
           id: `${agentId}-${Date.now()}`,
           agentId,
