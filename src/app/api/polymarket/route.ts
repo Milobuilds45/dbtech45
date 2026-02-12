@@ -149,7 +149,7 @@ export async function GET(request: Request) {
   // Get unique categories and sort by Derek's priority order
   const allCategories = [...new Set(events.flatMap((e: any) => 
     e.tags?.map((t: any) => t.label) || [e.category]
-  ).filter(Boolean))];
+  ).filter(Boolean))] as string[];
   
   // Derek's preferred category order
   const priorityOrder = [
@@ -183,7 +183,7 @@ export async function GET(request: Request) {
   ];
   
   // Sort categories by priority, then alphabetically
-  const sortedCategories = allCategories.sort((a, b) => {
+  const sortedCategories = allCategories.sort((a: string, b: string) => {
     const aIndex = priorityOrder.findIndex(p => 
       a.toLowerCase().includes(p.toLowerCase()) || p.toLowerCase().includes(a.toLowerCase())
     );
