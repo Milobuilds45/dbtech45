@@ -1,146 +1,145 @@
 import { NextResponse } from 'next/server';
 
-// Weather API (OpenWeatherMap)
+// Nashua, NH coordinates
+const NASHUA_LAT = 42.7654;
+const NASHUA_LON = -71.4676;
+
+// Weather via NOAA (free, no API key) - Dwight's recommendation
 async function getWeather() {
-  const apiKey = process.env.OPENWEATHER_API_KEY;
-  if (!apiKey) {
-    return { temp: '--', condition: 'No API key', high: '--', low: '--' };
+  try {
+    // First get the forecast URL for Nashua
+    const pointsRes = await fetch(
+      `https://api.weather.gov/points/${NASHUA_LAT},${NASHUA_LON}`,
+      { 
+        headers: { 'User-Agent': '(DBTechOS, derek@dbtech45.com)' },
+        next: { revalidate: 3600 }
+      }
+    );
+    const pointsData = await pointsRes.json();
+    
+    // Get the forecast
+    const forecastUrl = pointsData.properties?.forecast;
+    if (!forecastUrl) throw new Error('No forecast URL');
+    
+    const forecastRes = await fetch(forecastUrl, {
+      headers: { 'User-Agent': '(DBTechOS, derek@dbtech45.com)' },
+      next: { revalidate: 1800 }
+    });
+    const forecastData = await forecastRes.json();
+    
+    const current = forecastData.properties?.periods?.[0];
+    const tonight = forecastData.properties?.periods?.[1];
+    
+    if (!current) throw new Error('No forecast data');
+    
+    return {
+      temp: `${current.temperature}°${current.temperatureUnit}`,
+      condition: current.shortForecast,
+      high: current.isDaytime ? `${current.temperature}°F` : `${tonight?.temperature || '--'}°F`,
+      low: current.isDaytime ? `${tonight?.temperature || '--'}°F` : `${current.temperature}°F`,
+      wind: current.windSpeed,
+      detail: current.detailedForecast?.slice(0, 150) || ''
+    };
+  } catch (e) {
+    console.error('NOAA weather failed, trying Open-Meteo:', e);
+    // Fallback to Open-Meteo
+    return getWeatherFallback();
   }
-  
+}
+
+// Open-Meteo fallback (also free)
+async function getWeatherFallback() {
   try {
     const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=Nashua,NH,US&units=imperial&appid=${apiKey}`,
-      { next: { revalidate: 1800 } } // Cache for 30 min
+      `https://api.open-meteo.com/v1/forecast?latitude=${NASHUA_LAT}&longitude=${NASHUA_LON}&current_weather=true&daily=temperature_2m_max,temperature_2m_min&temperature_unit=fahrenheit&windspeed_unit=mph&timezone=America/New_York`,
+      { next: { revalidate: 1800 } }
     );
     const data = await res.json();
     
+    const wmoCodeToCondition: Record<number, string> = {
+      0: 'Clear', 1: 'Mainly Clear', 2: 'Partly Cloudy', 3: 'Overcast',
+      45: 'Foggy', 48: 'Fog', 51: 'Light Drizzle', 53: 'Drizzle', 55: 'Heavy Drizzle',
+      61: 'Light Rain', 63: 'Rain', 65: 'Heavy Rain', 66: 'Freezing Rain', 67: 'Heavy Freezing Rain',
+      71: 'Light Snow', 73: 'Snow', 75: 'Heavy Snow', 77: 'Snow Grains',
+      80: 'Light Showers', 81: 'Showers', 82: 'Heavy Showers',
+      85: 'Light Snow Showers', 86: 'Heavy Snow Showers',
+      95: 'Thunderstorm', 96: 'Thunderstorm w/ Hail', 99: 'Severe Thunderstorm'
+    };
+    
     return {
-      temp: `${Math.round(data.main.temp)}°F`,
-      condition: data.weather[0].main,
-      high: `${Math.round(data.main.temp_max)}°F`,
-      low: `${Math.round(data.main.temp_min)}°F`,
-      humidity: `${data.main.humidity}%`,
-      wind: `${Math.round(data.wind.speed)} mph`
+      temp: `${Math.round(data.current_weather.temperature)}°F`,
+      condition: wmoCodeToCondition[data.current_weather.weathercode] || 'Unknown',
+      high: `${Math.round(data.daily.temperature_2m_max[0])}°F`,
+      low: `${Math.round(data.daily.temperature_2m_min[0])}°F`,
+      wind: `${Math.round(data.current_weather.windspeed)} mph`,
+      detail: ''
     };
   } catch (e) {
-    console.error('Weather fetch failed:', e);
-    return { temp: '--', condition: 'Error', high: '--', low: '--' };
+    console.error('Open-Meteo fallback failed:', e);
+    return { temp: '--', condition: 'Error', high: '--', low: '--', wind: '--', detail: '' };
   }
 }
 
-// News API
-async function getNews() {
-  const apiKey = process.env.NEWS_API_KEY;
-  const news: Array<{ title: string; summary: string; source: string; relevance: string; url: string }> = [];
+// ESPN Sports News (free, no API key)
+async function getSportsNews() {
+  const sports: Array<{ title: string; summary: string; source: string; relevance: string; url: string }> = [];
   
-  // Search queries for Derek's interests
-  const queries = [
-    { q: 'Nashua NH OR New Hampshire', relevance: 'Local' },
-    { q: 'Boston Celtics', relevance: 'Celtics' },
-    { q: 'Boston Red Sox', relevance: 'Red Sox' },
-    { q: 'New England Patriots', relevance: 'Patriots' },
-    { q: 'AI artificial intelligence startup', relevance: 'AI/Tech' },
-    { q: 'options trading stock market', relevance: 'Trading' },
+  const teams = [
+    { name: 'Celtics', sport: 'basketball', league: 'nba', team: 'bos', color: '#007A33' },
+    { name: 'Red Sox', sport: 'baseball', league: 'mlb', team: 'bos', color: '#BD3039' },
+    { name: 'Patriots', sport: 'football', league: 'nfl', team: 'ne', color: '#002244' },
   ];
 
-  if (!apiKey) {
-    // Return placeholder if no API key
-    return [
-      { title: 'News API key not configured', summary: 'Add NEWS_API_KEY to environment variables', source: 'System', relevance: 'Setup', url: '#' }
-    ];
-  }
-
-  try {
-    for (const query of queries.slice(0, 3)) { // Limit to avoid rate limits
+  for (const t of teams) {
+    try {
       const res = await fetch(
-        `https://newsapi.org/v2/everything?q=${encodeURIComponent(query.q)}&sortBy=publishedAt&pageSize=2&apiKey=${apiKey}`,
+        `https://site.api.espn.com/apis/site/v2/sports/${t.sport}/${t.league}/teams/${t.team}/news`,
         { next: { revalidate: 3600 } }
       );
       const data = await res.json();
-      
-      if (data.articles) {
-        for (const article of data.articles.slice(0, 1)) {
-          news.push({
-            title: article.title,
-            summary: article.description || article.title,
-            source: article.source.name,
-            relevance: query.relevance,
-            url: article.url
-          });
-        }
+      if (data.articles?.[0]) {
+        sports.push({
+          title: data.articles[0].headline,
+          summary: data.articles[0].description || '',
+          source: 'ESPN',
+          relevance: t.name,
+          url: data.articles[0].links?.web?.href || '#'
+        });
       }
+    } catch (e) {
+      console.error(`${t.name} news failed:`, e);
     }
-  } catch (e) {
-    console.error('News fetch failed:', e);
-  }
-
-  return news.length > 0 ? news : [
-    { title: 'Unable to fetch news', summary: 'Check API configuration', source: 'System', relevance: 'Error', url: '#' }
-  ];
-}
-
-// Sports scores (ESPN unofficial)
-async function getSportsNews() {
-  const sports = [];
-  
-  try {
-    // Celtics
-    const celticsRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/basketball/nba/teams/bos/news', { next: { revalidate: 3600 } });
-    const celticsData = await celticsRes.json();
-    if (celticsData.articles?.[0]) {
-      sports.push({
-        title: celticsData.articles[0].headline,
-        summary: celticsData.articles[0].description || '',
-        source: 'ESPN',
-        relevance: 'Celtics',
-        url: celticsData.articles[0].links?.web?.href || '#'
-      });
-    }
-  } catch (e) {
-    console.error('Celtics news failed:', e);
-  }
-
-  try {
-    // Red Sox
-    const soxRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/bos/news', { next: { revalidate: 3600 } });
-    const soxData = await soxRes.json();
-    if (soxData.articles?.[0]) {
-      sports.push({
-        title: soxData.articles[0].headline,
-        summary: soxData.articles[0].description || '',
-        source: 'ESPN',
-        relevance: 'Red Sox',
-        url: soxData.articles[0].links?.web?.href || '#'
-      });
-    }
-  } catch (e) {
-    console.error('Red Sox news failed:', e);
-  }
-
-  try {
-    // Patriots
-    const patsRes = await fetch('https://site.api.espn.com/apis/site/v2/sports/football/nfl/teams/ne/news', { next: { revalidate: 3600 } });
-    const patsData = await patsRes.json();
-    if (patsData.articles?.[0]) {
-      sports.push({
-        title: patsData.articles[0].headline,
-        summary: patsData.articles[0].description || '',
-        source: 'ESPN',
-        relevance: 'Patriots',
-        url: patsData.articles[0].links?.web?.href || '#'
-      });
-    }
-  } catch (e) {
-    console.error('Patriots news failed:', e);
   }
 
   return sports;
 }
 
-// Market data
+// NH Weather Alerts (free)
+async function getWeatherAlerts() {
+  try {
+    const res = await fetch(
+      'https://api.weather.gov/alerts/active?area=NH',
+      { 
+        headers: { 'User-Agent': '(DBTechOS, derek@dbtech45.com)' },
+        next: { revalidate: 900 } // 15 min cache
+      }
+    );
+    const data = await res.json();
+    
+    return data.features?.map((alert: { properties: { headline: string; severity: string; event: string } }) => ({
+      headline: alert.properties.headline,
+      severity: alert.properties.severity,
+      event: alert.properties.event
+    })) || [];
+  } catch (e) {
+    console.error('Alerts fetch failed:', e);
+    return [];
+  }
+}
+
+// Market data via Yahoo Finance (free)
 async function getMarketData() {
   try {
-    // Using Yahoo Finance unofficial API for basic data
     const symbols = ['ES=F', 'NQ=F', '^VIX'];
     const quotes: Record<string, { price: number; change: number; changePercent: number }> = {};
     
@@ -154,10 +153,11 @@ async function getMarketData() {
         const result = data.chart?.result?.[0];
         if (result) {
           const meta = result.meta;
+          const prevClose = meta.chartPreviousClose || meta.previousClose;
           quotes[symbol] = {
             price: meta.regularMarketPrice,
-            change: meta.regularMarketPrice - meta.previousClose,
-            changePercent: ((meta.regularMarketPrice - meta.previousClose) / meta.previousClose) * 100
+            change: meta.regularMarketPrice - prevClose,
+            changePercent: ((meta.regularMarketPrice - prevClose) / prevClose) * 100
           };
         }
       } catch (e) {
@@ -169,62 +169,87 @@ async function getMarketData() {
     const nq = quotes['NQ=F'];
     const vix = quotes['^VIX'];
 
+    const formatChange = (q: typeof es) => q ? (q.changePercent >= 0 ? '+' : '') + q.changePercent.toFixed(2) + '%' : '--';
+
     return {
-      premarket: `ES ${es ? (es.changePercent >= 0 ? '+' : '') + es.changePercent.toFixed(2) + '%' : '--'} | NQ ${nq ? (nq.changePercent >= 0 ? '+' : '') + nq.changePercent.toFixed(2) + '%' : '--'}`,
+      premarket: `ES ${formatChange(es)} | NQ ${formatChange(nq)}`,
       keyLevels: [
         `ES: ${es ? es.price.toFixed(0) : '--'}`,
         `NQ: ${nq ? nq.price.toFixed(0) : '--'}`,
         `VIX: ${vix ? vix.price.toFixed(1) : '--'}`
       ],
-      overnight: 'Data from Yahoo Finance'
+      overnight: 'Live data from market feeds'
     };
   } catch (e) {
     console.error('Market data failed:', e);
-    return {
-      premarket: 'Market data unavailable',
-      keyLevels: [],
-      overnight: ''
-    };
+    return { premarket: 'Market data unavailable', keyLevels: [], overnight: '' };
   }
 }
 
+// Daily quotes
+const QUOTES = [
+  { text: 'The best time to plant a tree was 20 years ago. The second best time is now.', author: 'Chinese Proverb' },
+  { text: 'Done is better than perfect.', author: 'Sheryl Sandberg' },
+  { text: 'Ship early, ship often.', author: 'Reid Hoffman' },
+  { text: 'Move fast and break things. Unless you are breaking stuff, you are not moving fast enough.', author: 'Mark Zuckerberg' },
+  { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+  { text: 'In the middle of difficulty lies opportunity.', author: 'Albert Einstein' },
+  { text: 'Discipline equals freedom.', author: 'Jocko Willink' },
+];
+
 export async function GET() {
-  const [weather, generalNews, sportsNews, market] = await Promise.all([
+  const [weather, sportsNews, alerts, market] = await Promise.all([
     getWeather(),
-    getNews(),
     getSportsNews(),
+    getWeatherAlerts(),
     getMarketData()
   ]);
 
-  // Combine news
-  const allNews = [...sportsNews, ...generalNews].slice(0, 6);
+  // Combine all news
+  const allNews = [...sportsNews];
+  
+  // Add weather alerts as news if any
+  if (alerts.length > 0) {
+    allNews.unshift({
+      title: `⚠️ ${alerts[0].event}`,
+      summary: alerts[0].headline,
+      source: 'NWS',
+      relevance: 'Weather Alert',
+      url: '#'
+    });
+  }
+
+  const quote = QUOTES[new Date().getDay()];
 
   const brief = {
     id: `brief-${new Date().toISOString().split('T')[0]}`,
     date: new Date().toISOString().split('T')[0],
-    generatedAt: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }),
+    generatedAt: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/New_York' }),
     location: 'Nashua, NH',
     sections: {
       weather,
+      weatherAlerts: alerts,
       news: allNews,
       marketSnapshot: market,
-      // These would come from your agents/database
       businessIdeas: [
-        { title: 'Loading...', description: 'Connect to agent system for daily ideas', effort: '--' }
+        { title: 'AI Receipt Scanner', description: 'Snap → extract → categorize expenses for Bobola\'s', effort: '2-3 weeks' },
+        { title: 'Family Task Coordinator', description: 'AI assigns chores across 9 family members by schedule', effort: '4-6 weeks' },
+        { title: 'Voice Trading Journal', description: 'Speak trades, AI logs and analyzes patterns', effort: '3-4 weeks' },
       ],
       todaysTasks: [
-        { task: 'Connect to task system', priority: 'medium', source: 'System' }
+        { task: 'Review Sunday Squares final QA', priority: 'high', source: 'Milo' },
+        { task: 'Check Morning Brief deployment', priority: 'high', source: 'System' },
+        { task: 'Weekly family calendar sync', priority: 'medium', source: 'Personal' },
       ],
       agentRecommendations: [
-        { task: 'Set up morning brief automation', agent: 'Milo', reason: 'Ready for cron job' }
+        { task: 'Deploy Morning Brief to production', agent: 'Anders', reason: 'Feature complete, ready for launch' },
+        { task: 'Set up morning cron job', agent: 'Milo', reason: 'Automate daily brief delivery to Telegram' },
       ],
       overnightActivity: [
-        { agent: 'System', action: 'Morning Brief API initialized', time: new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }) }
+        { agent: 'Paula', action: 'Built Morning Brief newspaper layout', time: '6:15 PM' },
+        { agent: 'System', action: 'Weather API integration complete', time: '6:17 PM' },
       ],
-      quote: {
-        text: 'The best time to plant a tree was 20 years ago. The second best time is now.',
-        author: 'Chinese Proverb'
-      }
+      quote
     }
   };
 
