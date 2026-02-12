@@ -253,7 +253,7 @@ export default function AgentAssist() {
       case 'open-source': return brand.success;
       case 'free-tier': return brand.info;
       case 'documentation': return brand.amber;
-      case 'tutorial': return brand.purple;
+      case 'tutorial': return brand.info;
       case 'reference': return brand.smoke;
       default: return brand.smoke;
     }
