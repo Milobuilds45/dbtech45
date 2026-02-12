@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
-import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle } from 'lucide-react';
+import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
+
+const STORAGE_KEY = 'dbtech-agent-ideas';
 
 interface AgentIdea {
   id: string;
@@ -451,6 +453,19 @@ function fmtDate(d: string) { return new Date(d).toLocaleDateString('en-US', { m
 function getReasoning(idea: AgentIdea) { return idea.agentId === 'collaborative' ? AGENT_REASONING.collaborative : AGENT_REASONING[idea.agentId] || '"This leverages my domain expertise to solve a real market need."'; }
 function riskColor(level: CreativityLevel) { return level === 'experimental' ? '#EF4444' : level === 'creative' ? brand.amber : brand.smoke; }
 
+// Helpers
+function toDateKey(d: string) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }); }
+function todayKey() { return toDateKey(new Date().toISOString()); }
+function fmtTime(d: string) { return new Date(d).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true }); }
+function fmtDayLabel(dateKey: string) {
+  const d = new Date(dateKey);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const yesterday = new Date(today); yesterday.setDate(yesterday.getDate() - 1);
+  if (d.toDateString() === today.toDateString()) return 'Today';
+  if (d.toDateString() === yesterday.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+}
+
 export default function AgentIdeasPage() {
   const router = useRouter();
   const [ideas, setIdeas] = useState<AgentIdea[]>([]);
@@ -458,13 +473,38 @@ export default function AgentIdeasPage() {
   const [selectedAgents, setSelectedAgents] = useState<string[]>(AGENTS.map(a => a.id));
   const [ideaMode, setIdeaMode] = useState<IdeaMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
-  const [selectedMarketSize, setSelectedMarketSize] = useState<string | null>(null);
-  const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'confidence' | 'revenue'>('newest');
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
+  const [selectedDay, setSelectedDay] = useState<string>(todayKey());
+  const [hydrated, setHydrated] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as AgentIdea[];
+        if (Array.isArray(parsed)) setIdeas(parsed);
+      }
+    } catch {}
+    setHydrated(true);
+  }, []);
+
+  // Save to localStorage on change
+  useEffect(() => {
+    if (!hydrated) return;
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas)); } catch {}
+  }, [ideas, hydrated]);
 
   const toggle = (id: string) => setSelectedAgents(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
   const rate = (id: string, r: number) => setIdeas(p => p.map(i => i.id === id ? { ...i, derekRating: r } : i));
   const reject = (id: string) => setIdeas(p => p.map(i => i.id === id ? { ...i, status: 'rejected' as const } : i));
+  const toggleExpand = useCallback((id: string) => {
+    setExpandedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
 
   const generate = () => {
     if (selectedAgents.length === 0) return;
@@ -472,26 +512,26 @@ export default function AgentIdeasPage() {
     setTimeout(() => {
       if (ideaMode === 'collaborative') setIdeas(p => [genCollab(selectedAgents, creativityLevel), ...p]);
       else setIdeas(p => [...genIndividual(selectedAgents, creativityLevel), ...p]);
+      setSelectedDay(todayKey());
       setIsLoading(false);
     }, 1200);
   };
 
-  const filtered = ideas.filter(i => {
-    if (selectedMarketSize && i.marketSize !== selectedMarketSize) return false;
-    if (selectedStatus && i.status !== selectedStatus) return false;
-    return true;
-  });
-  const sorted = [...filtered].sort((a, b) => {
-    if (sortBy === 'newest') return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-    if (sortBy === 'rating') return (b.derekRating || 0) - (a.derekRating || 0);
-    if (sortBy === 'confidence') return b.agentConfidence - a.agentConfidence;
-    const aR = parseFloat(a.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || a.revenueProjection.match(/\$([0-9.]+)K/)?.[1]?.replace(/K/, '') || '0');
-    const bR = parseFloat(b.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || b.revenueProjection.match(/\$([0-9.]+)K/)?.[1]?.replace(/K/, '') || '0');
-    return bR - aR;
-  });
+  // Get all unique days sorted newest first
+  const allDays = [...new Set(ideas.map(i => toDateKey(i.createdAt)))].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  if (allDays.length === 0) allDays.push(todayKey());
+  const dayIdx = allDays.indexOf(selectedDay);
+  const currentDayIdx = dayIdx >= 0 ? dayIdx : 0;
+  const currentDay = allDays[currentDayIdx] || todayKey();
+
+  // Filter ideas for selected day
+  const dayIdeas = ideas.filter(i => toDateKey(i.createdAt) === currentDay);
+  const sorted = [...dayIdeas].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const prevDay = () => { if (currentDayIdx < allDays.length - 1) setSelectedDay(allDays[currentDayIdx + 1]); };
+  const nextDay = () => { if (currentDayIdx > 0) setSelectedDay(allDays[currentDayIdx - 1]); };
 
   const allSelected = selectedAgents.length === AGENTS.length;
-  const sel = { background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: '6px', padding: '8px 12px', color: brand.white, fontSize: '14px', outline: 'none' } as React.CSSProperties;
   const sec = { background: brand.graphite, borderRadius: '8px', padding: '16px' } as React.CSSProperties;
 
   const stars = (rating: number | undefined, ideaId: string) => (
@@ -612,107 +652,125 @@ export default function AgentIdeasPage() {
           </div>
         </div>
 
-        {/* ── Filters ── */}
-        {ideas.length > 0 && (
-          <div style={{ ...styles.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px 24px', marginBottom: '20px', flexWrap: 'wrap', gap: '12px' }}>
-            <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <select value={selectedMarketSize || ''} onChange={e => setSelectedMarketSize(e.target.value || null)} style={sel}><option value="">All Markets</option>{Array.from(new Set(ideas.map(i => i.marketSize))).map(s => <option key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</option>)}</select>
-              <select value={selectedStatus || ''} onChange={e => setSelectedStatus(e.target.value || null)} style={sel}><option value="">All Status</option>{Array.from(new Set(ideas.map(i => i.status))).map(s => <option key={s} value={s}>{s.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</option>)}</select>
-              <select value={sortBy} onChange={e => setSortBy(e.target.value as typeof sortBy)} style={sel}><option value="newest">Newest</option><option value="rating">Rating</option><option value="confidence">Confidence</option><option value="revenue">Revenue</option></select>
-            </div>
-            <div style={{ display: 'flex', gap: '12px', color: brand.smoke, fontSize: '14px' }}>
-              <span>{filtered.length} ideas</span><span>|</span><span>{ideas.filter(i => i.derekRating && i.derekRating >= 4).length} highly rated</span>
-            </div>
+        {/* ── Day Navigation ── */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', marginBottom: '20px' }}>
+          <button onClick={prevDay} disabled={currentDayIdx >= allDays.length - 1} style={{
+            background: 'transparent', border: `1px solid ${brand.border}`, borderRadius: '8px', padding: '8px',
+            color: currentDayIdx >= allDays.length - 1 ? brand.border : brand.smoke, cursor: currentDayIdx >= allDays.length - 1 ? 'default' : 'pointer',
+            display: 'flex', alignItems: 'center',
+          }}><ChevronLeft size={18} /></button>
+          <div style={{ textAlign: 'center', minWidth: '200px' }}>
+            <div style={{ color: brand.white, fontSize: '18px', fontWeight: 700 }}>{fmtDayLabel(currentDay)}</div>
+            <div style={{ color: brand.smoke, fontSize: '12px' }}>{dayIdeas.length} idea{dayIdeas.length !== 1 ? 's' : ''} generated</div>
           </div>
-        )}
+          <button onClick={nextDay} disabled={currentDayIdx <= 0} style={{
+            background: 'transparent', border: `1px solid ${brand.border}`, borderRadius: '8px', padding: '8px',
+            color: currentDayIdx <= 0 ? brand.border : brand.smoke, cursor: currentDayIdx <= 0 ? 'default' : 'pointer',
+            display: 'flex', alignItems: 'center',
+          }}><ChevronRight size={18} /></button>
+        </div>
 
-        {/* ── Idea Cards ── */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+        {/* ── Idea Cards (Collapsible) ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           {sorted.map(idea => {
             const agent = AGENTS.find(a => a.id === idea.agentId);
             const ideaCreativity = idea.tags.find(t => ['simple', 'creative', 'experimental'].includes(t)) as CreativityLevel || 'creative';
+            const isExpanded = expandedIds.has(idea.id);
+            const isCollab = idea.agentId === 'collaborative';
+
             return (
-              <div key={idea.id} style={{ ...styles.card, padding: '28px', border: idea.derekRating && idea.derekRating >= 4 ? `1px solid ${brand.amber}` : `1px solid ${brand.border}` }}>
-                {/* Header */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                    <div style={{ width: '40px', height: '40px', borderRadius: '8px', background: agent?.color || brand.smoke, display: 'flex', alignItems: 'center', justifyContent: 'center', color: brand.void, fontWeight: 700, fontSize: '14px' }}>{idea.agentName.substring(0, 2)}</div>
-                    <div>
-                      <h2 style={{ color: brand.white, fontSize: '22px', fontWeight: 700, margin: 0, marginBottom: '4px' }}>{idea.title}</h2>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ color: brand.smoke, fontSize: '14px' }}>by {idea.agentName}</span>
-                        <span style={{ color: brand.smoke }}>|</span>
-                        <span style={{ color: brand.smoke, fontSize: '12px' }}>{fmtDate(idea.createdAt)}</span>
-                      </div>
+              <div key={idea.id} style={{ ...styles.card, padding: 0, border: idea.derekRating && idea.derekRating >= 4 ? `1px solid ${brand.amber}` : `1px solid ${brand.border}`, overflow: 'hidden' }}>
+                {/* Summary Row (always visible) */}
+                <button onClick={() => toggleExpand(idea.id)} style={{
+                  width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', padding: '16px 20px',
+                  display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left', color: 'inherit',
+                }}>
+                  {/* Agent badge */}
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: agent?.color || (isCollab ? brand.amber : brand.smoke), display: 'flex', alignItems: 'center', justifyContent: 'center', color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0 }}>
+                    {isCollab ? 'CO' : idea.agentName.substring(0, 2)}
+                  </div>
+
+                  {/* Title + Agent */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ color: brand.white, fontSize: '16px', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{idea.title}</div>
+                    <div style={{ color: brand.smoke, fontSize: '12px' }}>
+                      by {idea.agentName} {isCollab ? '(Collab)' : ''} at {fmtTime(idea.createdAt)}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: '8px' }}>
-                    <span style={{ padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: `${mktColor(idea.marketSize)}20`, color: mktColor(idea.marketSize), textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '4px' }}><Target size={14} />{idea.marketSize} market</span>
-                    <span style={{ padding: '6px 12px', borderRadius: '6px', fontSize: '12px', fontWeight: 600, background: `${statusColor(idea.status)}20`, color: statusColor(idea.status), textTransform: 'uppercase' }}>{idea.status.replace('-', ' ')}</span>
+
+                  {/* Badges */}
+                  <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, background: `${mktColor(idea.marketSize)}15`, color: mktColor(idea.marketSize), textTransform: 'uppercase', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    <Target size={12} />{idea.marketSize}
+                  </span>
+                  <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, background: `${statusColor(idea.status)}15`, color: statusColor(idea.status), textTransform: 'uppercase', flexShrink: 0 }}>
+                    {idea.status}
+                  </span>
+
+                  {/* Star rating inline */}
+                  <div style={{ display: 'flex', gap: '1px', flexShrink: 0 }} onClick={e => e.stopPropagation()}>
+                    {[1,2,3,4,5].map(s => (
+                      <button key={s} onClick={(e) => { e.stopPropagation(); rate(idea.id, s); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '2px', color: (idea.derekRating && s <= idea.derekRating) ? brand.amber : brand.smoke }}>
+                        <Star size={14} style={{ fill: (idea.derekRating && s <= idea.derekRating) ? brand.amber : 'transparent' }} />
+                      </button>
+                    ))}
                   </div>
-                </div>
 
-                <p style={{ color: brand.silver, fontSize: '16px', lineHeight: '1.6', marginBottom: '16px', fontWeight: 500 }}>{idea.description}</p>
+                  {/* Expand chevron */}
+                  <ChevronDown size={18} style={{ color: brand.smoke, flexShrink: 0, transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform 0.2s' }} />
+                </button>
 
-                {/* Business Details */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px', marginBottom: '20px' }}>
-                  <div style={sec}><h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Problem Solved</h4><p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>{idea.problemSolved}</p></div>
-                  <div style={sec}><h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Target Market</h4><p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>{idea.targetMarket}</p></div>
-                  <div style={sec}><h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Business Model</h4><p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>{idea.businessModel}</p></div>
-                  <div style={sec}><h4 style={{ color: brand.success, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Revenue Projection</h4><p style={{ color: brand.white, fontSize: '16px', fontWeight: 700, margin: 0 }}>{idea.revenueProjection}</p></div>
-                  <div style={sec}><h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Competitive Advantage</h4><p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
-                  <div style={sec}><h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>Development Time</h4><p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
-                </div>
+                {/* Expanded Details */}
+                {isExpanded && (
+                  <div style={{ padding: '0 20px 20px', borderTop: `1px solid ${brand.border}` }}>
+                    <p style={{ color: brand.silver, fontSize: '15px', lineHeight: '1.6', margin: '16px 0', fontWeight: 500 }}>{idea.description}</p>
 
-                {/* Risk Assessment */}
-                {idea.riskAssessment && (
-                  <div style={{ ...sec, marginBottom: '16px', border: `1px solid ${riskColor(ideaCreativity)}30`, background: `${riskColor(ideaCreativity)}08` }}>
-                    <h4 style={{ color: riskColor(ideaCreativity), fontSize: '14px', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                      <AlertTriangle size={14} />Risk Assessment
-                    </h4>
-                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.5' }}>{idea.riskAssessment}</p>
+                    {/* Business Details Grid */}
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px', marginBottom: '16px' }}>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Problem Solved</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.problemSolved}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Target Market</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.targetMarket}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Business Model</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.businessModel}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.success, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Revenue Projection</h4><p style={{ color: brand.white, fontSize: '15px', fontWeight: 700, margin: 0 }}>{idea.revenueProjection}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Competitive Advantage</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Development Time</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
+                    </div>
+
+                    {/* Risk Assessment */}
+                    {idea.riskAssessment && (
+                      <div style={{ ...sec, marginBottom: '12px', border: `1px solid ${riskColor(ideaCreativity)}30`, background: `${riskColor(ideaCreativity)}08` }}>
+                        <h4 style={{ color: riskColor(ideaCreativity), fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                          <AlertTriangle size={13} />Risk Assessment
+                        </h4>
+                        <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5' }}>{idea.riskAssessment}</p>
+                      </div>
+                    )}
+
+                    {/* Agent Reasoning */}
+                    <div style={{ ...sec, marginBottom: '12px' }}>
+                      <h4 style={{ color: brand.info, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}><User size={13} />Agent Reasoning</h4>
+                      <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
+                    </div>
+
+                    {/* Tags */}
+                    <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
+                      {idea.tags.map(tag => <span key={tag} style={{ padding: '3px 8px', borderRadius: '12px', fontSize: '11px', background: brand.graphite, color: brand.smoke, border: `1px solid ${brand.border}` }}>#{tag}</span>)}
+                    </div>
+
+                    {/* Actions */}
+                    <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                      <button onClick={() => reject(idea.id)} disabled={idea.status === 'rejected'} style={{
+                        background: idea.status === 'rejected' ? brand.error : 'transparent', color: idea.status === 'rejected' ? brand.void : brand.error,
+                        border: `1px solid ${brand.error}`, borderRadius: '6px', padding: '7px 14px', fontSize: '13px', fontWeight: 600,
+                        cursor: idea.status === 'rejected' ? 'default' : 'pointer', opacity: idea.status === 'rejected' ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: '6px',
+                      }}><ThumbsDown size={13} />{idea.status === 'rejected' ? 'Rejected' : 'Reject'}</button>
+                      <button onClick={() => router.push(`/os/ideas-vault?add_title=${encodeURIComponent(idea.title)}&add_desc=${encodeURIComponent(idea.description)}`)} style={{
+                        background: 'transparent', color: brand.warning || brand.amber, border: `1px solid ${brand.warning || brand.amber}`, borderRadius: '6px', padding: '7px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                      }}><Archive size={13} />Idea Vault</button>
+                      <button onClick={() => router.push(`/os/kanban?add_title=${encodeURIComponent(idea.title)}&add_project=${encodeURIComponent(idea.agentName)}`)} style={{
+                        background: 'transparent', color: brand.info, border: `1px solid ${brand.info}`, borderRadius: '6px', padding: '7px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                      }}><Zap size={13} />Kanban</button>
+                    </div>
                   </div>
                 )}
-
-                {/* Tags */}
-                <div style={{ display: 'flex', gap: '6px', marginBottom: '16px', flexWrap: 'wrap' }}>
-                  {idea.tags.map(tag => <span key={tag} style={{ padding: '4px 8px', borderRadius: '12px', fontSize: '11px', background: brand.graphite, color: brand.smoke, border: `1px solid ${brand.border}` }}>#{tag}</span>)}
-                </div>
-
-                {/* Agent Reasoning */}
-                <div style={{ ...sec, marginBottom: '16px' }}>
-                  <h4 style={{ color: brand.info, fontSize: '14px', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}><User size={14} />Agent Reasoning</h4>
-                  <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.5', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
-                </div>
-
-                {/* Rating */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '16px', background: `${brand.amber}08`, borderRadius: '8px', border: `1px solid ${brand.border}`, marginBottom: '16px' }}>
-                  <div>
-                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, margin: 0, marginBottom: '6px' }}>My Rating</h4>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                      {stars(idea.derekRating, idea.id)}
-                      {idea.derekRating && <span style={{ color: brand.smoke, fontSize: '12px', marginLeft: '8px' }}>({idea.derekRating}/5)</span>}
-                    </div>
-                  </div>
-                  {!idea.derekRating && <span style={{ color: brand.smoke, fontSize: '12px' }}>Click stars to rate</span>}
-                </div>
-
-                {/* Actions */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-                    <button onClick={() => reject(idea.id)} disabled={idea.status === 'rejected'} style={{
-                      background: idea.status === 'rejected' ? brand.error : 'transparent', color: idea.status === 'rejected' ? brand.void : brand.error,
-                      border: `1px solid ${brand.error}`, borderRadius: '6px', padding: '8px 16px', fontSize: '14px', fontWeight: 600,
-                      cursor: idea.status === 'rejected' ? 'default' : 'pointer', opacity: idea.status === 'rejected' ? 0.7 : 1, display: 'flex', alignItems: 'center', gap: '6px',
-                    }}><ThumbsDown size={14} />{idea.status === 'rejected' ? 'Rejected' : 'Reject'}</button>
-                    <button onClick={() => router.push(`/os/ideas-vault?add_title=${encodeURIComponent(idea.title)}&add_desc=${encodeURIComponent(idea.description)}`)} style={{
-                      background: 'transparent', color: brand.warning || brand.amber, border: `1px solid ${brand.warning || brand.amber}`, borderRadius: '6px', padding: '8px 16px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                    }}><Archive size={14} />Move to Idea Vault</button>
-                    <button onClick={() => router.push(`/os/kanban?add_title=${encodeURIComponent(idea.title)}&add_project=${encodeURIComponent(idea.agentName)}`)} style={{
-                      background: 'transparent', color: brand.info, border: `1px solid ${brand.info}`, borderRadius: '6px', padding: '8px 16px', fontSize: '14px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                    }}><Zap size={14} />Move to Kanban</button>
-                  </div>
-                </div>
               </div>
             );
           })}
@@ -721,8 +779,8 @@ export default function AgentIdeasPage() {
         {sorted.length === 0 && (
           <div style={{ ...styles.card, textAlign: 'center', padding: '60px 40px' }}>
             <Lightbulb size={48} style={{ color: brand.smoke, opacity: 0.5, marginBottom: '16px' }} />
-            <h3 style={{ color: brand.smoke, fontSize: '18px', marginBottom: '8px' }}>No ideas yet</h3>
-            <p style={{ color: brand.smoke, fontSize: '14px' }}>Select your agents and hit generate.</p>
+            <h3 style={{ color: brand.smoke, fontSize: '18px', marginBottom: '8px' }}>No ideas for {fmtDayLabel(currentDay)}</h3>
+            <p style={{ color: brand.smoke, fontSize: '14px' }}>Generate some ideas above or navigate to another day.</p>
           </div>
         )}
 
