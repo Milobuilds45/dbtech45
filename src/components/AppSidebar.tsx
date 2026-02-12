@@ -31,6 +31,7 @@ import {
   Calendar,
   Sparkles,
   Package,
+  Trophy,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -40,6 +41,7 @@ const ICON_SIZE = 18;
 
 const NAV_ICONS: Record<string, ReactNode> = {
   'Morning Brief': <Newspaper size={ICON_SIZE} />,
+  'Sports Central': <Trophy size={ICON_SIZE} />,
   'Model Counsel': <Zap size={ICON_SIZE} />,
   'Roundtable':    <MessageCircle size={ICON_SIZE} />,
   'Projects':      <FolderKanban size={ICON_SIZE} />,
@@ -72,6 +74,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
+  { label: 'Sports Central', href: '/os/sports' },
   { label: 'Model Counsel', href: '/os/model-counsel' },
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Projects', href: '/os/projects', badge: '28' },
