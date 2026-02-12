@@ -130,7 +130,7 @@ export async function GET(request: Request) {
   // Sort events to prioritize Derek's preferred categories
   const highPriorityKeywords = ['sports', 'nfl', 'nba', 'mlb', 'bitcoin', 'crypto', 'stock'];
   
-  formattedEvents.sort((a, b) => {
+  formattedEvents.sort((a: any, b: any) => {
     const aIsHighPriority = highPriorityKeywords.some(keyword => 
       a.category.toLowerCase().includes(keyword) || a.title.toLowerCase().includes(keyword)
     );
