@@ -17,7 +17,7 @@ const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb
 
 export default function Kanban() {
   const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(false); // Start fast, load in background
+  const [loading, setLoading] = useState(true); // Show loading while fetching
   const [error, setError] = useState<string | null>(null);
   const [newTask, setNewTask] = useState('');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
@@ -33,13 +33,14 @@ export default function Kanban() {
         const { data, timestamp } = JSON.parse(cached);
         if (Date.now() - timestamp < 30000) { // 30 second cache
           setTodos(data);
+          setLoading(false);
           return; // Use cached data immediately
         }
       }
 
-      // Aggressive timeout for fast failure
+      // Reasonable timeout
       const timeout = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('Database timeout')), 1000)
+        setTimeout(() => reject(new Error('Database timeout')), 8000)
       );
       
       const dbCall = supabase.from('todos').select('*').order('created_at', { ascending: false });

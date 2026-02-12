@@ -33,7 +33,7 @@ export default function Markets() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [newSymbol, setNewSymbol] = useState('');
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(false); // Start without loading state
+  const [loading, setLoading] = useState(true); // Show loading state initially
   const [error, setError] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
 
@@ -43,24 +43,33 @@ export default function Markets() {
       setLoading(true);
       setError(null);
       
-      // Set aggressive timeout for fast failure
+      // Set reasonable timeout
       const timeout = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('API timeout')), 2000)
+        setTimeout(() => reject(new Error('API timeout')), 10000)
       );
       
-      // Single optimized API call for speed
+      // Fetch essential data first
       const quotesData = await Promise.race([
         fetch('/api/market-data').then(r => r.json()),
         timeout
       ]) as any;
       
-      // Skip watchlist and news for faster loading - load them after
-      const watchlistData = { quotes: [] };
-      const newsData = { news: [] };
-      
       setQuotes(quotesData.quotes || []);
-      setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
-      setNews(newsData.news || []);
+      setLoading(false); // Show initial data immediately
+      
+      // Load additional data in background
+      try {
+        const [watchlistData, newsData] = await Promise.all([
+          fetch(`/api/market-data?symbols=${watchlist.join(',')}`).then(r => r.json()),
+          fetch(`/api/market-news?symbols=${watchlist.slice(0, 3).join(',')}`).then(r => r.ok ? r.json() : { news: [] })
+        ]);
+        
+        setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
+        setNews(newsData.news || []);
+      } catch (err) {
+        console.warn('Additional data failed to load:', err);
+      }
+      
       setIsLive(true);
       setLastRefresh(new Date());
     } catch (err) {
