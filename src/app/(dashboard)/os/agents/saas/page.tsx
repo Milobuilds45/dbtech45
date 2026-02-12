@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { createClient } from '@supabase/supabase-js';
 import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter, Users, User, Lightbulb, Brain, Sparkles, Shield } from 'lucide-react';
+import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
 interface SaasIdea {
   id: string;
@@ -91,96 +92,27 @@ export default function MillionDollarSaas() {
   };
 
   const generateCollaborativeIdea = (agentIds: string[], creativity: CreativityLevel): SaasIdea => {
-    const collaboratingAgents = agentIds.map(id => AGENTS.find(a => a.id === id)?.name).filter(Boolean);
+    // Use real agent collaboration engine
+    const collaborativeIdea = generateRealCollaboration(agentIds, creativity);
     
-    // Collaborative ideas that blend multiple agent expertise
-    const collaborativeIdeas = {
-      'bobby,tony': {
-        safe: {
-          title: 'RestaurantFinance Pro',
-          description: 'Financial management platform specifically for restaurants with real-time P&L tracking and expense optimization.',
-          problemSolved: 'Restaurant owners struggle with complex financial tracking and cash flow management.',
-        },
-        creative: {
-          title: 'FoodFlow Analytics',
-          description: 'AI-powered restaurant trading platform that predicts food commodity prices and automates purchasing decisions.',
-          problemSolved: 'Restaurants lose millions to poor commodity purchasing timing and lack market intelligence.',
-        },
-        experimental: {
-          title: 'CulinaryFutures Exchange',
-          description: 'First-ever restaurant commodity futures exchange where restaurants can hedge ingredient costs like institutional traders.',
-          problemSolved: 'Food service industry has no protection against commodity price volatility like other industries.',
-        },
-        simple: {
-          title: 'Restaurant Finance Tracker',
-          description: 'Simple financial tracking app for restaurant owners to monitor daily expenses and revenue.',
-          problemSolved: 'Restaurant owners need basic financial oversight without complex features.',
-        }
-      },
-      'paula,anders': {
-        safe: {
-          title: 'DesignDev Studio',
-          description: 'Integrated design-to-code platform that converts UI designs directly into production-ready React components.',
-          problemSolved: 'Designers and developers waste time on handoff processes and design-code inconsistencies.',
-        },
-        creative: {
-          title: 'BrandCode AI',
-          description: 'AI platform that generates complete brand systems and automatically codes them into live websites.',
-          problemSolved: 'Small businesses need cohesive branding and websites but cannot afford separate design and development.',
-        },
-        experimental: {
-          title: 'Visual Programming OS',
-          description: 'Operating system where all programming is done through visual design interfaces - no code required.',
-          problemSolved: 'Programming complexity prevents millions of creative people from building digital products.',
-        },
-        simple: {
-          title: 'Design-to-Code Tool',
-          description: 'Simple tool that converts design mockups into basic HTML and CSS code.',
-          problemSolved: 'Designers want to create functional prototypes without learning to code.',
-        }
-      },
-      'default': {
-        safe: {
-          title: 'AgentSync Pro',
-          description: 'Business automation platform that coordinates multiple AI agents for comprehensive workflow management.',
-          problemSolved: 'Businesses want AI automation but struggle to coordinate multiple tools and agents effectively.',
-        },
-        creative: {
-          title: 'CollectiveAI Network',
-          description: 'Decentralized network where specialized AI agents collaborate to solve complex business problems.',
-          problemSolved: 'No single AI can handle the full complexity of modern business operations.',
-        },
-        experimental: {
-          title: 'Consciousness-as-a-Service',
-          description: 'Platform that simulates entire business ecosystems using collaborative AI consciousness.',
-          problemSolved: 'Businesses make decisions based on incomplete information about complex interconnected systems.',
-        },
-        simple: {
-          title: 'Agent Workflow Builder',
-          description: 'Basic workflow builder that connects AI agents for simple business automation.',
-          problemSolved: 'Small businesses want simple AI automation without complex setup.',
-        }
-      }
-    };
-
-    // Find the best match or use default
-    const agentKey = agentIds.sort().join(',') as keyof typeof collaborativeIdeas;
-    const ideaSet = collaborativeIdeas[agentKey] || collaborativeIdeas['default'];
-    const ideaTemplate = ideaSet[creativity] || ideaSet['creative'] || ideaSet['safe'];
-    
+    // Convert to SaasIdea format
     return {
       id: `collab-${Date.now()}`,
       agentId: 'collaborative',
-      agentName: collaboratingAgents.join(' + '),
-      ...ideaTemplate,
-      targetMarket: creativity === 'experimental' ? 'Early adopters and visionaries' : 'SMBs and growth companies',
-      businessModel: creativity === 'safe' ? 'SaaS subscription model' : 'Platform + usage-based pricing',
-      revenueProjection: creativity === 'experimental' ? '$10M+ potential' : '$1-3M ARR target',
-      competitiveAdvantage: `Combined expertise from ${collaboratingAgents.length} specialized agents`,
-      tags: [...agentIds, 'collaborative', creativity],
-      agentConfidence: creativity === 'safe' ? 4 : creativity === 'experimental' ? 3 : 5,
-      marketSize: creativity === 'experimental' ? 'massive' as const : 'large' as const,
-      developmentTime: creativity === 'safe' ? '6-8 months' : '12-18 months',
+      agentName: collaborativeIdea.collaboratingAgents.map((id: string) => 
+        AGENTS.find(a => a.id === id)?.name || id
+      ).join(' + '),
+      title: collaborativeIdea.title,
+      description: collaborativeIdea.description,
+      problemSolved: collaborativeIdea.sevenLayers.problem,
+      targetMarket: collaborativeIdea.sevenLayers.people,
+      businessModel: `${collaborativeIdea.pricing.model} - $${collaborativeIdea.pricing.pricePoint}/month`,
+      revenueProjection: collaborativeIdea.sevenLayers.profit,
+      competitiveAdvantage: collaborativeIdea.competitiveAdvantage,
+      tags: [...collaborativeIdea.collaboratingAgents, 'collaborative', creativity, 'seven-layers'],
+      agentConfidence: 5,
+      marketSize: 'large' as const,
+      developmentTime: collaborativeIdea.realisticTimeline.total,
       status: 'submitted' as const,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -194,25 +126,103 @@ export default function MillionDollarSaas() {
       const agent = AGENTS.find(a => a.id === agentId);
       if (!agent) return;
       
-      // Agent-specific ideas based on creativity level
+      // Agent-specific realistic ideas with proper pricing and timelines
       const agentIdeas = {
         bobby: {
-          safe: { title: 'OptionsFlow Pro', description: 'Real-time options flow tracking with AI pattern recognition for institutional-grade trading insights.' },
-          creative: { title: 'CryptoFlow Neural Network', description: 'AI that predicts crypto price movements using options flow, social sentiment, and whale transaction analysis.' },
-          experimental: { title: 'Quantum Trading Oracle', description: 'Quantum computing-powered trading system that processes market data in parallel universes to find optimal trades.' },
-          simple: { title: 'Simple Trading Alerts', description: 'Clean, straightforward trading alerts for retail investors without complex features.' }
+          safe: { 
+            title: 'OptionsFlow Pro', 
+            description: 'Real-time options flow tracking with AI pattern recognition for retail and professional traders.',
+            problemSolved: 'Retail traders miss 80% of profitable opportunities due to lack of institutional-grade options flow data',
+            targetMarket: 'Active retail traders and small hedge funds ($10K-$500K accounts)',
+            businessModel: 'Tiered SaaS: $49/month retail, $199/month professional',
+            revenueProjection: '$500K ARR with 500 retail + 50 professional subscribers',
+            competitiveAdvantage: 'First retail-accessible platform with institutional-grade options flow analysis',
+            developmentTime: '3-4 weeks (AI data processing + React dashboard + payment integration)'
+          },
+          creative: { 
+            title: 'CryptoFlow Analytics', 
+            description: 'AI that analyzes crypto options flow, social sentiment, and whale movements for trading signals.',
+            problemSolved: 'Crypto traders lack sophisticated analysis tools available in traditional markets',
+            targetMarket: 'Crypto traders and DeFi protocols ($25K+ portfolios)',
+            businessModel: 'Subscription: $89/month individuals, $399/month for protocols',
+            revenueProjection: '$800K ARR with 400 individual + 25 protocol subscribers',
+            competitiveAdvantage: 'Only platform combining traditional options analysis with crypto-specific data sources',
+            developmentTime: '4-6 weeks (crypto API integrations + ML models + web3 features)'
+          },
+          simple: { 
+            title: 'Simple Trading Alerts', 
+            description: 'Clean, straightforward options and stock alerts for busy retail investors.',
+            problemSolved: 'Most trading platforms are too complex for casual investors who just want simple alerts',
+            targetMarket: 'Casual retail investors and busy professionals',
+            businessModel: 'Simple subscription: $19/month or $199/year',
+            revenueProjection: '$300K ARR with 1,500 monthly subscribers',
+            competitiveAdvantage: 'Simplicity over complexity - designed for normal people, not day traders',
+            developmentTime: '2-3 weeks (alert system + mobile app + basic dashboard)'
+          }
         },
         tony: {
-          safe: { title: 'RestaurantOS', description: 'Complete restaurant management platform with integrated POS and inventory tracking.' },
-          creative: { title: 'AI Kitchen Assistant', description: 'Smart kitchen automation that predicts demand and optimizes prep schedules using machine learning.' },
-          experimental: { title: 'Molecular Gastronomy AI', description: 'AI that creates new recipes by understanding molecular interactions and flavor compounds.' },
-          simple: { title: 'Daily Restaurant Tracker', description: 'Simple daily tracking for food costs, sales, and basic restaurant metrics.' }
+          safe: { 
+            title: 'RestaurantOS', 
+            description: 'Complete restaurant management platform with POS integration and cost tracking.',
+            problemSolved: 'Small restaurants lose 20-30% profit to poor inventory and labor management',
+            targetMarket: 'Independent restaurants and small chains (1-10 locations, $500K-$5M revenue)',
+            businessModel: 'Per-location SaaS: $89/month + $199 setup fee',
+            revenueProjection: '$600K ARR with 500 restaurant locations',
+            competitiveAdvantage: 'Built by actual restaurant operators, not software companies',
+            developmentTime: '5-6 weeks (POS integrations + inventory tracking + labor scheduling)'
+          },
+          creative: { 
+            title: 'AI Kitchen Optimizer', 
+            description: 'Smart system that predicts demand and optimizes prep schedules to reduce waste.',
+            problemSolved: 'Restaurants waste $162B annually due to poor demand forecasting and over-preparation',
+            targetMarket: 'Fast-casual restaurants and ghost kitchens with high volume',
+            businessModel: 'Revenue share: 10% of documented waste reduction savings',
+            revenueProjection: '$1.2M ARR by reducing waste for 200 restaurants by average $6K/year each',
+            competitiveAdvantage: 'First AI specifically trained on restaurant kitchen operations and waste patterns',
+            developmentTime: '6-8 weeks (ML training on kitchen data + integration with existing POS systems)'
+          },
+          simple: { 
+            title: 'Daily Restaurant Tracker', 
+            description: 'Simple daily tracking for food costs, sales, and basic restaurant metrics.',
+            problemSolved: 'Restaurant owners need basic financial oversight but existing solutions are too complex',
+            targetMarket: 'Very small restaurants and food trucks (under $1M revenue)',
+            businessModel: 'Affordable SaaS: $29/month',
+            revenueProjection: '$200K ARR with 600 small restaurant subscribers',
+            competitiveAdvantage: 'Designed for mom-and-pop restaurants, not chains - simple and affordable',
+            developmentTime: '2-3 weeks (basic tracking + mobile-first design + simple reports)'
+          }
         },
         paula: {
-          safe: { title: 'BrandBot AI', description: 'AI-powered brand identity generator that creates logos, colors, and guidelines instantly.' },
-          creative: { title: 'Emotional Design Engine', description: 'AI that creates designs based on target emotional responses and psychological triggers.' },
-          experimental: { title: 'Consciousness-Based UX', description: 'Design system that adapts in real-time based on user subconscious responses and biometric feedback.' },
-          simple: { title: 'Logo Maker', description: 'Simple tool for creating professional logos with minimal input required.' }
+          safe: { 
+            title: 'BrandBot AI', 
+            description: 'AI-powered brand identity generator that creates logos, colors, and guidelines for small businesses.',
+            problemSolved: 'Small businesses pay $2K-$5K for branding they could get for under $100 with AI',
+            targetMarket: 'Small business owners, entrepreneurs, and freelancers starting new ventures',
+            businessModel: 'One-time purchase: $47 basic, $97 premium, $197 complete package',
+            revenueProjection: '$400K ARR with 300 premium sales per month',
+            competitiveAdvantage: 'Professional designer quality at 95% cost reduction through AI automation',
+            developmentTime: '3-4 weeks (AI brand generation + asset export + payment processing)'
+          },
+          creative: { 
+            title: 'Emotional Design Engine', 
+            description: 'AI that creates designs optimized for specific emotional responses and conversion goals.',
+            problemSolved: 'Businesses guess at design psychology instead of using data-driven emotional optimization',
+            targetMarket: 'E-commerce brands and marketing agencies focused on conversion optimization',
+            businessModel: 'SaaS subscription: $97/month + usage fees for A/B testing',
+            revenueProjection: '$600K ARR with 150 agencies and 300 e-commerce brands',
+            competitiveAdvantage: 'Only platform combining design generation with emotional psychology and conversion data',
+            developmentTime: '5-6 weeks (psychology models + A/B testing integration + design generation)'
+          },
+          simple: { 
+            title: 'Quick Logo Maker', 
+            description: 'Super simple tool for creating professional logos with minimal input required.',
+            problemSolved: 'Entrepreneurs need logos immediately but design tools are too complicated',
+            targetMarket: 'Solo entrepreneurs, side hustlers, and very small businesses',
+            businessModel: 'Freemium: Free basic logos, $19 for high-res + commercial rights',
+            revenueProjection: '$150K ARR with 800 premium downloads per month',
+            competitiveAdvantage: 'Fastest logo creation (under 2 minutes) with professional quality output',
+            developmentTime: '1-2 weeks (streamlined UI + logo generation + instant download)'
+          }
         }
       };
 
@@ -225,15 +235,15 @@ export default function MillionDollarSaas() {
           agentName: agent.name,
           title: template.title,
           description: template.description,
-          problemSolved: `${creativity.charAt(0).toUpperCase() + creativity.slice(1)} solution for market challenges`,
-          targetMarket: 'Target market description',
-          businessModel: 'SaaS subscription model',
-          revenueProjection: '$1-2M ARR',
-          competitiveAdvantage: 'Unique positioning advantage',
-          tags: [agentId, creativity],
-          agentConfidence: 4,
-          marketSize: 'medium' as const,
-          developmentTime: '6-8 months',
+          problemSolved: template.problemSolved,
+          targetMarket: template.targetMarket,
+          businessModel: template.businessModel,
+          revenueProjection: template.revenueProjection,
+          competitiveAdvantage: template.competitiveAdvantage,
+          tags: [agentId, creativity, 'realistic-pricing', 'ai-timeline'],
+          agentConfidence: creativity === 'experimental' ? 3 : creativity === 'simple' ? 5 : 4,
+          marketSize: creativity === 'simple' ? 'small' as const : creativity === 'experimental' ? 'massive' as const : 'medium' as const,
+          developmentTime: template.developmentTime,
           status: 'submitted' as const,
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
