@@ -28,7 +28,8 @@ const LOGOS = [
   { name: 'DB Badge', element: 'DB', desc: 'Primary mark -- amber square with DB initials', bg: brand.amber, color: brand.void },
   { name: 'Wordmark', element: 'DBTECH45', desc: 'Full wordmark for headers and nav', bg: 'transparent', color: brand.white },
   { name: 'Terminal Prompt', element: '~/DBTech45', desc: 'Terminal-style logo for dev contexts', bg: 'transparent', color: brand.amber },
-];
+  { name: 'Derek Avatar', element: null, desc: 'Personal brand mark with gold trims', bg: 'transparent', color: brand.white, isImage: true, imagePath: '/derek-avatar.png' },
+] as const;
 
 const AGENTS = [
   { name: 'Anders', role: 'Full Stack Architect', initials: 'AN', color: '#F97316' },
@@ -54,18 +55,43 @@ export default function BrandKitPage() {
         <section style={{ marginBottom: '3rem' }}>
           <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Logo Marks</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
-            {LOGOS.map(l => (
+            {LOGOS.map((l: any) => (
               <div key={l.name} style={{ ...styles.card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '2rem' }}>
-                <div style={{
-                  background: l.bg, color: l.color, padding: l.bg === 'transparent' ? '0' : '16px 20px',
-                  borderRadius: l.bg === 'transparent' ? '0' : '12px', fontWeight: 700,
-                  fontSize: l.name === 'DB Badge' ? '24px' : '20px',
-                  fontFamily: l.name === 'Terminal Prompt' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
-                  letterSpacing: l.name === 'Wordmark' ? '0.1em' : undefined,
-                }}>
-                  {l.name === 'Terminal Prompt' && <span style={{ color: brand.smoke }}>~/</span>}
-                  {l.name === 'Terminal Prompt' ? 'DBTech45' : l.element}
-                </div>
+                {l.isImage ? (
+                  <div style={{ 
+                    width: '120px', 
+                    height: '120px', 
+                    borderRadius: '16px', 
+                    overflow: 'hidden',
+                    border: `2px solid ${brand.amber}`,
+                    background: brand.graphite,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}>
+                    <img 
+                      src={l.imagePath} 
+                      alt={l.name}
+                      style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        objectFit: 'cover',
+                        objectPosition: 'center'
+                      }}
+                    />
+                  </div>
+                ) : (
+                  <div style={{
+                    background: l.bg, color: l.color, padding: l.bg === 'transparent' ? '0' : '16px 20px',
+                    borderRadius: l.bg === 'transparent' ? '0' : '12px', fontWeight: 700,
+                    fontSize: l.name === 'DB Badge' ? '24px' : '20px',
+                    fontFamily: l.name === 'Terminal Prompt' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
+                    letterSpacing: l.name === 'Wordmark' ? '0.1em' : undefined,
+                  }}>
+                    {l.name === 'Terminal Prompt' && <span style={{ color: brand.smoke }}>~/</span>}
+                    {l.name === 'Terminal Prompt' ? 'DBTech45' : l.element}
+                  </div>
+                )}
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{l.name}</div>
                   <div style={{ color: brand.smoke, fontSize: '12px', marginTop: '4px' }}>{l.desc}</div>
