@@ -31,7 +31,6 @@ import {
   Calendar,
   Sparkles,
   Package,
-  DollarSign,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -50,7 +49,6 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Overnight':     <Moon size={ICON_SIZE} />,
   'Agent Ideas':   <Lightbulb size={ICON_SIZE} />,
   'Agent Assist':  <Package size={ICON_SIZE} />,
-  '$1M SaaS':      <DollarSign size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
   'Ideas Vault':   <Sparkles size={ICON_SIZE} />,
   'Brand Kit':     <Palette size={ICON_SIZE} />,
@@ -85,7 +83,6 @@ const agentItems: NavItem[] = [
   { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Agent Ideas', href: '/os/agents/ideas' },
   { label: 'Agent Assist', href: '/os/agents/assist' },
-  { label: '$1M SaaS', href: '/os/agents/saas' },
 ];
 
 const toolItems: NavItem[] = [
