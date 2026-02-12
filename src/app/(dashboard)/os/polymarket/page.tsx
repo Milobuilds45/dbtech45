@@ -11,6 +11,7 @@ interface PolymarketEvent {
   volume: number;
   liquidity: number;
   endDate: string;
+  daysLeft: number;
   yesPrice: number;
   noPrice: number;
   yesPercent: number;
@@ -18,6 +19,8 @@ interface PolymarketEvent {
   active: boolean;
   marketCount: number;
   image?: string;
+  isActionable?: boolean;
+  isUrgent?: boolean;
 }
 
 const REFRESH_INTERVAL = 300000; // 5 minutes
@@ -81,7 +84,7 @@ export default function Polymarket() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
           <div>
             <h1 style={{ ...styles.h1, fontSize: '1.5rem', letterSpacing: '0.05em' }}>Polymarket</h1>
-            <p style={{ color: brand.smoke, fontSize: 12 }}>Prediction markets • Real-time odds</p>
+            <p style={{ color: brand.smoke, fontSize: 12 }}>Actionable prediction markets • Games today • Trading opportunities</p>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {lastRefresh && (
@@ -160,19 +163,45 @@ export default function Polymarket() {
               onMouseEnter={e => (e.currentTarget.style.borderColor = brand.amber)}
               onMouseLeave={e => (e.currentTarget.style.borderColor = brand.border)}
             >
-              {/* Category & Volume */}
+              {/* Category & Actionable Info */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ 
-                  padding: '3px 8px', 
-                  borderRadius: 4, 
-                  fontSize: 10, 
-                  fontFamily: "'JetBrains Mono', monospace",
-                  background: 'rgba(245,158,11,0.1)', 
-                  color: brand.amber,
-                  textTransform: 'uppercase'
-                }}>
-                  {event.category}
-                </span>
+                <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                  <span style={{ 
+                    padding: '3px 8px', 
+                    borderRadius: 4, 
+                    fontSize: 10, 
+                    fontFamily: "'JetBrains Mono', monospace",
+                    background: event.isUrgent ? 'rgba(239,68,68,0.15)' : 'rgba(245,158,11,0.1)', 
+                    color: event.isUrgent ? brand.error : brand.amber,
+                    textTransform: 'uppercase'
+                  }}>
+                    {event.category}
+                  </span>
+                  {event.isUrgent && (
+                    <span style={{
+                      fontSize: 10,
+                      background: 'rgba(239,68,68,0.2)',
+                      color: brand.error,
+                      padding: '2px 6px',
+                      borderRadius: 3,
+                      fontWeight: 600
+                    }}>
+                      URGENT
+                    </span>
+                  )}
+                  {event.isActionable && !event.isUrgent && (
+                    <span style={{
+                      fontSize: 10,
+                      background: 'rgba(34,197,94,0.2)',
+                      color: brand.success,
+                      padding: '2px 6px',
+                      borderRadius: 3,
+                      fontWeight: 600
+                    }}>
+                      ACTIONABLE
+                    </span>
+                  )}
+                </div>
                 <span style={{ fontSize: 11, color: brand.smoke }}>
                   Vol: {formatVolume(event.volume)}
                 </span>
@@ -215,7 +244,15 @@ export default function Polymarket() {
 
               {/* Footer */}
               <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: brand.smoke }}>
-                <span>Ends: {formatDate(event.endDate)}</span>
+                <span style={{ 
+                  color: event.daysLeft <= 7 && event.daysLeft > 0 ? brand.error : 
+                         event.daysLeft <= 30 && event.daysLeft > 0 ? brand.amber : brand.smoke 
+                }}>
+                  {event.daysLeft > 0 ? 
+                    `${event.daysLeft} day${event.daysLeft !== 1 ? 's' : ''} left` : 
+                    'Ended'
+                  }
+                </span>
                 <span>Liquidity: {formatVolume(event.liquidity)}</span>
               </div>
             </a>

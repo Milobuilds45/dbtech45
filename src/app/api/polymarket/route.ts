@@ -29,8 +29,8 @@ interface PolymarketMarket {
 // Fetch trending/popular events from Polymarket
 async function fetchPolymarketEvents(limit: number = 20) {
   try {
-    // Get active events sorted by volume
-    const url = `${GAMMA_API}/events?active=true&closed=false&limit=${limit}&order=volume&ascending=false`;
+    // Get active events sorted by volume - prioritize high-volume, short-term opportunities
+    const url = `${GAMMA_API}/events?active=true&closed=false&limit=${limit * 2}&order=volume&ascending=false`;
     
     const response = await fetch(url, {
       headers: {
@@ -71,7 +71,7 @@ async function fetchMarketDetails(marketId: string) {
   }
 }
 
-// Format event for display
+// Format event for display with actionable insights
 function formatEvent(event: any) {
   const markets = event.markets || [];
   const primaryMarket = markets[0];
@@ -89,6 +89,17 @@ function formatEvent(event: any) {
       noPrice = parseFloat(prices[1]) || 0.5;
     } catch {}
   }
+
+  // Calculate actionable insights
+  const now = new Date();
+  const endDate = new Date(event.endDate);
+  const daysLeft = Math.ceil((endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+  const volume = event.volume || 0;
+  const liquidity = event.liquidity || 0;
+  
+  // Determine if this is a good trading opportunity
+  const isActionable = daysLeft > 0 && daysLeft <= 30 && volume >= 1000 && liquidity >= 500;
+  const isUrgent = daysLeft > 0 && daysLeft <= 7;
   
   return {
     id: event.id,
@@ -96,9 +107,10 @@ function formatEvent(event: any) {
     title: event.title,
     description: event.description?.substring(0, 200),
     category: event.tags?.[0]?.label || event.category || 'General',
-    volume: event.volume || 0,
-    liquidity: event.liquidity || 0,
+    volume: volume,
+    liquidity: liquidity,
     endDate: event.endDate,
+    daysLeft: daysLeft,
     yesPrice: yesPrice,
     noPrice: noPrice,
     yesPercent: Math.round(yesPrice * 100),
@@ -106,6 +118,8 @@ function formatEvent(event: any) {
     active: event.active,
     marketCount: markets.length,
     image: event.image,
+    isActionable: isActionable,
+    isUrgent: isUrgent,
   };
 }
 
@@ -116,10 +130,26 @@ export async function GET(request: Request) {
   
   const events = await fetchPolymarketEvents(limit);
   
+  // Filter for actionable opportunities first
+  let actionableEvents = events.filter((e: any) => {
+    const endDate = new Date(e.endDate);
+    const now = new Date();
+    const daysUntilEnd = (endDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+    
+    // Prioritize markets ending within 30 days with good volume/liquidity
+    const isTimely = daysUntilEnd > 0 && daysUntilEnd <= 30;
+    const hasVolume = e.volume >= 1000; // At least $1K volume
+    const hasLiquidity = e.liquidity >= 500; // At least $500 liquidity
+    
+    return isTimely && hasVolume && hasLiquidity;
+  });
+
+  // If not enough actionable events, fall back to all events
+  let filteredEvents = actionableEvents.length >= 10 ? actionableEvents : events;
+  
   // Filter by category if specified
-  let filteredEvents = events;
   if (category) {
-    filteredEvents = events.filter((e: any) => 
+    filteredEvents = filteredEvents.filter((e: any) => 
       e.tags?.some((t: any) => t.label?.toLowerCase() === category.toLowerCase()) ||
       e.category?.toLowerCase() === category.toLowerCase()
     );
@@ -127,10 +157,20 @@ export async function GET(request: Request) {
   
   const formattedEvents = filteredEvents.map(formatEvent);
   
-  // Sort events to prioritize Derek's preferred categories
-  const highPriorityKeywords = ['sports', 'nfl', 'nba', 'mlb', 'bitcoin', 'crypto', 'stock'];
+  // Sort events to prioritize Derek's actionable opportunities
+  const highPriorityKeywords = [
+    'sports', 'nfl', 'nba', 'mlb', 'nhl', 'game', 'match', 'championship', 'playoff',
+    'bitcoin', 'crypto', 'stock', 'earnings', 'fed', 'rate',
+    'today', 'tomorrow', 'this week', 'february', '2026'
+  ];
   
   formattedEvents.sort((a: any, b: any) => {
+    const now = new Date();
+    const aEndDate = new Date(a.endDate);
+    const bEndDate = new Date(b.endDate);
+    const aDaysLeft = (aEndDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+    const bDaysLeft = (bEndDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
+    
     const aIsHighPriority = highPriorityKeywords.some(keyword => 
       a.category.toLowerCase().includes(keyword) || a.title.toLowerCase().includes(keyword)
     );
@@ -138,11 +178,24 @@ export async function GET(request: Request) {
       b.category.toLowerCase().includes(keyword) || b.title.toLowerCase().includes(keyword)
     );
     
-    // High priority categories first
+    // 1. Urgent markets (ending in <7 days) with high priority categories come first
+    const aIsUrgent = aDaysLeft > 0 && aDaysLeft <= 7 && aIsHighPriority;
+    const bIsUrgent = bDaysLeft > 0 && bDaysLeft <= 7 && bIsHighPriority;
+    
+    if (aIsUrgent && !bIsUrgent) return -1;
+    if (!aIsUrgent && bIsUrgent) return 1;
+    
+    // 2. Then high priority categories generally
     if (aIsHighPriority && !bIsHighPriority) return -1;
     if (!aIsHighPriority && bIsHighPriority) return 1;
     
-    // Within same priority level, sort by volume (descending)
+    // 3. Within same priority, prefer markets ending sooner (more actionable)
+    if (Math.abs(aDaysLeft - bDaysLeft) > 7) {
+      if (aDaysLeft < bDaysLeft && aDaysLeft > 0) return -1;
+      if (bDaysLeft < aDaysLeft && bDaysLeft > 0) return 1;
+    }
+    
+    // 4. Finally sort by volume (descending)
     return b.volume - a.volume;
   });
   
