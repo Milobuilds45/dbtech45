@@ -1,7 +1,17 @@
 'use client';
 import { useState, useEffect } from "react";
 import { brand, styles } from "@/lib/brand";
-import { supabase, type Idea } from "@/lib/supabase";
+import { useSearchParams } from "next/navigation";
+
+interface Idea {
+  id: string;
+  title: string;
+  description: string | null;
+  priority: 'low' | 'medium' | 'high';
+  status: 'spark' | 'shaping' | 'building' | 'shipped';
+  category: string;
+  created_at: string;
+}
 
 const STAGES = [
   { key: 'spark', label: 'Spark', color: '#10B981' },
@@ -10,76 +20,81 @@ const STAGES = [
   { key: 'shipped', label: 'Shipped', color: '#3B82F6' },
 ] as const;
 
+const DEFAULT_IDEAS: Idea[] = [
+  { id: '1', title: 'AI-Powered Menu Optimizer', description: 'Use AI to analyze menu performance and suggest pricing/placement changes to maximize revenue per cover.', priority: 'high', status: 'spark', category: 'general', created_at: '2026-02-10T10:00:00Z' },
+  { id: '2', title: 'Family Task Gamification App', description: 'Turn household chores into a game for kids. Points, leaderboards, rewards. Built for big families.', priority: 'medium', status: 'shaping', category: 'general', created_at: '2026-02-09T14:00:00Z' },
+  { id: '3', title: 'Sermon Notes App', description: 'Simple app for taking structured sermon notes with auto-tagging of Bible references and sharing with small groups.', priority: 'medium', status: 'spark', category: 'general', created_at: '2026-02-08T09:00:00Z' },
+  { id: '4', title: 'Local Restaurant Review Aggregator', description: 'Aggregate reviews from Google, Yelp, TripAdvisor into one dashboard for restaurant owners. Show sentiment trends.', priority: 'low', status: 'spark', category: 'general', created_at: '2026-02-07T16:00:00Z' },
+  { id: '5', title: 'Kids Allowance Tracker', description: 'Digital allowance system where kids can see savings goals, earn bonuses for tasks. Teaches money management early.', priority: 'high', status: 'building', category: 'general', created_at: '2026-02-06T11:00:00Z' },
+];
+
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+
 export default function IdeasVault() {
+  const searchParams = useSearchParams();
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');
-  const [ideas, setIdeas] = useState<Idea[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [ideas, setIdeas] = useState<Idea[]>(DEFAULT_IDEAS);
   const [showArchive, setShowArchive] = useState(false);
-  const [promoting, setPromoting] = useState<string | null>(null);
 
-  const loadIdeas = async () => {
-    const { data } = await supabase.from('ideas_vault').select('*').order('created_at', { ascending: false });
-    if (data) setIdeas(data);
-    setLoading(false);
-  };
+  // Check for incoming idea from SaaS page via query params
+  useEffect(() => {
+    const title = searchParams.get('add_title');
+    const desc = searchParams.get('add_desc');
+    if (title) {
+      const exists = ideas.some(i => i.title === title);
+      if (!exists) {
+        setIdeas(prev => [{
+          id: genId(),
+          title,
+          description: desc || null,
+          priority: 'high' as const,
+          status: 'spark' as const,
+          category: 'general',
+          created_at: new Date().toISOString(),
+        }, ...prev]);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
-  useEffect(() => { loadIdeas(); }, []);
-
-  const addIdea = async () => {
+  const addIdea = () => {
     if (!newIdea.trim()) return;
-    await supabase.from('ideas_vault').insert({
+    setIdeas(prev => [{
+      id: genId(),
       title: newIdea.trim(),
       description: newDescription.trim() || null,
-      status: 'spark',
-      priority: 'medium',
-    });
+      priority: 'medium' as const,
+      status: 'spark' as const,
+      category: 'general',
+      created_at: new Date().toISOString(),
+    }, ...prev]);
     setNewIdea('');
     setNewDescription('');
-    loadIdeas();
   };
 
-  const updateStatus = async (id: string, status: string) => {
-    await supabase.from('ideas_vault').update({ status, updated_at: new Date().toISOString() }).eq('id', id);
-    loadIdeas();
+  const updateStatus = (id: string, status: string) => {
+    setIdeas(prev => prev.map(i => i.id === id ? { ...i, status: status as Idea['status'] } : i));
   };
 
-  const archiveIdea = async (id: string) => {
-    // Move to a special "archived" category
-    await supabase.from('ideas_vault').update({ category: 'archived', updated_at: new Date().toISOString() }).eq('id', id);
-    loadIdeas();
+  const archiveIdea = (id: string) => {
+    setIdeas(prev => prev.map(i => i.id === id ? { ...i, category: 'archived' } : i));
   };
 
-  const restoreIdea = async (id: string) => {
-    await supabase.from('ideas_vault').update({ category: 'general', updated_at: new Date().toISOString() }).eq('id', id);
-    loadIdeas();
+  const restoreIdea = (id: string) => {
+    setIdeas(prev => prev.map(i => i.id === id ? { ...i, category: 'general' } : i));
   };
 
-  const deleteIdea = async (id: string) => {
-    await supabase.from('ideas_vault').delete().eq('id', id);
-    loadIdeas();
+  const deleteIdea = (id: string) => {
+    setIdeas(prev => prev.filter(i => i.id !== id));
   };
 
-  const promoteToKanban = async (idea: Idea) => {
-    setPromoting(idea.id);
-    // Create a todo from the idea
-    await supabase.from('todos').insert({
-      title: idea.title,
-      description: idea.description,
-      priority: idea.priority,
-      status: 'backlog',
-      project: null,
-      tags: idea.tags,
-    });
-    // Update the idea status to building
-    await supabase.from('ideas_vault').update({ status: 'building', updated_at: new Date().toISOString() }).eq('id', idea.id);
-    setPromoting(null);
-    loadIdeas();
+  const promoteToKanban = (idea: Idea) => {
+    window.location.href = `/os/kanban?add_title=${encodeURIComponent(idea.title)}&add_desc=${encodeURIComponent(idea.description || '')}`;
   };
 
   const activeIdeas = ideas.filter(i => i.category !== 'archived');
   const archivedIdeas = ideas.filter(i => i.category === 'archived');
-
   const stageInfo = (status: string) => STAGES.find(s => s.key === status) || STAGES[0];
 
   return (
@@ -87,7 +102,7 @@ export default function IdeasVault() {
       <div style={styles.container}>
         <h1 style={styles.h1}>Ideas Vault</h1>
         <p style={styles.subtitle}>
-          The pipeline. From spark to shipped. {!loading && `${activeIdeas.length} active, ${archivedIdeas.length} archived.`}
+          The pipeline. From spark to shipped. {activeIdeas.length} active, {archivedIdeas.length} archived.
         </p>
 
         {/* New Idea Input */}
@@ -106,9 +121,7 @@ export default function IdeasVault() {
           <span style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Flow:</span>
           {STAGES.map((s, i) => (
             <span key={s.key} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span style={{
-                display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: s.color,
-              }} />
+              <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: s.color }} />
               <span style={{ color: brand.silver, fontSize: '12px' }}>{s.label}</span>
               {i < STAGES.length - 1 && <span style={{ color: brand.smoke, fontSize: '12px' }}>&rarr;</span>}
             </span>
@@ -117,103 +130,96 @@ export default function IdeasVault() {
           <span style={{ color: brand.smoke, fontSize: '12px' }}>Kanban Todo</span>
         </div>
 
-        {loading ? (
-          <div style={{ textAlign: 'center', color: brand.smoke, padding: '40px' }}>Loading ideas from Supabase...</div>
-        ) : (
-          <>
-            {/* Active Ideas */}
-            <div style={styles.grid}>
-              {activeIdeas.map((idea) => {
-                const stage = stageInfo(idea.status);
-                return (
-                  <div key={idea.id} style={{ ...styles.card, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: `3px solid ${stage.color}` }}>
-                    <div>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                        <h4 style={{ color: brand.white, margin: 0, fontSize: '16px' }}>{idea.title}</h4>
-                        <span style={styles.badge(stage.color)}>{stage.label}</span>
-                      </div>
-                      <p style={{ color: brand.silver, lineHeight: '1.5', fontSize: '14px', marginBottom: '1rem' }}>
-                        {idea.description || 'No description yet.'}
-                      </p>
-                    </div>
-                    <div style={{ borderTop: `1px solid ${brand.border}`, paddingTop: '0.75rem' }}>
-                      {/* Status Buttons */}
-                      <div style={{ display: 'flex', gap: '4px', marginBottom: '8px', flexWrap: 'wrap' }}>
-                        {STAGES.map(s => (
-                          <button key={s.key} onClick={() => updateStatus(idea.id, s.key)}
-                            style={{
-                              padding: '3px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
-                              cursor: 'pointer',
-                              border: idea.status === s.key ? 'none' : `1px solid ${brand.border}`,
-                              background: idea.status === s.key ? s.color : 'transparent',
-                              color: idea.status === s.key ? brand.void : brand.smoke,
-                              transition: 'all 0.15s',
-                            }}>{s.label}</button>
-                        ))}
-                      </div>
-                      {/* Action Row */}
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px' }}>
-                        <span style={{ color: brand.smoke }}>
-                          {new Date(idea.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                        </span>
-                        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                          <button onClick={() => promoteToKanban(idea)} disabled={promoting === idea.id}
-                            style={{
-                              background: 'none', border: `1px solid ${brand.amber}`, borderRadius: '4px',
-                              padding: '2px 8px', color: brand.amber, cursor: 'pointer', fontSize: '11px', fontWeight: 600,
-                              opacity: promoting === idea.id ? 0.5 : 1,
-                            }}
-                            title="Promote to Kanban Todo">{promoting === idea.id ? 'Promoting...' : 'To Kanban'}</button>
-                          <button onClick={() => archiveIdea(idea.id)}
-                            style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '11px', opacity: 0.6 }}
-                            title="Archive idea">Archive</button>
-                          <button onClick={() => deleteIdea(idea.id)}
-                            style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '14px', opacity: 0.4 }}
-                            title="Delete idea">x</button>
-                        </div>
-                      </div>
-                    </div>
+        {/* Active Ideas */}
+        <div style={styles.grid}>
+          {activeIdeas.map((idea) => {
+            const stage = stageInfo(idea.status);
+            return (
+              <div key={idea.id} style={{ ...styles.card, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', borderLeft: `3px solid ${stage.color}` }}>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                    <h4 style={{ color: brand.white, margin: 0, fontSize: '16px' }}>{idea.title}</h4>
+                    <span style={styles.badge(stage.color)}>{stage.label}</span>
                   </div>
-                );
-              })}
-            </div>
-
-            {/* Archive Section */}
-            {archivedIdeas.length > 0 && (
-              <div style={{ marginTop: '2rem' }}>
-                <button onClick={() => setShowArchive(!showArchive)}
-                  style={{
-                    background: 'none', border: `1px solid ${brand.border}`, borderRadius: '8px',
-                    padding: '8px 16px', color: brand.smoke, cursor: 'pointer', fontSize: '13px', fontWeight: 600,
-                    marginBottom: '16px',
-                  }}>
-                  {showArchive ? 'Hide' : 'Show'} Archive ({archivedIdeas.length})
-                </button>
-                {showArchive && (
-                  <div style={styles.grid}>
-                    {archivedIdeas.map((idea) => (
-                      <div key={idea.id} style={{ ...styles.card, opacity: 0.6, borderLeft: `3px solid ${brand.smoke}` }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-                          <h4 style={{ color: brand.smoke, margin: 0, fontSize: '14px', textDecoration: 'line-through' }}>{idea.title}</h4>
-                        </div>
-                        <p style={{ color: brand.smoke, fontSize: '13px', marginBottom: '0.75rem' }}>{idea.description || 'No description'}</p>
-                        <div style={{ display: 'flex', gap: '8px' }}>
-                          <button onClick={() => restoreIdea(idea.id)}
-                            style={{ background: 'none', border: `1px solid ${brand.amber}`, borderRadius: '4px', padding: '2px 8px', color: brand.amber, cursor: 'pointer', fontSize: '11px' }}>
-                            Restore
-                          </button>
-                          <button onClick={() => deleteIdea(idea.id)}
-                            style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '12px' }}>
-                            Delete
-                          </button>
-                        </div>
-                      </div>
+                  <p style={{ color: brand.silver, lineHeight: '1.5', fontSize: '14px', marginBottom: '1rem' }}>
+                    {idea.description || 'No description yet.'}
+                  </p>
+                </div>
+                <div style={{ borderTop: `1px solid ${brand.border}`, paddingTop: '0.75rem' }}>
+                  {/* Status Buttons */}
+                  <div style={{ display: 'flex', gap: '4px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    {STAGES.map(s => (
+                      <button key={s.key} onClick={() => updateStatus(idea.id, s.key)}
+                        style={{
+                          padding: '3px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
+                          cursor: 'pointer',
+                          border: idea.status === s.key ? 'none' : `1px solid ${brand.border}`,
+                          background: idea.status === s.key ? s.color : 'transparent',
+                          color: idea.status === s.key ? brand.void : brand.smoke,
+                          transition: 'all 0.15s',
+                        }}>{s.label}</button>
                     ))}
                   </div>
-                )}
+                  {/* Action Row */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '12px' }}>
+                    <span style={{ color: brand.smoke }}>
+                      {new Date(idea.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                      <button onClick={() => promoteToKanban(idea)}
+                        style={{
+                          background: 'none', border: `1px solid ${brand.amber}`, borderRadius: '4px',
+                          padding: '2px 8px', color: brand.amber, cursor: 'pointer', fontSize: '11px', fontWeight: 600,
+                        }}
+                        title="Promote to Kanban Todo">To Kanban</button>
+                      <button onClick={() => archiveIdea(idea.id)}
+                        style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '11px', opacity: 0.6 }}
+                        title="Archive idea">Archive</button>
+                      <button onClick={() => deleteIdea(idea.id)}
+                        style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '14px', opacity: 0.4 }}
+                        title="Delete idea">x</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Archive Section */}
+        {archivedIdeas.length > 0 && (
+          <div style={{ marginTop: '2rem' }}>
+            <button onClick={() => setShowArchive(!showArchive)}
+              style={{
+                background: 'none', border: `1px solid ${brand.border}`, borderRadius: '8px',
+                padding: '8px 16px', color: brand.smoke, cursor: 'pointer', fontSize: '13px', fontWeight: 600,
+                marginBottom: '16px',
+              }}>
+              {showArchive ? 'Hide' : 'Show'} Archive ({archivedIdeas.length})
+            </button>
+            {showArchive && (
+              <div style={styles.grid}>
+                {archivedIdeas.map((idea) => (
+                  <div key={idea.id} style={{ ...styles.card, opacity: 0.6, borderLeft: `3px solid ${brand.smoke}` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+                      <h4 style={{ color: brand.smoke, margin: 0, fontSize: '14px', textDecoration: 'line-through' }}>{idea.title}</h4>
+                    </div>
+                    <p style={{ color: brand.smoke, fontSize: '13px', marginBottom: '0.75rem' }}>{idea.description || 'No description'}</p>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button onClick={() => restoreIdea(idea.id)}
+                        style={{ background: 'none', border: `1px solid ${brand.amber}`, borderRadius: '4px', padding: '2px 8px', color: brand.amber, cursor: 'pointer', fontSize: '11px' }}>
+                        Restore
+                      </button>
+                      <button onClick={() => deleteIdea(idea.id)}
+                        style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '12px' }}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
-          </>
+          </div>
         )}
 
         <div style={{ marginTop: '2rem', textAlign: 'center' }}>

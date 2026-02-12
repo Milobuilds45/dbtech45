@@ -1,5 +1,6 @@
 'use client';
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { brand, styles } from "@/lib/brand";
 
 type ColumnId = 'backlog' | 'in_progress' | 'review' | 'done';
@@ -37,8 +38,28 @@ const DEFAULT_TASKS: Task[] = [
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
 export default function Kanban() {
+  const searchParams = useSearchParams();
   const [todos, setTodos] = useState<Task[]>(DEFAULT_TASKS);
   const [newTask, setNewTask] = useState('');
+
+  // Accept incoming task from SaaS page or Ideas Vault via query params
+  useEffect(() => {
+    const title = searchParams.get('add_title');
+    if (title) {
+      const exists = todos.some(t => t.title === title);
+      if (!exists) {
+        setTodos(prev => [{
+          id: genId(),
+          title,
+          status: 'backlog' as ColumnId,
+          priority: 'high' as Priority,
+          assignee: null,
+          project: searchParams.get('add_project') || undefined,
+        }, ...prev]);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
   const [newPriority, setNewPriority] = useState<Priority>('medium');
   const [newAssignee, setNewAssignee] = useState('');
   const [draggedId, setDraggedId] = useState<string | null>(null);

@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
-import { createClient } from '@supabase/supabase-js';
 import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter, Users, User, Lightbulb, Brain, Sparkles, Shield, Archive } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
@@ -76,10 +76,7 @@ export default function MillionDollarSaas() {
   const [selectedMarketSize, setSelectedMarketSize] = useState<string | null>(null);
   const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'newest' | 'rating' | 'confidence' | 'revenue'>('newest');
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  );
+  const router = useRouter();
 
   const showNotification = (message: string) => {
     // Simple browser notification - could be enhanced with toast library
@@ -1251,20 +1248,17 @@ export default function MillionDollarSaas() {
 
                       <button
                         onClick={() => {
-                          console.log('Idea Vault button clicked for:', idea.id);
-                          updateStatus(idea.id, 'idea-vault');
+                          router.push(`/os/ideas-vault?add_title=${encodeURIComponent(idea.title)}&add_desc=${encodeURIComponent(idea.description)}`);
                         }}
-                        disabled={idea.status === 'idea-vault'}
                         style={{
-                          background: idea.status === 'idea-vault' ? brand.warning : 'transparent',
-                          color: idea.status === 'idea-vault' ? brand.void : brand.warning,
+                          background: 'transparent',
+                          color: brand.warning,
                           border: `1px solid ${brand.warning}`,
                           borderRadius: '6px',
                           padding: '8px 16px',
                           fontSize: '14px',
                           fontWeight: 600,
-                          cursor: idea.status === 'idea-vault' ? 'default' : 'pointer',
-                          opacity: idea.status === 'idea-vault' ? 0.7 : 1,
+                          cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -1278,25 +1272,22 @@ export default function MillionDollarSaas() {
                         }}
                       >
                         <Archive size={14} />
-                        {idea.status === 'idea-vault' ? 'In Vault' : 'Move to Idea Vault'}
+                        Move to Idea Vault
                       </button>
 
                       <button
                         onClick={() => {
-                          console.log('Kanban button clicked for:', idea.id);
-                          updateStatus(idea.id, 'kanban');
+                          router.push(`/os/kanban?add_title=${encodeURIComponent(idea.title)}&add_project=${encodeURIComponent(idea.agentName)}`);
                         }}
-                        disabled={idea.status === 'kanban'}
                         style={{
-                          background: idea.status === 'kanban' ? brand.info : 'transparent',
-                          color: idea.status === 'kanban' ? brand.void : brand.info,
+                          background: 'transparent',
+                          color: brand.info,
                           border: `1px solid ${brand.info}`,
                           borderRadius: '6px',
                           padding: '8px 16px',
                           fontSize: '14px',
                           fontWeight: 600,
-                          cursor: idea.status === 'kanban' ? 'default' : 'pointer',
-                          opacity: idea.status === 'kanban' ? 0.7 : 1,
+                          cursor: 'pointer',
                           display: 'flex',
                           alignItems: 'center',
                           gap: '6px',
@@ -1310,7 +1301,7 @@ export default function MillionDollarSaas() {
                         }}
                       >
                         <Zap size={14} />
-                        {idea.status === 'kanban' ? 'In Kanban' : 'Move to Kanban'}
+                        Move to Kanban
                       </button>
                     </div>
                   </div>
