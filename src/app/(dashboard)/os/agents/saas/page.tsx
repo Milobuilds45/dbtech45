@@ -286,6 +286,107 @@ export default function MillionDollarSaas() {
     );
   };
 
+  const getAgentReasoning = (idea: SaasIdea): string => {
+    // Agent-specific reasoning based on their expertise
+    const reasoningMap: Record<string, string> = {
+      bobby: `"This addresses a real gap in retail trading tools. Professional options flow data is currently locked behind $2K/month Bloomberg terminals. At $49-199/month, we can democratize institutional-grade analysis for active traders. The market timing is perfect with retail trading at all-time highs."`,
+      
+      tony: `"Restaurant margins are razor-thin - most owners are flying blind on food costs. I've seen restaurants go from profitable to bankrupt in 6 months due to commodity price swings. This gives them the same risk management tools that big chains use, but at a price point small restaurants can actually afford."`,
+      
+      paula: `"Small businesses currently pay $2K-5K for basic branding that takes weeks to deliver. With AI, we can deliver professional-quality brand systems in minutes at 95% cost reduction. The design quality will be consistent and the instant gratification factor makes this incredibly compelling for entrepreneurs."`,
+      
+      anders: `"The design-to-code handoff is the biggest bottleneck in product development. I've seen teams spend 40% of their time just translating designs into components. Automating this with proper TypeScript support and component libraries will save companies weeks on every project."`,
+      
+      dwight: `"Competitive intelligence is currently either expensive consultants or manual labor. Businesses are making million-dollar decisions with incomplete information about their competitors. This democratizes enterprise-grade intelligence gathering at a fraction of traditional consulting costs."`,
+      
+      dax: `"Data teams waste 80% of their time on formatting reports instead of finding insights. Automating the storytelling layer while maintaining analytical rigor will free analysts to focus on actual analysis. The executive presentation layer is what makes data actionable."`,
+      
+      milo: `"Business coordination is broken - too many tools, no integration, constant context switching. This provides a single command center for business operations with AI handling the routine coordination tasks. The productivity gains compound across entire organizations."`,
+      
+      collaborative: `"By combining our different areas of expertise, we can create solutions that neither of us could build alone. This represents a genuine fusion of knowledge domains that creates new value propositions in the market."`
+    };
+
+    // For collaborative ideas, get reasoning from the participating agents
+    if (idea.agentId === 'collaborative') {
+      const agents = idea.agentName.split(' + ').map(name => 
+        AGENTS.find(a => a.name === name)?.id
+      ).filter(Boolean);
+      
+      if (agents.length > 1) {
+        return reasoningMap.collaborative;
+      }
+    }
+
+    return reasoningMap[idea.agentId] || `"This idea leverages my expertise in ${idea.agentId} to solve a real market problem with a scalable, profitable solution."`;
+  };
+
+  const renderStars = (rating: number | undefined, ideaId: string) => {
+    return (
+      <div style={{ display: 'flex', gap: '2px' }}>
+        {[1, 2, 3, 4, 5].map(star => (
+          <button
+            key={star}
+            onClick={() => rateIdea(ideaId, star)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '2px',
+              color: (rating && star <= rating) ? brand.amber : brand.smoke,
+            }}
+          >
+            <Star size={16} style={{ 
+              fill: (rating && star <= rating) ? brand.amber : 'transparent' 
+            }} />
+          </button>
+        ))}
+      </div>
+    );
+  };
+
+  const rateIdea = (id: string, rating: number) => {
+    setIdeas(prev => prev.map(idea => 
+      idea.id === id ? { ...idea, derekRating: rating, updatedAt: new Date().toISOString() } : idea
+    ));
+  };
+
+  const updateStatus = (id: string, status: SaasIdea['status']) => {
+    setIdeas(prev => prev.map(idea => 
+      idea.id === id ? { ...idea, status, updatedAt: new Date().toISOString() } : idea
+    ));
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'submitted': return brand.smoke;
+      case 'reviewed': return brand.amber;
+      case 'approved': return brand.success;
+      case 'building': return brand.info;
+      case 'launched': return brand.success;
+      case 'rejected': return brand.error;
+      default: return brand.smoke;
+    }
+  };
+
+  const getMarketSizeColor = (size: string) => {
+    switch (size) {
+      case 'small': return brand.smoke;
+      case 'medium': return brand.amber;
+      case 'large': return brand.info;
+      case 'massive': return brand.success;
+      default: return brand.smoke;
+    }
+  };
+
+  const formatDate = (dateStr: string) => {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString('en-US', { 
+      month: 'short', 
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
   const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
   const statuses = Array.from(new Set(ideas.map(idea => idea.status)));
 
@@ -575,10 +676,346 @@ export default function MillionDollarSaas() {
           </div>
         </div>
 
-        {/* Ideas List (simplified for now) */}
-        <div style={{ color: brand.silver, textAlign: 'center', padding: '40px' }}>
-          <p>Ideas list component would go here...</p>
+        {/* Ideas List */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          {sortedIdeas.map(idea => {
+            const agent = AGENTS.find(a => a.id === idea.agentId);
+
+            return (
+              <div
+                key={idea.id}
+                style={{
+                  ...styles.card,
+                  padding: '28px',
+                  border: idea.derekRating && idea.derekRating >= 4 ? 
+                    `1px solid ${brand.amber}` : 
+                    `1px solid ${brand.border}`,
+                }}
+              >
+                {/* Header */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                  marginBottom: '20px',
+                }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                      <div style={{
+                        width: '40px',
+                        height: '40px',
+                        borderRadius: '8px',
+                        background: agent?.color || brand.smoke,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: brand.void,
+                        fontWeight: 700,
+                        fontSize: '14px',
+                      }}>
+                        {idea.agentName.substring(0, 2)}
+                      </div>
+                      <div>
+                        <h2 style={{ 
+                          color: brand.white, 
+                          fontSize: '24px', 
+                          fontWeight: 700, 
+                          margin: 0,
+                          marginBottom: '4px' 
+                        }}>
+                          {idea.title}
+                        </h2>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{ color: brand.smoke, fontSize: '14px' }}>
+                            by {idea.agentName}
+                          </span>
+                          <span style={{ color: brand.smoke }}>•</span>
+                          <span style={{ color: brand.smoke, fontSize: '12px' }}>
+                            {formatDate(idea.createdAt)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <p style={{
+                      color: brand.silver,
+                      fontSize: '16px',
+                      lineHeight: '1.6',
+                      marginBottom: '16px',
+                      fontWeight: 500,
+                    }}>
+                      {idea.description}
+                    </p>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      background: `${getMarketSizeColor(idea.marketSize)}20`,
+                      color: getMarketSizeColor(idea.marketSize),
+                      textTransform: 'uppercase',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}>
+                      <Target size={14} />
+                      {idea.marketSize} market
+                    </span>
+
+                    <span style={{
+                      padding: '6px 12px',
+                      borderRadius: '6px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      background: `${getStatusColor(idea.status)}20`,
+                      color: getStatusColor(idea.status),
+                      textTransform: 'uppercase',
+                    }}>
+                      {idea.status.replace('-', ' ')}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Business Details Grid */}
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                  gap: '16px',
+                  marginBottom: '20px',
+                }}>
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Problem Solved
+                    </h4>
+                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                      {idea.problemSolved}
+                    </p>
+                  </div>
+
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Target Market
+                    </h4>
+                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                      {idea.targetMarket}
+                    </p>
+                  </div>
+
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Business Model
+                    </h4>
+                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                      {idea.businessModel}
+                    </p>
+                  </div>
+
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.success, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Revenue Projection
+                    </h4>
+                    <p style={{ color: brand.white, fontSize: '16px', fontWeight: 700, margin: 0 }}>
+                      {idea.revenueProjection}
+                    </p>
+                  </div>
+
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Competitive Advantage
+                    </h4>
+                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                      {idea.competitiveAdvantage}
+                    </p>
+                  </div>
+
+                  <div style={{ background: brand.graphite, borderRadius: '8px', padding: '16px' }}>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, marginBottom: '8px' }}>
+                      Development Time
+                    </h4>
+                    <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.4' }}>
+                      {idea.developmentTime}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tags */}
+                <div style={{ display: 'flex', gap: '6px', marginBottom: '20px', flexWrap: 'wrap' }}>
+                  {idea.tags.map(tag => (
+                    <span
+                      key={tag}
+                      style={{
+                        padding: '4px 8px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        background: brand.graphite,
+                        color: brand.smoke,
+                        border: `1px solid ${brand.border}`,
+                      }}
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Agent Reasoning */}
+                <div style={{
+                  background: brand.graphite,
+                  borderRadius: '8px',
+                  padding: '16px',
+                  marginBottom: '16px',
+                }}>
+                  <h4 style={{ color: brand.info, fontSize: '14px', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <User size={14} />
+                    Agent Reasoning
+                  </h4>
+                  <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.5', fontStyle: 'italic' }}>
+                    {getAgentReasoning(idea)}
+                  </p>
+                </div>
+
+                {/* Derek's Rating - Separate & Smaller */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '16px',
+                  background: `${brand.amber}08`,
+                  borderRadius: '8px',
+                  border: `1px solid ${brand.border}`,
+                  marginBottom: '16px',
+                }}>
+                  <div>
+                    <h4 style={{ color: brand.amber, fontSize: '14px', fontWeight: 600, margin: 0, marginBottom: '6px' }}>
+                      Your Rating
+                    </h4>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      {renderStars(idea.derekRating, idea.id)}
+                      {idea.derekRating && (
+                        <span style={{ color: brand.smoke, fontSize: '12px', marginLeft: '8px' }}>
+                          ({idea.derekRating}/5)
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  {!idea.derekRating && (
+                    <span style={{ color: brand.smoke, fontSize: '12px' }}>
+                      Click stars to rate this idea
+                    </span>
+                  )}
+                </div>
+
+                {/* Actions */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        onClick={() => updateStatus(idea.id, 'approved')}
+                        disabled={idea.status === 'approved'}
+                        style={{
+                          background: idea.status === 'approved' ? brand.success : 'transparent',
+                          color: idea.status === 'approved' ? brand.void : brand.success,
+                          border: `1px solid ${brand.success}`,
+                          borderRadius: '6px',
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: idea.status === 'approved' ? 'default' : 'pointer',
+                          opacity: idea.status === 'approved' ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                      >
+                        <ThumbsUp size={14} />
+                        {idea.status === 'approved' ? 'Approved' : 'Approve'}
+                      </button>
+
+                      <button
+                        onClick={() => updateStatus(idea.id, 'building')}
+                        disabled={idea.status === 'building'}
+                        style={{
+                          background: idea.status === 'building' ? brand.info : 'transparent',
+                          color: idea.status === 'building' ? brand.void : brand.info,
+                          border: `1px solid ${brand.info}`,
+                          borderRadius: '6px',
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: idea.status === 'building' ? 'default' : 'pointer',
+                          opacity: idea.status === 'building' ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                      >
+                        <Zap size={14} />
+                        {idea.status === 'building' ? 'Building' : 'Start Building'}
+                      </button>
+
+                      <button
+                        onClick={() => updateStatus(idea.id, 'rejected')}
+                        disabled={idea.status === 'rejected'}
+                        style={{
+                          background: idea.status === 'rejected' ? brand.error : 'transparent',
+                          color: idea.status === 'rejected' ? brand.void : brand.error,
+                          border: `1px solid ${brand.error}`,
+                          borderRadius: '6px',
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: idea.status === 'rejected' ? 'default' : 'pointer',
+                          opacity: idea.status === 'rejected' ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                      >
+                        <ThumbsDown size={14} />
+                        {idea.status === 'rejected' ? 'Rejected' : 'Reject'}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    color: brand.smoke,
+                    fontSize: '14px',
+                  }}>
+                    <Calendar size={16} />
+                    <span>Added {formatDate(idea.createdAt)}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
+
+        {sortedIdeas.length === 0 && (
+          <div style={{
+            ...styles.card,
+            textAlign: 'center',
+            padding: '60px 40px',
+          }}>
+            <DollarSign size={48} style={{ color: brand.smoke, opacity: 0.5, marginBottom: '16px' }} />
+            <h3 style={{ color: brand.smoke, fontSize: '18px', marginBottom: '8px' }}>No SaaS ideas found</h3>
+            <p style={{ color: brand.smoke, fontSize: '14px' }}>
+              {selectedMarketSize || selectedStatus ? 
+                'Try adjusting your filters to see more ideas.' :
+                'Generate some ideas using the controls above.'
+              }
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
