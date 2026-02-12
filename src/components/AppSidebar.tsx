@@ -64,6 +64,7 @@ const navItems: NavItem[] = [
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Projects', href: '/os/projects', badge: '28' },
   { label: 'Markets', href: '/os/markets' },
+      { label: 'Polymarket', href: '/os/polymarket' },
   { label: 'Daily Feed', href: '/os/daily-feed' },
 ];
 
@@ -424,4 +425,5 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     </div>
   );
 }
+
 
