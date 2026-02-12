@@ -39,6 +39,7 @@ const ICON_SIZE = 18;
 // ─── Section icon map using Lucide components ───────────────────────────
 
 const NAV_ICONS: Record<string, ReactNode> = {
+  'Morning Brief': <Newspaper size={ICON_SIZE} />,
   'Model Counsel': <Zap size={ICON_SIZE} />,
   'Roundtable':    <MessageCircle size={ICON_SIZE} />,
   'Projects':      <FolderKanban size={ICON_SIZE} />,
@@ -70,6 +71,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Model Counsel', href: '/os/model-counsel' },
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Projects', href: '/os/projects', badge: '28' },

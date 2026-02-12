@@ -4,8 +4,8 @@ import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
 import { RotateCcw, Trash2, Star, Target, ArrowLeft, Skull } from 'lucide-react';
 
-const REJECTED_KEY = 'dbtech-agent-ideas-rejected';
-const STORAGE_KEY = 'dbtech-agent-ideas';
+const REJECTED_KEY = 'dbtech-agent-ideas-rejected-v2';
+const STORAGE_KEY = 'dbtech-agent-ideas-v2';
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
@@ -167,12 +167,12 @@ export default function RejectedArchive() {
                 <div style={{ padding: '16px 20px' }}>
                   {/* Top row */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                    {/* Agent badge */}
+                    {/* Agent badge - black box, colored outline */}
                     <div style={{
                       width: '36px', height: '36px', borderRadius: '8px',
-                      background: agent?.color || (isCollab ? brand.amber : brand.smoke),
+                      background: brand.void, border: `2px solid ${agent?.color || (isCollab ? brand.amber : brand.smoke)}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0,
+                      color: agent?.color || (isCollab ? brand.amber : brand.smoke), fontWeight: 700, fontSize: '12px', flexShrink: 0,
                       opacity: 0.6,
                     }}>
                       {isCollab ? 'CO' : idea.agentName.substring(0, 2)}

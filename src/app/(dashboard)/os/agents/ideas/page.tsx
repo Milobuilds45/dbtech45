@@ -5,8 +5,8 @@ import { brand, styles } from '@/lib/brand';
 import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
-const STORAGE_KEY = 'dbtech-agent-ideas';
-const REJECTED_KEY = 'dbtech-agent-ideas-rejected';
+const STORAGE_KEY = 'dbtech-agent-ideas-v2';
+const REJECTED_KEY = 'dbtech-agent-ideas-rejected-v2';
 
 interface AgentIdea {
   id: string;
@@ -522,15 +522,50 @@ export default function AgentIdeasPage() {
     });
   }, []);
 
-  const generate = () => {
+  const generate = async () => {
     if (selectedAgents.length === 0) return;
     setIsLoading(true);
-    setTimeout(() => {
-      if (ideaMode === 'collaborative') setIdeas(p => [genCollab(selectedAgents, creativityLevel), ...p]);
-      else setIdeas(p => [...genIndividual(selectedAgents, creativityLevel), ...p]);
-      setSelectedDay(todayKey());
-      setIsLoading(false);
-    }, 1200);
+
+    const existingTitles = ideas.map(i => i.title);
+
+    try {
+      // Try AI generation first
+      const res = await fetch('/api/ideas/ai-generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: selectedAgents,
+          creativity: creativityLevel,
+          mode: ideaMode,
+          existingTitles,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.ideas?.length) {
+          setIdeas(prev => [...data.ideas, ...prev]);
+          setSelectedDay(todayKey());
+          setIsLoading(false);
+          return;
+        }
+      }
+    } catch {}
+
+    // Fallback to static templates if AI fails
+    setIdeas(prev => {
+      const existingSet = new Set(prev.map(i => i.title));
+      let newIdeas: AgentIdea[];
+      if (ideaMode === 'collaborative') {
+        newIdeas = [genCollab(selectedAgents, creativityLevel)];
+      } else {
+        newIdeas = genIndividual(selectedAgents, creativityLevel);
+      }
+      const unique = newIdeas.filter(i => !existingSet.has(i.title));
+      return [...unique, ...prev];
+    });
+    setSelectedDay(todayKey());
+    setIsLoading(false);
   };
 
   // Get all unique days sorted newest first
@@ -694,48 +729,36 @@ export default function AgentIdeasPage() {
             const isExpanded = expandedIds.has(idea.id);
             const isCollab = idea.agentId === 'collaborative';
 
+            const agentColor = agent?.color || (isCollab ? brand.amber : brand.smoke);
+
             return (
-              <div key={idea.id} style={{ ...styles.card, padding: 0, border: idea.derekRating && idea.derekRating >= 4 ? `1px solid ${brand.amber}` : `1px solid ${brand.border}`, overflow: 'hidden' }}>
+              <div key={idea.id} style={{ ...styles.card, padding: 0, background: brand.void, border: `1px solid ${agentColor}40`, overflow: 'hidden' }}>
                 {/* Summary Row (always visible) */}
                 <button onClick={() => toggleExpand(idea.id)} style={{
                   width: '100%', background: 'transparent', border: 'none', cursor: 'pointer', padding: '16px 20px',
                   display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left', color: 'inherit',
                 }}>
-                  {/* Agent badge */}
-                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: agent?.color || (isCollab ? brand.amber : brand.smoke), display: 'flex', alignItems: 'center', justifyContent: 'center', color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0 }}>
+                  {/* Agent badge - black box, colored outline */}
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: brand.void, border: `2px solid ${agentColor}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: agentColor, fontWeight: 700, fontSize: '12px', flexShrink: 0 }}>
                     {isCollab ? 'CO' : idea.agentName.substring(0, 2)}
                   </div>
 
-                  {/* Title + Agent */}
+                  {/* Title + Agent + Time + Mode/Creativity */}
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ color: brand.white, fontSize: '16px', fontWeight: 700, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{idea.title}</div>
                     <div style={{ color: brand.smoke, fontSize: '12px' }}>
                       by {idea.agentName} {isCollab ? '(Collab)' : ''} at {fmtTime(idea.createdAt)}
                     </div>
+                    <div style={{ color: brand.smoke, fontSize: '11px', marginTop: '2px', display: 'flex', gap: '8px' }}>
+                      <span style={{ color: idea.tags.includes('collaborative') ? brand.amber : brand.smoke }}>{idea.tags.includes('collaborative') ? 'Collaborative' : 'Individual'}</span>
+                      <span style={{ color: brand.border }}>|</span>
+                      <span style={{ color: idea.tags.includes('experimental') ? '#A855F7' : idea.tags.includes('creative') ? brand.amber : brand.smoke }}>
+                        {idea.tags.includes('experimental') ? 'Experimental' : idea.tags.includes('creative') ? 'Creative' : 'Simple'}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Badges */}
-                  <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, background: `${mktColor(idea.marketSize)}15`, color: mktColor(idea.marketSize), textTransform: 'uppercase', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Target size={12} />{idea.marketSize}
-                  </span>
-                  <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, background: `${statusColor(idea.status)}15`, color: statusColor(idea.status), textTransform: 'uppercase', flexShrink: 0 }}>
-                    {idea.status}
-                  </span>
-
-                  {/* Quick action buttons (always visible) */}
-                  <div style={{ display: 'flex', gap: '4px', flexShrink: 0 }} onClick={e => e.stopPropagation()}>
-                    <button onClick={(e) => { e.stopPropagation(); reject(idea.id); }} style={{
-                      background: 'rgba(239,68,68,0.1)', color: brand.error,
-                      border: `1px solid rgba(239,68,68,0.25)`, borderRadius: '6px',
-                      padding: '5px 10px', fontSize: '11px', fontWeight: 600,
-                      cursor: 'pointer', fontFamily: "'Inter', sans-serif",
-                      display: 'flex', alignItems: 'center', gap: '4px',
-                    }}>
-                      <ThumbsDown size={11} />Reject
-                    </button>
-                  </div>
-
-                  {/* Star rating inline */}
+                  {/* Star rating */}
                   <div style={{ display: 'flex', gap: '1px', flexShrink: 0 }} onClick={e => e.stopPropagation()}>
                     {[1,2,3,4,5].map(s => (
                       <button key={s} onClick={(e) => { e.stopPropagation(); rate(idea.id, s); }} style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: '2px', color: (idea.derekRating && s <= idea.derekRating) ? brand.amber : brand.smoke }}>
