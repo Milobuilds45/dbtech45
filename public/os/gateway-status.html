@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gateway Status - Derek OS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .header p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1rem;
+        }
+        
+        .status-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .status-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        .status-running .status-dot {
+            background: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+        
+        .status-down .status-dot {
+            background: #ff4444;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .status-details {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .logs-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        .logs-header {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .log-entry {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .log-entry.success { border-left: 4px solid #00ff88; }
+        .log-entry.error { border-left: 4px solid #ff4444; }
+        .log-entry.warning { border-left: 4px solid #ffaa00; }
+        .log-entry.info { border-left: 4px solid #0088ff; }
+        
+        .loading {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+        }
+        
+        .auto-refresh {
+            text-align: center;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 600px) {
+            .container { padding: 20px; }
+            .header h1 { font-size: 1.5rem; }
+            .status-indicator { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛠️ Gateway Status</h1>
+            <p>Clawdbot Infrastructure Monitor</p>
+        </div>
+        
+        <div class="status-card">
+            <div id="statusIndicator" class="status-indicator">
+                <div class="status-dot"></div>
+                <span id="statusText">Loading...</span>
+            </div>
+            <div id="statusDetails" class="status-details">
+                Checking gateway status...
+            </div>
+        </div>
+        
+        <div class="logs-section">
+            <div class="logs-header">📋 Recent Activity</div>
+            <div id="logEntries">
+                <div class="loading">Loading recent logs...</div>
+            </div>
+        </div>
+        
+        <div class="auto-refresh">
+            Auto-refreshing every 30 seconds
+        </div>
+    </div>
+
+    <script>
+        let refreshInterval;
+        
+        function formatLogEntry(log) {
+            if (!log || log.trim() === '') return '';
+            
+            let className = 'info';
+            if (log.includes('SUCCESS') || log.includes('OK:')) className = 'success';
+            else if (log.includes('ERROR') || log.includes('FAILED') || log.includes('DOWN:')) className = 'error';
+            else if (log.includes('RESTART') || log.includes('TELEGRAM FAILED')) className = 'warning';
+            
+            return `<div class="log-entry ${className}">${escapeHtml(log)}</div>`;
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function updateStatus() {
+            fetch('/os/gateway-status.json?' + Date.now())
+                .then(response => {
+                    if (!response.ok) throw new Error('Status file not found');
+                    return response.json();
+                })
+                .then(data => {
+                    const statusIndicator = document.getElementById('statusIndicator');
+                    const statusText = document.getElementById('statusText');
+                    const statusDetails = document.getElementById('statusDetails');
+                    const logEntries = document.getElementById('logEntries');
+                    
+                    // Update status
+                    statusIndicator.className = `status-indicator status-${data.status.toLowerCase()}`;
+                    statusText.textContent = data.status === 'RUNNING' ? 'Gateway Online' : 'Gateway Offline';
+                    
+                    // Update details
+                    let details = `Last Check: ${new Date(data.lastCheck).toLocaleString()}`;
+                    if (data.lastRestart && data.lastRestart !== '') {
+                        details += `<br>Last Restart: ${new Date(data.lastRestart).toLocaleString()}`;
+                    }
+                    statusDetails.innerHTML = details;
+                    
+                    // Update logs
+                    if (data.recentLogs && data.recentLogs.length > 0) {
+                        logEntries.innerHTML = data.recentLogs
+                            .slice(-10)
+                            .reverse()
+                            .map(formatLogEntry)
+                            .join('');
+                    } else {
+                        logEntries.innerHTML = '<div class="loading">No recent logs available</div>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Failed to fetch status:', error);
+                    document.getElementById('statusText').textContent = 'Status Unknown';
+                    document.getElementById('statusDetails').textContent = 'Unable to load status data';
+                    document.getElementById('logEntries').innerHTML = '<div class="loading">Unable to load logs</div>';
+                });
+        }
+        
+        // Initial load
+        updateStatus();
+        
+        // Auto-refresh every 30 seconds
+        refreshInterval = setInterval(updateStatus, 30000);
+        
+        // Refresh when page becomes visible again
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                updateStatus();
+            }
+        });
+    </script>
+</body>
+</html>
