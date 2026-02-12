@@ -33,6 +33,8 @@ export default function Markets() {
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
   const [isLive, setIsLive] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState(30);
+  const [refreshFlash, setRefreshFlash] = useState(false);
 
   const fetchData = useCallback(async (wl: string[]) => {
     try {
@@ -64,6 +66,9 @@ export default function Markets() {
       setNews(data.news || []);
       setIsLive(data.live ?? false);
       setLastRefresh(new Date());
+      setCountdown(30);
+      setRefreshFlash(true);
+      setTimeout(() => setRefreshFlash(false), 600);
     } catch (err) {
       console.error('Market fetch error:', err);
       if (err instanceof Error && err.name === 'AbortError') {
@@ -88,10 +93,11 @@ export default function Markets() {
     fetchData(DEFAULT_WATCHLIST);
   }, [fetchData]);
 
-  // Auto-refresh every 30s
+  // Auto-refresh every 30s + countdown
   useEffect(() => {
-    const interval = setInterval(() => fetchData(watchlist), 30000);
-    return () => clearInterval(interval);
+    const refresh = setInterval(() => { fetchData(watchlist); }, 30000);
+    const tick = setInterval(() => { setCountdown(c => c <= 1 ? 30 : c - 1); }, 1000);
+    return () => { clearInterval(refresh); clearInterval(tick); };
   }, [fetchData, watchlist]);
 
   const addSymbol = useCallback(() => {
@@ -128,7 +134,7 @@ export default function Markets() {
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {lastRefresh && <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: brand.smoke }}>{fmt(lastRefresh)}</span>}
-            <button onClick={() => fetchData(watchlist)} style={{ ...styles.button, padding: '6px 14px', fontSize: 12 }}>↻ Refresh</button>
+            <button onClick={() => { fetchData(watchlist); setCountdown(30); }} style={{ ...styles.button, padding: '6px 14px', fontSize: 12 }}>↻ Refresh</button>
           </div>
         </div>
 
@@ -139,15 +145,17 @@ export default function Markets() {
         )}
 
         {/* Ticker Board */}
-        <div style={{ ...styles.card, padding: 0, marginBottom: '1.5rem', overflow: 'hidden' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: `1px solid ${brand.border}`, background: brand.graphite }}>
+        <div style={{ ...styles.card, padding: 0, marginBottom: '1.5rem', overflow: 'hidden', transition: 'border-color 0.3s', borderColor: refreshFlash ? 'rgba(245,158,11,0.5)' : brand.border }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 16px', borderBottom: `1px solid ${brand.border}`, background: refreshFlash ? 'rgba(245,158,11,0.05)' : brand.graphite, transition: 'background 0.3s' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ color: brand.amber, fontWeight: 700, fontSize: 13, fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.05em' }}>AXECAP TERMINAL</span>
               <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, color: isLive ? brand.success : brand.amber }}>
                 ● {isLive ? 'LIVE' : 'CACHED'}
               </span>
             </div>
-            <span style={{ fontSize: 10, color: brand.smoke }}>Auto-refresh: 30s</span>
+            <span style={{ fontSize: 10, color: brand.smoke, fontFamily: "'JetBrains Mono', monospace" }}>
+              Next refresh: <span style={{ color: countdown <= 5 ? brand.amber : brand.smoke }}>{countdown}s</span>
+            </span>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(quotes.length || 6, 6)}, 1fr)`, gap: 0 }}>
             {(quotes.length ? quotes : []).map((q, i) => (
