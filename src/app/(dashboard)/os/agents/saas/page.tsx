@@ -693,17 +693,18 @@ export default function MillionDollarSaas() {
                 <button
                   onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                   style={{
-                    background: selectedAgents.length === AGENTS.length 
-                      ? `linear-gradient(135deg, ${brand.amber} 0%, ${brand.amberLight} 100%)`
-                      : brand.graphite,
-                    color: selectedAgents.length === AGENTS.length ? brand.void : brand.white,
-                    border: `2px solid ${selectedAgents.length === AGENTS.length ? brand.amber : brand.border}`,
+                    background: brand.void,
+                    color: selectedAgents.length === AGENTS.length ? brand.amber : brand.white,
+                    border: selectedAgents.length === AGENTS.length 
+                      ? `2px solid ${brand.amber}` 
+                      : `1px solid ${brand.border}`,
                     borderRadius: '8px',
                     padding: '10px 16px',
                     fontSize: '14px',
                     fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
+                    opacity: selectedAgents.length === AGENTS.length ? 1 : 0.6,
                   }}
                 >
                   All Agents
@@ -711,17 +712,16 @@ export default function MillionDollarSaas() {
                 <button
                   onClick={() => setSelectedAgents([])}
                   style={{
-                    background: selectedAgents.length === 0 
-                      ? `linear-gradient(135deg, ${brand.error} 0%, #DC2626 100%)`
-                      : brand.graphite,
-                    color: selectedAgents.length === 0 ? brand.white : brand.white,
-                    border: `2px solid ${selectedAgents.length === 0 ? brand.error : brand.border}`,
+                    background: brand.void,
+                    color: brand.smoke,
+                    border: `1px solid ${brand.border}`,
                     borderRadius: '8px',
                     padding: '10px 16px',
                     fontSize: '14px',
-                    fontWeight: 600,
+                    fontWeight: 500,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
+                    opacity: 0.6,
                   }}
                 >
                   Clear All
@@ -731,31 +731,32 @@ export default function MillionDollarSaas() {
                     key={agent.id}
                     onClick={() => handleAgentSelect(agent.id)}
                     style={{
-                      background: selectedAgents.includes(agent.id) 
-                        ? `linear-gradient(135deg, ${agent.color} 0%, ${agent.color}CC 100%)`
-                        : brand.graphite,
-                      color: selectedAgents.includes(agent.id) ? brand.void : brand.white,
-                      border: `2px solid ${selectedAgents.includes(agent.id) ? agent.color : brand.border}`,
+                      background: brand.void,
+                      color: brand.white,
+                      border: selectedAgents.includes(agent.id) 
+                        ? `2px solid ${agent.color}` 
+                        : `1px solid ${brand.border}`,
                       borderRadius: '8px',
                       padding: '10px 16px',
                       fontSize: '14px',
                       fontWeight: 600,
                       cursor: 'pointer',
                       transition: 'all 0.2s ease',
+                      opacity: selectedAgents.includes(agent.id) ? 1 : 0.5,
                       boxShadow: selectedAgents.includes(agent.id) 
-                        ? `0 4px 12px ${agent.color}40` 
+                        ? `0 0 12px ${agent.color}30, inset 0 0 20px ${agent.color}10` 
                         : 'none',
                     }}
                     onMouseEnter={(e) => {
                       if (!selectedAgents.includes(agent.id)) {
                         e.currentTarget.style.borderColor = agent.color;
-                        e.currentTarget.style.transform = 'translateY(-1px)';
+                        e.currentTarget.style.opacity = '0.8';
                       }
                     }}
                     onMouseLeave={(e) => {
                       if (!selectedAgents.includes(agent.id)) {
                         e.currentTarget.style.borderColor = brand.border;
-                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.opacity = '0.5';
                       }
                     }}
                   >
@@ -774,9 +775,9 @@ export default function MillionDollarSaas() {
                 <button
                   onClick={() => setIdeaMode('individual')}
                   style={{
-                    background: ideaMode === 'individual' ? brand.info : brand.graphite,
-                    color: ideaMode === 'individual' ? brand.void : brand.white,
-                    border: `1px solid ${ideaMode === 'individual' ? brand.info : brand.border}`,
+                    background: brand.void,
+                    color: ideaMode === 'individual' ? brand.info : brand.white,
+                    border: ideaMode === 'individual' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
                     borderRadius: '6px',
                     padding: '8px 12px',
                     fontSize: '13px',
@@ -785,6 +786,8 @@ export default function MillionDollarSaas() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
+                    opacity: ideaMode === 'individual' ? 1 : 0.6,
+                    transition: 'all 0.2s ease',
                   }}
                 >
                   <User size={14} />
@@ -793,9 +796,9 @@ export default function MillionDollarSaas() {
                 <button
                   onClick={() => setIdeaMode('collaborative')}
                   style={{
-                    background: ideaMode === 'collaborative' ? brand.info : brand.graphite,
-                    color: ideaMode === 'collaborative' ? brand.void : brand.white,
-                    border: `1px solid ${ideaMode === 'collaborative' ? brand.info : brand.border}`,
+                    background: brand.void,
+                    color: ideaMode === 'collaborative' ? brand.info : brand.white,
+                    border: ideaMode === 'collaborative' ? `2px solid ${brand.info}` : `1px solid ${brand.border}`,
                     borderRadius: '6px',
                     padding: '8px 12px',
                     fontSize: '13px',
@@ -804,6 +807,8 @@ export default function MillionDollarSaas() {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
+                    opacity: ideaMode === 'collaborative' ? 1 : 0.6,
+                    transition: 'all 0.2s ease',
                   }}
                 >
                   <Users size={14} />
@@ -819,20 +824,21 @@ export default function MillionDollarSaas() {
               </label>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
                 {[
-                  { value: 'safe', label: 'Safe', icon: Shield },
-                  { value: 'creative', label: 'Creative', icon: Lightbulb },
-                  { value: 'experimental', label: 'Experimental', icon: Sparkles },
-                  { value: 'simple', label: 'Simple', icon: Brain },
+                  { value: 'safe', label: 'Safe', icon: Shield, color: brand.smoke },
+                  { value: 'creative', label: 'Creative', icon: Lightbulb, color: brand.amber },
+                  { value: 'experimental', label: 'Experimental', icon: Sparkles, color: '#A855F7' },
+                  { value: 'simple', label: 'Simple', icon: Brain, color: brand.info },
                 ].map(level => {
                   const IconComponent = level.icon;
+                  const isSelected = creativityLevel === level.value;
                   return (
                     <button
                       key={level.value}
                       onClick={() => setCreativityLevel(level.value as CreativityLevel)}
                       style={{
-                        background: creativityLevel === level.value ? brand.success : brand.graphite,
-                        color: creativityLevel === level.value ? brand.void : brand.white,
-                        border: `1px solid ${creativityLevel === level.value ? brand.success : brand.border}`,
+                        background: brand.void,
+                        color: isSelected ? level.color : brand.white,
+                        border: isSelected ? `2px solid ${level.color}` : `1px solid ${brand.border}`,
                         borderRadius: '6px',
                         padding: '8px 10px',
                         fontSize: '12px',
@@ -841,6 +847,8 @@ export default function MillionDollarSaas() {
                         display: 'flex',
                         alignItems: 'center',
                         gap: '4px',
+                        opacity: isSelected ? 1 : 0.6,
+                        transition: 'all 0.2s ease',
                       }}
                     >
                       <IconComponent size={12} />
