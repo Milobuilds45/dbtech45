@@ -33,56 +33,53 @@ export default function Markets() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [newSymbol, setNewSymbol] = useState('');
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(true); // Show loading state initially
+  const [loading, setLoading] = useState(false); // No loading state - show UI immediately
   const [error, setError] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
 
-  // Fetch market data from API with timeout and fallbacks
+  // Simplified market data fetch with aggressive timeout
   const fetchMarketData = useCallback(async () => {
+    setLoading(false); // Show UI immediately
+    
     try {
-      setLoading(true);
       setError(null);
       
-      // Set reasonable timeout
-      const timeout = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('API timeout')), 10000)
-      );
+      // Very aggressive timeout - 3 seconds max
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 3000);
       
-      // Fetch essential data first
-      const quotesData = await Promise.race([
-        fetch('/api/market-data').then(r => r.json()),
-        timeout
-      ]) as any;
+      const response = await fetch('/api/market-data', {
+        signal: controller.signal
+      });
       
-      setQuotes(quotesData.quotes || []);
-      setLoading(false); // Show initial data immediately
+      clearTimeout(timeoutId);
       
-      // Load additional data in background
-      try {
-        const [watchlistData, newsData] = await Promise.all([
-          fetch(`/api/market-data?symbols=${watchlist.join(',')}`).then(r => r.json()),
-          fetch(`/api/market-news?symbols=${watchlist.slice(0, 3).join(',')}`).then(r => r.ok ? r.json() : { news: [] })
-        ]);
-        
-        setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
-        setNews(newsData.news || []);
-      } catch (err) {
-        console.warn('Additional data failed to load:', err);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
       }
       
+      const data = await response.json();
+      setQuotes(data.quotes || []);
       setIsLive(true);
       setLastRefresh(new Date());
+      
+      // Skip watchlist and news for now to avoid hanging
+      setWatchlistQuotes([]);
+      setNews([]);
+      
     } catch (err) {
       console.error('Market data error:', err);
-      setError('Failed to load market data. Check your connection.');
+      if (err instanceof Error && err.name === 'AbortError') {
+        setError('Market data taking too long - using cached data');
+      } else {
+        setError('Market data unavailable');
+      }
       setQuotes([]);
       setWatchlistQuotes([]);
       setNews([]);
       setIsLive(false);
-    } finally {
-      setLoading(false);
     }
-  }, [watchlist]);
+  }, []);
 
   // Load watchlist from localStorage
   useEffect(() => {

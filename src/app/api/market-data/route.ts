@@ -70,33 +70,53 @@ function formatQuote(quote: any) {
 }
 
 export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const customSymbols = searchParams.get('symbols')?.split(',') || [];
-  const includeOptions = searchParams.get('options') === 'true';
-  
-  // Combine default and custom tickers
-  const allSymbols = [...new Set([...DEFAULT_TICKERS, ...customSymbols])];
-  
-  // Fetch quotes from Yahoo Finance
-  const yahooQuotes = await fetchYahooQuotes(allSymbols);
-  const formattedQuotes = yahooQuotes.map(formatQuote);
-  
-  // Optionally fetch options data
-  let optionsData = null;
-  if (includeOptions && customSymbols.length > 0) {
-    optionsData = await fetchMassiveOptions(customSymbols[0]);
+  try {
+    const { searchParams } = new URL(request.url);
+    const customSymbols = searchParams.get('symbols')?.split(',') || [];
+    
+    // Limit symbols to prevent hanging
+    const allSymbols = [...new Set([...DEFAULT_TICKERS.slice(0, 5), ...customSymbols.slice(0, 3)])];
+    
+    // Fetch quotes with timeout
+    const yahooQuotes = await fetchYahooQuotes(allSymbols);
+    const formattedQuotes = yahooQuotes.map(formatQuote);
+    
+    // Skip options to avoid hanging
+    const response = NextResponse.json({
+      quotes: formattedQuotes,
+      options: null,
+      timestamp: new Date().toISOString(),
+      source: 'yahoo-finance',
+      cached: false
+    });
+    
+    // Short cache for fast responses
+    response.headers.set('Cache-Control', 'public, s-maxage=15, stale-while-revalidate=30');
+    
+    return response;
+  } catch (error) {
+    console.error('Market data error:', error);
+    
+    // Return minimal fallback data
+    const fallbackQuotes = DEFAULT_TICKERS.slice(0, 3).map(symbol => ({
+      symbol,
+      name: symbol,
+      price: 0,
+      change: 0,
+      changePercent: 0,
+      high: 0,
+      low: 0,
+      volume: 0,
+      marketState: 'CLOSED'
+    }));
+    
+    return NextResponse.json({
+      quotes: fallbackQuotes,
+      options: null,
+      timestamp: new Date().toISOString(),
+      source: 'fallback',
+      error: 'Data temporarily unavailable',
+      cached: false
+    });
   }
-  
-  const response = NextResponse.json({
-    quotes: formattedQuotes,
-    options: optionsData,
-    timestamp: new Date().toISOString(),
-    source: 'yahoo-finance',
-    cached: false
-  });
-  
-  // Aggressive caching for speed
-  response.headers.set('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
-  
-  return response;
 }
