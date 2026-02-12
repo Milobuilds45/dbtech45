@@ -253,10 +253,15 @@ export async function GET(request: Request) {
     return a.localeCompare(b);
   });
   
-  return NextResponse.json({
+  const response = NextResponse.json({
     events: formattedEvents,
     categories: sortedCategories.slice(0, 12),
     total: formattedEvents.length,
     timestamp: new Date().toISOString(),
   });
+  
+  // Add aggressive caching
+  response.headers.set('Cache-Control', 'public, s-maxage=120, stale-while-revalidate=300');
+  
+  return response;
 }

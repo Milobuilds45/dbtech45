@@ -13,7 +13,7 @@ async function fetchYahooQuotes(symbols: string[]) {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
       },
-      next: { revalidate: 60 } // Cache for 60 seconds
+      next: { revalidate: 30 } // Cache for 30 seconds
     });
     
     if (!response.ok) {
@@ -87,11 +87,16 @@ export async function GET(request: Request) {
     optionsData = await fetchMassiveOptions(customSymbols[0]);
   }
   
-  return NextResponse.json({
+  const response = NextResponse.json({
     quotes: formattedQuotes,
     options: optionsData,
     timestamp: new Date().toISOString(),
     source: 'yahoo-finance',
     cached: false
   });
+  
+  // Aggressive caching for speed
+  response.headers.set('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60');
+  
+  return response;
 }

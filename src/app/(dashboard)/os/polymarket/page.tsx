@@ -23,7 +23,7 @@ interface PolymarketEvent {
   isUrgent?: boolean;
 }
 
-const REFRESH_INTERVAL = 300000; // 5 minutes
+const REFRESH_INTERVAL = 120000; // 2 minutes for faster updates
 
 export default function Polymarket() {
   const [events, setEvents] = useState<PolymarketEvent[]>([]);

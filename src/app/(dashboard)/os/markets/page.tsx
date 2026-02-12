@@ -24,7 +24,7 @@ interface NewsItem {
 }
 
 const DEFAULT_WATCHLIST = ['AAPL', 'NVDA', 'TSLA', 'META', 'AMZN'];
-const REFRESH_INTERVAL = 60000; // 1 minute
+const REFRESH_INTERVAL = 30000; // 30 seconds for faster updates
 
 export default function Markets() {
   const [quotes, setQuotes] = useState<Quote[]>([]);
@@ -33,7 +33,7 @@ export default function Markets() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [newSymbol, setNewSymbol] = useState('');
   const [lastRefresh, setLastRefresh] = useState<Date | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false); // Start without loading state
   const [error, setError] = useState<string | null>(null);
   const [isLive, setIsLive] = useState(false);
 
@@ -43,22 +43,20 @@ export default function Markets() {
       setLoading(true);
       setError(null);
       
-      // Set timeout for API calls
+      // Set aggressive timeout for fast failure
       const timeout = new Promise((_, reject) => 
-        setTimeout(() => reject(new Error('API timeout')), 5000)
+        setTimeout(() => reject(new Error('API timeout')), 2000)
       );
       
-      // Fetch real data with timeout
-      const results = await Promise.race([
-        Promise.all([
-          fetch('/api/market-data').then(r => r.json()),
-          fetch(`/api/market-data?symbols=${watchlist.join(',')}`).then(r => r.json()),
-          fetch(`/api/market-news?symbols=${watchlist.slice(0, 3).join(',')}`).then(r => r.ok ? r.json() : { news: [] })
-        ]),
+      // Single optimized API call for speed
+      const quotesData = await Promise.race([
+        fetch('/api/market-data').then(r => r.json()),
         timeout
-      ]) as [any, any, any];
+      ]) as any;
       
-      const [quotesData, watchlistData, newsData] = results;
+      // Skip watchlist and news for faster loading - load them after
+      const watchlistData = { quotes: [] };
+      const newsData = { news: [] };
       
       setQuotes(quotesData.quotes || []);
       setWatchlistQuotes(watchlistData.quotes?.filter((q: Quote) => watchlist.includes(q.symbol)) || []);
