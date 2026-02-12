@@ -164,6 +164,7 @@ const mockResources: AgentResource[] = [
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>(mockResources);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -253,45 +254,138 @@ export default function AgentAssist() {
     }
   };
 
-  const generateResource = async (agentId?: string) => {
+  const generateResource = async (agentIds: string[] = []) => {
     setIsLoading(true);
     try {
-      const message = agentId 
-        ? `${AGENTS.find(a => a.id === agentId)?.name}, suggest a useful tool or resource in your domain`
-        : 'Suggest a useful tool or API';
+      const agentsToUse = agentIds.length > 0 ? agentIds : AGENTS.map(a => a.id);
       
-      console.log('Would send to agent:', message);
+      const newResources: AgentResource[] = [];
       
-      // Mock response for testing
-      setTimeout(() => {
-        const mockResource = {
-          id: Date.now().toString(),
-          agentId: agentId || 'milo',
-          agentName: AGENTS.find(a => a.id === agentId)?.name || 'Milo',
-          title: 'AI-Suggested Tool',
-          description: 'A dynamically recommended tool from agent expertise.',
-          url: 'https://example.com',
-          category: 'tool' as const,
-          type: 'open-source' as const,
-          tags: ['ai', 'generated', 'test'],
-          useCase: 'Testing the resource generation system',
-          rating: 4,
-          usefulFor: [agentId || 'general'],
-          githubStars: 1000,
-          pricing: 'Free',
-          createdAt: new Date().toISOString(),
-          addedBy: agentId || 'milo',
+      for (const agentId of agentsToUse) {
+        const agent = AGENTS.find(a => a.id === agentId);
+        if (!agent) continue;
+        
+        // Agent-specific resource recommendations
+        const agentResources = {
+          bobby: {
+            title: 'Alpha Vantage API',
+            description: 'Professional-grade financial market data API with real-time and historical stock, forex, and crypto data.',
+            url: 'https://www.alphavantage.co/',
+            category: 'api' as const,
+            type: 'free-tier' as const,
+            useCase: 'Real-time market data for trading algorithms and portfolio management applications',
+            pricing: 'Free: 25 calls/day, Premium: $49.99/month for 1200 calls/minute',
+            githubStars: 0,
+            usefulFor: ['bobby', 'dax'],
+          },
+          tony: {
+            title: 'Square POS API',
+            description: 'Comprehensive point-of-sale API for restaurants with inventory management and payment processing.',
+            url: 'https://developer.squareup.com/',
+            category: 'api' as const,
+            type: 'free-tier' as const,
+            useCase: 'Restaurant POS integration, inventory tracking, payment processing, and customer management',
+            pricing: 'Free to integrate, 2.6% + 10¢ per transaction',
+            githubStars: 0,
+            usefulFor: ['tony', 'milo'],
+          },
+          paula: {
+            title: 'Framer Motion',
+            description: 'Production-ready motion library for React with declarative animations and gesture support.',
+            url: 'https://www.framer.com/motion/',
+            category: 'library' as const,
+            type: 'open-source' as const,
+            useCase: 'Creating smooth animations and micro-interactions in React applications and websites',
+            pricing: 'Free and open source',
+            githubStars: 23400,
+            usefulFor: ['paula', 'anders'],
+          },
+          anders: {
+            title: 'Supabase',
+            description: 'Open source Firebase alternative with PostgreSQL database, authentication, and real-time subscriptions.',
+            url: 'https://supabase.com/',
+            category: 'service' as const,
+            type: 'free-tier' as const,
+            useCase: 'Backend-as-a-service for rapid application development with real-time features',
+            pricing: 'Free tier: 500MB DB, Pro: $25/month per project',
+            githubStars: 72600,
+            usefulFor: ['anders', 'milo', 'paula'],
+          },
+          dwight: {
+            title: 'NewsAPI',
+            description: 'JSON API for live worldwide news headlines and articles from 80,000+ sources.',
+            url: 'https://newsapi.org/',
+            category: 'api' as const,
+            type: 'free-tier' as const,
+            useCase: 'News aggregation, content curation, and real-time information gathering for research',
+            pricing: 'Free: 1000 requests/month, Pro: $449/month for 250k requests',
+            githubStars: 0,
+            usefulFor: ['dwight', 'milo'],
+          },
+          dax: {
+            title: 'Apache Superset',
+            description: 'Modern data exploration and visualization platform with rich set of data visualizations.',
+            url: 'https://superset.apache.org/',
+            category: 'tool' as const,
+            type: 'open-source' as const,
+            useCase: 'Business intelligence dashboards, data exploration, and interactive data visualization',
+            pricing: 'Free and open source',
+            githubStars: 62100,
+            usefulFor: ['dax', 'milo', 'dwight'],
+          },
+          milo: {
+            title: 'n8n',
+            description: 'Fair-code workflow automation tool for connecting APIs, databases, and services with visual workflows.',
+            url: 'https://n8n.io/',
+            category: 'tool' as const,
+            type: 'open-source' as const,
+            useCase: 'Business process automation, API orchestration, and workflow management',
+            pricing: 'Free self-hosted, Cloud: $20/month per user',
+            githubStars: 47800,
+            usefulFor: ['milo', 'anders', 'tony'],
+          },
         };
         
-        setResources(prev => [mockResource, ...prev]);
+        const resourceTemplate = agentResources[agentId as keyof typeof agentResources];
+        if (resourceTemplate) {
+          const mockResource: AgentResource = {
+            id: `${Date.now()}-${agentId}`,
+            agentId,
+            agentName: agent.name,
+            ...resourceTemplate,
+            tags: [agentId, 'recommended', resourceTemplate.category],
+            rating: 4 + Math.floor(Math.random() * 2), // 4-5
+            createdAt: new Date().toISOString(),
+            addedBy: agentId,
+          };
+          
+          newResources.push(mockResource);
+        }
+      }
+      
+      setTimeout(() => {
+        setResources(prev => [...newResources, ...prev]);
         setIsLoading(false);
-        showNotification(`🔧 New resource suggested by ${mockResource.agentName}!`);
-      }, 2000);
+        
+        if (newResources.length === 1) {
+          showNotification(`🔧 New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
+        } else {
+          showNotification(`🔧 Generated ${newResources.length} new resource recommendations!`);
+        }
+      }, 1500);
       
     } catch (error) {
       console.error('Failed to generate resource:', error);
       setIsLoading(false);
     }
+  };
+
+  const handleAgentSelect = (agentId: string) => {
+    setSelectedAgents(prev => 
+      prev.includes(agentId) 
+        ? prev.filter(id => id !== agentId)
+        : [...prev, agentId]
+    );
   };
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
@@ -410,57 +504,68 @@ export default function AgentAssist() {
             gap: '16px',
             marginBottom: '16px',
           }}>
-            {/* Generate Resource Button */}
+            {/* Generate Resources Controls */}
             <div>
               <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Generate New
+                Generate Resources
               </label>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <select
-                  style={{
-                    background: brand.graphite,
-                    border: `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px',
-                    color: brand.white,
-                    fontSize: '14px',
-                    outline: 'none',
-                    flex: 1,
-                  }}
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      generateResource(e.target.value);
-                      e.target.value = '';
-                    }
-                  }}
-                  disabled={isLoading}
-                >
-                  <option value="">✨ Ask Agent...</option>
-                  {AGENTS.map(agent => (
-                    <option key={agent.id} value={agent.id}>
-                      {agent.name}
-                    </option>
-                  ))}
-                </select>
-                
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
                 <button
-                  onClick={() => generateResource()}
-                  disabled={isLoading}
+                  onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                   style={{
-                    background: isLoading ? brand.smoke : brand.amber,
-                    color: brand.void,
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '8px 12px',
-                    fontSize: '12px',
+                    background: selectedAgents.length === AGENTS.length ? brand.amber : 'transparent',
+                    color: selectedAgents.length === AGENTS.length ? brand.void : brand.amber,
+                    border: `1px solid ${brand.amber}`,
+                    borderRadius: '4px',
+                    padding: '4px 8px',
+                    fontSize: '11px',
                     fontWeight: 600,
-                    cursor: isLoading ? 'not-allowed' : 'pointer',
-                    opacity: isLoading ? 0.7 : 1,
+                    cursor: 'pointer',
                   }}
                 >
-                  {isLoading ? '⏳' : '🚀'}
+                  All
                 </button>
+                {AGENTS.map(agent => (
+                  <button
+                    key={agent.id}
+                    onClick={() => handleAgentSelect(agent.id)}
+                    style={{
+                      background: selectedAgents.includes(agent.id) ? agent.color : 'transparent',
+                      color: selectedAgents.includes(agent.id) ? brand.void : agent.color,
+                      border: `1px solid ${agent.color}`,
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    {agent.name}
+                  </button>
+                ))}
               </div>
+              
+              <button
+                onClick={() => generateResource(selectedAgents)}
+                disabled={isLoading || selectedAgents.length === 0}
+                style={{
+                  background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
+                  color: brand.void,
+                  border: 'none',
+                  borderRadius: '6px',
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
+                  width: '100%',
+                }}
+              >
+                {isLoading ? '⏳ Generating...' : `🚀 Generate (${selectedAgents.length})`}
+              </button>
             </div>
             <div>
               <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>

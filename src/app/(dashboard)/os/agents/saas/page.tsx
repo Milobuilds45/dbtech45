@@ -146,6 +146,7 @@ const mockSaasIdeas: SaasIdea[] = [
 export default function MillionDollarSaas() {
   const [ideas, setIdeas] = useState<SaasIdea[]>(mockSaasIdeas);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
@@ -245,49 +246,135 @@ export default function MillionDollarSaas() {
     }
   };
 
-  const generateIdea = async (agentId?: string) => {
+  const generateIdea = async (agentIds: string[] = []) => {
     setIsLoading(true);
     try {
-      // This would typically send a message to the agent via API
-      // For now, simulate the flow
-      const message = agentId 
-        ? `${AGENTS.find(a => a.id === agentId)?.name}, give me a SaaS idea in your domain`
-        : 'Give me a creative SaaS business idea';
+      const agentsToUse = agentIds.length > 0 ? agentIds : AGENTS.map(a => a.id);
       
-      // TODO: Implement actual agent communication
-      console.log('Would send to agent:', message);
+      // Generate agent-specific ideas
+      const newIdeas: SaasIdea[] = [];
       
-      // Mock response for testing
-      setTimeout(() => {
-        const mockIdea = {
-          id: Date.now().toString(),
-          agentId: agentId || 'milo',
-          agentName: AGENTS.find(a => a.id === agentId)?.name || 'Milo',
-          title: 'AI-Generated SaaS Concept',
-          description: 'A dynamically generated business idea from agent expertise.',
-          problemSolved: 'Testing the idea generation system',
-          targetMarket: 'Early adopters and testers',
-          businessModel: 'Subscription-based model',
-          revenueProjection: '$100K ARR proof of concept',
-          competitiveAdvantage: 'First to market with agent-generated ideas',
-          tags: ['ai', 'generated', 'test'],
-          agentConfidence: 4,
-          marketSize: 'medium' as const,
-          developmentTime: 'Immediate',
-          status: 'submitted' as const,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+      for (const agentId of agentsToUse) {
+        const agent = AGENTS.find(a => a.id === agentId);
+        if (!agent) continue;
+        
+        // Agent-specific SaaS ideas
+        const agentIdeas = {
+          bobby: {
+            title: 'OptionsFlow Pro',
+            description: 'Real-time options flow tracking with AI pattern recognition for institutional-grade trading insights.',
+            problemSolved: 'Traders miss profitable opportunities due to fragmented options data across exchanges.',
+            targetMarket: 'Active options traders, hedge funds, prop trading firms',
+            businessModel: 'Tiered SaaS: $99/month retail, $499/month professional, $1999/month institutional',
+            revenueProjection: '$2.5M ARR with 200 professional and 50 institutional subscribers',
+            competitiveAdvantage: 'AI pattern recognition + real-time cross-exchange data + predictive analytics',
+            tags: ['fintech', 'trading', 'options', 'ai', 'real-time'],
+          },
+          tony: {
+            title: 'RestaurantOS',
+            description: 'Complete restaurant management platform with AI-powered inventory prediction and staff optimization.',
+            problemSolved: 'Restaurants lose 25% profit to inefficient operations, overstaffing, and food waste.',
+            targetMarket: 'Independent restaurants and small chains (5-50 locations)',
+            businessModel: 'SaaS: $197/month per location + $500 setup fee',
+            revenueProjection: '$1.8M ARR with 500 restaurant locations',
+            competitiveAdvantage: 'AI-powered predictions + integrated POS + labor optimization + waste tracking',
+            tags: ['restaurant', 'ai', 'operations', 'inventory', 'saas'],
+          },
+          paula: {
+            title: 'BrandBot AI',
+            description: 'Instant brand identity generator that creates logos, color schemes, and brand guidelines using AI.',
+            problemSolved: 'Small businesses pay $5K+ for branding or use generic templates that hurt credibility.',
+            targetMarket: 'Small businesses, entrepreneurs, agencies, freelancers',
+            businessModel: 'One-time purchases: $97 basic brand, $197 premium pack, $497 complete identity',
+            revenueProjection: '$1.5M ARR with 600 premium sales monthly',
+            competitiveAdvantage: 'AI quality at 1/10th designer cost + instant delivery + commercial licensing',
+            tags: ['ai', 'design', 'branding', 'automation', 'smb'],
+          },
+          anders: {
+            title: 'DevStack Deploy',
+            description: 'One-click deployment platform for full-stack applications with automatic scaling and monitoring.',
+            problemSolved: 'Developers spend 40% of time on DevOps instead of building features.',
+            targetMarket: 'Independent developers, small dev teams, agencies',
+            businessModel: 'Usage-based: $0.05 per deployment hour + $29/month base fee',
+            revenueProjection: '$1.2M ARR with 1000 active developers',
+            competitiveAdvantage: 'Simplified deployment + auto-scaling + integrated monitoring + fair pricing',
+            tags: ['devops', 'deployment', 'saas', 'automation', 'scaling'],
+          },
+          dwight: {
+            title: 'IntelliWatch',
+            description: 'Automated competitive intelligence platform that monitors competitors across all digital channels.',
+            problemSolved: 'Companies make strategic decisions blindly while competitors move faster.',
+            targetMarket: 'B2B SaaS companies, marketing teams, strategy consultants',
+            businessModel: 'Tiered SaaS: $299/month startup, $999/month growth, $2999/month enterprise',
+            revenueProjection: '$1.6M ARR with 100 growth-tier customers',
+            competitiveAdvantage: 'AI-powered analysis + automated data collection + actionable insights + alerts',
+            tags: ['intelligence', 'monitoring', 'competitive', 'ai', 'b2b'],
+          },
+          dax: {
+            title: 'DataStory',
+            description: 'Automated data storytelling platform that converts raw data into executive-ready presentations.',
+            problemSolved: 'Analysts spend 80% of time formatting reports instead of finding insights.',
+            targetMarket: 'Data analysts, consultants, executives, marketing teams',
+            businessModel: 'SaaS: $79/month individual, $299/month team, $999/month enterprise',
+            revenueProjection: '$1.4M ARR with 300 team subscriptions',
+            competitiveAdvantage: 'AI narrative generation + automated visualizations + executive templates',
+            tags: ['data', 'analytics', 'visualization', 'ai', 'reporting'],
+          },
+          milo: {
+            title: 'AgentHub Pro',
+            description: 'Business automation platform that orchestrates AI agents for end-to-end workflow management.',
+            problemSolved: 'Businesses want AI automation but lack technical expertise to implement and coordinate agents.',
+            targetMarket: 'SMBs, operations teams, consultants, agencies',
+            businessModel: 'SaaS: $197/month per business + $50/month per additional agent',
+            revenueProjection: '$2.1M ARR with 500 businesses using 3 agents each',
+            competitiveAdvantage: 'No-code agent coordination + business templates + performance analytics',
+            tags: ['automation', 'ai', 'agents', 'workflow', 'business'],
+          },
         };
         
-        setIdeas(prev => [mockIdea, ...prev]);
+        const ideaTemplate = agentIdeas[agentId as keyof typeof agentIdeas];
+        if (ideaTemplate) {
+          const mockIdea: SaasIdea = {
+            id: `${Date.now()}-${agentId}`,
+            agentId,
+            agentName: agent.name,
+            ...ideaTemplate,
+            agentConfidence: 4 + Math.floor(Math.random() * 2), // 4-5
+            marketSize: ['medium', 'large', 'massive'][Math.floor(Math.random() * 3)] as any,
+            developmentTime: ['4-6 months', '6-8 months', '8-12 months'][Math.floor(Math.random() * 3)],
+            status: 'submitted' as const,
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          };
+          
+          newIdeas.push(mockIdea);
+        }
+      }
+      
+      // Add all new ideas at once
+      setTimeout(() => {
+        setIdeas(prev => [...newIdeas, ...prev]);
         setIsLoading(false);
-        showNotification(`💡 New SaaS idea generated by ${mockIdea.agentName}!`);
-      }, 2000);
+        
+        if (newIdeas.length === 1) {
+          showNotification(`💡 New SaaS idea from ${newIdeas[0].agentName}: ${newIdeas[0].title}`);
+        } else {
+          showNotification(`💡 Generated ${newIdeas.length} new SaaS ideas!`);
+        }
+      }, 1500);
       
     } catch (error) {
       console.error('Failed to generate idea:', error);
       setIsLoading(false);
     }
+  };
+
+  const handleAgentSelect = (agentId: string) => {
+    setSelectedAgents(prev => 
+      prev.includes(agentId) 
+        ? prev.filter(id => id !== agentId)
+        : [...prev, agentId]
+    );
   };
 
   const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
@@ -422,52 +509,67 @@ export default function MillionDollarSaas() {
           marginBottom: '20px',
         }}>
           <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-            {/* Generate Ideas Button */}
-            <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-              <select
-                style={{
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '6px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
-                }}
-                onChange={(e) => {
-                  if (e.target.value) {
-                    generateIdea(e.target.value);
-                    e.target.value = '';
-                  }
-                }}
-              >
-                <option value="">✨ Generate Idea From...</option>
-                {AGENTS.map(agent => (
-                  <option key={agent.id} value={agent.id}>
-                    {agent.name}
-                  </option>
-                ))}
-              </select>
+            {/* Generate Ideas Controls */}
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label style={{ color: brand.smoke, fontSize: '12px' }}>Select Agents:</label>
+                <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  <button
+                    onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
+                    style={{
+                      background: selectedAgents.length === AGENTS.length ? brand.amber : 'transparent',
+                      color: selectedAgents.length === AGENTS.length ? brand.void : brand.amber,
+                      border: `1px solid ${brand.amber}`,
+                      borderRadius: '4px',
+                      padding: '4px 8px',
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    All
+                  </button>
+                  {AGENTS.map(agent => (
+                    <button
+                      key={agent.id}
+                      onClick={() => handleAgentSelect(agent.id)}
+                      style={{
+                        background: selectedAgents.includes(agent.id) ? agent.color : 'transparent',
+                        color: selectedAgents.includes(agent.id) ? brand.void : agent.color,
+                        border: `1px solid ${agent.color}`,
+                        borderRadius: '4px',
+                        padding: '4px 8px',
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                      }}
+                    >
+                      {agent.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
               
               <button
-                onClick={() => generateIdea()}
-                disabled={isLoading}
+                onClick={() => generateIdea(selectedAgents)}
+                disabled={isLoading || selectedAgents.length === 0}
                 style={{
-                  background: isLoading ? brand.smoke : brand.amber,
+                  background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
                   color: brand.void,
                   border: 'none',
                   borderRadius: '6px',
-                  padding: '8px 16px',
+                  padding: '12px 20px',
                   fontSize: '14px',
                   fontWeight: 600,
-                  cursor: isLoading ? 'not-allowed' : 'pointer',
+                  cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
-                  opacity: isLoading ? 0.7 : 1,
+                  gap: '8px',
+                  opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
+                  alignSelf: 'flex-end',
                 }}
               >
-                {isLoading ? '⏳ Generating...' : '🚀 Any Agent'}
+                {isLoading ? '⏳ Generating...' : `🚀 Generate Ideas (${selectedAgents.length})`}
               </button>
             </div>
             <select
