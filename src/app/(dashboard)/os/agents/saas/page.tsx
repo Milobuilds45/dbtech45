@@ -213,6 +213,16 @@ export default function MillionDollarSaas() {
             competitiveAdvantage: 'Only platform combining design generation with emotional psychology and conversion data',
             developmentTime: '5-6 weeks (psychology models + A/B testing integration + design generation)'
           },
+          experimental: {
+            title: 'Consciousness-Based UX',
+            description: 'Design system that adapts in real-time based on user subconscious responses and biometric feedback.',
+            problemSolved: 'Design decisions are based on conscious feedback, missing 95% of user responses that happen subconsciously',
+            targetMarket: 'Enterprise UX teams and cutting-edge product companies',
+            businessModel: 'Enterprise licensing: $5K/month + hardware integration fees',
+            revenueProjection: '$2M ARR with 30 enterprise clients',
+            competitiveAdvantage: 'First design system using real-time biometric feedback for UI optimization',
+            developmentTime: '12-16 weeks (biometric integration + ML models + design adaptation system)'
+          },
           simple: { 
             title: 'Quick Logo Maker', 
             description: 'Super simple tool for creating professional logos with minimal input required.',
@@ -223,12 +233,181 @@ export default function MillionDollarSaas() {
             competitiveAdvantage: 'Fastest logo creation (under 2 minutes) with professional quality output',
             developmentTime: '1-2 weeks (streamlined UI + logo generation + instant download)'
           }
+        },
+        anders: {
+          safe: {
+            title: 'DesignOps Studio',
+            description: 'Design system platform that converts designs into production-ready React components.',
+            problemSolved: 'Design-to-development handoff wastes 40% of project time and creates inconsistencies',
+            targetMarket: 'Small development teams and agencies (5-50 people) building React applications',
+            businessModel: 'SaaS: $39/month per designer, $19/month per developer',
+            revenueProjection: '$600K ARR with 200 teams using average 5 seats each',
+            competitiveAdvantage: 'Only platform combining design system thinking with enterprise-grade code generation',
+            developmentTime: '4-6 weeks (design processing + code generation + component library)'
+          },
+          creative: {
+            title: 'No-Code Backend Builder',
+            description: 'Visual interface for building scalable APIs and databases without writing code.',
+            problemSolved: 'Non-technical founders need custom backends but cannot afford $100K+ development costs',
+            targetMarket: 'Non-technical entrepreneurs and small businesses needing custom software',
+            businessModel: 'Usage-based: $29/month base + $0.10 per API call',
+            revenueProjection: '$800K ARR with 500 active projects',
+            competitiveAdvantage: 'Enterprise-grade architecture with consumer-friendly visual interface',
+            developmentTime: '6-8 weeks (visual editor + code generation + deployment automation)'
+          },
+          experimental: {
+            title: 'AI Code Architect',
+            description: 'AI system that designs entire application architectures and generates production code.',
+            problemSolved: 'Even experienced developers spend weeks architecting systems that could be generated instantly',
+            targetMarket: 'Development agencies and enterprise engineering teams',
+            businessModel: 'Per-project licensing: $999 per application + $199/month maintenance',
+            revenueProjection: '$1.5M ARR with 50 agencies building 3 apps each annually',
+            competitiveAdvantage: 'First AI that understands enterprise architecture patterns and generates production-ready systems',
+            developmentTime: '10-12 weeks (architecture AI training + code generation + enterprise integrations)'
+          },
+          simple: {
+            title: 'Simple Deploy',
+            description: 'One-click deployment for web applications with automatic scaling.',
+            problemSolved: 'Developers waste hours on deployment configuration instead of building features',
+            targetMarket: 'Individual developers and small teams building web apps',
+            businessModel: 'Usage-based: $5/month base + $0.01 per deployment hour',
+            revenueProjection: '$300K ARR with 1000 active developers',
+            competitiveAdvantage: 'Simplest deployment experience with automatic optimization and scaling',
+            developmentTime: '3-4 weeks (deployment automation + scaling logic + monitoring dashboard)'
+          }
+        },
+        dwight: {
+          safe: {
+            title: 'CompetitorWatch',
+            description: 'Automated competitive monitoring platform with weekly intelligence reports.',
+            problemSolved: 'Businesses make strategic decisions blindly while competitors move faster',
+            targetMarket: 'B2B SaaS companies and marketing teams (10-500 employees)',
+            businessModel: 'Tiered SaaS: $199/month startup, $499/month growth',
+            revenueProjection: '$800K ARR with 100 growth-tier customers',
+            competitiveAdvantage: 'Only platform combining investigative journalism rigor with automated monitoring',
+            developmentTime: '4-5 weeks (monitoring setup + analysis engine + reporting dashboard)'
+          },
+          creative: {
+            title: 'TrendScope AI',
+            description: 'AI system that predicts market trends by analyzing weak signals across global data sources.',
+            problemSolved: 'Businesses react to trends instead of anticipating them, missing first-mover advantages',
+            targetMarket: 'Strategy consultants, VCs, and Fortune 500 strategy teams',
+            businessModel: 'Enterprise SaaS: $2999/month + custom research projects',
+            revenueProjection: '$1.8M ARR with 50 enterprise clients',
+            competitiveAdvantage: 'Only AI trained specifically on weak signal detection and trend prediction',
+            developmentTime: '8-10 weeks (AI training on trend data + prediction models + enterprise dashboard)'
+          },
+          experimental: {
+            title: 'Global Intelligence Network',
+            description: 'Crowdsourced intelligence platform where human analysts and AI collaborate on research.',
+            problemSolved: 'Traditional intelligence is either expensive consultants or incomplete AI - no hybrid approach',
+            targetMarket: 'Government agencies, large corporations, and research institutions',
+            businessModel: 'Platform fees: 20% of research projects + $5K/month platform access',
+            revenueProjection: '$5M ARR with $25M in platform research volume',
+            competitiveAdvantage: 'First platform combining human intelligence expertise with AI scale',
+            developmentTime: '12-16 weeks (analyst network + AI collaboration tools + security infrastructure)'
+          },
+          simple: {
+            title: 'News Digest Pro',
+            description: 'Personalized daily news briefings with AI-powered summaries.',
+            problemSolved: 'Busy professionals need relevant news but cannot spend time filtering through noise',
+            targetMarket: 'Executives and professionals who need industry-specific news',
+            businessModel: 'Subscription: $19/month individual, $99/month team',
+            revenueProjection: '$400K ARR with 1500 individual subscribers',
+            competitiveAdvantage: 'Human-curated sources with AI-powered personalization',
+            developmentTime: '2-3 weeks (news aggregation + AI summarization + personalization engine)'
+          }
+        },
+        dax: {
+          safe: {
+            title: 'DataStory Builder',
+            description: 'Platform that converts raw data into executive-ready presentations automatically.',
+            problemSolved: 'Data analysts spend 80% of time formatting reports instead of finding insights',
+            targetMarket: 'Data analysts, consultants, and executives at mid-size companies',
+            businessModel: 'SaaS: $79/month individual, $299/month team',
+            revenueProjection: '$700K ARR with 200 team subscriptions',
+            competitiveAdvantage: 'Only platform combining statistical rigor with executive communication',
+            developmentTime: '4-5 weeks (data processing + narrative generation + presentation automation)'
+          },
+          creative: {
+            title: 'Predictive Business Simulator',
+            description: 'AI that creates interactive business simulations to test strategic decisions.',
+            problemSolved: 'Executives make million-dollar decisions based on static projections instead of dynamic modeling',
+            targetMarket: 'Strategy teams at Fortune 1000 companies and consulting firms',
+            businessModel: 'Enterprise licensing: $10K setup + $2K/month per simulation',
+            revenueProjection: '$2M ARR with 80 enterprise simulations',
+            competitiveAdvantage: 'First business simulation platform using real company data and AI scenario modeling',
+            developmentTime: '8-10 weeks (simulation engine + AI scenario modeling + enterprise integrations)'
+          },
+          experimental: {
+            title: 'Quantum Data Analytics',
+            description: 'Quantum computing-powered analytics that processes complex datasets in parallel dimensions.',
+            problemSolved: 'Traditional computing cannot handle the complexity of modern multi-dimensional business data',
+            targetMarket: 'Research institutions, Fortune 50 companies, and government agencies',
+            businessModel: 'Quantum-as-a-Service: $50K/month + usage fees',
+            revenueProjection: '$10M ARR with 15 quantum computing clients',
+            competitiveAdvantage: 'First commercial quantum analytics platform for business intelligence',
+            developmentTime: '16-20 weeks (quantum algorithm development + cloud infrastructure + enterprise security)'
+          },
+          simple: {
+            title: 'Simple Charts',
+            description: 'Dead simple tool for creating beautiful charts from spreadsheet data.',
+            problemSolved: 'Most people need basic charts but find existing tools too complicated or ugly',
+            targetMarket: 'Small business owners, students, and professionals who need quick visualizations',
+            businessModel: 'Freemium: Free basic charts, $9/month for premium templates',
+            revenueProjection: '$180K ARR with 2000 premium subscribers',
+            competitiveAdvantage: 'Fastest chart creation with the most beautiful default templates',
+            developmentTime: '2-3 weeks (chart generation + template library + data import)'
+          }
+        },
+        milo: {
+          safe: {
+            title: 'AgentHub Coordinator',
+            description: 'Platform that orchestrates multiple AI agents for comprehensive business automation.',
+            problemSolved: 'Businesses want AI automation but struggle to coordinate multiple tools and agents',
+            targetMarket: 'SMBs and operations teams needing workflow automation',
+            businessModel: 'SaaS: $49/month base + $19/month per additional agent',
+            revenueProjection: '$900K ARR with 500 businesses using 3 agents each',
+            competitiveAdvantage: 'Only platform designed for multi-agent coordination with business context',
+            developmentTime: '5-6 weeks (agent coordination + workflow builder + business templates)'
+          },
+          creative: {
+            title: 'Business Operating System',
+            description: 'AI-powered command center that manages all aspects of business operations automatically.',
+            problemSolved: 'Business owners juggle 15+ different tools with no central coordination or intelligence',
+            targetMarket: 'Growing businesses (10-100 employees) with complex operations',
+            businessModel: 'All-in-one platform: $199/month + per-employee fees',
+            revenueProjection: '$1.2M ARR with 300 growing businesses',
+            competitiveAdvantage: 'First true business operating system with AI coordination across all functions',
+            developmentTime: '8-10 weeks (integration platform + AI coordination + business intelligence dashboard)'
+          },
+          experimental: {
+            title: 'Collective Business Intelligence',
+            description: 'Network where businesses share anonymized operational data to improve collective performance.',
+            problemSolved: 'Businesses operate in silos, missing insights that come from collective operational intelligence',
+            targetMarket: 'Forward-thinking SMBs and business networks wanting collective optimization',
+            businessModel: 'Network participation fees: $299/month + data contribution incentives',
+            revenueProjection: '$3M ARR with 800 network participants',
+            competitiveAdvantage: 'First platform creating collective business intelligence while maintaining privacy',
+            developmentTime: '12-14 weeks (privacy-preserving analytics + network effects + business intelligence)'
+          },
+          simple: {
+            title: 'Daily Operations Tracker',
+            description: 'Simple dashboard for small business owners to track daily operations and KPIs.',
+            problemSolved: 'Small business owners need basic operational oversight but existing solutions are too complex',
+            targetMarket: 'Very small businesses and solopreneurs (under 10 employees)',
+            businessModel: 'Simple subscription: $29/month',
+            revenueProjection: '$350K ARR with 1200 small business subscribers',
+            competitiveAdvantage: 'Designed specifically for very small businesses, not enterprise-lite',
+            developmentTime: '2-3 weeks (KPI tracking + simple dashboard + mobile-first design)'
+          }
         }
       };
 
       const ideaSet = agentIdeas[agentId as keyof typeof agentIdeas];
       if (ideaSet) {
-        const template = ideaSet[creativity] || ideaSet['creative'] || ideaSet['safe'];
+        const template = ideaSet[creativity as keyof typeof ideaSet] || ideaSet['creative'] || ideaSet['safe'];
+        if (!template) continue;
         ideas.push({
           id: `${agentId}-${Date.now()}`,
           agentId,
@@ -386,6 +565,32 @@ export default function MillionDollarSaas() {
       year: 'numeric'
     });
   };
+
+  const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
+  const statuses = Array.from(new Set(ideas.map(idea => idea.status)));
+
+  const filteredIdeas = ideas.filter(idea => {
+    if (selectedMarketSize && idea.marketSize !== selectedMarketSize) return false;
+    if (selectedStatus && idea.status !== selectedStatus) return false;
+    return true;
+  });
+
+  const sortedIdeas = [...filteredIdeas].sort((a, b) => {
+    switch (sortBy) {
+      case 'newest':
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      case 'rating':
+        return (b.derekRating || 0) - (a.derekRating || 0);
+      case 'confidence':
+        return b.agentConfidence - a.agentConfidence;
+      case 'revenue':
+        const aRevenue = parseFloat(a.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || '0');
+        const bRevenue = parseFloat(b.revenueProjection.match(/\$([0-9.]+)M/)?.[1] || '0');
+        return bRevenue - aRevenue;
+      default:
+        return 0;
+    }
+  });
 
   const marketSizes = Array.from(new Set(ideas.map(idea => idea.marketSize)));
   const statuses = Array.from(new Set(ideas.map(idea => idea.status)));
