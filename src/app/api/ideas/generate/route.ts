@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 
 interface GenerateIdeaRequest {
   agentId: string;
@@ -128,11 +128,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to parse agent response' }, { status: 400 });
     }
     
-    // Create Supabase client
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_KEY!
-    );
+    // Uses shared supabase client from @/lib/supabase
     
     // Save to appropriate table
     const tableName = type === 'saas' ? 'saas_ideas' : 'assist_resources';

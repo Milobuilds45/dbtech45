@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { brand, styles } from "@/lib/brand";
 
@@ -37,7 +37,15 @@ const DEFAULT_TASKS: Task[] = [
 
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
-export default function Kanban() {
+export default function KanbanPage() {
+  return (
+    <Suspense fallback={<div style={styles.page}><p style={{ color: '#888' }}>Loading...</p></div>}>
+      <Kanban />
+    </Suspense>
+  );
+}
+
+function Kanban() {
   const searchParams = useSearchParams();
   const [todos, setTodos] = useState<Task[]>(DEFAULT_TASKS);
   const [newTask, setNewTask] = useState('');

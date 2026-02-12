@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { brand, styles } from "@/lib/brand";
 import { useSearchParams } from "next/navigation";
 
@@ -30,7 +30,15 @@ const DEFAULT_IDEAS: Idea[] = [
 
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
-export default function IdeasVault() {
+export default function IdeasVaultPage() {
+  return (
+    <Suspense fallback={<div style={styles.page}><div style={styles.container}><p style={{ color: '#888' }}>Loading...</p></div></div>}>
+      <IdeasVault />
+    </Suspense>
+  );
+}
+
+function IdeasVault() {
   const searchParams = useSearchParams();
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');

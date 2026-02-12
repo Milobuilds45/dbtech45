@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap } from 'lucide-react';
 
 interface AgentResource {
@@ -170,10 +170,7 @@ export default function AgentAssist() {
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
-  const supabase = createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-  );
+  // Uses shared supabase client from @/lib/supabase (safe stub when env vars missing)
 
   // Load real resources and set up real-time subscription
   useEffect(() => {
