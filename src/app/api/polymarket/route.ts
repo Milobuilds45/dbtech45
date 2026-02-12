@@ -127,14 +127,82 @@ export async function GET(request: Request) {
   
   const formattedEvents = filteredEvents.map(formatEvent);
   
-  // Get unique categories for filtering
-  const categories = [...new Set(events.flatMap((e: any) => 
+  // Sort events to prioritize Derek's preferred categories
+  const highPriorityKeywords = ['sports', 'nfl', 'nba', 'mlb', 'bitcoin', 'crypto', 'stock'];
+  
+  formattedEvents.sort((a, b) => {
+    const aIsHighPriority = highPriorityKeywords.some(keyword => 
+      a.category.toLowerCase().includes(keyword) || a.title.toLowerCase().includes(keyword)
+    );
+    const bIsHighPriority = highPriorityKeywords.some(keyword => 
+      b.category.toLowerCase().includes(keyword) || b.title.toLowerCase().includes(keyword)
+    );
+    
+    // High priority categories first
+    if (aIsHighPriority && !bIsHighPriority) return -1;
+    if (!aIsHighPriority && bIsHighPriority) return 1;
+    
+    // Within same priority level, sort by volume (descending)
+    return b.volume - a.volume;
+  });
+  
+  // Get unique categories and sort by Derek's priority order
+  const allCategories = [...new Set(events.flatMap((e: any) => 
     e.tags?.map((t: any) => t.label) || [e.category]
   ).filter(Boolean))];
   
+  // Derek's preferred category order
+  const priorityOrder = [
+    // FIRST PRIORITY: Sports, Bitcoin, Crypto, Stock Options
+    'Sports',
+    'NFL', 
+    'NBA',
+    'MLB',
+    'Bitcoin',
+    'Crypto',
+    'Cryptocurrency',
+    'Stocks', 
+    'Stock Options',
+    'Finance',
+    'Business',
+    
+    // SECOND PRIORITY: Politics/Elections  
+    'Politics',
+    'Elections',
+    'Election',
+    'World',
+    'News',
+    
+    // THIRD PRIORITY: Celebrity/Hollywood/Music
+    'Celebrity',
+    'Hollywood',
+    'Entertainment',
+    'Music',
+    'Pop Culture',
+    'Culture'
+  ];
+  
+  // Sort categories by priority, then alphabetically
+  const sortedCategories = allCategories.sort((a, b) => {
+    const aIndex = priorityOrder.findIndex(p => 
+      a.toLowerCase().includes(p.toLowerCase()) || p.toLowerCase().includes(a.toLowerCase())
+    );
+    const bIndex = priorityOrder.findIndex(p => 
+      b.toLowerCase().includes(p.toLowerCase()) || p.toLowerCase().includes(b.toLowerCase())
+    );
+    
+    // If both found in priority list, sort by priority order
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    // If only one found, prioritize it
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    // If neither found, sort alphabetically
+    return a.localeCompare(b);
+  });
+  
   return NextResponse.json({
     events: formattedEvents,
-    categories: categories.slice(0, 10),
+    categories: sortedCategories.slice(0, 12),
     total: formattedEvents.length,
     timestamp: new Date().toISOString(),
   });
