@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { brand, styles } from "@/lib/brand";
-import { supabase } from "@/lib/supabase";
 
 type StatusKey = 'shipped' | 'building' | 'beta' | 'planning' | 'shaping' | 'spark' | 'paused' | 'killed';
 
@@ -175,23 +174,9 @@ export default function Projects() {
     updateProjects(updated);
   };
 
-  const sendToKanban = async (idx: number) => {
+  const sendToKanban = (idx: number) => {
     const project = projects[idx];
-    setSendingIdx(idx);
-    try {
-      await supabase.from('todos').insert({
-        title: project.title,
-        description: project.desc,
-        priority: project.priority >= 4 ? 'high' : project.priority >= 2 ? 'medium' : 'low',
-        status: 'backlog',
-        project: project.title,
-        tags: [project.status],
-      });
-      setSentIdxs(prev => new Set(prev).add(idx));
-    } catch (err) {
-      console.error('Failed to send to Kanban:', err);
-    }
-    setSendingIdx(null);
+    window.location.href = `/os/kanban?add_title=${encodeURIComponent(project.title)}&add_project=${encodeURIComponent(project.title)}`;
   };
 
   // Filtering
