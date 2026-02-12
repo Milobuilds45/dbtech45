@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { createClient } from '@supabase/supabase-js';
-import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter, Users, User, Lightbulb, Brain, Sparkles, Shield } from 'lucide-react';
+import { DollarSign, Star, TrendingUp, Zap, Target, Calendar, ThumbsUp, ThumbsDown, MessageSquare, Filter, Users, User, Lightbulb, Brain, Sparkles, Shield, Archive } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
 interface SaasIdea {
@@ -22,7 +22,7 @@ interface SaasIdea {
   agentConfidence: number; // 1-5
   marketSize: 'small' | 'medium' | 'large' | 'massive';
   developmentTime: string;
-  status: 'submitted' | 'reviewed' | 'approved' | 'building' | 'rejected' | 'launched';
+  status: 'submitted' | 'reviewed' | 'approved' | 'building' | 'rejected' | 'launched' | 'idea-vault' | 'kanban';
   createdAt: string;
   updatedAt: string;
 }
@@ -178,6 +178,16 @@ export default function MillionDollarSaas() {
             revenueProjection: '$800K ARR with 400 individual + 25 protocol subscribers',
             competitiveAdvantage: 'Only platform combining traditional options analysis with crypto-specific data sources',
             developmentTime: '4-6 weeks (crypto API integrations + ML models + web3 features)'
+          },
+          experimental: {
+            title: 'Quantum Trading Prediction Engine',
+            description: 'Quantum computing-powered market prediction using parallel universe simulations of market outcomes.',
+            problemSolved: 'Traditional AI can only process historical patterns, not explore parallel probability spaces',
+            targetMarket: 'Hedge funds, quant firms, and institutional traders with $100M+ AUM',
+            businessModel: 'Enterprise licensing: $50K/month + performance fees on alpha generated',
+            revenueProjection: '$10M ARR with 15 institutional clients',
+            competitiveAdvantage: 'First quantum-powered trading system exploring parallel market realities',
+            developmentTime: '12-18 months (quantum algorithm development + institutional partnerships)'
           },
           simple: { 
             title: 'Simple Trading Alerts', 
@@ -436,8 +446,11 @@ export default function MillionDollarSaas() {
 
       const ideaSet = agentIdeas[agentId as keyof typeof agentIdeas];
       if (ideaSet) {
-        const template = ideaSet[creativity as keyof typeof ideaSet] || ideaSet['creative'] || ideaSet['safe'];
-        if (!template) return;
+        const template = ideaSet[creativity as keyof typeof ideaSet];
+        if (!template) {
+          console.warn(`No ${creativity} template for ${agentId}, skipping`);
+          return;
+        }
         ideas.push({
           id: `${agentId}-${Date.now()}`,
           agentId,
@@ -678,24 +691,27 @@ export default function MillionDollarSaas() {
                     fontWeight: 600,
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
-                    boxShadow: selectedAgents.length === AGENTS.length 
-                      ? '0 4px 12px rgba(245, 158, 11, 0.3)' 
-                      : 'none',
-                  }}
-                  onMouseEnter={(e) => {
-                    if (selectedAgents.length !== AGENTS.length) {
-                      e.currentTarget.style.borderColor = brand.amber;
-                      e.currentTarget.style.transform = 'translateY(-1px)';
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (selectedAgents.length !== AGENTS.length) {
-                      e.currentTarget.style.borderColor = brand.border;
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }
                   }}
                 >
                   All Agents
+                </button>
+                <button
+                  onClick={() => setSelectedAgents([])}
+                  style={{
+                    background: selectedAgents.length === 0 
+                      ? `linear-gradient(135deg, ${brand.error} 0%, #DC2626 100%)`
+                      : brand.graphite,
+                    color: selectedAgents.length === 0 ? brand.white : brand.white,
+                    border: `2px solid ${selectedAgents.length === 0 ? brand.error : brand.border}`,
+                    borderRadius: '8px',
+                    padding: '10px 16px',
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    transition: 'all 0.2s ease',
+                  }}
+                >
+                  Clear All
                 </button>
                 {AGENTS.map(agent => (
                   <button
@@ -829,40 +845,32 @@ export default function MillionDollarSaas() {
               onClick={() => generateIdea(selectedAgents)}
               disabled={isLoading || selectedAgents.length === 0}
               style={{
-                background: isLoading || selectedAgents.length === 0 
-                  ? brand.smoke 
-                  : `linear-gradient(135deg, ${brand.amber} 0%, ${brand.amberLight} 100%)`,
+                background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
                 color: brand.void,
                 border: 'none',
-                borderRadius: '12px',
-                padding: '20px 40px',
-                fontSize: '18px',
-                fontWeight: 700,
+                borderRadius: '8px',
+                padding: '16px 32px',
+                fontSize: '16px',
+                fontWeight: 600,
                 cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
-                gap: '12px',
+                gap: '8px',
                 opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
-                transition: 'all 0.3s ease',
-                boxShadow: isLoading || selectedAgents.length === 0 
-                  ? 'none'
-                  : `0 8px 24px rgba(245, 158, 11, 0.3)`,
-                transform: isLoading || selectedAgents.length === 0 ? 'none' : 'translateY(-2px)',
+                transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
                 if (!isLoading && selectedAgents.length > 0) {
-                  e.currentTarget.style.transform = 'translateY(-4px)';
-                  e.currentTarget.style.boxShadow = '0 12px 32px rgba(245, 158, 11, 0.4)';
+                  e.currentTarget.style.backgroundColor = brand.amberLight;
                 }
               }}
               onMouseLeave={(e) => {
                 if (!isLoading && selectedAgents.length > 0) {
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                  e.currentTarget.style.boxShadow = '0 8px 24px rgba(245, 158, 11, 0.3)';
+                  e.currentTarget.style.backgroundColor = brand.amber;
                 }
               }}
             >
-              <Zap size={20} />
+              <Zap size={16} />
               {isLoading 
                 ? 'Generating...' 
                 : `Generate ${ideaMode === 'collaborative' ? 'Collaborative' : 'Individual'} Idea${ideaMode === 'individual' && selectedAgents.length > 1 ? 's' : ''} (${selectedAgents.length})`
@@ -1193,50 +1201,6 @@ export default function MillionDollarSaas() {
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <div style={{ display: 'flex', gap: '8px' }}>
                       <button
-                        onClick={() => updateStatus(idea.id, 'approved')}
-                        disabled={idea.status === 'approved'}
-                        style={{
-                          background: idea.status === 'approved' ? brand.success : 'transparent',
-                          color: idea.status === 'approved' ? brand.void : brand.success,
-                          border: `1px solid ${brand.success}`,
-                          borderRadius: '6px',
-                          padding: '8px 16px',
-                          fontSize: '14px',
-                          fontWeight: 600,
-                          cursor: idea.status === 'approved' ? 'default' : 'pointer',
-                          opacity: idea.status === 'approved' ? 0.7 : 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                        }}
-                      >
-                        <ThumbsUp size={14} />
-                        {idea.status === 'approved' ? 'Approved' : 'Approve'}
-                      </button>
-
-                      <button
-                        onClick={() => updateStatus(idea.id, 'building')}
-                        disabled={idea.status === 'building'}
-                        style={{
-                          background: idea.status === 'building' ? brand.info : 'transparent',
-                          color: idea.status === 'building' ? brand.void : brand.info,
-                          border: `1px solid ${brand.info}`,
-                          borderRadius: '6px',
-                          padding: '8px 16px',
-                          fontSize: '14px',
-                          fontWeight: 600,
-                          cursor: idea.status === 'building' ? 'default' : 'pointer',
-                          opacity: idea.status === 'building' ? 0.7 : 1,
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                        }}
-                      >
-                        <Zap size={14} />
-                        {idea.status === 'building' ? 'Building' : 'Start Building'}
-                      </button>
-
-                      <button
                         onClick={() => updateStatus(idea.id, 'rejected')}
                         disabled={idea.status === 'rejected'}
                         style={{
@@ -1257,6 +1221,50 @@ export default function MillionDollarSaas() {
                         <ThumbsDown size={14} />
                         {idea.status === 'rejected' ? 'Rejected' : 'Reject'}
                       </button>
+
+                      <button
+                        onClick={() => updateStatus(idea.id, 'idea-vault')}
+                        disabled={idea.status === 'idea-vault'}
+                        style={{
+                          background: idea.status === 'idea-vault' ? brand.warning : 'transparent',
+                          color: idea.status === 'idea-vault' ? brand.void : brand.warning,
+                          border: `1px solid ${brand.warning}`,
+                          borderRadius: '6px',
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: idea.status === 'idea-vault' ? 'default' : 'pointer',
+                          opacity: idea.status === 'idea-vault' ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                      >
+                        <Archive size={14} />
+                        {idea.status === 'idea-vault' ? 'In Vault' : 'Move to Idea Vault'}
+                      </button>
+
+                      <button
+                        onClick={() => updateStatus(idea.id, 'kanban')}
+                        disabled={idea.status === 'kanban'}
+                        style={{
+                          background: idea.status === 'kanban' ? brand.info : 'transparent',
+                          color: idea.status === 'kanban' ? brand.void : brand.info,
+                          border: `1px solid ${brand.info}`,
+                          borderRadius: '6px',
+                          padding: '8px 16px',
+                          fontSize: '14px',
+                          fontWeight: 600,
+                          cursor: idea.status === 'kanban' ? 'default' : 'pointer',
+                          opacity: idea.status === 'kanban' ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                        }}
+                      >
+                        <Zap size={14} />
+                        {idea.status === 'kanban' ? 'In Kanban' : 'Move to Kanban'}
+                      </button>
                     </div>
                   </div>
 
@@ -1267,8 +1275,9 @@ export default function MillionDollarSaas() {
                     color: brand.smoke,
                     fontSize: '14px',
                   }}>
-                    <Calendar size={16} />
-                    <span>Added {formatDate(idea.createdAt)}</span>
+                    <span>by {idea.agentName}</span>
+                    <span>•</span>
+                    <span>{formatDate(idea.createdAt)}</span>
                   </div>
                 </div>
               </div>
