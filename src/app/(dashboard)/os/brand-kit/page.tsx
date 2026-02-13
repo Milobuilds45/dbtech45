@@ -204,9 +204,10 @@ export default function BrandKitPage() {
             {AGENTS.map(a => (
               <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
                 <div style={{
-                  width: '40px', height: '40px', borderRadius: '10px', background: a.color,
+                  width: '40px', height: '40px', borderRadius: '10px', background: brand.void,
+                  border: `2px solid ${a.color}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: brand.void, fontWeight: 700, fontSize: '13px', flexShrink: 0,
+                  color: a.color, fontWeight: 700, fontSize: '13px', flexShrink: 0,
                 }}>{a.initials}</div>
                 <div>
                   <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{a.name}</div>
