@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T21:34:02.871Z",
+    "lastHeartbeat": "2026-02-13T21:39:02.901Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:34:00.216Z"
+      "lastSeen": "2026-02-13T21:34:19.198Z"
     },
     {
       "name": "Paula",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:34:00.216Z",
+      "lastActivity": "2026-02-13T21:34:19.198Z",
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 49
@@ -337,10 +337,10 @@
       "humanSchedule": "30 16 * * 5",
       "agent": "Bobby",
       "description": "WEEKLY RECAP (4:30 PM Friday). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-13T21:30:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-13T21:30:00.016Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-20T21:30:00.000Z",
+      "duration": "262s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T21:34:03.563Z",
+  "generatedAt": "2026-02-13T21:39:03.596Z",
   "version": 2
 }
