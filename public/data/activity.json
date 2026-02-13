@@ -1,6 +1,13 @@
 {
   "activity": [
     {
+      "type": "commit",
+      "id": "9606a03d",
+      "author": "Milo",
+      "timestamp": "2026-02-13 16:04:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "cron_run",
       "id": "09a9674f",
       "timestamp": "2026-02-13T20:59:05.776Z",
@@ -428,13 +435,6 @@
       "message": "feat: Business DNA Scanner - 7-layer assessment with radar chart + PDF"
     },
     {
-      "type": "commit",
-      "id": "4a0ac173",
-      "author": "Milo",
-      "timestamp": "2026-02-12 21:15:04 -0500",
-      "message": "fix: Ideas Vault now persists to Supabase instead of localStorage"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -449,5 +449,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T21:04:06.213Z"
+  "generatedAt": "2026-02-13T21:09:08.150Z"
 }
