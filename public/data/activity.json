@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "5872a122",
+      "author": "Milo",
+      "timestamp": "2026-02-13 18:04:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "58a0a14c",
       "author": "Milo",
       "timestamp": "2026-02-13 17:59:03 -0500",
@@ -393,13 +400,6 @@
       "message": "feat: Operations overhaul - PIN gate, cleanup, enhanced pages per Paula spec"
     },
     {
-      "type": "commit",
-      "id": "ddf44cb4",
-      "author": "Milo",
-      "timestamp": "2026-02-13 13:39:56 -0500",
-      "message": "feat: AxeCap Terminal v4.0 Bloomberg-style markets with watchlist and news"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-13T17:03:14.894Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T23:04:03.885Z"
+  "generatedAt": "2026-02-13T23:09:03.942Z"
 }
