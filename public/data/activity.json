@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "8b22fe4d",
+      "author": "Milo",
+      "timestamp": "2026-02-13 18:09:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "5872a122",
       "author": "Milo",
       "timestamp": "2026-02-13 18:04:04 -0500",
@@ -393,13 +400,6 @@
       "message": "feat: add Milo + Wendy agent logos (hub node + brain), update agents page + brand kit"
     },
     {
-      "type": "commit",
-      "id": "e7f775c3",
-      "author": "Milo",
-      "timestamp": "2026-02-13 13:50:39 -0500",
-      "message": "feat: Operations overhaul - PIN gate, cleanup, enhanced pages per Paula spec"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-13T17:03:14.894Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T23:09:03.942Z"
+  "generatedAt": "2026-02-13T23:14:07.553Z"
 }
