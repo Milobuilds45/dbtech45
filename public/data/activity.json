@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "46d79d8b",
+      "author": "Milo",
+      "timestamp": "2026-02-13 16:44:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "ddd94c32",
       "author": "Milo",
       "timestamp": "2026-02-13 16:39:03 -0500",
@@ -435,13 +442,6 @@
       "message": "fix: Kanban refresh button now shows loading state"
     },
     {
-      "type": "commit",
-      "id": "1f8ad431",
-      "author": "Milo",
-      "timestamp": "2026-02-12 21:52:46 -0500",
-      "message": "feat: Kanban board persists to Supabase - survives refresh"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -449,5 +449,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T21:44:03.681Z"
+  "generatedAt": "2026-02-13T21:49:03.668Z"
 }
