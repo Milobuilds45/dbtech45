@@ -25,11 +25,21 @@ const TYPOGRAPHY = [
 ];
 
 const LOGOS = [
-  { name: 'DB Badge', element: 'DB', desc: 'Primary mark -- amber square with DB initials', bg: brand.amber, color: brand.void },
-  { name: 'Wordmark', element: 'DBTECH45', desc: 'Full wordmark for headers and nav', bg: 'transparent', color: brand.white },
-  { name: 'Terminal Prompt', element: '~/DBTech45', desc: 'Terminal-style logo for dev contexts', bg: 'transparent', color: brand.amber },
-  { name: 'Derek Avatar', element: null, desc: 'Personal brand mark with gold trims', bg: 'transparent', color: brand.white, isImage: true, imagePath: '/derek-avatar.png' },
+  { name: 'Derek Avatar', desc: 'Personal brand mark with gold trims', isImage: true, imagePath: '/derek-avatar.png', rounded: true },
+  { name: 'Wordmark Bold Condensed', desc: 'Headers, dark backgrounds', isImage: true, imagePath: '/brand/db45-wordmark-bold.png', rounded: false },
+  { name: 'Wordmark Bold Inverse', desc: 'Light backgrounds, accent sections', isImage: true, imagePath: '/brand/db45-wordmark-bold-inverse.png', rounded: false, lightBg: true },
+  { name: 'Wordmark Italic', desc: 'Sports/dynamic content', isImage: false, element: 'DBTECH45', fontStyle: 'italic' },
+  { name: 'Wordmark Italic Inverse', desc: 'Light backgrounds', isImage: true, imagePath: '/brand/db45-italic-inverse.png', rounded: false, lightBg: true },
+  { name: 'Cap Brandmark', desc: 'Favicon, icons, small contexts', isImage: true, imagePath: '/brand/dbtech-logo-cap.png', rounded: true },
 ] as const;
+
+const BRAND_ASSETS = [
+  { filename: 'derek-avatar.png', path: '/derek-avatar.png', useCase: 'Profile images, about sections, personal branding' },
+  { filename: 'db45-wordmark-bold.png', path: '/brand/db45-wordmark-bold.png', useCase: 'Headers, navigation, dark backgrounds' },
+  { filename: 'db45-wordmark-bold-inverse.png', path: '/brand/db45-wordmark-bold-inverse.png', useCase: 'Light backgrounds, accent sections, print' },
+  { filename: 'db45-italic-inverse.png', path: '/brand/db45-italic-inverse.png', useCase: 'Light backgrounds, sports/dynamic content' },
+  { filename: 'dbtech-logo-cap.png', path: '/brand/dbtech-logo-cap.png', useCase: 'Favicon, app icons, small contexts, social avatars' },
+];
 
 const AGENTS = [
   { name: 'Anders', role: 'Full Stack Architect', initials: 'AN', color: '#F97316' },
@@ -59,37 +69,52 @@ export default function BrandKitPage() {
               <div key={l.name} style={{ ...styles.card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '2rem' }}>
                 {l.isImage ? (
                   <div style={{ 
-                    width: '120px', 
+                    width: l.rounded ? '120px' : '240px', 
                     height: '120px', 
-                    borderRadius: '16px', 
+                    borderRadius: l.rounded ? '16px' : '12px', 
                     overflow: 'hidden',
                     border: `2px solid ${brand.amber}`,
-                    background: brand.graphite,
+                    background: l.lightBg ? '#F5F5F5' : brand.graphite,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    padding: l.rounded ? '0' : '16px',
                   }}>
                     <img 
                       src={l.imagePath} 
                       alt={l.name}
                       style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover',
-                        objectPosition: 'center'
+                        maxWidth: '100%', 
+                        maxHeight: '100%', 
+                        objectFit: l.rounded ? 'cover' : 'contain',
+                        objectPosition: 'center',
+                        width: l.rounded ? '100%' : 'auto',
+                        height: l.rounded ? '100%' : 'auto',
                       }}
                     />
                   </div>
                 ) : (
                   <div style={{
-                    background: l.bg, color: l.color, padding: l.bg === 'transparent' ? '0' : '16px 20px',
-                    borderRadius: l.bg === 'transparent' ? '0' : '12px', fontWeight: 700,
-                    fontSize: l.name === 'DB Badge' ? '24px' : '20px',
-                    fontFamily: l.name === 'Terminal Prompt' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
-                    letterSpacing: l.name === 'Wordmark' ? '0.1em' : undefined,
+                    width: '240px',
+                    height: '120px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: `2px solid ${brand.amber}`,
+                    background: brand.graphite,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                    {l.name === 'Terminal Prompt' && <span style={{ color: brand.smoke }}>~/</span>}
-                    {l.name === 'Terminal Prompt' ? 'DBTech45' : l.element}
+                    <span style={{
+                      color: brand.amber,
+                      fontWeight: 700,
+                      fontSize: '28px',
+                      fontStyle: l.fontStyle || 'normal',
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: '0.08em',
+                    }}>
+                      {l.element}
+                    </span>
                   </div>
                 )}
                 <div style={{ textAlign: 'center' }}>
@@ -98,6 +123,37 @@ export default function BrandKitPage() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* Brand Assets */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Brand Assets</h2>
+          <div style={styles.card}>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                <thead>
+                  <tr style={{ borderBottom: `1px solid ${brand.border}` }}>
+                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Asset</th>
+                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Filename</th>
+                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Use Case</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {BRAND_ASSETS.map((a, i) => (
+                    <tr key={a.filename} style={{ borderBottom: i < BRAND_ASSETS.length - 1 ? `1px solid ${brand.border}` : 'none' }}>
+                      <td style={{ padding: '10px 12px' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '6px', overflow: 'hidden', border: `1px solid ${brand.border}`, background: brand.graphite, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                          <img src={a.path} alt={a.filename} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                        </div>
+                      </td>
+                      <td style={{ padding: '10px 12px', color: brand.white, fontFamily: "'JetBrains Mono', monospace", fontSize: '12px' }}>{a.filename}</td>
+                      <td style={{ padding: '10px 12px', color: brand.silver }}>{a.useCase}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         </section>
 
