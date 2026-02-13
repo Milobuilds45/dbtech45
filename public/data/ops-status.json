@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T19:54:05.240Z",
+    "lastHeartbeat": "2026-02-13T19:59:04.269Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T19:54:05.240Z",
+        "timestamp": "2026-02-13T19:59:04.269Z",
         "resolved": false
       }
     ]
@@ -26,7 +26,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T19:52:30.645Z"
+      "lastSeen": "2026-02-13T19:58:42.140Z"
     },
     {
       "name": "Anders",
@@ -35,7 +35,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T19:54:03.121Z"
+      "lastSeen": "2026-02-13T19:59:03.434Z"
     },
     {
       "name": "Bobby",
@@ -108,7 +108,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:54:03.121Z",
+      "lastActivity": "2026-02-13T19:59:03.434Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 20
@@ -119,7 +119,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:52:30.645Z",
+      "lastActivity": "2026-02-13T19:58:42.140Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 14
@@ -429,6 +429,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T19:54:07.767Z",
+  "generatedAt": "2026-02-13T19:59:05.045Z",
   "version": 2
 }

@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "aa8bdc07",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:54:08 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "6ab5ed11",
       "author": "Milo",
       "timestamp": "2026-02-13 14:49:04 -0500",
@@ -400,13 +407,6 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     },
     {
-      "type": "commit",
-      "id": "b9b8412a",
-      "author": "Milo",
-      "timestamp": "2026-02-12 17:30:34 -0500",
-      "message": "trigger: force Vercel rebuild for DNA page deployment"
-    },
-    {
       "type": "cron_run",
       "id": "7d55af5a",
       "timestamp": "2026-02-12T21:31:47.922Z",
@@ -414,5 +414,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T19:54:08.047Z"
+  "generatedAt": "2026-02-13T19:59:05.412Z"
 }
