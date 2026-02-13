@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T23:24:03.121Z",
+    "lastHeartbeat": "2026-02-13T23:29:06.033Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,16 +18,16 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:24:00.418Z"
+      "lastSeen": "2026-02-13T23:28:55.156Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:41:41.222Z"
+      "lastSeen": "2026-02-13T23:29:05.893Z"
     },
     {
       "name": "Bobby",
@@ -95,12 +95,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T23:29:05.893Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:24:00.418Z",
+      "lastActivity": "2026-02-13T23:28:55.156Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 22
@@ -170,17 +181,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 14
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:41:41.222Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:dax:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T23:24:03.846Z",
+  "generatedAt": "2026-02-13T23:29:07.629Z",
   "version": 2
 }
