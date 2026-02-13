@@ -140,8 +140,9 @@ function IdeasVault() {
   };
 
   const updateStatus = (id: string, status: string) => {
-    setIdeas(prev => prev.map(i => i.id === id ? { ...i, status: status as Idea['status'] } : i));
-    updateIdeaInDB(id, { status });
+    const typedStatus = status as Idea['status'];
+    setIdeas(prev => prev.map(i => i.id === id ? { ...i, status: typedStatus } : i));
+    updateIdeaInDB(id, { status: typedStatus });
   };
 
   const archiveIdea = (id: string) => {
