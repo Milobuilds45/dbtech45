@@ -3,120 +3,51 @@
 import { useEffect, useState } from 'react';
 import styles from '../morning-brief.module.css';
 
-interface TechStory {
-  id: number;
+interface AIStory {
   title: string;
   url: string;
-  score: number;
-  domain: string;
-  descendants: number;
+  source: string;
+  description: string;
+  thumbnail: string | null;
   timeAgo: string;
-  hnUrl: string;
+  category: string;
 }
 
-// AI categories with landscape data
 const AI_CATEGORIES = [
-  {
-    icon: '\uD83E\uDDE0',
-    title: 'Frontier Foundation Models',
-    badge: 'CORE INTELLIGENCE',
-    keywords: ['gpt', 'claude', 'gemini', 'llama', 'model', 'llm', 'language model', 'foundation', 'openai', 'anthropic', 'deepmind'],
-    landscape: {
-      tierA: ['OpenAI', 'Anthropic', 'DeepMind', 'Meta AI'],
-      tierB: ['xAI', 'Mistral', 'Cohere', 'DeepSeek', 'Qwen'],
-    },
-  },
-  {
-    icon: '\uD83D\uDCBB',
-    title: 'Vibe Coding / Developer Flow',
-    badge: 'DEV TOOLS',
-    keywords: ['cursor', 'copilot', 'coding', 'developer', 'ide', 'code', 'programming', 'windsurf', 'codeium', 'replit'],
-    landscape: {
-      tierA: ['Cursor', 'Copilot', 'Claude Code'],
-      tierB: ['Windsurf', 'Codeium', 'Replit'],
-    },
-  },
-  {
-    icon: '\uD83D\uDD0E',
-    title: 'AI Search / Knowledge Engines',
-    badge: 'KNOWLEDGE',
-    keywords: ['search', 'perplexity', 'rag', 'retrieval', 'knowledge', 'google ai'],
-    landscape: {
-      tierA: ['Perplexity', 'Google AI'],
-      tierB: ['You.com', 'Brave Search'],
-    },
-  },
-  {
-    icon: '\uD83C\uDFA5',
-    title: 'Generative Video',
-    badge: 'VIDEO AI',
-    keywords: ['sora', 'video', 'runway', 'veo', 'kling', 'seedance'],
-    landscape: {
-      tierA: ['Sora', 'Veo', 'Seedance'],
-      tierB: ['Runway', 'Kling'],
-    },
-  },
-  {
-    icon: '\uD83D\uDDBC',
-    title: 'Image Generation',
-    badge: 'IMAGE AI',
-    keywords: ['midjourney', 'dall-e', 'image', 'stable diffusion', 'flux', 'firefly'],
-    landscape: {
-      tierA: ['Midjourney', 'DALL-E'],
-      tierB: ['Stability', 'Firefly', 'Flux'],
-    },
-  },
-  {
-    icon: '\u2699\uFE0F',
-    title: 'Infrastructure / GPU Layer',
-    badge: 'INFRA',
-    keywords: ['nvidia', 'gpu', 'inference', 'groq', 'chip', 'hardware', 'datacenter', 'compute', 'tpu'],
-    landscape: {
-      tierA: ['NVIDIA', 'Azure AI'],
-      tierB: ['AWS', 'Groq', 'Together', 'Fireworks'],
-    },
-  },
-  {
-    icon: '\uD83E\uDDEC',
-    title: 'Open Model Ecosystem',
-    badge: 'OPEN SOURCE',
-    keywords: ['open source', 'open-source', 'hugging face', 'weights', 'fine-tune', 'ollama', 'local'],
-    landscape: {
-      tierA: ['Meta (Llama)', 'HuggingFace'],
-      tierB: ['DeepSeek', 'Mistral', 'Qwen'],
-    },
-  },
+  { key: 'Foundation Models', icon: '\uD83E\uDDE0', badge: 'CORE INTELLIGENCE', tierA: ['OpenAI', 'Anthropic', 'DeepMind', 'Meta AI'], tierB: ['xAI', 'Mistral', 'Cohere', 'DeepSeek', 'Qwen'] },
+  { key: 'Vibe Coding', icon: '\uD83D\uDCBB', badge: 'DEV TOOLS', tierA: ['Cursor', 'Copilot', 'Claude Code'], tierB: ['Windsurf', 'Codeium', 'Replit'] },
+  { key: 'AI Search', icon: '\uD83D\uDD0E', badge: 'KNOWLEDGE', tierA: ['Perplexity', 'Google AI'], tierB: ['You.com', 'Brave Search'] },
+  { key: 'Generative Video', icon: '\uD83C\uDFA5', badge: 'VIDEO AI', tierA: ['Sora', 'Veo', 'Seedance'], tierB: ['Runway', 'Kling'] },
+  { key: 'Image Generation', icon: '\uD83D\uDDBC', badge: 'IMAGE AI', tierA: ['Midjourney', 'DALL-E'], tierB: ['Stability', 'Firefly', 'Flux'] },
+  { key: 'Infrastructure', icon: '\u2699\uFE0F', badge: 'INFRA', tierA: ['NVIDIA', 'Azure AI'], tierB: ['AWS', 'Groq', 'Together', 'Fireworks'] },
+  { key: 'Open Models', icon: '\uD83E\uDDEC', badge: 'OPEN SOURCE', tierA: ['Meta (Llama)', 'HuggingFace'], tierB: ['DeepSeek', 'Mistral', 'Qwen'] },
 ];
 
 const POWER_PLAYERS = ['OpenAI', 'Anthropic', 'Google', 'Meta', 'NVIDIA'];
 
 export default function AITodayPage() {
-  const [stories, setStories] = useState<TechStory[]>([]);
+  const [stories, setStories] = useState<AIStory[]>([]);
+  const [topStories, setTopStories] = useState<AIStory[]>([]);
+  const [byCategory, setByCategory] = useState<Record<string, AIStory[]>>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/morning-brief/tech')
+    fetch('/api/morning-brief/ai-news')
       .then(r => r.json())
-      .then(data => setStories(data.stories || []))
-      .catch(() => {});
+      .then(data => {
+        setStories(data.stories || []);
+        setTopStories(data.topStories || []);
+        setByCategory(data.byCategory || {});
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
-  // Categorize stories
-  function getStoriesForCategory(keywords: string[]): TechStory[] {
-    return stories.filter(s => 
-      keywords.some(kw => s.title.toLowerCase().includes(kw.toLowerCase()))
-    ).slice(0, 2);
+  // Fallback: if no stories for a category from API, check all stories
+  function getCategoryStories(key: string): AIStory[] {
+    if (byCategory[key] && byCategory[key].length > 0) return byCategory[key].slice(0, 4);
+    return [];
   }
-
-  // AI-related stories
-  const aiStories = stories.filter(s => {
-    const t = s.title.toLowerCase();
-    return t.includes('ai') || t.includes('llm') || t.includes('gpt') || t.includes('model') || 
-           t.includes('neural') || t.includes('machine learning') || t.includes('deep learning') ||
-           t.includes('openai') || t.includes('anthropic') || t.includes('gemini') || t.includes('claude');
-  });
-
-  // Top 5 headline cards
-  const topAIStories = aiStories.length >= 5 ? aiStories.slice(0, 5) : stories.slice(0, 5);
 
   return (
     <main className={styles.sectionPage}>
@@ -127,16 +58,34 @@ export default function AITodayPage() {
 
       {/* TOP 5 HEADLINE CARDS */}
       <div className={styles.aiHeadlines}>
-        {topAIStories.map(story => (
-          <a key={story.id} href={story.url} target="_blank" rel="noopener noreferrer" className={styles.aiHeadlineCard}>
-            <div className={styles.aiHeadlineCompany}>{story.domain || 'HN'}</div>
+        {(topStories.length > 0 ? topStories : stories.slice(0, 5)).map((story, i) => (
+          <a key={i} href={story.url} target="_blank" rel="noopener noreferrer" className={styles.aiHeadlineCard}>
+            {story.thumbnail && (
+              <div style={{
+                width: '100%',
+                height: 100,
+                marginBottom: 10,
+                borderRadius: 4,
+                overflow: 'hidden',
+                background: '#181818',
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={story.thumbnail}
+                  alt=""
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+            )}
+            <div className={styles.aiHeadlineCompany}>{story.source}</div>
             <h3 className={styles.aiHeadlineTitle}>{story.title}</h3>
-            <div className={styles.aiHeadlineMeta}>{story.score} pts \u2022 {story.timeAgo}</div>
+            <div className={styles.aiHeadlineMeta}>{story.timeAgo}</div>
           </a>
         ))}
       </div>
 
-      {stories.length === 0 ? (
+      {loading ? (
         <div className={styles.loading}>
           <span className={styles.loadingDot}>{'\u25CF'}</span> Loading AI news...
         </div>
@@ -145,43 +94,60 @@ export default function AITodayPage() {
           {/* MAIN CONTENT - Category Sections */}
           <div className={styles.techRiver}>
             {AI_CATEGORIES.map((cat, catIdx) => {
-              const catStories = getStoriesForCategory(cat.keywords);
+              const catStories = getCategoryStories(cat.key);
               const isLast = catIdx === AI_CATEGORIES.length - 1;
 
               return (
                 <section key={catIdx} className={isLast ? styles.categorySectionLast : styles.categorySection}>
                   <div className={styles.categoryHeader}>
-                    <h3 className={styles.categoryHeaderTitle}>{cat.icon} {cat.title}</h3>
+                    <h3 className={styles.categoryHeaderTitle}>{cat.icon} {cat.key}</h3>
                     <span className={styles.tierBadge}>{cat.badge}</span>
                   </div>
 
-                  {catStories.length > 0 ? (
-                    <div className={styles.categoryStories}>
-                      {catStories.map(story => (
-                        <article key={story.id} className={styles.categoryStory}>
-                          <div className={styles.categoryStorySource}>{story.domain || 'HN'}</div>
-                          <h4 className={styles.categoryStoryTitle}>
-                            <a href={story.url} target="_blank" rel="noopener noreferrer">{story.title}</a>
-                          </h4>
-                          <p className={styles.categoryStoryDesc}>
-                            {story.score} points \u2022 {story.descendants} comments \u2022 {story.timeAgo}
-                          </p>
+                  <div className={styles.categoryStories}>
+                    {catStories.length > 0 ? (
+                      catStories.map((story, i) => (
+                        <article key={i} className={styles.categoryStory} style={{ display: 'flex', gap: 14 }}>
+                          {story.thumbnail && (
+                            <div style={{
+                              width: 80,
+                              minWidth: 80,
+                              height: 60,
+                              borderRadius: 4,
+                              overflow: 'hidden',
+                              background: '#181818',
+                              flexShrink: 0,
+                            }}>
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img
+                                src={story.thumbnail}
+                                alt=""
+                                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
+                              />
+                            </div>
+                          )}
+                          <div style={{ flex: 1 }}>
+                            <div className={styles.categoryStorySource}>{story.source}</div>
+                            <h4 className={styles.categoryStoryTitle}>
+                              <a href={story.url} target="_blank" rel="noopener noreferrer">{story.title}</a>
+                            </h4>
+                            <p className={styles.categoryStoryDesc}>{story.description}</p>
+                          </div>
                         </article>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className={styles.categoryStories}>
+                      ))
+                    ) : (
                       <article className={styles.categoryStory}>
                         <div className={styles.categoryStorySource}>Landscape</div>
                         <h4 className={styles.categoryStoryTitle}>
-                          Key players: {cat.landscape.tierA.join(', ')}
+                          Key players: {cat.tierA.join(', ')}
                         </h4>
                         <p className={styles.categoryStoryDesc}>
-                          Also watching: {cat.landscape.tierB.join(', ')}
+                          Also watching: {cat.tierB.join(', ')}
                         </p>
                       </article>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </section>
               );
             })}
@@ -203,16 +169,16 @@ export default function AITodayPage() {
             {/* Category landscapes */}
             {AI_CATEGORIES.slice(0, 5).map((cat, i) => (
               <div key={i} className={styles.sidebarBox}>
-                <h4 className={styles.sidebarBoxTitle}>{cat.title.split('/')[0].trim()}</h4>
+                <h4 className={styles.sidebarBoxTitle}>{cat.key}</h4>
                 <p style={{ fontSize: 10, color: '#F59E0B', marginBottom: 8 }}>TIER A</p>
                 <div className={styles.playerGrid}>
-                  {cat.landscape.tierA.map(p => (
+                  {cat.tierA.map(p => (
                     <span key={p} className={styles.playerTagTierA}>{p}</span>
                   ))}
                 </div>
                 <p style={{ fontSize: 10, color: '#525252', margin: '12px 0 8px' }}>TIER B</p>
                 <div className={styles.playerGrid}>
-                  {cat.landscape.tierB.map(p => (
+                  {cat.tierB.map(p => (
                     <span key={p} className={styles.playerTag}>{p}</span>
                   ))}
                 </div>
@@ -238,19 +204,19 @@ export default function AITodayPage() {
                   <a href="https://arxiv.org/abs/2001.08361" target="_blank" rel="noopener noreferrer" style={{ color: '#FAFAFA', lineHeight: 1.4, display: 'block' }}>
                     Scaling Laws for Neural Language Models
                   </a>
-                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv \u2022 Kaplan et al.</span>
+                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv {'\u2022'} Kaplan et al.</span>
                 </div>
                 <div>
                   <a href="https://arxiv.org/abs/2212.08073" target="_blank" rel="noopener noreferrer" style={{ color: '#FAFAFA', lineHeight: 1.4, display: 'block' }}>
                     Constitutional AI: Harmlessness from AI Feedback
                   </a>
-                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv \u2022 Anthropic</span>
+                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv {'\u2022'} Anthropic</span>
                 </div>
                 <div>
                   <a href="https://arxiv.org/abs/2210.03629" target="_blank" rel="noopener noreferrer" style={{ color: '#FAFAFA', lineHeight: 1.4, display: 'block' }}>
                     ReAct: Reasoning and Acting in Language Models
                   </a>
-                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv \u2022 Yao et al.</span>
+                  <span style={{ color: '#525252', fontSize: 11 }}>arXiv {'\u2022'} Yao et al.</span>
                 </div>
               </div>
             </div>
