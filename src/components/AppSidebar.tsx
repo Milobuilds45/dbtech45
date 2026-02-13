@@ -97,9 +97,9 @@ const toolItems: NavItem[] = [
 const opsItems: NavItem[] = [
   { label: 'Overnight Sessions', href: '/os/overnight' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'Skills Inventory', href: '/os/skills-inventory' },
   { label: 'DNA', href: '/os/dna' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
-  { label: 'Skills Inventory', href: '/os/skills-inventory' },
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
 ];
