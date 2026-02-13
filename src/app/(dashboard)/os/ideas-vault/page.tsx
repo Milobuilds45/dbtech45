@@ -43,7 +43,7 @@ function IdeasVault() {
   const searchParams = useSearchParams();
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');
-  const [ideas, setIdeas] = useState<Idea[]>(DEFAULT_IDEAS);
+  const [ideas, setIdeas] = useState<Idea[]>([]);
   const [showArchive, setShowArchive] = useState(false);
   const [loaded, setLoaded] = useState(false);
 
@@ -201,8 +201,17 @@ function IdeasVault() {
           <span style={{ color: brand.smoke, fontSize: '12px' }}>Kanban Todo</span>
         </div>
 
+        {/* Loading state */}
+        {!loaded && (
+          <div style={{ ...styles.card, textAlign: 'center', padding: '48px', marginBottom: '2rem' }}>
+            <div style={{ color: brand.smoke, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px' }}>
+              Loading ideas from database...
+            </div>
+          </div>
+        )}
+
         {/* Active Ideas */}
-        <div style={styles.grid}>
+        {loaded && <div style={styles.grid}>
           {activeIdeas.map((idea) => {
             const stage = stageInfo(idea.status);
             return (
@@ -255,7 +264,7 @@ function IdeasVault() {
               </div>
             );
           })}
-        </div>
+        </div>}
 
         {/* Archive Section */}
         {archivedIdeas.length > 0 && (

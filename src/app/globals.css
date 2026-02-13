@@ -1037,9 +1037,17 @@ img { max-width: 100%; display: block; }
 
 .connect-options {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
   margin-top: 48px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (max-width: 640px) {
+  .connect-options {
+    grid-template-columns: 1fr;
+  }
 }
 .connect-card {
   background: var(--bg-card);
@@ -1069,6 +1077,80 @@ img { max-width: 100%; display: block; }
 .connect-card-desc {
   font-size: 14px;
   color: var(--text-dim);
+}
+
+/* Contact Form Styles */
+.connect-form-card {
+  cursor: default;
+}
+.connect-form-card:hover {
+  transform: none;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+  text-align: left;
+}
+.contact-input {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  transition: border-color var(--transition);
+}
+.contact-input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+.contact-input::placeholder {
+  color: var(--text-dim);
+}
+.contact-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+.contact-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: var(--amber);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.contact-submit:hover {
+  background: #FBBF24;
+  transform: translateY(-2px);
+}
+.contact-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.contact-success {
+  padding: 24px;
+  text-align: center;
+  color: var(--green);
+  font-size: 14px;
+}
+.contact-error {
+  color: var(--red);
+  font-size: 12px;
+  text-align: center;
+  margin-top: 8px;
 }
 
 .social-links {
