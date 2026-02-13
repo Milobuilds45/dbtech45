@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "f55b57ad",
+      "author": "Milo",
+      "timestamp": "2026-02-13 16:09:08 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "9606a03d",
       "author": "Milo",
       "timestamp": "2026-02-13 16:04:06 -0500",
@@ -428,13 +435,6 @@
       "message": "feat: Skills Inventory update - 82 skills with category/status views"
     },
     {
-      "type": "commit",
-      "id": "ee67506f",
-      "author": "Milo",
-      "timestamp": "2026-02-12 21:15:17 -0500",
-      "message": "feat: Business DNA Scanner - 7-layer assessment with radar chart + PDF"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -449,5 +449,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T21:09:08.150Z"
+  "generatedAt": "2026-02-13T21:14:06.132Z"
 }
