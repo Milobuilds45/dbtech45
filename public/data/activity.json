@@ -1,6 +1,20 @@
 {
   "activity": [
     {
+      "type": "commit",
+      "id": "39b40e50",
+      "author": "Milo",
+      "timestamp": "2026-02-13 15:08:14 -0500",
+      "message": "feat: wire all dashboard pages to real data - skills org chart workspaces activity second brain docs"
+    },
+    {
+      "type": "commit",
+      "id": "ef0766ef",
+      "author": "Milo",
+      "timestamp": "2026-02-13 15:04:08 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "cron_run",
       "id": "eefcc417",
       "timestamp": "2026-02-13T20:01:37.097Z",
@@ -393,20 +407,6 @@
       "message": "fix: NOAA weather API + 5-town local coverage per Paula's updated spec"
     },
     {
-      "type": "commit",
-      "id": "e2b187e5",
-      "author": "Milo",
-      "timestamp": "2026-02-12 20:43:52 -0500",
-      "message": "feat: Morning Brief V2 newspaper - 6 sections with Paula's design"
-    },
-    {
-      "type": "commit",
-      "id": "a0bc2ede",
-      "author": "Milo",
-      "timestamp": "2026-02-12 20:42:18 -0500",
-      "message": "feat: redesign Skills Inventory + DNA pages per Paula specs"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T20:04:08.232Z"
+  "generatedAt": "2026-02-13T20:09:04.115Z"
 }

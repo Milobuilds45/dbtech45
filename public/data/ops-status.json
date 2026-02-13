@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T20:04:06.597Z",
+    "lastHeartbeat": "2026-02-13T20:09:03.183Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T20:04:06.597Z",
+        "timestamp": "2026-02-13T20:09:03.182Z",
         "resolved": false
       }
     ]
@@ -26,7 +26,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:03:44.085Z"
+      "lastSeen": "2026-02-13T20:08:59.283Z"
     },
     {
       "name": "Anders",
@@ -35,7 +35,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:04:03.725Z"
+      "lastSeen": "2026-02-13T20:08:42.699Z"
     },
     {
       "name": "Bobby",
@@ -44,7 +44,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:02:02.458Z"
+      "lastSeen": "2026-02-13T20:08:48.194Z"
     },
     {
       "name": "Paula",
@@ -53,7 +53,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:03:55.824Z"
+      "lastSeen": "2026-02-13T20:09:00.108Z"
     },
     {
       "name": "Dwight",
@@ -94,32 +94,21 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T16:32:00.987Z"
+      "lastSeen": "2026-02-13T20:05:18.671Z"
     }
   ],
   "sessions": [
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:04:03.725Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 20
-    },
     {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:03:55.824Z",
+      "lastActivity": "2026-02-13T20:09:00.108Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 11
@@ -130,7 +119,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:03:44.085Z",
+      "lastActivity": "2026-02-13T20:08:59.283Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 14
@@ -141,18 +130,29 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:02:02.458Z",
+      "lastActivity": "2026-02-13T20:08:48.194Z",
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 48
     },
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:08:42.699Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 20
+    },
+    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T16:32:00.987Z",
+      "lastActivity": "2026-02-13T20:05:18.671Z",
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
@@ -429,6 +429,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T20:04:07.819Z",
+  "generatedAt": "2026-02-13T20:09:03.931Z",
   "version": 2
 }
