@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T22:34:06.001Z",
+    "lastHeartbeat": "2026-02-13T22:39:08.175Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,12 +18,12 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:34:03.621Z"
+      "lastSeen": "2026-02-13T22:37:01.001Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:19:58.518Z"
+      "lastSeen": "2026-02-13T22:35:03.372Z"
     },
     {
       "name": "Paula",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:21:25.804Z"
+      "lastSeen": "2026-02-13T22:35:09.777Z"
     },
     {
       "name": "Dwight",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:32:33.607Z"
+      "lastSeen": "2026-02-13T22:34:43.009Z"
     },
     {
       "name": "Tony",
@@ -100,21 +100,10 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:34:03.621Z",
+      "lastActivity": "2026-02-13T22:37:01.001Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 20
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:32:33.607Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:paula:main",
@@ -122,7 +111,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:21:25.804Z",
+      "lastActivity": "2026-02-13T22:35:09.777Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
@@ -133,16 +122,27 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:19:58.518Z",
+      "lastActivity": "2026-02-13T22:35:03.372Z",
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 49
     },
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T22:34:43.009Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T22:07:09.353Z",
       "role": "Full Stack Architect",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T22:34:07.960Z",
+  "generatedAt": "2026-02-13T22:39:08.946Z",
   "version": 2
 }
