@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T23:44:04.423Z",
+    "lastHeartbeat": "2026-02-13T23:49:02.545Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:30:11.344Z"
+      "lastSeen": "2026-02-13T23:46:45.050Z"
     },
     {
       "name": "Anders",
@@ -32,7 +32,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T23:46:45.050Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 22
+    },
+    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
@@ -117,17 +128,6 @@
       "sessionCount": 16
     },
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:30:11.344Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 22
-    },
-    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
@@ -142,7 +142,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T23:18:33.242Z",
       "role": "Trading Advisor",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T23:44:05.104Z",
+  "generatedAt": "2026-02-13T23:49:03.266Z",
   "version": 2
 }
