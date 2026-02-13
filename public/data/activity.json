@@ -3,9 +3,16 @@
     {
       "type": "cron_run",
       "id": "fe05be29",
-      "timestamp": "2026-02-13T22:16:03.824Z",
+      "timestamp": "2026-02-13T22:20:25.228Z",
       "message": "Cron run: ok",
       "jobId": "fe05be29-125b-49c0-bba0-497e9c54e7a4"
+    },
+    {
+      "type": "commit",
+      "id": "b2d14d33",
+      "author": "Milo",
+      "timestamp": "2026-02-13 17:19:03 -0500",
+      "message": "chore: auto-sync dashboard data"
     },
     {
       "type": "commit",
@@ -442,13 +449,6 @@
       "message": "feat: complete sidebar reorg + task-manager, org-chart, workspaces, docs, standups pages"
     },
     {
-      "type": "commit",
-      "id": "045a7270",
-      "author": "Milo",
-      "timestamp": "2026-02-12 22:36:44 -0500",
-      "message": "feat(homepage): redesign The Swarm section with leader card, color-coded agents, connection lines"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T22:19:03.699Z"
+  "generatedAt": "2026-02-13T22:24:03.744Z"
 }
