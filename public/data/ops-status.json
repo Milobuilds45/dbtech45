@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T23:14:05.406Z",
+    "lastHeartbeat": "2026-02-13T23:19:04.137Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:12:32.252Z"
+      "lastSeen": "2026-02-13T23:18:42.507Z"
     },
     {
       "name": "Anders",
@@ -32,11 +32,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:42:55.643Z"
+      "lastSeen": "2026-02-13T23:18:33.242Z"
     },
     {
       "name": "Paula",
@@ -100,10 +100,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:12:32.252Z",
+      "lastActivity": "2026-02-13T23:18:42.507Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 22
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T23:18:33.242Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 49
     },
     {
       "key": "agent:paula:main",
@@ -126,17 +137,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 28
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:42:55.643Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 49
     },
     {
       "key": "agent:remy:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T23:14:07.380Z",
+  "generatedAt": "2026-02-13T23:19:04.839Z",
   "version": 2
 }
