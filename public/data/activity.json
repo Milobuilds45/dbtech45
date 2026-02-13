@@ -1,6 +1,13 @@
 {
   "activity": [
     {
+      "type": "commit",
+      "id": "ddd94c32",
+      "author": "Milo",
+      "timestamp": "2026-02-13 16:39:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "cron_run",
       "id": "cd45ae0b",
       "timestamp": "2026-02-13T21:34:22.036Z",
@@ -435,13 +442,6 @@
       "message": "feat: Kanban board persists to Supabase - survives refresh"
     },
     {
-      "type": "commit",
-      "id": "c3045975",
-      "author": "Milo",
-      "timestamp": "2026-02-12 21:49:15 -0500",
-      "message": "fix: agent identity cards - black bg with colored outline"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -449,5 +449,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T21:39:03.702Z"
+  "generatedAt": "2026-02-13T21:44:03.681Z"
 }
