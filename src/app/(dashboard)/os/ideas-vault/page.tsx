@@ -1,7 +1,8 @@
 'use client';
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect, useCallback, Suspense } from "react";
 import { brand, styles } from "@/lib/brand";
 import { useSearchParams } from "next/navigation";
+import { supabase } from "@/lib/supabase";
 
 interface Idea {
   id: string;
@@ -38,52 +39,74 @@ export default function IdeasVaultPage() {
   );
 }
 
-const STORAGE_KEY = 'dbtech-ideas-vault';
-
-function loadIdeas(): Idea[] {
-  if (typeof window === 'undefined') return DEFAULT_IDEAS;
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
-    }
-  } catch {}
-  return DEFAULT_IDEAS;
-}
-
-function saveIdeas(ideas: Idea[]) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas)); } catch {}
-}
-
 function IdeasVault() {
   const searchParams = useSearchParams();
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [ideas, setIdeas] = useState<Idea[]>(DEFAULT_IDEAS);
   const [showArchive, setShowArchive] = useState(false);
-  const [hydrated, setHydrated] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
-  // Hydrate from localStorage on mount
-  useEffect(() => {
-    setIdeas(loadIdeas());
-    setHydrated(true);
+  // Load from Supabase on mount
+  const loadFromSupabase = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('ideas_vault')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (!error && data && data.length > 0) {
+        setIdeas(data.map((d: Record<string, unknown>) => ({
+          id: d.id as string,
+          title: d.title as string,
+          description: (d.description as string) || null,
+          priority: (d.priority as Idea['priority']) || 'medium',
+          status: (d.status as Idea['status']) || 'spark',
+          category: (d.category as string) || 'general',
+          created_at: d.created_at as string,
+        })));
+      }
+    } catch {}
+    setLoaded(true);
   }, []);
 
-  // Persist to localStorage on every change (after hydration)
-  useEffect(() => {
-    if (hydrated) saveIdeas(ideas);
-  }, [ideas, hydrated]);
+  useEffect(() => { loadFromSupabase(); }, [loadFromSupabase]);
+
+  // Persist a new idea to Supabase
+  const persistIdea = useCallback(async (idea: Idea) => {
+    try {
+      await supabase.from('ideas_vault').insert({
+        title: idea.title,
+        description: idea.description,
+        priority: idea.priority,
+        status: idea.status,
+        category: idea.category,
+      });
+    } catch {}
+  }, []);
+
+  // Update idea in Supabase
+  const updateIdeaInDB = useCallback(async (id: string, updates: Partial<Idea>) => {
+    try {
+      await supabase.from('ideas_vault').update(updates).eq('id', id);
+    } catch {}
+  }, []);
+
+  // Delete idea from Supabase
+  const deleteIdeaFromDB = useCallback(async (id: string) => {
+    try {
+      await supabase.from('ideas_vault').delete().eq('id', id);
+    } catch {}
+  }, []);
 
   // Check for incoming idea from SaaS page via query params
   useEffect(() => {
-    if (!hydrated) return;
+    if (!loaded) return;
     const title = searchParams.get('add_title');
     const desc = searchParams.get('add_desc');
     if (title) {
       const exists = ideas.some(i => i.title === title);
       if (!exists) {
-        setIdeas(prev => [{
+        const newIdeaObj: Idea = {
           id: genId(),
           title,
           description: desc || null,
@@ -91,15 +114,17 @@ function IdeasVault() {
           status: 'spark' as const,
           category: 'general',
           created_at: new Date().toISOString(),
-        }, ...prev]);
+        };
+        setIdeas(prev => [newIdeaObj, ...prev]);
+        persistIdea(newIdeaObj);
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, hydrated]);
+  }, [searchParams, loaded]);
 
   const addIdea = () => {
     if (!newIdea.trim()) return;
-    setIdeas(prev => [{
+    const idea: Idea = {
       id: genId(),
       title: newIdea.trim(),
       description: newDescription.trim() || null,
@@ -107,25 +132,31 @@ function IdeasVault() {
       status: 'spark' as const,
       category: 'general',
       created_at: new Date().toISOString(),
-    }, ...prev]);
+    };
+    setIdeas(prev => [idea, ...prev]);
+    persistIdea(idea);
     setNewIdea('');
     setNewDescription('');
   };
 
   const updateStatus = (id: string, status: string) => {
     setIdeas(prev => prev.map(i => i.id === id ? { ...i, status: status as Idea['status'] } : i));
+    updateIdeaInDB(id, { status });
   };
 
   const archiveIdea = (id: string) => {
     setIdeas(prev => prev.map(i => i.id === id ? { ...i, category: 'archived' } : i));
+    updateIdeaInDB(id, { category: 'archived' });
   };
 
   const restoreIdea = (id: string) => {
     setIdeas(prev => prev.map(i => i.id === id ? { ...i, category: 'general' } : i));
+    updateIdeaInDB(id, { category: 'general' });
   };
 
   const deleteIdea = (id: string) => {
     setIdeas(prev => prev.filter(i => i.id !== id));
+    deleteIdeaFromDB(id);
   };
 
   const promoteToKanban = (idea: Idea) => {
