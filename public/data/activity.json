@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "3142b4fa",
+      "author": "Milo",
+      "timestamp": "2026-02-13 15:24:09 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "cf4947cd",
       "author": "Milo",
       "timestamp": "2026-02-13 15:19:07 -0500",
@@ -400,13 +407,6 @@
       "message": "feat: AI Today dedicated API with thumbnails + Brave Search + 30min refresh"
     },
     {
-      "type": "commit",
-      "id": "ee51c48d",
-      "author": "Milo",
-      "timestamp": "2026-02-12 20:52:52 -0500",
-      "message": "fix: move Roundtable + Model Counsel to Agents section"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T20:24:09.578Z"
+  "generatedAt": "2026-02-13T20:29:14.643Z"
 }

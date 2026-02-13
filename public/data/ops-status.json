@@ -4,19 +4,11 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T20:24:07.024Z",
+    "lastHeartbeat": "2026-02-13T20:29:09.544Z",
     "totalCrons": 15,
-    "activeSessions": 6,
+    "activeSessions": 7,
     "totalAgents": 9,
-    "alerts": [
-      {
-        "id": "offline-tony",
-        "type": "warning",
-        "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T20:24:07.024Z",
-        "resolved": false
-      }
-    ]
+    "alerts": []
   },
   "agents": [
     {
@@ -26,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:23:44.088Z"
+      "lastSeen": "2026-02-13T20:29:03.342Z"
     },
     {
       "name": "Anders",
@@ -44,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:08:48.194Z"
+      "lastSeen": "2026-02-13T20:26:15.172Z"
     },
     {
       "name": "Paula",
@@ -62,16 +54,16 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:23:53.671Z"
+      "lastSeen": "2026-02-13T20:27:48.276Z"
     },
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-12T07:18:39.293Z"
+      "lastSeen": "2026-02-13T20:27:33.850Z"
     },
     {
       "name": "Dax",
@@ -103,26 +95,48 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:23:53.671Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 14
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:23:44.088Z",
+      "lastActivity": "2026-02-13T20:29:03.342Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 14
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:27:48.276Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 14
+    },
+    {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:27:33.850Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 6
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:26:15.172Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 48
     },
     {
       "key": "agent:paula:main",
@@ -136,17 +150,6 @@
       "sessionCount": 11
     },
     {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:08:48.194Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 48
-    },
-    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
@@ -155,7 +158,7 @@
       "lastActivity": "2026-02-13T20:08:42.699Z",
       "role": "Full Stack Architect",
       "cost": 0,
-      "sessionCount": 19
+      "sessionCount": 18
     },
     {
       "key": "agent:wendy:main",
@@ -189,17 +192,6 @@
       "role": "Restaurant Marketing",
       "cost": 0,
       "sessionCount": 842
-    },
-    {
-      "key": "agent:tony:main",
-      "agent": "Tony",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-12T07:18:39.293Z",
-      "role": "Tech Guru",
-      "cost": 0,
-      "sessionCount": 6
     }
   ],
   "crons": [
@@ -429,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T20:24:09.265Z",
+  "generatedAt": "2026-02-13T20:29:13.551Z",
   "version": 2
 }

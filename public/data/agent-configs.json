@@ -178,7 +178,20 @@
       "fallbacks": [
         "anthropic/claude-opus-4-6"
       ],
-      "availableModels": [],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
       "workspace": {
         "path": "C:\\Users\\derek\\clawd-tony",
         "hasSoul": true,
@@ -274,5 +287,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-13T20:24:09.423Z"
+  "generatedAt": "2026-02-13T20:29:14.443Z"
 }
