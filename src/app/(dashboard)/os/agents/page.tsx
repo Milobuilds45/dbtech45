@@ -13,7 +13,7 @@ interface ChatMessage {
 }
 
 const AGENTS = [
-  { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI', image: null },
+  { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI', image: '/os/agents/milo.png' },
   { id: 'anders', name: 'Anders', role: 'Full Stack Architect', color: '#FF8C00', initials: 'AN', image: '/os/agents/anders.png' },
   { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
   { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#00A000', initials: 'BO', image: '/os/agents/bobby.png' },
@@ -22,7 +22,7 @@ const AGENTS = [
   { id: 'dax', name: 'Dax', role: 'Content Writer', color: '#00FFFF', initials: 'DX', image: '/os/agents/dax.png' },
   { id: 'remy', name: 'Remy', role: 'Marketing', color: '#E53935', initials: 'RM', image: '/os/agents/remy.png' },
   { id: 'webb', name: 'Webb', role: 'Deep Research', color: '#2979FF', initials: 'WB', image: '/os/agents/webb.png' },
-  { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WN', image: null },
+  { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WN', image: '/os/agents/wendy.png' },
 ];
 
 export default function AgentsDirectChat() {

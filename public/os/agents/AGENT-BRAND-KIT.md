@@ -14,12 +14,12 @@ All icons use consistent stroke weight and circular frame.
 | Bobby | Trading & Markets | Green | `#00A000` | Trending arrow | bobby.png |
 | Dax | Content Writer | Cyan | `#00FFFF` | Newspaper layout | dax.png |
 | Dwight | Social Media | Purple | `#7B68EE` | Cloud broadcast | dwight.png |
-| Milo | Chief of Staff | — | — | *TBD* | — |
+| Milo | Chief of Staff | Silver | `#C0C0C0` | Hub/Network node | milo.png |
 | Paula | Creative Director | Pink | `#E91E8C` | Pen nib | paula.png |
 | Remy | Marketing | Red | `#E53935` | Chef hat | remy.png |
 | Tony | Restaurant Ops | Yellow | `#F4D03F` | Spatula | tony.png |
 | Webb | Deep Research | Blue | `#2979FF` | Globe | webb.png |
-| Wendy | Therapy/Coaching | — | — | *TBD* | — |
+| Wendy | Therapy/Coaching | Lavender | `#B19CD9` | Brain | wendy.png |
 
 ---
 
@@ -59,9 +59,8 @@ All icons use consistent stroke weight and circular frame.
 
 ---
 
-## Missing Icons (TODO)
-- [ ] Milo — Chief of Staff (suggest: hub/network node, white/silver)
-- [ ] Wendy — Therapy/Coaching (suggest: brain or heart pulse, lavender)
+## All Icons Complete ✅
+All 10 agents now have custom icons.
 
 ---
 

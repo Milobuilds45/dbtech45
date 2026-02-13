@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#000000"/>
+  <!-- Circle frame -->
+  <circle cx="512" cy="512" r="420" fill="none" stroke="#C0C0C0" stroke-width="24"/>
+  <!-- Hub/Network node icon - central hub with 4 connecting nodes -->
+  <!-- Center hub -->
+  <circle cx="512" cy="512" r="50" fill="none" stroke="#C0C0C0" stroke-width="24"/>
+  <!-- Top node -->
+  <circle cx="512" cy="320" r="30" fill="none" stroke="#C0C0C0" stroke-width="20"/>
+  <line x1="512" y1="462" x2="512" y2="350" stroke="#C0C0C0" stroke-width="20"/>
+  <!-- Bottom node -->
+  <circle cx="512" cy="704" r="30" fill="none" stroke="#C0C0C0" stroke-width="20"/>
+  <line x1="512" y1="562" x2="512" y2="674" stroke="#C0C0C0" stroke-width="20"/>
+  <!-- Left node -->
+  <circle cx="320" cy="512" r="30" fill="none" stroke="#C0C0C0" stroke-width="20"/>
+  <line x1="462" y1="512" x2="350" y2="512" stroke="#C0C0C0" stroke-width="20"/>
+  <!-- Right node -->
+  <circle cx="704" cy="512" r="30" fill="none" stroke="#C0C0C0" stroke-width="20"/>
+  <line x1="562" y1="512" x2="674" y2="512" stroke="#C0C0C0" stroke-width="20"/>
+  <!-- Diagonal connections for network feel -->
+  <!-- Top-right -->
+  <circle cx="648" cy="376" r="24" fill="none" stroke="#C0C0C0" stroke-width="18"/>
+  <line x1="548" y1="476" x2="628" y2="396" stroke="#C0C0C0" stroke-width="16"/>
+  <!-- Bottom-left -->
+  <circle cx="376" cy="648" r="24" fill="none" stroke="#C0C0C0" stroke-width="18"/>
+  <line x1="476" y1="548" x2="396" y2="628" stroke="#C0C0C0" stroke-width="16"/>
+</svg>
