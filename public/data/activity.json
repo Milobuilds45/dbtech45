@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "d9d43e2c",
+      "author": "Milo",
+      "timestamp": "2026-02-13 18:30:09 -0500",
+      "message": "fix: align Dwight color to #3B82F6 in Agent Assist (was #6366F1)"
+    },
+    {
+      "type": "commit",
+      "id": "3414dfe8",
+      "author": "Milo",
+      "timestamp": "2026-02-13 18:29:07 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "05597fab",
       "author": "Milo",
       "timestamp": "2026-02-13 18:27:39 -0500",
@@ -386,20 +400,6 @@
       "message": "feat: wire mission control + task manager to real ops data"
     },
     {
-      "type": "commit",
-      "id": "d5b2f6e0",
-      "author": "Milo",
-      "timestamp": "2026-02-13 14:30:01 -0500",
-      "message": "feat: merge Mission Control tabs into Task Manager - unified 9-tab ops dashboard"
-    },
-    {
-      "type": "commit",
-      "id": "5be39a5f",
-      "author": "Milo",
-      "timestamp": "2026-02-13 14:16:28 -0500",
-      "message": "feat: OS typography overhaul - Space Grotesk headers, JetBrains Mono data, per Paula spec"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-13T17:03:14.894Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T23:29:07.790Z"
+  "generatedAt": "2026-02-13T23:34:08.188Z"
 }
