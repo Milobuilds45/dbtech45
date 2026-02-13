@@ -60,8 +60,70 @@ export default function OSPage() {
   return (
     <div style={{ padding: '20px 30px' }}>
       <div style={{ marginBottom: '30px' }}>
-        <div style={{ fontSize: '28px', fontWeight: 700, color: b.white }}>Mission Control</div>
-        <div style={{ color: b.smoke, marginTop: '4px' }}>Real-time data from Supabase -- {goals.length} goals, {todos.length} todos tracked</div>
+        <div style={{ fontSize: '28px', fontWeight: 700, color: b.white }}>Derek OS</div>
+        <div style={{ color: b.smoke, marginTop: '4px' }}>Operating system for Derek's AI agent ecosystem -- {goals.length} goals, {todos.length} todos tracked</div>
+      </div>
+
+      {/* MILO Mission Control - NEW! */}
+      <div style={{ background: `linear-gradient(135deg, ${b.carbon}, ${b.graphite})`, border: `2px solid ${b.amber}`, borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h2 style={{ color: b.amber, marginBottom: '12px', fontSize: '24px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '12px' }}>
+              🎯 MILO MISSION CONTROL
+              <span style={{ 
+                fontSize: '10px', 
+                background: b.success, 
+                color: b.void,
+                padding: '3px 6px', 
+                borderRadius: '3px', 
+                fontWeight: 600 
+              }}>
+                NEW!
+              </span>
+            </h2>
+            <p style={{ color: b.silver, marginBottom: '20px', fontSize: '16px' }}>
+              Real-time gateway health, agent status, cron monitoring, and system alerts
+            </p>
+            <p style={{ color: b.smoke, fontSize: '14px' }}>
+              Built by Milo during overnight ops • Live system diagnostics • Auto-refresh monitoring
+            </p>
+          </div>
+          <div style={{ fontSize: '64px' }}>🚀</div>
+        </div>
+        
+        <div style={{ display: 'flex', gap: '16px', marginTop: '24px', flexWrap: 'wrap' }}>
+          <button 
+            style={{ 
+              background: b.amber, 
+              color: b.void, 
+              border: 'none', 
+              padding: '14px 28px', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              fontWeight: 700, 
+              fontSize: '16px',
+              boxShadow: `0 4px 12px ${b.amber}33`
+            }}
+            onClick={() => window.location.href = '/os/mission-control'}
+          >
+            🎯 Launch Mission Control
+          </button>
+          <button 
+            style={{ 
+              background: 'none', 
+              color: b.amber, 
+              border: `2px solid ${b.amber}`, 
+              padding: '12px 24px', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              fontWeight: 600, 
+              fontSize: '14px' 
+            }}
+            onClick={() => alert('Features: Gateway health, Agent heartbeats, Cron monitoring, System alerts, Real-time diagnostics')}
+          >
+            📋 View Features
+          </button>
+        </div>
       </div>
 
       {/* Brand Assets */}
