@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T20:14:06.463Z",
+    "lastHeartbeat": "2026-02-13T20:19:05.636Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T20:14:06.463Z",
+        "timestamp": "2026-02-13T20:19:05.635Z",
         "resolved": false
       }
     ]
@@ -429,6 +429,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T20:14:08.848Z",
+  "generatedAt": "2026-02-13T20:19:06.465Z",
   "version": 2
 }
