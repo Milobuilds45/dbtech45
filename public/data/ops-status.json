@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T20:19:05.636Z",
+    "lastHeartbeat": "2026-02-13T20:24:07.024Z",
     "totalCrons": 15,
-    "activeSessions": 5,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T20:19:05.635Z",
+        "timestamp": "2026-02-13T20:24:07.024Z",
         "resolved": false
       }
     ]
@@ -26,7 +26,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:09:25.268Z"
+      "lastSeen": "2026-02-13T20:23:44.088Z"
     },
     {
       "name": "Anders",
@@ -58,11 +58,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T12:15:14.863Z"
+      "lastSeen": "2026-02-13T20:23:53.671Z"
     },
     {
       "name": "Tony",
@@ -103,12 +103,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:23:53.671Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 14
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:09:25.268Z",
+      "lastActivity": "2026-02-13T20:23:44.088Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 14
@@ -178,17 +189,6 @@
       "role": "Restaurant Marketing",
       "cost": 0,
       "sessionCount": 842
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T12:15:14.863Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 14
     },
     {
       "key": "agent:tony:main",
@@ -429,6 +429,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T20:19:06.465Z",
+  "generatedAt": "2026-02-13T20:24:09.265Z",
   "version": 2
 }
