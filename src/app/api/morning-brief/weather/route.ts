@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 // NOAA Weather API - Free, no key needed
 // Nashua, NH: 42.7654°N, 71.4676°W
 // Grid: GYX (Gray/Portland ME forecast office) 40,10
+// Nearest observation station: KASH (Boire Field, Nashua NH)
 const NOAA_FORECAST_URL = 'https://api.weather.gov/gridpoints/GYX/40,10/forecast';
-const NOAA_POINTS_URL = 'https://api.weather.gov/points/42.7654,-71.4676';
+const NOAA_OBSERVATIONS_URL = 'https://api.weather.gov/stations/KASH/observations/latest';
 const USER_AGENT = '(dbtech45.com, derek@dbtech45.com)';
 
 // Open-Meteo fallback
@@ -51,28 +52,70 @@ function weatherCodeToEmoji(code: number): string {
   return '\u26C8\uFE0F';
 }
 
+async function fetchCurrentObservation(): Promise<{ temp: number; condition: string; emoji: string; windSpeed: number; windDirection: string; humidity: number | null } | null> {
+  try {
+    const res = await fetch(NOAA_OBSERVATIONS_URL, {
+      headers: { 'User-Agent': USER_AGENT, Accept: 'application/geo+json' },
+      next: { revalidate: 600 }, // 10min cache for current conditions
+    });
+    if (!res.ok) return null;
+    const data = await res.json();
+    const props = data.properties;
+    if (!props) return null;
+
+    // NOAA observations are in Celsius, convert to Fahrenheit
+    const tempC = props.temperature?.value;
+    const temp = tempC !== null && tempC !== undefined ? Math.round(tempC * 9 / 5 + 32) : null;
+    if (temp === null) return null;
+
+    const windMs = props.windSpeed?.value;
+    const windMph = windMs !== null && windMs !== undefined ? Math.round(windMs * 2.237) : 0;
+
+    const condition = props.textDescription || 'Unknown';
+
+    return {
+      temp,
+      condition,
+      emoji: noaaIconToEmoji('', condition),
+      windSpeed: windMph,
+      windDirection: props.windDirection?.value ? degreesToDirection(props.windDirection.value) : '',
+      humidity: props.relativeHumidity?.value ? Math.round(props.relativeHumidity.value) : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function degreesToDirection(deg: number): string {
+  const dirs = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
+  return dirs[Math.round(deg / 22.5) % 16];
+}
+
 async function fetchNOAA() {
-  // Fetch 7-day forecast from NOAA
-  const res = await fetch(NOAA_FORECAST_URL, {
-    headers: { 'User-Agent': USER_AGENT, Accept: 'application/geo+json' },
-    next: { revalidate: 1800 }, // 30min cache
-  });
-  if (!res.ok) throw new Error(`NOAA API failed: ${res.status}`);
-  const data = await res.json();
+  // Fetch current observation + 7-day forecast in parallel
+  const [observation, forecastRes] = await Promise.all([
+    fetchCurrentObservation(),
+    fetch(NOAA_FORECAST_URL, {
+      headers: { 'User-Agent': USER_AGENT, Accept: 'application/geo+json' },
+      next: { revalidate: 1800 }, // 30min cache
+    }),
+  ]);
+
+  if (!forecastRes.ok) throw new Error(`NOAA forecast API failed: ${forecastRes.status}`);
+  const data = await forecastRes.json();
 
   const periods = data.properties.periods;
   if (!periods || periods.length === 0) throw new Error('No forecast periods');
 
-  // Current conditions from the first period
+  // Use real observation for current temp, fall back to forecast period
   const now = periods[0];
-  const current = {
+  const current = observation || {
     temp: now.temperature,
     condition: now.shortForecast,
     emoji: noaaIconToEmoji(now.icon, now.shortForecast),
     windSpeed: parseInt(now.windSpeed) || 0,
-    windDirection: now.windDirection,
+    windDirection: now.windDirection || '',
     humidity: now.relativeHumidity?.value || null,
-    detailedForecast: now.detailedForecast,
   };
 
   // Build daily forecast - NOAA gives day/night pairs

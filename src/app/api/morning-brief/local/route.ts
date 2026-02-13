@@ -20,70 +20,41 @@ const COVERAGE_TOWNS = [
 
 const FALLBACK_STORIES: LocalStory[] = [
   {
-    title: 'Route 3 Construction Continues: Delays Expected Through March',
-    url: '#',
+    title: 'Nashua Telegraph - Local News',
+    url: 'https://www.nashuatelegraph.com/news/local/',
     source: 'Nashua Telegraph',
-    description: 'NHDOT advises commuters to allow extra time. Work on the Exit 6 interchange is progressing despite weather delays.',
+    description: 'Visit the Nashua Telegraph for the latest local news coverage.',
     time: 'Today',
-    town: 'Nashua',
+    town: 'Nashua, NH',
   },
   {
-    title: 'Nashua School Board Reviews Annual Budget Proposal',
-    url: '#',
+    title: 'Union Leader - Southern NH News',
+    url: 'https://www.unionleader.com/news/local/',
     source: 'Union Leader',
-    description: 'The budget includes funding for new technology initiatives and facility upgrades. Public hearing dates to be announced.',
+    description: 'New Hampshire news and coverage from the Union Leader.',
     time: 'Today',
-    town: 'Nashua',
+    town: 'Nashua, NH',
   },
   {
-    title: 'Hudson Selectmen Approve New Town Center Plans',
-    url: '#',
-    source: 'HLN',
-    description: 'The board voted to move forward with a mixed-use development project near the town center.',
+    title: 'Lowell Sun - Local Coverage',
+    url: 'https://www.lowellsun.com/news/local-news/',
+    source: 'Lowell Sun',
+    description: 'Local news from Lowell, Dracut, Chelmsford and the Merrimack Valley.',
     time: 'Today',
-    town: 'Hudson',
+    town: 'Lowell, MA',
   },
   {
-    title: 'Lowell City Council Addresses Housing Development',
-    url: '#',
-    source: 'Lowell Sun',
-    description: 'Council members debate new zoning proposals aimed at increasing affordable housing options.',
-    time: 'Yesterday',
-    town: 'Lowell',
-  },
-  {
-    title: 'Dracut Water District Announces Infrastructure Upgrades',
-    url: '#',
-    source: 'Lowell Sun',
-    description: 'Multi-year plan to replace aging water mains begins this spring.',
-    time: 'Yesterday',
-    town: 'Dracut',
-  },
-  {
-    title: 'Chelmsford Town Meeting Preview: Key Articles to Watch',
-    url: '#',
-    source: 'Chelmsford Independent',
-    description: 'Voters will weigh in on school funding, road improvements, and conservation land purchases.',
-    time: 'This Week',
-    town: 'Chelmsford',
-  },
-  {
-    title: 'Southern NH Unemployment Rate Remains Low',
-    url: '#',
-    source: 'NH Business Review',
-    description: 'Tech and healthcare sectors continue to drive job growth in the region.',
-    time: 'This Week',
-    town: 'Nashua',
-  },
-  {
-    title: 'Pheasant Lane Mall Announces Renovation Plans',
-    url: '#',
-    source: 'Boston Globe',
-    description: 'The mall is planning significant updates to attract new tenants and improve the shopping experience.',
-    time: 'This Week',
-    town: 'Nashua',
+    title: 'WMUR - Southern NH News',
+    url: 'https://www.wmur.com/news',
+    source: 'WMUR',
+    description: 'New Hampshire news, weather, and local coverage from WMUR.',
+    time: 'Today',
+    town: 'Nashua, NH',
   },
 ];
+
+// Note: Fallback stories appear when BRAVE_API_KEY is not set.
+// Add BRAVE_API_KEY or BRAVE_SEARCH_API_KEY to Vercel env vars for real local news.
 
 export async function GET() {
   const braveKey = process.env.BRAVE_API_KEY || process.env.BRAVE_SEARCH_API_KEY;
