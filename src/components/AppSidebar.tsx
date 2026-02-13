@@ -83,7 +83,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { label: 'Task Manager', href: '/os/task-manager' },
   { label: 'Morning Brief', href: '/os/morning-brief' },
-  { label: 'Projects', href: '/os/projects', badge: '28' },
+  { label: 'Projects', href: '/os/projects', badge: '32' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'Polymarket', href: '/os/polymarket' },
   { label: 'Daily Feed', href: '/os/daily-feed' },
