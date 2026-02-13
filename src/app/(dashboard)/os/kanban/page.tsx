@@ -51,6 +51,7 @@ function Kanban() {
 
   // Load tasks from Supabase
   const loadTasks = useCallback(async () => {
+    setLoading(true);
     try {
       const { data, error } = await supabase
         .from('todos')
