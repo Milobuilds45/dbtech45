@@ -88,9 +88,6 @@ const agentItems: NavItem[] = [
 const toolItems: NavItem[] = [
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Kanban', href: '/os/kanban' },
-  { label: 'Quick Links', href: '/os/quick-links' },
-  { label: 'Brand Kit', href: '/os/brand-kit' },
-  { label: 'Brand Spec', href: '/os/brand-spec' },
 ];
 
 const opsItems: NavItem[] = [
@@ -99,6 +96,9 @@ const opsItems: NavItem[] = [
   { label: 'DNA', href: '/os/dna' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
+  { label: 'Quick Links', href: '/os/quick-links' },
+  { label: 'Brand Kit', href: '/os/brand-kit' },
+  { label: 'Brand Spec', href: '/os/brand-spec' },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
