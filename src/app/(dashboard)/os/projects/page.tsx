@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { brand, styles } from "@/lib/brand";
 
 type StatusKey = 'shipped' | 'building' | 'beta' | 'planning' | 'shaping' | 'spark' | 'paused' | 'killed';
@@ -68,7 +68,19 @@ const DEFAULT_PROJECTS: Project[] = [
   { title: "Family Calendar AI", desc: "Smart family scheduling that coordinates 9 people's lives with AI conflict resolution.", status: "spark", progress: 5, priority: 2 },
 ];
 
-// No localStorage - clean state every load
+const STORAGE_KEY = 'dbtech-projects';
+
+function loadProjects(): Project[] {
+  try {
+    const stored = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
+    if (stored) return JSON.parse(stored);
+  } catch {}
+  return DEFAULT_PROJECTS;
+}
+
+function saveProjects(projects: Project[]) {
+  if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+}
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
@@ -107,9 +119,16 @@ export default function Projects() {
   const [sortBy, setSortBy] = useState<'default' | 'priority' | 'status'>('default');
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setProjects(loadProjects());
+    setMounted(true);
+  }, []);
 
   const updateProjects = (updated: Project[]) => {
     setProjects(updated);
+    saveProjects(updated);
   };
 
   const handleDragStart = (index: number) => {
