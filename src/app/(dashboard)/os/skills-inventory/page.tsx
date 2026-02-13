@@ -516,3 +516,351 @@ function CategoryCard({ category, defaultOpen = false }: { category: SkillCatego
     </div>
   );
 }
+
+/* ───────────────── Agent Card ───────────────── */
+function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: boolean; onToggle: () => void }) {
+  const allSkills = [...agent.coreSkills, ...agent.technicalSkills, ...agent.businessSkills];
+  const top3 = allSkills.slice(0, 3);
+  const maxCat = Math.max(agent.technicalSkills.length, agent.businessSkills.length, agent.coreSkills.length);
+  return (
+    <div
+      style={{
+        background: T.card, borderRadius: 8, padding: 20,
+        border: `1px solid ${expanded ? T.amber : T.border}`,
+        borderLeft: expanded ? `3px solid ${T.amber}` : `1px solid ${T.border}`,
+        transition: 'border-color 0.25s ease', cursor: 'default',
+      }}
+      onMouseEnter={e => { if (!expanded) (e.currentTarget.style.borderColor = T.amber); }}
+      onMouseLeave={e => { if (!expanded) (e.currentTarget.style.borderColor = T.border); }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+        <div style={{
+          width: 42, height: 42, borderRadius: 10, flexShrink: 0,
+          background: `${agent.color}20`, display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 15, fontWeight: 700, color: agent.color,
+        }}>{agent.icon}</div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 15, fontWeight: 600, color: T.text }}>{agent.name}</span>
+            <span style={{
+              fontSize: 10, fontFamily: "'JetBrains Mono', monospace", padding: '2px 8px',
+              borderRadius: 4, background: 'rgba(245,158,11,0.12)', color: T.amber,
+            }}>{totalSkills(agent)} skills</span>
+          </div>
+          <div style={{ fontSize: 12, color: agent.color, fontWeight: 500 }}>{agent.role}</div>
+        </div>
+      </div>
+      <p style={{ fontSize: 12, color: T.secondary, lineHeight: 1.5, margin: '0 0 16px' }}>{agent.description}</p>
+      <div style={{ marginBottom: 16 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 8 }}>SKILL BREAKDOWN</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {[
+            { label: 'Technical', count: agent.technicalSkills.length, color: '#3B82F6' },
+            { label: 'Business', count: agent.businessSkills.length, color: '#22C55E' },
+            { label: 'Core', count: agent.coreSkills.length, color: T.amber },
+          ].map(bar => (
+            <div key={bar.label}>
+              <span style={{ fontSize: 11, color: T.secondary }}>{bar.label}</span>
+              <ProgressBar count={bar.count} max={maxCat + 2} color={bar.color} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ marginBottom: 12 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 8 }}>TOP SKILLS</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {top3.map((s, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 8px', background: T.elevated, borderRadius: 6 }}>
+              <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text }}>{s.name}</span>
+              <LevelBadge level={s.level} />
+            </div>
+          ))}
+        </div>
+      </div>
+      <button
+        onClick={onToggle}
+        style={{
+          width: '100%', padding: '8px 0', background: 'none', border: `1px solid ${T.border}`,
+          borderRadius: 6, color: T.amber, fontSize: 12, fontFamily: "'JetBrains Mono', monospace",
+          cursor: 'pointer', transition: 'border-color 0.2s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = T.amber)}
+        onMouseLeave={e => (e.currentTarget.style.borderColor = T.border)}
+      >
+        {expanded ? '▲ Collapse' : `▼ View All ${totalSkills(agent)} Skills`}
+      </button>
+      {expanded && (
+        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {([
+            { label: 'CORE SKILLS', skills: agent.coreSkills, accent: T.amber },
+            { label: 'TECHNICAL SKILLS', skills: agent.technicalSkills, accent: '#3B82F6' },
+            { label: 'BUSINESS SKILLS', skills: agent.businessSkills, accent: '#22C55E' },
+          ] as const).map(section => (
+            <div key={section.label}>
+              <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: section.accent, marginBottom: 8 }}>{section.label}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {section.skills.map((s, j) => (
+                  <div key={j} style={{ padding: '10px 12px', background: T.elevated, borderRadius: 6, border: `1px solid ${T.border}` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
+                      <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, color: T.text }}>{s.name}</span>
+                      <LevelBadge level={s.level} />
+                    </div>
+                    <div style={{ fontSize: 11, color: T.muted, lineHeight: 1.4 }}>{s.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ───────────────── By Category View ───────────────── */
+function CategoryView({ search }: { search: string }) {
+  const q = search.toLowerCase();
+  const filterCat = (cat: SkillCategory): SkillCategory | null => {
+    if (!q) return cat;
+    const filtered = cat.skills.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
+    return filtered.length === 0 ? null : { ...cat, skills: filtered };
+  };
+  const readyCats = READY_CATEGORIES.map(filterCat).filter(Boolean) as SkillCategory[];
+  const missingCats = MISSING_CATEGORIES.map(filterCat).filter(Boolean) as SkillCategory[];
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      <div style={{ marginBottom: 8 }}>
+        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.green, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.green, display: 'inline-block' }} />
+          READY SKILLS — {READY_COUNT} Available
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {readyCats.map((cat, i) => <CategoryCard key={i} category={cat} defaultOpen={i === 0} />)}
+        </div>
+      </div>
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.red, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.red, display: 'inline-block' }} />
+          MISSING DEPENDENCIES — {MISSING_COUNT} Unavailable
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {missingCats.map((cat, i) => <CategoryCard key={i} category={cat} />)}
+        </div>
+      </div>
+      {readyCats.length === 0 && missingCats.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
+          <div style={{ fontSize: 14 }}>No skills match &ldquo;{search}&rdquo;</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ───────────────── By Status View ───────────────── */
+function StatusView({ search }: { search: string }) {
+  const q = search.toLowerCase();
+  const filterSkills = (skills: InventorySkill[]) => !q ? skills : skills.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
+  const ready = filterSkills(ALL_INVENTORY_SKILLS.filter(s => s.ready));
+  const missing = filterSkills(ALL_INVENTORY_SKILLS.filter(s => !s.ready));
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.green, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: T.green, display: 'inline-block' }} />
+          READY ({ready.length})
+        </div>
+        <style>{`.status-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:768px){.status-grid{grid-template-columns:1fr!important}}`}</style>
+        <div className="status-grid">{ready.map((s, i) => <InventorySkillRow key={i} skill={s} />)}</div>
+      </div>
+      <div>
+        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.red, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ width: 10, height: 10, borderRadius: '50%', background: T.red, display: 'inline-block' }} />
+          MISSING ({missing.length})
+        </div>
+        <div className="status-grid">{missing.map((s, i) => <InventorySkillRow key={i} skill={s} />)}</div>
+      </div>
+      {ready.length === 0 && missing.length === 0 && (
+        <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
+          <div style={{ fontSize: 14 }}>No skills match &ldquo;{search}&rdquo;</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ───────────────── Main Page ───────────────── */
+export default function SkillsInventory() {
+  const [viewMode, setViewMode] = useState<ViewMode>('agent');
+  const [filter, setFilter] = useState<FilterCategory>('All');
+  const [search, setSearch] = useState('');
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const [matrixOpen, setMatrixOpen] = useState(false);
+
+  const filtered = useMemo(() => {
+    if (!search && filter === 'All') return AGENTS;
+    return AGENTS.filter(a => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      if (a.name.toLowerCase().includes(q) || a.role.toLowerCase().includes(q)) return true;
+      return hasSkillInCategory(a, filter, search);
+    });
+  }, [filter, search]);
+
+  const toggle = (name: string) => setExpanded(p => ({ ...p, [name]: !p[name] }));
+  const chips: FilterCategory[] = ['All', 'Technical', 'Business', 'Core'];
+  const views: { key: ViewMode; label: string }[] = [
+    { key: 'agent', label: 'By Agent' },
+    { key: 'category', label: 'By Category' },
+    { key: 'status', label: 'By Status' },
+  ];
+
+  return (
+    <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
+      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: 24 }}>
+          <h1 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 700, color: T.amber, margin: '0 0 6px' }}>Skills Inventory</h1>
+          <p style={{ color: T.secondary, margin: 0, fontSize: 14 }}>
+            Comprehensive capability matrix · {AGENTS.length} agents · {AGENTS.reduce((s, a) => s + totalSkills(a), 0)}+ agent skills
+          </p>
+        </div>
+        {/* Stats Bar */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24,
+          padding: '16px 20px', background: T.card, borderRadius: 8, border: `1px solid ${T.border}`,
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 24, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{TOTAL_SKILLS}</span>
+            <span style={{ fontSize: 12, color: T.secondary }}>total skills</span>
+          </div>
+          <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.green }} />
+            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.green }}>{READY_COUNT}</span>
+            <span style={{ fontSize: 12, color: T.secondary }}>ready</span>
+          </div>
+          <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.red }} />
+            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.red }}>{MISSING_COUNT}</span>
+            <span style={{ fontSize: 12, color: T.secondary }}>missing dependencies</span>
+          </div>
+          <div style={{ flex: 1 }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            <div style={{ width: 120, height: 8, borderRadius: 4, overflow: 'hidden', background: T.border }}>
+              <div style={{ width: '50%', height: '100%', background: `linear-gradient(90deg, ${T.green}, ${T.amber})`, borderRadius: 4 }} />
+            </div>
+            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: T.muted }}>50%</span>
+          </div>
+        </div>
+        {/* View Toggle */}
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+          <div style={{ display: 'flex', gap: 2, padding: 3, background: T.card, borderRadius: 8, border: `1px solid ${T.border}` }}>
+            {views.map(v => (
+              <button
+                key={v.key}
+                onClick={() => setViewMode(v.key)}
+                style={{
+                  padding: '8px 18px', borderRadius: 6, fontSize: 13, fontWeight: 600,
+                  fontFamily: "'JetBrains Mono', monospace", cursor: 'pointer', border: 'none',
+                  background: viewMode === v.key ? T.amber : 'transparent',
+                  color: viewMode === v.key ? '#000' : T.secondary, transition: 'all 0.2s',
+                }}
+              >{v.label}</button>
+            ))}
+          </div>
+        </div>
+        {/* Filter Bar + Search */}
+        <div style={{
+          display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10,
+          marginBottom: 28, padding: '14px 16px', background: T.card, borderRadius: 8, border: `1px solid ${T.border}`,
+        }}>
+          {viewMode === 'agent' && chips.map(c => (
+            <button
+              key={c} onClick={() => setFilter(c)}
+              style={{
+                padding: '6px 16px', borderRadius: 6, fontSize: 12, fontWeight: 600,
+                fontFamily: "'JetBrains Mono', monospace", cursor: 'pointer', border: 'none',
+                background: filter === c ? 'rgba(245,158,11,0.18)' : T.elevated,
+                color: filter === c ? T.amber : T.secondary, transition: 'all 0.2s',
+              }}
+            >{c}</button>
+          ))}
+          <div style={{ flex: 1, minWidth: 180 }}>
+            <input
+              type="text" value={search} onChange={e => setSearch(e.target.value)}
+              placeholder={viewMode === 'agent' ? 'Search skills, agents...' : 'Search skills...'}
+              style={{
+                width: '100%', padding: '7px 12px', background: T.elevated, border: `1px solid ${T.border}`,
+                borderRadius: 6, color: T.text, fontSize: 13, fontFamily: "'JetBrains Mono', monospace", outline: 'none',
+              }}
+              onFocus={e => (e.currentTarget.style.borderColor = T.amber)}
+              onBlur={e => (e.currentTarget.style.borderColor = T.border)}
+            />
+          </div>
+        </div>
+        {/* Agent View */}
+        {viewMode === 'agent' && (
+          <>
+            <style>{`.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:1024px){.skills-grid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:640px){.skills-grid{grid-template-columns:1fr!important}}`}</style>
+            <div className="skills-grid">
+              {filtered.map(agent => (
+                <AgentCard key={agent.name} agent={agent} expanded={!!expanded[agent.name]} onToggle={() => toggle(agent.name)} />
+              ))}
+            </div>
+            {filtered.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
+                <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
+                <div style={{ fontSize: 14 }}>No agents match &ldquo;{search}&rdquo; in {filter} skills</div>
+              </div>
+            )}
+          </>
+        )}
+        {viewMode === 'category' && <CategoryView search={search} />}
+        {viewMode === 'status' && <StatusView search={search} />}
+        {/* Collaboration Matrix */}
+        {viewMode === 'agent' && (
+          <div style={{ marginTop: 48 }}>
+            <button
+              onClick={() => setMatrixOpen(p => !p)}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                padding: '16px 20px', background: T.card, border: `1px solid ${T.border}`,
+                borderRadius: 8, cursor: 'pointer', color: T.text, textAlign: 'left', transition: 'border-color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = T.amber)}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = T.border)}
+            >
+              <span style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, flex: 1 }}>COLLABORATION MATRIX</span>
+              <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.muted }}>{matrixOpen ? '▲ Collapse' : '▼ Expand'}</span>
+            </button>
+            {matrixOpen && (
+              <div style={{
+                marginTop: -1, padding: 20, background: T.card, borderRadius: '0 0 8px 8px',
+                border: `1px solid ${T.border}`, borderTop: 'none',
+                display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16,
+              }}>
+                {COLLABORATIONS.map((c, i) => (
+                  <div key={i} style={{ padding: 16, background: T.elevated, borderRadius: 8, borderLeft: `3px solid ${c.color}` }}>
+                    <div style={{ fontSize: 13, fontWeight: 600, color: c.color, marginBottom: 4 }}>{c.title}</div>
+                    <div style={{ fontSize: 11, color: T.secondary, lineHeight: 1.5 }}>{c.desc}</div>
+                    <div style={{ marginTop: 8, display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                      {c.agents.map(a => (
+                        <span key={a} style={{
+                          fontSize: 10, padding: '2px 8px', borderRadius: 4,
+                          background: 'rgba(245,158,11,0.1)', color: T.amber, fontFamily: "'JetBrains Mono', monospace",
+                        }}>{a}</span>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
