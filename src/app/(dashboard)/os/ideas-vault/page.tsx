@@ -38,15 +38,46 @@ export default function IdeasVaultPage() {
   );
 }
 
+const STORAGE_KEY = 'dbtech-ideas-vault';
+
+function loadIdeas(): Idea[] {
+  if (typeof window === 'undefined') return DEFAULT_IDEAS;
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    }
+  } catch {}
+  return DEFAULT_IDEAS;
+}
+
+function saveIdeas(ideas: Idea[]) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas)); } catch {}
+}
+
 function IdeasVault() {
   const searchParams = useSearchParams();
   const [newIdea, setNewIdea] = useState('');
   const [newDescription, setNewDescription] = useState('');
   const [ideas, setIdeas] = useState<Idea[]>(DEFAULT_IDEAS);
   const [showArchive, setShowArchive] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Hydrate from localStorage on mount
+  useEffect(() => {
+    setIdeas(loadIdeas());
+    setHydrated(true);
+  }, []);
+
+  // Persist to localStorage on every change (after hydration)
+  useEffect(() => {
+    if (hydrated) saveIdeas(ideas);
+  }, [ideas, hydrated]);
 
   // Check for incoming idea from SaaS page via query params
   useEffect(() => {
+    if (!hydrated) return;
     const title = searchParams.get('add_title');
     const desc = searchParams.get('add_desc');
     if (title) {
@@ -64,7 +95,7 @@ function IdeasVault() {
       }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
+  }, [searchParams, hydrated]);
 
   const addIdea = () => {
     if (!newIdea.trim()) return;
