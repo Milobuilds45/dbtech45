@@ -50,16 +50,16 @@ const AGENTS = [
 ];
 
 const AGENT_REASONING: Record<string, string> = {
-  bobby: '"This addresses a real gap in retail trading tools. Professional options flow data is locked behind $2K/month terminals. We can democratize it."',
-  tony: '"Restaurant margins are razor-thin. Most owners are flying blind on food costs. This gives them institutional-grade tools at a price they can afford."',
-  paula: '"Small businesses currently pay $2K-5K for basic branding that takes weeks. With AI, we deliver professional quality in minutes at 95% cost reduction."',
-  anders: '"The design-to-code handoff is the biggest bottleneck in product development. Automating this saves teams weeks on every project."',
-  dwight: '"Competitive intelligence is currently either expensive consultants or manual labor. This democratizes enterprise-grade intelligence gathering."',
-  dax: '"Data teams waste 80% of their time on formatting reports instead of finding insights. Automating the storytelling layer frees analysts to do actual analysis."',
-  milo: '"Business coordination is broken. Too many tools, no integration, constant context switching. A single command center with AI changes everything."',
-  remy: '"Content creation for businesses is a massive pain point. They spend thousands on agencies for mediocre output when AI can do it better and faster."',
-  wendy: '"Performance coaching is the most underleveraged growth tool. Habits compound. Small daily improvements create massive long-term results."',
-  collaborative: '"By combining our different areas of expertise, we create solutions neither of us could build alone. This is genuine cross-domain innovation."',
+  bobby: '"This addresses a real gap. Professional-grade data locked behind $2K terminals. We democratize it and print money. Simple math. — Axe"',
+  tony: '"Restaurant margins are razor-thin. Most owners are flying blind on food costs. I\'ve seen it from the line for 40 years — this actually works. No sugarcoating."',
+  paula: '"Small businesses pay $2K-5K for basic branding that takes weeks. We deliver professional quality in minutes at 95% cost reduction. Less, but better. That\'s the whole pitch."',
+  anders: '"Design-to-code handoff is the biggest bottleneck. Automate it. Save teams weeks. Ship the MVP, get feedback, iterate. Code talks, bullshit walks."',
+  dwight: '"Fact: Competitive intelligence is currently either expensive consultants or manual labor. This democratizes enterprise-grade intelligence gathering. Question: Why hasn\'t anyone done this? Answer: They lack my methodology."',
+  dax: '"Volume negates luck. Data teams waste 80% of their time formatting instead of finding insights. Ship the tool, measure the results, iterate. Stop planning. Start shipping."',
+  milo: '"Business coordination is broken. Too many tools, no integration, constant context switching. A single command center with AI changes everything. That\'s what we\'re building."',
+  remy: '"Content creation for restaurants is a massive pain point. They spend thousands on agencies for mediocre output. A $50 TikTok video can outperform a $5,000 ad if the story is right."',
+  wendy: '"Performance coaching is the most underleveraged growth tool. You don\'t want to feel good. You want to be effective. Habits compound. Small daily improvements create massive long-term results."',
+  collaborative: '"By combining different domains, we create solutions none of us could build alone. That\'s leverage. That\'s genuine cross-domain innovation. Ship it or kill it."',
 };
 
 interface IdeaTemplate {
@@ -702,7 +702,7 @@ export default function AgentIdeasPage() {
                   display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left', color: 'inherit',
                 }}>
                   {/* Agent badge */}
-                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: agent?.color || (isCollab ? brand.amber : brand.smoke), display: 'flex', alignItems: 'center', justifyContent: 'center', color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0 }}>
+                  <div style={{ width: '36px', height: '36px', borderRadius: '8px', background: '#000000', border: `2px solid ${agent?.color || (isCollab ? brand.amber : brand.smoke)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: agent?.color || (isCollab ? brand.amber : brand.smoke), fontWeight: 700, fontSize: '12px', flexShrink: 0 }}>
                     {isCollab ? 'CO' : idea.agentName.substring(0, 2)}
                   </div>
 

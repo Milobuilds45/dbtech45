@@ -89,7 +89,6 @@ const navItems: NavItem[] = [
 ];
 
 const agentItems: NavItem[] = [
-  { label: 'Direct Chat', href: '/os/agents' },
   { label: 'Model Counsel', href: '/os/model-counsel' },
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Overnight', href: '/os/agents/overnight' },

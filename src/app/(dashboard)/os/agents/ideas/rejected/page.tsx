@@ -170,9 +170,9 @@ export default function RejectedArchive() {
                     {/* Agent badge */}
                     <div style={{
                       width: '36px', height: '36px', borderRadius: '8px',
-                      background: agent?.color || (isCollab ? brand.amber : brand.smoke),
+                      background: '#000000', border: `2px solid ${agent?.color || (isCollab ? brand.amber : brand.smoke)}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: brand.void, fontWeight: 700, fontSize: '12px', flexShrink: 0,
+                      color: agent?.color || (isCollab ? brand.amber : brand.smoke), fontWeight: 700, fontSize: '12px', flexShrink: 0,
                       opacity: 0.6,
                     }}>
                       {isCollab ? 'CO' : idea.agentName.substring(0, 2)}

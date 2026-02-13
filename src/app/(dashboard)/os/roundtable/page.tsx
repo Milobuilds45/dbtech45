@@ -150,9 +150,10 @@ export default function RoundtablePage() {
               >
                 <div style={{
                   width: '36px', height: '36px', borderRadius: '8px',
-                  background: selected ? agent.color : b.graphite,
+                  background: '#000000',
+                  border: `2px solid ${selected ? agent.color : b.border}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: selected ? b.void : b.smoke,
+                  color: selected ? agent.color : b.smoke,
                   fontSize: '13px', fontWeight: 700,
                 }}>{agent.initials}</div>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: selected ? b.white : b.smoke }}>{agent.label}</div>
@@ -256,7 +257,7 @@ export default function RoundtablePage() {
                           style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
                           <polyline points="6 9 12 15 18 9"/>
                         </svg>
-                        <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: display.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: b.void, fontSize: '10px', fontWeight: 700 }}>{display.initials}</div>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: '#000000', border: `2px solid ${display.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: display.color, fontSize: '10px', fontWeight: 700 }}>{display.initials}</div>
                         <span style={{ fontWeight: 700, fontSize: '13px', color: display.color }}>{display.label}</span>
                         <span style={{ fontSize: '10px', color: b.smoke, background: b.graphite, padding: '2px 8px', borderRadius: '4px' }}>{display.role}</span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto', fontSize: '10px', color: b.smoke }}>
