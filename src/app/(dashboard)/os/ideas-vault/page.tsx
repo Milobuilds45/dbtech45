@@ -21,14 +21,6 @@ const STAGES = [
   { key: 'shipped', label: 'Shipped', color: '#3B82F6' },
 ] as const;
 
-const DEFAULT_IDEAS: Idea[] = [
-  { id: '1', title: 'AI-Powered Menu Optimizer', description: 'Use AI to analyze menu performance and suggest pricing/placement changes to maximize revenue per cover.', priority: 'high', status: 'spark', category: 'general', created_at: '2026-02-10T10:00:00Z' },
-  { id: '2', title: 'Family Task Gamification App', description: 'Turn household chores into a game for kids. Points, leaderboards, rewards. Built for big families.', priority: 'medium', status: 'shaping', category: 'general', created_at: '2026-02-09T14:00:00Z' },
-  { id: '3', title: 'Sermon Notes App', description: 'Simple app for taking structured sermon notes with auto-tagging of Bible references and sharing with small groups.', priority: 'medium', status: 'spark', category: 'general', created_at: '2026-02-08T09:00:00Z' },
-  { id: '4', title: 'Local Restaurant Review Aggregator', description: 'Aggregate reviews from Google, Yelp, TripAdvisor into one dashboard for restaurant owners. Show sentiment trends.', priority: 'low', status: 'spark', category: 'general', created_at: '2026-02-07T16:00:00Z' },
-  { id: '5', title: 'Kids Allowance Tracker', description: 'Digital allowance system where kids can see savings goals, earn bonuses for tasks. Teaches money management early.', priority: 'high', status: 'building', category: 'general', created_at: '2026-02-06T11:00:00Z' },
-];
-
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
 export default function IdeasVaultPage() {
@@ -46,6 +38,10 @@ function IdeasVault() {
   const [ideas, setIdeas] = useState<Idea[]>([]);
   const [showArchive, setShowArchive] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent SSR flash - only render after client mount
+  useEffect(() => { setMounted(true); }, []);
 
   // Load from Supabase on mount
   const loadFromSupabase = useCallback(async () => {
@@ -54,7 +50,7 @@ function IdeasVault() {
         .from('ideas_vault')
         .select('*')
         .order('created_at', { ascending: false });
-      if (!error && data && data.length > 0) {
+      if (!error && data) {
         setIdeas(data.map((d: Record<string, unknown>) => ({
           id: d.id as string,
           title: d.title as string,
@@ -167,6 +163,17 @@ function IdeasVault() {
   const activeIdeas = ideas.filter(i => i.category !== 'archived');
   const archivedIdeas = ideas.filter(i => i.category === 'archived');
   const stageInfo = (status: string) => STAGES.find(s => s.key === status) || STAGES[0];
+
+  if (!mounted) {
+    return (
+      <div style={styles.page}>
+        <div style={styles.container}>
+          <h1 style={styles.h1}>Ideas Vault</h1>
+          <p style={styles.subtitle}>Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.page}>
