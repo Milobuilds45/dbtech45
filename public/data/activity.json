@@ -3,9 +3,16 @@
     {
       "type": "cron_run",
       "id": "fe05be29",
-      "timestamp": "2026-02-13T22:01:07.762Z",
+      "timestamp": "2026-02-13T22:06:24.403Z",
       "message": "Cron run: ok",
       "jobId": "fe05be29-125b-49c0-bba0-497e9c54e7a4"
+    },
+    {
+      "type": "commit",
+      "id": "dfbb2999",
+      "author": "Milo",
+      "timestamp": "2026-02-13 17:04:03 -0500",
+      "message": "chore: auto-sync dashboard data"
     },
     {
       "type": "commit",
@@ -442,13 +449,6 @@
       "message": "feat: DNA Scanner v2 + header tagline + footer/contact cleanup"
     },
     {
-      "type": "commit",
-      "id": "8a41a5d5",
-      "author": "Milo",
-      "timestamp": "2026-02-12 22:02:34 -0500",
-      "message": "feat: footer Terms/Privacy links + simplified Contact section"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T22:04:03.679Z"
+  "generatedAt": "2026-02-13T22:09:03.730Z"
 }
