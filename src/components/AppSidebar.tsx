@@ -72,8 +72,6 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
-  { label: 'Model Counsel', href: '/os/model-counsel' },
-  { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Projects', href: '/os/projects', badge: '28' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'Polymarket', href: '/os/polymarket' },
@@ -82,6 +80,8 @@ const navItems: NavItem[] = [
 
 const agentItems: NavItem[] = [
   { label: 'Direct Chat', href: '/os/agents' },
+  { label: 'Model Counsel', href: '/os/model-counsel' },
+  { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Agent Ideas', href: '/os/agents/ideas' },
   { label: 'Agent Assist', href: '/os/agents/assist' },
