@@ -52,7 +52,7 @@ function weatherCodeToEmoji(code: number): string {
   return '\u26C8\uFE0F';
 }
 
-async function fetchCurrentObservation(): Promise<{ temp: number; condition: string; emoji: string; windSpeed: number; windDirection: string; humidity: number | null } | null> {
+async function fetchCurrentObservation(): Promise<{ temp: number; feelsLike: number; condition: string; emoji: string; windSpeed: number; windDirection: string; humidity: number | null } | null> {
   try {
     const res = await fetch(NOAA_OBSERVATIONS_URL, {
       headers: { 'User-Agent': USER_AGENT, Accept: 'application/geo+json' },
