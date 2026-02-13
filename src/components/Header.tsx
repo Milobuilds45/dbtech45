@@ -33,9 +33,16 @@ export default function Header() {
     <>
       <nav className={`nav ${isScrolled ? 'scrolled' : ''}`} role="navigation" aria-label="Main navigation">
         <div className="nav-inner">
-          <a href="#" className="nav-logo" aria-label="DBTech45 Home">
-            <span className="prompt">~/</span>DBTech45
-          </a>
+          <div className="nav-brand">
+            <a href="#" className="nav-logo" aria-label="DBTech45 Home">
+              <span className="prompt">~/</span>DBTech45
+            </a>
+            <span className="nav-tagline">
+              <span className="tagline-prompt">&gt;</span>
+              <span className="tagline-text">Imagination → Implementation</span>
+              <span className="tagline-cursor">_</span>
+            </span>
+          </div>
           <ul className="nav-links">
             {navItems.map((item) => (
               <li key={item.label}>

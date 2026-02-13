@@ -3,13 +3,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer-inner">
-          <div className="footer-brand">
-            <div className="footer-text">
-              &copy; {new Date().getFullYear()} DBTech45. Fueled by caffeine and chaos.
-            </div>
-            <div className="footer-tagline">
-              Imagination → Implementation
-            </div>
+          <div className="footer-text">
+            &copy; {new Date().getFullYear()} DBTech45. Fueled by caffeine and chaos.
           </div>
           <ul className="footer-links">
             <li><a href="#about">About</a></li>

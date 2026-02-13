@@ -173,6 +173,42 @@ img { max-width: 100%; display: block; }
   font-family: var(--font-mono);
   font-size: 14px;
 }
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.nav-tagline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  opacity: 0.8;
+}
+.tagline-prompt {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+.tagline-text {
+  color: var(--text-secondary);
+  letter-spacing: 0.02em;
+}
+.tagline-cursor {
+  color: var(--amber);
+  animation: blink 1s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@media (max-width: 768px) {
+  .nav-tagline {
+    display: none;
+  }
+}
 .nav-links {
   display: flex;
   align-items: center;
