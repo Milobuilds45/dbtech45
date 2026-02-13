@@ -9,6 +9,7 @@ interface LocalStory {
   source: string;
   description: string;
   time: string;
+  town?: string;
 }
 
 interface WeatherForecast {
@@ -37,7 +38,7 @@ export default function LocalPage() {
     <main className={styles.sectionPage}>
       <header className={styles.sectionHeader}>
         <h1 className={styles.sectionTitle}>Local</h1>
-        <p className={styles.sectionSubtitle}>News from Nashua, NH and the greater Southern New Hampshire region.</p>
+        <p className={styles.sectionSubtitle}>News from Nashua & Hudson NH, Lowell, Dracut & Chelmsford MA.</p>
       </header>
 
       <div className={styles.techLayout}>
@@ -55,7 +56,7 @@ export default function LocalPage() {
                     {story.title}
                   </a>
                 </h2>
-                <span className={styles.clusterSource}>{story.source}</span>
+                <span className={styles.clusterSource}>{story.source}{story.town ? ` \u2022 ${story.town}` : ''}</span>
                 {story.description && (
                   <p className={styles.clusterDeck}>{story.description}</p>
                 )}
@@ -113,6 +114,7 @@ export default function LocalPage() {
               <a href="https://www.nashuatelegraph.com" target="_blank" rel="noopener noreferrer">Nashua Telegraph \u2192</a>
               <a href="https://www.unionleader.com" target="_blank" rel="noopener noreferrer">Union Leader \u2192</a>
               <a href="https://www.wmur.com" target="_blank" rel="noopener noreferrer">WMUR News \u2192</a>
+              <a href="https://www.lowellsun.com" target="_blank" rel="noopener noreferrer">Lowell Sun \u2192</a>
               <a href="https://www.nashuanh.gov" target="_blank" rel="noopener noreferrer">City of Nashua \u2192</a>
             </div>
           </div>
