@@ -1,7 +1,8 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { brand, styles } from '@/lib/brand';
-import { Bot, Send, User } from 'lucide-react';
+import { Bot, Send } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -245,26 +246,35 @@ export default function AgentsDirectChat() {
                     flexDirection: msg.from === 'user' ? 'row-reverse' : 'row',
                   }}
                 >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '6px',
-                    background: msg.from === 'user' ? '#000000' : '#000000',
-                    border: `2px solid ${msg.from === 'user' ? brand.amber : selectedAgent.color}`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: msg.from === 'user' ? brand.amber : selectedAgent.color,
-                    flexShrink: 0,
-                  }}>
-                    {msg.from === 'user' ? (
-                      <User size={16} />
-                    ) : (
-                      <span style={{ fontWeight: 700, fontSize: '10px' }}>
-                        {selectedAgent.initials}
-                      </span>
-                    )}
-                  </div>
+                  {msg.from === 'user' ? (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      border: `2px solid ${brand.amber}`,
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                    }}>
+                      <Image src="/derek-avatar.png" alt="Derek" width={32} height={32} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transform: 'scale(1.25)' }} />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      background: '#000000',
+                      border: `2px solid ${selectedAgent.color}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: selectedAgent.color,
+                      flexShrink: 0,
+                      fontWeight: 700,
+                      fontSize: '10px',
+                    }}>
+                      {selectedAgent.initials}
+                    </div>
+                  )}
 
                   <div style={{
                     maxWidth: '70%',
