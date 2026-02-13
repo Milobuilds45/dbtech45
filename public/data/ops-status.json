@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T21:59:02.896Z",
+    "lastHeartbeat": "2026-02-13T22:04:02.892Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,16 +18,16 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:57:40.181Z"
+      "lastSeen": "2026-02-13T22:03:44.666Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:23:26.490Z"
+      "lastSeen": "2026-02-13T22:02:09.085Z"
     },
     {
       "name": "Bobby",
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:58:40.227Z"
+      "lastSeen": "2026-02-13T22:03:39.237Z"
     },
     {
       "name": "Paula",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:58:41.128Z"
+      "lastSeen": "2026-02-13T22:03:27.067Z"
     },
     {
       "name": "Dwight",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:57:19.152Z"
+      "lastSeen": "2026-02-13T22:03:55.794Z"
     },
     {
       "name": "Tony",
@@ -95,26 +95,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:58:41.128Z",
-      "role": "Creative Director",
+      "lastActivity": "2026-02-13T22:03:55.794Z",
+      "role": "Weather & News",
       "cost": 0,
-      "sessionCount": 16
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:58:40.227Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 49
+      "sessionCount": 28
     },
     {
       "key": "agent:milo:main",
@@ -122,21 +111,43 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:57:40.181Z",
+      "lastActivity": "2026-02-13T22:03:44.666Z",
       "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 17
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T22:03:39.237Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 49
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T22:03:27.067Z",
+      "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
     },
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:57:19.152Z",
-      "role": "Weather & News",
+      "lastActivity": "2026-02-13T22:02:09.085Z",
+      "role": "Full Stack Architect",
       "cost": 0,
-      "sessionCount": 28
+      "sessionCount": 16
     },
     {
       "key": "agent:wendy:main",
@@ -148,17 +159,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:23:26.490Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:tony:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T21:59:03.584Z",
+  "generatedAt": "2026-02-13T22:04:03.571Z",
   "version": 2
 }
