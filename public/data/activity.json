@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "eee1647a",
+      "author": "Milo",
+      "timestamp": "2026-02-13 17:54:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "de0e720d",
       "author": "Milo",
       "timestamp": "2026-02-13 17:49:04 -0500",
@@ -393,13 +400,6 @@
       "message": "feat: Mission Control 4-tab expansion - System Health, Cron Monitor, Task Board, Active Sessions"
     },
     {
-      "type": "commit",
-      "id": "6afa97ac",
-      "author": "Milo",
-      "timestamp": "2026-02-13 12:47:57 -0500",
-      "message": "feat: full SOUL.md personalities across Roundtable, Ideas, Assist + avatar fixes"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-13T17:03:14.894Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T22:54:03.815Z"
+  "generatedAt": "2026-02-13T22:59:03.857Z"
 }
