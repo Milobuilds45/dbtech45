@@ -18,13 +18,13 @@ interface RoundMessage {
 
 // Agent display config (no emojis, solid colors, logo-ready boxes)
 const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: string; color: string }> = {
-  bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#EF4444' },
+  bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#22C55E' },
   wendy: { initials: 'WR', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
   dwight: { initials: 'DW', label: 'Dwight', role: 'Intel', color: '#3B82F6' },
   dax: { initials: 'DX', label: 'Dax', role: 'Data', color: '#06B6D4' },
   tony: { initials: 'TN', label: 'Tony', role: 'Operations', color: '#EAB308' },
   paula: { initials: 'PA', label: 'Paula', role: 'Creative', color: '#EC4899' },
-  remy: { initials: 'RM', label: 'Remy', role: 'Marketing', color: '#22C55E' },
+  remy: { initials: 'RM', label: 'Remy', role: 'Marketing', color: '#EF4444' },
   anders: { initials: 'AN', label: 'Anders', role: 'Engineering', color: '#F97316' },
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
 };
@@ -34,7 +34,7 @@ export default function RoundtablePage() {
     void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
     amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
     white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#EF4444', info: '#3B82F6',
+    success: '#10B981', error: '#22C55E', info: '#3B82F6',
     border: '#222222',
   };
 

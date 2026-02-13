@@ -11,12 +11,12 @@ const T = {
   secondary: '#A1A1AA',
   muted:     '#71717A',
   border:    '#27272A',
-  green:     '#22C55E',
-  red:       '#EF4444',
+  green:     '#EF4444',
+  red:       '#22C55E',
 };
 
 const levelColor: Record<string, { bg: string; text: string }> = {
-  Expert:       { bg: 'rgba(34,197,94,0.15)',  text: '#22C55E' },
+  Expert:       { bg: 'rgba(34,197,94,0.15)',  text: '#EF4444' },
   Advanced:     { bg: 'rgba(59,130,246,0.15)',  text: '#3B82F6' },
   Intermediate: { bg: 'rgba(168,85,247,0.15)',  text: '#A855F7' },
 };
@@ -101,7 +101,7 @@ const AGENTS: Agent[] = [
     ],
   },
   {
-    name: 'Bobby', role: 'Trading Advisor', color: '#EF4444', icon: 'AX',
+    name: 'Bobby', role: 'Trading Advisor', color: '#22C55E', icon: 'AX',
     description: 'Analyzes markets, generates trading signals, manages risk, provides investment education',
     coreSkills: [
       { name: 'Market Analysis', level: 'Expert', desc: 'Technical analysis, chart patterns, market structure, sentiment' },
@@ -187,7 +187,7 @@ const AGENTS: Agent[] = [
     ],
   },
   {
-    name: 'Remy', role: 'Restaurant Marketing', color: '#22C55E', icon: 'RM',
+    name: 'Remy', role: 'Restaurant Marketing', color: '#EF4444', icon: 'RM',
     description: 'Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach',
     coreSkills: [
       { name: 'Restaurant Marketing', level: 'Expert', desc: 'Local marketing, seasonal campaigns, community engagement' },
@@ -233,7 +233,7 @@ const AGENTS: Agent[] = [
 const COLLABORATIONS = [
   { title: 'Frontend Development', agents: ['Anders', 'Paula'], desc: 'Anders (Expert) + Paula (Advanced Design) → Production UI/UX', color: T.amber },
   { title: 'Marketing Automation', agents: ['Dax', 'Remy', 'Paula'], desc: 'Dax (Strategy) + Remy (Content) + Paula (Design) → Campaigns', color: '#3B82F6' },
-  { title: 'Business Intelligence', agents: ['Dwight', 'Bobby'], desc: 'Dwight (Monitoring) + Bobby (Analysis) → Strategic Insights', color: '#22C55E' },
+  { title: 'Business Intelligence', agents: ['Dwight', 'Bobby'], desc: 'Dwight (Monitoring) + Bobby (Analysis) → Strategic Insights', color: '#EF4444' },
   { title: 'Operations Management', agents: ['Tony', 'Milo'], desc: 'Tony (Restaurant) + Milo (Coordination) → Efficiency', color: '#8B5CF6' },
   { title: 'Family & Wellness', agents: ['Wendy', 'Milo'], desc: 'Wendy (Personal) + Milo (Scheduling) → Life Balance', color: '#EC4899' },
   { title: 'Content Pipeline', agents: ['Paula', 'Dax', 'Anders'], desc: 'Paula (Design) + Dax (Strategy) + Anders (Deploy) → Full Pipeline', color: '#06B6D4' },
@@ -316,7 +316,7 @@ const READY_CATEGORIES: SkillCategory[] = [
 
 const MISSING_CATEGORIES: SkillCategory[] = [
   {
-    name: 'Security & Authentication', color: '#EF4444',
+    name: 'Security & Authentication', color: '#22C55E',
     skills: [
       { name: '1password', icon: '🔐', purpose: '1Password CLI integration', ready: false, dependency: '1Password CLI' },
       { name: 'oracle', icon: '🧿', purpose: 'Oracle CLI prompt + file bundling', ready: false, dependency: 'Oracle CLI' },
@@ -324,7 +324,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Apple Ecosystem', color: '#EF4444',
+    name: 'Apple Ecosystem', color: '#22C55E',
     skills: [
       { name: 'apple-notes', icon: '📝', purpose: 'Apple Notes via memo CLI', ready: false, dependency: 'memo CLI (macOS)' },
       { name: 'apple-reminders', icon: '⏰', purpose: 'Apple Reminders via remindctl CLI', ready: false, dependency: 'remindctl CLI (macOS)' },
@@ -333,7 +333,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Media & Entertainment', color: '#EF4444',
+    name: 'Media & Entertainment', color: '#22C55E',
     skills: [
       { name: 'camsnap', icon: '📸', purpose: 'RTSP/ONVIF camera capture', ready: false, dependency: 'RTSP camera setup' },
       { name: 'gifgrep', icon: '🧲', purpose: 'GIF provider search with CLI/TUI', ready: false, dependency: 'gifgrep CLI' },
@@ -345,7 +345,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Communication & Productivity', color: '#EF4444',
+    name: 'Communication & Productivity', color: '#22C55E',
     skills: [
       { name: 'himalaya', icon: '📧', purpose: 'IMAP/SMTP email management', ready: false, dependency: 'himalaya CLI' },
       { name: 'imsg', icon: '📨', purpose: 'iMessage/SMS CLI', ready: false, dependency: 'imsg CLI (macOS)' },
@@ -358,7 +358,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Smart Home & IoT', color: '#EF4444',
+    name: 'Smart Home & IoT', color: '#22C55E',
     skills: [
       { name: 'eightctl', icon: '🎛️', purpose: 'Eight Sleep pod control', ready: false, dependency: 'Eight Sleep + eightctl' },
       { name: 'blucli', icon: '🫐', purpose: 'BluOS CLI for audio systems', ready: false, dependency: 'blucli CLI' },
@@ -367,7 +367,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Development Tools', color: '#EF4444',
+    name: 'Development Tools', color: '#22C55E',
     skills: [
       { name: 'nano-banana-pro', icon: '🍌', purpose: 'Gemini 3 Pro image generation/editing', ready: false, dependency: 'Gemini Pro API' },
       { name: 'nano-pdf', icon: '📄', purpose: 'Natural language PDF editing', ready: false, dependency: 'nano-pdf CLI' },
@@ -378,7 +378,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Location & Places', color: '#EF4444',
+    name: 'Location & Places', color: '#22C55E',
     skills: [
       { name: 'goplaces', icon: '📍', purpose: 'Google Places API queries', ready: false, dependency: 'Google Places API key' },
       { name: 'local-places', icon: '📍', purpose: 'Google Places proxy on localhost', ready: false, dependency: 'Local proxy server' },
@@ -386,7 +386,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Google Workspace & Automation', color: '#EF4444',
+    name: 'Google Workspace & Automation', color: '#22C55E',
     skills: [
       { name: 'gog', icon: '🎮', purpose: 'Google Workspace CLI (Gmail, Calendar, Drive)', ready: false, dependency: 'Google OAuth setup' },
       { name: 'peekaboo', icon: '👀', purpose: 'macOS UI capture and automation', ready: false, dependency: 'peekaboo (macOS)' },
@@ -394,7 +394,7 @@ const MISSING_CATEGORIES: SkillCategory[] = [
     ],
   },
   {
-    name: 'Analysis & Monitoring', color: '#EF4444',
+    name: 'Analysis & Monitoring', color: '#22C55E',
     skills: [
       { name: 'model-usage', icon: '📊', purpose: 'CodexBar cost/usage summaries', ready: false, dependency: 'CodexBar' },
       { name: 'repo-scan', icon: '🔍', purpose: 'GitHub repo gap analysis', ready: false, dependency: 'repo-scan CLI' },
@@ -556,7 +556,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
           {[
             { label: 'Technical', count: agent.technicalSkills.length, color: '#3B82F6' },
-            { label: 'Business', count: agent.businessSkills.length, color: '#22C55E' },
+            { label: 'Business', count: agent.businessSkills.length, color: '#EF4444' },
             { label: 'Core', count: agent.coreSkills.length, color: T.amber },
           ].map(bar => (
             <div key={bar.label}>
@@ -594,7 +594,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
           {([
             { label: 'CORE SKILLS', skills: agent.coreSkills, accent: T.amber },
             { label: 'TECHNICAL SKILLS', skills: agent.technicalSkills, accent: '#3B82F6' },
-            { label: 'BUSINESS SKILLS', skills: agent.businessSkills, accent: '#22C55E' },
+            { label: 'BUSINESS SKILLS', skills: agent.businessSkills, accent: '#EF4444' },
           ] as const).map(section => (
             <div key={section.label}>
               <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: section.accent, marginBottom: 8 }}>{section.label}</div>

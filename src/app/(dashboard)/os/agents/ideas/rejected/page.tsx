@@ -11,11 +11,11 @@ const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
-  { id: 'bobby', name: 'Bobby', color: '#EF4444' },
+  { id: 'bobby', name: 'Bobby', color: '#22C55E' },
   { id: 'dwight', name: 'Dwight', color: '#6366F1' },
   { id: 'tony', name: 'Tony', color: '#EAB308' },
   { id: 'dax', name: 'Dax', color: '#06B6D4' },
-  { id: 'remy', name: 'Remy', color: '#22C55E' },
+  { id: 'remy', name: 'Remy', color: '#EF4444' },
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 

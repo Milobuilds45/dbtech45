@@ -41,11 +41,11 @@ const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
-  { id: 'bobby', name: 'Bobby', color: '#EF4444' },
+  { id: 'bobby', name: 'Bobby', color: '#22C55E' },
   { id: 'dwight', name: 'Dwight', color: '#6366F1' },
   { id: 'tony', name: 'Tony', color: '#EAB308' },
   { id: 'dax', name: 'Dax', color: '#06B6D4' },
-  { id: 'remy', name: 'Remy', color: '#22C55E' },
+  { id: 'remy', name: 'Remy', color: '#EF4444' },
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
@@ -456,7 +456,7 @@ function statusColor(s: string) { return s === 'approved' || s === 'launched' ? 
 function mktColor(s: string) { return s === 'massive' ? brand.success : s === 'large' ? brand.info : s === 'medium' ? brand.amber : brand.smoke; }
 function fmtDate(d: string) { return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
 function getReasoning(idea: AgentIdea) { return idea.agentId === 'collaborative' ? AGENT_REASONING.collaborative : AGENT_REASONING[idea.agentId] || '"This leverages my domain expertise to solve a real market need."'; }
-function riskColor(level: CreativityLevel) { return level === 'experimental' ? '#EF4444' : level === 'creative' ? brand.amber : brand.smoke; }
+function riskColor(level: CreativityLevel) { return level === 'experimental' ? '#22C55E' : level === 'creative' ? brand.amber : brand.smoke; }
 
 // Helpers
 function toDateKey(d: string) { return new Date(d).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }); }

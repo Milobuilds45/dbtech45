@@ -20,16 +20,16 @@ export default function OperatorPage() {
     <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex items-center justify-center px-6 py-20">
       <div className="max-w-lg w-full">
         <div className="mb-8">
-          <a href="/" className="text-[#22c55e] hover:underline text-sm font-mono">
+          <a href="/" className="text-[#EF4444] hover:underline text-sm font-mono">
             ← Back to Home
           </a>
         </div>
 
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#22c55e]/10 text-[#22c55e] mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#EF4444]/10 text-[#EF4444] mb-6">
             <ChefHat size={32} />
           </div>
-          <div className="inline-block px-3 py-1 bg-[#22c55e]/15 text-[#22c55e] text-xs font-mono uppercase tracking-wider rounded-full mb-4">
+          <div className="inline-block px-3 py-1 bg-[#EF4444]/15 text-[#EF4444] text-xs font-mono uppercase tracking-wider rounded-full mb-4">
             Coming Soon
           </div>
           <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
@@ -54,7 +54,7 @@ export default function OperatorPage() {
               'No corporate BS'
             ].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm text-[#a1a1aa]">
-                <Check size={16} className="text-[#22c55e] flex-shrink-0" />
+                <Check size={16} className="text-[#EF4444] flex-shrink-0" />
                 {item}
               </li>
             ))}
@@ -62,10 +62,10 @@ export default function OperatorPage() {
 
           {status === 'success' ? (
             <div className="text-center py-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#22c55e]/10 text-[#22c55e] mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#EF4444]/10 text-[#EF4444] mb-4">
                 <Check size={24} />
               </div>
-              <p className="text-[#22c55e] font-medium mb-2">You're on the list!</p>
+              <p className="text-[#EF4444] font-medium mb-2">You're on the list!</p>
               <p className="text-[#71717a] text-sm">We'll notify you when The Operator launches.</p>
             </div>
           ) : (
@@ -76,12 +76,12 @@ export default function OperatorPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="your@email.com"
                 required
-                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#27272a] rounded-lg text-[#fafafa] placeholder-[#52525b] focus:outline-none focus:border-[#22c55e] transition-colors"
+                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#27272a] rounded-lg text-[#fafafa] placeholder-[#52525b] focus:outline-none focus:border-[#EF4444] transition-colors"
               />
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-3 bg-[#22c55e] text-[#0a0a0a] font-semibold rounded-lg hover:bg-[#4ade80] transition-colors disabled:opacity-50"
+                className="w-full py-3 bg-[#EF4444] text-[#0a0a0a] font-semibold rounded-lg hover:bg-[#4ade80] transition-colors disabled:opacity-50"
               >
                 {status === 'loading' ? 'Joining...' : 'Get Early Access'}
               </button>

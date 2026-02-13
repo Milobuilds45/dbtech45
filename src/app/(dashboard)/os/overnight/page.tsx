@@ -43,7 +43,7 @@ const TYPE_STYLES: Record<string, { bg: string; color: string; icon: string }> =
   analysis: { bg: 'rgba(59,130,246,0.1)', color: '#3B82F6', icon: '◈' },
   idea:     { bg: 'rgba(168,85,247,0.1)', color: '#A855F7', icon: '✦' },
   research: { bg: 'rgba(6,182,212,0.1)',  color: '#06B6D4', icon: '⌕' },
-  alert:    { bg: 'rgba(239,68,68,0.1)',  color: '#EF4444', icon: '⚡' },
+  alert:    { bg: 'rgba(239,68,68,0.1)',  color: '#22C55E', icon: '⚡' },
   build:    { bg: 'rgba(16,185,129,0.1)', color: '#10B981', icon: '▲' },
 };
 
@@ -55,7 +55,7 @@ const PRIORITY_COLORS: Record<string, string> = {
 
 const STATUS_STYLES: Record<string, { bg: string; color: string; label: string }> = {
   success: { bg: 'rgba(16,185,129,0.1)', color: '#10B981', label: 'OK' },
-  error:   { bg: 'rgba(239,68,68,0.1)',  color: '#EF4444', label: 'ERR' },
+  error:   { bg: 'rgba(239,68,68,0.1)',  color: '#22C55E', label: 'ERR' },
   pending: { bg: 'rgba(245,158,11,0.1)', color: '#F59E0B', label: 'PENDING' },
 };
 

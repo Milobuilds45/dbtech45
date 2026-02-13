@@ -117,7 +117,7 @@ const CATEGORIES: Category[] = [
   {
     name: 'Decision-Making',
     icon: '⧉',
-    color: '#22C55E',
+    color: '#EF4444',
     principles: [
       {
         id: 'does-it-compound',
@@ -259,7 +259,7 @@ const CATEGORIES: Category[] = [
   {
     name: 'Sustainability',
     icon: '⊘',
-    color: '#EF4444',
+    color: '#22C55E',
     principles: [
       {
         id: 'no-vanity-metrics',
@@ -469,8 +469,8 @@ function WorkflowVisualization() {
   const branches = [
     { label: 'Core Values', color: T.amber, icon: '⎈', items: ['Ship or Kill', 'Default to Action', 'Integrity', 'Serve Customer'] },
     { label: 'Operating Principles', color: '#3B82F6', icon: '◈', items: ['Automate Boring', 'Own the Stack', 'Systematize', 'Repeatability'] },
-    { label: 'Decision Filters', color: '#22C55E', icon: '◇', items: ['Energize Team?', 'Scalable?', 'Data-Driven?', 'Sustainable?'] },
-    { label: 'Anti-Patterns', color: '#EF4444', icon: '⚠', items: ['Zombie Projects', 'Heroic Effort', 'Gut Decisions', 'Burnout Culture'] },
+    { label: 'Decision Filters', color: '#EF4444', icon: '◇', items: ['Energize Team?', 'Scalable?', 'Data-Driven?', 'Sustainable?'] },
+    { label: 'Anti-Patterns', color: '#22C55E', icon: '⚠', items: ['Zombie Projects', 'Heroic Effort', 'Gut Decisions', 'Burnout Culture'] },
   ];
 
   return (
@@ -762,7 +762,7 @@ function PrincipleCard({ p, expanded, onToggle }: { p: Principle; expanded: bool
               {p.metrics.map((m, i) => (
                 <span key={i} style={{
                   fontSize: 11, padding: '3px 10px', borderRadius: 4,
-                  background: 'rgba(34,197,94,0.1)', color: '#22C55E', border: '1px solid rgba(34,197,94,0.2)',
+                  background: 'rgba(34,197,94,0.1)', color: '#EF4444', border: '1px solid rgba(34,197,94,0.2)',
                   fontFamily: "'JetBrains Mono', monospace",
                 }}>{m}</span>
               ))}
@@ -915,7 +915,7 @@ export default function DNA() {
             </div>
             <div style={{ fontSize: 13, color: T.secondary, lineHeight: 1.6 }}>
               The goal is not just to build successful products, but to create
-              <strong style={{ color: '#22C55E' }}> sustainable systems that can adapt and evolve</strong> while maintaining
+              <strong style={{ color: '#EF4444' }}> sustainable systems that can adapt and evolve</strong> while maintaining
               their core identity. This DNA document serves as both compass and constraint —
               guiding decisions while preventing drift from fundamental principles.
             </div>

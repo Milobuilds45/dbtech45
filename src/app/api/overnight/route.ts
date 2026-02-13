@@ -17,7 +17,7 @@ const AGENT_ID_MAP: Record<string, string> = {
 
 const AGENT_COLORS: Record<string, string> = {
   'Dwight': '#3B82F6', 'Paula': '#EC4899', 'Dax': '#06B6D4', 'Tony': '#EAB308',
-  'Bobby': '#EF4444', 'Milo': '#A855F7', 'Anders': '#F97316', 'Remy': '#22C55E',
+  'Bobby': '#22C55E', 'Milo': '#A855F7', 'Anders': '#F97316', 'Remy': '#EF4444',
   'Wendy': '#8B5CF6', 'Derek': '#F59E0B', 'System': '#737373',
 };
 

@@ -53,7 +53,7 @@ export default function SignalNoisePage() {
               'No fluff, just signal'
             ].map((item, i) => (
               <li key={i} className="flex items-center gap-3 text-sm text-[#a1a1aa]">
-                <Check size={16} className="text-[#22c55e] flex-shrink-0" />
+                <Check size={16} className="text-[#EF4444] flex-shrink-0" />
                 {item}
               </li>
             ))}
@@ -61,10 +61,10 @@ export default function SignalNoisePage() {
 
           {status === 'success' ? (
             <div className="text-center py-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#22c55e]/10 text-[#22c55e] mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#EF4444]/10 text-[#EF4444] mb-4">
                 <Check size={24} />
               </div>
-              <p className="text-[#22c55e] font-medium mb-2">You're on the list!</p>
+              <p className="text-[#EF4444] font-medium mb-2">You're on the list!</p>
               <p className="text-[#71717a] text-sm">We'll notify you when Signal & Noise launches.</p>
             </div>
           ) : (

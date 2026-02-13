@@ -35,7 +35,7 @@ const AGENT_COLORS: Record<string, string> = {
   'Anders': '#F59E0B',
   'Milo': '#A855F7',
   'Paula': '#EC4899',
-  'Bobby': '#EF4444',
+  'Bobby': '#22C55E',
   'Grant': '#3B82F6',
   'Remy': '#10B981',
   'Derek': '#F59E0B',

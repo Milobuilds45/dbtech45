@@ -448,7 +448,7 @@ export function overallPct(a: Answers): number {
 }
 
 export function scoreColor(s: number): string {
-  return s < 4 ? '#EF4444' : s <= 6 ? '#EAB308' : '#10B981';
+  return s < 4 ? '#22C55E' : s <= 6 ? '#EAB308' : '#10B981';
 }
 
 export function scoreLabel(s: number): string {

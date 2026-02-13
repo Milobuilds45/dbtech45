@@ -34,7 +34,7 @@ export default function ModelCounselPage() {
     void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
     amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
     white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#EF4444', info: '#3B82F6',
+    success: '#10B981', error: '#22C55E', info: '#3B82F6',
     border: '#222222',
   };
 

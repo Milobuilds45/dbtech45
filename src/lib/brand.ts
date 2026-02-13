@@ -19,7 +19,7 @@ export const brand = {
 
   // Semantic
   success: '#10B981',
-  error: '#EF4444',
+  error: '#22C55E',
   info: '#3B82F6',
   warning: '#EAB308',
 

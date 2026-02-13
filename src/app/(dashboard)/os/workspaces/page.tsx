@@ -194,11 +194,11 @@ export default function WorkspacesPage() {
                     <span style={{ padding: '0.125rem 0.375rem', borderRadius: '4px', fontSize: '0.6rem', background: '#3B82F620', color: '#3B82F6', border: '1px solid #3B82F640' }}>GW</span>
                   )}
                   {ws.heartbeatEnabled && (
-                    <span style={{ padding: '0.125rem 0.375rem', borderRadius: '4px', fontSize: '0.6rem', background: '#22C55E20', color: '#22C55E', border: '1px solid #22C55E40' }}>♥</span>
+                    <span style={{ padding: '0.125rem 0.375rem', borderRadius: '4px', fontSize: '0.6rem', background: '#EF444420', color: '#EF4444', border: '1px solid #EF444440' }}>♥</span>
                   )}
                   <span style={{
                     width: 8, height: 8, borderRadius: '50%',
-                    background: ws.status === 'active' ? '#22C55E' : ws.status === 'maintenance' ? '#F59E0B' : '#52525B',
+                    background: ws.status === 'active' ? '#EF4444' : ws.status === 'maintenance' ? '#F59E0B' : '#52525B',
                   }} />
                 </div>
               </div>

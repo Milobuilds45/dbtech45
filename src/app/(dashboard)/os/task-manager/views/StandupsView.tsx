@@ -107,8 +107,8 @@ const STANDUP_RUNS: StandupRun[] = [
 ];
 
 const AGENT_COLORS: Record<string, string> = {
-  Derek: '#F59E0B', Milo: '#3B82F6', Anders: '#8B5CF6', Bobby: '#22C55E',
-  Paula: '#EC4899', Dwight: '#EF4444', Tony: '#10B981', Remy: '#F97316',
+  Derek: '#F59E0B', Milo: '#3B82F6', Anders: '#8B5CF6', Bobby: '#EF4444',
+  Paula: '#EC4899', Dwight: '#22C55E', Tony: '#10B981', Remy: '#F97316',
   Dax: '#06B6D4', Wendy: '#A855F7',
 };
 
@@ -170,8 +170,8 @@ export default function StandupsView() {
                     </div>
                     <span style={{
                       padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.7rem',
-                      background: run.status === 'completed' ? '#22C55E15' : run.status === 'running' ? '#3B82F620' : '#EF444415',
-                      color: run.status === 'completed' ? '#22C55E' : run.status === 'running' ? '#3B82F6' : '#EF4444',
+                      background: run.status === 'completed' ? '#EF444415' : run.status === 'running' ? '#3B82F620' : '#22C55E15',
+                      color: run.status === 'completed' ? '#EF4444' : run.status === 'running' ? '#3B82F6' : '#22C55E',
                     }}>
                       {run.status}
                     </span>
@@ -247,8 +247,8 @@ export default function StandupsView() {
                         onClick={() => toggleAction(item.id)}
                         style={{
                           width: 20, height: 20, borderRadius: '4px', flexShrink: 0, marginTop: 2,
-                          background: current.status === 'done' ? '#22C55E' : 'transparent',
-                          border: `2px solid ${current.status === 'done' ? '#22C55E' : '#3F3F46'}`,
+                          background: current.status === 'done' ? '#EF4444' : 'transparent',
+                          border: `2px solid ${current.status === 'done' ? '#EF4444' : '#3F3F46'}`,
                           color: '#FFF', fontSize: '0.7rem', cursor: 'pointer',
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                         }}

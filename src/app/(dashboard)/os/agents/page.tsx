@@ -15,11 +15,11 @@ const AGENTS = [
   { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI' },
   { id: 'anders', name: 'Anders', role: 'Full Stack Architect', color: '#F97316', initials: 'AN' },
   { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#EC4899', initials: 'PA' },
-  { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#EF4444', initials: 'AX' },
+  { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#22C55E', initials: 'AX' },
   { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#6366F1', initials: 'DW' },
   { id: 'tony', name: 'Tony', role: 'Operations', color: '#EAB308', initials: 'TN' },
   { id: 'dax', name: 'Dax', role: 'Data Analyst', color: '#06B6D4', initials: 'DX' },
-  { id: 'remy', name: 'Remy', role: 'Marketing', color: '#22C55E', initials: 'RM' },
+  { id: 'remy', name: 'Remy', role: 'Marketing', color: '#EF4444', initials: 'RM' },
   { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WR' },
 ];
 

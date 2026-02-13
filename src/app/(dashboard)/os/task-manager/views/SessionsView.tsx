@@ -39,7 +39,7 @@ const MODELS: Model[] = [
   { id: 'opus-4-6', displayName: 'Claude Opus 4.6', roleDescription: 'Heavy lifting — complex reasoning, architecture, strategy', provider: 'Anthropic', tier: 'primary', color: '#F59E0B' },
   { id: 'opus-4-5', displayName: 'Claude Opus 4.5', roleDescription: 'Backup for Opus 4.6 — fallback on rate limits', provider: 'Anthropic', tier: 'backup', color: '#92400E' },
   { id: 'sonnet-4-5', displayName: 'Claude Sonnet 4.5', roleDescription: 'Fast output — content generation, summaries, drafts', provider: 'Anthropic', tier: 'primary', color: '#3B82F6' },
-  { id: 'gemini-3-pro', displayName: 'Gemini 3 Pro', roleDescription: 'Research & deep analysis — grounded search, long context', provider: 'Google', tier: 'primary', color: '#22C55E' },
+  { id: 'gemini-3-pro', displayName: 'Gemini 3 Pro', roleDescription: 'Research & deep analysis — grounded search, long context', provider: 'Google', tier: 'primary', color: '#EF4444' },
   { id: 'gemini-3-flash', displayName: 'Gemini 3 Flash', roleDescription: 'Cheap bulk work — community mgmt, monitoring, classification', provider: 'Google', tier: 'primary', color: '#10B981' },
   { id: 'gpt-5-3', displayName: 'GPT 5.3 Codex', roleDescription: 'Code generation — backend, security, QA automation', provider: 'OpenAI', tier: 'primary', color: '#8B5CF6' },
 ];
@@ -120,9 +120,9 @@ export default function SessionsView() {
       {/* Summary Cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '1.5rem' }}>
         {[
-          { label: 'Running', value: runningSessions, color: '#22C55E', icon: '\u25CF' },
+          { label: 'Running', value: runningSessions, color: '#EF4444', icon: '\u25CF' },
           { label: 'Idle', value: idleSessions, color: '#71717A', icon: '\u25CB' },
-          { label: 'Error', value: errorSessions, color: '#EF4444', icon: '\u2715' },
+          { label: 'Error', value: errorSessions, color: '#22C55E', icon: '\u2715' },
           { label: 'Tokens (24h)', value: formatNumber(totalTokens24h), color: '#F59E0B', icon: '\u27E0' },
           { label: 'Cost (24h)', value: `$${totalCost24h.toFixed(2)}`, color: '#3B82F6', icon: '$' },
         ].map((card) => (
@@ -176,7 +176,7 @@ export default function SessionsView() {
                 >
                   <span style={{ color: '#A1A1AA', fontSize: '0.8rem', fontFamily: "'JetBrains Mono', monospace", overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{session.sessionId}</span>
                   <span style={{ color: '#FAFAFA', fontSize: '0.85rem', fontWeight: 500 }}>{session.agentName}</span>
-                  <span><span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 500, background: session.status === 'running' ? '#22C55E15' : session.status === 'error' ? '#EF444415' : '#27272A', color: session.status === 'running' ? '#22C55E' : session.status === 'error' ? '#EF4444' : '#71717A' }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: session.status === 'running' ? '#22C55E' : session.status === 'error' ? '#EF4444' : '#52525B', animation: session.status === 'running' ? 'pulse 2s infinite' : 'none' }} />{session.status}</span></span>
+                  <span><span style={{ display: 'inline-flex', alignItems: 'center', gap: '0.375rem', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 500, background: session.status === 'running' ? '#EF444415' : session.status === 'error' ? '#22C55E15' : '#27272A', color: session.status === 'running' ? '#EF4444' : session.status === 'error' ? '#22C55E' : '#71717A' }}><span style={{ width: 6, height: 6, borderRadius: '50%', background: session.status === 'running' ? '#EF4444' : session.status === 'error' ? '#22C55E' : '#52525B', animation: session.status === 'running' ? 'pulse 2s infinite' : 'none' }} />{session.status}</span></span>
                   <span style={{ color: '#A1A1AA', fontSize: '0.8rem' }}>{MODELS.find(m => m.id === session.model)?.displayName?.split(' ').slice(-2).join(' ') || session.model}</span>
                   <span style={{ color: '#71717A', fontSize: '0.8rem' }}>{formatTime(session.lastActivityAt)}</span>
                   <span style={{ color: '#A1A1AA', fontSize: '0.8rem', fontFamily: "'JetBrains Mono', monospace" }}>{formatNumber(session.tokensIn)}</span>
@@ -241,7 +241,7 @@ export default function SessionsView() {
                   <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid #1A1A1C' }}>
                     <div style={{ color: '#52525B', fontSize: '0.7rem', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Active Agents</div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-                      {sessionsUsing.map(s => (<span key={s.sessionId} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', background: s.status === 'running' ? '#22C55E15' : s.status === 'error' ? '#EF444415' : '#1A1A1C', color: s.status === 'running' ? '#22C55E' : s.status === 'error' ? '#EF4444' : '#71717A' }}>{s.agentName}</span>))}
+                      {sessionsUsing.map(s => (<span key={s.sessionId} style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', fontSize: '0.75rem', background: s.status === 'running' ? '#EF444415' : s.status === 'error' ? '#22C55E15' : '#1A1A1C', color: s.status === 'running' ? '#EF4444' : s.status === 'error' ? '#22C55E' : '#71717A' }}>{s.agentName}</span>))}
                     </div>
                   </div>
                 )}
@@ -265,10 +265,10 @@ export default function SessionsView() {
               <span style={{ color: '#A1A1AA', fontSize: '0.8rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', paddingRight: '1rem' }}>{job.description}</span>
               <span style={{ color: '#71717A', fontSize: '0.8rem', fontFamily: "'JetBrains Mono', monospace" }}>{formatCron(job.schedule)}</span>
               <span style={{ color: '#A1A1AA', fontSize: '0.8rem' }}>{job.agent || '--'}</span>
-              <span><span style={{ display: 'inline-block', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 500, background: job.paused ? '#71717A15' : job.lastStatus === 'success' ? '#22C55E15' : '#EF444415', color: job.paused ? '#71717A' : job.lastStatus === 'success' ? '#22C55E' : '#EF4444' }}>{job.paused ? 'paused' : job.lastStatus}</span></span>
+              <span><span style={{ display: 'inline-block', padding: '0.2rem 0.5rem', borderRadius: '6px', fontSize: '0.7rem', fontWeight: 500, background: job.paused ? '#71717A15' : job.lastStatus === 'success' ? '#EF444415' : '#22C55E15', color: job.paused ? '#71717A' : job.lastStatus === 'success' ? '#EF4444' : '#22C55E' }}>{job.paused ? 'paused' : job.lastStatus}</span></span>
               <span style={{ color: '#71717A', fontSize: '0.8rem' }}>{formatTime(job.lastRunAt)}</span>
               <div style={{ display: 'flex', gap: '0.375rem' }}>
-                <button onClick={() => togglePause(idx)} style={{ background: '#1A1A1C', border: '1px solid #27272A', borderRadius: '6px', padding: '0.25rem 0.5rem', fontSize: '0.7rem', color: job.paused ? '#22C55E' : '#F59E0B', cursor: 'pointer' }}>{job.paused ? '\u25B6' : '\u23F8'}</button>
+                <button onClick={() => togglePause(idx)} style={{ background: '#1A1A1C', border: '1px solid #27272A', borderRadius: '6px', padding: '0.25rem 0.5rem', fontSize: '0.7rem', color: job.paused ? '#EF4444' : '#F59E0B', cursor: 'pointer' }}>{job.paused ? '\u25B6' : '\u23F8'}</button>
                 <button style={{ background: '#1A1A1C', border: '1px solid #27272A', borderRadius: '6px', padding: '0.25rem 0.5rem', fontSize: '0.7rem', color: '#3B82F6', cursor: 'pointer' }}>\u21BB</button>
               </div>
             </div>

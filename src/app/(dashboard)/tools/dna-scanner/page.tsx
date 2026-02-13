@@ -190,11 +190,11 @@ function EmailModal({
             placeholder="you@company.com"
             style={{
               width: '100%', padding: '14px 16px', background: '#18181B',
-              border: `1px solid ${err ? '#EF4444' : '#27272A'}`, borderRadius: '8px',
+              border: `1px solid ${err ? '#22C55E' : '#27272A'}`, borderRadius: '8px',
               color: brand.white, fontSize: '15px', outline: 'none', boxSizing: 'border-box',
             }}
           />
-          {err && <p style={{ color: '#EF4444', fontSize: '13px', marginTop: '6px' }}>{err}</p>}
+          {err && <p style={{ color: '#22C55E', fontSize: '13px', marginTop: '6px' }}>{err}</p>}
         </div>
         <button
           onClick={go}

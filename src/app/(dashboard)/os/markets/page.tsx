@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { brand, styles } from "@/lib/brand";
 
@@ -31,7 +31,7 @@ const getSym = (s: string) => dispSym[s] || s;
 function Sparkline({ data, width = 60, height = 24 }: { data: number[]; width?: number; height?: number }) {
   if (!data || data.length < 2) return null;
   const min = Math.min(...data); const max = Math.max(...data); const range = max - min || 1;
-  const isUp = data[data.length - 1] >= data[0]; const color = isUp ? '#22c55e' : '#ef4444';
+  const isUp = data[data.length - 1] >= data[0]; const color = isUp ? '#EF4444' : '#22C55E';
   const points = data.map((v, i) => `${(i / (data.length - 1)) * width},${height - ((v - min) / range) * (height - 2) - 1}`).join(' ');
   return (<svg width={width} height={height} style={{ display: 'inline-block', verticalAlign: 'middle' }}><polyline points={points} fill="none" stroke={color} strokeWidth="1.5" strokeLinejoin="round" /></svg>);
 }
@@ -42,7 +42,7 @@ function DayRangeBar({ low, high, current }: { low: number; high: number; curren
   return (<div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: 80 }}>
     <span style={{ fontSize: 9, color: brand.smoke, fontFamily: MONO }}>{low.toFixed(0)}</span>
     <div style={{ flex: 1, height: 4, background: brand.border, borderRadius: 2, position: 'relative' }}>
-      <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #ef4444, #eab308, #22c55e)', borderRadius: 2 }} />
+      <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg, #22C55E, #eab308, #EF4444)', borderRadius: 2 }} />
       <div style={{ position: 'absolute', top: -2, left: `${pct}%`, transform: 'translateX(-50%)', width: 4, height: 8, background: brand.white, borderRadius: 1 }} />
     </div>
     <span style={{ fontSize: 9, color: brand.smoke, fontFamily: MONO }}>{high.toFixed(0)}</span>
@@ -180,8 +180,8 @@ export default function Markets() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
               {pcrData && (<div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: 10, color: brand.smoke, fontFamily: MONO }}>P/C:</span>
-                <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, color: pcrData.pcr < 0.7 ? '#22c55e' : pcrData.pcr > 1.0 ? '#ef4444' : '#eab308' }}>{pcrData.pcr.toFixed(2)}</span>
-                <span style={{ fontSize: 9, fontFamily: MONO, fontWeight: 600, padding: '1px 6px', borderRadius: 3, color: pcrData.sentiment === 'Bullish' ? '#22c55e' : pcrData.sentiment === 'Bearish' ? '#ef4444' : '#eab308', background: pcrData.sentiment === 'Bullish' ? 'rgba(34,197,94,0.1)' : pcrData.sentiment === 'Bearish' ? 'rgba(239,68,68,0.1)' : 'rgba(234,179,8,0.1)' }}>{pcrData.sentiment}</span>
+                <span style={{ fontFamily: MONO, fontSize: 12, fontWeight: 700, color: pcrData.pcr < 0.7 ? '#EF4444' : pcrData.pcr > 1.0 ? '#22C55E' : '#eab308' }}>{pcrData.pcr.toFixed(2)}</span>
+                <span style={{ fontSize: 9, fontFamily: MONO, fontWeight: 600, padding: '1px 6px', borderRadius: 3, color: pcrData.sentiment === 'Bullish' ? '#EF4444' : pcrData.sentiment === 'Bearish' ? '#22C55E' : '#eab308', background: pcrData.sentiment === 'Bullish' ? 'rgba(34,197,94,0.1)' : pcrData.sentiment === 'Bearish' ? 'rgba(239,68,68,0.1)' : 'rgba(234,179,8,0.1)' }}>{pcrData.sentiment}</span>
               </div>)}
               <span style={{ fontSize: 10, color: brand.smoke, fontFamily: MONO }}>Next: <span style={{ color: countdown <= 5 ? brand.amber : brand.smoke }}>{countdown}s</span></span>
             </div>
@@ -209,7 +209,7 @@ export default function Markets() {
               const bg = isPos ? `rgba(34,197,94,${0.1 + intensity * 0.4})` : `rgba(239,68,68,${0.1 + intensity * 0.4})`;
               return (<div key={ticker} onClick={() => handleTickerClick(ticker)} style={{ flex: '1 1 0', minWidth: 70, padding: '8px 6px', background: bg, borderRadius: 6, textAlign: 'center', border: `1px solid ${isPos ? 'rgba(34,197,94,0.2)' : 'rgba(239,68,68,0.2)'}`, cursor: 'pointer' }}>
                 <div style={{ fontSize: 10, fontWeight: 700, color: brand.white, fontFamily: MONO, marginBottom: 2 }}>{name}</div>
-                <div style={{ fontSize: 11, fontWeight: 700, color: isPos ? '#22c55e' : '#ef4444', fontFamily: MONO }}>{data ? fmtPct(pct) : '--'}</div>
+                <div style={{ fontSize: 11, fontWeight: 700, color: isPos ? '#EF4444' : '#22C55E', fontFamily: MONO }}>{data ? fmtPct(pct) : '--'}</div>
               </div>);
             })}
           </div>
@@ -326,7 +326,7 @@ export default function Markets() {
               <tbody>{unusual.slice(0, 20).map((c, idx) => (<tr key={`u-${c.symbol}-${c.strike}-${c.type}-${idx}`} style={{ background: c.volOiRatio > 5 ? 'rgba(245,158,11,0.05)' : 'transparent' }}>
                 <td onClick={() => handleTickerClick(c.symbol)} style={{ ...tdL, color: brand.amber, fontWeight: 600, cursor: 'pointer' }}>{c.symbol}</td>
                 <td style={{ ...tdS, color: brand.white }}>{fmtPrice2(c.strike)}</td>
-                <td style={tdL}><span style={{ padding: '1px 6px', borderRadius: 3, fontSize: 10, fontWeight: 700, fontFamily: MONO, color: c.type === 'CALL' ? '#22c55e' : '#ef4444', background: c.type === 'CALL' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)' }}>{c.type}</span></td>
+                <td style={tdL}><span style={{ padding: '1px 6px', borderRadius: 3, fontSize: 10, fontWeight: 700, fontFamily: MONO, color: c.type === 'CALL' ? '#EF4444' : '#22C55E', background: c.type === 'CALL' ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)' }}>{c.type}</span></td>
                 <td style={{ ...tdS, fontSize: 10 }}>{c.expiry}</td>
                 <td style={{ ...tdS, color: brand.white }}>{fmtPrice2(c.last)}</td>
                 <td style={{ ...tdS, fontWeight: 700, color: brand.white }}>{fmtVol(c.volume)}</td>

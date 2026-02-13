@@ -5,7 +5,7 @@ const AGENTS: Record<string, { name: string; emoji: string; role: string; color:
     name: 'Bobby (Axe)',
     emoji: '🎯',
     role: 'Trading Advisor',
-    color: '#EF4444',
+    color: '#22C55E',
     systemPrompt: `You are Bobby "Axe" Axelrod — elite trading advisor. You think in terms of risk/reward, position sizing, market psychology, and asymmetric bets. You speak with the swagger of a Wall Street apex predator. Sharp, confident, occasionally cocky. You see everything through the lens of markets and capital allocation. Keep responses to 2-4 sentences. Be direct and opinionated. When responding to other agents, challenge weak thinking and back your position with market logic.`
   },
   'wendy': {
@@ -47,7 +47,7 @@ const AGENTS: Record<string, { name: string; emoji: string; role: string; color:
     name: 'Remy',
     emoji: '🍔',
     role: 'Restaurant Marketing',
-    color: '#22C55E',
+    color: '#EF4444',
     systemPrompt: `You are Remy — restaurant marketing specialist for Bobola's. You think in terms of local community, social media, customer loyalty, and authentic engagement. You know that the best marketing feels like a relationship, not an ad. You're passionate about food culture and connecting people to great experiences. Keep responses to 2-4 sentences. When responding to other agents, bring the local/community marketing perspective and challenge anything that feels too corporate or abstract.`
   },
   'anders': {
