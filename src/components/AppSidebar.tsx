@@ -98,9 +98,12 @@ const opsItems: NavItem[] = [
   { label: 'DNA', href: '/os/dna' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
-  { label: 'Quick Links', href: '/os/quick-links' },
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
+];
+
+const quickLinksItems: NavItem[] = [
+  { label: 'Quick Links', href: '/os/quick-links' },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
@@ -115,9 +118,10 @@ interface SectionState {
   agents: boolean;
   tools: boolean;
   operations: boolean;
+  quicklinks: boolean;
 }
 
-const DEFAULT_SECTIONS: SectionState = { command: true, agents: true, tools: true, operations: true };
+const DEFAULT_SECTIONS: SectionState = { command: true, agents: true, tools: true, operations: true, quicklinks: true };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -373,6 +377,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
         {renderSection(toolItems, 'tools')}
         {renderSectionHeader('Operations', 'operations')}
         {renderSection(opsItems, 'operations')}
+        {renderSectionHeader('Quick Links', 'quicklinks')}
+        {renderSection(quickLinksItems, 'quicklinks')}
       </div>
 
       {/* Collapse toggle (desktop only) */}
