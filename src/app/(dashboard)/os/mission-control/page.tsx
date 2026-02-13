@@ -160,53 +160,78 @@ export default function MissionControlPage() {
   const [alog, setAlog] = useState<ActivityEntry[]>([]);
   const [dragId, setDragId] = useState<string | null>(null);
   const [form, setForm] = useState({ title: '', description: '', priority: 'medium' as TaskPriority, agent: 'Milo', dueDate: '', column: 'backlog' as TaskColumn });
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
 
   const crd: React.CSSProperties = { background: B.carbon, border: '1px solid ' + B.border, borderRadius: '12px', padding: '20px' };
   const sel: React.CSSProperties = { background: B.graphite, color: B.silver, border: '1px solid ' + B.border, borderRadius: '6px', padding: '6px 10px', fontSize: '13px', outline: 'none', cursor: 'pointer' };
   const inp: React.CSSProperties = { background: B.graphite, color: B.white, border: '1px solid ' + B.border, borderRadius: '6px', padding: '8px 12px', fontSize: '14px', outline: 'none', width: '100%', boxSizing: 'border-box' };
 
-  const refresh = useCallback(() => {
-    const now = new Date();
-    const n = now.getTime();
-    const gw: 'online' | 'timeout' = Math.random() > 0.8 ? 'online' : 'timeout';
-    const crons: CronJob[] = [
-      { id: 'c1', name: 'Morning Brief', schedule: '0 7 * * *', humanSchedule: 'Every day at 7:00 AM', lastRun: new Date(n - 7 * 3600000).toISOString(), nextRun: new Date(n + 4 * 3600000).toISOString(), status: 'success', agent: 'Dwight', duration: '12s', description: 'Weather, news, calendar summary' },
-      { id: 'c2', name: 'Bobby Morning Brief', schedule: '10 9 * * 1-5', humanSchedule: 'Weekdays at 9:10 AM', lastRun: new Date(n - 5 * 3600000).toISOString(), nextRun: new Date(n + 6 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '8s', description: 'BTC & market analysis' },
-      { id: 'c3', name: 'Gateway Auto-Start', schedule: '@reboot', humanSchedule: 'At system startup', lastRun: null, nextRun: null, status: 'failure', agent: 'System', duration: '\u2014', description: 'Ensures gateway starts on boot' },
-      { id: 'c4', name: 'Nightly Build', schedule: '0 3 * * *', humanSchedule: 'Every day at 3:00 AM', lastRun: now.toISOString(), nextRun: new Date(n + 21 * 3600000).toISOString(), status: 'pending', agent: 'Milo', duration: '~45s', description: 'Project builds & deploys' },
-      { id: 'c5', name: 'Memory Cleanup', schedule: '0 4 * * 0', humanSchedule: 'Sundays at 4:00 AM', lastRun: new Date(n - 3 * 86400000).toISOString(), nextRun: new Date(n + 4 * 86400000).toISOString(), status: 'success', agent: 'Milo', duration: '22s', description: 'Archives old memory files' },
-      { id: 'c6', name: 'Portfolio Snapshot', schedule: '0 16 * * 1-5', humanSchedule: 'Weekdays at 4:00 PM', lastRun: new Date(n - 12 * 3600000).toISOString(), nextRun: new Date(n + 8 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '6s', description: 'EOD portfolio & P&L' },
-      { id: 'c7', name: 'Wellness Check-in', schedule: '0 12 * * *', humanSchedule: 'Every day at 12:00 PM', lastRun: new Date(n - 2 * 3600000).toISOString(), nextRun: new Date(n + 22 * 3600000).toISOString(), status: 'unknown', agent: 'Wendy', duration: '\u2014', description: 'Midday wellness reminder' },
-    ];
-    const agents: AgentStatus[] = [
-      { name: 'Milo', role: 'Chief of Staff', status: 'active', lastSeen: now.toISOString(), tasksToday: 3, health: 'healthy', currentTask: 'Coordinating nightly builds', sessionStart: new Date(n - 2 * 3600000).toISOString() },
-      { name: 'Anders', role: 'Full Stack Architect', status: 'active', lastSeen: now.toISOString(), tasksToday: 1, health: 'healthy', currentTask: 'Building Mission Control expansion', sessionStart: new Date(n - 45 * 60000).toISOString() },
-      { name: 'Bobby', role: 'Trading Advisor', status: 'offline', lastSeen: new Date(n - 8 * 3600000).toISOString(), tasksToday: 2, health: 'warning' },
-      { name: 'Paula', role: 'Creative Director', status: 'idle', lastSeen: new Date(n - 3 * 3600000).toISOString(), tasksToday: 1, health: 'healthy', sessionStart: new Date(n - 5 * 3600000).toISOString() },
-      { name: 'Dwight', role: 'Weather & News', status: 'idle', lastSeen: new Date(n - 1 * 3600000).toISOString(), tasksToday: 1, health: 'healthy', sessionStart: new Date(n - 7 * 3600000).toISOString() },
-      { name: 'Tony', role: 'Tech Guru', status: 'offline', lastSeen: new Date(n - 12 * 3600000).toISOString(), tasksToday: 0, health: 'healthy' },
-      { name: 'Dax', role: 'Data Analyst', status: 'idle', lastSeen: new Date(n - 4 * 3600000).toISOString(), tasksToday: 0, health: 'healthy', sessionStart: new Date(n - 6 * 3600000).toISOString() },
-      { name: 'Remy', role: 'Chef & Lifestyle', status: 'offline', lastSeen: new Date(n - 24 * 3600000).toISOString(), tasksToday: 0, health: 'warning' },
-      { name: 'Wendy', role: 'Wellness Coach', status: 'idle', lastSeen: new Date(n - 2 * 3600000).toISOString(), tasksToday: 0, health: 'healthy', sessionStart: new Date(n - 3 * 3600000).toISOString() },
-    ];
-    const alerts: Alert[] = [
-      { id: 'a1', type: 'error', message: 'Gateway timeout \u2014 ws://127.0.0.1:18789 failed', timestamp: now.toISOString(), resolved: false },
-      { id: 'a2', type: 'warning', message: 'Bobby agent offline for >6 hours', timestamp: new Date(n - 30 * 60000).toISOString(), resolved: false },
-      { id: 'a3', type: 'warning', message: 'Gateway Auto-Start misconfigured', timestamp: new Date(n - 3600000).toISOString(), resolved: false },
-    ];
-    setSys({ gatewayStatus: gw, lastHeartbeat: gw === 'online' ? now.toISOString() : null, uptime: gw === 'online' ? 14400 : 0, cronJobs: crons, agents, alerts });
-    setAlog([
-      { id: 'l1', agent: 'Milo', action: 'Kicked off nightly build pipeline', timestamp: new Date(n - 2 * 60000).toISOString(), type: 'cron' },
-      { id: 'l2', agent: 'Anders', action: 'Committed Mission Control expansion', timestamp: new Date(n - 5 * 60000).toISOString(), type: 'task' },
-      { id: 'l3', agent: 'Dwight', action: 'Delivered morning weather brief', timestamp: new Date(n - 60 * 60000).toISOString(), type: 'cron' },
-      { id: 'l4', agent: 'Bobby', action: 'Sent BTC morning analysis', timestamp: new Date(n - 5 * 3600000).toISOString(), type: 'cron' },
-      { id: 'l5', agent: 'Paula', action: 'Reviewed thumbnail concepts', timestamp: new Date(n - 3 * 3600000).toISOString(), type: 'task' },
-      { id: 'l6', agent: 'Milo', action: 'Compacted memory files, pushed to GitHub', timestamp: new Date(n - 4 * 3600000).toISOString(), type: 'system' },
-      { id: 'l7', agent: 'Wendy', action: 'Sent midday wellness reminder', timestamp: new Date(n - 2 * 3600000).toISOString(), type: 'message' },
-      { id: 'l8', agent: 'Dax', action: 'Generated analytics report', timestamp: new Date(n - 4 * 3600000).toISOString(), type: 'task' },
-      { id: 'l9', agent: 'System', action: 'Gateway auto-start failed', timestamp: new Date(n - 8 * 3600000).toISOString(), type: 'system' },
-      { id: 'l10', agent: 'Milo', action: 'Heartbeat check \u2014 all agents reported', timestamp: new Date(n - 30 * 60000).toISOString(), type: 'system' },
-    ]);
+  const refresh = useCallback(async () => {
+    try {
+      const response = await fetch('/data/ops-status.json');
+      const data = await response.json();
+      
+      // Map the JSON data to the existing state interfaces
+      const mappedAgents: AgentStatus[] = data.agents.map((agent: any) => ({
+        name: agent.name,
+        role: agent.role,
+        status: agent.status,
+        lastSeen: new Date().toISOString(), // Use current time since we don't have lastSeen in JSON
+        tasksToday: agent.tasksToday,
+        health: agent.health,
+        currentTask: undefined, // Not provided in JSON
+        sessionStart: undefined // Not provided in JSON
+      }));
+
+      const mappedCrons: CronJob[] = data.crons.map((cron: any) => ({
+        id: cron.id,
+        name: cron.name,
+        schedule: cron.schedule,
+        humanSchedule: cron.humanSchedule,
+        lastRun: cron.lastRun,
+        nextRun: cron.nextRun,
+        status: cron.lastStatus,
+        agent: cron.agent,
+        duration: cron.duration,
+        description: cron.description
+      }));
+
+      setSys({
+        gatewayStatus: data.system.gatewayStatus,
+        lastHeartbeat: data.system.lastHeartbeat,
+        uptime: data.system.uptime,
+        cronJobs: mappedCrons,
+        agents: mappedAgents,
+        alerts: data.system.alerts
+      });
+      
+      // Generate activity log from recent sessions and cron activities
+      const recentActivities: ActivityEntry[] = [
+        ...data.sessions.slice(0, 3).map((session: any, i: number) => ({
+          id: `s${i}`,
+          agent: session.agent,
+          action: session.currentTask || 'Session activity',
+          timestamp: session.lastActivity,
+          type: 'task' as const
+        })),
+        ...data.crons.filter((c: any) => c.lastRun).slice(0, 7).map((cron: any, i: number) => ({
+          id: `c${i}`,
+          agent: cron.agent,
+          action: `${cron.name} completed`,
+          timestamp: cron.lastRun,
+          type: 'cron' as const
+        }))
+      ];
+      
+      setAlog(recentActivities.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+      setGeneratedAt(data.generatedAt);
+    } catch (error) {
+      console.error('Failed to fetch ops status:', error);
+      // Fallback to empty state on error
+      setSys({ gatewayStatus: 'unknown', lastHeartbeat: null, uptime: 0, cronJobs: [], agents: [], alerts: [] });
+      setAlog([]);
+      setGeneratedAt(null);
+    }
   }, []);
 
   useEffect(() => { refresh(); setTasks(loadT()); setLoading(false); const i = setInterval(refresh, 30000); return () => clearInterval(i); }, [refresh]);
@@ -497,6 +522,26 @@ export default function MissionControlPage() {
     </div>
   </div>
 )}
+
+      {/* Footer with data freshness */}
+      {generatedAt && (
+        <div style={{ 
+          marginTop: '40px', 
+          padding: '12px 20px', 
+          borderTop: '1px solid ' + B.border,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <span style={{ 
+            color: B.smoke, 
+            fontSize: '12px', 
+            fontFamily: "'JetBrains Mono', monospace"
+          }}>
+            Data generated at: {new Date(generatedAt).toLocaleString()}
+          </span>
+        </div>
+      )}
 
     </div>
   );

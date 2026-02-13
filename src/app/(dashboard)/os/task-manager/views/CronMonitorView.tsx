@@ -62,19 +62,28 @@ function rt(ts: string | null): string {
   return 'Just now';
 }
 
-// ─── Mock data ───────────────────────────────────────────────────────────
-function generateCrons(): CronJob[] {
-  const n = Date.now();
-  const now = new Date();
-  return [
-    { id: 'c1', name: 'Morning Brief', schedule: '0 7 * * *', humanSchedule: 'Every day at 7:00 AM', lastRun: new Date(n - 7 * 3600000).toISOString(), nextRun: new Date(n + 4 * 3600000).toISOString(), status: 'success', agent: 'Dwight', duration: '12s', description: 'Weather, news, calendar summary' },
-    { id: 'c2', name: 'Bobby Morning Brief', schedule: '10 9 * * 1-5', humanSchedule: 'Weekdays at 9:10 AM', lastRun: new Date(n - 5 * 3600000).toISOString(), nextRun: new Date(n + 6 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '8s', description: 'BTC & market analysis' },
-    { id: 'c3', name: 'Gateway Auto-Start', schedule: '@reboot', humanSchedule: 'At system startup', lastRun: null, nextRun: null, status: 'failure', agent: 'System', duration: '\u2014', description: 'Ensures gateway starts on boot' },
-    { id: 'c4', name: 'Nightly Build', schedule: '0 3 * * *', humanSchedule: 'Every day at 3:00 AM', lastRun: now.toISOString(), nextRun: new Date(n + 21 * 3600000).toISOString(), status: 'pending', agent: 'Milo', duration: '~45s', description: 'Project builds & deploys' },
-    { id: 'c5', name: 'Memory Cleanup', schedule: '0 4 * * 0', humanSchedule: 'Sundays at 4:00 AM', lastRun: new Date(n - 3 * 86400000).toISOString(), nextRun: new Date(n + 4 * 86400000).toISOString(), status: 'success', agent: 'Milo', duration: '22s', description: 'Archives old memory files' },
-    { id: 'c6', name: 'Portfolio Snapshot', schedule: '0 16 * * 1-5', humanSchedule: 'Weekdays at 4:00 PM', lastRun: new Date(n - 12 * 3600000).toISOString(), nextRun: new Date(n + 8 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '6s', description: 'EOD portfolio & P&L' },
-    { id: 'c7', name: 'Wellness Check-in', schedule: '0 12 * * *', humanSchedule: 'Every day at 12:00 PM', lastRun: new Date(n - 2 * 3600000).toISOString(), nextRun: new Date(n + 22 * 3600000).toISOString(), status: 'unknown', agent: 'Wendy', duration: '\u2014', description: 'Midday wellness reminder' },
-  ];
+// ─── Data fetcher ────────────────────────────────────────────────────────
+async function fetchCrons(): Promise<CronJob[]> {
+  try {
+    const response = await fetch('/data/ops-status.json');
+    const data = await response.json();
+    
+    return data.crons.map((cron: any) => ({
+      id: cron.id,
+      name: cron.name,
+      schedule: cron.schedule,
+      humanSchedule: cron.humanSchedule,
+      lastRun: cron.lastRun,
+      nextRun: cron.nextRun,
+      status: cron.lastStatus,
+      agent: cron.agent,
+      duration: cron.duration,
+      description: cron.description
+    }));
+  } catch (error) {
+    console.error('Failed to fetch cron jobs:', error);
+    return [];
+  }
 }
 
 // ═══ MAIN COMPONENT ═══
@@ -82,8 +91,22 @@ export default function CronMonitorView() {
   const [crons, setCrons] = useState<CronJob[]>([]);
   const [cronFA, setCronFA] = useState('all');
   const [cronFS, setCronFS] = useState('all');
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
 
-  const refresh = useCallback(() => { setCrons(generateCrons()); }, []);
+  const refresh = useCallback(async () => {
+    try {
+      const response = await fetch('/data/ops-status.json');
+      const data = await response.json();
+      const cronData = await fetchCrons();
+      setCrons(cronData);
+      setGeneratedAt(data.generatedAt);
+    } catch (error) {
+      console.error('Failed to refresh cron data:', error);
+      const fallbackData = await fetchCrons();
+      setCrons(fallbackData);
+      setGeneratedAt(null);
+    }
+  }, []);
   useEffect(() => { refresh(); const i = setInterval(refresh, 30000); return () => clearInterval(i); }, [refresh]);
 
   const sel: React.CSSProperties = { background: B.graphite, color: B.silver, border: '1px solid ' + B.border, borderRadius: '6px', padding: '6px 10px', fontSize: '13px', outline: 'none', cursor: 'pointer' };
@@ -138,6 +161,26 @@ export default function CronMonitorView() {
           </div>
         </div>
       </div>
+
+      {/* Footer with data freshness */}
+      {generatedAt && (
+        <div style={{ 
+          marginTop: '40px', 
+          padding: '12px 20px', 
+          borderTop: '1px solid ' + B.border,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <span style={{ 
+            color: B.smoke, 
+            fontSize: '12px', 
+            fontFamily: "'JetBrains Mono', monospace"
+          }}>
+            Data generated at: {new Date(generatedAt).toLocaleString()}
+          </span>
+        </div>
+      )}
     </div>
   );
 }

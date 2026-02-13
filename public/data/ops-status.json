@@ -1,0 +1,345 @@
+{
+  "system": {
+    "gatewayStatus": "online",
+    "gatewayPort": 18789,
+    "bind": "loopback",
+    "uptime": 7200,
+    "lastHeartbeat": "2026-02-13T19:28:00Z",
+    "totalCrons": 20,
+    "activeSessions": 6,
+    "totalAgents": 9,
+    "alerts": [
+      {
+        "id": "a1",
+        "type": "warning",
+        "message": "Tony agent offline for >12 hours",
+        "timestamp": "2026-02-13T14:00:00Z",
+        "resolved": false
+      },
+      {
+        "id": "a2",
+        "type": "info",
+        "message": "Bobby after-hours cron ran successfully at 8 PM",
+        "timestamp": "2026-02-13T01:00:00Z",
+        "resolved": true
+      }
+    ]
+  },
+  "agents": [
+    {
+      "name": "Milo",
+      "role": "Chief of Staff",
+      "status": "active",
+      "model": "claude-sonnet-4",
+      "health": "healthy",
+      "tasksToday": 4
+    },
+    {
+      "name": "Anders",
+      "role": "Full Stack Architect",
+      "status": "active",
+      "model": "claude-opus-4-6",
+      "health": "healthy",
+      "tasksToday": 8
+    },
+    {
+      "name": "Bobby",
+      "role": "Trading Advisor",
+      "status": "idle",
+      "model": "claude-opus-4-6",
+      "health": "healthy",
+      "tasksToday": 3
+    },
+    {
+      "name": "Paula",
+      "role": "Creative Director",
+      "status": "idle",
+      "model": "claude-opus-4-5",
+      "health": "healthy",
+      "tasksToday": 1
+    },
+    {
+      "name": "Dwight",
+      "role": "Weather & News",
+      "status": "idle",
+      "model": "gemini-3-flash",
+      "health": "healthy",
+      "tasksToday": 1
+    },
+    {
+      "name": "Tony",
+      "role": "Tech Guru",
+      "status": "offline",
+      "model": "gemini-3-flash",
+      "health": "warning",
+      "tasksToday": 0
+    },
+    {
+      "name": "Dax",
+      "role": "Social Strategist",
+      "status": "idle",
+      "model": "gemini-3-flash",
+      "health": "healthy",
+      "tasksToday": 1
+    },
+    {
+      "name": "Remy",
+      "role": "Restaurant Marketing",
+      "status": "idle",
+      "model": "gemini-3-flash",
+      "health": "healthy",
+      "tasksToday": 1
+    },
+    {
+      "name": "Wendy",
+      "role": "Wellness Coach",
+      "status": "idle",
+      "model": "claude-opus-4-5",
+      "health": "healthy",
+      "tasksToday": 0
+    }
+  ],
+  "sessions": [
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T19:30:00Z",
+      "role": "Full Stack Architect",
+      "currentTask": "Wiring ops dashboard to real data"
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 128982,
+      "lastActivity": "2026-02-13T19:13:00Z",
+      "role": "Chief of Staff",
+      "currentTask": "Coordinating agent work, overnight results",
+      "cost": 0.49
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "idle",
+      "totalTokens": 121345,
+      "lastActivity": "2026-02-13T16:36:00Z",
+      "role": "Trading Advisor",
+      "currentTask": "Midday update delivered",
+      "cost": 0.09
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "idle",
+      "totalTokens": 33497,
+      "lastActivity": "2026-02-13T18:49:00Z",
+      "role": "Creative Director",
+      "currentTask": "Typography spec delivered",
+      "cost": 0.03
+    },
+    {
+      "key": "agent:wendy:main",
+      "agent": "Wendy",
+      "model": "claude-opus-4-5",
+      "status": "idle",
+      "totalTokens": 97386,
+      "lastActivity": "2026-02-13T16:32:00Z",
+      "role": "Wellness Coach",
+      "cost": 0.63
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "claude-opus-4-5",
+      "status": "idle",
+      "totalTokens": 126918,
+      "lastActivity": "2026-02-13T12:22:00Z",
+      "role": "Weather & News",
+      "currentTask": "Intelligence options delivered",
+      "cost": 0.77
+    }
+  ],
+  "crons": [
+    {
+      "id": "eefcc417",
+      "name": "Bobby Afternoon Update",
+      "schedule": "0 15 * * 1-5",
+      "humanSchedule": "Weekdays 3:00 PM",
+      "agent": "Bobby",
+      "description": "Power Hour Prep - exits, volatility, opportunities",
+      "lastRun": "2026-02-12T20:00:00Z",
+      "lastStatus": "pending",
+      "nextRun": "2026-02-13T20:00:00Z"
+    },
+    {
+      "id": "cd45ae0b",
+      "name": "Bobby Weekly Recap",
+      "schedule": "30 16 * * 5",
+      "humanSchedule": "Fridays 4:30 PM",
+      "agent": "Bobby",
+      "description": "Week in review, winners/losers, watchlist scorecard",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-13T21:30:00Z"
+    },
+    {
+      "id": "866b45c4",
+      "name": "Bobby After Hours Wrap",
+      "schedule": "0 20 * * 1-5",
+      "humanSchedule": "Weekdays 8:00 PM",
+      "agent": "Bobby",
+      "description": "AH reactions, earnings, overnight watch, long-term spotlight",
+      "lastRun": "2026-02-13T01:00:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T01:00:00Z",
+      "duration": "128s"
+    },
+    {
+      "id": "61b6eecf",
+      "name": "Milo Nightly Builder",
+      "schedule": "0 3 * * *",
+      "humanSchedule": "Daily 3:00 AM",
+      "agent": "Milo",
+      "description": "Autonomous overnight build - analyze, build, deploy improvements",
+      "lastRun": "2026-02-13T08:00:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T08:00:00Z",
+      "duration": "366s"
+    },
+    {
+      "id": "e3746cbd",
+      "name": "Daily Intentions Coordinator",
+      "schedule": "0 7 * * *",
+      "humanSchedule": "Daily 7:00 AM",
+      "agent": "Milo",
+      "description": "Collect agent intentions, present organized summary to Derek",
+      "lastRun": "2026-02-13T12:00:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T12:00:00Z",
+      "duration": "173s"
+    },
+    {
+      "id": "7335853f",
+      "name": "Morning News & Weather",
+      "schedule": "15 7 * * *",
+      "humanSchedule": "Daily 7:15 AM",
+      "agent": "Dwight",
+      "description": "Intelligence brief - news, weather, calendar, market pre-open",
+      "lastRun": "2026-02-13T12:15:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T12:15:00Z",
+      "duration": "15s"
+    },
+    {
+      "id": "bee7eb71",
+      "name": "Daily Marketing Opportunities",
+      "schedule": "30 7 * * *",
+      "humanSchedule": "Daily 7:30 AM",
+      "agent": "Remy",
+      "description": "Holiday research, Bobola's menu cross-reference, Facebook post ideas",
+      "lastRun": "2026-02-13T12:30:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T12:30:00Z",
+      "duration": "14s"
+    },
+    {
+      "id": "4822e39c",
+      "name": "Daily Social Brief",
+      "schedule": "0 8 * * *",
+      "humanSchedule": "Daily 8:00 AM",
+      "agent": "Dax",
+      "description": "Trending topics, posting times, performance tracking, content ideas",
+      "lastRun": "2026-02-13T13:00:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T13:00:00Z",
+      "duration": "35s"
+    },
+    {
+      "id": "44fbe02a",
+      "name": "Saturday IPO Brief",
+      "schedule": "0 9 * * 6",
+      "humanSchedule": "Saturdays 9:00 AM",
+      "agent": "Bobby",
+      "description": "Upcoming IPOs, 3-5 recommendations with ratings",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-14T14:00:00Z"
+    },
+    {
+      "id": "a63a4c14",
+      "name": "Sunday Growth Stocks",
+      "schedule": "0 9 * * 0",
+      "humanSchedule": "Sundays 9:00 AM",
+      "agent": "Bobby",
+      "description": "Small-cap growth analysis, 3-5 recommendations",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-15T14:00:00Z"
+    },
+    {
+      "id": "4e60d721",
+      "name": "Weekly Strategy Session",
+      "schedule": "0 17 * * 0",
+      "humanSchedule": "Sundays 5:00 PM",
+      "agent": "Dax",
+      "description": "Content calendar, platform optimization, competitor analysis",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-15T22:00:00Z"
+    },
+    {
+      "id": "18769ec2",
+      "name": "Weekly Creative Planning",
+      "schedule": "0 9 * * 1",
+      "humanSchedule": "Mondays 9:00 AM",
+      "agent": "Paula",
+      "description": "Design trends, creative opportunities, weekly direction",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-17T14:00:00Z"
+    },
+    {
+      "id": "3d56a05b",
+      "name": "Bobby Morning Brief",
+      "schedule": "30 9 * * 1-5",
+      "humanSchedule": "Weekdays 9:30 AM",
+      "agent": "Bobby",
+      "description": "Market open - stance, pre-market movers, sector rotation, options ideas",
+      "lastRun": "2026-02-13T14:30:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-17T14:30:00Z",
+      "duration": "200s"
+    },
+    {
+      "id": "75cf9393",
+      "name": "Bobby Midday Update",
+      "schedule": "0 12 * * 1-5",
+      "humanSchedule": "Weekdays 12:00 PM",
+      "agent": "Bobby",
+      "description": "Morning scorecard, beat-down stocks, market internals, theta decay",
+      "lastRun": "2026-02-13T17:00:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-17T17:00:00Z",
+      "duration": "195s"
+    },
+    {
+      "id": "7d55af5a",
+      "name": "Bobby Daily Recap",
+      "schedule": "30 16 * * 1-4",
+      "humanSchedule": "Mon-Thu 4:30 PM",
+      "agent": "Bobby",
+      "description": "Day summary, winners/losers, lessons, tomorrow prep",
+      "lastRun": "2026-02-12T21:30:00Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-17T21:30:00Z",
+      "duration": "108s"
+    }
+  ],
+  "generatedAt": "2026-02-13T19:30:00Z"
+}

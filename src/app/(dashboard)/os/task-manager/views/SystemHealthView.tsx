@@ -92,46 +92,71 @@ function Av({ name, size = 32 }: { name: string; size?: number }) {
   );
 }
 
-// ─── Mock data generator ─────────────────────────────────────────────────
-function generateMockData(): SystemStatus {
-  const now = new Date();
-  const n = now.getTime();
-  const gw: 'online' | 'timeout' = Math.random() > 0.8 ? 'online' : 'timeout';
-  const cronJobs: CronJob[] = [
-    { id: 'c1', name: 'Morning Brief', schedule: '0 7 * * *', humanSchedule: 'Every day at 7:00 AM', lastRun: new Date(n - 7 * 3600000).toISOString(), nextRun: new Date(n + 4 * 3600000).toISOString(), status: 'success', agent: 'Dwight', duration: '12s', description: 'Weather, news, calendar summary' },
-    { id: 'c2', name: 'Bobby Morning Brief', schedule: '10 9 * * 1-5', humanSchedule: 'Weekdays at 9:10 AM', lastRun: new Date(n - 5 * 3600000).toISOString(), nextRun: new Date(n + 6 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '8s', description: 'BTC & market analysis' },
-    { id: 'c3', name: 'Gateway Auto-Start', schedule: '@reboot', humanSchedule: 'At system startup', lastRun: null, nextRun: null, status: 'failure', agent: 'System', duration: '\u2014', description: 'Ensures gateway starts on boot' },
-    { id: 'c4', name: 'Nightly Build', schedule: '0 3 * * *', humanSchedule: 'Every day at 3:00 AM', lastRun: now.toISOString(), nextRun: new Date(n + 21 * 3600000).toISOString(), status: 'pending', agent: 'Milo', duration: '~45s', description: 'Project builds & deploys' },
-    { id: 'c5', name: 'Memory Cleanup', schedule: '0 4 * * 0', humanSchedule: 'Sundays at 4:00 AM', lastRun: new Date(n - 3 * 86400000).toISOString(), nextRun: new Date(n + 4 * 86400000).toISOString(), status: 'success', agent: 'Milo', duration: '22s', description: 'Archives old memory files' },
-    { id: 'c6', name: 'Portfolio Snapshot', schedule: '0 16 * * 1-5', humanSchedule: 'Weekdays at 4:00 PM', lastRun: new Date(n - 12 * 3600000).toISOString(), nextRun: new Date(n + 8 * 3600000).toISOString(), status: 'success', agent: 'Bobby', duration: '6s', description: 'EOD portfolio & P&L' },
-    { id: 'c7', name: 'Wellness Check-in', schedule: '0 12 * * *', humanSchedule: 'Every day at 12:00 PM', lastRun: new Date(n - 2 * 3600000).toISOString(), nextRun: new Date(n + 22 * 3600000).toISOString(), status: 'unknown', agent: 'Wendy', duration: '\u2014', description: 'Midday wellness reminder' },
-  ];
-  const agents: AgentStatus[] = [
-    { name: 'Milo', role: 'Chief of Staff', status: 'active', lastSeen: now.toISOString(), tasksToday: 3, health: 'healthy', currentTask: 'Coordinating nightly builds', sessionStart: new Date(n - 2 * 3600000).toISOString() },
-    { name: 'Anders', role: 'Full Stack Architect', status: 'active', lastSeen: now.toISOString(), tasksToday: 1, health: 'healthy', currentTask: 'Building Mission Control expansion', sessionStart: new Date(n - 45 * 60000).toISOString() },
-    { name: 'Bobby', role: 'Trading Advisor', status: 'offline', lastSeen: new Date(n - 8 * 3600000).toISOString(), tasksToday: 2, health: 'warning' },
-    { name: 'Paula', role: 'Creative Director', status: 'idle', lastSeen: new Date(n - 3 * 3600000).toISOString(), tasksToday: 1, health: 'healthy', sessionStart: new Date(n - 5 * 3600000).toISOString() },
-    { name: 'Dwight', role: 'Weather & News', status: 'idle', lastSeen: new Date(n - 1 * 3600000).toISOString(), tasksToday: 1, health: 'healthy', sessionStart: new Date(n - 7 * 3600000).toISOString() },
-    { name: 'Tony', role: 'Tech Guru', status: 'offline', lastSeen: new Date(n - 12 * 3600000).toISOString(), tasksToday: 0, health: 'healthy' },
-    { name: 'Dax', role: 'Data Analyst', status: 'idle', lastSeen: new Date(n - 4 * 3600000).toISOString(), tasksToday: 0, health: 'healthy', sessionStart: new Date(n - 6 * 3600000).toISOString() },
-    { name: 'Remy', role: 'Chef & Lifestyle', status: 'offline', lastSeen: new Date(n - 24 * 3600000).toISOString(), tasksToday: 0, health: 'warning' },
-    { name: 'Wendy', role: 'Wellness Coach', status: 'idle', lastSeen: new Date(n - 2 * 3600000).toISOString(), tasksToday: 0, health: 'healthy', sessionStart: new Date(n - 3 * 3600000).toISOString() },
-  ];
-  const alerts: Alert[] = [
-    { id: 'a1', type: 'error', message: 'Gateway timeout \u2014 ws://127.0.0.1:18789 failed', timestamp: now.toISOString(), resolved: false },
-    { id: 'a2', type: 'warning', message: 'Bobby agent offline for >6 hours', timestamp: new Date(n - 30 * 60000).toISOString(), resolved: false },
-    { id: 'a3', type: 'warning', message: 'Gateway Auto-Start misconfigured', timestamp: new Date(n - 3600000).toISOString(), resolved: false },
-  ];
-  return { gatewayStatus: gw, lastHeartbeat: gw === 'online' ? now.toISOString() : null, uptime: gw === 'online' ? 14400 : 0, cronJobs, agents, alerts };
+// ─── Data fetcher ────────────────────────────────────────────────────────
+async function fetchOpsData(): Promise<SystemStatus> {
+  try {
+    const response = await fetch('/data/ops-status.json');
+    const data = await response.json();
+    
+    // Map the JSON data to the existing state interfaces
+    const mappedAgents: AgentStatus[] = data.agents.map((agent: any) => ({
+      name: agent.name,
+      role: agent.role,
+      status: agent.status,
+      lastSeen: new Date().toISOString(), // Use current time since we don't have lastSeen in JSON
+      tasksToday: agent.tasksToday,
+      health: agent.health,
+      currentTask: undefined, // Not provided in JSON
+      sessionStart: undefined // Not provided in JSON
+    }));
+
+    const mappedCrons: CronJob[] = data.crons.map((cron: any) => ({
+      id: cron.id,
+      name: cron.name,
+      schedule: cron.schedule,
+      humanSchedule: cron.humanSchedule,
+      lastRun: cron.lastRun,
+      nextRun: cron.nextRun,
+      status: cron.lastStatus,
+      agent: cron.agent,
+      duration: cron.duration,
+      description: cron.description
+    }));
+
+    return {
+      gatewayStatus: data.system.gatewayStatus,
+      lastHeartbeat: data.system.lastHeartbeat,
+      uptime: data.system.uptime,
+      cronJobs: mappedCrons,
+      agents: mappedAgents,
+      alerts: data.system.alerts
+    };
+  } catch (error) {
+    console.error('Failed to fetch ops status:', error);
+    // Fallback to empty state on error
+    return { gatewayStatus: 'unknown', lastHeartbeat: null, uptime: 0, cronJobs: [], agents: [], alerts: [] };
+  }
 }
 
 // ═══ MAIN COMPONENT ═══
 export default function SystemHealthView() {
   const [loading, setLoading] = useState(true);
   const [sys, setSys] = useState<SystemStatus>({ gatewayStatus: 'unknown', lastHeartbeat: null, uptime: 0, cronJobs: [], agents: [], alerts: [] });
+  const [generatedAt, setGeneratedAt] = useState<string | null>(null);
 
-  const refresh = useCallback(() => {
-    setSys(generateMockData());
+  const refresh = useCallback(async () => {
+    try {
+      const response = await fetch('/data/ops-status.json');
+      const data = await response.json();
+      const systemData = await fetchOpsData();
+      setSys(systemData);
+      setGeneratedAt(data.generatedAt);
+    } catch (error) {
+      console.error('Failed to refresh system data:', error);
+      const fallbackData = await fetchOpsData();
+      setSys(fallbackData);
+      setGeneratedAt(null);
+    }
   }, []);
 
   useEffect(() => {
@@ -242,6 +267,26 @@ export default function SystemHealthView() {
           ))
         }
       </div>
+
+      {/* Footer with data freshness */}
+      {generatedAt && (
+        <div style={{ 
+          marginTop: '40px', 
+          padding: '12px 20px', 
+          borderTop: '1px solid ' + B.border,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}>
+          <span style={{ 
+            color: B.smoke, 
+            fontSize: '12px', 
+            fontFamily: "'JetBrains Mono', monospace"
+          }}>
+            Data generated at: {new Date(generatedAt).toLocaleString()}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
