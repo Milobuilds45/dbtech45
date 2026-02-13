@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
+import OpsGuard from '@/components/OpsGuard';
 
 /* ───────────────── Design Tokens (Paula's spec) ───────────────── */
 const T = {
@@ -717,6 +718,7 @@ export default function SkillsInventory() {
   ];
 
   return (
+    <OpsGuard>
     <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
@@ -862,5 +864,6 @@ export default function SkillsInventory() {
         )}
       </div>
     </div>
+    </OpsGuard>
   );
 }

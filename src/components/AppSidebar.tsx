@@ -1,10 +1,11 @@
 'use client';
 
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { brand } from '@/lib/brand';
+import { PinModal, isOpsPinVerified, requiresOpsPin } from './PinGate';
 import {
   ChevronLeft,
   ChevronRight,
@@ -103,7 +104,6 @@ const toolItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
-  { label: 'Overnight Sessions', href: '/os/overnight' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
   { label: 'DNA', href: '/os/dna' },
@@ -135,10 +135,13 @@ const DEFAULT_SECTIONS: SectionState = { command: true, agents: true, tools: tru
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [sections, setSections] = useState<SectionState>(DEFAULT_SECTIONS);
+  const [pinModalOpen, setPinModalOpen] = useState(false);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
 
   // Hydrate collapsed state + section states from localStorage
   useEffect(() => {
@@ -239,6 +242,27 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
         <a key={item.label} href={item.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit' }}>
           {inner}
         </a>
+      );
+    }
+
+    // PIN gate intercept for Operations routes
+    if (requiresOpsPin(item.href)) {
+      return (
+        <div
+          key={item.label}
+          onClick={(e) => {
+            e.preventDefault();
+            if (isOpsPinVerified()) {
+              router.push(item.href);
+            } else {
+              setPendingHref(item.href);
+              setPinModalOpen(true);
+            }
+          }}
+          style={{ textDecoration: 'none', color: 'inherit', cursor: 'pointer' }}
+        >
+          {inner}
+        </div>
       );
     }
 
@@ -461,6 +485,20 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       >
         {children}
       </div>
+      <PinModal
+        open={pinModalOpen}
+        onSuccess={() => {
+          setPinModalOpen(false);
+          if (pendingHref) {
+            router.push(pendingHref);
+            setPendingHref(null);
+          }
+        }}
+        onCancel={() => {
+          setPinModalOpen(false);
+          setPendingHref(null);
+        }}
+      />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { brand, styles } from '@/lib/brand';
+import OpsGuard from '@/components/OpsGuard';
 
 const SPACING = [
   { name: 'xs', value: '4px', use: 'Tight gaps, icon margins' },
@@ -65,6 +66,7 @@ const TEXT_SIZES = [
 
 export default function BrandSpecPage() {
   return (
+    <OpsGuard>
     <div style={styles.page}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <h1 style={styles.h1}>Design System Spec</h1>
@@ -185,5 +187,6 @@ export default function BrandSpecPage() {
         </div>
       </div>
     </div>
+    </OpsGuard>
   );
 }

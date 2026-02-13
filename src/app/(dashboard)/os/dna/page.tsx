@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import OpsGuard from '@/components/OpsGuard';
 
 /* ───────────────── Design Tokens (Paula's spec) ───────────────── */
 const T = {
@@ -808,6 +809,7 @@ export default function DNA() {
   };
 
   return (
+    <OpsGuard>
     <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
@@ -939,5 +941,6 @@ export default function DNA() {
         </div>
       </div>
     </div>
+    </OpsGuard>
   );
 }

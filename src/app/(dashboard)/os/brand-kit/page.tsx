@@ -1,6 +1,7 @@
 'use client';
 
 import { brand, styles } from '@/lib/brand';
+import OpsGuard from '@/components/OpsGuard';
 
 const COLORS = [
   { name: 'Void', hex: '#000000', desc: 'Primary background' },
@@ -56,6 +57,7 @@ const AGENTS = [
 
 export default function BrandKitPage() {
   return (
+    <OpsGuard>
     <div style={styles.page}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <h1 style={styles.h1}>Brand Kit</h1>
@@ -247,5 +249,6 @@ export default function BrandKitPage() {
         </div>
       </div>
     </div>
+    </OpsGuard>
   );
 }

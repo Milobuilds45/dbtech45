@@ -1,6 +1,7 @@
 'use client';
 import { brand, styles } from "@/lib/brand";
 import { useState, useEffect, useCallback } from "react";
+import OpsGuard from '@/components/OpsGuard';
 
 interface StatItem {
   value: string;
@@ -68,6 +69,7 @@ export default function ActivityDashboard() {
   const activity = data?.activity || [];
 
   return (
+    <OpsGuard>
     <div style={styles.page}>
       <div style={styles.container}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem' }}>
@@ -281,5 +283,6 @@ export default function ActivityDashboard() {
         }
       `}</style>
     </div>
+    </OpsGuard>
   );
 }
