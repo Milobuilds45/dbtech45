@@ -31,6 +31,10 @@ import {
   Calendar,
   Sparkles,
   Package,
+  ListTodo,
+  Network,
+  HardDrive,
+  FileText,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -60,6 +64,10 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Second Brain':  <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
   'Overnight Sessions': <Calendar size={ICON_SIZE} />,
+  'Task Manager':  <ListTodo size={ICON_SIZE} />,
+  'Org Chart':     <Network size={ICON_SIZE} />,
+  'Workspaces':    <HardDrive size={ICON_SIZE} />,
+  'Docs':          <FileText size={ICON_SIZE} />,
 };
 
 // ─── Nav data ────────────────────────────────────────────────────────────
@@ -72,6 +80,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  { label: 'Task Manager', href: '/os/task-manager' },
   { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '28' },
   { label: 'Markets', href: '/os/markets' },
