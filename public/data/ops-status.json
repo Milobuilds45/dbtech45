@@ -4,24 +4,17 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T19:28:00Z",
-    "totalCrons": 20,
-    "activeSessions": 6,
+    "lastHeartbeat": "2026-02-13T19:44:15.599Z",
+    "totalCrons": 15,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
-        "id": "a1",
+        "id": "offline-tony",
         "type": "warning",
-        "message": "Tony agent offline for >12 hours",
-        "timestamp": "2026-02-13T14:00:00Z",
+        "message": "Tony agent offline for >36 hours",
+        "timestamp": "2026-02-13T19:44:15.599Z",
         "resolved": false
-      },
-      {
-        "id": "a2",
-        "type": "info",
-        "message": "Bobby after-hours cron ran successfully at 8 PM",
-        "timestamp": "2026-02-13T01:00:00Z",
-        "resolved": true
       }
     ]
   },
@@ -29,18 +22,20 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "active",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
-      "tasksToday": 4
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T19:41:03.988Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "active",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
-      "tasksToday": 8
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T19:44:13.536Z"
     },
     {
       "name": "Bobby",
@@ -48,7 +43,8 @@
       "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
-      "tasksToday": 3
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T17:03:12.338Z"
     },
     {
       "name": "Paula",
@@ -56,39 +52,44 @@
       "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
-      "tasksToday": 1
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T19:09:30.113Z"
     },
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
-      "tasksToday": 1
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T12:15:14.863Z"
     },
     {
       "name": "Tony",
       "role": "Tech Guru",
       "status": "offline",
       "model": "gemini-3-flash",
-      "health": "warning",
-      "tasksToday": 0
+      "health": "healthy",
+      "tasksToday": 0,
+      "lastSeen": "2026-02-12T07:18:39.293Z"
     },
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
-      "tasksToday": 1
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T13:00:34.989Z"
     },
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
-      "tasksToday": 1
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T12:30:13.617Z"
     },
     {
       "name": "Wendy",
@@ -96,7 +97,8 @@
       "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
-      "tasksToday": 0
+      "tasksToday": 0,
+      "lastSeen": "2026-02-13T16:32:00.987Z"
     }
   ],
   "sessions": [
@@ -106,240 +108,327 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:30:00Z",
+      "lastActivity": "2026-02-13T19:44:13.536Z",
       "role": "Full Stack Architect",
-      "currentTask": "Wiring ops dashboard to real data"
+      "cost": 0,
+      "sessionCount": 19
     },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
-      "totalTokens": 128982,
-      "lastActivity": "2026-02-13T19:13:00Z",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T19:41:03.988Z",
       "role": "Chief of Staff",
-      "currentTask": "Coordinating agent work, overnight results",
-      "cost": 0.49
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 121345,
-      "lastActivity": "2026-02-13T16:36:00Z",
-      "role": "Trading Advisor",
-      "currentTask": "Midday update delivered",
-      "cost": 0.09
+      "cost": 0,
+      "sessionCount": 14
     },
     {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "idle",
-      "totalTokens": 33497,
-      "lastActivity": "2026-02-13T18:49:00Z",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T19:09:30.113Z",
       "role": "Creative Director",
-      "currentTask": "Typography spec delivered",
-      "cost": 0.03
+      "cost": 0,
+      "sessionCount": 11
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "idle",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T17:03:12.338Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 47
     },
     {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
       "status": "idle",
-      "totalTokens": 97386,
-      "lastActivity": "2026-02-13T16:32:00Z",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T16:32:00.987Z",
       "role": "Wellness Coach",
-      "cost": 0.63
+      "cost": 0,
+      "sessionCount": 11
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "offline",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T13:00:34.989Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 5
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "offline",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T12:30:13.617Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 842
     },
     {
       "key": "agent:dwight:main",
       "agent": "Dwight",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 126918,
-      "lastActivity": "2026-02-13T12:22:00Z",
+      "model": "gemini-3-flash",
+      "status": "offline",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T12:15:14.863Z",
       "role": "Weather & News",
-      "currentTask": "Intelligence options delivered",
-      "cost": 0.77
+      "cost": 0,
+      "sessionCount": 14
+    },
+    {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "offline",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-12T07:18:39.293Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 6
     }
   ],
   "crons": [
     {
-      "id": "eefcc417",
-      "name": "Bobby Afternoon Update",
-      "schedule": "0 15 * * 1-5",
-      "humanSchedule": "Weekdays 3:00 PM",
-      "agent": "Bobby",
-      "description": "Power Hour Prep - exits, volatility, opportunities",
-      "lastRun": "2026-02-12T20:00:00Z",
-      "lastStatus": "pending",
-      "nextRun": "2026-02-13T20:00:00Z"
-    },
-    {
-      "id": "cd45ae0b",
-      "name": "Bobby Weekly Recap",
-      "schedule": "30 16 * * 5",
-      "humanSchedule": "Fridays 4:30 PM",
-      "agent": "Bobby",
-      "description": "Week in review, winners/losers, watchlist scorecard",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-13T21:30:00Z"
-    },
-    {
-      "id": "866b45c4",
-      "name": "Bobby After Hours Wrap",
-      "schedule": "0 20 * * 1-5",
-      "humanSchedule": "Weekdays 8:00 PM",
-      "agent": "Bobby",
-      "description": "AH reactions, earnings, overnight watch, long-term spotlight",
-      "lastRun": "2026-02-13T01:00:00Z",
-      "lastStatus": "success",
-      "nextRun": "2026-02-14T01:00:00Z",
-      "duration": "128s"
-    },
-    {
-      "id": "61b6eecf",
-      "name": "Milo Nightly Builder",
-      "schedule": "0 3 * * *",
-      "humanSchedule": "Daily 3:00 AM",
-      "agent": "Milo",
-      "description": "Autonomous overnight build - analyze, build, deploy improvements",
-      "lastRun": "2026-02-13T08:00:00Z",
-      "lastStatus": "success",
-      "nextRun": "2026-02-14T08:00:00Z",
-      "duration": "366s"
-    },
-    {
-      "id": "e3746cbd",
-      "name": "Daily Intentions Coordinator",
+      "id": "e3746cbd-d836-4104-aa7d-8f20f69b385e",
+      "name": "milo-consolidated-daily-intentions",
       "schedule": "0 7 * * *",
-      "humanSchedule": "Daily 7:00 AM",
+      "humanSchedule": "0 7 * * *",
       "agent": "Milo",
-      "description": "Collect agent intentions, present organized summary to Derek",
-      "lastRun": "2026-02-13T12:00:00Z",
+      "description": "CONSOLIDATED DAILY INTENTIONS COORDINATOR. You are Milo (Chief of Staff). At 7:00 AM, collect daily intentions from all ",
+      "lastRun": "2026-02-13T12:00:00.010Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T12:00:00Z",
-      "duration": "173s"
+      "nextRun": "2026-02-14T12:00:00.000Z",
+      "duration": "173s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "7335853f",
-      "name": "Morning News & Weather",
+      "id": "7335853f-b007-4576-b7d2-2146128315f0",
+      "name": "dwight-morning-news-weather",
       "schedule": "15 7 * * *",
-      "humanSchedule": "Daily 7:15 AM",
+      "humanSchedule": "15 7 * * *",
       "agent": "Dwight",
-      "description": "Intelligence brief - news, weather, calendar, market pre-open",
-      "lastRun": "2026-02-13T12:15:00Z",
+      "description": "MORNING NEWS & WEATHER BRIEF. You are Dwight (Weather & News). Read your SOUL.md and workspace memory files. Provide Der",
+      "lastRun": "2026-02-13T12:15:00.014Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T12:15:00Z",
-      "duration": "15s"
+      "nextRun": "2026-02-14T12:15:00.000Z",
+      "duration": "15s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "bee7eb71",
-      "name": "Daily Marketing Opportunities",
+      "id": "bee7eb71-dbd4-49c7-a1a9-1bb94844b589",
+      "name": "remy-daily-marketing-opportunities",
       "schedule": "30 7 * * *",
-      "humanSchedule": "Daily 7:30 AM",
+      "humanSchedule": "30 7 * * *",
       "agent": "Remy",
-      "description": "Holiday research, Bobola's menu cross-reference, Facebook post ideas",
-      "lastRun": "2026-02-13T12:30:00Z",
+      "description": "DAILY MARKETING OPPORTUNITIES BRIEF. You are Remy (Restaurant Marketing). Read your SOUL.md and workspace memory files f",
+      "lastRun": "2026-02-13T12:30:00.005Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T12:30:00Z",
-      "duration": "14s"
+      "nextRun": "2026-02-14T12:30:00.000Z",
+      "duration": "14s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "4822e39c",
-      "name": "Daily Social Brief",
+      "id": "4822e39c-38a2-4529-894c-5163ea4232b4",
+      "name": "dax-daily-social-brief",
       "schedule": "0 8 * * *",
-      "humanSchedule": "Daily 8:00 AM",
+      "humanSchedule": "0 8 * * *",
       "agent": "Dax",
-      "description": "Trending topics, posting times, performance tracking, content ideas",
-      "lastRun": "2026-02-13T13:00:00Z",
+      "description": "DAILY SOCIAL MEDIA STRATEGY BRIEF. You are Dax (Social Media Strategist). Read your SOUL.md and workspace memory files.",
+      "lastRun": "2026-02-13T13:00:00.006Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T13:00:00Z",
-      "duration": "35s"
+      "nextRun": "2026-02-14T13:00:00.000Z",
+      "duration": "35s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "44fbe02a",
-      "name": "Saturday IPO Brief",
-      "schedule": "0 9 * * 6",
-      "humanSchedule": "Saturdays 9:00 AM",
-      "agent": "Bobby",
-      "description": "Upcoming IPOs, 3-5 recommendations with ratings",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-14T14:00:00Z"
-    },
-    {
-      "id": "a63a4c14",
-      "name": "Sunday Growth Stocks",
-      "schedule": "0 9 * * 0",
-      "humanSchedule": "Sundays 9:00 AM",
-      "agent": "Bobby",
-      "description": "Small-cap growth analysis, 3-5 recommendations",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T14:00:00Z"
-    },
-    {
-      "id": "4e60d721",
-      "name": "Weekly Strategy Session",
-      "schedule": "0 17 * * 0",
-      "humanSchedule": "Sundays 5:00 PM",
-      "agent": "Dax",
-      "description": "Content calendar, platform optimization, competitor analysis",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T22:00:00Z"
-    },
-    {
-      "id": "18769ec2",
-      "name": "Weekly Creative Planning",
+      "id": "18769ec2-3857-40cd-9ee5-96934433e6d4",
+      "name": "paula-weekly-creative-planning",
       "schedule": "0 9 * * 1",
-      "humanSchedule": "Mondays 9:00 AM",
+      "humanSchedule": "0 9 * * 1",
       "agent": "Paula",
-      "description": "Design trends, creative opportunities, weekly direction",
+      "description": "WEEKLY CREATIVE PLANNING SESSION. You are Paula (Creative Director). Read your SOUL.md and workspace memory files for cu",
       "lastRun": null,
       "lastStatus": "pending",
-      "nextRun": "2026-02-17T14:00:00Z"
+      "nextRun": "2026-02-16T14:00:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "3d56a05b",
-      "name": "Bobby Morning Brief",
+      "id": "3d56a05b-71d6-4346-9a04-891a58846eed",
+      "name": "bobby-morning-brief",
       "schedule": "30 9 * * 1-5",
-      "humanSchedule": "Weekdays 9:30 AM",
+      "humanSchedule": "30 9 * * 1-5",
       "agent": "Bobby",
-      "description": "Market open - stance, pre-market movers, sector rotation, options ideas",
-      "lastRun": "2026-02-13T14:30:00Z",
+      "description": "MORNING BRIEF (9:30 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files. Market is OPEN -",
+      "lastRun": "2026-02-13T14:30:00.021Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T14:30:00Z",
-      "duration": "200s"
+      "nextRun": "2026-02-16T14:30:00.000Z",
+      "duration": "200s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "75cf9393",
-      "name": "Bobby Midday Update",
+      "id": "75cf9393-00e2-4367-b027-01e5c71d4d11",
+      "name": "bobby-midday-update",
       "schedule": "0 12 * * 1-5",
-      "humanSchedule": "Weekdays 12:00 PM",
+      "humanSchedule": "0 12 * * 1-5",
       "agent": "Bobby",
-      "description": "Morning scorecard, beat-down stocks, market internals, theta decay",
-      "lastRun": "2026-02-13T17:00:00Z",
+      "description": "MIDDAY UPDATE (12:00 PM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": "2026-02-13T17:00:00.003Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T17:00:00Z",
-      "duration": "195s"
+      "nextRun": "2026-02-16T17:00:00.000Z",
+      "duration": "195s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     },
     {
-      "id": "7d55af5a",
-      "name": "Bobby Daily Recap",
-      "schedule": "30 16 * * 1-4",
-      "humanSchedule": "Mon-Thu 4:30 PM",
+      "id": "eefcc417-2c2d-4eb1-bd80-9ba67a8b5300",
+      "name": "bobby-afternoon-update",
+      "schedule": "0 15 * * 1-5",
+      "humanSchedule": "0 15 * * 1-5",
       "agent": "Bobby",
-      "description": "Day summary, winners/losers, lessons, tomorrow prep",
-      "lastRun": "2026-02-12T21:30:00Z",
+      "description": "AFTERNOON UPDATE (3:00 PM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-13T20:00:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24",
+      "name": "bobby-daily-recap",
+      "schedule": "30 16 * * 1-4",
+      "humanSchedule": "30 16 * * 1-4",
+      "agent": "Bobby",
+      "description": "DAILY RECAP (4:30 PM Mon-Thu). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": "2026-02-12T21:30:00.003Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T21:30:00Z",
-      "duration": "108s"
+      "nextRun": "2026-02-16T21:30:00.000Z",
+      "duration": "108s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "cd45ae0b-cd6a-4de8-8c3b-a01150867f9a",
+      "name": "bobby-weekly-recap",
+      "schedule": "30 16 * * 5",
+      "humanSchedule": "30 16 * * 5",
+      "agent": "Bobby",
+      "description": "WEEKLY RECAP (4:30 PM Friday). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-13T21:30:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "866b45c4-d91c-4178-87df-d55a825b84a2",
+      "name": "bobby-after-hours-wrap",
+      "schedule": "0 20 * * 1-5",
+      "humanSchedule": "0 20 * * 1-5",
+      "agent": "Bobby",
+      "description": "AFTER HOURS WRAP (8:00 PM Mon-Fri). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": "2026-02-13T01:00:00.015Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T01:00:00.000Z",
+      "duration": "128s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "44fbe02a-c8f8-4921-9a55-2d97efd34b9c",
+      "name": "bobby-saturday-ipo-brief",
+      "schedule": "0 9 * * 6",
+      "humanSchedule": "0 9 * * 6",
+      "agent": "Bobby",
+      "description": "SATURDAY IPO RESEARCH BRIEF (9:00 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-14T14:00:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "a63a4c14-2747-4c62-8f51-c8ace5f267f1",
+      "name": "bobby-sunday-growth-stocks",
+      "schedule": "0 9 * * 0",
+      "humanSchedule": "0 9 * * 0",
+      "agent": "Bobby",
+      "description": "SUNDAY GROWTH STOCKS BRIEF (9:00 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-15T14:00:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "4e60d721-1814-48a1-9ccf-0b0c032b321b",
+      "name": "dax-weekly-strategy-session",
+      "schedule": "0 17 * * 0",
+      "humanSchedule": "0 17 * * 0",
+      "agent": "Dax",
+      "description": "WEEKLY SOCIAL MEDIA STRATEGY SESSION (5:00 PM Sunday). You are Dax (Social Media Strategist). Read your SOUL.md and work",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-15T22:00:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
+    },
+    {
+      "id": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd",
+      "name": "milo-nightly-builder",
+      "schedule": "0 3 * * *",
+      "humanSchedule": "0 3 * * *",
+      "agent": "Milo",
+      "description": "NIGHTLY MILO-OS — ANALYZE + BUILD + IMPROVE",
+      "lastRun": "2026-02-13T08:00:00.004Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-14T08:00:00.000Z",
+      "duration": "366s",
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T19:30:00Z"
+  "generatedAt": "2026-02-13T19:44:16.322Z",
+  "version": 2
 }
