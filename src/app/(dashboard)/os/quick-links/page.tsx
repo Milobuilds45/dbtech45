@@ -14,7 +14,7 @@ const groups = [
     { label: "Supabase Dashboard", url: "https://supabase.com/dashboard" },
   ]},
   { title: "Trading", links: [
-    { label: "ThinkOrSwim", url: "https://thinkorswim.tdameritrade.com" },
+    { label: "ThinkOrSwim", url: "https://www.schwab.com/" },
     { label: "TradingView", url: "https://tradingview.com" },
     { label: "FinViz Screener", url: "https://finviz.com" },
     { label: "FRED Economic Data", url: "https://fred.stlouisfed.org" },

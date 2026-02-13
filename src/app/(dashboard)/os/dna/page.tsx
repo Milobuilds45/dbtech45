@@ -464,45 +464,116 @@ const CATEGORIES: Category[] = [
   },
 ];
 
-/* ───────────────── Workflow Visualization (kept from existing) ───────────────── */
+/* ───────────────── Animated n8n-Style Workflow ───────────────── */
 function WorkflowVisualization() {
-  const branchColors = [T.amber, '#3B82F6', '#22C55E', '#EF4444'];
-  const branchLabels = ['Core Values', 'Operating Principles', 'Decision Filters', 'Anti-Patterns'];
+  const branches = [
+    { label: 'Core Values', color: T.amber, icon: '⎈', items: ['Ship or Kill', 'Default to Action', 'Integrity', 'Serve Customer'] },
+    { label: 'Operating Principles', color: '#3B82F6', icon: '◈', items: ['Automate Boring', 'Own the Stack', 'Systematize', 'Repeatability'] },
+    { label: 'Decision Filters', color: '#22C55E', icon: '◇', items: ['Energize Team?', 'Scalable?', 'Data-Driven?', 'Sustainable?'] },
+    { label: 'Anti-Patterns', color: '#EF4444', icon: '⚠', items: ['Zombie Projects', 'Heroic Effort', 'Gut Decisions', 'Burnout Culture'] },
+  ];
 
   return (
-    <div style={{ position: 'relative', marginBottom: 48 }}>
-      {/* Avatar */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 24 }}>
+    <div style={{ position: 'relative', marginBottom: 48, padding: '0 16px' }}>
+      {/* n8n animated flow CSS */}
+      <style>{`
+        @keyframes flowDown {
+          0% { transform: translateY(-8px); opacity: 0; }
+          20% { opacity: 1; }
+          80% { opacity: 1; }
+          100% { transform: translateY(40px); opacity: 0; }
+        }
+        @keyframes flowToBranch {
+          0% { offset-distance: 0%; opacity: 0; }
+          15% { opacity: 1; }
+          85% { opacity: 1; }
+          100% { offset-distance: 100%; opacity: 0; }
+        }
+        @keyframes pulseGlow {
+          0%, 100% { box-shadow: 0 0 8px rgba(245,158,11,0.3); }
+          50% { box-shadow: 0 0 20px rgba(245,158,11,0.6), 0 0 40px rgba(245,158,11,0.2); }
+        }
+        @keyframes nodeAppear {
+          0% { transform: scale(0.9); opacity: 0; }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes particleFlow0 {
+          0% { left: 50%; top: 200px; opacity: 0; }
+          10% { opacity: 1; }
+          50% { left: 12.5%; top: 280px; opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 12.5%; top: 340px; opacity: 0; }
+        }
+        @keyframes particleFlow1 {
+          0% { left: 50%; top: 200px; opacity: 0; }
+          10% { opacity: 1; }
+          50% { left: 37.5%; top: 280px; opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 37.5%; top: 340px; opacity: 0; }
+        }
+        @keyframes particleFlow2 {
+          0% { left: 50%; top: 200px; opacity: 0; }
+          10% { opacity: 1; }
+          50% { left: 62.5%; top: 280px; opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 62.5%; top: 340px; opacity: 0; }
+        }
+        @keyframes particleFlow3 {
+          0% { left: 50%; top: 200px; opacity: 0; }
+          10% { opacity: 1; }
+          50% { left: 87.5%; top: 280px; opacity: 1; }
+          90% { opacity: 1; }
+          100% { left: 87.5%; top: 340px; opacity: 0; }
+        }
+        .n8n-particle { position: absolute; width: 6px; height: 6px; border-radius: 50%; pointer-events: none; }
+        .dna-branches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        @media (max-width: 768px) { .dna-branches { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .dna-branches { grid-template-columns: 1fr; } }
+      `}</style>
+
+      {/* Derek Avatar Node */}
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 0 }}>
         <div style={{
-          position: 'relative', width: 80, height: 80, borderRadius: '50%',
-          border: `3px solid ${T.amber}`, boxShadow: '0 0 20px rgba(245,158,11,0.3)',
-          overflow: 'hidden', background: T.card,
+          width: 80, height: 80, borderRadius: '50%', overflow: 'hidden',
+          border: `3px solid ${T.amber}`, background: T.card,
+          animation: 'pulseGlow 3s ease-in-out infinite',
         }}>
           <Image src="/derek-avatar.png" alt="Derek" width={80} height={80} style={{ objectFit: 'cover' }} />
         </div>
       </div>
 
-      {/* Vertical connector */}
-      <div style={{
-        position: 'absolute', left: '50%', top: 80, width: 2, height: 24,
-        background: `linear-gradient(to bottom, ${T.amber}, ${T.amber}50)`, transform: 'translateX(-50%)',
-      }} />
+      {/* Animated vertical flow line */}
+      <div style={{ position: 'relative', height: 40, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ width: 2, height: '100%', background: `linear-gradient(to bottom, ${T.amber}, ${T.amber}40)` }} />
+        {[0, 1, 2].map(i => (
+          <div key={i} style={{
+            position: 'absolute', left: '50%', transform: 'translateX(-50%)',
+            width: 5, height: 5, borderRadius: '50%', background: T.amber,
+            boxShadow: `0 0 6px ${T.amber}`,
+            animation: `flowDown 1.5s ease-in-out ${i * 0.5}s infinite`,
+          }} />
+        ))}
+      </div>
 
-      {/* DB TECH Node */}
+      {/* DB TECH Central Node */}
       <div style={{
-        maxWidth: 420, margin: '0 auto 32px', textAlign: 'center', position: 'relative',
-        background: T.card, border: `2px solid ${T.amber}`, borderRadius: 12, padding: '20px 24px',
+        maxWidth: 400, margin: '0 auto', textAlign: 'center', position: 'relative',
+        background: T.card, border: `2px solid ${T.amber}`, borderRadius: 12, padding: '16px 20px',
         boxShadow: '0 0 30px rgba(245,158,11,0.15)',
+        animation: 'nodeAppear 0.6s ease-out',
       }}>
-        <div style={{ position: 'absolute', left: -6, top: '50%', transform: 'translateY(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}`, boxShadow: '0 0 8px rgba(245,158,11,0.5)' }} />
-        <div style={{ position: 'absolute', right: -6, top: '50%', transform: 'translateY(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}`, boxShadow: '0 0 8px rgba(245,158,11,0.5)' }} />
+        {/* n8n-style port dots */}
+        <div style={{ position: 'absolute', top: -6, left: '50%', transform: 'translateX(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}` }} />
+        <div style={{ position: 'absolute', bottom: -6, left: '50%', transform: 'translateX(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}` }} />
+        <div style={{ position: 'absolute', left: -6, top: '50%', transform: 'translateY(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}` }} />
+        <div style={{ position: 'absolute', right: -6, top: '50%', transform: 'translateY(-50%)', width: 10, height: 10, borderRadius: '50%', background: T.amber, border: `2px solid ${T.bg}` }} />
 
-        <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 24, fontWeight: 700, color: T.amber, letterSpacing: '0.05em' }}>DB TECH</div>
-        <div style={{ fontSize: 13, color: T.muted, marginTop: 4 }}>Fueled by Caffeine and Chaos</div>
-        <div style={{ marginTop: 12, display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
+        <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 22, fontWeight: 700, color: T.amber, letterSpacing: '0.05em' }}>DB TECH</div>
+        <div style={{ fontSize: 12, color: T.muted, marginTop: 2 }}>Fueled by Caffeine and Chaos</div>
+        <div style={{ marginTop: 10, display: 'flex', justifyContent: 'center', gap: 6, flexWrap: 'wrap' }}>
           {['Builder', 'Dad of 7', 'Trader'].map(b => (
             <span key={b} style={{
-              display: 'inline-flex', padding: '4px 12px', borderRadius: 6, fontSize: 12,
+              padding: '3px 10px', borderRadius: 6, fontSize: 11,
               fontFamily: "'JetBrains Mono', monospace", background: 'rgba(245,158,11,0.15)',
               color: T.amber, fontWeight: 500,
             }}>{b}</span>
@@ -510,39 +581,80 @@ function WorkflowVisualization() {
         </div>
       </div>
 
-      {/* Vertical connector to horizontal line */}
-      <div style={{
-        position: 'absolute', left: '50%', bottom: -24, width: 2, height: 32,
-        background: `linear-gradient(to bottom, ${T.amber}, transparent)`, transform: 'translateX(-50%)',
-      }} />
-
-      {/* Horizontal connector line */}
-      <div style={{
-        position: 'relative', height: 2, marginTop: 32,
-        background: `linear-gradient(to right, transparent, ${T.border} 10%, ${T.border} 90%, transparent)`,
-      }}>
-        {branchColors.map((c, i) => (
-          <div key={i} style={{
-            position: 'absolute', left: `${12.5 + i * 25}%`, top: -4,
-            width: 10, height: 10, borderRadius: '50%', background: c,
-            border: `2px solid ${T.bg}`, boxShadow: `0 0 8px ${c}66`,
-          }} />
+      {/* Animated flow lines from center to branches */}
+      <div style={{ position: 'relative', height: 60 }}>
+        {/* SVG connector lines */}
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }} preserveAspectRatio="none">
+          {branches.map((b, i) => {
+            const startX = 50;
+            const endX = 12.5 + i * 25;
+            return (
+              <g key={i}>
+                <path
+                  d={`M ${startX}% 0 C ${startX}% 60%, ${endX}% 40%, ${endX}% 100%`}
+                  fill="none" stroke={b.color} strokeWidth="2" strokeOpacity="0.4"
+                />
+                <path
+                  d={`M ${startX}% 0 C ${startX}% 60%, ${endX}% 40%, ${endX}% 100%`}
+                  fill="none" stroke={b.color} strokeWidth="2" strokeOpacity="0.8"
+                  strokeDasharray="6 8" strokeDashoffset="0"
+                >
+                  <animate attributeName="stroke-dashoffset" values="0;-14" dur={`${1.2 + i * 0.2}s`} repeatCount="indefinite" />
+                </path>
+              </g>
+            );
+          })}
+        </svg>
+        {/* Flowing particles */}
+        {branches.map((b, i) => (
+          [0, 1].map(p => (
+            <div key={`${i}-${p}`} className="n8n-particle" style={{
+              background: b.color, boxShadow: `0 0 8px ${b.color}`,
+              animation: `particleFlow${i} ${2 + i * 0.3}s ease-in-out ${p * 1.2}s infinite`,
+            }} />
+          ))
         ))}
       </div>
 
-      {/* Branch labels */}
-      <style>{`
-        .dna-branch-labels {
-          display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 16px;
-        }
-        @media (max-width: 640px) {
-          .dna-branch-labels { grid-template-columns: repeat(2, 1fr); }
-        }
-      `}</style>
-      <div className="dna-branch-labels">
-        {branchLabels.map((label, i) => (
-          <div key={label} style={{ textAlign: 'center', fontSize: 11, fontWeight: 600, color: branchColors[i], fontFamily: "'JetBrains Mono', monospace" }}>
-            {label}
+      {/* Branch Nodes - n8n style cards */}
+      <div className="dna-branches">
+        {branches.map((b, i) => (
+          <div key={i} style={{
+            background: T.card, border: `1px solid ${T.border}`, borderTop: `3px solid ${b.color}`,
+            borderRadius: 10, padding: 16, position: 'relative',
+            animation: `nodeAppear 0.5s ease-out ${0.3 + i * 0.1}s both`,
+            transition: 'border-color 0.2s, box-shadow 0.2s',
+          }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = b.color; e.currentTarget.style.boxShadow = `0 0 15px ${b.color}33`; }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; e.currentTarget.style.boxShadow = 'none'; }}
+          >
+            {/* Input port dot */}
+            <div style={{
+              position: 'absolute', top: -7, left: '50%', transform: 'translateX(-50%)',
+              width: 10, height: 10, borderRadius: '50%', background: b.color,
+              border: `2px solid ${T.bg}`, boxShadow: `0 0 6px ${b.color}66`,
+            }} />
+            {/* Output port dot */}
+            <div style={{
+              position: 'absolute', bottom: -5, left: '50%', transform: 'translateX(-50%)',
+              width: 8, height: 8, borderRadius: '50%', background: T.border,
+              border: `2px solid ${T.bg}`,
+            }} />
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+              <span style={{ fontSize: 18 }}>{b.icon}</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: b.color, fontFamily: "'JetBrains Mono', monospace" }}>{b.label}</span>
+            </div>
+            {b.items.map((item, j) => (
+              <div key={j} style={{
+                fontSize: 12, color: T.secondary, padding: '5px 0',
+                borderBottom: j < b.items.length - 1 ? `1px solid ${T.border}` : 'none',
+                display: 'flex', alignItems: 'center', gap: 6,
+              }}>
+                <span style={{ width: 4, height: 4, borderRadius: '50%', background: b.color, flexShrink: 0 }} />
+                {item}
+              </div>
+            ))}
           </div>
         ))}
       </div>
