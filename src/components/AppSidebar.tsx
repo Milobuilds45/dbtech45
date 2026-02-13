@@ -52,6 +52,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Agent Assist':  <Package size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
   'Ideas Vault':   <Sparkles size={ICON_SIZE} />,
+  'DNA Scanner':   <Dna size={ICON_SIZE} />,
   'Brand Kit':     <Palette size={ICON_SIZE} />,
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
@@ -88,6 +89,7 @@ const agentItems: NavItem[] = [
 ];
 
 const toolItems: NavItem[] = [
+  { label: 'DNA Scanner', href: '/tools/dna-scanner' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Kanban', href: '/os/kanban' },
 ];
