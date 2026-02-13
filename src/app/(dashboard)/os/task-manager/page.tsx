@@ -40,7 +40,7 @@ export default function TaskManagerPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
               <span style={{ color: '#F59E0B', fontFamily: "'JetBrains Mono', monospace", fontSize: '0.875rem' }}>&gt; ops --task-manager</span>
             </div>
-            <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#FAFAFA', margin: 0 }}>Task Manager</h1>
+            <h1 style={{ fontSize: '2rem', fontWeight: 700, color: '#FAFAFA', fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: 0 }}>Task Manager</h1>
             <p style={{ color: '#71717A', fontSize: '0.875rem', marginTop: '0.25rem' }}>Sessions, org chart, workspaces, standups, and docs</p>
           </div>
           <button

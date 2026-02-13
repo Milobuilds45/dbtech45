@@ -74,7 +74,7 @@ export default function BrandSpecPage() {
 
         {/* Text Scale */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Text Scale</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Text Scale</h2>
           <div style={{ ...styles.card, overflow: 'hidden', padding: 0 }}>
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
@@ -101,7 +101,7 @@ export default function BrandSpecPage() {
 
         {/* Spacing */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Spacing Scale</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Spacing Scale</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
             {SPACING.map(s => (
               <div key={s.name} style={styles.card}>
@@ -118,7 +118,7 @@ export default function BrandSpecPage() {
 
         {/* Border Radius */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Border Radius</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Border Radius</h2>
           <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
             {RADII.map(r => (
               <div key={r.name} style={{ ...styles.card, textAlign: 'center', width: '120px' }}>
@@ -136,7 +136,7 @@ export default function BrandSpecPage() {
 
         {/* Components */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Component Specs</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Component Specs</h2>
           <div style={{ display: 'grid', gap: '16px' }}>
             {COMPONENTS.map(c => (
               <div key={c.name} style={styles.card}>
@@ -159,7 +159,7 @@ export default function BrandSpecPage() {
 
         {/* Layout Rules */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Layout Rules</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Layout Rules</h2>
           <div style={styles.card}>
             <div style={{ display: 'grid', gap: '10px' }}>
               {[

@@ -113,13 +113,13 @@ export default function RoundtablePage() {
       {/* Header */}
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber }}>The Roundtable</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>The Roundtable</div>
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Your agents debate. You decide.</div>
         </div>
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: b.error }} />
-            <span style={{ fontSize: '13px', fontWeight: 600, color: b.error, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Live — Round {currentRound}</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: b.error, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'JetBrains Mono', monospace" }}>Live — Round {currentRound}</span>
           </div>
         )}
       </div>
@@ -127,7 +127,7 @@ export default function RoundtablePage() {
       {/* Agent Grid - Square Boxes */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Panelists</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Panelists</span>
           <span style={{ fontSize: '11px', color: b.smoke }}>{selectedAgents.length} selected (min 2)</span>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>

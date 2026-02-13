@@ -236,7 +236,7 @@ export default function MissionControlPage() {
       {/* HEADER */}
       <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: B.white, display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: B.white, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '12px' }}>
             MILO MISSION CONTROL
             <span style={{ fontSize: '12px', background: sc(sys.gatewayStatus), color: sys.gatewayStatus === 'online' ? B.void : B.white, padding: '4px 8px', borderRadius: '4px', fontWeight: 600 }}>{sys.gatewayStatus.toUpperCase()}</span>
           </div>
@@ -271,7 +271,7 @@ export default function MissionControlPage() {
   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px', marginBottom: '24px' }}>
     <div style={crd}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-        <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, margin: 0 }}>Gateway Health</h3>
+        <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', margin: 0 }}>Gateway Health</h3>
         <span style={{ fontSize: '20px', color: sc(sys.gatewayStatus) }}>{sd(sys.gatewayStatus)}</span>
       </div>
       <Row l="Status" v={sys.gatewayStatus.toUpperCase()} c={sc(sys.gatewayStatus)} bold />
@@ -280,12 +280,12 @@ export default function MissionControlPage() {
       {sys.gatewayStatus === 'timeout' && <div style={{ marginTop: '12px', padding: '8px', background: B.darkRed, borderRadius: '4px', fontSize: '12px', color: B.silver }}>Check Task Scheduler</div>}
     </div>
     <div style={crd}>
-      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, margin: 0, marginBottom: '16px' }}>Agent Fleet</h3>
+      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', margin: 0, marginBottom: '16px' }}>Agent Fleet</h3>
       {(['active', 'idle', 'offline'] as const).map(s => <Row key={s} l={s[0].toUpperCase() + s.slice(1)} v={String(sys.agents.filter(a => a.status === s).length)} c={sc(s)} bold />)}
       <Row l="Tasks Today" v={String(sys.agents.reduce((s, a) => s + a.tasksToday, 0))} />
     </div>
     <div style={crd}>
-      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, margin: 0, marginBottom: '16px' }}>Cron Jobs</h3>
+      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', margin: 0, marginBottom: '16px' }}>Cron Jobs</h3>
       <Row l="Scheduled" v={String(sys.cronJobs.length)} />
       <Row l="Running" v={String(sys.cronJobs.filter(c => c.status === 'pending').length)} c={B.warning} bold />
       <Row l="Failed" v={String(sys.cronJobs.filter(c => c.status === 'failure').length)} c={B.error} bold />
@@ -293,7 +293,7 @@ export default function MissionControlPage() {
   </div>
   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))', gap: '20px', marginBottom: '24px' }}>
     <div style={crd}>
-      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Agent Status</h3>
+      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Agent Status</h3>
       {sys.agents.map(a => (
         <div key={a.name} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', background: B.graphite, borderRadius: '8px', border: '1px solid ' + B.border, marginBottom: '8px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -308,7 +308,7 @@ export default function MissionControlPage() {
       ))}
     </div>
     <div style={crd}>
-      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Scheduled Jobs</h3>
+      <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Scheduled Jobs</h3>
       {sys.cronJobs.map(j => (
         <div key={j.id} style={{ padding: '12px', background: B.graphite, borderRadius: '8px', border: '1px solid ' + B.border, marginBottom: '8px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
@@ -324,7 +324,7 @@ export default function MissionControlPage() {
     </div>
   </div>
   <div style={crd}>
-    <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Alerts & Issues</h3>
+    <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Alerts & Issues</h3>
     {unresolved.length === 0 ? <div style={{ textAlign: 'center', padding: '40px', color: B.smoke }}>All systems normal</div> :
       unresolved.map(a => (
         <div key={a.id} style={{ padding: '12px', background: a.type === 'error' ? B.darkRed : B.graphite, borderRadius: '8px', border: '1px solid ' + (a.type === 'error' ? B.error : B.warning), display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
@@ -456,7 +456,7 @@ export default function MissionControlPage() {
     ))}
   </div>
   <div style={crd}>
-    <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, marginBottom: '16px' }}>Activity Log</h3>
+    <h3 style={{ color: B.amber, fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Activity Log</h3>
     <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
       {alog.map(e => (
         <div key={e.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px 0', borderBottom: '1px solid ' + B.border }}>
@@ -476,7 +476,7 @@ export default function MissionControlPage() {
 {modal && (
   <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }} onClick={() => setModal(false)}>
     <div onClick={e => e.stopPropagation()} style={{ background: B.carbon, border: '1px solid ' + B.border, borderRadius: '12px', padding: '24px', width: '100%', maxWidth: '480px' }}>
-      <h3 style={{ color: B.amber, fontSize: '18px', fontWeight: 600, margin: 0, marginBottom: '20px' }}>New Task</h3>
+      <h3 style={{ color: B.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', margin: 0, marginBottom: '20px' }}>New Task</h3>
       <div style={{ display: 'grid', gap: '12px' }}>
         <input placeholder="Title" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} style={inp} />
         <textarea placeholder="Description" value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} style={{ ...inp, resize: 'vertical' as const }} />

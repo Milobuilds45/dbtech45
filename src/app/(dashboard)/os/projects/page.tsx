@@ -296,7 +296,7 @@ export default function Projects() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{ color: brand.smoke, fontSize: '13px', fontWeight: 600, opacity: 0.4 }}>#{realIdx + 1}</span>
-                    <h3 style={{ color: brand.white, margin: 0, fontSize: '16px' }}>{p.title}</h3>
+                    <h3 style={{ color: brand.white, margin: 0, fontSize: '16px', fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>{p.title}</h3>
                   </div>
                   <span
                     onClick={() => setEditingIdx(isEditing ? null : realIdx)}

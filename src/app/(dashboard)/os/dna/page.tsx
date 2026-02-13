@@ -814,7 +814,7 @@ export default function DNA() {
       <div style={{ maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
         <div style={{ marginBottom: 32 }}>
-          <h1 style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 28, fontWeight: 700, color: T.amber, margin: '0 0 6px' }}>DNA</h1>
+          <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 28, fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>DNA</h1>
           <p style={{ color: T.secondary, margin: 0, fontSize: 14 }}>Core principles · Decision filters · Operating system · {allPrincipleIds.length} principles</p>
         </div>
 

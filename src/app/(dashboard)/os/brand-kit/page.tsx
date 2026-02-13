@@ -65,7 +65,7 @@ export default function BrandKitPage() {
 
         {/* Logo Marks */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Logo Marks</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Logo Marks</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {LOGOS.map((l: any) => (
               <div key={l.name} style={{ ...styles.card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '2rem' }}>
@@ -130,7 +130,7 @@ export default function BrandKitPage() {
 
         {/* Brand Assets */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Brand Assets</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Brand Assets</h2>
           <div style={styles.card}>
             <div style={{ overflowX: 'auto' }}>
               <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
@@ -161,7 +161,7 @@ export default function BrandKitPage() {
 
         {/* Color Palette */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Color Palette</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Color Palette</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
             {COLORS.map(c => (
               <div key={c.name} style={{ ...styles.card, padding: '0', overflow: 'hidden' }}>
@@ -180,7 +180,7 @@ export default function BrandKitPage() {
 
         {/* Typography */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Typography</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Typography</h2>
           <div style={{ display: 'grid', gap: '16px' }}>
             {TYPOGRAPHY.map(t => (
               <div key={t.name} style={styles.card}>
@@ -201,7 +201,7 @@ export default function BrandKitPage() {
 
         {/* Agent Identities */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Agent Identities</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Agent Identities</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
             {AGENTS.map(a => (
               <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
@@ -222,7 +222,7 @@ export default function BrandKitPage() {
 
         {/* Usage Rules */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Usage Rules</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Usage Rules</h2>
           <div style={styles.card}>
             <div style={{ display: 'grid', gap: '12px' }}>
               {[

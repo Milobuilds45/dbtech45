@@ -108,6 +108,7 @@
 
 .navItem {
     padding: 14px 24px;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 13px;
     font-weight: 500;
     color: #A3A3A3;
@@ -115,6 +116,8 @@
     transition: all 0.2s;
     white-space: nowrap;
     text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .navItem:hover {
@@ -227,7 +230,7 @@
 }
 
 .sectionFlag {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 10px;
     font-weight: 600;
     color: #F59E0B;
@@ -306,9 +309,10 @@
 }
 
 .columnHeaderTitle {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .seeAll {
@@ -453,9 +457,10 @@
 }
 
 .bottomSectionTitle {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 2px solid #F59E0B;
@@ -638,9 +643,11 @@
 }
 
 .sectionTitle {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 32px;
-    font-weight: 900;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
     margin-bottom: 8px;
 }
 
@@ -766,9 +773,10 @@
 }
 
 .sidebarBoxTitle {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 2px solid #F59E0B;
@@ -994,9 +1002,10 @@
 }
 
 .categoryHeaderTitle {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 18px;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: -0.01em;
 }
 
 .tierBadge {
@@ -1095,8 +1104,10 @@
    ============================================ */
 
 .pitTableHeader {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     margin-bottom: 16px;
     padding-bottom: 8px;
     border-bottom: 2px solid #F59E0B;

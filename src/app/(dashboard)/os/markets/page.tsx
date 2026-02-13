@@ -132,7 +132,7 @@ export default function Markets() {
         {/* HEADER */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'1.5rem',flexWrap:'wrap',gap:12}}>
           <div>
-            <h1 style={{...styles.h1,fontSize:'1.5rem',letterSpacing:'0.05em',display:'flex',alignItems:'center',gap:10,marginBottom:4}}>
+            <h1 style={{...styles.h1,fontSize:'1.5rem',letterSpacing:'-0.02em',display:'flex',alignItems:'center',gap:10,marginBottom:4}}>
               <span style={{fontSize:20}}>📊</span> AxeCap Terminal
             </h1>
             <p style={{color:brand.smoke,fontSize:12,margin:0}}>Real-time market intelligence</p>
@@ -154,7 +154,7 @@ export default function Markets() {
         <div style={{...styles.card,padding:0,marginBottom:'1rem',overflow:'hidden',transition:'border-color 0.3s',borderColor:flash?'rgba(245,158,11,0.5)':brand.border}}>
           <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 16px',borderBottom:`1px solid ${brand.border}`,background:flash?'rgba(245,158,11,0.05)':brand.graphite}}>
             <div style={{display:'flex',alignItems:'center',gap:8}}>
-              <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:M,letterSpacing:'0.05em'}}>AXECAP TERMINAL</span>
+              <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em',textTransform:'uppercase'}}>AXECAP TERMINAL</span>
               <span style={{fontSize:10,fontFamily:M,fontWeight:600,padding:'1px 8px',borderRadius:3,color:live?'#22C55E':brand.amber,background:live?'rgba(34,197,94,0.1)':'rgba(245,158,11,0.1)'}}>{live?'● LIVE':'○ CACHED'}</span>
             </div>
             <div style={{display:'flex',alignItems:'center',gap:16}}>
@@ -194,7 +194,7 @@ export default function Markets() {
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1.5rem',marginBottom:'1.5rem'}}>
           <div style={styles.card}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
-              <span style={{color:brand.amber,fontSize:13,fontWeight:600,fontFamily:M}}>WATCHLIST</span>
+              <span style={{color:brand.amber,fontSize:13,fontWeight:600,fontFamily:"'Space Grotesk', system-ui, sans-serif"}}>WATCHLIST</span>
               <div style={{display:'flex',gap:8}}>
                 <input value={ns} onChange={e=>setNs(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addSym()} placeholder="Symbol" style={{...styles.input,width:90,padding:'6px 10px',fontSize:12}}/>
                 <button onClick={addSym} style={{...styles.button,padding:'6px 12px',fontSize:12}}>+ ADD</button>

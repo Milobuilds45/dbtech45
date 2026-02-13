@@ -43,7 +43,7 @@ export default function QuickLinks() {
         <div style={styles.grid}>
           {groups.map((g, i) => (
             <div key={i} style={styles.card}>
-              <h3 style={{ color: brand.amber, marginBottom: '1rem', fontSize: '14px', fontWeight: 600 }}>{g.title}</h3>
+              <h3 style={{ color: brand.amber, marginBottom: '1rem', fontSize: '14px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>{g.title}</h3>
               {g.links.map((link, j) => (
                 <div key={j} style={{ marginBottom: '0.75rem' }}>
                   <a href={link.url} target={link.url.startsWith('/') ? undefined : '_blank'} rel="noopener noreferrer"
