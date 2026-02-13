@@ -68,6 +68,16 @@ async function fetchCurrentObservation(): Promise<{ temp: number; condition: str
     const temp = tempC !== null && tempC !== undefined ? Math.round(tempC * 9 / 5 + 32) : null;
     if (temp === null) return null;
 
+    // Wind chill / heat index for "feels like"
+    const windChillC = props.windChill?.value;
+    const heatIndexC = props.heatIndex?.value;
+    let feelsLike = temp;
+    if (windChillC !== null && windChillC !== undefined) {
+      feelsLike = Math.round(windChillC * 9 / 5 + 32);
+    } else if (heatIndexC !== null && heatIndexC !== undefined) {
+      feelsLike = Math.round(heatIndexC * 9 / 5 + 32);
+    }
+
     const windMs = props.windSpeed?.value;
     const windMph = windMs !== null && windMs !== undefined ? Math.round(windMs * 2.237) : 0;
 
@@ -75,6 +85,7 @@ async function fetchCurrentObservation(): Promise<{ temp: number; condition: str
 
     return {
       temp,
+      feelsLike,
       condition,
       emoji: noaaIconToEmoji('', condition),
       windSpeed: windMph,

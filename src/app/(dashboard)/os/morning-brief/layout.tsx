@@ -7,6 +7,7 @@ import styles from './morning-brief.module.css';
 
 interface WeatherData {
   temp: number;
+  feelsLike?: number;
   condition: string;
 }
 
@@ -55,7 +56,7 @@ export default function MorningBriefLayout({ children }: { children: React.React
       .then(r => r.json())
       .then(data => {
         if (data.current) {
-          setWeather({ temp: Math.round(data.current.temp), condition: data.current.condition });
+          setWeather({ temp: Math.round(data.current.temp), feelsLike: data.current.feelsLike, condition: data.current.condition });
         }
       })
       .catch(() => {});
@@ -81,6 +82,9 @@ export default function MorningBriefLayout({ children }: { children: React.React
           <div className={styles.mastheadWeather}>
             <span className={styles.weatherTemp}>
               {weather ? `${weather.temp}\u00B0F` : '--\u00B0F'}
+              {weather?.feelsLike !== undefined && weather.feelsLike !== weather.temp && (
+                <span style={{ fontSize: 10, color: '#A3A3A3', marginLeft: 6 }}>Feels {weather.feelsLike}{'\u00B0'}</span>
+              )}
             </span>
             {weather && <span>{weather.condition}</span>}
             <span>Nashua, NH</span>

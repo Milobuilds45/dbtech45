@@ -21,7 +21,7 @@ interface WeatherForecast {
 }
 
 interface WeatherData {
-  current: { temp: number; condition: string; emoji: string; windSpeed: number; humidity: number };
+  current: { temp: number; feelsLike?: number; condition: string; emoji: string; windSpeed: number; humidity: number };
   forecast: WeatherForecast[];
 }
 
@@ -73,6 +73,11 @@ export default function LocalPage() {
               <h4 className={styles.sidebarBoxTitle}>Weather - Nashua</h4>
               <div className={styles.weatherCurrent}>
                 <div className={styles.weatherTempLarge}>{Math.round(weather.current.temp)}{'\u00B0'}</div>
+                {weather.current.feelsLike !== undefined && weather.current.feelsLike !== weather.current.temp && (
+                  <div style={{ fontSize: 13, color: '#A3A3A3', marginTop: 2 }}>
+                    Feels like {weather.current.feelsLike}{'\u00B0'}
+                  </div>
+                )}
                 <div className={styles.weatherCondition}>
                   {weather.current.emoji} {weather.current.condition}
                 </div>
