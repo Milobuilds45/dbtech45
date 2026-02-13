@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T21:19:02.856Z",
+    "lastHeartbeat": "2026-02-13T21:24:02.886Z",
     "totalCrons": 15,
-    "activeSessions": 7,
+    "activeSessions": 8,
     "totalAgents": 9,
     "alerts": []
   },
@@ -18,16 +18,16 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:11:34.910Z"
+      "lastSeen": "2026-02-13T21:23:58.060Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:34:32.310Z"
+      "lastSeen": "2026-02-13T21:23:26.490Z"
     },
     {
       "name": "Bobby",
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:58:41.697Z"
+      "lastSeen": "2026-02-13T21:23:17.305Z"
     },
     {
       "name": "Paula",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:02:23.986Z"
+      "lastSeen": "2026-02-13T21:23:13.636Z"
     },
     {
       "name": "Dwight",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:02:17.333Z"
+      "lastSeen": "2026-02-13T21:23:22.652Z"
     },
     {
       "name": "Tony",
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 1,
-      "lastSeen": "2026-02-13T21:02:45.480Z"
+      "lastSeen": "2026-02-13T21:22:56.497Z"
     },
     {
       "name": "Dax",
@@ -77,20 +77,20 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T12:30:13.617Z"
+      "lastSeen": "2026-02-13T21:22:39.706Z"
     },
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T20:05:18.671Z"
+      "lastSeen": "2026-02-13T21:23:29.804Z"
     }
   ],
   "sessions": [
@@ -100,30 +100,30 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:11:34.910Z",
+      "lastActivity": "2026-02-13T21:23:58.060Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 15
     },
     {
-      "key": "agent:tony:main",
-      "agent": "Tony",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:02:45.480Z",
-      "role": "Tech Guru",
-      "cost": 0,
-      "sessionCount": 14
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
+      "key": "agent:wendy:main",
+      "agent": "Wendy",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:02:23.986Z",
-      "role": "Creative Director",
+      "lastActivity": "2026-02-13T21:23:29.804Z",
+      "role": "Wellness Coach",
+      "cost": 0,
+      "sessionCount": 11
+    },
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T21:23:26.490Z",
+      "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
     },
@@ -133,7 +133,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:02:17.333Z",
+      "lastActivity": "2026-02-13T21:23:22.652Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 28
@@ -144,32 +144,43 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:58:41.697Z",
+      "lastActivity": "2026-02-13T21:23:17.305Z",
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 48
     },
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "idle",
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:34:32.310Z",
-      "role": "Full Stack Architect",
+      "lastActivity": "2026-02-13T21:23:13.636Z",
+      "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
     },
     {
-      "key": "agent:wendy:main",
-      "agent": "Wendy",
-      "model": "claude-opus-4-5",
-      "status": "idle",
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T20:05:18.671Z",
-      "role": "Wellness Coach",
+      "lastActivity": "2026-02-13T21:22:56.497Z",
+      "role": "Tech Guru",
       "cost": 0,
-      "sessionCount": 11
+      "sessionCount": 14
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T21:22:39.706Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 843
     },
     {
       "key": "agent:dax:main",
@@ -181,17 +192,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 5
-    },
-    {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T12:30:13.617Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 842
     }
   ],
   "crons": [
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T21:19:03.574Z",
+  "generatedAt": "2026-02-13T21:24:03.595Z",
   "version": 2
 }
