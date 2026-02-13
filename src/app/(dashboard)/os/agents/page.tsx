@@ -56,14 +56,29 @@ export default function AgentsDirectChat() {
     setLoading(true);
 
     try {
-      // TODO: Replace with actual API call to agent
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+      // Send message to OpenClaw Gateway API
+      const response = await fetch('/api/gateway/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agentId: selectedAgent.id,
+          message: currentMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
       
       const agentResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
         from: 'agent',
         agent: selectedAgent.id,
-        message: `Hi Derek! This is ${selectedAgent.name}. I received your message: "${currentMessage}". This is a prototype - actual agent integration coming soon!`,
+        message: data.response || `Response received from ${selectedAgent.name}`,
         timestamp: new Date(),
       };
 
@@ -75,7 +90,7 @@ export default function AgentsDirectChat() {
         id: (Date.now() + 1).toString(),
         from: 'agent',
         agent: selectedAgent.id,
-        message: 'Sorry, I encountered an error. Please try again.',
+        message: 'Sorry, I encountered an error connecting to the agent. Please try again.',
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
