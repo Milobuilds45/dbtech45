@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T22:29:02.964Z",
+    "lastHeartbeat": "2026-02-13T22:34:06.001Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:21:48.434Z"
+      "lastSeen": "2026-02-13T22:34:03.621Z"
     },
     {
       "name": "Anders",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T22:20:53.708Z"
+      "lastSeen": "2026-02-13T22:32:33.607Z"
     },
     {
       "name": "Tony",
@@ -100,10 +100,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:21:48.434Z",
+      "lastActivity": "2026-02-13T22:34:03.621Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 20
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T22:32:33.607Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 28
     },
     {
       "key": "agent:paula:main",
@@ -115,17 +126,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T22:20:53.708Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:bobby:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T22:29:03.658Z",
+  "generatedAt": "2026-02-13T22:34:07.960Z",
   "version": 2
 }
