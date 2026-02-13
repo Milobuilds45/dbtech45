@@ -1,6 +1,20 @@
 {
   "activity": [
     {
+      "type": "cron_run",
+      "id": "eefcc417",
+      "timestamp": "2026-02-13T20:01:37.097Z",
+      "message": "Cron run: ok",
+      "jobId": "eefcc417-2c2d-4eb1-bd80-9ba67a8b5300"
+    },
+    {
+      "type": "commit",
+      "id": "dd1fe574",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:59:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "commit",
       "id": "aa8bdc07",
       "author": "Milo",
@@ -393,13 +407,6 @@
       "message": "feat: redesign Skills Inventory + DNA pages per Paula specs"
     },
     {
-      "type": "commit",
-      "id": "69cd4f00",
-      "author": "Milo",
-      "timestamp": "2026-02-12 20:24:49 -0500",
-      "message": "feat: comprehensive Skills Inventory and DNA reference pages"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -414,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-13T19:59:05.412Z"
+  "generatedAt": "2026-02-13T20:04:08.232Z"
 }

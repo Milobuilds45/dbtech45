@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T19:59:04.269Z",
+    "lastHeartbeat": "2026-02-13T20:04:06.597Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >37 hours",
-        "timestamp": "2026-02-13T19:59:04.269Z",
+        "timestamp": "2026-02-13T20:04:06.597Z",
         "resolved": false
       }
     ]
@@ -26,7 +26,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T19:58:42.140Z"
+      "lastSeen": "2026-02-13T20:03:44.085Z"
     },
     {
       "name": "Anders",
@@ -35,25 +35,25 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T19:59:03.434Z"
+      "lastSeen": "2026-02-13T20:04:03.725Z"
     },
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T17:03:12.338Z"
+      "lastSeen": "2026-02-13T20:02:02.458Z"
     },
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T19:09:30.113Z"
+      "lastSeen": "2026-02-13T20:03:55.824Z"
     },
     {
       "name": "Dwight",
@@ -108,10 +108,21 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:59:03.434Z",
+      "lastActivity": "2026-02-13T20:04:03.725Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 20
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T20:03:55.824Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 11
     },
     {
       "key": "agent:milo:main",
@@ -119,32 +130,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:58:42.140Z",
+      "lastActivity": "2026-02-13T20:03:44.085Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 14
     },
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T19:09:30.113Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 11
-    },
-    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T17:03:12.338Z",
+      "lastActivity": "2026-02-13T20:02:02.458Z",
       "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 47
+      "sessionCount": 48
     },
     {
       "key": "agent:wendy:main",
@@ -315,10 +315,10 @@
       "humanSchedule": "0 15 * * 1-5",
       "agent": "Bobby",
       "description": "AFTERNOON UPDATE (3:00 PM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-13T20:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-13T20:00:00.016Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-16T20:00:00.000Z",
+      "duration": "97s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -429,6 +429,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T19:59:05.045Z",
+  "generatedAt": "2026-02-13T20:04:07.819Z",
   "version": 2
 }
