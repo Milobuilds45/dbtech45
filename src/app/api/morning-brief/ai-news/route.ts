@@ -87,6 +87,36 @@ async function fetchBraveAINews(apiKey: string): Promise<AIStory[]> {
   });
 }
 
+// Try to extract og:image from a URL (with timeout)
+async function fetchOgImage(url: string): Promise<string | null> {
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; dbtech45bot/1.0)' },
+      redirect: 'follow',
+    });
+    clearTimeout(timeout);
+    if (!res.ok) return null;
+    const html = await res.text();
+    // Look for og:image meta tag
+    const match = html.match(/<meta[^>]*property=["']og:image["'][^>]*content=["']([^"']+)["']/i)
+      || html.match(/<meta[^>]*content=["']([^"']+)["'][^>]*property=["']og:image["']/i);
+    if (match && match[1]) {
+      const img = match[1];
+      // Only return if it looks like a real image URL
+      if (img.startsWith('http') && (img.includes('.jpg') || img.includes('.png') || img.includes('.webp') || img.includes('image') || img.includes('img') || img.includes('photo') || img.includes('media'))) {
+        return img;
+      }
+      if (img.startsWith('http')) return img;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 async function fetchHNAIStories(): Promise<AIStory[]> {
   try {
     const res = await fetch('https://hacker-news.firebaseio.com/v0/topstories.json', {
@@ -126,11 +156,19 @@ async function fetchHNAIStories(): Promise<AIStory[]> {
         url: s.url || `https://news.ycombinator.com/item?id=${s.id}`,
         source: domain,
         description: `${s.score} points \u2022 ${s.descendants || 0} comments`,
-        thumbnail: null,
+        thumbnail: null, // will be enriched below
         timeAgo,
         category: classifyStory(s.title, ''),
       });
     }
+
+    // Fetch og:image for top 10 stories in parallel
+    const topStories = stories.slice(0, 10);
+    const ogPromises = topStories.map(s => 
+      s.url.includes('news.ycombinator.com') ? Promise.resolve(null) : fetchOgImage(s.url)
+    );
+    const ogImages = await Promise.all(ogPromises);
+    topStories.forEach((s, i) => { if (ogImages[i]) s.thumbnail = ogImages[i]; });
 
     return stories;
   } catch {
