@@ -1,0 +1,418 @@
+{
+  "activity": [
+    {
+      "type": "commit",
+      "id": "6ab5ed11",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:49:04 -0500",
+      "message": "chore: auto-sync ops status data"
+    },
+    {
+      "type": "commit",
+      "id": "f3528e11",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:44:43 -0500",
+      "message": "feat: add ops status auto-sync script runs every 5 min via Task Scheduler"
+    },
+    {
+      "type": "commit",
+      "id": "5ec7d648",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:40:34 -0500",
+      "message": "feat: wire mission control + task manager to real ops data"
+    },
+    {
+      "type": "commit",
+      "id": "d5b2f6e0",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:30:01 -0500",
+      "message": "feat: merge Mission Control tabs into Task Manager - unified 9-tab ops dashboard"
+    },
+    {
+      "type": "commit",
+      "id": "5be39a5f",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:16:28 -0500",
+      "message": "feat: OS typography overhaul - Space Grotesk headers, JetBrains Mono data, per Paula spec"
+    },
+    {
+      "type": "commit",
+      "id": "910cf0d1",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:06:22 -0500",
+      "message": "fix: persist project status/priority/order changes to localStorage"
+    },
+    {
+      "type": "commit",
+      "id": "e7b758a5",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:03:17 -0500",
+      "message": "fix: brand.error was green (#22C55E) instead of red (#EF4444) - collateral from Bobby/Remy swap"
+    },
+    {
+      "type": "commit",
+      "id": "5b6e375c",
+      "author": "Milo",
+      "timestamp": "2026-02-13 14:00:35 -0500",
+      "message": "fix: update sidebar project count 28 -> 32"
+    },
+    {
+      "type": "commit",
+      "id": "68753171",
+      "author": "Milo",
+      "timestamp": "2026-02-13 13:57:09 -0500",
+      "message": "feat: add Milo + Wendy agent logos (hub node + brain), update agents page + brand kit"
+    },
+    {
+      "type": "commit",
+      "id": "e7f775c3",
+      "author": "Milo",
+      "timestamp": "2026-02-13 13:50:39 -0500",
+      "message": "feat: Operations overhaul - PIN gate, cleanup, enhanced pages per Paula spec"
+    },
+    {
+      "type": "commit",
+      "id": "ddf44cb4",
+      "author": "Milo",
+      "timestamp": "2026-02-13 13:39:56 -0500",
+      "message": "feat: AxeCap Terminal v4.0 Bloomberg-style markets with watchlist and news"
+    },
+    {
+      "type": "commit",
+      "id": "e16a8555",
+      "author": "Milo",
+      "timestamp": "2026-02-13 12:55:09 -0500",
+      "message": "feat: Mission Control 4-tab expansion - System Health, Cron Monitor, Task Board, Active Sessions"
+    },
+    {
+      "type": "commit",
+      "id": "6afa97ac",
+      "author": "Milo",
+      "timestamp": "2026-02-13 12:47:57 -0500",
+      "message": "feat: full SOUL.md personalities across Roundtable, Ideas, Assist + avatar fixes"
+    },
+    {
+      "type": "cron_run",
+      "id": "75cf9393",
+      "timestamp": "2026-02-13T17:03:14.894Z",
+      "message": "Cron run: ok",
+      "jobId": "75cf9393-00e2-4367-b027-01e5c71d4d11"
+    },
+    {
+      "type": "commit",
+      "id": "4f2665ed",
+      "author": "Milo",
+      "timestamp": "2026-02-13 12:01:22 -0500",
+      "message": "feat: Connect Direct Agent Chat to OpenClaw Gateway API"
+    },
+    {
+      "type": "commit",
+      "id": "28efbdeb",
+      "author": "Milo",
+      "timestamp": "2026-02-13 11:56:39 -0500",
+      "message": "fix: use Derek avatar instead of generic User icon in agent chat"
+    },
+    {
+      "type": "commit",
+      "id": "de1ab989",
+      "author": "Milo",
+      "timestamp": "2026-02-13 11:53:12 -0500",
+      "message": "fix: agent avatars black bg with colored outline in Direct Chat"
+    },
+    {
+      "type": "commit",
+      "id": "2fb0d85b",
+      "author": "Milo",
+      "timestamp": "2026-02-13 11:50:41 -0500",
+      "message": "fix: swap Bobby (green) and Remy (red) colors across all pages"
+    },
+    {
+      "type": "cron_run",
+      "id": "3d56a05b",
+      "timestamp": "2026-02-13T14:33:19.619Z",
+      "message": "Cron run: ok",
+      "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
+    },
+    {
+      "type": "cron_run",
+      "id": "4822e39c",
+      "timestamp": "2026-02-13T13:00:35.336Z",
+      "message": "Cron run: ok",
+      "jobId": "4822e39c-38a2-4529-894c-5163ea4232b4"
+    },
+    {
+      "type": "cron_run",
+      "id": "bee7eb71",
+      "timestamp": "2026-02-13T12:30:14.214Z",
+      "message": "Cron run: ok",
+      "jobId": "bee7eb71-dbd4-49c7-a1a9-1bb94844b589"
+    },
+    {
+      "type": "cron_run",
+      "id": "7335853f",
+      "timestamp": "2026-02-13T12:15:15.219Z",
+      "message": "Cron run: ok",
+      "jobId": "7335853f-b007-4576-b7d2-2146128315f0"
+    },
+    {
+      "type": "cron_run",
+      "id": "e3746cbd",
+      "timestamp": "2026-02-13T12:02:52.646Z",
+      "message": "Cron run: ok",
+      "jobId": "e3746cbd-d836-4104-aa7d-8f20f69b385e"
+    },
+    {
+      "type": "cron_run",
+      "id": "61b6eecf",
+      "timestamp": "2026-02-13T08:06:06.329Z",
+      "message": "Cron run: ok",
+      "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
+    },
+    {
+      "type": "commit",
+      "id": "88cbd5e6",
+      "author": "Milo",
+      "timestamp": "2026-02-13 03:04:12 -0500",
+      "message": "🎯 MILO MISSION CONTROL - Real-time system health dashboard"
+    },
+    {
+      "type": "commit",
+      "id": "a8d33923",
+      "author": "Milo",
+      "timestamp": "2026-02-13 00:01:34 -0500",
+      "message": "feat: complete sidebar reorg + task-manager, org-chart, workspaces, docs, standups pages"
+    },
+    {
+      "type": "commit",
+      "id": "045a7270",
+      "author": "Milo",
+      "timestamp": "2026-02-12 22:36:44 -0500",
+      "message": "feat(homepage): redesign The Swarm section with leader card, color-coded agents, connection lines"
+    },
+    {
+      "type": "commit",
+      "id": "512480c4",
+      "author": "Milo",
+      "timestamp": "2026-02-12 22:17:48 -0500",
+      "message": "feat: Newsletter cards + sign-up pages + The Pit redesign"
+    },
+    {
+      "type": "commit",
+      "id": "67ea10fc",
+      "author": "Milo",
+      "timestamp": "2026-02-12 22:11:33 -0500",
+      "message": "feat: DNA Scanner v2 + header tagline + footer/contact cleanup"
+    },
+    {
+      "type": "commit",
+      "id": "8a41a5d5",
+      "author": "Milo",
+      "timestamp": "2026-02-12 22:02:34 -0500",
+      "message": "feat: footer Terms/Privacy links + simplified Contact section"
+    },
+    {
+      "type": "commit",
+      "id": "778fddd4",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:58:59 -0500",
+      "message": "fix: Ideas Vault SSR flash - mount guard prevents stale HTML"
+    },
+    {
+      "type": "commit",
+      "id": "e6c1213c",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:57:14 -0500",
+      "message": "fix: Ideas Vault no longer flashes hardcoded defaults on load"
+    },
+    {
+      "type": "commit",
+      "id": "96b675d3",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:54:33 -0500",
+      "message": "fix: Kanban refresh button now shows loading state"
+    },
+    {
+      "type": "commit",
+      "id": "1f8ad431",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:52:46 -0500",
+      "message": "feat: Kanban board persists to Supabase - survives refresh"
+    },
+    {
+      "type": "commit",
+      "id": "c3045975",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:49:15 -0500",
+      "message": "fix: agent identity cards - black bg with colored outline"
+    },
+    {
+      "type": "commit",
+      "id": "b16d74ff",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:43:39 -0500",
+      "message": "feat: Supabase overnight caching + brand kit assets from Paula"
+    },
+    {
+      "type": "commit",
+      "id": "c8fdb117",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:37:49 -0500",
+      "message": "feat: auto-refreshing overnight sessions + sidebar reorder"
+    },
+    {
+      "type": "commit",
+      "id": "95a7f973",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:32:57 -0500",
+      "message": "feat: auto-refreshing activity dashboard with live GitHub + Vercel data"
+    },
+    {
+      "type": "commit",
+      "id": "f0440258",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:17:01 -0500",
+      "message": "fix: type error in Ideas Vault status update"
+    },
+    {
+      "type": "commit",
+      "id": "f5f24887",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:15:52 -0500",
+      "message": "feat: Skills Inventory update - 82 skills with category/status views"
+    },
+    {
+      "type": "commit",
+      "id": "ee67506f",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:15:17 -0500",
+      "message": "feat: Business DNA Scanner - 7-layer assessment with radar chart + PDF"
+    },
+    {
+      "type": "commit",
+      "id": "4a0ac173",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:15:04 -0500",
+      "message": "fix: Ideas Vault now persists to Supabase instead of localStorage"
+    },
+    {
+      "type": "commit",
+      "id": "ea64e6cb",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:13:51 -0500",
+      "message": "fix: persist Ideas Vault to localStorage - survives refresh"
+    },
+    {
+      "type": "commit",
+      "id": "b3e00b19",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:08:51 -0500",
+      "message": "fix: add feelsLike to weather observation type"
+    },
+    {
+      "type": "commit",
+      "id": "57eade8e",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:01:46 -0500",
+      "message": "feat: fetch og:image thumbnails from HN story URLs for AI Today"
+    },
+    {
+      "type": "commit",
+      "id": "db7db3b7",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:00:46 -0500",
+      "message": "fix: move Quick Links to its own section at bottom of sidebar"
+    },
+    {
+      "type": "commit",
+      "id": "32c85d77",
+      "author": "Milo",
+      "timestamp": "2026-02-12 21:00:18 -0500",
+      "message": "feat: add feels like temp from NOAA wind chill/heat index"
+    },
+    {
+      "type": "commit",
+      "id": "913b6fda",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:59:15 -0500",
+      "message": "fix: use NOAA observations for current temp + real URLs in local fallback"
+    },
+    {
+      "type": "commit",
+      "id": "c6332180",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:57:54 -0500",
+      "message": "feat: AI Today dedicated API with thumbnails + Brave Search + 30min refresh"
+    },
+    {
+      "type": "commit",
+      "id": "ee51c48d",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:52:52 -0500",
+      "message": "fix: move Roundtable + Model Counsel to Agents section"
+    },
+    {
+      "type": "commit",
+      "id": "a975343b",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:52:15 -0500",
+      "message": "feat: add Morning Brief to Command Center sidebar nav"
+    },
+    {
+      "type": "commit",
+      "id": "6a73aa35",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:50:04 -0500",
+      "message": "fix: move Quick Links, Brand Kit, Brand Spec to Operations"
+    },
+    {
+      "type": "commit",
+      "id": "235c9c67",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:47:35 -0500",
+      "message": "fix: NOAA weather API + 5-town local coverage per Paula's updated spec"
+    },
+    {
+      "type": "commit",
+      "id": "e2b187e5",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:43:52 -0500",
+      "message": "feat: Morning Brief V2 newspaper - 6 sections with Paula's design"
+    },
+    {
+      "type": "commit",
+      "id": "a0bc2ede",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:42:18 -0500",
+      "message": "feat: redesign Skills Inventory + DNA pages per Paula specs"
+    },
+    {
+      "type": "commit",
+      "id": "69cd4f00",
+      "author": "Milo",
+      "timestamp": "2026-02-12 20:24:49 -0500",
+      "message": "feat: comprehensive Skills Inventory and DNA reference pages"
+    },
+    {
+      "type": "cron_run",
+      "id": "866b45c4",
+      "timestamp": "2026-02-13T01:02:07.845Z",
+      "message": "Cron run: ok",
+      "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
+    },
+    {
+      "type": "commit",
+      "id": "b9b8412a",
+      "author": "Milo",
+      "timestamp": "2026-02-12 17:30:34 -0500",
+      "message": "trigger: force Vercel rebuild for DNA page deployment"
+    },
+    {
+      "type": "cron_run",
+      "id": "7d55af5a",
+      "timestamp": "2026-02-12T21:31:47.922Z",
+      "message": "Cron run: ok",
+      "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
+    }
+  ],
+  "generatedAt": "2026-02-13T19:54:08.047Z"
+}

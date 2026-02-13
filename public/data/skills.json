@@ -1,0 +1,686 @@
+{
+  "skills": [
+    {
+      "name": "1password",
+      "source": "global",
+      "category": "design",
+      "description": "name: 1password",
+      "lastModified": "2026-01-28T21:11:13.516Z",
+      "sizeBytes": 2408
+    },
+    {
+      "name": "agents",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: agents",
+      "lastModified": "2026-02-05T00:28:45.509Z",
+      "sizeBytes": 8516
+    },
+    {
+      "name": "algorithmic-art",
+      "source": "local",
+      "category": "design",
+      "description": "name: algorithmic-art",
+      "lastModified": "2026-02-05T02:35:15.016Z",
+      "sizeBytes": 5590
+    },
+    {
+      "name": "apple-notes",
+      "source": "global",
+      "category": "design",
+      "description": "name: apple-notes",
+      "lastModified": "2026-01-28T21:11:13.518Z",
+      "sizeBytes": 1883
+    },
+    {
+      "name": "apple-reminders",
+      "source": "global",
+      "category": "design",
+      "description": "name: apple-reminders",
+      "lastModified": "2026-01-28T21:11:13.521Z",
+      "sizeBytes": 2310
+    },
+    {
+      "name": "bear-notes",
+      "source": "global",
+      "category": "design",
+      "description": "name: bear-notes",
+      "lastModified": "2026-01-28T21:11:13.523Z",
+      "sizeBytes": 2454
+    },
+    {
+      "name": "bird",
+      "source": "global",
+      "category": "social",
+      "description": "name: bird",
+      "lastModified": "2026-01-28T21:11:13.526Z",
+      "sizeBytes": 5328
+    },
+    {
+      "name": "blogwatcher",
+      "source": "global",
+      "category": "design",
+      "description": "name: blogwatcher",
+      "lastModified": "2026-01-28T21:11:13.528Z",
+      "sizeBytes": 1221
+    },
+    {
+      "name": "blucli",
+      "source": "global",
+      "category": "design",
+      "description": "name: blucli",
+      "lastModified": "2026-01-28T21:11:13.529Z",
+      "sizeBytes": 829
+    },
+    {
+      "name": "bluebubbles",
+      "source": "global",
+      "category": "design",
+      "description": "name: bluebubbles",
+      "lastModified": "2026-01-28T21:11:13.531Z",
+      "sizeBytes": 2298
+    },
+    {
+      "name": "brainstorming",
+      "source": "local",
+      "category": "design",
+      "description": "name: brainstorming",
+      "lastModified": "2026-02-12T07:11:10.883Z",
+      "sizeBytes": 3085
+    },
+    {
+      "name": "brand-guidelines",
+      "source": "local",
+      "category": "design",
+      "description": "name: brand-guidelines",
+      "lastModified": "2026-02-05T02:33:44.986Z",
+      "sizeBytes": 2140
+    },
+    {
+      "name": "camsnap",
+      "source": "global",
+      "category": "design",
+      "description": "name: camsnap",
+      "lastModified": "2026-01-28T21:11:13.532Z",
+      "sizeBytes": 898
+    },
+    {
+      "name": "canvas",
+      "source": "global",
+      "category": "design",
+      "description": "Display HTML content on connected Clawdbot nodes (Mac app, iOS, Android).",
+      "lastModified": "2026-01-28T21:11:13.534Z",
+      "sizeBytes": 5294
+    },
+    {
+      "name": "canvas-design",
+      "source": "local",
+      "category": "design",
+      "description": "name: canvas-design",
+      "lastModified": "2026-02-05T02:33:44.955Z",
+      "sizeBytes": 5559
+    },
+    {
+      "name": "clawdhub",
+      "source": "global",
+      "category": "design",
+      "description": "name: clawdhub",
+      "lastModified": "2026-01-28T21:11:13.536Z",
+      "sizeBytes": 1452
+    },
+    {
+      "name": "coding-agent",
+      "source": "global",
+      "category": "design",
+      "description": "name: coding-agent",
+      "lastModified": "2026-01-28T21:11:13.538Z",
+      "sizeBytes": 9379
+    },
+    {
+      "name": "content-research-writer",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: content-research-writer",
+      "lastModified": "2026-02-05T03:03:52.426Z",
+      "sizeBytes": 2306
+    },
+    {
+      "name": "context-optimization",
+      "source": "local",
+      "category": "research",
+      "description": "name: context-optimization",
+      "lastModified": "2026-02-05T03:06:07.724Z",
+      "sizeBytes": 2834
+    },
+    {
+      "name": "conventional-commits",
+      "source": "local",
+      "category": "design",
+      "description": "name: conventional-commits",
+      "lastModified": "2026-02-05T03:03:52.349Z",
+      "sizeBytes": 1585
+    },
+    {
+      "name": "daily-brief",
+      "source": "local",
+      "category": "development",
+      "description": "name: daily-brief",
+      "lastModified": "2026-01-25T00:38:16.842Z",
+      "sizeBytes": 1044
+    },
+    {
+      "name": "deep-research",
+      "source": "local",
+      "category": "social",
+      "description": "name: deep-research",
+      "lastModified": "2026-02-12T07:11:00.229Z",
+      "sizeBytes": 2835
+    },
+    {
+      "name": "discord",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: discord",
+      "lastModified": "2026-01-28T21:11:13.540Z",
+      "sizeBytes": 9153
+    },
+    {
+      "name": "eightctl",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: eightctl",
+      "lastModified": "2026-01-28T21:11:13.541Z",
+      "sizeBytes": 905
+    },
+    {
+      "name": "executing-plans",
+      "source": "local",
+      "category": "utility",
+      "description": "name: executing-plans",
+      "lastModified": "2026-02-05T03:02:57.835Z",
+      "sizeBytes": 1751
+    },
+    {
+      "name": "food-order",
+      "source": "global",
+      "category": "design",
+      "description": "name: food-order",
+      "lastModified": "2026-01-28T21:11:13.543Z",
+      "sizeBytes": 2055
+    },
+    {
+      "name": "frontend-design",
+      "source": "local",
+      "category": "design",
+      "description": "name: frontend-design",
+      "lastModified": "2026-02-05T02:33:44.930Z",
+      "sizeBytes": 4440
+    },
+    {
+      "name": "gemini",
+      "source": "global",
+      "category": "design",
+      "description": "name: gemini",
+      "lastModified": "2026-01-28T21:11:13.544Z",
+      "sizeBytes": 746
+    },
+    {
+      "name": "gifgrep",
+      "source": "global",
+      "category": "design",
+      "description": "name: gifgrep",
+      "lastModified": "2026-01-28T21:11:13.546Z",
+      "sizeBytes": 1882
+    },
+    {
+      "name": "github",
+      "source": "global",
+      "category": "development",
+      "description": "name: github",
+      "lastModified": "2026-01-28T21:11:13.551Z",
+      "sizeBytes": 1113
+    },
+    {
+      "name": "gog",
+      "source": "global",
+      "category": "design",
+      "description": "name: gog",
+      "lastModified": "2026-01-28T21:11:13.578Z",
+      "sizeBytes": 4377
+    },
+    {
+      "name": "goplaces",
+      "source": "global",
+      "category": "design",
+      "description": "name: goplaces",
+      "lastModified": "2026-01-28T21:11:13.579Z",
+      "sizeBytes": 1334
+    },
+    {
+      "name": "himalaya",
+      "source": "global",
+      "category": "design",
+      "description": "name: himalaya",
+      "lastModified": "2026-01-28T21:11:13.581Z",
+      "sizeBytes": 4405
+    },
+    {
+      "name": "imsg",
+      "source": "global",
+      "category": "design",
+      "description": "name: imsg",
+      "lastModified": "2026-01-28T21:11:13.583Z",
+      "sizeBytes": 892
+    },
+    {
+      "name": "internal-comms",
+      "source": "local",
+      "category": "design",
+      "description": "name: internal-comms",
+      "lastModified": "2026-02-05T03:03:52.374Z",
+      "sizeBytes": 1610
+    },
+    {
+      "name": "local-places",
+      "source": "global",
+      "category": "design",
+      "description": "name: local-places",
+      "lastModified": "2026-01-28T21:11:13.585Z",
+      "sizeBytes": 2482
+    },
+    {
+      "name": "market-intel",
+      "source": "local",
+      "category": "research",
+      "description": "name: market-intel",
+      "lastModified": "2026-01-25T00:38:18.318Z",
+      "sizeBytes": 1197
+    },
+    {
+      "name": "mcp-builder",
+      "source": "local",
+      "category": "design",
+      "description": "name: mcp-builder",
+      "lastModified": "2026-02-12T07:11:05.962Z",
+      "sizeBytes": 3307
+    },
+    {
+      "name": "mcporter",
+      "source": "global",
+      "category": "design",
+      "description": "name: mcporter",
+      "lastModified": "2026-01-28T21:11:13.591Z",
+      "sizeBytes": 1480
+    },
+    {
+      "name": "memory-systems",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: memory-systems",
+      "lastModified": "2026-02-05T03:06:07.666Z",
+      "sizeBytes": 3057
+    },
+    {
+      "name": "model-usage",
+      "source": "global",
+      "category": "design",
+      "description": "name: model-usage",
+      "lastModified": "2026-01-28T21:11:13.593Z",
+      "sizeBytes": 2046
+    },
+    {
+      "name": "multi-agent-patterns",
+      "source": "local",
+      "category": "design",
+      "description": "name: multi-agent-patterns",
+      "lastModified": "2026-02-05T03:06:07.697Z",
+      "sizeBytes": 2998
+    },
+    {
+      "name": "music",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: music",
+      "lastModified": "2026-02-05T00:28:45.515Z",
+      "sizeBytes": 3238
+    },
+    {
+      "name": "nano-banana-pro",
+      "source": "global",
+      "category": "design",
+      "description": "name: nano-banana-pro",
+      "lastModified": "2026-01-28T21:11:13.597Z",
+      "sizeBytes": 1176
+    },
+    {
+      "name": "nano-pdf",
+      "source": "global",
+      "category": "design",
+      "description": "name: nano-pdf",
+      "lastModified": "2026-01-28T21:11:13.599Z",
+      "sizeBytes": 765
+    },
+    {
+      "name": "notion",
+      "source": "global",
+      "category": "design",
+      "description": "name: notion",
+      "lastModified": "2026-01-28T21:11:13.602Z",
+      "sizeBytes": 5039
+    },
+    {
+      "name": "obsidian",
+      "source": "global",
+      "category": "design",
+      "description": "name: obsidian",
+      "lastModified": "2026-01-28T21:11:13.604Z",
+      "sizeBytes": 2334
+    },
+    {
+      "name": "openai-image-gen",
+      "source": "global",
+      "category": "design",
+      "description": "name: openai-image-gen",
+      "lastModified": "2026-01-28T21:11:13.605Z",
+      "sizeBytes": 2924
+    },
+    {
+      "name": "openai-whisper",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: openai-whisper",
+      "lastModified": "2026-01-28T21:11:13.608Z",
+      "sizeBytes": 725
+    },
+    {
+      "name": "openai-whisper-api",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: openai-whisper-api",
+      "lastModified": "2026-01-28T21:11:13.607Z",
+      "sizeBytes": 1093
+    },
+    {
+      "name": "openhue",
+      "source": "global",
+      "category": "design",
+      "description": "name: openhue",
+      "lastModified": "2026-01-28T21:11:13.609Z",
+      "sizeBytes": 968
+    },
+    {
+      "name": "options-scan",
+      "source": "local",
+      "category": "design",
+      "description": "name: options-scan",
+      "lastModified": "2026-01-25T00:38:49.437Z",
+      "sizeBytes": 1242
+    },
+    {
+      "name": "oracle",
+      "source": "global",
+      "category": "design",
+      "description": "name: oracle",
+      "lastModified": "2026-01-28T21:11:13.612Z",
+      "sizeBytes": 4882
+    },
+    {
+      "name": "ordercli",
+      "source": "global",
+      "category": "design",
+      "description": "name: ordercli",
+      "lastModified": "2026-01-28T21:11:13.614Z",
+      "sizeBytes": 2087
+    },
+    {
+      "name": "pdf-processing",
+      "source": "local",
+      "category": "design",
+      "description": "name: pdf-processing",
+      "lastModified": "2026-02-07T20:59:32.970Z",
+      "sizeBytes": 1379
+    },
+    {
+      "name": "peekaboo",
+      "source": "global",
+      "category": "design",
+      "description": "name: peekaboo",
+      "lastModified": "2026-01-28T21:11:13.616Z",
+      "sizeBytes": 5753
+    },
+    {
+      "name": "project-context-sync",
+      "source": "local",
+      "category": "development",
+      "description": "name: project-context-sync",
+      "lastModified": "2026-02-05T03:02:57.863Z",
+      "sizeBytes": 1630
+    },
+    {
+      "name": "remotion-video-toolkit",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: remotion-video-toolkit",
+      "lastModified": "2026-02-05T02:48:32.801Z",
+      "sizeBytes": 5302
+    },
+    {
+      "name": "repo-scan",
+      "source": "local",
+      "category": "design",
+      "description": "name: repo-scan",
+      "lastModified": "2026-01-25T00:38:47.738Z",
+      "sizeBytes": 1427
+    },
+    {
+      "name": "sag",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: sag",
+      "lastModified": "2026-01-28T21:11:13.618Z",
+      "sizeBytes": 2093
+    },
+    {
+      "name": "session-logs",
+      "source": "global",
+      "category": "design",
+      "description": "name: session-logs",
+      "lastModified": "2026-01-28T21:11:13.619Z",
+      "sizeBytes": 3409
+    },
+    {
+      "name": "setup-api-key",
+      "source": "local",
+      "category": "design",
+      "description": "name: setup-api-key",
+      "lastModified": "2026-02-05T00:28:45.518Z",
+      "sizeBytes": 1953
+    },
+    {
+      "name": "sherpa-onnx-tts",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: sherpa-onnx-tts",
+      "lastModified": "2026-01-28T21:11:13.622Z",
+      "sizeBytes": 2788
+    },
+    {
+      "name": "skill-creator",
+      "source": "global",
+      "category": "design",
+      "description": "name: skill-creator",
+      "lastModified": "2026-01-28T21:11:13.624Z",
+      "sizeBytes": 18356
+    },
+    {
+      "name": "slack",
+      "source": "global",
+      "category": "integration",
+      "description": "name: slack",
+      "lastModified": "2026-01-28T21:11:13.627Z",
+      "sizeBytes": 2315
+    },
+    {
+      "name": "songsee",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: songsee",
+      "lastModified": "2026-01-28T21:11:13.628Z",
+      "sizeBytes": 1123
+    },
+    {
+      "name": "sonoscli",
+      "source": "global",
+      "category": "design",
+      "description": "name: sonoscli",
+      "lastModified": "2026-01-28T21:11:13.630Z",
+      "sizeBytes": 940
+    },
+    {
+      "name": "sound-effects",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: sound-effects",
+      "lastModified": "2026-02-05T00:28:45.519Z",
+      "sizeBytes": 4090
+    },
+    {
+      "name": "speech-to-text",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: speech-to-text",
+      "lastModified": "2026-02-05T00:28:45.520Z",
+      "sizeBytes": 7840
+    },
+    {
+      "name": "spotify-player",
+      "source": "global",
+      "category": "design",
+      "description": "name: spotify-player",
+      "lastModified": "2026-01-28T21:11:13.631Z",
+      "sizeBytes": 1369
+    },
+    {
+      "name": "summarize",
+      "source": "global",
+      "category": "design",
+      "description": "name: summarize",
+      "lastModified": "2026-01-28T21:11:13.634Z",
+      "sizeBytes": 2041
+    },
+    {
+      "name": "technews",
+      "source": "local",
+      "category": "social",
+      "description": "name: technews",
+      "lastModified": "2026-02-05T03:03:52.321Z",
+      "sizeBytes": 1226
+    },
+    {
+      "name": "text-to-speech",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "name: text-to-speech",
+      "lastModified": "2026-02-05T00:28:45.523Z",
+      "sizeBytes": 6939
+    },
+    {
+      "name": "things-mac",
+      "source": "global",
+      "category": "design",
+      "description": "name: things-mac",
+      "lastModified": "2026-01-28T21:11:13.636Z",
+      "sizeBytes": 3350
+    },
+    {
+      "name": "tmux",
+      "source": "global",
+      "category": "design",
+      "description": "name: tmux",
+      "lastModified": "2026-01-28T21:11:13.638Z",
+      "sizeBytes": 4112
+    },
+    {
+      "name": "trello",
+      "source": "global",
+      "category": "design",
+      "description": "name: trello",
+      "lastModified": "2026-01-28T21:11:13.639Z",
+      "sizeBytes": 2651
+    },
+    {
+      "name": "twitter-monitor",
+      "source": "local",
+      "category": "social",
+      "description": "name: twitter-monitor",
+      "lastModified": "2026-01-25T01:41:06.943Z",
+      "sizeBytes": 1048
+    },
+    {
+      "name": "ui-ux-pro-max",
+      "source": "local",
+      "category": "design",
+      "description": "name: ui-ux-pro-max",
+      "lastModified": "2026-02-05T02:35:15.041Z",
+      "sizeBytes": 6894
+    },
+    {
+      "name": "video-frames",
+      "source": "global",
+      "category": "design",
+      "description": "name: video-frames",
+      "lastModified": "2026-01-28T21:11:13.640Z",
+      "sizeBytes": 776
+    },
+    {
+      "name": "voice-call",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: voice-call",
+      "lastModified": "2026-01-28T21:11:13.642Z",
+      "sizeBytes": 1098
+    },
+    {
+      "name": "wacli",
+      "source": "global",
+      "category": "voice-audio",
+      "description": "name: wacli",
+      "lastModified": "2026-01-28T21:11:13.644Z",
+      "sizeBytes": 2084
+    },
+    {
+      "name": "weather",
+      "source": "global",
+      "category": "design",
+      "description": "name: weather",
+      "lastModified": "2026-01-28T21:11:13.646Z",
+      "sizeBytes": 1169
+    },
+    {
+      "name": "web-asset-generator",
+      "source": "local",
+      "category": "social",
+      "description": "name: web-asset-generator",
+      "lastModified": "2026-02-05T02:48:32.826Z",
+      "sizeBytes": 4260
+    },
+    {
+      "name": "work-report",
+      "source": "local",
+      "category": "design",
+      "description": "name: work-report",
+      "lastModified": "2026-02-05T03:02:57.887Z",
+      "sizeBytes": 1576
+    },
+    {
+      "name": "x-trends",
+      "source": "local",
+      "category": "social",
+      "description": "name: x-trends",
+      "lastModified": "2026-01-25T00:38:19.953Z",
+      "sizeBytes": 1032
+    }
+  ],
+  "total": 85,
+  "generatedAt": "2026-02-13T19:54:07.893Z"
+}
