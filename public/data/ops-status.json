@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T21:29:03.239Z",
+    "lastHeartbeat": "2026-02-13T21:34:02.871Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:23:17.305Z"
+      "lastSeen": "2026-02-13T21:34:00.216Z"
     },
     {
       "name": "Paula",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T21:34:00.216Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 49
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -137,17 +148,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 28
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:23:17.305Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 48
     },
     {
       "key": "agent:paula:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T21:29:03.943Z",
+  "generatedAt": "2026-02-13T21:34:03.563Z",
   "version": 2
 }
