@@ -57,7 +57,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
   'DNA':           <Dna size={ICON_SIZE} />,
-  'Memory Bank':   <Brain size={ICON_SIZE} />,
+  'Second Brain':  <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
   'Overnight Sessions': <Calendar size={ICON_SIZE} />,
 };
@@ -99,7 +99,7 @@ const opsItems: NavItem[] = [
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
   { label: 'DNA', href: '/os/dna' },
-  { label: 'Memory Bank', href: '/os/memory-bank' },
+  { label: 'Second Brain', href: '/os/second-brain' },
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
 ];

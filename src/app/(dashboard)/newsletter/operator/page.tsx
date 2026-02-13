@@ -1,60 +1,97 @@
-export default function Operator() {
+'use client';
+import { useState } from 'react';
+import { ChefHat, Check } from 'lucide-react';
+
+export default function OperatorPage() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    // TODO: Connect to email service (Buttondown, ConvertKit, etc.)
+    // For now, simulate success
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setStatus('success');
+  };
+
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0a', color: '#00ff00', padding: '2rem' }}>
-      <div className="terminal" style={{ maxWidth: '600px', margin: '0 auto', fontFamily: 'monospace' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ color: '#666' }}>derek@dbtech45:~$ </span>
-          <span>subscribe --newsletter operator</span>
+    <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex items-center justify-center px-6 py-20">
+      <div className="max-w-lg w-full">
+        <div className="mb-8">
+          <a href="/" className="text-[#22c55e] hover:underline text-sm font-mono">
+            ← Back to Home
+          </a>
         </div>
-        
-        <h1 style={{ color: '#00ff00', fontSize: '2rem', marginBottom: '1rem' }}>⚙️ The Operator</h1>
-        <p style={{ color: '#999', marginBottom: '2rem' }}>Business building, productivity systems, and the art of execution.</p>
-        
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
-          <h2 style={{ color: '#00ff00', marginBottom: '1rem' }}>What You Get Weekly</h2>
-          <div style={{ color: '#999' }}>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Restaurant operation insights</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Software building lessons</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ AI agent management tactics</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Productivity systems that scale</p>
-            <p>✅ Real case studies from the trenches</p>
+
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#22c55e]/10 text-[#22c55e] mb-6">
+            <ChefHat size={32} />
           </div>
+          <div className="inline-block px-3 py-1 bg-[#22c55e]/15 text-[#22c55e] text-xs font-mono uppercase tracking-wider rounded-full mb-4">
+            Coming Soon
+          </div>
+          <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            The Operator
+          </h1>
+          <p className="text-[#71717a] font-mono text-sm">Weekly Restaurant Intelligence</p>
         </div>
-        
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>Subscribe</h3>
-          <input 
-            type="email" 
-            placeholder="your.email@domain.com"
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem', 
-              backgroundColor: '#222', 
-              border: '1px solid #333', 
-              borderRadius: '4px', 
-              color: '#00ff00',
-              fontFamily: 'monospace',
-              marginBottom: '1rem'
-            }}
-          />
-          <button style={{ 
-            backgroundColor: '#00ff00', 
-            color: '#000', 
-            padding: '0.75rem 2rem', 
-            border: 'none', 
-            borderRadius: '4px', 
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            fontFamily: 'monospace',
-            width: '100%'
-          }}>
-            Join The Operator →
-          </button>
+
+        <div className="bg-[#111113] border border-[#27272a] rounded-xl p-8 mb-8">
+          <p className="text-[#a1a1aa] text-center mb-6 leading-relaxed">
+            Real talk for independent restaurant owners. Operations, margins, staffing, 
+            and survival tactics from someone running multiple locations in the trenches.
+          </p>
+
+          <ul className="space-y-3 mb-8">
+            {[
+              'Food cost and margin strategies',
+              'Staffing and scheduling tactics',
+              'Vendor negotiation tips',
+              'Tech tools that actually work',
+              'Lessons from real operators',
+              'No corporate BS'
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-3 text-sm text-[#a1a1aa]">
+                <Check size={16} className="text-[#22c55e] flex-shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          {status === 'success' ? (
+            <div className="text-center py-6">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#22c55e]/10 text-[#22c55e] mb-4">
+                <Check size={24} />
+              </div>
+              <p className="text-[#22c55e] font-medium mb-2">You're on the list!</p>
+              <p className="text-[#71717a] text-sm">We'll notify you when The Operator launches.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#27272a] rounded-lg text-[#fafafa] placeholder-[#52525b] focus:outline-none focus:border-[#22c55e] transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full py-3 bg-[#22c55e] text-[#0a0a0a] font-semibold rounded-lg hover:bg-[#4ade80] transition-colors disabled:opacity-50"
+              >
+                {status === 'loading' ? 'Joining...' : 'Get Early Access'}
+              </button>
+            </form>
+          )}
         </div>
-        
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="/" style={{ color: '#666', textDecoration: 'none' }}>← Back to dbtech45.com</a>
-        </div>
+
+        <p className="text-center text-[#52525b] text-xs">
+          No spam. Unsubscribe anytime.
+        </p>
       </div>
     </div>
   );

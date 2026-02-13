@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { TrendingUp, ChefHat } from "lucide-react";
+import { TrendingUp, ChefHat, ArrowRight } from "lucide-react";
 
 export default function Newsletter() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -20,27 +20,6 @@ export default function Newsletter() {
     return () => observer.disconnect();
   }, []);
 
-  const newsletters = [
-    {
-      id: "signal-noise",
-      icon: TrendingUp,
-      title: "Signal & Noise",
-      frequency: "Daily",
-      description: "Market intelligence filtered through 15 years of trading experience. Technical analysis, macro themes, and conviction plays that matter.",
-      href: "/newsletter/signal-noise",
-      color: "var(--amber)"
-    },
-    {
-      id: "operator",
-      icon: ChefHat,
-      title: "The Operator",
-      frequency: "Weekly",
-      description: "Real talk for independent restaurant owners. Operations, margins, staffing, and survival tactics from someone in the trenches.",
-      href: "/newsletter/operator",
-      color: "var(--green)"
-    }
-  ];
-
   return (
     <>
       <hr className="section-divider" />
@@ -55,18 +34,43 @@ export default function Newsletter() {
           </div>
 
           <div className="newsletter-grid reveal">
-            {newsletters.map((nl) => (
-              <a href={nl.href} key={nl.id} className="newsletter-card">
+            {/* Signal & Noise Card */}
+            <a href="/newsletter/signal-noise" className="newsletter-card-v2 newsletter-card-amber">
+              <div className="newsletter-card-glow"></div>
+              <div className="newsletter-card-content">
                 <div className="newsletter-card-badge">Coming Soon</div>
-                <div className="newsletter-card-icon" style={{ color: nl.color }}>
-                  <nl.icon size={32} strokeWidth={1.5} />
+                <div className="newsletter-card-icon-wrap amber">
+                  <TrendingUp size={28} strokeWidth={2} />
                 </div>
-                <h3 className="newsletter-card-title">{nl.title}</h3>
-                <span className="newsletter-card-freq">{nl.frequency}</span>
-                <p className="newsletter-card-desc">{nl.description}</p>
-                <span className="newsletter-card-cta">Get Early Access →</span>
-              </a>
-            ))}
+                <h3 className="newsletter-card-title">Signal & Noise</h3>
+                <span className="newsletter-card-freq">Daily</span>
+                <p className="newsletter-card-desc">
+                  Market intelligence filtered through 15 years of trading. Technical analysis, macro themes, conviction plays.
+                </p>
+                <span className="newsletter-card-cta">
+                  Get Early Access <ArrowRight size={14} />
+                </span>
+              </div>
+            </a>
+
+            {/* The Operator Card */}
+            <a href="/newsletter/operator" className="newsletter-card-v2 newsletter-card-green">
+              <div className="newsletter-card-glow"></div>
+              <div className="newsletter-card-content">
+                <div className="newsletter-card-badge green">Coming Soon</div>
+                <div className="newsletter-card-icon-wrap green">
+                  <ChefHat size={28} strokeWidth={2} />
+                </div>
+                <h3 className="newsletter-card-title">The Operator</h3>
+                <span className="newsletter-card-freq green">Weekly</span>
+                <p className="newsletter-card-desc">
+                  Real talk for independent restaurant owners. Operations, margins, staffing, survival tactics.
+                </p>
+                <span className="newsletter-card-cta green">
+                  Get Early Access <ArrowRight size={14} />
+                </span>
+              </div>
+            </a>
           </div>
         </div>
       </section>
