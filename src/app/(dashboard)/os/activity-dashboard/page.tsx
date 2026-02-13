@@ -25,13 +25,37 @@ interface ActivityData {
   error?: string;
 }
 
-// Fallback static data (shown before first fetch)
-const FALLBACK_STATS: StatItem[] = [
-  { value: '--', label: 'ACTIVE AGENTS', color: brand.amber },
-  { value: '--', label: 'REPOS ACTIVE', color: brand.success },
-  { value: '--', label: 'COMMITS (7D)', color: brand.info },
-  { value: '--', label: 'DEPLOYS (7D)', color: '#8B5CF6' },
-];
+// Data interfaces for JSON files
+interface ActivityDataFile {
+  activity: {
+    type: string;
+    timestamp: string;
+    details: any;
+  }[];
+  stats: {
+    gitCommits: {
+      last7Days: number;
+      repositories: string[];
+    };
+    cronRuns: {
+      last7Days: number;
+      successful: number;
+    };
+  };
+}
+
+interface OpsStatusFile {
+  agents: {
+    total: number;
+    active: number;
+    sessions: any[];
+  };
+  crons: {
+    total: number;
+    active: number;
+  };
+  system: any;
+}
 
 export default function ActivityDashboard() {
   const [data, setData] = useState<ActivityData | null>(null);
@@ -40,9 +64,63 @@ export default function ActivityDashboard() {
 
   const fetchActivity = useCallback(async () => {
     try {
-      const response = await fetch('/api/activity', { cache: 'no-store' });
-      if (!response.ok) throw new Error('Failed to fetch');
-      const result: ActivityData = await response.json();
+      // Fetch from both JSON files
+      const [activityResponse, opsResponse] = await Promise.all([
+        fetch('/data/activity.json', { cache: 'no-store' }),
+        fetch('/data/ops-status.json', { cache: 'no-store' })
+      ]);
+
+      if (!activityResponse.ok || !opsResponse.ok) {
+        throw new Error('Failed to fetch data');
+      }
+
+      const activityData: ActivityDataFile = await activityResponse.json();
+      const opsData: OpsStatusFile = await opsResponse.json();
+
+      // Build stats from real data
+      const stats: StatItem[] = [
+        { 
+          value: opsData.agents.active.toString(), 
+          label: 'ACTIVE AGENTS', 
+          color: brand.amber 
+        },
+        { 
+          value: activityData.stats.gitCommits.repositories.length.toString(), 
+          label: 'REPOS ACTIVE', 
+          color: brand.success 
+        },
+        { 
+          value: activityData.stats.gitCommits.last7Days.toString(), 
+          label: 'COMMITS (7D)', 
+          color: brand.info 
+        },
+        { 
+          value: activityData.stats.cronRuns.last7Days.toString(), 
+          label: 'CRON RUNS (7D)', 
+          color: '#8B5CF6' 
+        }
+      ];
+
+      // Convert activity data
+      const activity: ActivityItem[] = activityData.activity.map((item, index) => ({
+        time: new Date(item.timestamp).toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: '2-digit',
+          hour12: true
+        }),
+        type: item.type,
+        agent: item.details.agent || 'System',
+        msg: item.details.message || item.details.summary || 'Activity recorded',
+        color: item.type === 'commit' ? brand.success : item.type === 'cron' ? '#8B5CF6' : brand.amber,
+        icon: item.type === 'commit' ? '📝' : item.type === 'cron' ? '⚡' : '🔄'
+      })).slice(0, 20); // Show latest 20 items
+
+      const result: ActivityData = {
+        stats,
+        activity,
+        lastUpdated: new Date().toISOString()
+      };
+
       setData(result);
       setLastRefresh(new Date().toLocaleTimeString('en-US', {
         hour: 'numeric',
@@ -52,6 +130,18 @@ export default function ActivityDashboard() {
       }));
     } catch (err) {
       console.error('Activity fetch error:', err);
+      // Set empty data rather than using fallback
+      setData({
+        stats: [
+          { value: '0', label: 'ACTIVE AGENTS', color: brand.amber },
+          { value: '0', label: 'REPOS ACTIVE', color: brand.success },
+          { value: '0', label: 'COMMITS (7D)', color: brand.info },
+          { value: '0', label: 'CRON RUNS (7D)', color: '#8B5CF6' }
+        ],
+        activity: [],
+        lastUpdated: new Date().toISOString(),
+        error: 'Failed to load data'
+      });
     } finally {
       setLoading(false);
     }
@@ -65,7 +155,7 @@ export default function ActivityDashboard() {
     return () => clearInterval(interval);
   }, [fetchActivity]);
 
-  const stats = data?.stats || FALLBACK_STATS;
+  const stats = data?.stats || [];
   const activity = data?.activity || [];
 
   return (

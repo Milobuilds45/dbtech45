@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Workspace {
   id: string;
@@ -24,7 +24,69 @@ interface Workspace {
   modelRoutingRules: { condition: string; model: string; priority: number }[];
 }
 
-const WORKSPACES: Workspace[] = [
+interface AgentData {
+  agents: {
+    id: string;
+    name: string;
+    role: string;
+    color: string;
+    primaryModel: string;
+    availableModels: {
+      id: string;
+      name: string;
+      provider: string;
+    }[];
+    workspace: {
+      path: string;
+      hasSoul: boolean;
+      hasMemory: boolean;
+      hasTools: boolean;
+      soulExcerpt?: string;
+    };
+    reportsTo: string;
+    department: string;
+  }[];
+}
+
+// Fetch agent data from JSON
+const fetchAgentData = async (): Promise<AgentData> => {
+  try {
+    const response = await fetch('/data/agent-configs.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch agent data');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching agent data:', error);
+    return { agents: [] };
+  }
+};
+
+// Convert agent data to workspace format
+const convertToWorkspaces = (agentData: AgentData): Workspace[] => {
+  return agentData.agents.map(agent => ({
+    id: `ws-${agent.id}`,
+    name: `clawd-${agent.id}`,
+    agentName: agent.name,
+    role: agent.role,
+    description: `${agent.role} workspace for ${agent.name}`,
+    primaryModel: agent.primaryModel,
+    backupModel: agent.availableModels[1]?.name || undefined,
+    hasOwnGateway: agent.id === 'milo', // Milo has own gateway
+    heartbeatEnabled: true,
+    tools: agent.workspace.hasTools ? ['All agent tools'] : [],
+    memoryEnabled: agent.workspace.hasMemory,
+    memoryNamespace: agent.id,
+    memoryRetentionDays: 365,
+    soulPrompt: agent.workspace.soulExcerpt || `You are ${agent.name}, ${agent.role}`,
+    longTermGoals: [`Fulfill ${agent.role} responsibilities`],
+    status: 'active' as const,
+    lastHeartbeat: new Date().toISOString(),
+    modelRoutingRules: []
+  }));
+};
+
+/* Hardcoded workspaces array removed - now using dynamic data from agent-configs.json */
+
+const LEGACY_WORKSPACES: Workspace[] = [
   {
     id: 'ws-milo', name: 'clawd-milo', agentName: 'Milo', role: 'COO — Orchestrator',
     description: 'Central coordinator. Routes tasks, runs morning briefs, manages all agents. Has own gateway and heartbeat.',
@@ -156,6 +218,33 @@ const formatTime = (iso?: string) => {
 export default function WorkspacesPage() {
   const [selected, setSelected] = useState<Workspace | null>(null);
   const [editMode, setEditMode] = useState(false);
+  
+  // Workspaces data state
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Load workspaces data
+  const loadWorkspacesData = async () => {
+    try {
+      setLoading(true);
+      const agentData = await fetchAgentData();
+      const workspacesData = convertToWorkspaces(agentData);
+      setWorkspaces(workspacesData);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error loading workspaces:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    loadWorkspacesData();
+    const interval = setInterval(loadWorkspacesData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div style={{ padding: '2rem', maxWidth: 1400, margin: '0 auto', fontFamily: "'Inter', sans-serif" }}>
@@ -169,7 +258,12 @@ export default function WorkspacesPage() {
       <div style={{ display: 'flex', gap: '1.5rem' }}>
         {/* Workspace Grid */}
         <div style={{ flex: 1, display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', alignContent: 'start' }}>
-          {WORKSPACES.map(ws => (
+          {loading ? (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '3rem', color: '#71717A' }}>
+              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚙️</div>
+              <div>Loading workspaces...</div>
+            </div>
+          ) : workspaces.map(ws => (
             <div
               key={ws.id}
               onClick={() => { setSelected(ws); setEditMode(false); }}
@@ -221,7 +315,6 @@ export default function WorkspacesPage() {
               </div>
             </div>
           ))}
-        </div>
 
         {/* Detail Panel */}
         {selected && (
@@ -302,6 +395,24 @@ export default function WorkspacesPage() {
                 <InfoBox label="Gateway" value={selected.hasOwnGateway ? 'Own' : 'Shared (Milo)'} />
               </div>
             </Section>
+          </div>
+        )}
+        </div>
+
+        {/* Data Timestamp Footer */}
+        {lastUpdated && (
+          <div style={{ 
+            marginTop: '2rem', 
+            padding: '0.75rem 1rem', 
+            background: '#111113', 
+            borderRadius: '6px', 
+            border: '1px solid #27272A',
+            fontSize: '0.7rem', 
+            color: '#71717A',
+            fontFamily: "'JetBrains Mono', monospace",
+            textAlign: 'center'
+          }}>
+            Data generated at: {lastUpdated.toLocaleString()} • Auto-refresh: 30s
           </div>
         )}
       </div>

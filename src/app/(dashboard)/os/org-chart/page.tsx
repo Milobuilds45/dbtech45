@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-// ─── Org Chart Data (mirrors Derek's agent swarm) ────────────────────────
+// ─── Org Chart Data (from agent-configs.json) ────────────────────────
 
 interface OrgNode {
   id: string;
@@ -16,7 +16,92 @@ interface OrgNode {
   children?: OrgNode[];
 }
 
-const ORG_TREE: OrgNode = {
+interface AgentData {
+  agents: {
+    id: string;
+    name: string;
+    role: string;
+    color: string;
+    primaryModel: string;
+    availableModels: {
+      id: string;
+      name: string;
+      provider: string;
+    }[];
+    workspace: {
+      path: string;
+      hasSoul: boolean;
+      hasMemory: boolean;
+      hasTools: boolean;
+    };
+    reportsTo: string;
+    department: string;
+  }[];
+}
+
+// Fetch agent data from JSON
+const fetchAgentData = async (): Promise<AgentData> => {
+  try {
+    const response = await fetch('/data/agent-configs.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch agent data');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching agent data:', error);
+    return { agents: [] };
+  }
+};
+
+// Build org tree from agent data
+const buildOrgTree = (agentData: AgentData): OrgNode => {
+  const agentMap = new Map();
+  
+  // Create Derek (CEO) as root
+  const derek: OrgNode = {
+    id: 'derek',
+    name: 'Derek',
+    role: 'CEO',
+    title: 'Human CEO',
+    isHuman: true,
+    responsibilities: ['Vision & strategy', 'Final decisions', 'Content creation', 'Capital allocation'],
+    models: [],
+    tools: ['Telegram', 'GitHub', 'Vercel', 'Supabase'],
+    children: []
+  };
+  
+  agentMap.set('derek', derek);
+  
+  // Create agent nodes
+  agentData.agents.forEach(agent => {
+    const node: OrgNode = {
+      id: agent.id,
+      name: agent.name,
+      role: agent.role,
+      title: `${agent.role} — ${agent.department}`,
+      responsibilities: [`${agent.role} responsibilities`, `Workspace: ${agent.workspace.path}`, `Soul: ${agent.workspace.hasSoul}`, `Memory: ${agent.workspace.hasMemory}`],
+      models: [agent.primaryModel],
+      tools: agent.workspace.hasTools ? ['All agent tools'] : [],
+      children: []
+    };
+    agentMap.set(agent.id, node);
+  });
+  
+  // Build hierarchy
+  agentData.agents.forEach(agent => {
+    const agentNode = agentMap.get(agent.id);
+    const parentNode = agentMap.get(agent.reportsTo);
+    
+    if (agentNode && parentNode) {
+      parentNode.children = parentNode.children || [];
+      parentNode.children.push(agentNode);
+    }
+  });
+  
+  return derek;
+};
+
+/* Hardcoded ORG_TREE removed - now using dynamic data from agent-configs.json */
+
+const LEGACY_ORG_TREE: OrgNode = {
   id: 'derek',
   name: 'Derek',
   role: 'CEO',
@@ -166,6 +251,33 @@ const ROLE_COLORS: Record<string, string> = {
 export default function OrgChartPage() {
   const [expandedNodes, setExpandedNodes] = useState<Set<string>>(new Set(['derek', 'milo', 'anders', 'paula', 'bobby']));
   const [selectedNode, setSelectedNode] = useState<OrgNode | null>(null);
+  
+  // Org tree data state
+  const [orgTree, setOrgTree] = useState<OrgNode | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Load org tree data
+  const loadOrgData = async () => {
+    try {
+      setLoading(true);
+      const agentData = await fetchAgentData();
+      const tree = buildOrgTree(agentData);
+      setOrgTree(tree);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error loading org data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    loadOrgData();
+    const interval = setInterval(loadOrgData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const toggleNode = (id: string) => {
     setExpandedNodes(prev => {
@@ -177,9 +289,10 @@ export default function OrgChartPage() {
   };
 
   const expandAll = () => {
+    if (!orgTree) return;
     const ids = new Set<string>();
     const walk = (node: OrgNode) => { ids.add(node.id); node.children?.forEach(walk); };
-    walk(ORG_TREE);
+    walk(orgTree);
     setExpandedNodes(ids);
   };
 
@@ -287,7 +400,23 @@ export default function OrgChartPage() {
       <div style={{ display: 'flex', gap: '1.5rem' }}>
         {/* Tree */}
         <div style={{ flex: 1, background: '#111113', border: '1px solid #27272A', borderRadius: '12px', padding: '1rem', minWidth: 0 }}>
-          {renderNode(ORG_TREE)}
+          {loading ? (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem', color: '#71717A' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚙️</div>
+                <div>Loading org chart...</div>
+              </div>
+            </div>
+          ) : orgTree ? (
+            renderNode(orgTree)
+          ) : (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '4rem', color: '#71717A' }}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>❌</div>
+                <div>Failed to load org chart data</div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Detail Panel */}
@@ -357,6 +486,23 @@ export default function OrgChartPage() {
                 ))}
               </div>
             </div>
+          </div>
+        )}
+
+        {/* Data Timestamp Footer */}
+        {lastUpdated && (
+          <div style={{ 
+            marginTop: '3rem', 
+            padding: '0.75rem 1rem', 
+            background: '#111113', 
+            borderRadius: '6px', 
+            border: '1px solid #27272A',
+            fontSize: '0.7rem', 
+            color: '#71717A',
+            fontFamily: "'JetBrains Mono', monospace",
+            textAlign: 'center'
+          }}>
+            Data generated at: {lastUpdated.toLocaleString()} • Auto-refresh: 30s
           </div>
         )}
       </div>

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import OpsGuard from '@/components/OpsGuard';
 
 /* ───────────────── Design Tokens (Paula's spec) ───────────────── */
@@ -240,7 +240,99 @@ const COLLABORATIONS = [
   { title: 'Content Pipeline', agents: ['Paula', 'Dax', 'Anders'], desc: 'Paula (Design) + Dax (Strategy) + Anders (Deploy) → Full Pipeline', color: '#06B6D4' },
 ];
 
-/* ───────────────── Inventory Skill Data (from SKILLS_INVENTORY.md) ───────────────── */
+/* ───────────────── Skills Data (from JSON) ───────────────── */
+interface SkillData {
+  skills: {
+    name: string;
+    source: string; // 'local' | 'global'
+    category: string;
+    description: string;
+    lastModified: string;
+    sizeBytes: number;
+  }[];
+}
+
+// State for skills data
+let skillsData: SkillData | null = null;
+let lastFetch = 0;
+let dataTimestamp = '';
+
+// Helper function to get icon based on category
+const getCategoryIcon = (category: string): string => {
+  const icons: Record<string, string> = {
+    'development': '🧩',
+    'content': '📝',
+    'design': '🎨',
+    'finance': '💰',
+    'data': '📊',
+    'system': '⚙️',
+    'voice-audio': '🎵',
+    'business': '💼',
+    'research': '🔍',
+    'automation': '🤖',
+    'default': '📦'
+  };
+  return icons[category] || icons.default;
+};
+
+// Helper function to get category color
+const getCategoryColor = (category: string): string => {
+  const colors: Record<string, string> = {
+    'development': '#3B82F6',
+    'content': '#8B5CF6', 
+    'design': '#EC4899',
+    'finance': '#22C55E',
+    'data': '#F97316',
+    'system': '#8B5A2B',
+    'voice-audio': '#06B6D4',
+    'business': '#F59E0B',
+    'research': '#DC2626',
+    'automation': '#6366F1',
+    'default': '#71717A'
+  };
+  return colors[category] || colors.default;
+};
+
+// Convert JSON skills to InventorySkill format
+const convertSkillsData = (data: SkillData): { categories: SkillCategory[], allSkills: InventorySkill[], stats: { total: number, local: number, global: number } } => {
+  const skillsByCategory: Record<string, InventorySkill[]> = {};
+  
+  data.skills.forEach(skill => {
+    if (!skillsByCategory[skill.category]) {
+      skillsByCategory[skill.category] = [];
+    }
+    
+    skillsByCategory[skill.category].push({
+      name: skill.name,
+      icon: getCategoryIcon(skill.category),
+      purpose: skill.description || `${skill.name} skill`,
+      ready: true // All skills in JSON are ready since they exist
+    });
+  });
+
+  const categories: SkillCategory[] = Object.entries(skillsByCategory).map(([name, skills]) => ({
+    name: name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' '),
+    color: getCategoryColor(name),
+    skills
+  }));
+
+  const allSkills = data.skills.map(skill => ({
+    name: skill.name,
+    icon: getCategoryIcon(skill.category),
+    purpose: skill.description || `${skill.name} skill`,
+    ready: true
+  }));
+
+  const stats = {
+    total: data.skills.length,
+    local: data.skills.filter(s => s.source === 'local').length,
+    global: data.skills.filter(s => s.source === 'global').length
+  };
+
+  return { categories, allSkills, stats };
+};
+
+/* ───────────────── Fetch and Helper Functions ───────────────── */
 const READY_CATEGORIES: SkillCategory[] = [
   {
     name: 'Development & Integration', color: '#3B82F6',
@@ -404,13 +496,18 @@ const MISSING_CATEGORIES: SkillCategory[] = [
   },
 ];
 
-const ALL_INVENTORY_SKILLS: InventorySkill[] = [
-  ...READY_CATEGORIES.flatMap(c => c.skills),
-  ...MISSING_CATEGORIES.flatMap(c => c.skills),
-];
-const TOTAL_SKILLS = 82;
-const READY_COUNT = 41;
-const MISSING_COUNT = 41;
+// Fetch skills data from JSON
+const fetchSkillsData = async (): Promise<SkillData> => {
+  try {
+    const response = await fetch('/data/skills.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch skills data');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching skills data:', error);
+    // Return empty data if fetch fails
+    return { skills: [] };
+  }
+};
 
 /* ───────────────── Helpers ───────────────── */
 function totalSkills(a: Agent) { return a.coreSkills.length + a.technicalSkills.length + a.businessSkills.length; }
@@ -619,36 +716,28 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
 }
 
 /* ───────────────── By Category View ───────────────── */
-function CategoryView({ search }: { search: string }) {
+function CategoryView({ search, categories }: { search: string, categories: SkillCategory[] }) {
   const q = search.toLowerCase();
   const filterCat = (cat: SkillCategory): SkillCategory | null => {
     if (!q) return cat;
     const filtered = cat.skills.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
     return filtered.length === 0 ? null : { ...cat, skills: filtered };
   };
-  const readyCats = READY_CATEGORIES.map(filterCat).filter(Boolean) as SkillCategory[];
-  const missingCats = MISSING_CATEGORIES.map(filterCat).filter(Boolean) as SkillCategory[];
+  const filteredCats = categories.map(filterCat).filter(Boolean) as SkillCategory[];
+  const totalSkills = categories.reduce((acc, cat) => acc + cat.skills.length, 0);
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ marginBottom: 8 }}>
         <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.green, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.green, display: 'inline-block' }} />
-          READY SKILLS — {READY_COUNT} Available
+          AVAILABLE SKILLS — {totalSkills} Total
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {readyCats.map((cat, i) => <CategoryCard key={i} category={cat} defaultOpen={i === 0} />)}
+          {filteredCats.map((cat, i) => <CategoryCard key={i} category={cat} defaultOpen={i === 0} />)}
         </div>
       </div>
-      <div>
-        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.red, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.red, display: 'inline-block' }} />
-          MISSING DEPENDENCIES — {MISSING_COUNT} Unavailable
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {missingCats.map((cat, i) => <CategoryCard key={i} category={cat} />)}
-        </div>
-      </div>
-      {readyCats.length === 0 && missingCats.length === 0 && (
+      {filteredCats.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
           <div style={{ fontSize: 14 }}>No skills match &ldquo;{search}&rdquo;</div>
@@ -659,11 +748,12 @@ function CategoryView({ search }: { search: string }) {
 }
 
 /* ───────────────── By Status View ───────────────── */
-function StatusView({ search }: { search: string }) {
+function StatusView({ search, skills }: { search: string, skills: InventorySkill[] }) {
   const q = search.toLowerCase();
-  const filterSkills = (skills: InventorySkill[]) => !q ? skills : skills.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
-  const ready = filterSkills(ALL_INVENTORY_SKILLS.filter(s => s.ready));
-  const missing = filterSkills(ALL_INVENTORY_SKILLS.filter(s => !s.ready));
+  const filterSkills = (skillList: InventorySkill[]) => !q ? skillList : skillList.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
+  const ready = filterSkills(skills.filter(s => s.ready));
+  const missing = filterSkills(skills.filter(s => !s.ready));
+  
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <div>
@@ -674,13 +764,15 @@ function StatusView({ search }: { search: string }) {
         <style>{`.status-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}@media(max-width:768px){.status-grid{grid-template-columns:1fr!important}}`}</style>
         <div className="status-grid">{ready.map((s, i) => <InventorySkillRow key={i} skill={s} />)}</div>
       </div>
-      <div>
-        <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.red, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ width: 10, height: 10, borderRadius: '50%', background: T.red, display: 'inline-block' }} />
-          MISSING ({missing.length})
+      {missing.length > 0 && (
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 700, textTransform: 'uppercase' as const, letterSpacing: 1.5, color: T.red, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ width: 10, height: 10, borderRadius: '50%', background: T.red, display: 'inline-block' }} />
+            MISSING ({missing.length})
+          </div>
+          <div className="status-grid">{missing.map((s, i) => <InventorySkillRow key={i} skill={s} />)}</div>
         </div>
-        <div className="status-grid">{missing.map((s, i) => <InventorySkillRow key={i} skill={s} />)}</div>
-      </div>
+      )}
       {ready.length === 0 && missing.length === 0 && (
         <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
           <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
@@ -698,6 +790,37 @@ export default function SkillsInventory() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [matrixOpen, setMatrixOpen] = useState(false);
+  
+  // Skills data state
+  const [skillsLoading, setSkillsLoading] = useState(true);
+  const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
+  const [allSkills, setAllSkills] = useState<InventorySkill[]>([]);
+  const [skillStats, setSkillStats] = useState({ total: 0, local: 0, global: 0 });
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Load skills data
+  const loadSkillsData = async () => {
+    try {
+      setSkillsLoading(true);
+      const data = await fetchSkillsData();
+      const { categories, allSkills: skills, stats } = convertSkillsData(data);
+      setSkillCategories(categories);
+      setAllSkills(skills);
+      setSkillStats(stats);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error loading skills:', error);
+    } finally {
+      setSkillsLoading(false);
+    }
+  };
+
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    loadSkillsData();
+    const interval = setInterval(loadSkillsData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const filtered = useMemo(() => {
     if (!search && filter === 'All') return AGENTS;
@@ -717,6 +840,19 @@ export default function SkillsInventory() {
     { key: 'status', label: 'By Status' },
   ];
 
+  if (skillsLoading) {
+    return (
+      <OpsGuard>
+        <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: 32, marginBottom: 16 }}>⚙️</div>
+            <div style={{ fontSize: 16, color: T.secondary }}>Loading skills data...</div>
+          </div>
+        </div>
+      </OpsGuard>
+    );
+  }
+
   return (
     <OpsGuard>
     <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
@@ -725,7 +861,7 @@ export default function SkillsInventory() {
         <div style={{ marginBottom: 24 }}>
           <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 28, fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>Skills Inventory</h1>
           <p style={{ color: T.secondary, margin: 0, fontSize: 14 }}>
-            Comprehensive capability matrix · {AGENTS.length} agents · {AGENTS.reduce((s, a) => s + totalSkills(a), 0)}+ agent skills
+            Comprehensive capability matrix · {AGENTS.length} agents · {skillStats.total}+ skills ({skillStats.local} local, {skillStats.global} global)
           </p>
         </div>
         {/* Stats Bar */}
@@ -734,20 +870,20 @@ export default function SkillsInventory() {
           padding: '16px 20px', background: T.card, borderRadius: 8, border: `1px solid ${T.border}`,
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 24, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{TOTAL_SKILLS}</span>
+            <span style={{ fontSize: 24, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{skillStats.total}</span>
             <span style={{ fontSize: 12, color: T.secondary }}>total skills</span>
           </div>
           <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.green }} />
-            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.green }}>{READY_COUNT}</span>
-            <span style={{ fontSize: 12, color: T.secondary }}>ready</span>
+            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.green }}>{skillStats.local}</span>
+            <span style={{ fontSize: 12, color: T.secondary }}>local</span>
           </div>
           <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.red }} />
-            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.red }}>{MISSING_COUNT}</span>
-            <span style={{ fontSize: 12, color: T.secondary }}>missing dependencies</span>
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.amber }} />
+            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{skillStats.global}</span>
+            <span style={{ fontSize: 12, color: T.secondary }}>global</span>
           </div>
           <div style={{ flex: 1 }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -820,8 +956,8 @@ export default function SkillsInventory() {
             )}
           </>
         )}
-        {viewMode === 'category' && <CategoryView search={search} />}
-        {viewMode === 'status' && <StatusView search={search} />}
+        {viewMode === 'category' && <CategoryView search={search} categories={skillCategories} />}
+        {viewMode === 'status' && <StatusView search={search} skills={allSkills} />}
         {/* Collaboration Matrix */}
         {viewMode === 'agent' && (
           <div style={{ marginTop: 48 }}>
@@ -860,6 +996,23 @@ export default function SkillsInventory() {
                 ))}
               </div>
             )}
+          </div>
+        )}
+
+        {/* Data Timestamp Footer */}
+        {lastUpdated && (
+          <div style={{ 
+            marginTop: 48, 
+            padding: '12px 16px', 
+            background: T.elevated, 
+            borderRadius: 6, 
+            border: `1px solid ${T.border}`,
+            fontSize: 11, 
+            color: T.muted,
+            fontFamily: "'JetBrains Mono', monospace",
+            textAlign: 'center'
+          }}>
+            Data generated at: {lastUpdated.toLocaleString()} • Auto-refresh: 30s
           </div>
         )}
       </div>

@@ -25,6 +25,66 @@ interface MemoryEntry {
   category: 'decision' | 'note' | 'lesson' | 'event' | 'idea';
 }
 
+interface AgentData {
+  agents: {
+    id: string;
+    name: string;
+    role: string;
+    workspace: {
+      path: string;
+      hasSoul: boolean;
+      hasMemory: boolean;
+      hasTools: boolean;
+      soulExcerpt?: string;
+    };
+    department: string;
+  }[];
+}
+
+// Fetch agent data from JSON
+const fetchAgentData = async (): Promise<AgentData> => {
+  try {
+    const response = await fetch('/data/agent-configs.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch agent data');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching agent data:', error);
+    return { agents: [] };
+  }
+};
+
+// Generate memory entries from agent data
+const generateMemoryEntries = (agentData: AgentData): MemoryEntry[] => {
+  const entries: MemoryEntry[] = [];
+  
+  // Add entries for each agent's memory/soul status
+  agentData.agents.forEach(agent => {
+    if (agent.workspace.hasSoul) {
+      entries.push({
+        date: new Date().toISOString().split('T')[0],
+        title: `${agent.name} Soul Status`,
+        preview: `${agent.name} (${agent.role}) has an active soul configuration...`,
+        content: `# ${agent.name} Soul Configuration\n\n**Agent:** ${agent.name}\n**Role:** ${agent.role}\n**Department:** ${agent.department}\n\n**Soul Status:** ${agent.workspace.hasSoul ? 'Active ✅' : 'Inactive ❌'}\n**Memory:** ${agent.workspace.hasMemory ? 'Enabled' : 'Disabled'}\n**Tools:** ${agent.workspace.hasTools ? 'Available' : 'Unavailable'}\n\n**Workspace:** ${agent.workspace.path}\n\n${agent.workspace.soulExcerpt ? '**Soul Excerpt:**\n' + agent.workspace.soulExcerpt : ''}`,
+        tags: [agent.id, 'soul', 'agent'],
+        category: agent.workspace.hasSoul ? 'event' : 'note'
+      });
+    }
+    
+    if (agent.workspace.hasMemory) {
+      entries.push({
+        date: new Date().toISOString().split('T')[0],
+        title: `${agent.name} Memory System`,
+        preview: `${agent.name} has memory persistence enabled for long-term context...`,
+        content: `# ${agent.name} Memory System\n\n**Agent:** ${agent.name}\n**Role:** ${agent.role}\n\n**Memory Status:** Enabled ✅\n**Workspace:** ${agent.workspace.path}\n\nThis agent has persistent memory enabled, allowing for context retention across sessions.`,
+        tags: [agent.id, 'memory', 'agent'],
+        category: 'decision'
+      });
+    }
+  });
+  
+  return entries;
+};
+
 const CATEGORY_COLORS: Record<string, { bg: string; text: string; icon: string }> = {
   decision: { bg: 'rgba(245,158,11,0.15)', text: '#F59E0B', icon: '⧉' },
   note:     { bg: 'rgba(59,130,246,0.15)',  text: '#3B82F6', icon: '◈' },
@@ -33,8 +93,8 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string; icon: string }
   idea:     { bg: 'rgba(236,72,153,0.15)',  text: '#EC4899', icon: '✦' },
 };
 
-/* ───────────────── Memory Data ───────────────── */
-const MEMORY_ENTRIES: MemoryEntry[] = [
+/* ───────────────── Legacy Memory Data (removed - now using agent data) ───────────────── */
+const LEGACY_MEMORY_ENTRIES: MemoryEntry[] = [
   {
     date: '2026-02-11',
     title: 'Operations Overhaul Spec',
@@ -277,9 +337,36 @@ export default function SecondBrainPage() {
   const [dateTo, setDateTo] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('all');
   const [expanded, setExpanded] = useState<Record<number, boolean>>({});
+  
+  // Memory data state
+  const [memoryEntries, setMemoryEntries] = useState<MemoryEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+
+  // Load memory data
+  const loadMemoryData = async () => {
+    try {
+      setLoading(true);
+      const agentData = await fetchAgentData();
+      const entries = generateMemoryEntries(agentData);
+      setMemoryEntries(entries);
+      setLastUpdated(new Date());
+    } catch (error) {
+      console.error('Error loading memory data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Auto-refresh every 30 seconds
+  useEffect(() => {
+    loadMemoryData();
+    const interval = setInterval(loadMemoryData, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   const filteredEntries = useMemo(() => {
-    return MEMORY_ENTRIES.filter(entry => {
+    return memoryEntries.filter(entry => {
       if (search) {
         const q = search.toLowerCase();
         if (!(entry.title.toLowerCase().includes(q) || entry.preview.toLowerCase().includes(q) || entry.content.toLowerCase().includes(q) || entry.tags.some(t => t.toLowerCase().includes(q)))) return false;
@@ -307,7 +394,7 @@ export default function SecondBrainPage() {
           {/* Header */}
           <div style={{ marginBottom: '24px' }}>
             <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: '28px', fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>Second Brain</h1>
-            <p style={{ color: T.secondary, margin: 0, fontSize: '14px' }}>Memory bank · Decision log · Knowledge graph · {MEMORY_ENTRIES.length} entries</p>
+            <p style={{ color: T.secondary, margin: 0, fontSize: '14px' }}>Memory bank · Decision log · Knowledge graph · {memoryEntries.length} entries</p>
           </div>
 
           {/* Search */}
@@ -360,7 +447,7 @@ export default function SecondBrainPage() {
           <div style={{ display: 'flex', gap: '16px', marginBottom: '20px', padding: '12px 16px', background: T.card, borderRadius: '8px', border: `1px solid ${T.border}`, flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ fontSize: '18px', fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{filteredEntries.length}</span>
-              <span style={{ fontSize: '12px', color: T.secondary }}>{filteredEntries.length === MEMORY_ENTRIES.length ? 'total entries' : 'matching'}</span>
+              <span style={{ fontSize: '12px', color: T.secondary }}>{filteredEntries.length === memoryEntries.length ? 'total entries' : 'matching'}</span>
             </div>
             <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
             {Object.entries(CATEGORY_COLORS).map(([cat, s]) => {
@@ -387,6 +474,11 @@ export default function SecondBrainPage() {
                 <div style={{ fontSize: '14px' }}>No entries match your search</div>
                 <div style={{ fontSize: '12px', marginTop: '4px' }}>Try adjusting your filters or search terms</div>
               </div>
+            ) : loading ? (
+              <div style={{ textAlign: 'center', padding: '4rem', color: T.muted }}>
+                <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>⚙️</div>
+                <div>Loading memory entries...</div>
+              </div>
             ) : (
               filteredEntries.map((entry, i) => (
                 <TimelineNode key={`${entry.date}-${i}`} entry={entry} isExpanded={!!expanded[i]} onToggle={() => toggleEntry(i)} />
@@ -396,8 +488,25 @@ export default function SecondBrainPage() {
 
           {/* Footer */}
           <div style={{ textAlign: 'center', marginTop: '32px', fontSize: '11px', color: T.muted, fontFamily: "'JetBrains Mono', monospace" }}>
-            Second Brain · Memory Bank · {MEMORY_ENTRIES.length} entries loaded
+            Second Brain · Memory Bank · {memoryEntries.length} entries loaded
           </div>
+          
+          {/* Data Timestamp Footer */}
+          {lastUpdated && (
+            <div style={{ 
+              marginTop: '2rem', 
+              padding: '0.75rem 1rem', 
+              background: T.card, 
+              borderRadius: '6px', 
+              border: `1px solid ${T.border}`,
+              fontSize: '0.7rem', 
+              color: T.muted,
+              fontFamily: "'JetBrains Mono', monospace",
+              textAlign: 'center'
+            }}>
+              Data generated at: {lastUpdated.toLocaleString()} • Auto-refresh: 30s
+            </div>
+          )}
         </div>
       </div>
 
