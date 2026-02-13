@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "9af02b47",
+      "author": "Milo",
+      "timestamp": "2026-02-13 16:49:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "46d79d8b",
       "author": "Milo",
       "timestamp": "2026-02-13 16:44:03 -0500",
@@ -435,13 +442,6 @@
       "message": "fix: Ideas Vault no longer flashes hardcoded defaults on load"
     },
     {
-      "type": "commit",
-      "id": "96b675d3",
-      "author": "Milo",
-      "timestamp": "2026-02-12 21:54:33 -0500",
-      "message": "fix: Kanban refresh button now shows loading state"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-13T01:02:07.845Z",
@@ -449,5 +449,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T21:49:03.668Z"
+  "generatedAt": "2026-02-13T21:54:03.757Z"
 }

@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T21:49:02.861Z",
+    "lastHeartbeat": "2026-02-13T21:54:02.926Z",
     "totalCrons": 15,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -18,12 +18,12 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T21:24:36.604Z"
+      "lastSeen": "2026-02-13T21:52:41.015Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -41,7 +41,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -50,7 +50,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -59,7 +59,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 1,
@@ -77,7 +77,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -86,7 +86,7 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -94,6 +94,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-13T21:52:41.015Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 15
+    },
     {
       "key": "agent:bobby:main",
       "agent": "Bobby",
@@ -106,21 +117,10 @@
       "sessionCount": 49
     },
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T21:24:36.604Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 15
-    },
-    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:23:29.804Z",
       "role": "Wellness Coach",
@@ -131,7 +131,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:23:26.490Z",
       "role": "Full Stack Architect",
@@ -142,7 +142,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:23:22.652Z",
       "role": "Weather & News",
@@ -153,7 +153,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:23:13.636Z",
       "role": "Creative Director",
@@ -164,7 +164,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:22:56.497Z",
       "role": "Tech Guru",
@@ -175,7 +175,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T21:22:39.706Z",
       "role": "Restaurant Marketing",
@@ -201,7 +201,7 @@
       "schedule": "0 7 * * *",
       "humanSchedule": "0 7 * * *",
       "agent": "Milo",
-      "description": "CONSOLIDATED DAILY INTENTIONS COORDINATOR. You are Milo (Chief of Staff). At 7:00 AM, collect daily intentions from all ",
+      "description": "AUTONOMOUS DAILY COORDINATOR - LIGHTS OUT FACTORY",
       "lastRun": "2026-02-13T12:00:00.010Z",
       "lastStatus": "success",
       "nextRun": "2026-02-14T12:00:00.000Z",
@@ -411,7 +411,7 @@
       "schedule": "0 3 * * *",
       "humanSchedule": "0 3 * * *",
       "agent": "Milo",
-      "description": "NIGHTLY MILO-OS — ANALYZE + BUILD + IMPROVE",
+      "description": "🏭 LIGHTS OUT FACTORY AUTONOMOUS BUILD",
       "lastRun": "2026-02-13T08:00:00.004Z",
       "lastStatus": "success",
       "nextRun": "2026-02-14T08:00:00.000Z",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T21:49:03.559Z",
+  "generatedAt": "2026-02-13T21:54:03.652Z",
   "version": 2
 }
