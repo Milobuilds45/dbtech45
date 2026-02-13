@@ -65,6 +65,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Second Brain':  <Brain size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
   'Overnight Sessions': <Calendar size={ICON_SIZE} />,
+  'Home':          <LayoutDashboard size={ICON_SIZE} />,
   'Task Manager':  <ListTodo size={ICON_SIZE} />,
   'Org Chart':     <Network size={ICON_SIZE} />,
   'Workspaces':    <HardDrive size={ICON_SIZE} />,
@@ -81,6 +82,7 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
+  { label: 'Home', href: '/os' },
   { label: 'Task Manager', href: '/os/task-manager' },
   { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },

@@ -69,7 +69,7 @@ export default function OSPage() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
             <h2 style={{ color: b.amber, marginBottom: '12px', fontSize: '24px', fontWeight: 700, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '12px' }}>
-              🎯 MILO MISSION CONTROL
+              MILO MISSION CONTROL
               <span style={{ 
                 fontSize: '10px', 
                 background: b.success, 
@@ -88,7 +88,7 @@ export default function OSPage() {
               Built by Milo during overnight ops • Live system diagnostics • Auto-refresh monitoring
             </p>
           </div>
-          <div style={{ fontSize: '64px' }}>🚀</div>
+          <div style={{ fontSize: '48px', color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, opacity: 0.15 }}>MC</div>
         </div>
         
         <div style={{ display: 'flex', gap: '16px', marginTop: '24px', flexWrap: 'wrap' }}>
@@ -106,7 +106,7 @@ export default function OSPage() {
             }}
             onClick={() => window.location.href = '/os/mission-control'}
           >
-            🎯 Launch Mission Control
+            Launch Mission Control
           </button>
           <button 
             style={{ 
@@ -121,7 +121,7 @@ export default function OSPage() {
             }}
             onClick={() => alert('Features: Gateway health, Agent heartbeats, Cron monitoring, System alerts, Real-time diagnostics')}
           >
-            📋 View Features
+            View Features
           </button>
         </div>
       </div>
