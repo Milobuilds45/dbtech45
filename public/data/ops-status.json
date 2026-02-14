@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T13:19:02.008Z",
+    "lastHeartbeat": "2026-02-14T13:24:02.237Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:18:29.892Z"
+      "lastSeen": "2026-02-14T13:23:48.887Z"
     },
     {
       "name": "Anders",
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:18:04.215Z"
+      "lastSeen": "2026-02-14T13:23:03.463Z"
     },
     {
       "name": "Paula",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:18:21.285Z"
+      "lastSeen": "2026-02-14T13:23:24.505Z"
     },
     {
       "name": "Tony",
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:18:53.689Z"
+      "lastSeen": "2026-02-14T13:24:01.962Z"
     },
     {
       "name": "Dax",
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:19:01.276Z"
+      "lastSeen": "2026-02-14T13:21:36.404Z"
     },
     {
       "name": "Remy",
@@ -95,26 +95,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:19:01.276Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 11
-    },
-    {
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:18:53.689Z",
+      "lastActivity": "2026-02-14T13:24:01.962Z",
       "role": "Tech Guru",
       "cost": 0,
-      "sessionCount": 19
+      "sessionCount": 21
     },
     {
       "key": "agent:milo:main",
@@ -122,7 +111,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:18:29.892Z",
+      "lastActivity": "2026-02-14T13:23:48.887Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -133,10 +122,10 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:18:21.285Z",
+      "lastActivity": "2026-02-14T13:23:24.505Z",
       "role": "Weather & News",
       "cost": 0,
-      "sessionCount": 37
+      "sessionCount": 41
     },
     {
       "key": "agent:bobby:main",
@@ -144,10 +133,21 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:18:04.215Z",
+      "lastActivity": "2026-02-14T13:23:03.463Z",
       "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 53
+      "sessionCount": 54
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T13:21:36.404Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 12
     },
     {
       "key": "agent:paula:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T13:19:02.302Z",
+  "generatedAt": "2026-02-14T13:24:02.559Z",
   "version": 2
 }
