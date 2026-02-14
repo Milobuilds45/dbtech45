@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T03:14:02.422Z",
+    "lastHeartbeat": "2026-02-14T03:19:07.591Z",
     "totalCrons": 15,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T03:07:52.907Z"
+      "lastSeen": "2026-02-14T03:15:06.366Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T03:12:58.420Z"
+      "lastSeen": "2026-02-14T03:19:06.673Z"
     },
     {
       "name": "Bobby",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T03:13:57.284Z"
+      "lastSeen": "2026-02-14T03:19:04.091Z"
     },
     {
       "name": "Dwight",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T03:13:57.284Z",
+      "lastActivity": "2026-02-14T03:19:07.931Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
@@ -111,7 +111,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T03:12:58.420Z",
+      "lastActivity": "2026-02-14T03:19:06.673Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -122,7 +122,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T03:07:52.907Z",
+      "lastActivity": "2026-02-14T03:15:06.366Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 22
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T03:14:03.097Z",
+  "generatedAt": "2026-02-14T03:19:08.315Z",
   "version": 2
 }
