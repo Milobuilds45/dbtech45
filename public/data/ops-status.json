@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T19:49:04.251Z",
+    "lastHeartbeat": "2026-02-14T19:54:03.210Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T19:49:05.230Z",
+  "generatedAt": "2026-02-14T19:54:04.413Z",
   "version": 2
 }
