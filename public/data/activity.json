@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "34f13d44",
+      "author": "Milo",
+      "timestamp": "2026-02-14 17:49:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "8103daa6",
       "author": "Milo",
       "timestamp": "2026-02-14 17:44:04 -0500",
@@ -344,13 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "23edb7d4",
-      "author": "Milo",
-      "timestamp": "2026-02-14 14:31:56 -0500",
-      "message": "fix: Cap Brandmark zoomed in 1.8x on the hat"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T22:49:04.460Z"
+  "generatedAt": "2026-02-14T22:54:08.863Z"
 }
