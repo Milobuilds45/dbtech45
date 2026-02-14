@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T00:29:02.193Z",
+    "lastHeartbeat": "2026-02-14T00:34:02.362Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T00:15:06.205Z"
+      "lastSeen": "2026-02-14T00:34:00.492Z"
     },
     {
       "name": "Dwight",
@@ -68,11 +68,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:29:17.885Z"
+      "lastSeen": "2026-02-14T00:33:59.989Z"
     },
     {
       "name": "Remy",
@@ -94,6 +94,28 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T00:34:00.492Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T00:33:59.989Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 6
+    },
     {
       "key": "agent:anders:main",
       "agent": "Anders",
@@ -117,17 +139,6 @@
       "sessionCount": 22
     },
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T00:15:06.205Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 16
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
@@ -137,17 +148,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 29
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:29:17.885Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 6
     },
     {
       "key": "agent:bobby:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T00:29:02.881Z",
+  "generatedAt": "2026-02-14T00:34:03.072Z",
   "version": 2
 }
