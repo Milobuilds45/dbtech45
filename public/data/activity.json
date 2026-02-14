@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "c30262e8",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:37:11 -0500",
+      "message": "feat: add In Plain English section to Agent Ideas cards"
+    },
+    {
+      "type": "commit",
+      "id": "aff2b736",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:34:07 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "b1719823",
       "author": "Milo",
       "timestamp": "2026-02-14 18:29:07 -0500",
@@ -337,20 +351,6 @@
       "message": "fix: add dna-lab CSS overrides to force light-mode through dashboard dark wrapper"
     },
     {
-      "type": "commit",
-      "id": "2b42e6ba",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:15:03 -0500",
-      "message": "fix: force light-mode inline styles on DNA Scanner to override dashboard dark wrapper"
-    },
-    {
-      "type": "commit",
-      "id": "efda53ef",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:14:07 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T23:34:06.996Z"
+  "generatedAt": "2026-02-14T23:39:06.198Z"
 }
