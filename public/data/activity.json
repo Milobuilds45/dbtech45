@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0c5253c6",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:53:54 -0500",
+      "message": "feat: add visible clickable URL link to Agent Assist resource cards"
+    },
+    {
+      "type": "commit",
+      "id": "233ded1c",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:51:23 -0500",
+      "message": "feat: redesign Agent Assist generate section + add clear button"
+    },
+    {
+      "type": "commit",
+      "id": "7a9fa2d7",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:49:07 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "5b2e7f4c",
       "author": "Milo",
       "timestamp": "2026-02-14 18:45:55 -0500",
@@ -330,27 +351,6 @@
       "message": "Enhance agent ideas interface with 'explain like I'm 5' approach - Add prominent 'What is this idea?' section, move Agent Reasoning to blue box next to Development Time, simplify all language for accessibility"
     },
     {
-      "type": "commit",
-      "id": "a548919c",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:34:06 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "1f251d80",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:29:10 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "4713b073",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:24:07 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T23:49:06.896Z"
+  "generatedAt": "2026-02-14T23:54:06.507Z"
 }

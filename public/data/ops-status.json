@@ -4,8 +4,8 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T23:49:05.375Z",
-    "totalCrons": 16,
+    "lastHeartbeat": "2026-02-14T23:54:05.088Z",
+    "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
     "alerts": []
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T23:37:55.762Z"
+      "lastSeen": "2026-02-14T23:52:14.176Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T23:46:09.198Z"
+      "lastSeen": "2026-02-14T23:53:58.830Z"
     },
     {
       "name": "Bobby",
@@ -95,23 +95,12 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T23:47:36.918Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
-    },
-    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T23:46:09.198Z",
+      "lastActivity": "2026-02-14T23:53:58.830Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -122,10 +111,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T23:37:55.762Z",
+      "lastActivity": "2026-02-14T23:52:14.176Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T23:47:36.918Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
     },
     {
       "key": "agent:paula:main",
@@ -434,8 +434,23 @@
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
+    },
+    {
+      "id": "d3941baa-0f44-434e-bf32-b5e4e3b57b84",
+      "name": "nightly-os-section-maintenance",
+      "schedule": "45 23 * * *",
+      "humanSchedule": "45 23 * * *",
+      "agent": "Milo",
+      "description": "🔧 NIGHTLY OS SECTION MAINTENANCE (11:45 PM)",
+      "lastRun": null,
+      "lastStatus": "pending",
+      "nextRun": "2026-02-15T04:45:00.000Z",
+      "duration": null,
+      "enabled": true,
+      "deleteAfterRun": false,
+      "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T23:49:06.733Z",
+  "generatedAt": "2026-02-14T23:54:06.330Z",
   "version": 2
 }
