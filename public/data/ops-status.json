@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T04:59:02.868Z",
+    "lastHeartbeat": "2026-02-14T05:04:02.843Z",
     "totalCrons": 15,
-    "activeSessions": 4,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": []
   },
@@ -32,7 +32,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -131,7 +131,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T01:01:59.506Z",
       "role": "Trading Advisor",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T04:59:03.773Z",
+  "generatedAt": "2026-02-14T05:04:03.746Z",
   "version": 2
 }
