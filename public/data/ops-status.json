@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T13:24:02.237Z",
+    "lastHeartbeat": "2026-02-14T13:29:02.181Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:24:01.962Z"
+      "lastSeen": "2026-02-14T13:28:59.965Z"
     },
     {
       "name": "Dax",
@@ -100,7 +100,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:24:01.962Z",
+      "lastActivity": "2026-02-14T13:28:59.965Z",
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 21
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T13:24:02.559Z",
+  "generatedAt": "2026-02-14T13:29:02.499Z",
   "version": 2
 }
