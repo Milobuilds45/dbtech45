@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T20:39:04.552Z",
+    "lastHeartbeat": "2026-02-14T20:44:03.000Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:38:37.325Z"
+      "lastSeen": "2026-02-14T20:42:56.128Z"
     },
     {
       "name": "Anders",
@@ -100,7 +100,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:38:37.325Z",
+      "lastActivity": "2026-02-14T20:42:56.128Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T20:39:05.723Z",
+  "generatedAt": "2026-02-14T20:44:04.137Z",
   "version": 2
 }
