@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "a1b89334",
+      "author": "Milo",
+      "timestamp": "2026-02-14 16:19:29 -0500",
+      "message": "feat: Agent Assist - add delete button + web-search-powered generation (no repeats)"
+    },
+    {
+      "type": "commit",
+      "id": "67cdaa3f",
+      "author": "Milo",
+      "timestamp": "2026-02-14 16:19:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "cb7b760d",
       "author": "Milo",
       "timestamp": "2026-02-14 16:14:09 -0500",
@@ -337,20 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "dad0844d",
-      "author": "Milo",
-      "timestamp": "2026-02-14 13:14:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "e4a220fe",
-      "author": "Milo",
-      "timestamp": "2026-02-14 13:09:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -456,5 +456,5 @@
       "jobId": "cd45ae0b-cd6a-4de8-8c3b-a01150867f9a"
     }
   ],
-  "generatedAt": "2026-02-14T21:19:06.746Z"
+  "generatedAt": "2026-02-14T21:24:04.568Z"
 }

@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T21:19:04.977Z",
+    "lastHeartbeat": "2026-02-14T21:24:03.338Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T21:18:38.687Z"
+      "lastSeen": "2026-02-14T21:20:27.197Z"
     },
     {
       "name": "Bobby",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T21:18:38.687Z",
+      "lastActivity": "2026-02-14T21:20:27.197Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T21:19:06.600Z",
+  "generatedAt": "2026-02-14T21:24:04.457Z",
   "version": 2
 }
