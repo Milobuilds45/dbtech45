@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T17:04:06.212Z",
+    "lastHeartbeat": "2026-02-14T17:09:03.968Z",
     "totalCrons": 15,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -50,7 +50,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -68,11 +68,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:10:28.187Z"
+      "lastSeen": "2026-02-14T17:04:17.912Z"
     },
     {
       "name": "Remy",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T17:04:17.912Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 21
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -109,7 +120,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T16:38:35.921Z",
       "role": "Weather & News",
@@ -126,17 +137,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:10:28.187Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 20
     },
     {
       "key": "agent:bobby:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T17:04:10.104Z",
+  "generatedAt": "2026-02-14T17:09:07.861Z",
   "version": 2
 }
