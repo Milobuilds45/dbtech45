@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T14:44:04.370Z",
+    "lastHeartbeat": "2026-02-14T14:49:03.157Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:44:04.223Z"
+      "lastSeen": "2026-02-14T14:45:07.540Z"
     },
     {
       "name": "Anders",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:43:54.093Z"
+      "lastSeen": "2026-02-14T14:45:23.670Z"
     },
     {
       "name": "Dwight",
@@ -95,26 +95,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:44:04.479Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
-    },
-    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:43:54.093Z",
+      "lastActivity": "2026-02-14T14:45:23.670Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T14:45:07.540Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 25
     },
     {
       "key": "agent:dwight:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T14:44:08.744Z",
+  "generatedAt": "2026-02-14T14:49:04.141Z",
   "version": 2
 }
