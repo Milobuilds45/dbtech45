@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "21cd87b7",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:39:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "c30262e8",
       "author": "Milo",
       "timestamp": "2026-02-14 18:37:11 -0500",
@@ -344,13 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "e2704b57",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:17:06 -0500",
-      "message": "fix: add dna-lab CSS overrides to force light-mode through dashboard dark wrapper"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T23:39:06.198Z"
+  "generatedAt": "2026-02-14T23:44:04.709Z"
 }
