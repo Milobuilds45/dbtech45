@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T14:04:02.360Z",
+    "lastHeartbeat": "2026-02-14T14:09:10.444Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:03:38.398Z"
+      "lastSeen": "2026-02-14T14:04:38.368Z"
     },
     {
       "name": "Anders",
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:03:17.686Z"
+      "lastSeen": "2026-02-14T14:09:08.963Z"
     },
     {
       "name": "Paula",
@@ -54,12 +54,12 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:03:28.478Z"
+      "lastSeen": "2026-02-14T14:04:24.008Z"
     },
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:04:01.641Z"
+      "lastSeen": "2026-02-14T14:04:07.281Z"
     },
     {
       "name": "Remy",
@@ -95,15 +95,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:04:01.641Z",
-      "role": "Social Strategist",
+      "lastActivity": "2026-02-14T14:09:08.963Z",
+      "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 19
+      "sessionCount": 61
     },
     {
       "key": "agent:milo:main",
@@ -111,7 +111,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:03:38.398Z",
+      "lastActivity": "2026-02-14T14:04:38.368Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -122,27 +122,27 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:03:28.478Z",
+      "lastActivity": "2026-02-14T14:04:24.008Z",
       "role": "Weather & News",
       "cost": 0,
-      "sessionCount": 53
+      "sessionCount": 54
     },
     {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:03:17.686Z",
-      "role": "Trading Advisor",
+      "lastActivity": "2026-02-14T14:04:07.281Z",
+      "role": "Social Strategist",
       "cost": 0,
-      "sessionCount": 60
+      "sessionCount": 19
     },
     {
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T13:37:42.886Z",
       "role": "Tech Guru",
@@ -367,10 +367,10 @@
       "humanSchedule": "0 9 * * 6",
       "agent": "Bobby",
       "description": "SATURDAY IPO RESEARCH BRIEF (9:00 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-14T14:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-14T14:01:03.209Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-21T14:00:00.000Z",
+      "duration": "135s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T14:04:02.669Z",
+  "generatedAt": "2026-02-14T14:09:10.790Z",
   "version": 2
 }
