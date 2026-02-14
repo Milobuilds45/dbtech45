@@ -2,10 +2,31 @@
   "activity": [
     {
       "type": "cron_run",
+      "id": "d737c8a2",
+      "timestamp": "2026-02-14T13:18:54.315Z",
+      "message": "Cron run: ok",
+      "jobId": "d737c8a2-21bb-4486-aa24-15d95152d8a9"
+    },
+    {
+      "type": "cron_run",
       "id": "bc892137",
-      "timestamp": "2026-02-14T13:11:25.713Z",
+      "timestamp": "2026-02-14T13:18:22.337Z",
       "message": "Cron run: ok",
       "jobId": "bc892137-9697-492b-920d-4bbeca1cea9c"
+    },
+    {
+      "type": "cron_run",
+      "id": "7face9bc",
+      "timestamp": "2026-02-14T13:18:05.861Z",
+      "message": "Cron run: ok",
+      "jobId": "7face9bc-30f0-4b2a-85ca-8c57f5351cdb"
+    },
+    {
+      "type": "commit",
+      "id": "bb652b56",
+      "author": "Milo",
+      "timestamp": "2026-02-14 08:14:03 -0500",
+      "message": "chore: auto-sync dashboard data"
     },
     {
       "type": "cron_run",
@@ -20,13 +41,6 @@
       "timestamp": "2026-02-14T13:10:48.098Z",
       "message": "Cron run: ok",
       "jobId": "de37c19d-2152-46cf-81ae-f46cd63cbd79"
-    },
-    {
-      "type": "cron_run",
-      "id": "d737c8a2",
-      "timestamp": "2026-02-14T13:09:30.477Z",
-      "message": "Cron run: ok",
-      "jobId": "d737c8a2-21bb-4486-aa24-15d95152d8a9"
     },
     {
       "type": "commit",
@@ -48,13 +62,6 @@
       "timestamp": "2026-02-14T13:03:36.656Z",
       "message": "Cron run: ok",
       "jobId": "4822e39c-38a2-4529-894c-5163ea4232b4"
-    },
-    {
-      "type": "cron_run",
-      "id": "7face9bc",
-      "timestamp": "2026-02-14T13:02:49.900Z",
-      "message": "Cron run: ok",
-      "jobId": "7face9bc-30f0-4b2a-85ca-8c57f5351cdb"
     },
     {
       "type": "commit",
@@ -414,13 +421,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "99da9736",
-      "author": "Milo",
-      "timestamp": "2026-02-14 04:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "61b6eecf",
       "timestamp": "2026-02-14T08:10:02.481Z",
@@ -498,5 +498,5 @@
       "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
     }
   ],
-  "generatedAt": "2026-02-14T13:14:02.965Z"
+  "generatedAt": "2026-02-14T13:19:02.412Z"
 }
