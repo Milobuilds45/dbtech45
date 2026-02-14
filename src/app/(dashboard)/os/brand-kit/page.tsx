@@ -27,7 +27,7 @@ const TYPOGRAPHY = [
 
 const LOGOS = [
   { name: 'Derek Avatar', desc: 'Personal brand mark with gold trims', isImage: true, imagePath: '/derek-avatar.png', rounded: true },
-  { name: 'Wordmark Bold Condensed', desc: 'Headers, dark backgrounds', isImage: true, imagePath: '/brand/db45-wordmark-bold.png', rounded: false },
+  { name: 'Wordmark Bold Condensed', desc: 'Headers, dark backgrounds', isImage: true, imagePath: '/brand/db45-wordmark-bold.png', rounded: false, seamless: true },
   { name: 'Wordmark Bold Inverse', desc: 'Light backgrounds, accent sections', isImage: true, imagePath: '/brand/db45-wordmark-bold-inverse.png', rounded: false, lightBg: true },
   { name: 'Wordmark Italic', desc: 'Sports/dynamic content', isImage: false, element: 'DBTECH45', fontStyle: 'italic' },
   { name: 'Wordmark Italic Inverse', desc: 'Light backgrounds', isImage: true, imagePath: '/brand/db45-italic-inverse.png', rounded: false, lightBg: true },
@@ -75,12 +75,12 @@ export default function BrandKitPage() {
                     height: '120px', 
                     borderRadius: l.rounded ? '16px' : '12px', 
                     overflow: 'hidden',
-                    border: l.lightBg ? 'none' : `2px solid ${brand.amber}`,
-                    background: l.lightBg ? 'transparent' : brand.graphite,
+                    border: (l.lightBg || l.seamless) ? 'none' : `2px solid ${brand.amber}`,
+                    background: (l.lightBg || l.seamless) ? 'transparent' : brand.graphite,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: l.lightBg ? '0' : (l.rounded ? '0' : '16px'),
+                    padding: (l.lightBg || l.seamless) ? '0' : (l.rounded ? '0' : '16px'),
                   }}>
                     <img 
                       src={l.imagePath} 
@@ -88,10 +88,10 @@ export default function BrandKitPage() {
                       style={{ 
                         maxWidth: '100%', 
                         maxHeight: '100%', 
-                        objectFit: l.lightBg ? 'contain' : (l.rounded ? 'cover' : 'contain'),
+                        objectFit: (l.lightBg || l.seamless) ? 'contain' : (l.rounded ? 'cover' : 'contain'),
                         objectPosition: 'center',
-                        width: l.lightBg ? '100%' : (l.rounded ? '100%' : 'auto'),
-                        height: l.lightBg ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        width: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        height: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
                       }}
                     />
                   </div>
