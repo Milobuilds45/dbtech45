@@ -132,31 +132,29 @@ export default function BrandKitPage() {
         {/* Brand Assets */}
         <section style={{ marginBottom: '3rem' }}>
           <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Brand Assets</h2>
-          <div style={styles.card}>
-            <div style={{ overflowX: 'auto' }}>
-              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
-                <thead>
-                  <tr style={{ borderBottom: `1px solid ${brand.border}` }}>
-                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Asset</th>
-                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Filename</th>
-                    <th style={{ textAlign: 'left', padding: '10px 12px', color: brand.amber, fontWeight: 600, fontSize: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Use Case</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {BRAND_ASSETS.map((a, i) => (
-                    <tr key={a.filename} style={{ borderBottom: i < BRAND_ASSETS.length - 1 ? `1px solid ${brand.border}` : 'none' }}>
-                      <td style={{ padding: '10px 12px' }}>
-                        <div style={{ width: '36px', height: '36px', borderRadius: '6px', overflow: 'hidden', border: `1px solid ${brand.border}`, background: brand.graphite, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          <img src={a.path} alt={a.filename} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-                        </div>
-                      </td>
-                      <td style={{ padding: '10px 12px', color: brand.white, fontFamily: "'JetBrains Mono', monospace", fontSize: '12px' }}>{a.filename}</td>
-                      <td style={{ padding: '10px 12px', color: brand.silver }}>{a.useCase}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+            {BRAND_ASSETS.map((a) => (
+              <div key={a.filename} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '16px', padding: '16px' }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  borderRadius: '12px', 
+                  overflow: 'hidden', 
+                  border: `1px solid ${brand.border}`, 
+                  background: brand.graphite, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <img src={a.path} alt={a.filename} style={{ maxWidth: '90%', maxHeight: '90%', objectFit: 'contain' }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ color: brand.white, fontFamily: "'JetBrains Mono', monospace", fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>{a.filename}</div>
+                  <div style={{ color: brand.smoke, fontSize: '12px', lineHeight: '1.4' }}>{a.useCase}</div>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
 
