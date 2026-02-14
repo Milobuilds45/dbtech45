@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T19:29:02.933Z",
+    "lastHeartbeat": "2026-02-14T19:34:03.541Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T19:25:59.900Z"
+      "lastSeen": "2026-02-14T19:33:59.046Z"
     },
     {
       "name": "Anders",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T19:28:07.014Z"
+      "lastSeen": "2026-02-14T19:32:00.402Z"
     },
     {
       "name": "Dwight",
@@ -68,11 +68,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T17:04:17.912Z"
+      "lastSeen": "2026-02-14T19:33:47.509Z"
     },
     {
       "name": "Remy",
@@ -95,6 +95,39 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:33:59.046Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 25
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:33:47.509Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 21
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:32:00.402Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
@@ -106,28 +139,6 @@
       "sessionCount": 16
     },
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T19:28:07.014Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T19:25:59.900Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
@@ -137,17 +148,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 56
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T17:04:17.912Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 21
     },
     {
       "key": "agent:bobby:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T19:29:03.917Z",
+  "generatedAt": "2026-02-14T19:34:04.908Z",
   "version": 2
 }
