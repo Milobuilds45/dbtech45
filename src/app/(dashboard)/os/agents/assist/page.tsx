@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2 } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -165,24 +165,54 @@ type GenerationMode = 'individual' | 'collaborative';
 type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
 
 export default function AgentAssist() {
-  const [resources, setResources] = useState<AgentResource[]>(mockResources);
+  const [resources, setResources] = useState<AgentResource[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
-  // Uses shared supabase client from @/lib/supabase (safe stub when env vars missing)
 
-  // Load real resources and set up real-time subscription
+  const DELETED_KEY = 'assist-deleted-ids';
+  const VERIFIED_KEY = 'assist-verified-ids';
+  const GENERATED_KEY = 'assist-generated-resources';
+
+  const getStoredSet = (key: string): Set<string> => {
+    try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); } catch { return new Set(); }
+  };
+
+  const addToStoredSet = (key: string, id: string) => {
+    try {
+      const set = getStoredSet(key);
+      set.add(id);
+      localStorage.setItem(key, JSON.stringify([...set]));
+    } catch {}
+  };
+
+  const getStoredResources = (): AgentResource[] => {
+    try { return JSON.parse(localStorage.getItem(GENERATED_KEY) || '[]'); } catch { return []; }
+  };
+
+  const saveGeneratedResources = (all: AgentResource[]) => {
+    try { localStorage.setItem(GENERATED_KEY, JSON.stringify(all)); } catch {}
+  };
+
+  // Load resources: mock + localStorage generated, minus deleted/verified
   useEffect(() => {
-    const loadResources = async () => {
+    const deleted = getStoredSet(DELETED_KEY);
+    const verified = getStoredSet(VERIFIED_KEY);
+    const hidden = new Set([...deleted, ...verified]);
+    const generated = getStoredResources();
+    const all = [...generated, ...mockResources].filter(r => !hidden.has(r.id));
+    setResources(all);
+
+    // Also try loading from Supabase
+    const loadFromDb = async () => {
       const { data, error } = await supabase
         .from('assist_resources')
         .select('*')
         .order('created_at', { ascending: false });
-      
-      if (!error && data) {
-        // Convert database format to component format
-        const convertedResources = data.map(item => ({
+
+      if (!error && data && data.length > 0) {
+        const converted = data.map(item => ({
           id: item.id,
           agentId: item.agent_id,
           agentName: item.agent_name,
@@ -201,52 +231,16 @@ export default function AgentAssist() {
           createdAt: item.created_at,
           addedBy: item.added_by || item.agent_name,
         }));
-        setResources(convertedResources);
+        const dbFiltered = converted.filter(r => !hidden.has(r.id));
+        setResources(prev => {
+          const existingIds = new Set(prev.map(r => r.id));
+          const newOnes = dbFiltered.filter(r => !existingIds.has(r.id));
+          return [...newOnes, ...prev];
+        });
       }
     };
-
-    loadResources();
-
-    // Real-time subscription
-    const subscription = supabase
-      .channel('assist_resources_changes')
-      .on('postgres_changes', 
-        { event: 'INSERT', schema: 'public', table: 'assist_resources' },
-        (payload) => {
-          const newResource = payload.new;
-          const convertedResource = {
-            id: newResource.id,
-            agentId: newResource.agent_id,
-            agentName: newResource.agent_name,
-            title: newResource.title,
-            description: newResource.description,
-            url: newResource.url || '',
-            category: newResource.category,
-            type: newResource.type,
-            tags: newResource.tags || [],
-            useCase: newResource.use_case,
-            rating: newResource.rating || 3,
-            usefulFor: newResource.useful_for || [],
-            githubStars: newResource.github_stars,
-            lastUpdated: newResource.last_updated,
-            pricing: newResource.pricing,
-            createdAt: newResource.created_at,
-            addedBy: newResource.added_by || newResource.agent_name,
-          };
-          
-          setResources(prev => [convertedResource, ...prev]);
-          
-          if (newResource.auto_generated) {
-            showNotification(`🔧 New tool from ${newResource.agent_name}: ${newResource.title}`);
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [supabase]);
+    loadFromDb();
+  }, []);
 
   const showNotification = (message: string) => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -277,7 +271,12 @@ export default function AgentAssist() {
       const data = await res.json();
       const newResources: AgentResource[] = data.resources || [];
       
-      setResources(prev => [...newResources, ...prev]);
+      setResources(prev => {
+        const updated = [...newResources, ...prev];
+        // Persist generated resources (exclude mock data)
+        saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
+        return updated;
+      });
       setIsLoading(false);
       
       if (newResources.length === 1) {
@@ -292,7 +291,21 @@ export default function AgentAssist() {
   };
 
   const deleteResource = (id: string) => {
-    setResources(prev => prev.filter(r => r.id !== id));
+    addToStoredSet(DELETED_KEY, id);
+    setResources(prev => {
+      const updated = prev.filter(r => r.id !== id);
+      saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
+      return updated;
+    });
+  };
+
+  const verifyResource = (id: string) => {
+    addToStoredSet(VERIFIED_KEY, id);
+    setResources(prev => {
+      const updated = prev.filter(r => r.id !== id);
+      saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
+      return updated;
+    });
   };
 
   const handleAgentSelect = (agentId: string) => {
@@ -717,6 +730,28 @@ export default function AgentAssist() {
                       }}>
                         {resource.type.replace('-', ' ')}
                       </span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); verifyResource(resource.id); }}
+                        title="We have this — remove"
+                        style={{
+                          background: 'transparent',
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '6px',
+                          padding: '4px 8px',
+                          cursor: 'pointer',
+                          color: brand.smoke,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = brand.success; e.currentTarget.style.borderColor = brand.success; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                      >
+                        <CheckCircle size={13} /> Have it
+                      </button>
                       <button
                         onClick={(e) => { e.stopPropagation(); deleteResource(resource.id); }}
                         title="Delete resource"
