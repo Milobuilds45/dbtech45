@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "1f41cad9",
+      "author": "Milo",
+      "timestamp": "2026-02-14 16:02:25 -0500",
+      "message": "Move Agent Reasoning to full-width section for better readability"
+    },
+    {
+      "type": "commit",
+      "id": "17dfb146",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:59:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "e3dc70d0",
       "author": "Milo",
       "timestamp": "2026-02-14 15:54:04 -0500",
@@ -337,20 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "c6248383",
-      "author": "Milo",
-      "timestamp": "2026-02-14 12:44:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "2ef5d2b5",
-      "author": "Milo",
-      "timestamp": "2026-02-14 12:39:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -454,14 +454,7 @@
       "timestamp": "2026-02-13T21:34:22.036Z",
       "message": "Cron run: ok",
       "jobId": "cd45ae0b-cd6a-4de8-8c3b-a01150867f9a"
-    },
-    {
-      "type": "cron_run",
-      "id": "09a9674f",
-      "timestamp": "2026-02-13T20:59:05.776Z",
-      "message": "Cron run: ok",
-      "jobId": "09a9674f-f8ff-4c73-b001-c73d943726bc"
     }
   ],
-  "generatedAt": "2026-02-14T20:59:04.874Z"
+  "generatedAt": "2026-02-14T21:04:10.495Z"
 }
