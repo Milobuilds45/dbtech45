@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T08:44:03.207Z",
+    "lastHeartbeat": "2026-02-14T08:49:03.221Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -41,7 +41,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -120,7 +120,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:14:14.959Z",
       "role": "Creative Director",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T08:44:04.124Z",
+  "generatedAt": "2026-02-14T08:49:04.131Z",
   "version": 2
 }
