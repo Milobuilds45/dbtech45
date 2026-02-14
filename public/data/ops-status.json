@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T08:09:04.870Z",
+    "lastHeartbeat": "2026-02-14T08:14:03.171Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T08:08:56.037Z"
+      "lastSeen": "2026-02-14T08:09:52.062Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T08:09:01.919Z"
+      "lastSeen": "2026-02-14T08:09:22.675Z"
     },
     {
       "name": "Bobby",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T08:07:15.581Z"
+      "lastSeen": "2026-02-14T08:13:34.098Z"
     },
     {
       "name": "Dwight",
@@ -95,13 +95,13 @@
   ],
   "sessions": [
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T08:09:04.910Z",
-      "role": "Full Stack Architect",
+      "lastActivity": "2026-02-14T08:13:34.098Z",
+      "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
     },
@@ -111,19 +111,19 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T08:08:56.037Z",
+      "lastActivity": "2026-02-14T08:09:52.062Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 23
     },
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T08:07:15.581Z",
-      "role": "Creative Director",
+      "lastActivity": "2026-02-14T08:09:22.675Z",
+      "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
     },
@@ -412,15 +412,15 @@
       "humanSchedule": "0 3 * * *",
       "agent": "Milo",
       "description": "🏭 LIGHTS OUT FACTORY AUTONOMOUS BUILD",
-      "lastRun": "2026-02-13T08:00:00.004Z",
+      "lastRun": "2026-02-14T08:00:00.006Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T08:00:00.000Z",
-      "duration": "366s",
+      "nextRun": "2026-02-15T08:00:00.000Z",
+      "duration": "602s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T08:09:05.792Z",
+  "generatedAt": "2026-02-14T08:14:04.087Z",
   "version": 2
 }
