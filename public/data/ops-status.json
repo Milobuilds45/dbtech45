@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:19:04.127Z",
+    "lastHeartbeat": "2026-02-14T12:24:02.748Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:16:38.555Z"
+      "lastSeen": "2026-02-14T12:23:59.832Z"
     },
     {
       "name": "Bobby",
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:19:01.054Z"
+      "lastSeen": "2026-02-14T12:21:04.048Z"
     },
     {
       "name": "Dax",
@@ -95,12 +95,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:23:59.832Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:19:01.054Z",
+      "lastActivity": "2026-02-14T12:21:04.048Z",
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 14
@@ -115,17 +126,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:16:38.555Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:dwight:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:19:05.076Z",
+  "generatedAt": "2026-02-14T12:24:03.686Z",
   "version": 2
 }
