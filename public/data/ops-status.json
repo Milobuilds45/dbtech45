@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:24:02.748Z",
+    "lastHeartbeat": "2026-02-14T12:29:04.359Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:16:56.485Z"
+      "lastSeen": "2026-02-14T12:29:01.917Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:23:59.832Z"
+      "lastSeen": "2026-02-14T12:29:01.471Z"
     },
     {
       "name": "Bobby",
@@ -95,12 +95,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:29:01.917Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 25
+    },
+    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:23:59.832Z",
+      "lastActivity": "2026-02-14T12:29:01.471Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -115,17 +126,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 14
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:16:56.485Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
     },
     {
       "key": "agent:dwight:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:24:03.686Z",
+  "generatedAt": "2026-02-14T12:29:05.320Z",
   "version": 2
 }
