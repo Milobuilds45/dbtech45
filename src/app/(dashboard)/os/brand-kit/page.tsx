@@ -31,7 +31,7 @@ const LOGOS = [
   { name: 'Wordmark Bold Inverse', desc: 'Light backgrounds, accent sections', isImage: true, imagePath: '/brand/db45-wordmark-bold-inverse.png', rounded: false, lightBg: true },
   { name: 'Wordmark Italic', desc: 'Sports/dynamic content', isImage: false, element: 'DBTECH45', fontStyle: 'italic' },
   { name: 'Wordmark Italic Inverse', desc: 'Light backgrounds', isImage: true, imagePath: '/brand/db45-italic-inverse.png', rounded: false, lightBg: true },
-  { name: 'Cap Brandmark', desc: 'Favicon, icons, small contexts', isImage: true, imagePath: '/brand/dbtech-logo-cap.png', rounded: true },
+  { name: 'Cap Brandmark', desc: 'Favicon, icons, small contexts', isImage: true, imagePath: '/brand/dbtech-logo-cap.png', rounded: true, scale: 1.8 },
 ] as const;
 
 const BRAND_ASSETS = [
@@ -92,6 +92,7 @@ export default function BrandKitPage() {
                         objectPosition: 'center',
                         width: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
                         height: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        transform: l.scale ? `scale(${l.scale})` : undefined,
                       }}
                     />
                   </div>
