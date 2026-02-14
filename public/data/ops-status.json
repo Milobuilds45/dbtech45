@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-13T23:59:02.322Z",
+    "lastHeartbeat": "2026-02-14T00:04:02.179Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -23,7 +23,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -45,12 +45,12 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:57:36.862Z"
+      "lastSeen": "2026-02-14T00:03:00.549Z"
     },
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -62,13 +62,13 @@
       "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
-      "tasksToday": 1,
+      "tasksToday": 0,
       "lastSeen": "2026-02-13T22:41:51.465Z"
     },
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:57:36.862Z",
+      "lastActivity": "2026-02-14T00:03:00.549Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
@@ -120,7 +120,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T23:33:35.805Z",
       "role": "Weather & News",
@@ -131,7 +131,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T23:30:19.384Z",
       "role": "Full Stack Architect",
@@ -142,7 +142,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-13T23:29:17.885Z",
       "role": "Social Strategist",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-13T23:59:03.007Z",
+  "generatedAt": "2026-02-14T00:04:02.861Z",
   "version": 2
 }

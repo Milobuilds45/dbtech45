@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "52698668",
+      "author": "Milo",
+      "timestamp": "2026-02-13 18:59:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "6d1f0a27",
       "author": "Milo",
       "timestamp": "2026-02-13 18:54:03 -0500",
@@ -386,13 +393,6 @@
       "message": "feat: wire all dashboard pages to real data - skills org chart workspaces activity second brain docs"
     },
     {
-      "type": "commit",
-      "id": "ef0766ef",
-      "author": "Milo",
-      "timestamp": "2026-02-13 15:04:08 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "eefcc417",
       "timestamp": "2026-02-13T20:01:37.097Z",
@@ -456,5 +456,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-13T23:59:03.113Z"
+  "generatedAt": "2026-02-14T00:04:02.970Z"
 }
