@@ -170,6 +170,16 @@ const mockResources: AgentResource[] = [
 
 type GenerationMode = 'individual' | 'collaborative';
 type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
+type BudgetTier = 'open-source' | 'free-tier' | 'budget-30' | 'budget-50' | 'budget-100' | 'any';
+
+const BUDGET_OPTIONS: { value: BudgetTier; label: string; description: string }[] = [
+  { value: 'open-source', label: 'Open Source Only', description: 'Free forever, no strings' },
+  { value: 'free-tier', label: 'Free Tier / Trial', description: 'Free to start, may have limits' },
+  { value: 'budget-30', label: 'Up to $30/mo', description: 'Light subscription budget' },
+  { value: 'budget-50', label: 'Up to $50/mo', description: 'Medium subscription budget' },
+  { value: 'budget-100', label: 'Up to $100/mo', description: 'Premium tools budget' },
+  { value: 'any', label: 'Any Price', description: 'Show me the best, price no object' },
+];
 
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>([]);
@@ -177,6 +187,7 @@ export default function AgentAssist() {
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
+  const [budgetTier, setBudgetTier] = useState<BudgetTier>('any');
 
   const convertDbRow = (item: any): AgentResource => ({
     id: item.id,
@@ -282,6 +293,7 @@ export default function AgentAssist() {
           agentIds: agentsToUse,
           existingTitles,
           creativity: creativityLevel,
+          budget: budgetTier,
         }),
       });
       
@@ -502,6 +514,34 @@ export default function AgentAssist() {
                 ))}
               </div>
               
+              <div style={{ marginBottom: '8px' }}>
+                <label style={{ color: brand.smoke, fontSize: '11px', display: 'block', marginBottom: '4px' }}>
+                  Budget
+                </label>
+                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                  {BUDGET_OPTIONS.map(opt => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setBudgetTier(opt.value)}
+                      title={opt.description}
+                      style={{
+                        background: budgetTier === opt.value ? brand.amber : 'transparent',
+                        color: budgetTier === opt.value ? brand.void : brand.smoke,
+                        border: `1px solid ${budgetTier === opt.value ? brand.amber : brand.border}`,
+                        borderRadius: '4px',
+                        padding: '3px 8px',
+                        fontSize: '10px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        transition: 'all 0.15s',
+                      }}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <button
                 onClick={() => generateResource(selectedAgents)}
                 disabled={isLoading || selectedAgents.length === 0}

@@ -54,7 +54,17 @@ const TYPES = ['open-source', 'free-tier', 'documentation', 'tutorial', 'referen
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { agentIds, existingTitles = [], creativity = 'creative' } = body;
+    const { agentIds, existingTitles = [], creativity = 'creative', budget = 'any' } = body;
+
+    // Build pricing filter for search queries
+    const pricingModifier = {
+      'open-source': 'open source free',
+      'free-tier': 'free tier OR free trial',
+      'budget-30': 'affordable under $30 per month',
+      'budget-50': 'under $50 per month subscription',
+      'budget-100': 'premium under $100 per month',
+      'any': '',
+    }[budget] || '';
 
     const results = [];
 
@@ -62,9 +72,10 @@ export async function POST(request: NextRequest) {
       const agentInfo = AGENT_ROLES[agentId];
       if (!agentInfo) continue;
 
-      // Pick a random search term that's different each time
+      // Pick a random search term, append budget filter
       const shuffled = [...agentInfo.searchTerms].sort(() => Math.random() - 0.5);
-      const searchTerm = shuffled[0];
+      const baseTerm = shuffled[0];
+      const searchTerm = pricingModifier ? `${baseTerm} ${pricingModifier}` : baseTerm;
 
       // Search the web for fresh suggestions
       let webResults: Array<{ title: string; url: string; description: string }> = [];
@@ -114,7 +125,14 @@ export async function POST(request: NextRequest) {
         else if (titleLower.includes('data') || titleLower.includes('dataset')) category = 'dataset';
 
         let type: typeof TYPES[number] = 'free-tier';
-        if (titleLower.includes('open source') || titleLower.includes('github') || titleLower.includes('open-source')) type = 'open-source';
+        if (budget === 'open-source' || titleLower.includes('open source') || titleLower.includes('github') || titleLower.includes('open-source')) type = 'open-source';
+        else if (budget === 'free-tier') type = 'free-tier';
+
+        // Build pricing string based on budget
+        let pricingStr = type === 'open-source' ? 'Free' : 'Check website';
+        if (budget === 'budget-30') pricingStr = 'Up to $30/month';
+        else if (budget === 'budget-50') pricingStr = 'Up to $50/month';
+        else if (budget === 'budget-100') pricingStr = 'Up to $100/month';
 
         const agentFirst = agentId.charAt(0).toUpperCase() + agentId.slice(1);
         const cleanTitle = picked.title.replace(/ - .*$/, '').replace(/\|.*$/, '').trim().substring(0, 80);
@@ -141,7 +159,7 @@ export async function POST(request: NextRequest) {
           useCase: `${agentInfo.role}: ${need}`,
           rating: 3 + Math.floor(Math.random() * 3),
           usefulFor: [agentId],
-          pricing: type === 'open-source' ? 'Free' : 'Check website',
+          pricing: pricingStr,
           createdAt: new Date().toISOString(),
           addedBy: agentId,
           searchedWith: searchTerm,
