@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:44:02.741Z",
+    "lastHeartbeat": "2026-02-14T12:49:01.984Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:43:55.307Z"
+      "lastSeen": "2026-02-14T12:47:49.613Z"
     },
     {
       "name": "Anders",
@@ -32,20 +32,20 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:06:53.503Z"
+      "lastSeen": "2026-02-14T12:48:57.529Z"
     },
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:02:48.702Z"
+      "lastSeen": "2026-02-14T12:46:40.619Z"
     },
     {
       "name": "Dwight",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:44:02.136Z"
+      "lastSeen": "2026-02-14T12:45:32.634Z"
     },
     {
       "name": "Tony",
@@ -95,15 +95,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:44:02.136Z",
-      "role": "Weather & News",
+      "lastActivity": "2026-02-14T12:48:57.529Z",
+      "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 31
+      "sessionCount": 51
     },
     {
       "key": "agent:milo:main",
@@ -111,10 +111,32 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:43:55.307Z",
+      "lastActivity": "2026-02-14T12:47:49.613Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:46:40.619Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 17
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:45:32.634Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 32
     },
     {
       "key": "agent:remy:main",
@@ -150,17 +172,6 @@
       "sessionCount": 14
     },
     {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:06:53.503Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 50
-    },
-    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
@@ -181,17 +192,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:02:48.702Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 16
     }
   ],
   "crons": [
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:44:03.702Z",
+  "generatedAt": "2026-02-14T12:49:02.273Z",
   "version": 2
 }
