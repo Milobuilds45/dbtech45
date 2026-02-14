@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T02:04:02.369Z",
+    "lastHeartbeat": "2026-02-14T02:09:02.296Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T02:03:53.965Z"
+      "lastSeen": "2026-02-14T02:04:26.684Z"
     },
     {
       "name": "Bobby",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T02:04:00.917Z"
+      "lastSeen": "2026-02-14T02:08:42.337Z"
     },
     {
       "name": "Dwight",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T02:04:00.917Z",
+      "lastActivity": "2026-02-14T02:08:42.337Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
@@ -111,7 +111,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T02:03:53.965Z",
+      "lastActivity": "2026-02-14T02:04:26.684Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T02:04:03.051Z",
+  "generatedAt": "2026-02-14T02:09:02.961Z",
   "version": 2
 }
