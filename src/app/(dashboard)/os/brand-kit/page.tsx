@@ -75,12 +75,12 @@ export default function BrandKitPage() {
                     height: '120px', 
                     borderRadius: l.rounded ? '16px' : '12px', 
                     overflow: 'hidden',
-                    border: `2px solid ${brand.amber}`,
-                    background: l.lightBg ? brand.amber : brand.graphite,
+                    border: l.lightBg ? 'none' : `2px solid ${brand.amber}`,
+                    background: l.lightBg ? 'transparent' : brand.graphite,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    padding: l.rounded ? '0' : '16px',
+                    padding: l.lightBg ? '0' : (l.rounded ? '0' : '16px'),
                   }}>
                     <img 
                       src={l.imagePath} 
@@ -88,10 +88,10 @@ export default function BrandKitPage() {
                       style={{ 
                         maxWidth: '100%', 
                         maxHeight: '100%', 
-                        objectFit: l.rounded ? 'cover' : 'contain',
+                        objectFit: l.lightBg ? 'contain' : (l.rounded ? 'cover' : 'contain'),
                         objectPosition: 'center',
-                        width: l.rounded ? '100%' : 'auto',
-                        height: l.rounded ? '100%' : 'auto',
+                        width: l.lightBg ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        height: l.lightBg ? '100%' : (l.rounded ? '100%' : 'auto'),
                       }}
                     />
                   </div>
