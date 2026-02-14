@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e2704b57",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:17:06 -0500",
+      "message": "fix: add dna-lab CSS overrides to force light-mode through dashboard dark wrapper"
+    },
+    {
+      "type": "commit",
+      "id": "2b42e6ba",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:15:03 -0500",
+      "message": "fix: force light-mode inline styles on DNA Scanner to override dashboard dark wrapper"
+    },
+    {
+      "type": "commit",
+      "id": "efda53ef",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:14:07 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "38fed3a7",
       "author": "Milo",
       "timestamp": "2026-02-14 15:09:08 -0500",
@@ -330,27 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "dc9e97b3",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:44:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "99392b2d",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "488fc587",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -484,5 +484,5 @@
       "jobId": "10c4a21b-dbd4-4564-8c76-73dfa551176c"
     }
   ],
-  "generatedAt": "2026-02-14T20:14:07.081Z"
+  "generatedAt": "2026-02-14T20:19:07.335Z"
 }
