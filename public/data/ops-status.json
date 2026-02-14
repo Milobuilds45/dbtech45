@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T11:34:02.623Z",
+    "lastHeartbeat": "2026-02-14T11:39:02.727Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T11:27:35.449Z"
+      "lastSeen": "2026-02-14T11:37:38.321Z"
     },
     {
       "name": "Dwight",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T11:37:38.321Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -104,17 +115,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 24
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T11:27:35.449Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:anders:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T11:34:03.558Z",
+  "generatedAt": "2026-02-14T11:39:03.658Z",
   "version": 2
 }
