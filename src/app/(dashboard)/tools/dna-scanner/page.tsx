@@ -36,10 +36,10 @@ const ICONS: Record<string, React.ReactNode> = {
    ═══════════════════════════════════════════════════════ */
 
 const LabBackground = () => (
-  <div className="fixed inset-0 pointer-events-none z-0 bg-slate-50">
+  <div className="absolute inset-0 pointer-events-none z-0" style={{ background: '#f8fafc' }}>
     <div className="absolute inset-0 opacity-[0.03]" 
          style={{ backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-    <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600" />
+    <div className="absolute top-0 left-0 w-full h-1" style={{ background: '#4f46e5' }} />
   </div>
 );
 
@@ -129,7 +129,7 @@ export default function DNAScannerPage() {
 
   if (isScanning) {
     return (
-      <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
+      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
         <LabBackground />
         <div className="z-10 text-center px-6">
           <Activity className="w-16 h-16 text-indigo-600 mb-8 mx-auto animate-pulse" />
@@ -147,7 +147,7 @@ export default function DNAScannerPage() {
 
   if (showResults) {
     return (
-      <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative">
+      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative">
         <LabBackground />
         <div className="max-w-6xl mx-auto relative z-10">
            {/* Result Header */}
@@ -271,7 +271,7 @@ export default function DNAScannerPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative selection:bg-indigo-600 selection:text-white font-sans">
+    <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative selection:bg-indigo-600 selection:text-white font-sans">
       <LabBackground />
       <style jsx global>{`
         @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
