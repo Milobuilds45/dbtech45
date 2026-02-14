@@ -781,6 +781,36 @@ export default function AgentAssist() {
                       </h3>
                     </div>
 
+                    {/* Clickable URL */}
+                    {resource.url && (
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: brand.amber,
+                          fontSize: '13px',
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          marginBottom: '10px',
+                          padding: '4px 10px',
+                          background: `${brand.amber}08`,
+                          border: `1px solid ${brand.amber}20`,
+                          borderRadius: '6px',
+                          transition: 'all 0.15s',
+                          maxWidth: '100%',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {resource.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        </span>
+                      </a>
+                    )}
+
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                       <div style={{
                         width: '24px',
