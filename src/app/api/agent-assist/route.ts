@@ -116,17 +116,29 @@ export async function POST(request: NextRequest) {
         let type: typeof TYPES[number] = 'free-tier';
         if (titleLower.includes('open source') || titleLower.includes('github') || titleLower.includes('open-source')) type = 'open-source';
 
+        const agentFirst = agentId.charAt(0).toUpperCase() + agentId.slice(1);
+        const cleanTitle = picked.title.replace(/ - .*$/, '').replace(/\|.*$/, '').trim().substring(0, 80);
+        const need = agentInfo.needs[Math.floor(Math.random() * agentInfo.needs.length)];
+
+        // Generate a plain English explanation
+        const plainEnglishTemplates = [
+          `This helps ${agentFirst} handle ${need} automatically instead of doing it manually. Think of it as a specialized assistant just for that one job.`,
+          `Gives ${agentFirst} the ability to work with ${need} faster and more accurately. Without it, this would take way longer or require a human to do it.`,
+          `A plug-and-play tool that ${agentFirst} can use for ${need}. It is already built and tested — no need to build it from scratch.`,
+        ];
+
         results.push({
           id: `${Date.now()}-${agentId}-${Math.random().toString(36).slice(2, 8)}`,
           agentId,
-          agentName: agentId.charAt(0).toUpperCase() + agentId.slice(1),
-          title: picked.title.replace(/ - .*$/, '').replace(/\|.*$/, '').trim().substring(0, 80),
+          agentName: agentFirst,
+          title: cleanTitle,
           description: picked.description.substring(0, 300),
+          plainEnglish: plainEnglishTemplates[Math.floor(Math.random() * plainEnglishTemplates.length)],
           url: picked.url,
           category,
           type,
           tags: [agentId, category, ...agentInfo.needs.slice(0, 2)],
-          useCase: `${agentInfo.role}: ${agentInfo.needs[Math.floor(Math.random() * agentInfo.needs.length)]}`,
+          useCase: `${agentInfo.role}: ${need}`,
           rating: 3 + Math.floor(Math.random() * 3),
           usefulFor: [agentId],
           pricing: type === 'open-source' ? 'Free' : 'Check website',
@@ -137,12 +149,14 @@ export async function POST(request: NextRequest) {
       } else {
         // Fallback: generate from agent's needs with randomization
         const need = agentInfo.needs[Math.floor(Math.random() * agentInfo.needs.length)];
+        const agentFirst = agentId.charAt(0).toUpperCase() + agentId.slice(1);
         results.push({
           id: `${Date.now()}-${agentId}-${Math.random().toString(36).slice(2, 8)}`,
           agentId,
-          agentName: agentId.charAt(0).toUpperCase() + agentId.slice(1),
+          agentName: agentFirst,
           title: `${need.charAt(0).toUpperCase() + need.slice(1)} Tool`,
           description: `Recommended ${need} solution for ${agentInfo.role.toLowerCase()}. Search for the latest options.`,
+          plainEnglish: `${agentFirst} needs a better way to handle ${need}. This is a suggestion to go find the best tool for that job.`,
           url: `https://www.google.com/search?q=${encodeURIComponent(need + ' tools 2026')}`,
           category: 'tool',
           type: 'reference' as const,

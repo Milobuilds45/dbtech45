@@ -10,6 +10,7 @@ interface AgentResource {
   agentName: string;
   title: string;
   description: string;
+  plainEnglish: string; // Simple explanation anyone can understand
   url: string;
   category: 'api' | 'tool' | 'library' | 'service' | 'dataset' | 'framework' | 'reference' | 'other';
   type: 'open-source' | 'free-tier' | 'documentation' | 'tutorial' | 'reference';
@@ -55,6 +56,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Bobby',
     title: 'yfinance - Python Yahoo Finance API',
     description: 'Reliable and efficient way to download historical market data from Yahoo Finance. Perfect for backtesting and analysis.',
+    plainEnglish: 'Lets Bobby pull stock prices, charts, and market history automatically instead of looking things up manually. Think of it like giving him a direct line to Yahoo Finance.',
     url: 'https://github.com/ranaroussi/yfinance',
     category: 'library',
     type: 'open-source',
@@ -74,6 +76,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Paula',
     title: 'Framer Motion',
     description: 'Production-ready motion library for React. Makes creating smooth animations and interactions incredibly simple.',
+    plainEnglish: 'Makes buttons slide, pages fade in, and things move smoothly on websites. Without it, everything just pops in like a PowerPoint. With it, the site feels alive.',
     url: 'https://www.framer.com/motion/',
     category: 'library',
     type: 'open-source',
@@ -93,6 +96,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Dwight',
     title: 'Perplexity AI API',
     description: 'Real-time search and AI-powered research API. Great for getting current information and fact-checking.',
+    plainEnglish: 'Like giving Dwight his own Google that also reads and summarizes the results for him. He asks a question, gets an answer with sources — not just a list of links.',
     url: 'https://docs.perplexity.ai/',
     category: 'api',
     type: 'free-tier',
@@ -110,6 +114,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Anders',
     title: 'Supabase',
     description: 'Open source Firebase alternative. Real-time database, authentication, and storage with a great developer experience.',
+    plainEnglish: 'The place where all our app data lives — user accounts, saved info, everything. It is like a spreadsheet on steroids that apps can read and write to instantly.',
     url: 'https://supabase.com/',
     category: 'service',
     type: 'free-tier',
@@ -127,6 +132,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Dax',
     title: 'Pandas Profiling',
     description: 'Generates profile reports from pandas DataFrames. Essential for data exploration and quality assessment.',
+    plainEnglish: 'Takes a big pile of data and instantly tells you what is in it — what is missing, what looks weird, what the averages are. Like a health check-up but for data instead of people.',
     url: 'https://github.com/ydataai/ydata-profiling',
     category: 'tool',
     type: 'open-source',
@@ -146,6 +152,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Milo',
     title: 'LangChain',
     description: 'Framework for developing applications with language models. Perfect for building AI agent workflows.',
+    plainEnglish: 'The toolkit for building AI agents that can do multi-step tasks. Instead of just answering questions, agents built with this can search, think, and take actions on their own.',
     url: 'https://python.langchain.com/',
     category: 'framework',
     type: 'open-source',
@@ -177,6 +184,7 @@ export default function AgentAssist() {
     agentName: item.agent_name,
     title: item.title,
     description: item.description,
+    plainEnglish: item.plain_english || '',
     url: item.url || '',
     category: item.category,
     type: item.type,
@@ -209,6 +217,7 @@ export default function AgentAssist() {
           agent_name: r.agentName,
           title: r.title,
           description: r.description,
+          plain_english: r.plainEnglish,
           url: r.url,
           category: r.category,
           type: r.type,
@@ -288,6 +297,7 @@ export default function AgentAssist() {
         agent_name: r.agentName,
         title: r.title,
         description: r.description,
+        plain_english: r.plainEnglish || '',
         url: r.url,
         category: r.category,
         type: r.type,
@@ -720,6 +730,23 @@ export default function AgentAssist() {
                     }}>
                       {resource.description}
                     </p>
+
+                    {resource.plainEnglish && (
+                      <div style={{
+                        background: 'rgba(245,158,11,0.06)',
+                        border: `1px solid rgba(245,158,11,0.15)`,
+                        borderRadius: '8px',
+                        padding: '12px 14px',
+                        marginBottom: '12px',
+                      }}>
+                        <div style={{ color: brand.amber, fontSize: '11px', fontWeight: 700, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          In Plain English
+                        </div>
+                        <div style={{ color: brand.silver, fontSize: '14px', lineHeight: '1.6' }}>
+                          {resource.plainEnglish}
+                        </div>
+                      </div>
+                    )}
 
                     <div style={{
                       background: brand.graphite,
