@@ -2,11 +2,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
-import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull } from 'lucide-react';
+import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull, Bot, Wand2 } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
 const STORAGE_KEY = 'dbtech-agent-ideas';
 const REJECTED_KEY = 'dbtech-agent-ideas-rejected';
+const AUTONOMOUS_KEY = 'dbtech-agent-ideas-autonomous';
 
 interface AgentIdea {
   id: string;
@@ -32,7 +33,11 @@ interface AgentIdea {
   marketScenario?: string;
   useCase?: string;
   competitorGap?: string;
+  // Source tracking
+  source: 'generated' | 'autonomous';
 }
+
+type IdeaSourceFilter = 'all' | 'generated' | 'autonomous';
 
 type IdeaMode = 'individual' | 'collaborative';
 type CreativityLevel = 'simple' | 'creative' | 'experimental';
@@ -408,6 +413,7 @@ function genIndividual(agentIds: string[], creativity: CreativityLevel): AgentId
       status: 'submitted',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      source: 'generated',
     });
   });
   return out;
@@ -432,6 +438,7 @@ function genCollab(agentIds: string[], creativity: CreativityLevel): AgentIdea {
       status: 'submitted',
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
+      source: 'generated',
     };
   } catch {
     const names = agentIds.map(id => AGENTS.find(a => a.id === id)?.name).filter(Boolean);
@@ -448,6 +455,7 @@ function genCollab(agentIds: string[], creativity: CreativityLevel): AgentIdea {
       tags: [...agentIds, 'collaborative', creativity],
       agentConfidence: 3, marketSize: 'medium', status: 'submitted',
       createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+      source: 'generated',
     };
   }
 }
@@ -474,6 +482,7 @@ function fmtDayLabel(dateKey: string) {
 export default function AgentIdeasPage() {
   const router = useRouter();
   const [ideas, setIdeas] = useState<AgentIdea[]>([]);
+  const [autonomousIdeas, setAutonomousIdeas] = useState<AgentIdea[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAgents, setSelectedAgents] = useState<string[]>(AGENTS.map(a => a.id));
   const [ideaMode, setIdeaMode] = useState<IdeaMode>('individual');
@@ -481,6 +490,7 @@ export default function AgentIdeasPage() {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const [selectedDay, setSelectedDay] = useState<string>(todayKey());
   const [hydrated, setHydrated] = useState(false);
+  const [sourceFilter, setSourceFilter] = useState<IdeaSourceFilter>('all');
 
   // Load from localStorage on mount
   useEffect(() => {
@@ -488,7 +498,13 @@ export default function AgentIdeasPage() {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         const parsed = JSON.parse(stored) as AgentIdea[];
-        if (Array.isArray(parsed)) setIdeas(parsed);
+        if (Array.isArray(parsed)) setIdeas(parsed.map(i => ({ ...i, source: i.source || 'generated' })));
+      }
+      // Load autonomous ideas
+      const autoStored = localStorage.getItem(AUTONOMOUS_KEY);
+      if (autoStored) {
+        const autoParsed = JSON.parse(autoStored) as AgentIdea[];
+        if (Array.isArray(autoParsed)) setAutonomousIdeas(autoParsed.map(i => ({ ...i, source: 'autonomous' as const })));
       }
     } catch {}
     setHydrated(true);
@@ -533,16 +549,26 @@ export default function AgentIdeasPage() {
     }, 1200);
   };
 
+  // Combine all ideas based on source filter
+  const allIdeasCombined = [...ideas, ...autonomousIdeas];
+  const filteredBySource = sourceFilter === 'all' 
+    ? allIdeasCombined 
+    : allIdeasCombined.filter(i => i.source === sourceFilter);
+
   // Get all unique days sorted newest first
-  const allDays = [...new Set(ideas.map(i => toDateKey(i.createdAt)))].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
+  const allDays = [...new Set(filteredBySource.map(i => toDateKey(i.createdAt)))].sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
   if (allDays.length === 0) allDays.push(todayKey());
   const dayIdx = allDays.indexOf(selectedDay);
   const currentDayIdx = dayIdx >= 0 ? dayIdx : 0;
   const currentDay = allDays[currentDayIdx] || todayKey();
 
   // Filter ideas for selected day
-  const dayIdeas = ideas.filter(i => toDateKey(i.createdAt) === currentDay);
+  const dayIdeas = filteredBySource.filter(i => toDateKey(i.createdAt) === currentDay);
   const sorted = [...dayIdeas].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  
+  // Counts for tab badges
+  const generatedCount = ideas.length;
+  const autonomousCount = autonomousIdeas.length;
 
   const prevDay = () => { if (currentDayIdx < allDays.length - 1) setSelectedDay(allDays[currentDayIdx + 1]); };
   const nextDay = () => { if (currentDayIdx > 0) setSelectedDay(allDays[currentDayIdx - 1]); };
@@ -572,6 +598,48 @@ export default function AgentIdeasPage() {
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <h1 style={styles.h1}>Agent Ideas</h1>
         <p style={styles.subtitle}>Business ideas from your agents. Generate, rate, and move the best ones to Kanban.</p>
+
+        {/* ── Source Filter Tabs ── */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
+          {([
+            { value: 'all' as const, label: 'All Ideas', icon: Lightbulb, count: generatedCount + autonomousCount },
+            { value: 'generated' as const, label: 'Generated', icon: Wand2, count: generatedCount },
+            { value: 'autonomous' as const, label: 'Agent Created', icon: Bot, count: autonomousCount },
+          ]).map(({ value, label, icon: Icon, count }) => (
+            <button
+              key={value}
+              onClick={() => setSourceFilter(value)}
+              style={{
+                background: sourceFilter === value ? `${brand.amber}15` : '#111',
+                color: sourceFilter === value ? brand.amber : brand.white,
+                border: sourceFilter === value ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
+                borderRadius: '8px',
+                padding: '10px 18px',
+                fontSize: '14px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                opacity: sourceFilter === value ? 1 : 0.6,
+                transition: 'all 0.2s',
+              }}
+            >
+              <Icon size={16} />
+              {label}
+              <span style={{
+                background: sourceFilter === value ? brand.amber : brand.graphite,
+                color: sourceFilter === value ? brand.void : brand.smoke,
+                padding: '2px 8px',
+                borderRadius: '10px',
+                fontSize: '11px',
+                fontWeight: 700,
+              }}>
+                {count}
+              </span>
+            </button>
+          ))}
+        </div>
 
         {/* ── Generator Card ── */}
         <div style={{ background: '#0A0A0A', border: `1px solid ${brand.border}`, borderRadius: '16px', padding: '32px', marginBottom: '28px' }}>
@@ -714,6 +782,12 @@ export default function AgentIdeasPage() {
                     </div>
                   </div>
 
+                  {/* Source Badge */}
+                  {idea.source === 'autonomous' && (
+                    <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '10px', fontWeight: 700, background: '#A855F715', color: '#A855F7', textTransform: 'uppercase', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <Bot size={11} />AUTO
+                    </span>
+                  )}
                   {/* Badges */}
                   <span style={{ padding: '4px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: 600, background: `${mktColor(idea.marketSize)}15`, color: mktColor(idea.marketSize), textTransform: 'uppercase', flexShrink: 0, display: 'flex', alignItems: 'center', gap: '4px' }}>
                     <Target size={12} />{idea.marketSize}

@@ -76,7 +76,7 @@ export default function BrandKitPage() {
                     borderRadius: l.rounded ? '16px' : '12px', 
                     overflow: 'hidden',
                     border: `2px solid ${brand.amber}`,
-                    background: l.lightBg ? '#F5F5F5' : brand.graphite,
+                    background: l.lightBg ? brand.amber : brand.graphite,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
