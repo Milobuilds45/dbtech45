@@ -129,7 +129,7 @@ export default function DNAScannerPage() {
 
   if (isScanning) {
     return (
-      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
+      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
         <LabBackground />
         <div className="z-10 text-center px-6">
           <Activity className="w-16 h-16 text-indigo-600 mb-8 mx-auto animate-pulse" />
@@ -147,7 +147,7 @@ export default function DNAScannerPage() {
 
   if (showResults) {
     return (
-      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative">
+      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative">
         <LabBackground />
         <div className="max-w-6xl mx-auto relative z-10">
            {/* Result Header */}
@@ -271,11 +271,36 @@ export default function DNAScannerPage() {
   }
 
   return (
-    <div style={{ background: '#f8fafc', color: '#0f172a' }} className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative selection:bg-indigo-600 selection:text-white font-sans">
+    <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative selection:bg-indigo-600 selection:text-white font-sans">
       <LabBackground />
       <style jsx global>{`
         @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
         .animate-progress { animation: progress 2s ease-in-out; }
+        .dna-lab, .dna-lab * { color: inherit; }
+        .dna-lab { color: #0f172a !important; background: #f8fafc !important; }
+        .dna-lab .text-slate-900 { color: #0f172a !important; }
+        .dna-lab .text-slate-800 { color: #1e293b !important; }
+        .dna-lab .text-slate-700 { color: #334155 !important; }
+        .dna-lab .text-slate-600 { color: #475569 !important; }
+        .dna-lab .text-slate-500 { color: #64748b !important; }
+        .dna-lab .text-slate-400 { color: #94a3b8 !important; }
+        .dna-lab .text-slate-300 { color: #cbd5e1 !important; }
+        .dna-lab .text-indigo-600 { color: #4f46e5 !important; }
+        .dna-lab .text-amber-600 { color: #d97706 !important; }
+        .dna-lab .text-rose-600 { color: #e11d48 !important; }
+        .dna-lab .text-white { color: #ffffff !important; }
+        .dna-lab .bg-white { background-color: #ffffff !important; }
+        .dna-lab .bg-slate-50 { background-color: #f8fafc !important; }
+        .dna-lab .bg-slate-100 { background-color: #f1f5f9 !important; }
+        .dna-lab .bg-slate-200 { background-color: #e2e8f0 !important; }
+        .dna-lab .bg-indigo-50 { background-color: #eef2ff !important; }
+        .dna-lab .bg-indigo-600 { background-color: #4f46e5 !important; }
+        .dna-lab .border-slate-100 { border-color: #f1f5f9 !important; }
+        .dna-lab .border-slate-200 { border-color: #e2e8f0 !important; }
+        .dna-lab .border-indigo-100 { border-color: #c7d2fe !important; }
+        .dna-lab .border-indigo-600 { border-color: #4f46e5 !important; }
+        .dna-lab select, .dna-lab input, .dna-lab textarea { color: #0f172a !important; background-color: #f8fafc !important; }
+        .dna-lab select option { color: #0f172a !important; background-color: #ffffff !important; }
       `}</style>
 
       {showEmail && (
