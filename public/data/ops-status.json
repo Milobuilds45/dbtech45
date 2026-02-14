@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T00:34:02.362Z",
+    "lastHeartbeat": "2026-02-14T00:39:02.247Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T00:34:00.492Z"
+      "lastSeen": "2026-02-14T00:36:36.328Z"
     },
     {
       "name": "Dwight",
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T00:33:59.989Z"
+      "lastSeen": "2026-02-14T00:36:41.870Z"
     },
     {
       "name": "Remy",
@@ -95,26 +95,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T00:34:00.492Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 16
-    },
-    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T00:33:59.989Z",
+      "lastActivity": "2026-02-14T00:36:41.870Z",
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 6
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T00:36:36.328Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 16
     },
     {
       "key": "agent:anders:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T00:34:03.072Z",
+  "generatedAt": "2026-02-14T00:39:02.942Z",
   "version": 2
 }
