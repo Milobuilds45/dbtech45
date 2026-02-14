@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -461,225 +461,269 @@ export default function AgentAssist() {
           <p style={styles.subtitle}>Open-source tools, APIs, and resources to enhance agent capabilities</p>
         </div>
 
-        {/* Filters & Search */}
+        {/* Generate Resources */}
         <div style={{
-          ...styles.card,
-          padding: '20px',
+          background: '#0A0A0A',
+          border: `1px solid ${brand.border}`,
+          borderRadius: '16px',
+          padding: '28px 32px',
           marginBottom: '20px',
         }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-            marginBottom: '16px',
-          }}>
-            {/* Generate Resources Controls */}
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Generate Resources
-              </label>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                <button
-                  onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
-                  style={{
-                    background: selectedAgents.length === AGENTS.length ? brand.amber : 'transparent',
-                    color: selectedAgents.length === AGENTS.length ? brand.void : brand.amber,
-                    border: `1px solid ${brand.amber}`,
-                    borderRadius: '4px',
-                    padding: '4px 8px',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  All
-                </button>
-                {AGENTS.map(agent => (
-                  <button
-                    key={agent.id}
-                    onClick={() => handleAgentSelect(agent.id)}
-                    style={{
-                      background: selectedAgents.includes(agent.id) ? agent.color : 'transparent',
-                      color: selectedAgents.includes(agent.id) ? brand.void : agent.color,
-                      border: `1px solid ${agent.color}`,
-                      borderRadius: '4px',
-                      padding: '4px 8px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {agent.name}
-                  </button>
-                ))}
-              </div>
-              
-              <div style={{ marginBottom: '8px' }}>
-                <label style={{ color: brand.smoke, fontSize: '11px', display: 'block', marginBottom: '4px' }}>
-                  Budget
-                </label>
-                <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
-                  {BUDGET_OPTIONS.map(opt => (
-                    <button
-                      key={opt.value}
-                      onClick={() => setBudgetTier(opt.value)}
-                      title={opt.description}
-                      style={{
-                        background: budgetTier === opt.value ? brand.amber : 'transparent',
-                        color: budgetTier === opt.value ? brand.void : brand.smoke,
-                        border: `1px solid ${budgetTier === opt.value ? brand.amber : brand.border}`,
-                        borderRadius: '4px',
-                        padding: '3px 8px',
-                        fontSize: '10px',
-                        fontWeight: 600,
-                        cursor: 'pointer',
-                        transition: 'all 0.15s',
-                      }}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Zap size={18} style={{ color: brand.amber }} />
+              <span style={{ color: brand.white, fontSize: '16px', fontWeight: 700 }}>Generate Resources</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
-                onClick={() => generateResource(selectedAgents)}
-                disabled={isLoading || selectedAgents.length === 0}
+                onClick={() => { setSelectedAgents([]); setBudgetTier('any'); }}
                 style={{
-                  background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
-                  color: brand.void,
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '8px 16px',
-                  fontSize: '14px',
+                  background: 'transparent',
+                  color: brand.smoke,
+                  border: `1px solid ${brand.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontSize: '13px',
                   fontWeight: 600,
-                  cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
+                  cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
-                  width: '100%',
+                  transition: 'all 0.15s',
                 }}
               >
-                {isLoading ? '⏳ Generating...' : `🚀 Generate (${selectedAgents.length})`}
+                <RotateCcw size={13} />
+                Clear
               </button>
-            </div>
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Search
-              </label>
-              <div style={{ position: 'relative' }}>
-                <Search size={16} style={{ 
-                  position: 'absolute', 
-                  left: '12px', 
-                  top: '50%', 
-                  transform: 'translateY(-50%)',
-                  color: brand.smoke 
-                }} />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search tools, APIs, libraries..."
-                  style={{
-                    width: '100%',
-                    background: brand.graphite,
-                    border: `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px 8px 36px',
-                    color: brand.white,
-                    fontSize: '14px',
-                    outline: 'none',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Category
-              </label>
-              <select
-                value={selectedCategory || ''}
-                onChange={(e) => setSelectedCategory(e.target.value || null)}
+              <button
+                onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                 style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
+                  background: selectedAgents.length === AGENTS.length ? `${brand.amber}15` : 'transparent',
+                  color: selectedAgents.length === AGENTS.length ? brand.amber : brand.smoke,
+                  border: `1px solid ${selectedAgents.length === AGENTS.length ? brand.amber : brand.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
                 }}
               >
-                <option value="">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Type
-              </label>
-              <select
-                value={selectedType || ''}
-                onChange={(e) => setSelectedType(e.target.value || null)}
-                style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
-                }}
-              >
-                <option value="">All Types</option>
-                {types.map(type => (
-                  <option key={type} value={type}>
-                    {type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Sort By
-              </label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
-                }}
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="rating">Highest Rated</option>
-                <option value="stars">Most GitHub Stars</option>
-              </select>
+                Select All
+              </button>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '16px', color: brand.smoke, fontSize: '14px' }}>
+          {/* Agent Selection */}
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+            {AGENTS.map(agent => {
+              const isOn = selectedAgents.includes(agent.id);
+              return (
+                <button
+                  key={agent.id}
+                  onClick={() => handleAgentSelect(agent.id)}
+                  style={{
+                    background: isOn ? `${agent.color}15` : '#111',
+                    color: isOn ? brand.white : brand.smoke,
+                    border: isOn ? `2px solid ${agent.color}` : `1px solid ${brand.border}`,
+                    borderRadius: '10px',
+                    padding: '8px 18px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    opacity: isOn ? 1 : 0.5,
+                    boxShadow: isOn ? `0 0 12px ${agent.color}20` : 'none',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <div style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: isOn ? agent.color : brand.smoke,
+                    transition: 'all 0.2s',
+                  }} />
+                  {agent.name}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Budget + Generate Row */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '24px', flexWrap: 'wrap' }}>
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <div style={{ flex: 1, height: '1px', background: brand.border }} />
+                <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Budget</span>
+                <div style={{ flex: 1, height: '1px', background: brand.border }} />
+              </div>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                {BUDGET_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => setBudgetTier(opt.value)}
+                    title={opt.description}
+                    style={{
+                      background: budgetTier === opt.value ? `${brand.amber}15` : '#111',
+                      color: budgetTier === opt.value ? brand.amber : brand.smoke,
+                      border: budgetTier === opt.value ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
+                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      opacity: budgetTier === opt.value ? 1 : 0.6,
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <button
+              onClick={() => generateResource(selectedAgents)}
+              disabled={isLoading || selectedAgents.length === 0}
+              style={{
+                background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
+                color: brand.void,
+                border: 'none',
+                borderRadius: '10px',
+                padding: '12px 28px',
+                fontSize: '15px',
+                fontWeight: 700,
+                cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                opacity: isLoading || selectedAgents.length === 0 ? 0.5 : 1,
+                boxShadow: isLoading || selectedAgents.length === 0 ? 'none' : `0 0 20px ${brand.amber}40`,
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}
+            >
+              <Zap size={16} />
+              {isLoading ? 'Generating...' : `Generate (${selectedAgents.length})`}
+            </button>
+          </div>
+        </div>
+
+        {/* Search & Filters */}
+        <div style={{
+          ...styles.card,
+          padding: '16px 20px',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          flexWrap: 'wrap',
+        }}>
+          {/* Search */}
+          <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
+            <Search size={15} style={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: brand.smoke,
+            }} />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search tools, APIs, libraries..."
+              style={{
+                width: '100%',
+                background: brand.graphite,
+                border: `1px solid ${brand.border}`,
+                borderRadius: '8px',
+                padding: '9px 12px 9px 36px',
+                color: brand.white,
+                fontSize: '14px',
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          {/* Category */}
+          <select
+            value={selectedCategory || ''}
+            onChange={(e) => setSelectedCategory(e.target.value || null)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '140px',
+            }}
+          >
+            <option value="">All Categories</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
+          </select>
+
+          {/* Type */}
+          <select
+            value={selectedType || ''}
+            onChange={(e) => setSelectedType(e.target.value || null)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '130px',
+            }}
+          >
+            <option value="">All Types</option>
+            {types.map(type => (
+              <option key={type} value={type}>
+                {type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              </option>
+            ))}
+          </select>
+
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '140px',
+            }}
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="stars">Most GitHub Stars</option>
+          </select>
+
+          {/* Stats */}
+          <div style={{ display: 'flex', gap: '12px', color: brand.smoke, fontSize: '12px', marginLeft: 'auto', whiteSpace: 'nowrap' }}>
             <span>{filteredResources.length} resources</span>
-            <span>•</span>
+            <span style={{ color: brand.border }}>|</span>
             <span>{resources.filter(r => r.type === 'open-source').length} open source</span>
-            <span>•</span>
+            <span style={{ color: brand.border }}>|</span>
             <span>{resources.filter(r => r.rating >= 4).length} highly rated</span>
           </div>
         </div>
