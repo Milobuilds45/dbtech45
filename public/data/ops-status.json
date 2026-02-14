@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T03:04:02.384Z",
+    "lastHeartbeat": "2026-02-14T03:09:03.446Z",
     "totalCrons": 15,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T02:49:10.540Z"
+      "lastSeen": "2026-02-14T03:07:52.907Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T03:03:08.938Z"
+      "lastSeen": "2026-02-14T03:09:00.182Z"
     },
     {
       "name": "Bobby",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T03:03:18.567Z"
+      "lastSeen": "2026-02-14T03:07:10.447Z"
     },
     {
       "name": "Dwight",
@@ -95,23 +95,12 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T03:03:18.567Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 16
-    },
-    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T03:03:08.938Z",
+      "lastActivity": "2026-02-14T03:09:00.182Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -122,10 +111,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T02:49:10.540Z",
+      "lastActivity": "2026-02-14T03:07:52.907Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 22
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T03:07:10.447Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 16
     },
     {
       "key": "agent:bobby:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T03:04:03.058Z",
+  "generatedAt": "2026-02-14T03:09:04.151Z",
   "version": 2
 }
