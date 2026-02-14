@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T16:29:03.456Z",
+    "lastHeartbeat": "2026-02-14T16:34:03.008Z",
     "totalCrons": 15,
-    "activeSessions": 7,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": []
   },
@@ -77,7 +77,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -164,7 +164,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T12:30:11.511Z",
       "role": "Restaurant Marketing",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T16:29:04.432Z",
+  "generatedAt": "2026-02-14T16:34:03.972Z",
   "version": 2
 }
