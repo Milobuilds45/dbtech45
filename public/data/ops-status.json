@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T14:34:02.166Z",
+    "lastHeartbeat": "2026-02-14T14:39:02.220Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:14:19.382Z"
+      "lastSeen": "2026-02-14T14:38:49.691Z"
     },
     {
       "name": "Anders",
@@ -100,7 +100,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:14:19.382Z",
+      "lastActivity": "2026-02-14T14:38:49.691Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -406,21 +406,21 @@
       "lastError": null
     },
     {
-      "id": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd",
-      "name": "milo-nightly-builder",
+      "id": "c7fa7070-7e6d-4f43-858d-925511205a6b",
+      "name": "bulletproof-overnight-v2",
       "schedule": "0 3 * * *",
       "humanSchedule": "0 3 * * *",
       "agent": "Milo",
-      "description": "🏭 LIGHTS OUT FACTORY AUTONOMOUS BUILD - BULLETPROOF VERSION",
-      "lastRun": "2026-02-14T08:00:00.006Z",
-      "lastStatus": "success",
+      "description": "🛡️ BULLETPROOF OVERNIGHT BUILDER V2",
+      "lastRun": null,
+      "lastStatus": "pending",
       "nextRun": "2026-02-15T08:00:00.000Z",
-      "duration": "602s",
+      "duration": null,
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T14:34:02.478Z",
+  "generatedAt": "2026-02-14T14:39:02.565Z",
   "version": 2
 }
