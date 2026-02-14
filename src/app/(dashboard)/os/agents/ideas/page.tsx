@@ -83,14 +83,14 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
   bobby: {
     simple: {
       title: 'Simple Trading Alerts',
-      description: 'Clean, straightforward options and stock alerts for busy retail investors who want signals without complexity.',
-      problemSolved: 'Most trading platforms are too complex for casual investors who just want simple alerts',
-      targetMarket: 'Casual retail investors and busy professionals',
-      businessModel: 'Simple subscription: $19/month or $199/year',
-      revenueProjection: '$300K ARR with 1,500 monthly subscribers',
-      competitiveAdvantage: 'Simplicity over complexity - designed for normal people, not day traders',
-      developmentTime: '2-3 weeks (alert system + mobile app + basic dashboard)',
-      riskAssessment: 'Low risk. Alert services are a proven model. The differentiation is simplicity. Main risk is standing out in a crowded market of alert services.',
+      description: 'Like getting a text from a friend who knows about stocks. When a good trading opportunity pops up, you get a simple alert on your phone saying "Apple stock might go up today" or "Netflix might drop - consider selling." No confusing charts or technical jargon, just plain English suggestions.',
+      problemSolved: 'Regular people want to make money from stocks but trading apps are like rocket ship control panels - way too complicated for normal folks',
+      targetMarket: 'Regular people with full-time jobs who want to make some extra money from stocks but don\'t want to become professional traders',
+      businessModel: 'Monthly subscription like Netflix - $19/month and you get daily alerts',
+      revenueProjection: 'If 1,500 people pay $19/month, that\'s $300,000 per year',
+      competitiveAdvantage: 'Every other trading app tries to look smart and complicated. We make it stupid simple - like texting with a knowledgeable friend',
+      developmentTime: '2-3 weeks (build the alert system + phone app)',
+      riskAssessment: 'Pretty safe bet. People already pay for stock alerts. The hard part is getting people to notice us among all the other alert services out there.',
     },
     creative: {
       title: 'OptionsFlow Pro',
@@ -153,14 +153,14 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
   paula: {
     simple: {
       title: 'Quick Logo Maker',
-      description: 'Super simple tool for creating professional logos with minimal input. Business name in, logo out, under 2 minutes.',
-      problemSolved: 'Entrepreneurs need logos immediately but design tools are too complicated',
-      targetMarket: 'Solo entrepreneurs, side hustlers, and very small businesses',
-      businessModel: 'Freemium: Free basic logos, $19 for high-res + commercial rights',
-      revenueProjection: '$150K ARR with 800 premium downloads per month',
-      competitiveAdvantage: 'Fastest logo creation (under 2 minutes) with professional quality',
-      developmentTime: '1-2 weeks (streamlined UI + logo generation + instant download)',
-      riskAssessment: 'Low risk. Logo generators are proven. Canva exists. Differentiation through speed and simplicity is viable but the moat is thin.',
+      description: 'Think of it like a magic logo machine. You type in your business name like "Bob\'s Pizza" and instantly get 10 professional-looking logos to choose from. No design skills needed - just point, click, download. Takes 2 minutes instead of 2 weeks.',
+      problemSolved: 'Starting a business is hard enough. Getting a decent logo shouldn\'t take forever or cost thousands of dollars when you just need something that looks professional',
+      targetMarket: 'People starting new businesses, side hustles, or small shops who need a logo right now but don\'t want to hire a designer',
+      businessModel: 'Like a photo booth - basic logo is free, but if you want the high-quality version for business cards and websites, pay $19',
+      revenueProjection: 'If 800 people per month buy the $19 version, that\'s $150,000 per year',
+      competitiveAdvantage: 'Faster than anything else - you get your logo in 2 minutes instead of going back and forth with designers for weeks',
+      developmentTime: '1-2 weeks to build the logo generator and download system',
+      riskAssessment: 'Pretty safe. Logo makers already exist and people use them. Main challenge is getting people to pick us instead of the dozens of other logo tools out there.',
     },
     creative: {
       title: 'BrandBot AI',
@@ -199,14 +199,14 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     },
     creative: {
       title: 'No-Code Backend Builder',
-      description: 'Visual interface for building scalable APIs and databases without writing code. Drag, connect, deploy.',
-      problemSolved: 'Non-technical founders need custom backends but cannot afford $100K+ development costs',
-      targetMarket: 'Non-technical entrepreneurs and small businesses needing custom software',
-      businessModel: 'Usage-based: $29/month base + $0.10 per API call',
-      revenueProjection: '$800K ARR with 500 active projects',
-      competitiveAdvantage: 'Enterprise-grade architecture with consumer-friendly visual interface',
-      developmentTime: '6-8 weeks (visual editor + code generation + deployment automation)',
-      riskAssessment: 'Moderate risk. No-code backend is a crowded space (Supabase, Firebase, Xano). The visual builder needs to be genuinely better, not just different. Non-technical users may still struggle with data modeling concepts.',
+      description: 'Think about how every business needs a website today. Well, they also need a "backend" - that\'s like the engine under the hood that stores customer data, processes payments, sends emails, etc. Right now, if you want a custom backend, you either pay a developer $100K+ to build it (expensive, slow) or use existing tools that don\'t fit your exact needs (limiting). This idea is like "website builders" (Squarespace, Wix) but for backends. You\'d drag and drop to say "I want a customer database that connects to Stripe for payments and sends welcome emails." No coding required. Small business owners could build exactly what they need in a few clicks, then pay monthly based on usage - like $29/month instead of $100K upfront.',
+      problemSolved: 'Business owners know they need custom software to run their business properly, but hiring developers costs more than most small businesses make in a year',
+      targetMarket: 'Small business owners who need custom software but can\'t afford to hire programmers',
+      businessModel: 'Start at $29/month like a gym membership, then pay a tiny amount (10 cents) each time someone uses your app',
+      revenueProjection: 'If 500 small businesses each pay an average of $133/month, that\'s $800,000 per year',
+      competitiveAdvantage: 'Works like website builders that normal people already understand, but builds the invisible backend stuff instead of pretty websites',
+      developmentTime: '6-8 weeks to build the drag-and-drop editor and automatic deployment',
+      riskAssessment: 'Medium risk. There are already some tools like this (Supabase, Firebase, Xano) so we need to be clearly better, not just different. Also, even "no-code" can still be confusing for non-technical people.',
     },
     experimental: {
       title: 'AI Code Architect',
@@ -293,14 +293,14 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
   milo: {
     simple: {
       title: 'Daily Ops Tracker',
-      description: 'Simple dashboard for small business owners to track daily operations and KPIs. 5 minutes a day, full visibility.',
-      problemSolved: 'Small business owners need basic operational oversight but existing solutions are too complex',
-      targetMarket: 'Very small businesses and solopreneurs (under 10 employees)',
-      businessModel: 'Simple subscription: $29/month',
-      revenueProjection: '$350K ARR with 1200 small business subscribers',
-      competitiveAdvantage: 'Designed specifically for very small businesses, not enterprise-lite features',
-      developmentTime: '2-3 weeks (KPI tracking + simple dashboard + mobile-first design)',
-      riskAssessment: 'Low risk. Operations tracking is a proven need. The simplicity angle works for solopreneurs. Main risk is churn - small businesses are price-sensitive and may not see daily value.',
+      description: 'Imagine running a small business but having no clue if you\'re actually making money until tax time. This is like a simple daily check-up for your business. Every morning you spend 5 minutes entering basic numbers - how much money came in yesterday, any big expenses, how many customers you served. Then you get a simple dashboard that shows whether you\'re trending up or down this month. Like a fitness tracker, but for your business health instead of your steps.',
+      problemSolved: 'Small business owners are flying blind - they know if yesterday was busy or slow, but have no idea if they\'re actually making progress toward their goals',
+      targetMarket: 'Very small business owners (under 10 employees) who want to know if their business is healthy without needing a business degree',
+      businessModel: 'Simple monthly subscription like Netflix - $29/month for daily tracking and simple reports',
+      revenueProjection: 'If 1,200 small businesses pay $29/month, that\'s $350,000 per year',
+      competitiveAdvantage: 'Built for tiny businesses, not big companies. Takes 5 minutes a day instead of hours of complex reporting',
+      developmentTime: '2-3 weeks to build the tracker and simple dashboard',
+      riskAssessment: 'Pretty safe bet. Small businesses need this. Main risk is they might think it\'s too simple or not worth $29/month if they don\'t see immediate value.',
     },
     creative: {
       title: 'AgentHub Coordinator',
@@ -825,7 +825,13 @@ export default function AgentIdeasPage() {
                 {/* Expanded Details */}
                 {isExpanded && (
                   <div style={{ padding: '0 20px 20px', borderTop: `1px solid ${brand.border}` }}>
-                    <p style={{ color: brand.silver, fontSize: '15px', lineHeight: '1.6', margin: '16px 0', fontWeight: 500 }}>{idea.description}</p>
+                    {/* What is this idea? Section */}
+                    <div style={{ ...sec, marginBottom: '16px', background: `${brand.info}15`, border: `1px solid ${brand.info}30` }}>
+                      <h4 style={{ color: brand.info, fontSize: '14px', fontWeight: 700, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Lightbulb size={14} />What is this idea?
+                      </h4>
+                      <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.6' }}>{idea.description}</p>
+                    </div>
 
                     {/* Business Details Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px', marginBottom: '16px' }}>
@@ -833,8 +839,16 @@ export default function AgentIdeasPage() {
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Target Market</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.targetMarket}</p></div>
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Business Model</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.businessModel}</p></div>
                       <div style={sec}><h4 style={{ color: brand.success, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Revenue Projection</h4><p style={{ color: brand.white, fontSize: '15px', fontWeight: 700, margin: 0 }}>{idea.revenueProjection}</p></div>
-                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Competitive Advantage</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
-                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Development Time</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Why We'd Win</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                        <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Time to Build</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
+                        <div style={{ ...sec, background: `${brand.info}15`, border: `1px solid ${brand.info}30` }}>
+                          <h4 style={{ color: brand.info, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <Bot size={12} />Agent Reasoning
+                          </h4>
+                          <p style={{ color: brand.silver, fontSize: '12px', margin: 0, lineHeight: '1.4', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
+                        </div>
+                      </div>
                     </div>
 
                     {/* Ideabrowser-style Market Intelligence */}
@@ -875,11 +889,7 @@ export default function AgentIdeasPage() {
                       </div>
                     )}
 
-                    {/* Agent Reasoning */}
-                    <div style={{ ...sec, marginBottom: '12px' }}>
-                      <h4 style={{ color: brand.info, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}><User size={13} />Agent Reasoning</h4>
-                      <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
-                    </div>
+{/* Agent Reasoning moved to grid above */}
 
                     {/* Tags */}
                     <div style={{ display: 'flex', gap: '6px', marginBottom: '12px', flexWrap: 'wrap' }}>
