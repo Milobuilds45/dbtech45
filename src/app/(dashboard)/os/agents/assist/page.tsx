@@ -189,88 +189,40 @@ export default function AgentAssist() {
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
   const [budgetTier, setBudgetTier] = useState<BudgetTier>('any');
 
-  const convertDbRow = (item: any): AgentResource => ({
-    id: item.id,
-    agentId: item.agent_id,
-    agentName: item.agent_name,
-    title: item.title,
-    description: item.description,
-    plainEnglish: item.plain_english || '',
-    url: item.url || '',
-    category: item.category,
-    type: item.type,
-    tags: item.tags || [],
-    useCase: item.use_case,
-    rating: item.rating || 3,
-    usefulFor: item.useful_for || [],
-    githubStars: item.github_stars,
-    lastUpdated: item.last_updated,
-    pricing: item.pricing,
-    createdAt: item.created_at,
-    addedBy: item.added_by || item.agent_name,
-  });
+  const STORAGE_KEY = 'dbtech-assist-resources';
+  const DELETED_KEY = 'dbtech-assist-deleted';
+  const VERIFIED_KEY = 'dbtech-assist-verified';
 
-  // Load from Supabase, fall back to mock data
+  // Load from localStorage (primary), seed with mock data if empty
   useEffect(() => {
-    const load = async () => {
-      const { data, error } = await supabase
-        .from('assist_resources')
-        .select('*')
-        .order('created_at', { ascending: false });
+    try {
+      const deletedIds: string[] = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      const verifiedIds: string[] = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
+      const removedIds = new Set([...deletedIds, ...verifiedIds]);
 
-      if (!error && data && data.length > 0) {
-        setResources(data.map(convertDbRow));
-      } else {
-        // Seed Supabase with mock data on first load
-        const toInsert = mockResources.map(r => ({
-          id: r.id,
-          agent_id: r.agentId,
-          agent_name: r.agentName,
-          title: r.title,
-          description: r.description,
-          plain_english: r.plainEnglish,
-          url: r.url,
-          category: r.category,
-          type: r.type,
-          tags: r.tags,
-          use_case: r.useCase,
-          rating: r.rating,
-          useful_for: r.usefulFor,
-          github_stars: r.githubStars || null,
-          last_updated: r.lastUpdated || null,
-          pricing: r.pricing || null,
-          added_by: r.addedBy,
-        }));
-        await supabase.from('assist_resources').upsert(toInsert);
-        setResources(mockResources);
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        const parsed = JSON.parse(stored) as AgentResource[];
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setResources(parsed.filter(r => !removedIds.has(r.id)));
+          return;
+        }
       }
-    };
-    load();
-
-    // Real-time subscription for live updates
-    const subscription = supabase
-      .channel('assist_resources_changes')
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'assist_resources' },
-        (payload) => {
-          const converted = convertDbRow(payload.new);
-          setResources(prev => {
-            if (prev.some(r => r.id === converted.id)) return prev;
-            return [converted, ...prev];
-          });
-        }
-      )
-      .on('postgres_changes',
-        { event: 'DELETE', schema: 'public', table: 'assist_resources' },
-        (payload) => {
-          const deletedId = (payload.old as any)?.id;
-          if (deletedId) setResources(prev => prev.filter(r => r.id !== deletedId));
-        }
-      )
-      .subscribe();
-
-    return () => { subscription.unsubscribe(); };
+      // First load - seed with mock data
+      const seeded = mockResources.filter(r => !removedIds.has(r.id));
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mockResources));
+      setResources(seeded);
+    } catch {
+      setResources(mockResources);
+    }
   }, []);
+
+  // Persist to localStorage on change
+  useEffect(() => {
+    if (resources.length > 0) {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(resources)); } catch {}
+    }
+  }, [resources]);
 
   const showNotification = (message: string) => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -302,29 +254,6 @@ export default function AgentAssist() {
       const data = await res.json();
       const newResources: AgentResource[] = data.resources || [];
       
-      // Insert into Supabase
-      const toInsert = newResources.map(r => ({
-        id: r.id,
-        agent_id: r.agentId,
-        agent_name: r.agentName,
-        title: r.title,
-        description: r.description,
-        plain_english: r.plainEnglish || '',
-        url: r.url,
-        category: r.category,
-        type: r.type,
-        tags: r.tags,
-        use_case: r.useCase,
-        rating: r.rating,
-        useful_for: r.usefulFor,
-        github_stars: r.githubStars || null,
-        last_updated: r.lastUpdated || null,
-        pricing: r.pricing || null,
-        added_by: r.addedBy,
-        auto_generated: true,
-      }));
-      await supabase.from('assist_resources').upsert(toInsert);
-      
       setResources(prev => [...newResources, ...prev]);
       setIsLoading(false);
       
@@ -339,14 +268,22 @@ export default function AgentAssist() {
     }
   };
 
-  const deleteResource = async (id: string) => {
+  const deleteResource = (id: string) => {
     setResources(prev => prev.filter(r => r.id !== id));
-    await supabase.from('assist_resources').delete().eq('id', id);
+    try {
+      const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
+      deleted.push(id);
+      localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
+    } catch {}
   };
 
-  const verifyResource = async (id: string) => {
+  const verifyResource = (id: string) => {
     setResources(prev => prev.filter(r => r.id !== id));
-    await supabase.from('assist_resources').delete().eq('id', id);
+    try {
+      const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
+      verified.push(id);
+      localStorage.setItem(VERIFIED_KEY, JSON.stringify(verified));
+    } catch {}
   };
 
   const handleAgentSelect = (agentId: string) => {
