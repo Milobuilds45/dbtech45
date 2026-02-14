@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "a18c633f",
+      "author": "Milo",
+      "timestamp": "2026-02-13 22:29:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "f88cc5a1",
       "author": "Milo",
       "timestamp": "2026-02-13 22:25:20 -0500",
@@ -351,13 +358,6 @@
       "message": "fix: align Dwight color to #3B82F6 in Agent Assist (was #6366F1)"
     },
     {
-      "type": "commit",
-      "id": "3414dfe8",
-      "author": "Milo",
-      "timestamp": "2026-02-13 18:29:07 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "fe05be29",
       "timestamp": "2026-02-13T22:20:25.228Z",
@@ -456,5 +456,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-14T03:29:03.405Z"
+  "generatedAt": "2026-02-14T03:34:03.404Z"
 }
