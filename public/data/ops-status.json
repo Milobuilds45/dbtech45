@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T13:04:01.998Z",
+    "lastHeartbeat": "2026-02-14T13:09:02.142Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:03:55.323Z"
+      "lastSeen": "2026-02-14T13:04:04.637Z"
     },
     {
       "name": "Anders",
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:04:00.413Z"
+      "lastSeen": "2026-02-14T13:09:00.503Z"
     },
     {
       "name": "Dax",
@@ -100,7 +100,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:04:02.246Z",
+      "lastActivity": "2026-02-14T13:09:00.503Z",
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 17
@@ -111,7 +111,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:03:55.323Z",
+      "lastActivity": "2026-02-14T13:04:04.637Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T13:04:02.294Z",
+  "generatedAt": "2026-02-14T13:09:02.471Z",
   "version": 2
 }
