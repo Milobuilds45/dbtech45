@@ -1,10 +1,10 @@
 {
   "system": {
-    "gatewayStatus": "offline",
+    "gatewayStatus": "online",
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T19:59:02.982Z",
+    "lastHeartbeat": "2026-02-14T20:04:06.378Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T19:43:50.957Z"
+      "lastSeen": "2026-02-14T20:03:38.088Z"
     },
     {
       "name": "Anders",
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T19:43:41.090Z"
+      "lastSeen": "2026-02-14T20:00:46.896Z"
     },
     {
       "name": "Remy",
@@ -100,7 +100,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T19:43:50.957Z",
+      "lastActivity": "2026-02-14T20:03:38.088Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -111,7 +111,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T19:43:41.090Z",
+      "lastActivity": "2026-02-14T20:00:46.896Z",
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T19:59:04.139Z",
+  "generatedAt": "2026-02-14T20:04:08.918Z",
   "version": 2
 }
