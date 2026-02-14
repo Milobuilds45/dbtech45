@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T20:09:06.018Z",
+    "lastHeartbeat": "2026-02-14T20:14:04.656Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:08:49.088Z"
+      "lastSeen": "2026-02-14T20:13:57.274Z"
     },
     {
       "name": "Bobby",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T20:13:57.274Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
@@ -104,17 +115,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:08:49.088Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:milo:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T20:09:08.525Z",
+  "generatedAt": "2026-02-14T20:14:06.944Z",
   "version": 2
 }
