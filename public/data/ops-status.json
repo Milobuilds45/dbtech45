@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T20:34:05.041Z",
+    "lastHeartbeat": "2026-02-14T20:39:04.552Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:33:17.852Z"
+      "lastSeen": "2026-02-14T20:38:37.325Z"
     },
     {
       "name": "Anders",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:34:04.501Z"
+      "lastSeen": "2026-02-14T20:34:45.870Z"
     },
     {
       "name": "Tony",
@@ -68,7 +68,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -95,26 +95,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:34:05.688Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:33:17.852Z",
+      "lastActivity": "2026-02-14T20:38:37.325Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T20:34:45.870Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
     },
     {
       "key": "agent:paula:main",
@@ -142,7 +142,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T20:08:52.927Z",
       "role": "Social Strategist",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T20:34:06.221Z",
+  "generatedAt": "2026-02-14T20:39:05.723Z",
   "version": 2
 }
