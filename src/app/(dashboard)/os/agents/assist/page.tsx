@@ -171,75 +171,85 @@ export default function AgentAssist() {
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
 
-  const DELETED_KEY = 'assist-deleted-ids';
-  const VERIFIED_KEY = 'assist-verified-ids';
-  const GENERATED_KEY = 'assist-generated-resources';
+  const convertDbRow = (item: any): AgentResource => ({
+    id: item.id,
+    agentId: item.agent_id,
+    agentName: item.agent_name,
+    title: item.title,
+    description: item.description,
+    url: item.url || '',
+    category: item.category,
+    type: item.type,
+    tags: item.tags || [],
+    useCase: item.use_case,
+    rating: item.rating || 3,
+    usefulFor: item.useful_for || [],
+    githubStars: item.github_stars,
+    lastUpdated: item.last_updated,
+    pricing: item.pricing,
+    createdAt: item.created_at,
+    addedBy: item.added_by || item.agent_name,
+  });
 
-  const getStoredSet = (key: string): Set<string> => {
-    try { return new Set(JSON.parse(localStorage.getItem(key) || '[]')); } catch { return new Set(); }
-  };
-
-  const addToStoredSet = (key: string, id: string) => {
-    try {
-      const set = getStoredSet(key);
-      set.add(id);
-      localStorage.setItem(key, JSON.stringify([...set]));
-    } catch {}
-  };
-
-  const getStoredResources = (): AgentResource[] => {
-    try { return JSON.parse(localStorage.getItem(GENERATED_KEY) || '[]'); } catch { return []; }
-  };
-
-  const saveGeneratedResources = (all: AgentResource[]) => {
-    try { localStorage.setItem(GENERATED_KEY, JSON.stringify(all)); } catch {}
-  };
-
-  // Load resources: mock + localStorage generated, minus deleted/verified
+  // Load from Supabase, fall back to mock data
   useEffect(() => {
-    const deleted = getStoredSet(DELETED_KEY);
-    const verified = getStoredSet(VERIFIED_KEY);
-    const hidden = new Set([...deleted, ...verified]);
-    const generated = getStoredResources();
-    const all = [...generated, ...mockResources].filter(r => !hidden.has(r.id));
-    setResources(all);
-
-    // Also try loading from Supabase
-    const loadFromDb = async () => {
+    const load = async () => {
       const { data, error } = await supabase
         .from('assist_resources')
         .select('*')
         .order('created_at', { ascending: false });
 
       if (!error && data && data.length > 0) {
-        const converted = data.map(item => ({
-          id: item.id,
-          agentId: item.agent_id,
-          agentName: item.agent_name,
-          title: item.title,
-          description: item.description,
-          url: item.url || '',
-          category: item.category,
-          type: item.type,
-          tags: item.tags || [],
-          useCase: item.use_case,
-          rating: item.rating || 3,
-          usefulFor: item.useful_for || [],
-          githubStars: item.github_stars,
-          lastUpdated: item.last_updated,
-          pricing: item.pricing,
-          createdAt: item.created_at,
-          addedBy: item.added_by || item.agent_name,
+        setResources(data.map(convertDbRow));
+      } else {
+        // Seed Supabase with mock data on first load
+        const toInsert = mockResources.map(r => ({
+          id: r.id,
+          agent_id: r.agentId,
+          agent_name: r.agentName,
+          title: r.title,
+          description: r.description,
+          url: r.url,
+          category: r.category,
+          type: r.type,
+          tags: r.tags,
+          use_case: r.useCase,
+          rating: r.rating,
+          useful_for: r.usefulFor,
+          github_stars: r.githubStars || null,
+          last_updated: r.lastUpdated || null,
+          pricing: r.pricing || null,
+          added_by: r.addedBy,
         }));
-        const dbFiltered = converted.filter(r => !hidden.has(r.id));
-        setResources(prev => {
-          const existingIds = new Set(prev.map(r => r.id));
-          const newOnes = dbFiltered.filter(r => !existingIds.has(r.id));
-          return [...newOnes, ...prev];
-        });
+        await supabase.from('assist_resources').upsert(toInsert);
+        setResources(mockResources);
       }
     };
-    loadFromDb();
+    load();
+
+    // Real-time subscription for live updates
+    const subscription = supabase
+      .channel('assist_resources_changes')
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'assist_resources' },
+        (payload) => {
+          const converted = convertDbRow(payload.new);
+          setResources(prev => {
+            if (prev.some(r => r.id === converted.id)) return prev;
+            return [converted, ...prev];
+          });
+        }
+      )
+      .on('postgres_changes',
+        { event: 'DELETE', schema: 'public', table: 'assist_resources' },
+        (payload) => {
+          const deletedId = (payload.old as any)?.id;
+          if (deletedId) setResources(prev => prev.filter(r => r.id !== deletedId));
+        }
+      )
+      .subscribe();
+
+    return () => { subscription.unsubscribe(); };
   }, []);
 
   const showNotification = (message: string) => {
@@ -271,12 +281,29 @@ export default function AgentAssist() {
       const data = await res.json();
       const newResources: AgentResource[] = data.resources || [];
       
-      setResources(prev => {
-        const updated = [...newResources, ...prev];
-        // Persist generated resources (exclude mock data)
-        saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
-        return updated;
-      });
+      // Insert into Supabase
+      const toInsert = newResources.map(r => ({
+        id: r.id,
+        agent_id: r.agentId,
+        agent_name: r.agentName,
+        title: r.title,
+        description: r.description,
+        url: r.url,
+        category: r.category,
+        type: r.type,
+        tags: r.tags,
+        use_case: r.useCase,
+        rating: r.rating,
+        useful_for: r.usefulFor,
+        github_stars: r.githubStars || null,
+        last_updated: r.lastUpdated || null,
+        pricing: r.pricing || null,
+        added_by: r.addedBy,
+        auto_generated: true,
+      }));
+      await supabase.from('assist_resources').upsert(toInsert);
+      
+      setResources(prev => [...newResources, ...prev]);
       setIsLoading(false);
       
       if (newResources.length === 1) {
@@ -290,22 +317,14 @@ export default function AgentAssist() {
     }
   };
 
-  const deleteResource = (id: string) => {
-    addToStoredSet(DELETED_KEY, id);
-    setResources(prev => {
-      const updated = prev.filter(r => r.id !== id);
-      saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
-      return updated;
-    });
+  const deleteResource = async (id: string) => {
+    setResources(prev => prev.filter(r => r.id !== id));
+    await supabase.from('assist_resources').delete().eq('id', id);
   };
 
-  const verifyResource = (id: string) => {
-    addToStoredSet(VERIFIED_KEY, id);
-    setResources(prev => {
-      const updated = prev.filter(r => r.id !== id);
-      saveGeneratedResources(updated.filter(r => !mockResources.some(m => m.id === r.id)));
-      return updated;
-    });
+  const verifyResource = async (id: string) => {
+    setResources(prev => prev.filter(r => r.id !== id));
+    await supabase.from('assist_resources').delete().eq('id', id);
   };
 
   const handleAgentSelect = (agentId: string) => {
