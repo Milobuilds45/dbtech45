@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "1b717868",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:57:18 -0500",
+      "message": "fix: persist deletes and verifies to localStorage so they survive refresh"
+    },
+    {
+      "type": "commit",
+      "id": "ff9ec136",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:54:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "0c5253c6",
       "author": "Milo",
       "timestamp": "2026-02-14 18:53:54 -0500",
@@ -337,20 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "08aab7a5",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:39:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "7deea4a1",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:37:00 -0500",
-      "message": "Enhance agent ideas interface with 'explain like I'm 5' approach - Add prominent 'What is this idea?' section, move Agent Reasoning to blue box next to Development Time, simplify all language for accessibility"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T23:54:06.507Z"
+  "generatedAt": "2026-02-14T23:59:06.336Z"
 }
