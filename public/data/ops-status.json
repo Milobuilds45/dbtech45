@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:29:04.359Z",
+    "lastHeartbeat": "2026-02-14T12:34:02.664Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:29:01.917Z"
+      "lastSeen": "2026-02-14T12:32:47.866Z"
     },
     {
       "name": "Anders",
@@ -41,7 +41,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -81,12 +81,12 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:05:27.459Z"
+      "lastSeen": "2026-02-14T12:30:11.511Z"
     },
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -100,10 +100,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:29:01.917Z",
+      "lastActivity": "2026-02-14T12:32:47.866Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:30:11.511Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 844
     },
     {
       "key": "agent:anders:main",
@@ -161,21 +172,10 @@
       "sessionCount": 6
     },
     {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:05:27.459Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 843
-    },
-    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T12:03:05.004Z",
       "role": "Wellness Coach",
@@ -186,7 +186,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T12:02:48.702Z",
       "role": "Creative Director",
@@ -232,10 +232,10 @@
       "humanSchedule": "30 7 * * *",
       "agent": "Remy",
       "description": "DAILY MARKETING OPPORTUNITIES BRIEF. You are Remy (Restaurant Marketing). Read your SOUL.md and workspace memory files f",
-      "lastRun": "2026-02-13T12:30:00.005Z",
+      "lastRun": "2026-02-14T12:30:00.008Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T12:30:00.000Z",
-      "duration": "14s",
+      "nextRun": "2026-02-15T12:30:00.000Z",
+      "duration": "12s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:29:05.320Z",
+  "generatedAt": "2026-02-14T12:34:03.612Z",
   "version": 2
 }

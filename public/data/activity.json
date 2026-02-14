@@ -1,6 +1,20 @@
 {
   "activity": [
     {
+      "type": "cron_run",
+      "id": "bee7eb71",
+      "timestamp": "2026-02-14T12:30:12.060Z",
+      "message": "Cron run: ok",
+      "jobId": "bee7eb71-dbd4-49c7-a1a9-1bb94844b589"
+    },
+    {
+      "type": "commit",
+      "id": "a1901dd6",
+      "author": "Milo",
+      "timestamp": "2026-02-14 07:29:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "commit",
       "id": "24623fa7",
       "author": "Milo",
@@ -358,13 +372,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "0736c61f",
-      "author": "Milo",
-      "timestamp": "2026-02-14 03:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "61b6eecf",
       "timestamp": "2026-02-14T08:10:02.481Z",
@@ -447,14 +454,7 @@
       "timestamp": "2026-02-13T13:00:35.336Z",
       "message": "Cron run: ok",
       "jobId": "4822e39c-38a2-4529-894c-5163ea4232b4"
-    },
-    {
-      "type": "cron_run",
-      "id": "bee7eb71",
-      "timestamp": "2026-02-13T12:30:14.214Z",
-      "message": "Cron run: ok",
-      "jobId": "bee7eb71-dbd4-49c7-a1a9-1bb94844b589"
     }
   ],
-  "generatedAt": "2026-02-14T12:29:05.536Z"
+  "generatedAt": "2026-02-14T12:34:03.723Z"
 }
