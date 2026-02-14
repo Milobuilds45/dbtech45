@@ -2,14 +2,11 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { brand } from '@/lib/brand';
-// supabase imported for future use
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { supabase } from '@/lib/supabase';
 import {
   ChevronRight, ChevronLeft, Download, Mail,
   Target, TrendingUp, DollarSign, Megaphone,
   Settings, BarChart3, Shield, Dna, X, Calendar, ExternalLink,
-  Briefcase, ArrowRight, CheckCircle2, AlertTriangle,
+  Briefcase, ArrowRight, CheckCircle2, AlertTriangle, Search, Activity
 } from 'lucide-react';
 import {
   Chart as ChartJS, RadialLinearScale, PointElement,
@@ -35,855 +32,58 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 /* ═══════════════════════════════════════════════════════
-   Shared Sub-components
+   Abyssal UI Components
    ═══════════════════════════════════════════════════════ */
 
-function ScoreSlider({ value, onChange }: { value: number; onChange: (v: number) => void }) {
-  const labels = [
-    '', 'Very Low', 'Low', 'Below Avg', 'Average', 'Moderate',
-    'Good', 'Strong', 'Very Strong', 'Excellent', 'World Class',
-  ];
+const AbyssalBackground = () => (
+  <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div className="absolute inset-0 bg-[#020617]" />
+    <div className="absolute inset-0 opacity-20" 
+         style={{ backgroundImage: 'radial-gradient(circle at 50% -20%, #1e293b 0%, transparent 80%)' }} />
+    <div className="marine-snow absolute inset-0" />
+  </div>
+);
+
+const HUDTag = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+  <div className={`inline-block px-3 py-1 border border-amber-500/30 bg-amber-500/10 text-amber-500 font-mono text-[10px] font-bold tracking-widest rounded uppercase ${className}`}>
+    {children}
+  </div>
+);
+
+const BentoCard = ({ children, className = "", onClick, active = false }: { children: React.ReactNode, className?: string, onClick?: () => void, active?: boolean }) => (
+  <div 
+    onClick={onClick}
+    className={`relative group bg-slate-900/50 border-2 transition-all duration-300 rounded-2xl overflow-hidden p-6 cursor-pointer
+               ${active ? 'border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)]' : 'border-slate-800 hover:border-slate-700'} 
+               ${className}`}
+  >
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+    {children}
+  </div>
+);
+
+const Sparkline = ({ score }: { score: number }) => {
+  const points = [10, 40, 25, 60, 45, 80, 50, 95]; // Simulated momentum
+  const color = score > 0 ? scoreColor(score) : '#475569';
   return (
-    <div style={{ width: '100%' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-        <span style={{ color: brand.smoke, fontSize: '13px' }}>Score</span>
-        <span
-          style={{
-            color: value > 0 ? scoreColor(value) : brand.smoke,
-            fontSize: '14px', fontWeight: 700,
-            fontFamily: "'JetBrains Mono', monospace",
-            transition: 'color 0.3s',
-          }}
-        >
-          {value > 0 ? `${value}/10 — ${labels[value]}` : 'Select a score'}
-        </span>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '4px' }}>
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-          <button
-            key={n}
-            onClick={() => onChange(n)}
-            style={{
-              flex: 1, height: '36px', borderRadius: '6px', cursor: 'pointer',
-              border: value === n ? `2px solid ${brand.amber}` : '1px solid #27272A',
-              background: value === n ? 'rgba(245,158,11,0.15)' : '#18181B',
-              color: value === n ? brand.amber : brand.smoke,
-              fontSize: '13px', fontWeight: value === n ? 700 : 400,
-              fontFamily: "'JetBrains Mono', monospace", transition: 'all 0.15s',
-            }}
-          >
-            {n}
-          </button>
-        ))}
-      </div>
-    </div>
+    <svg width="100" height="30" className="opacity-50">
+      <polyline
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        points={points.map((p, i) => `${i * 14},${30 - (p * 0.3)}`).join(' ')}
+      />
+    </svg>
   );
-}
-
-function ScoreRing({ score, size = 120, label }: { score: number; size?: number; label?: string }) {
-  const [anim, setAnim] = useState(0);
-  const r = (size - 12) / 2;
-  const c = 2 * Math.PI * r;
-  const color = scoreColor(score);
-
-  useEffect(() => {
-    let frame: number;
-    let start: number | null = null;
-    const go = (ts: number) => {
-      if (!start) start = ts;
-      const t = Math.min((ts - start) / 1200, 1);
-      setAnim(score * (1 - Math.pow(1 - t, 3)));
-      if (t < 1) frame = requestAnimationFrame(go);
-    };
-    frame = requestAnimationFrame(go);
-    return () => cancelAnimationFrame(frame);
-  }, [score]);
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-      <svg width={size} height={size} style={{ transform: 'rotate(-90deg)' }}>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#27272A" strokeWidth="6" />
-        <circle
-          cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth="6"
-          strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c - (anim / 10) * c}
-          style={{ transition: 'stroke 0.5s' }}
-        />
-        <text
-          x={size / 2} y={size / 2} textAnchor="middle" dominantBaseline="central" fill={color}
-          style={{
-            fontSize: size * 0.28, fontWeight: 700, fontFamily: "'JetBrains Mono', monospace",
-            transform: 'rotate(90deg)', transformOrigin: `${size / 2}px ${size / 2}px`,
-          }}
-        >
-          {anim.toFixed(1)}
-        </text>
-      </svg>
-      {label && <span style={{ color: brand.silver, fontSize: '13px', fontWeight: 500 }}>{label}</span>}
-    </div>
-  );
-}
-
-function EmailModal({
-  onSubmit,
-  onClose,
-}: {
-  onSubmit: (e: string) => void;
-  onClose: () => void;
-}) {
-  const [val, setVal] = useState('');
-  const [err, setErr] = useState('');
-  const go = () => {
-    if (!val || !val.includes('@') || !val.includes('.')) {
-      setErr('Please enter a valid email');
-      return;
-    }
-    onSubmit(val);
-  };
-  return (
-    <div
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1000,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)',
-      }}
-    >
-      <div
-        style={{
-          background: '#111111', borderRadius: '12px',
-          border: `1px solid ${brand.border}`, padding: '40px',
-          maxWidth: '460px', width: '90%', position: 'relative',
-        }}
-      >
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute', top: '16px', right: '16px',
-            background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer',
-          }}
-        >
-          <X size={20} />
-        </button>
-        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-          <div
-            style={{
-              width: '56px', height: '56px', borderRadius: '14px',
-              background: 'rgba(245,158,11,0.12)', display: 'flex',
-              alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
-            }}
-          >
-            <Mail size={28} color={brand.amber} />
-          </div>
-          <h2 style={{ color: brand.white, fontSize: '22px', fontWeight: 700, marginBottom: '8px' }}>
-            Your DNA Report is Ready
-          </h2>
-          <p style={{ color: brand.silver, fontSize: '14px', lineHeight: 1.6 }}>
-            Enter your email to unlock your full Business DNA Analysis — including personalized
-            recommendations and a downloadable PDF report.
-          </p>
-        </div>
-        <div style={{ marginBottom: '16px' }}>
-          <input
-            type="email"
-            value={val}
-            onChange={(e) => setVal(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && go()}
-            placeholder="you@company.com"
-            style={{
-              width: '100%', padding: '14px 16px', background: '#18181B',
-              border: `1px solid ${err ? '#22C55E' : '#27272A'}`, borderRadius: '8px',
-              color: brand.white, fontSize: '15px', outline: 'none', boxSizing: 'border-box',
-            }}
-          />
-          {err && <p style={{ color: '#22C55E', fontSize: '13px', marginTop: '6px' }}>{err}</p>}
-        </div>
-        <button
-          onClick={go}
-          style={{
-            width: '100%', padding: '14px', background: brand.amber,
-            color: brand.void, border: 'none', borderRadius: '8px',
-            fontSize: '15px', fontWeight: 700, cursor: 'pointer',
-          }}
-        >
-          Unlock My DNA Report
-        </button>
-        <p style={{ color: brand.smoke, fontSize: '12px', textAlign: 'center', marginTop: '12px' }}>
-          No spam. Your data stays private.
-        </p>
-      </div>
-    </div>
-  );
-}
+};
 
 /* ═══════════════════════════════════════════════════════
-   Step 0: Business Context Gathering
-   ═══════════════════════════════════════════════════════ */
-
-function ContextStep({
-  ctx,
-  onChange,
-  onContinue,
-}: {
-  ctx: BusinessContext;
-  onChange: (c: BusinessContext) => void;
-  onContinue: () => void;
-}) {
-  const update = (patch: Partial<BusinessContext>) => onChange({ ...ctx, ...patch });
-
-  const selectStyle: React.CSSProperties = {
-    width: '100%', padding: '12px 14px', background: '#18181B',
-    border: '1px solid #27272A', borderRadius: '8px', color: brand.white,
-    fontSize: '14px', outline: 'none', appearance: 'none',
-    WebkitAppearance: 'none', cursor: 'pointer',
-    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23737373' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'right 12px center',
-  };
-
-  const labelStyle: React.CSSProperties = {
-    color: brand.silver, fontSize: '13px', fontWeight: 600,
-    marginBottom: '6px', display: 'block',
-  };
-
-  return (
-    <div
-      style={{
-        background: '#111111', borderRadius: '12px',
-        border: '1px solid #27272A', padding: '32px',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-        <div
-          style={{
-            width: '44px', height: '44px', borderRadius: '12px',
-            background: 'rgba(245,158,11,0.12)', display: 'flex',
-            alignItems: 'center', justifyContent: 'center', color: brand.amber,
-          }}
-        >
-          <Briefcase size={20} />
-        </div>
-        <div>
-          <h2 style={{ fontSize: '18px', fontWeight: 700, margin: 0, color: brand.white }}>
-            Business Context
-          </h2>
-          <p style={{ color: brand.smoke, fontSize: '13px', margin: '2px 0 0' }}>
-            Tell us about your business so we can personalize your analysis
-          </p>
-        </div>
-      </div>
-
-      {/* Option A: Business Summary */}
-      <div style={{ marginBottom: '28px' }}>
-        <div
-          style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
-            marginBottom: '12px', paddingBottom: '8px', borderBottom: '1px solid #1E1E1E',
-          }}
-        >
-          <span style={{ color: brand.amber, fontSize: '12px', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
-            OPTION A
-          </span>
-          <span style={{ color: brand.silver, fontSize: '13px' }}>
-            Describe your business in 2-3 sentences
-          </span>
-        </div>
-        <textarea
-          value={ctx.description || ''}
-          onChange={(e) => update({ description: e.target.value })}
-          placeholder="We help small businesses automate their invoicing through a SaaS platform. We're currently pre-revenue with a working MVP and 50 beta users..."
-          rows={3}
-          style={{
-            width: '100%', padding: '14px 16px', background: '#18181B',
-            border: '1px solid #27272A', borderRadius: '8px', color: brand.white,
-            fontSize: '14px', outline: 'none', boxSizing: 'border-box', resize: 'vertical',
-            fontFamily: "'Inter', sans-serif", lineHeight: 1.5,
-          }}
-        />
-      </div>
-
-      {/* Option B: Quick Select */}
-      <div style={{ marginBottom: '28px' }}>
-        <div
-          style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
-            marginBottom: '16px', paddingBottom: '8px', borderBottom: '1px solid #1E1E1E',
-          }}
-        >
-          <span style={{ color: brand.amber, fontSize: '12px', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
-            OPTION B
-          </span>
-          <span style={{ color: brand.silver, fontSize: '13px' }}>
-            Quick select your business profile
-          </span>
-        </div>
-        <div
-          style={{
-            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-          }}
-        >
-          <div>
-            <label style={labelStyle}>Business Type</label>
-            <select
-              value={ctx.type || ''}
-              onChange={(e) => update({ type: e.target.value || undefined })}
-              style={selectStyle}
-            >
-              <option value="">Select type...</option>
-              {BUSINESS_TYPES.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Stage</label>
-            <select
-              value={ctx.stage || ''}
-              onChange={(e) => update({ stage: e.target.value || undefined })}
-              style={selectStyle}
-            >
-              <option value="">Select stage...</option>
-              {BUSINESS_STAGES.map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Team Size</label>
-            <select
-              value={ctx.teamSize || ''}
-              onChange={(e) => update({ teamSize: e.target.value || undefined })}
-              style={selectStyle}
-            >
-              <option value="">Select size...</option>
-              {TEAM_SIZES.map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label style={labelStyle}>Primary Goal</label>
-            <select
-              value={ctx.goal || ''}
-              onChange={(e) => update({ goal: e.target.value || undefined })}
-              style={selectStyle}
-            >
-              <option value="">Select goal...</option>
-              {PRIMARY_GOALS.map((g) => (
-                <option key={g} value={g}>{g}</option>
-              ))}
-            </select>
-          </div>
-        </div>
-      </div>
-
-      <button
-        onClick={onContinue}
-        style={{
-          display: 'flex', alignItems: 'center', gap: '8px',
-          padding: '14px 28px', background: brand.amber, color: brand.void,
-          border: 'none', borderRadius: '8px', fontSize: '15px',
-          fontWeight: 700, cursor: 'pointer', marginLeft: 'auto',
-        }}
-      >
-        Continue to Assessment <ArrowRight size={16} />
-      </button>
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   Checkbox Self-Assessment Component
-   ═══════════════════════════════════════════════════════ */
-
-function CheckboxAssessment({
-  questionId,
-  checkboxes,
-  checks,
-  onToggle,
-}: {
-  questionId: string;
-  checkboxes: { id: string; label: string }[];
-  checks: Record<string, boolean>;
-  onToggle: (checkboxId: string) => void;
-}) {
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '12px' }}>
-      <span style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-        Self-assessment (select all that apply)
-      </span>
-      {checkboxes.map((cb) => {
-        const isChecked = checks[cb.id] || false;
-        return (
-          <button
-            key={cb.id}
-            onClick={() => onToggle(cb.id)}
-            style={{
-              display: 'flex', alignItems: 'center', gap: '10px',
-              padding: '10px 14px', background: isChecked ? 'rgba(245,158,11,0.08)' : '#18181B',
-              border: isChecked ? `1px solid ${brand.amber}40` : '1px solid #27272A',
-              borderRadius: '8px', cursor: 'pointer', textAlign: 'left',
-              transition: 'all 0.15s',
-            }}
-          >
-            <div
-              style={{
-                width: '18px', height: '18px', borderRadius: '4px', flexShrink: 0,
-                border: isChecked ? `2px solid ${brand.amber}` : '2px solid #3F3F46',
-                background: isChecked ? brand.amber : 'transparent',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'all 0.15s',
-              }}
-            >
-              {isChecked && (
-                <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <path d="M2 5L4 7L8 3" stroke="#000" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              )}
-            </div>
-            <span
-              style={{
-                color: isChecked ? brand.white : brand.silver,
-                fontSize: '13px', lineHeight: 1.4,
-              }}
-            >
-              {cb.label}
-            </span>
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   Results View — Enhanced
-   ═══════════════════════════════════════════════════════ */
-
-function ResultsView({
-  answers,
-  email,
-  ctx,
-  checks,
-  onBack,
-  onReset,
-}: {
-  answers: Answers;
-  email: string;
-  ctx: BusinessContext;
-  checks: CheckboxSelections;
-  onBack: () => void;
-  onReset: () => void;
-}) {
-  const chartRef = useRef<ChartJS<'radar'> | null>(null);
-  const os = overallScore(answers);
-  const op = overallPct(answers);
-  const priorities = getPriorityActions(answers);
-
-  const radarData = {
-    labels: LAYERS.map((l) => l.shortName),
-    datasets: [
-      {
-        label: 'Business DNA Score',
-        data: LAYERS.map((l) => layerScore(l.id, answers)),
-        backgroundColor: 'rgba(245,158,11,0.15)',
-        borderColor: '#F59E0B',
-        borderWidth: 2,
-        pointBackgroundColor: '#F59E0B',
-        pointBorderColor: '#FCD34D',
-        pointBorderWidth: 2,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      },
-    ],
-  };
-
-  const radarOpts = {
-    responsive: true,
-    maintainAspectRatio: true,
-    plugins: {
-      legend: { display: false },
-      tooltip: {
-        backgroundColor: '#111111',
-        titleColor: '#FAFAFA',
-        bodyColor: '#A1A1AA',
-        borderColor: '#27272A',
-        borderWidth: 1,
-        padding: 12,
-      },
-    },
-    scales: {
-      r: {
-        min: 0,
-        max: 10,
-        beginAtZero: true,
-        ticks: {
-          stepSize: 2,
-          color: '#71717A',
-          backdropColor: 'transparent',
-          font: { size: 11, family: "'JetBrains Mono', monospace" },
-        },
-        grid: { color: 'rgba(39,39,42,0.6)' },
-        angleLines: { color: 'rgba(39,39,42,0.6)' },
-        pointLabels: {
-          color: '#A1A1AA',
-          font: { size: 13, weight: 600 as const, family: "'Inter', sans-serif" },
-        },
-      },
-    },
-  };
-
-  const dlPDF = async () => {
-    const canvas = chartRef.current?.canvas || null;
-    await generatePDF(answers, email, canvas, ctx, checks);
-  };
-
-  return (
-    <div style={{ maxWidth: '960px', margin: '0 auto', padding: '40px 20px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-        <button
-          onClick={onBack}
-          style={{
-            background: 'none', border: '1px solid #27272A', borderRadius: '8px',
-            color: brand.silver, padding: '8px', cursor: 'pointer', display: 'flex',
-          }}
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <div>
-          <h1
-            style={{
-              fontSize: '28px', fontWeight: 700, color: brand.amber, margin: 0,
-              display: 'flex', alignItems: 'center', gap: '10px',
-            }}
-          >
-            <Dna size={28} /> Business DNA Results
-          </h1>
-          <p style={{ color: brand.silver, margin: '4px 0 0', fontSize: '14px' }}>
-            Your 7-Layer Business Analysis
-          </p>
-        </div>
-      </div>
-
-      {/* Business Context Header */}
-      {(ctx.description || ctx.type) && (
-        <div
-          style={{
-            background: '#111111', borderRadius: '12px', border: '1px solid #27272A',
-            padding: '20px 24px', marginBottom: '16px',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <Briefcase size={16} color={brand.amber} />
-            <span style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Business Profile
-            </span>
-          </div>
-          {ctx.description && (
-            <p style={{ color: brand.white, fontSize: '14px', lineHeight: 1.6, margin: '0 0 8px' }}>
-              {ctx.description}
-            </p>
-          )}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {ctx.type && (
-              <span style={{ padding: '4px 10px', borderRadius: '6px', background: 'rgba(245,158,11,0.1)', border: '1px solid rgba(245,158,11,0.2)', color: brand.amber, fontSize: '12px', fontWeight: 600 }}>
-                {ctx.type}
-              </span>
-            )}
-            {ctx.stage && (
-              <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#18181B', border: '1px solid #27272A', color: brand.silver, fontSize: '12px', fontWeight: 500 }}>
-                {ctx.stage}
-              </span>
-            )}
-            {ctx.teamSize && (
-              <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#18181B', border: '1px solid #27272A', color: brand.silver, fontSize: '12px', fontWeight: 500 }}>
-                Team: {ctx.teamSize}
-              </span>
-            )}
-            {ctx.goal && (
-              <span style={{ padding: '4px 10px', borderRadius: '6px', background: '#18181B', border: '1px solid #27272A', color: brand.silver, fontSize: '12px', fontWeight: 500 }}>
-                Goal: {ctx.goal}
-              </span>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Overall Score Card */}
-      <div
-        style={{
-          background: '#111111', borderRadius: '12px', border: '1px solid #27272A',
-          padding: '32px', marginBottom: '24px', display: 'flex', flexWrap: 'wrap',
-          alignItems: 'center', justifyContent: 'center', gap: '32px',
-        }}
-      >
-        <ScoreRing score={os} size={140} />
-        <div style={{ flex: 1, minWidth: '240px' }}>
-          <h2 style={{ fontSize: '22px', fontWeight: 700, margin: '0 0 4px', color: brand.white }}>
-            Overall Score: {os}/10
-          </h2>
-          <p
-            style={{
-              color: scoreColor(os), fontSize: '18px', fontWeight: 700,
-              margin: '0 0 8px', fontFamily: "'Inter', sans-serif",
-            }}
-          >
-            {overallLabel(op)}
-          </p>
-          {/* Progress bar */}
-          <div style={{ background: '#18181B', borderRadius: '6px', height: '10px', overflow: 'hidden', marginBottom: '12px' }}>
-            <div
-              style={{
-                height: '100%', borderRadius: '6px',
-                background: `linear-gradient(90deg, ${scoreColor(os)}, ${scoreColor(os)}CC)`,
-                width: `${op}%`, transition: 'width 1s ease',
-              }}
-            />
-          </div>
-          <p style={{ color: brand.silver, fontSize: '14px', lineHeight: 1.6, margin: 0 }}>
-            {op >= 70
-              ? 'Your business shows strong DNA across most dimensions. Fine-tune weak spots for exceptional results.'
-              : op >= 50
-                ? 'Solid foundation with clear growth opportunities. Focus on lowest-scoring layers for biggest impact.'
-                : 'Significant room for improvement. You now have a clear roadmap for exactly where to focus.'}
-          </p>
-        </div>
-      </div>
-
-      {/* Priority Actions */}
-      <div
-        style={{
-          background: 'linear-gradient(135deg, rgba(245,158,11,0.06), rgba(245,158,11,0.02))',
-          borderRadius: '12px', border: '1px solid rgba(245,158,11,0.2)',
-          padding: '24px', marginBottom: '24px',
-        }}
-      >
-        <h3 style={{ fontSize: '16px', fontWeight: 700, margin: '0 0 16px', color: brand.amber, display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Target size={18} /> Top 3 Priority Actions
-        </h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {priorities.map((p, i) => (
-            <div
-              key={p.layerName}
-              style={{
-                display: 'flex', alignItems: 'flex-start', gap: '12px',
-                padding: '14px 16px', background: 'rgba(0,0,0,0.3)',
-                borderRadius: '8px', border: '1px solid #27272A',
-              }}
-            >
-              <span
-                style={{
-                  width: '28px', height: '28px', borderRadius: '50%',
-                  background: brand.amber, color: brand.void,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '14px', fontWeight: 700, flexShrink: 0,
-                  fontFamily: "'JetBrains Mono', monospace",
-                }}
-              >
-                {i + 1}
-              </span>
-              <div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-                  <span style={{ color: brand.white, fontSize: '14px', fontWeight: 600 }}>
-                    {p.layerName}
-                  </span>
-                  <span
-                    style={{
-                      color: scoreColor(p.score), fontSize: '12px', fontWeight: 700,
-                      fontFamily: "'JetBrains Mono', monospace",
-                    }}
-                  >
-                    {p.score}/10
-                  </span>
-                </div>
-                <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: 1.5 }}>
-                  {p.action}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Radar Chart */}
-      <div
-        style={{
-          background: '#111111', borderRadius: '12px', border: '1px solid #27272A',
-          padding: '32px', marginBottom: '24px',
-        }}
-      >
-        <h3 style={{ fontSize: '16px', fontWeight: 600, margin: '0 0 20px', color: brand.white }}>
-          DNA Profile
-        </h3>
-        <div style={{ maxWidth: '480px', margin: '0 auto' }}>
-          <Radar ref={chartRef as React.RefObject<ChartJS<'radar'>>} data={radarData} options={radarOpts} />
-        </div>
-      </div>
-
-      {/* Layer Breakdown Cards */}
-      <div
-        style={{
-          display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-          gap: '16px', marginBottom: '24px',
-        }}
-      >
-        {LAYERS.map((l) => {
-          const sc = layerScore(l.id, answers);
-          const sw = getLayerStrengthsWeaknesses(l.id, checks);
-          const action = layerAction(l.id, sc);
-          return (
-            <div
-              key={l.id}
-              style={{
-                background: '#111111', borderRadius: '12px',
-                border: '1px solid #27272A', padding: '20px',
-              }}
-            >
-              {/* Card header */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <span style={{ color: brand.amber }}>{ICONS[l.iconName]}</span>
-                  <span style={{ fontWeight: 600, fontSize: '14px', color: brand.white }}>
-                    {l.name}
-                  </span>
-                </div>
-                <span
-                  style={{
-                    color: scoreColor(sc), fontWeight: 700,
-                    fontFamily: "'JetBrains Mono', monospace", fontSize: '15px',
-                  }}
-                >
-                  {sc}/10
-                </span>
-              </div>
-              {/* Score bar */}
-              <div style={{ background: '#18181B', borderRadius: '4px', height: '6px', overflow: 'hidden', marginBottom: '14px' }}>
-                <div
-                  style={{
-                    height: '100%', width: `${(sc / 10) * 100}%`,
-                    background: scoreColor(sc), borderRadius: '4px',
-                    transition: 'width 0.8s ease',
-                  }}
-                />
-              </div>
-              {/* Strong points */}
-              {sw.strong.length > 0 && (
-                <div style={{ marginBottom: '8px' }}>
-                  {sw.strong.slice(0, 3).map((s) => (
-                    <div key={s} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginBottom: '4px' }}>
-                      <CheckCircle2 size={14} color="#10B981" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <span style={{ color: '#10B981', fontSize: '12px', lineHeight: 1.4 }}>{s}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {/* Weak points */}
-              {sw.weak.length > 0 && (
-                <div style={{ marginBottom: '10px' }}>
-                  {sw.weak.slice(0, 2).map((w) => (
-                    <div key={w} style={{ display: 'flex', alignItems: 'flex-start', gap: '6px', marginBottom: '4px' }}>
-                      <AlertTriangle size={14} color="#EAB308" style={{ marginTop: '2px', flexShrink: 0 }} />
-                      <span style={{ color: '#EAB308', fontSize: '12px', lineHeight: 1.4 }}>{w}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {/* Action */}
-              {action && (
-                <div
-                  style={{
-                    padding: '10px 12px', background: 'rgba(245,158,11,0.06)',
-                    borderRadius: '6px', border: '1px solid rgba(245,158,11,0.15)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: '6px' }}>
-                    <ArrowRight size={14} color={brand.amber} style={{ marginTop: '2px', flexShrink: 0 }} />
-                    <span style={{ color: brand.amber, fontSize: '12px', fontWeight: 600, lineHeight: 1.4 }}>
-                      {action}
-                    </span>
-                  </div>
-                </div>
-              )}
-              {/* Recommendation */}
-              <p style={{ color: brand.smoke, fontSize: '12px', lineHeight: 1.5, margin: '10px 0 0' }}>
-                {layerRec(l.id, sc)}
-              </p>
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Action Buttons */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '32px' }}>
-        <button
-          onClick={dlPDF}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
-            padding: '14px 24px', background: brand.amber, color: brand.void,
-            border: 'none', borderRadius: '8px', fontSize: '15px',
-            fontWeight: 700, cursor: 'pointer',
-          }}
-        >
-          <Download size={18} /> Download PDF Report
-        </button>
-        <button
-          onClick={onReset}
-          style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
-            padding: '14px 24px', background: '#18181B', color: brand.silver,
-            border: '1px solid #27272A', borderRadius: '8px', fontSize: '15px',
-            fontWeight: 600, cursor: 'pointer',
-          }}
-        >
-          Retake Assessment
-        </button>
-      </div>
-
-      {/* Consultation Upsell */}
-      {op < 50 && (
-        <div
-          style={{
-            background: 'linear-gradient(135deg, rgba(245,158,11,0.08), rgba(245,158,11,0.02))',
-            borderRadius: '12px', border: '1px solid rgba(245,158,11,0.3)',
-            padding: '32px', textAlign: 'center',
-          }}
-        >
-          <h3 style={{ fontSize: '20px', fontWeight: 700, color: brand.amber, margin: '0 0 8px' }}>
-            Your Business Needs Expert Guidance
-          </h3>
-          <p
-            style={{
-              color: brand.silver, fontSize: '15px', lineHeight: 1.6,
-              margin: '0 0 20px', maxWidth: '500px', marginLeft: 'auto', marginRight: 'auto',
-            }}
-          >
-            Scoring below 50% means there are critical gaps in your business DNA. A strategy
-            consultation can help you prioritize and build a clear action plan.
-          </p>
-          <a
-            href="https://calendly.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-flex', alignItems: 'center', gap: '8px',
-              padding: '14px 28px', background: brand.amber, color: brand.void,
-              borderRadius: '8px', fontSize: '15px', fontWeight: 700, textDecoration: 'none',
-            }}
-          >
-            <Calendar size={18} /> Book a Free Strategy Call <ExternalLink size={14} />
-          </a>
-        </div>
-      )}
-    </div>
-  );
-}
-
-/* ═══════════════════════════════════════════════════════
-   Main Page Component
+   Main Scanner Logic
    ═══════════════════════════════════════════════════════ */
 
 export default function DNAScannerPage() {
-  // Step: -1 = context, 0-6 = layers
   const [step, setStep] = useState(-1);
   const [answers, setAnswers] = useState<Answers>({});
   const [checks, setChecks] = useState<CheckboxSelections>({});
@@ -892,8 +92,7 @@ export default function DNAScannerPage() {
   const [showEmail, setShowEmail] = useState(false);
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
-  const [trans, setTrans] = useState(false);
-  const [dir, setDir] = useState<'fwd' | 'back'>('fwd');
+  const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
     try {
@@ -902,418 +101,390 @@ export default function DNAScannerPage() {
         setEmail(s);
         setUnlocked(true);
       }
-    } catch {
-      /* empty */
-    }
+    } catch { /* empty */ }
   }, []);
 
-  const curLayer = step >= 0 ? step : 0;
-  const layer = LAYERS[curLayer];
-  const allDone = LAYERS.every((l) => layerDone(l.id, answers));
+  const handleNext = () => {
+    if (step < 6) setStep(step + 1);
+    else if (unlocked) runFinalScan();
+    else setShowEmail(true);
+  };
 
-  const goTo = useCallback(
-    (i: number) => {
-      setDir(i > step ? 'fwd' : 'back');
-      setTrans(true);
-      setTimeout(() => {
-        setStep(i);
-        setTrans(false);
-      }, 200);
-    },
-    [step],
-  );
+  const runFinalScan = () => {
+    setIsScanning(true);
+    setTimeout(() => {
+      setIsScanning(false);
+      setShowResults(true);
+    }, 2500);
+  };
 
-  const handleNext = useCallback(() => {
-    if (step === -1) {
-      goTo(0);
-    } else if (step < 6) {
-      goTo(step + 1);
-    } else if (allDone) {
-      if (unlocked) setShowResults(true);
-      else setShowEmail(true);
-    }
-  }, [step, allDone, unlocked, goTo]);
-
-  const handleBack = useCallback(() => {
-    if (step > -1) goTo(step - 1);
-  }, [step, goTo]);
-
-  const handleEmailSubmit = useCallback((e: string) => {
+  const handleEmailSubmit = (e: string) => {
     setEmail(e);
     setUnlocked(true);
     setShowEmail(false);
-    setShowResults(true);
-    try {
-      localStorage.setItem('dna-scanner-email', e);
-    } catch {
-      /* empty */
-    }
-  }, []);
-
-  const handleCheckboxToggle = useCallback(
-    (questionId: string, checkboxId: string) => {
-      setChecks((prev) => {
-        const qChecks = { ...(prev[questionId] || {}) };
-        qChecks[checkboxId] = !qChecks[checkboxId];
-        const next = { ...prev, [questionId]: qChecks };
-        // Auto-suggest score from checkboxes if user hasn't manually scored
-        const suggested = scoreFromCheckboxes(questionId, next);
-        if (suggested > 0) {
-          setAnswers((a) => {
-            // Only auto-set if current answer is 0 or was previously auto-set
-            if (!a[questionId] || a[questionId] === scoreFromCheckboxes(questionId, prev)) {
-              return { ...a, [questionId]: suggested };
-            }
-            return a;
-          });
-        }
-        return next;
-      });
-    },
-    [],
-  );
-
-  const slideStyle: React.CSSProperties = {
-    opacity: trans ? 0 : 1,
-    transform: trans ? `translateX(${dir === 'fwd' ? '30px' : '-30px'})` : 'translateX(0)',
-    transition: 'opacity 0.2s ease, transform 0.2s ease',
+    runFinalScan();
+    try { localStorage.setItem('dna-scanner-email', e); } catch { /* empty */ }
   };
 
-  /* ── Results view ── */
-  if (showResults) {
+  const os = overallScore(answers);
+  const op = overallPct(answers);
+
+  if (isScanning) {
     return (
-      <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#FAFAFA', fontFamily: "'Inter', sans-serif" }}>
-        <ResultsView
-          answers={answers}
-          email={email}
-          ctx={businessCtx}
-          checks={checks}
-          onBack={() => setShowResults(false)}
-          onReset={() => {
-            setShowResults(false);
-            setStep(-1);
-            setAnswers({});
-            setChecks({});
-            setBusinessCtx({});
-          }}
-        />
+      <div className="min-h-screen bg-[#020617] flex flex-col items-center justify-center relative overflow-hidden">
+        <AbyssalBackground />
+        <div className="z-10 text-center">
+          <Dna className="w-24 h-24 text-amber-500 animate-spin-slow mb-8 mx-auto" />
+          <h2 className="text-4xl font-bold font-mono tracking-tighter text-white mb-4">SYNTHESIZING DNA ARCHETYPE</h2>
+          <div className="w-64 h-1 bg-slate-800 rounded-full overflow-hidden mx-auto">
+            <div className="h-full bg-amber-500 animate-progress" />
+          </div>
+          <p className="mt-4 text-slate-500 font-mono text-sm tracking-widest uppercase animate-pulse">
+            Processing 7 critical dimensions...
+          </p>
+        </div>
       </div>
     );
   }
 
-  /* ── Assessment view ── */
-  const curLayerScore = step >= 0 ? layerScore(layer.id, answers) : 0;
-  const curLayerDone = step >= 0 ? layerDone(layer.id, answers) : false;
+  if (showResults) {
+    return (
+      <div className="min-h-screen bg-[#020617] text-white p-8 relative">
+        <AbyssalBackground />
+        <div className="max-w-6xl mx-auto relative z-10">
+           {/* Result Header */}
+           <div className="flex flex-col md:flex-row justify-between items-start mb-12 gap-8">
+              <div>
+                <HUDTag className="mb-4">ANALYSIS: COMPLETE // CLASS: {overallLabel(op).toUpperCase()}</HUDTag>
+                <h1 className="text-6xl font-black tracking-tighter glow-text mb-2 uppercase">BUSINESS DNA BRIEF</h1>
+                <p className="text-slate-400 font-medium">Diagnostic report generated for {email}</p>
+              </div>
+              <div className="flex gap-4">
+                <button 
+                  onClick={() => generatePDF(answers, email, null, businessCtx, checks)}
+                  className="bg-amber-500 text-black px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-amber-400 transition-all shadow-lg shadow-amber-500/20"
+                >
+                  <Download size={18} /> EXPORT PDF
+                </button>
+                <button 
+                  onClick={() => { setShowResults(false); setStep(-1); setAnswers({}); setChecks({}); }}
+                  className="border border-slate-700 text-slate-400 px-6 py-3 rounded-xl font-bold hover:bg-slate-800 transition-all"
+                >
+                  NEW SCAN
+                </button>
+              </div>
+           </div>
+
+           {/* Executive Grid */}
+           <div className="grid lg:grid-cols-3 gap-8 mb-12">
+              <BentoCard className="lg:col-span-2 flex flex-col md:flex-row items-center gap-12 py-12">
+                 <div className="relative">
+                    <div className="w-48 h-48 rounded-full border-4 border-slate-800 flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-5xl font-black text-amber-500 leading-none">{os}</div>
+                        <div className="text-xs font-bold text-slate-500 tracking-widest uppercase mt-1">CORE INDEX</div>
+                      </div>
+                    </div>
+                    <svg className="absolute inset-0 w-full h-full -rotate-90">
+                      <circle 
+                        cx="96" cy="96" r="92" fill="none" 
+                        stroke="currentColor" strokeWidth="8" 
+                        className="text-amber-500" 
+                        strokeDasharray="578" 
+                        strokeDashoffset={578 - (578 * os / 10)} 
+                        strokeLinecap="round"
+                      />
+                    </svg>
+                 </div>
+                 <div className="flex-1">
+                    <h3 className="text-3xl font-bold mb-4 uppercase tracking-tight">{overallLabel(op)}</h3>
+                    <p className="text-slate-400 text-lg leading-relaxed mb-6">
+                      {op >= 70 
+                        ? "Your business shows lethal efficiency in its current environment. Scale-ready DNA detected." 
+                        : op >= 50 
+                        ? "Viable core detected. Structural weaknesses in secondary layers are slowing extraction speed." 
+                        : "Critical DNA degradation. Total restructuring required to survive high-pressure environments."}
+                    </p>
+                    <div className="flex gap-4">
+                       <div className="px-4 py-2 bg-slate-950 rounded-lg border border-slate-800">
+                          <div className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Efficiency</div>
+                          <div className="text-lg font-bold">{op}%</div>
+                       </div>
+                       <div className="px-4 py-2 bg-slate-950 rounded-lg border border-slate-800">
+                          <div className="text-[10px] text-slate-500 font-bold tracking-widest uppercase">Volatility</div>
+                          <div className="text-lg font-bold">{op < 50 ? "HIGH" : "LOW"}</div>
+                       </div>
+                    </div>
+                 </div>
+              </BentoCard>
+
+              <BentoCard className="bg-amber-500/5 border-amber-500/30">
+                 <h4 className="font-bold text-amber-500 mb-6 flex items-center gap-2 uppercase tracking-widest text-sm">
+                   <Target size={16} /> Top Tactical Gaps
+                 </h4>
+                 <div className="space-y-4">
+                    {getPriorityActions(answers).map((p, i) => (
+                      <div key={i} className="p-4 bg-slate-950/50 rounded-xl border border-slate-800">
+                        <div className="flex justify-between items-start mb-2">
+                           <span className="text-xs font-bold text-slate-400">{p.layerName.toUpperCase()}</span>
+                           <span className="text-xs font-bold text-amber-500">{p.score}/10</span>
+                        </div>
+                        <p className="text-sm text-slate-200 leading-tight font-medium">{p.action}</p>
+                      </div>
+                    ))}
+                 </div>
+              </BentoCard>
+           </div>
+
+           {/* Dimensional Breakdown */}
+           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {LAYERS.map((l) => {
+                const sc = layerScore(l.id, answers);
+                return (
+                  <BentoCard key={l.id} className="group">
+                    <div className="flex justify-between items-start mb-6">
+                       <div className="p-3 bg-slate-800 rounded-xl text-amber-500 group-hover:scale-110 transition-transform">
+                          {ICONS[l.iconName]}
+                       </div>
+                       <div className="text-right">
+                          <div className="text-2xl font-black text-white">{sc}</div>
+                          <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">LAYER {l.id}</div>
+                       </div>
+                    </div>
+                    <h4 className="text-lg font-bold mb-2 uppercase tracking-tight">{l.name}</h4>
+                    <div className="flex items-center gap-4 mb-4">
+                       <Sparkline score={sc} />
+                       <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Momentum</span>
+                    </div>
+                    <p className="text-sm text-slate-400 line-clamp-2 mb-6 h-10">{layerRec(l.id, sc)}</p>
+                    <div className="pt-4 border-t border-slate-800 flex justify-between items-center">
+                       <span className="text-xs font-bold text-slate-500 uppercase">Status</span>
+                       <span className={`text-xs font-bold uppercase tracking-widest ${sc >= 7 ? 'text-green-500' : sc >= 5 ? 'text-amber-500' : 'text-rose-500'}`}>
+                          {scoreLabel(sc)}
+                       </span>
+                    </div>
+                  </BentoCard>
+                );
+              })}
+           </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0A0A0A', color: '#FAFAFA', fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen bg-[#020617] text-white p-4 md:p-8 relative selection:bg-amber-500 selection:text-black">
+      <AbyssalBackground />
+      <style jsx global>{`
+        @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .animate-spin-slow { animation: spin-slow 12s linear infinite; }
+        @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
+        .animate-progress { animation: progress 2.5s ease-in-out; }
+        .glow-text { text-shadow: 0 0 30px rgba(245, 158, 11, 0.4); }
+        .marine-snow { background: radial-gradient(circle at 50% 50%, rgba(34, 211, 238, 0.05) 0%, transparent 70%); }
+      `}</style>
+
       {showEmail && (
-        <EmailModal onSubmit={handleEmailSubmit} onClose={() => setShowEmail(false)} />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-950/80 backdrop-blur-md">
+           <div className="bg-slate-900 border-2 border-amber-500 p-10 rounded-3xl max-w-lg w-full shadow-[0_0_50px_rgba(245,158,11,0.2)]">
+              <div className="text-center mb-8">
+                 <div className="w-20 h-20 bg-amber-500/10 rounded-2xl flex items-center justify-center mx-auto mb-6 text-amber-500 border border-amber-500/20">
+                    <Mail size={40} />
+                 </div>
+                 <h2 className="text-3xl font-black tracking-tighter mb-2 uppercase italic">EXTRACT DNA REPORT</h2>
+                 <p className="text-slate-400">Unlock the full abyssal intelligence brief and priority tactical plays.</p>
+              </div>
+              <input 
+                type="email" 
+                placeholder="OPERATOR@COMMAND.IO"
+                className="w-full bg-slate-950 border border-slate-800 p-4 rounded-xl text-white font-mono mb-4 focus:border-amber-500 outline-none transition-all uppercase tracking-widest"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <button 
+                onClick={() => handleEmailSubmit(email)}
+                className="w-full bg-amber-500 text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-amber-400 transition-all active:scale-95"
+              >
+                AUTHORIZE EXTRACTION
+              </button>
+           </div>
+        </div>
       )}
 
-      <div style={{ maxWidth: '800px', margin: '0 auto', padding: '40px 20px' }}>
-        {/* Title */}
-        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
-          <div
-            style={{
-              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              width: '56px', height: '56px', borderRadius: '14px',
-              background: 'rgba(245,158,11,0.12)', marginBottom: '16px',
-            }}
-          >
-            <Dna size={28} color={brand.amber} />
-          </div>
-          <h1 style={{ fontSize: '28px', fontWeight: 700, color: brand.white, margin: '0 0 8px' }}>
-            Business DNA Scanner
-          </h1>
-          <p style={{ color: brand.silver, fontSize: '15px', margin: 0 }}>
-            Analyze your business across 7 critical dimensions
-          </p>
+      <div className="max-w-7xl mx-auto relative z-10 pt-20">
+        {/* Progress HUD */}
+        <div className="grid grid-cols-8 gap-2 mb-12">
+           <div 
+             className={`h-1 rounded-full transition-all duration-500 ${step >= -1 ? 'bg-amber-500' : 'bg-slate-800'}`} 
+             style={{ boxShadow: step >= -1 ? '0 0 10px rgba(245, 158, 11, 0.5)' : 'none' }}
+           />
+           {[1,2,3,4,5,6,7].map((i) => (
+             <div 
+               key={i} 
+               className={`h-1 rounded-full transition-all duration-500 ${step >= i-1 ? 'bg-amber-500' : 'bg-slate-800'}`}
+               style={{ boxShadow: step >= i-1 ? '0 0 10px rgba(245, 158, 11, 0.5)' : 'none' }}
+             />
+           ))}
         </div>
 
-        {/* Progress Bar — shows context dot + 7 layer dots */}
-        <div style={{ marginBottom: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-            {/* Context dot */}
-            <button
-              onClick={() => goTo(-1)}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                flex: 1,
-              }}
-            >
-              <span
-                style={{
-                  width: '28px', height: '28px', borderRadius: '50%', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700,
-                  fontFamily: "'JetBrains Mono', monospace",
-                  background: step > -1 ? brand.amber : step === -1 ? 'rgba(245,158,11,0.2)' : '#18181B',
-                  color: step > -1 ? brand.void : step === -1 ? brand.amber : brand.smoke,
-                  border: step === -1 ? `2px solid ${brand.amber}` : '2px solid transparent',
-                  transition: 'all 0.2s',
-                }}
-              >
-                {step > -1 ? '\u2713' : '0'}
-              </span>
-              <span
-                style={{
-                  fontSize: '10px', fontWeight: step === -1 ? 600 : 400,
-                  color: step === -1 ? brand.amber : step > -1 ? brand.silver : brand.smoke,
-                  transition: 'color 0.2s', whiteSpace: 'nowrap',
-                }}
-              >
-                Context
-              </span>
-            </button>
-            {/* Layer dots */}
-            {LAYERS.map((l, i) => {
-              const done = layerDone(l.id, answers);
-              const active = i === step;
-              return (
-                <button
-                  key={l.id}
-                  onClick={() => goTo(i)}
-                  style={{
-                    background: 'none', border: 'none', cursor: 'pointer', padding: '4px 2px',
-                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
-                    flex: 1,
-                  }}
-                >
-                  <span
-                    style={{
-                      width: '28px', height: '28px', borderRadius: '50%', display: 'flex',
-                      alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 700,
-                      fontFamily: "'JetBrains Mono', monospace",
-                      background: done ? brand.amber : active ? 'rgba(245,158,11,0.2)' : '#18181B',
-                      color: done ? brand.void : active ? brand.amber : brand.smoke,
-                      border: active ? `2px solid ${brand.amber}` : '2px solid transparent',
-                      transition: 'all 0.2s',
-                    }}
-                  >
-                    {done ? '\u2713' : l.id}
-                  </span>
-                  <span
-                    style={{
-                      fontSize: '10px', fontWeight: active ? 600 : 400,
-                      color: active ? brand.amber : done ? brand.silver : brand.smoke,
-                      transition: 'color 0.2s', whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {l.shortName}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-          {/* Progress track */}
-          <div style={{ background: '#18181B', borderRadius: '4px', height: '4px', overflow: 'hidden' }}>
-            <div
-              style={{
-                height: '100%', borderRadius: '4px',
-                background: `linear-gradient(90deg, ${brand.amber}, #FCD34D)`,
-                width: `${((step + 1 + (step >= 0 && curLayerDone ? 1 : 0)) / 8) * 100}%`,
-                transition: 'width 0.4s ease',
-              }}
-            />
-          </div>
-        </div>
+        <div className="grid lg:grid-cols-3 gap-12 items-start">
+           {/* Left Column: Context & Selection */}
+           <div className="lg:col-span-1 space-y-6">
+              <div>
+                <HUDTag className="mb-4">SYSTEMS_CHECK // ID: {step === -1 ? 'INIT' : `LAYER_0${step + 1}`}</HUDTag>
+                <h1 className="text-6xl font-black tracking-tighter leading-none glow-text uppercase italic">
+                  DNA<br/><span className="text-amber-500">SCANNER</span>
+                </h1>
+                <p className="text-slate-400 mt-6 text-lg font-medium">
+                  {step === -1 
+                    ? "Initialize your business profile to begin the deep-layer diagnostic scan." 
+                    : `Analyzing ${LAYERS[step].name}. Complete the self-assessment for dimensionality.`}
+                </p>
+              </div>
 
-        {/* Content area with slide animation */}
-        <div style={slideStyle}>
-          {step === -1 ? (
-            /* ── Context Step ── */
-            <ContextStep
-              ctx={businessCtx}
-              onChange={setBusinessCtx}
-              onContinue={handleNext}
-            />
-          ) : (
-            /* ── Layer Card ── */
-            <div
-              style={{
-                background: '#111111', borderRadius: '12px',
-                border: '1px solid #27272A', padding: '32px', marginBottom: '24px',
-              }}
-            >
-              {/* Layer Header */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                <div
-                  style={{
-                    width: '44px', height: '44px', borderRadius: '12px',
-                    background: 'rgba(245,158,11,0.12)', display: 'flex',
-                    alignItems: 'center', justifyContent: 'center', color: brand.amber,
-                  }}
-                >
-                  {ICONS[layer.iconName]}
-                </div>
-                <div>
-                  <h2 style={{ fontSize: '18px', fontWeight: 700, margin: 0, color: brand.white }}>
-                    Layer {layer.id}: {layer.name}
-                  </h2>
-                  <p style={{ color: brand.smoke, fontSize: '13px', margin: '2px 0 0' }}>
-                    Layer {step + 1} of 7 -- 4 questions each
-                  </p>
-                </div>
-                {curLayerDone && (
-                  <div
-                    style={{
-                      marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: '6px',
-                      padding: '6px 12px', borderRadius: '8px',
-                      background: `${scoreColor(curLayerScore)}15`,
-                      border: `1px solid ${scoreColor(curLayerScore)}30`,
-                    }}
-                  >
-                    <span
-                      style={{
-                        color: scoreColor(curLayerScore), fontWeight: 700,
-                        fontFamily: "'JetBrains Mono', monospace", fontSize: '14px',
-                      }}
-                    >
-                      {curLayerScore}/10
-                    </span>
-                    <span style={{ color: scoreColor(curLayerScore), fontSize: '12px' }}>
-                      {scoreLabel(curLayerScore)}
-                    </span>
-                  </div>
+              {/* Dimensional Overview (Bento Preview) */}
+              <div className="grid grid-cols-4 gap-2 pt-8 border-t border-slate-800">
+                 {LAYERS.map((l, i) => (
+                   <div key={l.id} className={`p-2 rounded-lg border flex items-center justify-center transition-all ${step === i ? 'bg-amber-500/20 border-amber-500 text-amber-500' : 'bg-slate-900 border-slate-800 text-slate-600'}`}>
+                      {ICONS[l.iconName]}
+                   </div>
+                 ))}
+                 <div className="p-2 bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600">
+                    <Activity size={20} />
+                 </div>
+              </div>
+           </div>
+
+           {/* Right Column: Interaction */}
+           <div className="lg:col-span-2">
+              <div className="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 md:p-12 backdrop-blur-sm shadow-2xl relative">
+                {/* HUD Scanline Effect */}
+                <div className="absolute top-0 left-0 w-full h-1 bg-amber-500/20 animate-scan pointer-events-none" />
+                
+                {step === -1 ? (
+                   <div className="space-y-10">
+                      <div>
+                        <div className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 flex items-center gap-2">
+                           <Search size={14} /> Description Protocol
+                        </div>
+                        <textarea 
+                          className="w-full bg-slate-950 border border-slate-800 p-6 rounded-2xl text-slate-300 font-medium text-lg focus:border-amber-500 outline-none transition-all min-h-[160px]"
+                          placeholder="Describe your business mission in 2-3 sentences..."
+                          value={businessCtx.description || ''}
+                          onChange={(e) => setBusinessCtx({...businessCtx, description: e.target.value})}
+                        />
+                      </div>
+                      
+                      <div className="grid md:grid-cols-2 gap-6">
+                         {[
+                           { label: 'Archetype', options: BUSINESS_TYPES, key: 'type' },
+                           { label: 'Lifecycle', options: BUSINESS_STAGES, key: 'stage' },
+                           { label: 'Payload', options: TEAM_SIZES, key: 'teamSize' },
+                           { label: 'Strategic Goal', options: PRIMARY_GOALS, key: 'goal' },
+                         ].map((item) => (
+                           <div key={item.label}>
+                              <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">{item.label}</div>
+                              <select 
+                                className="w-full bg-slate-950 border border-slate-800 p-4 rounded-xl text-white font-bold outline-none cursor-pointer hover:border-slate-700 transition-all appearance-none uppercase text-xs tracking-wider"
+                                value={businessCtx[item.key as keyof BusinessContext] || ''}
+                                onChange={(e) => setBusinessCtx({...businessCtx, [item.key]: e.target.value})}
+                              >
+                                 <option value="">SELECT_{item.label.toUpperCase()}</option>
+                                 {item.options.map(o => <option key={o} value={o}>{o}</option>)}
+                              </select>
+                           </div>
+                         ))}
+                      </div>
+
+                      <button 
+                        onClick={() => setStep(0)}
+                        className="w-full group bg-amber-500 text-black py-6 rounded-2xl font-black text-xl uppercase tracking-tighter italic hover:bg-amber-400 transition-all flex items-center justify-center gap-3"
+                      >
+                        INITIATE DIAGNOSTIC <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                      </button>
+                   </div>
+                ) : (
+                   <div className="space-y-12">
+                      <div className="flex justify-between items-center">
+                         <div>
+                            <h2 className="text-4xl font-black tracking-tighter uppercase italic">{LAYERS[step].name}</h2>
+                            <p className="text-slate-400 font-medium">Dimension {step + 1} of 7</p>
+                         </div>
+                         <div className="text-right">
+                            <div className="text-4xl font-black text-amber-500 leading-none">
+                               {layerScore(LAYERS[step].id, answers)}
+                            </div>
+                            <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">LAYER_SCORE</div>
+                         </div>
+                      </div>
+
+                      <div className="space-y-8">
+                         {LAYERS[step].questions.map((q, qi) => (
+                            <div key={q.id} className="p-6 bg-slate-950/50 rounded-2xl border border-slate-800/50">
+                               <div className="flex gap-4 mb-4">
+                                  <span className="text-amber-500 font-mono font-bold">0{qi+1}</span>
+                                  <h4 className="text-lg font-bold text-slate-200 leading-tight">{q.question}</h4>
+                                </div>
+                                
+                                <div className="grid md:grid-cols-2 gap-3 mb-6">
+                                   {q.checkboxes.map(cb => {
+                                      const checked = checks[q.id]?.[cb.id];
+                                      return (
+                                        <button 
+                                          key={cb.id}
+                                          onClick={() => {
+                                             const newChecks = { ...checks };
+                                             if (!newChecks[q.id]) newChecks[q.id] = {};
+                                             newChecks[q.id][cb.id] = !newChecks[q.id][cb.id];
+                                             setChecks(newChecks);
+                                             const suggested = scoreFromCheckboxes(q.id, newChecks);
+                                             setAnswers({...answers, [q.id]: suggested});
+                                          }}
+                                          className={`text-left p-3 rounded-xl border text-[11px] font-bold uppercase tracking-wider transition-all
+                                                     ${checked ? 'bg-amber-500 border-amber-500 text-black' : 'bg-slate-900 border-slate-800 text-slate-500 hover:border-slate-700'}`}
+                                        >
+                                           {cb.label}
+                                        </button>
+                                      );
+                                   })}
+                                </div>
+
+                                <div className="flex justify-between items-center gap-4">
+                                   <div className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Density</div>
+                                   <div className="flex-1 flex gap-1">
+                                      {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                                        <button 
+                                          key={n}
+                                          onClick={() => setAnswers({...answers, [q.id]: n})}
+                                          className={`flex-1 h-6 rounded-sm transition-all ${answers[q.id] === n ? 'bg-amber-500' : 'bg-slate-800 hover:bg-slate-700'}`}
+                                        />
+                                      ))}
+                                   </div>
+                                   <div className="w-8 text-center font-mono font-bold text-amber-500">{answers[q.id] || 0}</div>
+                                </div>
+                            </div>
+                         ))}
+                      </div>
+
+                      <div className="flex gap-4">
+                         <button 
+                           onClick={() => setStep(step - 1)}
+                           className="flex-1 border border-slate-800 py-6 rounded-2xl font-black text-slate-500 uppercase tracking-widest hover:text-white hover:bg-slate-800 transition-all"
+                         >
+                            PREV_LAYER
+                         </button>
+                         <button 
+                           onClick={handleNext}
+                           className="flex-[2] bg-amber-500 text-black py-6 rounded-2xl font-black text-xl uppercase tracking-tighter italic hover:bg-amber-400 transition-all flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(245,158,11,0.2)]"
+                         >
+                            {step === 6 ? 'CALCULATE DNA ARCHETYPE' : 'NEXT_LAYER'} <ArrowRight />
+                         </button>
+                      </div>
+                   </div>
                 )}
               </div>
-
-              {/* Questions */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
-                {layer.questions.map((q, qi) => (
-                  <div
-                    key={q.id}
-                    style={{
-                      paddingTop: qi > 0 ? '20px' : 0,
-                      borderTop: qi > 0 ? '1px solid #1E1E1E' : 'none',
-                    }}
-                  >
-                    <div style={{ marginBottom: '4px', display: 'flex', gap: '8px' }}>
-                      <span
-                        style={{
-                          color: brand.amber, fontWeight: 700,
-                          fontFamily: "'JetBrains Mono', monospace", fontSize: '13px', flexShrink: 0,
-                        }}
-                      >
-                        Q{qi + 1}
-                      </span>
-                      <p
-                        style={{
-                          fontSize: '15px', fontWeight: 600, margin: 0,
-                          color: brand.white, lineHeight: 1.4,
-                        }}
-                      >
-                        {q.question}
-                      </p>
-                    </div>
-                    <p
-                      style={{
-                        color: brand.smoke, fontSize: '13px',
-                        margin: '4px 0 12px 28px', lineHeight: 1.4,
-                      }}
-                    >
-                      {q.description}
-                    </p>
-                    {/* Checkbox self-assessment */}
-                    <div style={{ marginLeft: '28px' }}>
-                      <CheckboxAssessment
-                        questionId={q.id}
-                        checkboxes={q.checkboxes}
-                        checks={checks[q.id] || {}}
-                        onToggle={(cbId) => handleCheckboxToggle(q.id, cbId)}
-                      />
-                      <ScoreSlider
-                        value={answers[q.id] || 0}
-                        onChange={(v) =>
-                          setAnswers((prev) => ({ ...prev, [q.id]: v }))
-                        }
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+           </div>
         </div>
-
-        {/* Navigation Buttons (only show for layer steps) */}
-        {step >= 0 && (
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-            <button
-              onClick={handleBack}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '12px 20px', background: '#18181B',
-                color: brand.silver, border: '1px solid #27272A',
-                borderRadius: '8px', fontSize: '14px', fontWeight: 600,
-                cursor: 'pointer',
-              }}
-            >
-              <ChevronLeft size={16} /> {step === 0 ? 'Back to Context' : 'Previous'}
-            </button>
-
-            <button
-              onClick={handleNext}
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '12px 24px',
-                background:
-                  step === 6 && allDone
-                    ? brand.amber
-                    : curLayerDone
-                      ? brand.amber
-                      : '#27272A',
-                color:
-                  curLayerDone || (step === 6 && allDone) ? brand.void : brand.smoke,
-                border: 'none', borderRadius: '8px', fontSize: '14px',
-                fontWeight: 700, cursor: 'pointer', transition: 'background 0.2s',
-              }}
-            >
-              {step === 6 ? (
-                allDone ? (
-                  'View Results \u2192'
-                ) : (
-                  'Complete All Layers'
-                )
-              ) : (
-                <>
-                  Next Layer <ChevronRight size={16} />
-                </>
-              )}
-            </button>
-          </div>
-        )}
-
-        {/* Layer score summary strip */}
-        {step >= 0 && (
-          <div
-            style={{
-              display: 'flex', gap: '8px', marginTop: '24px',
-              flexWrap: 'wrap', justifyContent: 'center',
-            }}
-          >
-            {LAYERS.map((l) => {
-              const sc = layerScore(l.id, answers);
-              const done = layerDone(l.id, answers);
-              return (
-                <div
-                  key={l.id}
-                  style={{
-                    padding: '6px 12px', borderRadius: '8px', fontSize: '12px',
-                    fontFamily: "'JetBrains Mono', monospace",
-                    background: done ? `${scoreColor(sc)}15` : '#18181B',
-                    border: `1px solid ${done ? scoreColor(sc) + '40' : '#27272A'}`,
-                    color: done ? scoreColor(sc) : brand.smoke,
-                    fontWeight: done ? 600 : 400,
-                  }}
-                >
-                  L{l.id}: {done ? `${sc}/10` : '\u2014'}
-                </div>
-              );
-            })}
-          </div>
-        )}
       </div>
     </div>
   );
