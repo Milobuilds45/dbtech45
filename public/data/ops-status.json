@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T16:24:04.995Z",
+    "lastHeartbeat": "2026-02-14T16:29:03.456Z",
     "totalCrons": 15,
-    "activeSessions": 8,
+    "activeSessions": 7,
     "totalAgents": 9,
     "alerts": []
   },
@@ -23,7 +23,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T16:24:02.168Z"
+      "lastSeen": "2026-02-14T16:24:39.447Z"
     },
     {
       "name": "Dwight",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T16:24:06.747Z",
+      "lastActivity": "2026-02-14T16:24:39.447Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
@@ -175,7 +175,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T12:29:01.471Z",
       "role": "Full Stack Architect",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T16:24:08.355Z",
+  "generatedAt": "2026-02-14T16:29:04.432Z",
   "version": 2
 }
