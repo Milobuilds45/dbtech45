@@ -840,15 +840,15 @@ export default function AgentIdeasPage() {
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Business Model</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.businessModel}</p></div>
                       <div style={sec}><h4 style={{ color: brand.success, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Revenue Projection</h4><p style={{ color: brand.white, fontSize: '15px', fontWeight: 700, margin: 0 }}>{idea.revenueProjection}</p></div>
                       <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Why We'd Win</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.competitiveAdvantage}</p></div>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                        <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Time to Build</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
-                        <div style={{ ...sec, background: `${brand.info}15`, border: `1px solid ${brand.info}30` }}>
-                          <h4 style={{ color: brand.info, fontSize: '13px', fontWeight: 600, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                            <Bot size={12} />Agent Reasoning
-                          </h4>
-                          <p style={{ color: brand.silver, fontSize: '12px', margin: 0, lineHeight: '1.4', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
-                        </div>
-                      </div>
+                      <div style={sec}><h4 style={{ color: brand.amber, fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>Time to Build</h4><p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.4' }}>{idea.developmentTime}</p></div>
+                    </div>
+
+                    {/* Agent Reasoning - Full Width */}
+                    <div style={{ ...sec, marginBottom: '16px', background: `${brand.info}15`, border: `1px solid ${brand.info}30` }}>
+                      <h4 style={{ color: brand.info, fontSize: '14px', fontWeight: 600, marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Bot size={14} />Agent Reasoning
+                      </h4>
+                      <p style={{ color: brand.silver, fontSize: '13px', margin: 0, lineHeight: '1.5', fontStyle: 'italic' }}>{getReasoning(idea)}</p>
                     </div>
 
                     {/* Ideabrowser-style Market Intelligence */}
