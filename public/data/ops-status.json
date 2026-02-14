@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T16:34:03.008Z",
+    "lastHeartbeat": "2026-02-14T16:39:03.030Z",
     "totalCrons": 15,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -50,11 +50,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:10:43.194Z"
+      "lastSeen": "2026-02-14T16:38:35.921Z"
     },
     {
       "name": "Tony",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T16:38:35.921Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
+    },
+    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
@@ -115,17 +126,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:10:43.194Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
     },
     {
       "key": "agent:dax:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T16:34:03.972Z",
+  "generatedAt": "2026-02-14T16:39:04.009Z",
   "version": 2
 }
