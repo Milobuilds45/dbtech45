@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T19:04:05.175Z",
+    "lastHeartbeat": "2026-02-14T19:09:10.600Z",
     "totalCrons": 15,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -50,11 +50,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T16:38:35.921Z"
+      "lastSeen": "2026-02-14T19:04:45.597Z"
     },
     {
       "name": "Tony",
@@ -95,6 +95,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:04:45.597Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -115,17 +126,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T16:38:35.921Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
     },
     {
       "key": "agent:paula:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T19:04:08.047Z",
+  "generatedAt": "2026-02-14T19:09:16.669Z",
   "version": 2
 }
