@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "8c9fec7b",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:08:16 -0500",
+      "message": "feat: pivot dna-scanner to clean Lab/Ideabrowser skin"
+    },
+    {
+      "type": "commit",
+      "id": "3c5f3463",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:06:30 -0500",
+      "message": "feat: refactor dna-scanner to abyssal-ideabrowser blend"
+    },
+    {
+      "type": "commit",
+      "id": "a76d7487",
+      "author": "Milo",
+      "timestamp": "2026-02-14 15:04:09 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "11564608",
       "author": "Milo",
       "timestamp": "2026-02-14 14:59:04 -0500",
@@ -330,27 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "632955fb",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:24:08 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "58605ab8",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "668d793c",
-      "author": "Milo",
-      "timestamp": "2026-02-14 11:14:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -484,5 +484,5 @@
       "jobId": "10c4a21b-dbd4-4564-8c76-73dfa551176c"
     }
   ],
-  "generatedAt": "2026-02-14T20:04:09.077Z"
+  "generatedAt": "2026-02-14T20:09:08.646Z"
 }
