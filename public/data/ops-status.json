@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T00:59:03.654Z",
+    "lastHeartbeat": "2026-02-14T01:04:02.371Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -32,11 +32,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-13T23:18:33.242Z"
+      "lastSeen": "2026-02-14T01:01:59.506Z"
     },
     {
       "name": "Paula",
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T00:42:54.073Z"
+      "lastSeen": "2026-02-14T01:02:34.390Z"
     },
     {
       "name": "Dwight",
@@ -100,10 +100,21 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T00:42:54.073Z",
+      "lastActivity": "2026-02-14T01:02:34.390Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 16
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T01:01:59.506Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 50
     },
     {
       "key": "agent:dax:main",
@@ -148,17 +159,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 29
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-13T23:18:33.242Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 49
     },
     {
       "key": "agent:remy:main",
@@ -352,10 +352,10 @@
       "humanSchedule": "0 20 * * 1-5",
       "agent": "Bobby",
       "description": "AFTER HOURS WRAP (8:00 PM Mon-Fri). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-13T01:00:00.015Z",
+      "lastRun": "2026-02-14T01:00:00.017Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T01:00:00.000Z",
-      "duration": "128s",
+      "nextRun": "2026-02-17T01:00:00.000Z",
+      "duration": "121s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T00:59:04.348Z",
+  "generatedAt": "2026-02-14T01:04:03.059Z",
   "version": 2
 }
