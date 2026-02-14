@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T08:59:03.338Z",
+    "lastHeartbeat": "2026-02-14T09:04:03.241Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -14,7 +14,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -23,7 +23,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -98,7 +98,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:32:10.869Z",
       "role": "Chief of Staff",
@@ -109,7 +109,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:30:24.130Z",
       "role": "Full Stack Architect",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T08:59:04.249Z",
+  "generatedAt": "2026-02-14T09:04:04.152Z",
   "version": 2
 }
