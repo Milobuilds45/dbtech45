@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T17:34:02.609Z",
+    "lastHeartbeat": "2026-02-14T17:39:02.686Z",
     "totalCrons": 15,
-    "activeSessions": 6,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": []
   },
@@ -59,7 +59,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -68,7 +68,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -98,7 +98,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T17:04:17.912Z",
       "role": "Social Strategist",
@@ -153,7 +153,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T13:37:42.886Z",
       "role": "Tech Guru",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T17:34:03.589Z",
+  "generatedAt": "2026-02-14T17:39:03.662Z",
   "version": 2
 }
