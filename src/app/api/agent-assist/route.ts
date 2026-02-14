@@ -57,14 +57,15 @@ export async function POST(request: NextRequest) {
     const { agentIds, existingTitles = [], creativity = 'creative', budget = 'any' } = body;
 
     // Build pricing filter for search queries
-    const pricingModifier = {
+    const budgetMap: Record<string, string> = {
       'open-source': 'open source free',
       'free-tier': 'free tier OR free trial',
       'budget-30': 'affordable under $30 per month',
       'budget-50': 'under $50 per month subscription',
       'budget-100': 'premium under $100 per month',
       'any': '',
-    }[budget] || '';
+    };
+    const pricingModifier = budgetMap[budget as string] || '';
 
     const results = [];
 
