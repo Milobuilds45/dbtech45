@@ -29,6 +29,7 @@ interface AgentIdea {
   status: 'submitted' | 'reviewed' | 'approved' | 'building' | 'rejected' | 'launched';
   createdAt: string;
   updatedAt: string;
+  plainEnglish?: string; // Simple explanation anyone can understand
   // Enhanced ideabrowser-style fields
   marketScenario?: string;
   useCase?: string;
@@ -70,6 +71,7 @@ const AGENT_REASONING: Record<string, string> = {
 interface IdeaTemplate {
   title: string;
   description: string;
+  plainEnglish: string;
   problemSolved: string;
   targetMarket: string;
   businessModel: string;
@@ -84,6 +86,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'StockBuddy • TradeWhisper • SimpleSignals',
       description: 'Your coworker made $500 last week on Tesla stock. You want in, but when you open a trading app, it looks like the cockpit of a spaceship. Charts with red and green lines everywhere, words like "RSI" and "MACD" that might as well be alien language. You close the app. Another missed opportunity. StockBuddy changes this. Imagine getting a text from your smartest friend who actually understands stocks: "Hey, Apple might go up today because of their earnings. Consider buying some." That\'s it. No charts, no jargon. Just simple English alerts that help regular people make money without becoming Wall Street nerds.',
+      plainEnglish: 'A texting service that sends you simple stock tips in plain English. No charts, no finance jargon. Just "buy this, here is why" from an AI that watches the market 24/7 so you don\'t have to.',
       problemSolved: 'Normal people want to make money from stocks but every trading app feels like you need a finance degree just to understand what you\'re looking at',
       targetMarket: 'Busy professionals with full-time jobs who want to make extra money from stocks but don\'t want to spend hours learning complicated trading stuff',
       businessModel: 'Simple monthly subscription like Spotify - $19/month and you get daily text alerts with plain English stock suggestions',
@@ -95,6 +98,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'OptionsFlow Pro',
       description: 'Real-time options flow tracking with AI pattern recognition. Institutional-grade data made accessible for retail traders.',
+      plainEnglish: 'Shows you what the big Wall Street firms are betting on in real time. When a hedge fund drops $5 million on Tesla calls, you see it instantly and can follow the smart money instead of guessing.',
       problemSolved: 'Retail traders miss 80% of profitable opportunities due to lack of institutional-grade options flow data',
       targetMarket: 'Active retail traders and small hedge funds ($10K-$500K accounts)',
       businessModel: 'Tiered SaaS: $49/month retail, $199/month professional',
@@ -106,6 +110,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Sentiment-Driven Auto-Hedging',
       description: 'AI system that reads market sentiment across social media, news, and options flow, then automatically hedges your portfolio in real-time.',
+      plainEnglish: 'An AI bodyguard for your portfolio. It reads Twitter, news, and trading data. When it senses a crash coming, it automatically buys protection for your stocks before you even know something is wrong.',
       problemSolved: 'Traders get caught in sentiment-driven crashes because manual hedging is too slow',
       targetMarket: 'Hedge funds and professional traders with $500K+ portfolios',
       businessModel: 'Enterprise licensing: $2K/month + performance fees on protected losses',
@@ -119,6 +124,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'Daily Restaurant Tracker',
       description: 'Simple daily tracking for food costs, sales, and basic restaurant metrics. No complexity, just the numbers that matter.',
+      plainEnglish: 'A simple app where restaurant owners type in what they spent and made today. It tells them if they are making money or losing it. Takes 5 minutes a day instead of hours with spreadsheets.',
       problemSolved: 'Restaurant owners need basic financial oversight but existing solutions are too complex',
       targetMarket: 'Very small restaurants and food trucks (under $1M revenue)',
       businessModel: 'Affordable SaaS: $29/month',
@@ -130,6 +136,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'AI Kitchen Optimizer',
       description: 'Smart system that predicts demand and optimizes prep schedules to eliminate food waste and reduce labor costs.',
+      plainEnglish: 'Tells your kitchen exactly how much food to prep each day based on weather, day of week, and past sales. No more throwing away 20 pounds of chicken because you prepped too much on a slow Tuesday.',
       problemSolved: 'Restaurants waste $162B annually due to poor demand forecasting and over-preparation',
       targetMarket: 'Fast-casual restaurants and ghost kitchens with high volume',
       businessModel: 'Revenue share: 10% of documented waste reduction savings',
@@ -141,6 +148,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Ghost Kitchen Network AI',
       description: 'AI that dynamically matches ghost kitchen capacity with real-time delivery demand across a metro area. Essentially an Uber-style matching engine for kitchen capacity.',
+      plainEnglish: 'Like Uber but for kitchen space. When a pizza place is slow on Monday night, a busy taco brand uses their kitchen to fill delivery orders. AI matches empty kitchens with overflow demand in real time.',
       problemSolved: 'Ghost kitchens operate at 40% utilization while delivery demand fluctuates wildly',
       targetMarket: 'Ghost kitchen operators and restaurant chains expanding delivery',
       businessModel: 'Platform fee: 5% of matched orders + $499/month per kitchen node',
@@ -154,6 +162,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'LogoSnap • InstantBrand • QuickMark',
       description: 'You just quit your job to start a dog walking business. You need a logo for your business cards, but hiring a designer costs $500 and takes two weeks of back-and-forth emails. "Can you make the dog more playful?" "Actually, can we try blue instead of red?" Meanwhile, you\'re losing customers because you look unprofessional without a proper logo. LogoSnap solves this in 60 seconds. Type "Paw Partners Dog Walking" and get 10 professional logos instantly. Pick one, download it, print your business cards. Done. No designer meetings, no revision rounds, no $500 bills.',
+      plainEnglish: 'Type your business name, get 10 professional logos in 60 seconds. Pick the one you like, download it, put it on your business cards. No designer needed, no $500 bill, no two-week wait.',
       problemSolved: 'New business owners need professional logos immediately but hiring designers takes weeks and costs more than most startups can afford',
       targetMarket: 'Entrepreneurs, freelancers, and small business owners who need a decent logo today, not next month',
       businessModel: 'Free basic logos to try it out, then $19 for high-resolution files you can actually use on business cards and websites',
@@ -165,6 +174,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'BrandBot AI',
       description: 'AI-powered brand identity generator that creates complete brand systems - logos, colors, typography, guidelines, and social templates.',
+      plainEnglish: 'Give it your business name and what you do. It creates your entire brand look: logo, colors, fonts, social media templates, business card design. Everything a branding agency charges $5,000 for, done in minutes for under $100.',
       problemSolved: 'Small businesses pay $2K-$5K for branding they could get for under $100 with AI',
       targetMarket: 'Small business owners, entrepreneurs, and freelancers starting new ventures',
       businessModel: 'One-time purchase: $47 basic, $97 premium, $197 complete package',
@@ -176,6 +186,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Emotion-Responsive Design System',
       description: 'Design system that adapts visual elements in real-time based on user emotional state and behavioral signals. The UI literally changes mood with the user.',
+      plainEnglish: 'A website that can tell when you are frustrated (clicking fast, scrolling back and forth) and automatically simplifies itself. When you are engaged and exploring, it shows you more options. The interface reads your mood and adapts.',
       problemSolved: 'Static designs ignore that users interact differently based on emotional state - frustrated users need simpler layouts, engaged users can handle complexity',
       targetMarket: 'Enterprise UX teams and cutting-edge product companies',
       businessModel: 'Enterprise SDK: $3K/month + integration consulting',
@@ -189,6 +200,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'Simple Deploy',
       description: 'One-click deployment for web applications. Connect repo, click deploy, get a live URL. No config files, no CI/CD setup.',
+      plainEnglish: 'You built a website. You want it live on the internet. Click one button and it is live. No setup, no config files, no DevOps degree required. Just click and get a URL you can share.',
       problemSolved: 'Developers waste hours on deployment configuration instead of building features',
       targetMarket: 'Individual developers and small teams building web apps',
       businessModel: 'Usage-based: $5/month base + $0.01 per deployment hour',
@@ -200,6 +212,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'BackendBuilder • NoCodeEngine • SimpleStack',
       description: 'Sarah runs a dog grooming business. She needs an app where customers can book appointments, pay online, and get reminder texts. She calls three developers. Quote 1: $45,000 and 6 months. Quote 2: $60,000 and 8 months. Quote 3: "I don\'t work on projects under $80k." Sarah gives up and goes back to her messy paper calendar and lost phone calls. BackendBuilder changes this story. Sarah drags a "Customer" box onto her screen, connects it to a "Payment" box and an "SMS" box. She clicks "Launch" and gets a working booking system in 20 minutes. No $45,000 bill, no 6-month wait, no developer meetings. Just a working business system built by someone who barely knows how to use Excel.',
+      plainEnglish: 'Drag and drop boxes to build a real app. Connect a "Customer" box to a "Payment" box and a "Text Message" box, hit launch, and you have a working booking system. No coding, no $45,000 developer bill. Like building with Legos but the result is a real business app.',
       problemSolved: 'Small business owners need custom software to run efficiently, but developers cost more than most small businesses earn in an entire year',
       targetMarket: 'Non-technical small business owners who need custom apps but can\'t afford programmers',
       businessModel: 'Start at $29/month for basic features, then pay small amounts (like 10 cents) each time customers use your app',
@@ -211,6 +224,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'AI Code Architect',
       description: 'AI system that designs entire application architectures from a plain English description and generates production-ready, deployable code.',
+      plainEnglish: 'Describe your app in plain English like "I need an Airbnb for pet sitting" and the AI designs the entire technical system and writes all the code. Not a prototype. Production-ready code you can deploy immediately.',
       problemSolved: 'Even experienced developers spend weeks architecting systems that could be generated instantly',
       targetMarket: 'Development agencies and enterprise engineering teams',
       businessModel: 'Per-project licensing: $999 per application + $199/month maintenance',
@@ -224,6 +238,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'News Digest Pro',
       description: 'Personalized daily news briefings with AI-powered summaries. Your industry, your topics, your inbox, every morning.',
+      plainEnglish: 'Every morning you get an email with the 5 most important things that happened in your industry. No scrolling through 50 articles. Just the stuff that actually matters to your job, summarized in 2 minutes.',
       problemSolved: 'Busy professionals need relevant news but cannot spend time filtering through noise',
       targetMarket: 'Executives and professionals who need industry-specific news',
       businessModel: 'Subscription: $19/month individual, $99/month team',
@@ -235,6 +250,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'TrendScope AI',
       description: 'AI system that detects weak signals across global data sources and predicts market trends before they hit mainstream awareness.',
+      plainEnglish: 'Spots trends before they blow up. While everyone else finds out about the next big thing from a TikTok video, you got an alert about it 3 weeks earlier from obscure data signals the AI caught.',
       problemSolved: 'Businesses react to trends instead of anticipating them, missing first-mover advantages',
       targetMarket: 'Strategy consultants, VCs, and Fortune 500 strategy teams',
       businessModel: 'Enterprise SaaS: $2999/month + custom research projects',
@@ -246,6 +262,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Global Intelligence Network',
       description: 'Crowdsourced intelligence platform where human analysts and AI collaborate on research. A Mechanical Turk for strategic intelligence.',
+      plainEnglish: 'A network of human researchers and AI working together to answer hard business questions. Need to know if a competitor is expanding into your market? Post the question, experts and AI collaborate, you get a research report back.',
       problemSolved: 'Traditional intelligence is either expensive consultants or incomplete AI - neither is good enough alone',
       targetMarket: 'Large corporations and research institutions needing deep intelligence',
       businessModel: 'Platform fees: 20% of research projects + $5K/month platform access',
@@ -259,6 +276,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'Simple Charts',
       description: 'Dead simple tool for creating beautiful charts from spreadsheet data. Paste data, pick style, download chart.',
+      plainEnglish: 'Copy your numbers from a spreadsheet, paste them in, pick a style that looks good, and download a beautiful chart. Three steps. No design skills needed. Your boss will think you hired a graphic designer.',
       problemSolved: 'Most people need basic charts but find existing tools too complicated or ugly',
       targetMarket: 'Small business owners, students, and professionals who need quick visualizations',
       businessModel: 'Freemium: Free basic charts, $9/month for premium templates',
@@ -270,6 +288,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'DataStory Builder',
       description: 'Platform that converts raw data into executive-ready presentations with narrative, not just charts. Data goes in, a story comes out.',
+      plainEnglish: 'Upload your messy spreadsheet. Get back a polished presentation with charts AND a written story explaining what the data means. Instead of spending 4 hours making slides, you spend 4 minutes uploading a file.',
       problemSolved: 'Data analysts spend 80% of time formatting reports instead of finding insights',
       targetMarket: 'Data analysts, consultants, and executives at mid-size companies',
       businessModel: 'SaaS: $79/month individual, $299/month team',
@@ -281,6 +300,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Predictive Business Simulator',
       description: 'AI that creates interactive business simulations from real company data. Test "what if" scenarios before betting real resources.',
+      plainEnglish: 'A "what if" machine for your business. What if we raise prices 10%? What if we open a second location? What if a recession hits? Plug in your real numbers, ask any question, and see what would likely happen before you risk real money.',
       problemSolved: 'Executives make million-dollar decisions based on static spreadsheets instead of dynamic modeling',
       targetMarket: 'Strategy teams at Fortune 1000 companies and consulting firms',
       businessModel: 'Enterprise licensing: $10K setup + $2K/month per simulation',
@@ -294,6 +314,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'BizPulse • SimpleOps • DailyCheck',
       description: 'Maria runs a small bakery. Every night she goes to bed wondering: "Am I actually making money or just staying busy?" She knows today was hectic - 50 customers, ran out of croissants, had to fix the espresso machine. But is that good or bad compared to last month? She has no idea. Tax season comes and her accountant delivers the brutal truth: she worked 70-hour weeks all year and barely broke even. BizPulse prevents this nightmare. Every morning, Maria spends 3 minutes entering yesterday\'s numbers: sales, expenses, customer count. The app shows her a simple graph: trending up or down? Green or red? That\'s it. No complicated reports, no business school jargon. Just a clear answer to the most important question: "Is my business getting better or worse?"',
+      plainEnglish: 'Spend 3 minutes each morning typing in yesterday\'s sales and expenses. The app shows you one thing: is your business getting better or worse? Green arrow up or red arrow down. That is it. No MBA required.',
       problemSolved: 'Small business owners work incredibly hard but have no idea if they\'re actually making progress or just spinning their wheels',
       targetMarket: 'Small business owners with under 10 employees who want to know their business health without becoming accounting experts',
       businessModel: 'Monthly subscription like a gym membership - $29/month for daily health tracking and trend reports',
@@ -305,6 +326,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'AgentHub Coordinator',
       description: 'Platform that orchestrates multiple AI agents for comprehensive business automation. One command center, all your AI tools.',
+      plainEnglish: 'One dashboard to control all your AI assistants. Instead of juggling 8 different AI tools that don\'t talk to each other, you have one command center where you give orders and your AI team handles the rest.',
       problemSolved: 'Businesses want AI automation but struggle to coordinate multiple tools and agents',
       targetMarket: 'SMBs and operations teams needing workflow automation',
       businessModel: 'SaaS: $49/month base + $19/month per additional agent',
@@ -316,6 +338,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Collective Business Intelligence',
       description: 'Network where businesses share anonymized operational data to improve collective performance. A Bloomberg Terminal for SMBs, powered by collective data.',
+      plainEnglish: 'Hundreds of small businesses secretly share their numbers (anonymously). Now everyone can see: "Am I paying too much for rent compared to similar businesses? Is my profit margin normal?" Like Glassdoor but for business performance instead of salaries.',
       problemSolved: 'Small businesses operate in silos, missing insights from collective operational intelligence',
       targetMarket: 'Forward-thinking SMBs and business networks wanting collective optimization',
       businessModel: 'Network participation fees: $299/month + data contribution incentives',
@@ -329,6 +352,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'Quick Social Posts',
       description: 'Generate a week of social media posts in under 5 minutes from a single topic. Just describe your business, get a content calendar.',
+      plainEnglish: 'Tell it what your business does. It writes a full week of social media posts for Instagram, Twitter, and Facebook. Copy, paste, post. 5 minutes and your social media is handled for the week.',
       problemSolved: 'Business owners know they need to post but cannot spend hours creating content',
       targetMarket: 'Solo business owners and freelancers active on social media',
       businessModel: 'Simple subscription: $19/month or $179/year',
@@ -340,6 +364,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'Viral Content Predictor',
       description: 'AI that scores content virality potential before you publish and suggests specific optimizations to increase reach.',
+      plainEnglish: 'Before you post that TikTok or tweet, run it through this tool. It gives you a score out of 100 on how likely it is to go viral and tells you exactly what to change to boost it. Like a spell-checker but for engagement.',
       problemSolved: 'Businesses publish blindly hoping content resonates instead of predicting engagement',
       targetMarket: 'Social media managers, influencers, and marketing teams',
       businessModel: 'Per-scan pricing: $0.50/scan or $79/month unlimited',
@@ -351,6 +376,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'AI Content Studio Network',
       description: 'Decentralized network of specialized AI content creators that collaborate on campaigns - a virtual creative agency that operates autonomously.',
+      plainEnglish: 'A virtual marketing agency made entirely of AI. One AI writes the copy, another makes the graphics, another edits the video, another schedules it all. You describe the campaign, they execute it. No human agency, no $10,000 retainer.',
       problemSolved: 'Content agencies are expensive and slow; single AI tools lack creative depth and multi-format capability',
       targetMarket: 'Mid-market brands and agencies managing multiple campaigns simultaneously',
       businessModel: 'Campaign-based: $2K-$10K per campaign + $499/month platform fee',
@@ -364,6 +390,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     simple: {
       title: 'Habit Tracker Pro',
       description: 'Clean, simple daily habit tracker with streak tracking and gentle accountability nudges.',
+      plainEnglish: 'Check off your daily habits like "drink water" and "exercise" and watch your streak grow. Miss a day and it sends you a gentle nudge. Simple enough that you actually use it instead of deleting it after a week.',
       problemSolved: 'People start habits but quit within 2 weeks because existing trackers are either too complex or too boring',
       targetMarket: 'Individuals wanting to build better daily habits (health, productivity, learning)',
       businessModel: 'Freemium: Free 3 habits, $9/month unlimited + coaching insights',
@@ -375,6 +402,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     creative: {
       title: 'Performance Coach AI',
       description: 'AI coaching platform that combines productivity tracking, energy management, and behavioral psychology to help professionals perform at their peak.',
+      plainEnglish: 'A personal coach in your pocket that learns YOUR patterns. It notices you do your best work at 10am and crash at 2pm, then schedules your hardest tasks accordingly. Like having a $500/hour executive coach for $49/month.',
       problemSolved: 'High performers plateau because generic productivity advice ignores individual patterns and energy cycles',
       targetMarket: 'Professionals and entrepreneurs who want to optimize their performance ($75K+ income)',
       businessModel: 'SaaS: $49/month individual, $199/month team with manager dashboards',
@@ -386,6 +414,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
     experimental: {
       title: 'Predictive Burnout Prevention',
       description: 'AI system that detects burnout signals weeks before the person realizes it and automatically adjusts their workload, schedule, and habits.',
+      plainEnglish: 'Watches how you work (typing speed, hours logged, email patterns) and warns you 3 weeks before you burn out. Then it automatically lightens your schedule and suggests recovery actions. Like a check engine light but for humans.',
       problemSolved: 'Burnout costs $300B+ annually and people dont recognize it until its too late to prevent',
       targetMarket: 'Companies with knowledge workers who want to prevent burnout-driven turnover',
       businessModel: 'Enterprise: $15/employee/month with anonymous wellness dashboards for management',
@@ -832,6 +861,24 @@ export default function AgentIdeasPage() {
                       </h4>
                       <p style={{ color: brand.silver, fontSize: '14px', margin: 0, lineHeight: '1.6' }}>{idea.description}</p>
                     </div>
+
+                    {/* In Plain English */}
+                    {idea.plainEnglish && (
+                      <div style={{
+                        background: 'rgba(245,158,11,0.06)',
+                        border: '1px solid rgba(245,158,11,0.15)',
+                        borderRadius: '8px',
+                        padding: '12px 14px',
+                        marginBottom: '16px',
+                      }}>
+                        <div style={{ color: brand.amber, fontSize: '11px', fontWeight: 700, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          In Plain English
+                        </div>
+                        <div style={{ color: brand.silver, fontSize: '14px', lineHeight: '1.6' }}>
+                          {idea.plainEnglish}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Business Details Grid */}
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '12px', marginBottom: '16px' }}>
