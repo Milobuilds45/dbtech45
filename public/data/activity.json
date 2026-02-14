@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "c2b51d33",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:28:25 -0500",
+      "message": "feat: add budget tier selector to Agent Assist (open-source to /mo)"
+    },
+    {
+      "type": "commit",
+      "id": "725d93ad",
+      "author": "Milo",
+      "timestamp": "2026-02-14 18:24:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "d4723b50",
       "author": "Milo",
       "timestamp": "2026-02-14 18:19:26 -0500",
@@ -337,20 +351,6 @@
       "message": "feat: pivot dna-scanner to clean Lab/Ideabrowser skin"
     },
     {
-      "type": "commit",
-      "id": "3c5f3463",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:06:30 -0500",
-      "message": "feat: refactor dna-scanner to abyssal-ideabrowser blend"
-    },
-    {
-      "type": "commit",
-      "id": "a76d7487",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:04:09 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-14T23:24:05.248Z"
+  "generatedAt": "2026-02-14T23:29:05.818Z"
 }
