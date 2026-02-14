@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:14:04.063Z",
+    "lastHeartbeat": "2026-02-14T12:19:04.127Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:13:59.714Z"
+      "lastSeen": "2026-02-14T12:16:56.485Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:13:51.933Z"
+      "lastSeen": "2026-02-14T12:16:38.555Z"
     },
     {
       "name": "Bobby",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:05:34.666Z"
+      "lastSeen": "2026-02-14T12:15:12.165Z"
     },
     {
       "name": "Tony",
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:07:11.133Z"
+      "lastSeen": "2026-02-14T12:19:01.054Z"
     },
     {
       "name": "Dax",
@@ -95,12 +95,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:19:01.054Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 14
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:13:59.714Z",
+      "lastActivity": "2026-02-14T12:16:56.485Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -111,21 +122,21 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:13:51.933Z",
+      "lastActivity": "2026-02-14T12:16:38.555Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
     },
     {
-      "key": "agent:tony:main",
-      "agent": "Tony",
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:07:11.133Z",
-      "role": "Tech Guru",
+      "lastActivity": "2026-02-14T12:15:12.165Z",
+      "role": "Weather & News",
       "cost": 0,
-      "sessionCount": 14
+      "sessionCount": 30
     },
     {
       "key": "agent:bobby:main",
@@ -148,17 +159,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 6
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:05:34.666Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 29
     },
     {
       "key": "agent:remy:main",
@@ -217,10 +217,10 @@
       "humanSchedule": "15 7 * * *",
       "agent": "Dwight",
       "description": "MORNING NEWS & WEATHER BRIEF. You are Dwight (Weather & News). Read your SOUL.md and workspace memory files. Provide Der",
-      "lastRun": "2026-02-13T12:15:00.014Z",
+      "lastRun": "2026-02-14T12:15:00.010Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-14T12:15:00.000Z",
-      "duration": "15s",
+      "nextRun": "2026-02-15T12:15:00.000Z",
+      "duration": "12s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:14:05.030Z",
+  "generatedAt": "2026-02-14T12:19:05.076Z",
   "version": 2
 }

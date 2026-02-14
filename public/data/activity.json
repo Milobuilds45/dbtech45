@@ -1,6 +1,20 @@
 {
   "activity": [
     {
+      "type": "cron_run",
+      "id": "7335853f",
+      "timestamp": "2026-02-14T12:15:12.525Z",
+      "message": "Cron run: ok",
+      "jobId": "7335853f-b007-4576-b7d2-2146128315f0"
+    },
+    {
+      "type": "commit",
+      "id": "73fabf22",
+      "author": "Milo",
+      "timestamp": "2026-02-14 07:14:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "commit",
       "id": "c636e436",
       "author": "Milo",
@@ -358,13 +372,6 @@
       "message": "feat: add Massive API proxy route for AxeCap Terminal options data"
     },
     {
-      "type": "commit",
-      "id": "6c945160",
-      "author": "Milo",
-      "timestamp": "2026-02-14 03:09:06 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "866b45c4",
       "timestamp": "2026-02-14T01:02:01.352Z",
@@ -447,14 +454,7 @@
       "timestamp": "2026-02-13T12:30:14.214Z",
       "message": "Cron run: ok",
       "jobId": "bee7eb71-dbd4-49c7-a1a9-1bb94844b589"
-    },
-    {
-      "type": "cron_run",
-      "id": "7335853f",
-      "timestamp": "2026-02-13T12:15:15.219Z",
-      "message": "Cron run: ok",
-      "jobId": "7335853f-b007-4576-b7d2-2146128315f0"
     }
   ],
-  "generatedAt": "2026-02-14T12:14:05.174Z"
+  "generatedAt": "2026-02-14T12:19:05.234Z"
 }
