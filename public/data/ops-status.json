@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T21:09:04.767Z",
+    "lastHeartbeat": "2026-02-14T21:14:06.749Z",
     "totalCrons": 15,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T21:04:08.273Z"
+      "lastSeen": "2026-02-14T21:12:16.744Z"
     },
     {
       "name": "Anders",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T21:05:05.175Z"
+      "lastSeen": "2026-02-14T21:12:55.173Z"
     },
     {
       "name": "Tony",
@@ -100,7 +100,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T21:05:05.175Z",
+      "lastActivity": "2026-02-14T21:12:55.173Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 56
@@ -111,7 +111,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T21:04:08.273Z",
+      "lastActivity": "2026-02-14T21:12:16.744Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T21:09:05.921Z",
+  "generatedAt": "2026-02-14T21:14:08.780Z",
   "version": 2
 }
