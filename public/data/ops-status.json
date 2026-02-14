@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T13:54:02.158Z",
+    "lastHeartbeat": "2026-02-14T13:59:02.142Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:51:39.034Z"
+      "lastSeen": "2026-02-14T13:57:42.513Z"
     },
     {
       "name": "Anders",
@@ -36,7 +36,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:53:48.721Z"
+      "lastSeen": "2026-02-14T13:59:02.014Z"
     },
     {
       "name": "Paula",
@@ -54,7 +54,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:51:11.499Z"
+      "lastSeen": "2026-02-14T13:57:33.831Z"
     },
     {
       "name": "Tony",
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:50:42.852Z"
+      "lastSeen": "2026-02-14T13:56:39.481Z"
     },
     {
       "name": "Remy",
@@ -100,10 +100,10 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:53:48.721Z",
+      "lastActivity": "2026-02-14T13:59:02.014Z",
       "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 58
+      "sessionCount": 59
     },
     {
       "key": "agent:milo:main",
@@ -111,7 +111,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:51:39.034Z",
+      "lastActivity": "2026-02-14T13:57:42.513Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -122,10 +122,10 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:51:11.499Z",
+      "lastActivity": "2026-02-14T13:57:33.831Z",
       "role": "Weather & News",
       "cost": 0,
-      "sessionCount": 50
+      "sessionCount": 52
     },
     {
       "key": "agent:dax:main",
@@ -133,10 +133,10 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:50:42.852Z",
+      "lastActivity": "2026-02-14T13:56:39.481Z",
       "role": "Social Strategist",
       "cost": 0,
-      "sessionCount": 17
+      "sessionCount": 18
     },
     {
       "key": "agent:tony:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T13:54:02.484Z",
+  "generatedAt": "2026-02-14T13:59:02.464Z",
   "version": 2
 }
