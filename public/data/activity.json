@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "96ff1781",
+      "author": "Milo",
+      "timestamp": "2026-02-14 14:28:02 -0500",
+      "message": "fix: Inverse logos now seamless - no border/padding, logo fills container"
+    },
+    {
+      "type": "commit",
+      "id": "cb82359c",
+      "author": "Milo",
+      "timestamp": "2026-02-14 14:25:09 -0500",
+      "message": "fix: Brand kit inverse wordmarks now use amber background"
+    },
+    {
+      "type": "commit",
+      "id": "9104e1f7",
+      "author": "Milo",
+      "timestamp": "2026-02-14 14:24:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "002a5cf1",
       "author": "Milo",
       "timestamp": "2026-02-14 14:14:18 -0500",
@@ -330,27 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "e04ace3e",
-      "author": "Milo",
-      "timestamp": "2026-02-14 10:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "cd789ba2",
-      "author": "Milo",
-      "timestamp": "2026-02-14 10:14:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "4a63c4f4",
-      "author": "Milo",
-      "timestamp": "2026-02-14 10:09:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -491,5 +491,5 @@
       "jobId": "eefcc417-2c2d-4eb1-bd80-9ba67a8b5300"
     }
   ],
-  "generatedAt": "2026-02-14T19:24:04.165Z"
+  "generatedAt": "2026-02-14T19:29:04.023Z"
 }

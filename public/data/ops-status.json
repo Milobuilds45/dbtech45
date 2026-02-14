@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T19:24:02.894Z",
+    "lastHeartbeat": "2026-02-14T19:29:02.933Z",
     "totalCrons": 15,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": []
   },
@@ -18,16 +18,16 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T19:24:02.895Z"
+      "lastSeen": "2026-02-14T19:25:59.900Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:29:01.471Z"
+      "lastSeen": "2026-02-14T19:28:18.052Z"
     },
     {
       "name": "Bobby",
@@ -41,11 +41,11 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T16:24:39.447Z"
+      "lastSeen": "2026-02-14T19:28:07.014Z"
     },
     {
       "name": "Dwight",
@@ -95,12 +95,34 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:28:18.052Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 16
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T19:28:07.014Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T19:24:03.212Z",
+      "lastActivity": "2026-02-14T19:25:59.900Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -126,17 +148,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T16:24:39.447Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
     },
     {
       "key": "agent:bobby:main",
@@ -170,17 +181,6 @@
       "role": "Restaurant Marketing",
       "cost": 0,
       "sessionCount": 844
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:29:01.471Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
     },
     {
       "key": "agent:wendy:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T19:24:03.936Z",
+  "generatedAt": "2026-02-14T19:29:03.917Z",
   "version": 2
 }
