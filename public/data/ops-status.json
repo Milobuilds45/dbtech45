@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T04:34:02.786Z",
+    "lastHeartbeat": "2026-02-14T04:39:02.811Z",
     "totalCrons": 15,
-    "activeSessions": 5,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": []
   },
@@ -68,7 +68,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -142,7 +142,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T00:36:41.870Z",
       "role": "Social Strategist",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T04:34:03.691Z",
+  "generatedAt": "2026-02-14T04:39:03.733Z",
   "version": 2
 }
