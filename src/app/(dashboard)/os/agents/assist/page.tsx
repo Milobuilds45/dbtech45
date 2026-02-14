@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2 } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -260,126 +260,39 @@ export default function AgentAssist() {
     setIsLoading(true);
     try {
       const agentsToUse = agentIds.length > 0 ? agentIds : AGENTS.map(a => a.id);
+      const existingTitles = resources.map(r => r.title);
       
-      const newResources: AgentResource[] = [];
+      const res = await fetch('/api/agent-assist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: agentsToUse,
+          existingTitles,
+          creativity: creativityLevel,
+        }),
+      });
       
-      for (const agentId of agentsToUse) {
-        const agent = AGENTS.find(a => a.id === agentId);
-        if (!agent) continue;
-        
-        // Agent-specific resource recommendations
-        const agentResources = {
-          bobby: {
-            title: 'Alpha Vantage API',
-            description: 'Professional-grade financial market data API with real-time and historical stock, forex, and crypto data.',
-            url: 'https://www.alphavantage.co/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'Real-time market data for trading algorithms and portfolio management applications',
-            pricing: 'Free: 25 calls/day, Premium: $49.99/month for 1200 calls/minute',
-            githubStars: 0,
-            usefulFor: ['bobby', 'dax'],
-          },
-          tony: {
-            title: 'Square POS API',
-            description: 'Comprehensive point-of-sale API for restaurants with inventory management and payment processing.',
-            url: 'https://developer.squareup.com/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'Restaurant POS integration, inventory tracking, payment processing, and customer management',
-            pricing: 'Free to integrate, 2.6% + 10¢ per transaction',
-            githubStars: 0,
-            usefulFor: ['tony', 'milo'],
-          },
-          paula: {
-            title: 'Framer Motion',
-            description: 'Production-ready motion library for React with declarative animations and gesture support.',
-            url: 'https://www.framer.com/motion/',
-            category: 'library' as const,
-            type: 'open-source' as const,
-            useCase: 'Creating smooth animations and micro-interactions in React applications and websites',
-            pricing: 'Free and open source',
-            githubStars: 23400,
-            usefulFor: ['paula', 'anders'],
-          },
-          anders: {
-            title: 'Supabase',
-            description: 'Open source Firebase alternative with PostgreSQL database, authentication, and real-time subscriptions.',
-            url: 'https://supabase.com/',
-            category: 'service' as const,
-            type: 'free-tier' as const,
-            useCase: 'Backend-as-a-service for rapid application development with real-time features',
-            pricing: 'Free tier: 500MB DB, Pro: $25/month per project',
-            githubStars: 72600,
-            usefulFor: ['anders', 'milo', 'paula'],
-          },
-          dwight: {
-            title: 'NewsAPI',
-            description: 'JSON API for live worldwide news headlines and articles from 80,000+ sources.',
-            url: 'https://newsapi.org/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'News aggregation, content curation, and real-time information gathering for research',
-            pricing: 'Free: 1000 requests/month, Pro: $449/month for 250k requests',
-            githubStars: 0,
-            usefulFor: ['dwight', 'milo'],
-          },
-          dax: {
-            title: 'Apache Superset',
-            description: 'Modern data exploration and visualization platform with rich set of data visualizations.',
-            url: 'https://superset.apache.org/',
-            category: 'tool' as const,
-            type: 'open-source' as const,
-            useCase: 'Business intelligence dashboards, data exploration, and interactive data visualization',
-            pricing: 'Free and open source',
-            githubStars: 62100,
-            usefulFor: ['dax', 'milo', 'dwight'],
-          },
-          milo: {
-            title: 'n8n',
-            description: 'Fair-code workflow automation tool for connecting APIs, databases, and services with visual workflows.',
-            url: 'https://n8n.io/',
-            category: 'tool' as const,
-            type: 'open-source' as const,
-            useCase: 'Business process automation, API orchestration, and workflow management',
-            pricing: 'Free self-hosted, Cloud: $20/month per user',
-            githubStars: 47800,
-            usefulFor: ['milo', 'anders', 'tony'],
-          },
-        };
-        
-        const resourceTemplate = agentResources[agentId as keyof typeof agentResources];
-        if (resourceTemplate) {
-          const mockResource: AgentResource = {
-            id: `${Date.now()}-${agentId}`,
-            agentId,
-            agentName: agent.name,
-            ...resourceTemplate,
-            tags: [agentId, 'recommended', resourceTemplate.category],
-            rating: 4 + Math.floor(Math.random() * 2), // 4-5
-            createdAt: new Date().toISOString(),
-            addedBy: agentId,
-          };
-          
-          newResources.push(mockResource);
-        }
+      if (!res.ok) throw new Error('API failed');
+      
+      const data = await res.json();
+      const newResources: AgentResource[] = data.resources || [];
+      
+      setResources(prev => [...newResources, ...prev]);
+      setIsLoading(false);
+      
+      if (newResources.length === 1) {
+        showNotification(`New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
+      } else if (newResources.length > 1) {
+        showNotification(`Generated ${newResources.length} new resource recommendations!`);
       }
-      
-      setTimeout(() => {
-        setResources(prev => [...newResources, ...prev]);
-        setIsLoading(false);
-        
-        if (newResources.length === 1) {
-          showNotification(`🔧 New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
-        } else {
-          showNotification(`🔧 Generated ${newResources.length} new resource recommendations!`);
-        }
-      }, 1500);
-      
     } catch (error) {
       console.error('Failed to generate resource:', error);
       setIsLoading(false);
     }
+  };
+
+  const deleteResource = (id: string) => {
+    setResources(prev => prev.filter(r => r.id !== id));
   };
 
   const handleAgentSelect = (agentId: string) => {
@@ -792,7 +705,7 @@ export default function AgentAssist() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <span style={{
                         padding: '4px 8px',
                         borderRadius: '4px',
@@ -804,6 +717,26 @@ export default function AgentAssist() {
                       }}>
                         {resource.type.replace('-', ' ')}
                       </span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deleteResource(resource.id); }}
+                        title="Delete resource"
+                        style={{
+                          background: 'transparent',
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '6px',
+                          padding: '6px',
+                          cursor: 'pointer',
+                          color: brand.smoke,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = brand.error; e.currentTarget.style.borderColor = brand.error; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
 
                     {resource.githubStars && (
