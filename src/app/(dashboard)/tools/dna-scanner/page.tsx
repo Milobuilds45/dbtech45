@@ -32,53 +32,54 @@ const ICONS: Record<string, React.ReactNode> = {
 };
 
 /* ═══════════════════════════════════════════════════════
-   Lab/Intelligence UI Components (Ideabrowser Skin)
+   Brand-native UI Components (Dark + Amber + Bento)
    ═══════════════════════════════════════════════════════ */
 
-const LabBackground = () => (
-  <div className="absolute inset-0 pointer-events-none z-0" style={{ background: '#f8fafc' }}>
-    <div className="absolute inset-0 opacity-[0.03]" 
-         style={{ backgroundImage: 'radial-gradient(#4f46e5 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
-    <div className="absolute top-0 left-0 w-full h-1" style={{ background: '#4f46e5' }} />
-  </div>
-);
-
-const LabTag = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
-  <div className={`inline-block px-3 py-1 bg-indigo-50 text-indigo-600 font-mono text-[10px] font-bold tracking-widest rounded border border-indigo-100 uppercase ${className}`}>
+const HUDTag = ({ children, className = "" }: { children: React.ReactNode, className?: string }) => (
+  <span
+    className={className}
+    style={{
+      display: 'inline-block', padding: '4px 12px',
+      background: 'rgba(245,158,11,0.1)', border: `1px solid rgba(245,158,11,0.25)`,
+      color: brand.amber, fontFamily: "'JetBrains Mono', monospace",
+      fontSize: '10px', fontWeight: 700, letterSpacing: '0.1em',
+      borderRadius: '6px', textTransform: 'uppercase',
+    }}
+  >
     {children}
-  </div>
+  </span>
 );
 
-const BentoCard = ({ children, className = "", onClick, active = false }: { children: React.ReactNode, className?: string, onClick?: () => void, active?: boolean }) => (
-  <div 
+const BentoCard = ({ children, style: extraStyle, active, onClick }: {
+  children: React.ReactNode, style?: React.CSSProperties, active?: boolean, onClick?: () => void
+}) => (
+  <div
     onClick={onClick}
-    className={`relative group bg-white border transition-all duration-300 rounded-2xl p-6 cursor-pointer
-               ${active ? 'border-indigo-600 ring-4 ring-indigo-50 shadow-xl' : 'border-slate-200 hover:border-indigo-300 hover:shadow-lg shadow-sm'} 
-               ${className}`}
+    style={{
+      background: brand.carbon, border: `1px solid ${active ? brand.amber : brand.border}`,
+      borderRadius: '16px', padding: '24px', cursor: onClick ? 'pointer' : 'default',
+      transition: 'border-color 0.2s, box-shadow 0.2s',
+      boxShadow: active ? `0 0 20px rgba(245,158,11,0.1)` : 'none',
+      ...extraStyle,
+    }}
   >
     {children}
   </div>
 );
 
 const Sparkline = ({ score }: { score: number }) => {
-  const points = [10, 40, 25, 60, 45, 80, 50, 95];
-  const color = score > 0 ? '#4f46e5' : '#94a3b8';
+  const pts = [10, 40, 25, 60, 45, 80, 50, 95];
   return (
-    <svg width="80" height="24" className="opacity-80">
-      <polyline
-        fill="none"
-        stroke={color}
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        points={points.map((p, i) => `${i * 11},${24 - (p * 0.2)}`).join(' ')}
-      />
+    <svg width="80" height="24" style={{ opacity: 0.6 }}>
+      <polyline fill="none" stroke={score >= 7 ? brand.success : score >= 5 ? brand.amber : brand.error}
+        strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+        points={pts.map((p, i) => `${i * 11},${24 - (p * 0.22)}`).join(' ')} />
     </svg>
   );
 };
 
 /* ═══════════════════════════════════════════════════════
-   Main Scanner Logic
+   Main Scanner
    ═══════════════════════════════════════════════════════ */
 
 export default function DNAScannerPage() {
@@ -95,11 +96,8 @@ export default function DNAScannerPage() {
   useEffect(() => {
     try {
       const s = localStorage.getItem('dna-scanner-email');
-      if (s) {
-        setEmail(s);
-        setUnlocked(true);
-      }
-    } catch { /* empty */ }
+      if (s) { setEmail(s); setUnlocked(true); }
+    } catch {}
   }, []);
 
   const handleNext = () => {
@@ -110,393 +108,333 @@ export default function DNAScannerPage() {
 
   const runFinalScan = () => {
     setIsScanning(true);
-    setTimeout(() => {
-      setIsScanning(false);
-      setShowResults(true);
-    }, 2000);
+    setTimeout(() => { setIsScanning(false); setShowResults(true); }, 2200);
   };
 
   const handleEmailSubmit = (e: string) => {
-    setEmail(e);
-    setUnlocked(true);
-    setShowEmail(false);
-    runFinalScan();
-    try { localStorage.setItem('dna-scanner-email', e); } catch { /* empty */ }
+    setEmail(e); setUnlocked(true); setShowEmail(false); runFinalScan();
+    try { localStorage.setItem('dna-scanner-email', e); } catch {}
   };
 
   const os = overallScore(answers);
   const op = overallPct(answers);
 
+  const pageStyle: React.CSSProperties = { minHeight: '100vh', padding: '32px', fontFamily: "'Inter', sans-serif" };
+  const labelStyle: React.CSSProperties = { color: brand.smoke, fontSize: '10px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', fontFamily: "'Space Grotesk', system-ui" };
+  const inputStyle: React.CSSProperties = { width: '100%', padding: '14px 16px', background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: '12px', color: brand.white, fontWeight: 600, fontSize: '11px', letterSpacing: '0.05em', textTransform: 'uppercase', outline: 'none', fontFamily: "'Inter', sans-serif" };
+  const btnPrimary: React.CSSProperties = { width: '100%', padding: '20px', background: brand.amber, color: brand.void, border: 'none', borderRadius: '16px', fontWeight: 900, fontSize: '16px', cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', fontFamily: "'Inter', sans-serif" };
+
+  /* ─── Scanning Animation ─── */
   if (isScanning) {
     return (
-      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 flex flex-col items-center justify-center relative overflow-hidden">
-        <LabBackground />
-        <div className="z-10 text-center px-6">
-          <Activity className="w-16 h-16 text-indigo-600 mb-8 mx-auto animate-pulse" />
-          <h2 className="text-3xl font-black tracking-tight text-slate-900 mb-4 uppercase">Validating Business Model DNA</h2>
-          <div className="w-64 h-2 bg-slate-200 rounded-full overflow-hidden mx-auto border border-slate-300">
-            <div className="h-full bg-indigo-600 animate-progress" />
-          </div>
-          <p className="mt-4 text-slate-500 font-mono text-[10px] tracking-widest uppercase">
-            Cross-referencing 28 diagnostic parameters...
-          </p>
+      <div style={{ ...pageStyle, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+        <style>{`@keyframes dna-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+          @keyframes dna-progress { 0% { width: 0%; } 100% { width: 100%; } }`}</style>
+        <Dna size={64} color={brand.amber} style={{ animation: 'dna-spin 8s linear infinite', marginBottom: '32px' }} />
+        <h2 style={{ color: brand.white, fontSize: '28px', fontWeight: 900, letterSpacing: '-0.02em', marginBottom: '16px', textTransform: 'uppercase' }}>
+          Synthesizing DNA Profile
+        </h2>
+        <div style={{ width: '256px', height: '4px', background: brand.graphite, borderRadius: '4px', overflow: 'hidden', border: `1px solid ${brand.border}` }}>
+          <div style={{ height: '100%', background: brand.amber, animation: 'dna-progress 2.2s ease-in-out' }} />
         </div>
+        <p style={{ ...labelStyle, marginTop: '16px', color: brand.smoke }}>Processing 7 dimensions...</p>
       </div>
     );
   }
 
+  /* ─── Results ─── */
   if (showResults) {
     return (
-      <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative">
-        <LabBackground />
-        <div className="max-w-6xl mx-auto relative z-10">
-           {/* Result Header */}
-           <div className="flex flex-col md:flex-row justify-between items-start mb-12 gap-8 border-b border-slate-200 pb-12">
-              <div>
-                <LabTag className="mb-4">DIAGNOSTIC_RESULT // {overallLabel(op).toUpperCase()}</LabTag>
-                <h1 className="text-5xl font-black tracking-tight text-slate-900 mb-2 uppercase">DNA INTELLIGENCE REPORT</h1>
-                <p className="text-slate-500 font-medium">Prepared for {email} • {new Date().toLocaleDateString()}</p>
+      <div style={pageStyle}>
+        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '24px', borderBottom: `1px solid ${brand.border}`, paddingBottom: '32px', marginBottom: '40px' }}>
+            <div>
+              <HUDTag>{overallLabel(op).toUpperCase()} // DIAGNOSTIC COMPLETE</HUDTag>
+              <h1 style={{ color: brand.white, fontSize: '36px', fontWeight: 900, letterSpacing: '-0.03em', marginTop: '12px', textTransform: 'uppercase', fontFamily: "'Space Grotesk', system-ui" }}>
+                DNA Intelligence Report
+              </h1>
+              <p style={{ color: brand.smoke, marginTop: '4px' }}>Prepared for {email} &bull; {new Date().toLocaleDateString()}</p>
+            </div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button onClick={() => generatePDF(answers, email, null, businessCtx, checks)}
+                style={{ padding: '12px 24px', background: brand.amber, color: brand.void, border: 'none', borderRadius: '12px', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Download size={16} /> Export PDF
+              </button>
+              <button onClick={() => { setShowResults(false); setStep(-1); setAnswers({}); setChecks({}); }}
+                style={{ padding: '12px 24px', background: 'transparent', color: brand.silver, border: `1px solid ${brand.border}`, borderRadius: '12px', fontWeight: 700, cursor: 'pointer' }}>
+                New Scan
+              </button>
+            </div>
+          </div>
+
+          {/* Executive Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '24px', marginBottom: '40px' }}>
+            <BentoCard style={{ display: 'flex', alignItems: 'center', gap: '48px', padding: '40px' }}>
+              <div style={{ position: 'relative', width: '160px', height: '160px', flexShrink: 0 }}>
+                <div style={{ width: '100%', height: '100%', borderRadius: '50%', border: `6px solid ${brand.graphite}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <div style={{ fontSize: '42px', fontWeight: 900, color: brand.amber, lineHeight: 1 }}>{os}</div>
+                    <div style={{ ...labelStyle, marginTop: '4px' }}>Core Index</div>
+                  </div>
+                </div>
+                <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'rotate(-90deg)' }}>
+                  <circle cx="80" cy="80" r="74" fill="none" stroke={brand.amber} strokeWidth="6"
+                    strokeDasharray="465" strokeDashoffset={465 - (465 * os / 10)} strokeLinecap="round" />
+                </svg>
               </div>
-              <div className="flex gap-3">
-                <button 
-                  onClick={() => generatePDF(answers, email, null, businessCtx, checks)}
-                  className="bg-indigo-600 text-white px-6 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95"
-                >
-                  <Download size={18} /> EXPORT PDF
-                </button>
-                <button 
-                  onClick={() => { setShowResults(false); setStep(-1); setAnswers({}); setChecks({}); }}
-                  className="bg-white border border-slate-200 text-slate-600 px-6 py-3 rounded-xl font-bold hover:bg-slate-50 transition-all shadow-sm"
-                >
-                  NEW ASSESSMENT
-                </button>
+              <div style={{ flex: 1 }}>
+                <h3 style={{ color: brand.white, fontSize: '22px', fontWeight: 800, textTransform: 'uppercase', marginBottom: '8px' }}>{overallLabel(op)}</h3>
+                <p style={{ color: brand.silver, lineHeight: 1.6, marginBottom: '20px' }}>
+                  {op >= 70 ? "High structural integrity. Scale-ready DNA detected." :
+                   op >= 50 ? "Viable core with moderate risk. Optimize underperforming layers." :
+                   "Critical vulnerabilities detected. Immediate intervention required."}
+                </p>
+                <div style={{ display: 'flex', gap: '12px' }}>
+                  <div style={{ padding: '8px 16px', background: brand.graphite, borderRadius: '8px', border: `1px solid ${brand.border}` }}>
+                    <div style={labelStyle}>Efficiency</div>
+                    <div style={{ color: brand.amber, fontSize: '18px', fontWeight: 900 }}>{op}%</div>
+                  </div>
+                  <div style={{ padding: '8px 16px', background: brand.graphite, borderRadius: '8px', border: `1px solid ${brand.border}` }}>
+                    <div style={labelStyle}>Risk</div>
+                    <div style={{ color: brand.white, fontSize: '18px', fontWeight: 900 }}>{op < 50 ? "HIGH" : "LOW"}</div>
+                  </div>
+                </div>
               </div>
-           </div>
+            </BentoCard>
 
-           {/* Executive Grid */}
-           <div className="grid lg:grid-cols-3 gap-8 mb-12">
-              <BentoCard className="lg:col-span-2 flex flex-col md:flex-row items-center gap-12 py-10">
-                 <div className="relative">
-                    <div className="w-40 h-40 rounded-full border-8 border-slate-50 flex items-center justify-center">
-                      <div className="text-center">
-                        <div className="text-4xl font-black text-indigo-600 leading-none">{os}</div>
-                        <div className="text-[10px] font-bold text-slate-400 tracking-widest uppercase mt-1">INDEX</div>
-                      </div>
+            <BentoCard style={{ background: 'rgba(245,158,11,0.04)', borderColor: 'rgba(245,158,11,0.2)' }}>
+              <h4 style={{ color: brand.amber, fontSize: '11px', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Target size={14} /> Priority Actions
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {getPriorityActions(answers).map((p, i) => (
+                  <div key={i} style={{ padding: '14px', background: brand.graphite, borderRadius: '12px', border: `1px solid ${brand.border}` }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span style={labelStyle}>{p.layerName}</span>
+                      <span style={{ ...labelStyle, color: brand.amber, background: 'rgba(245,158,11,0.1)', padding: '2px 8px', borderRadius: '4px' }}>{p.score}/10</span>
                     </div>
-                    <svg className="absolute inset-0 w-full h-full -rotate-90">
-                      <circle 
-                        cx="80" cy="80" r="76" fill="none" 
-                        stroke="currentColor" strokeWidth="8" 
-                        className="text-indigo-600" 
-                        strokeDasharray="477" 
-                        strokeDashoffset={477 - (477 * os / 10)} 
-                        strokeLinecap="round"
-                      />
-                    </svg>
-                 </div>
-                 <div className="flex-1">
-                    <h3 className="text-2xl font-bold mb-3 tracking-tight text-slate-800 uppercase">{overallLabel(op)}</h3>
-                    <p className="text-slate-500 leading-relaxed mb-6 font-medium">
-                      {op >= 70 
-                        ? "Your business model shows high structural integrity and is prepared for rapid expansion." 
-                        : op >= 50 
-                        ? "Viable core detected with moderate risk. Focus on optimizing underperforming layers." 
-                        : "Strategic vulnerabilities detected. The current model requires immediate intervention."}
-                    </p>
-                    <div className="flex gap-3">
-                       <div className="px-4 py-2 bg-slate-50 rounded-lg border border-slate-100">
-                          <div className="text-[9px] text-slate-400 font-bold tracking-widest uppercase">Efficiency</div>
-                          <div className="text-lg font-black text-indigo-600">{op}%</div>
-                       </div>
-                       <div className="px-4 py-2 bg-slate-50 rounded-lg border border-slate-100">
-                          <div className="text-[9px] text-slate-400 font-bold tracking-widest uppercase">Risk Factor</div>
-                          <div className="text-lg font-black text-slate-700">{op < 50 ? "HIGH" : "LOW"}</div>
-                       </div>
-                    </div>
-                 </div>
-              </BentoCard>
+                    <p style={{ color: brand.silver, fontSize: '12px', fontWeight: 600, lineHeight: 1.4 }}>{p.action}</p>
+                  </div>
+                ))}
+              </div>
+            </BentoCard>
+          </div>
 
-              <BentoCard className="bg-indigo-50/50 border-indigo-100">
-                 <h4 className="font-bold text-indigo-600 mb-6 flex items-center gap-2 uppercase tracking-widest text-[11px]">
-                   <Target size={14} /> Priority Action Plan
-                 </h4>
-                 <div className="space-y-4">
-                    {getPriorityActions(answers).map((p, i) => (
-                      <div key={i} className="p-4 bg-white rounded-xl border border-slate-100 shadow-sm">
-                        <div className="flex justify-between items-start mb-2">
-                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">{p.layerName}</span>
-                           <span className="text-[10px] font-bold text-indigo-600 px-1.5 py-0.5 bg-indigo-50 rounded">{p.score}/10</span>
-                        </div>
-                        <p className="text-xs text-slate-700 leading-normal font-semibold">{p.action}</p>
-                      </div>
-                    ))}
-                 </div>
-              </BentoCard>
-           </div>
-
-           {/* Dimensional Breakdown */}
-           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {LAYERS.map((l) => {
-                const sc = layerScore(l.id, answers);
-                return (
-                  <BentoCard key={l.id} className="group hover:ring-2 ring-indigo-100">
-                    <div className="flex justify-between items-start mb-6">
-                       <div className="p-2.5 bg-slate-100 rounded-lg text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                          {ICONS[l.iconName]}
-                       </div>
-                       <div className="text-right">
-                          <div className="text-2xl font-black text-slate-900">{sc}</div>
-                          <div className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">LAYER {l.id}</div>
-                       </div>
+          {/* Layer Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+            {LAYERS.map((l) => {
+              const sc = layerScore(l.id, answers);
+              return (
+                <BentoCard key={l.id}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
+                    <div style={{ padding: '10px', background: brand.graphite, borderRadius: '10px', color: brand.amber }}>{ICONS[l.iconName]}</div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '24px', fontWeight: 900, color: brand.white }}>{sc}</div>
+                      <div style={labelStyle}>Layer {l.id}</div>
                     </div>
-                    <h4 className="text-md font-bold mb-2 tracking-tight text-slate-800 uppercase">{l.shortName} Analysis</h4>
-                    <div className="flex items-center gap-3 mb-4">
-                       <Sparkline score={sc} />
-                       <span className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">Trend</span>
-                    </div>
-                    <p className="text-xs text-slate-500 leading-relaxed line-clamp-2 mb-6 h-8 font-medium">{layerRec(l.id, sc)}</p>
-                    <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                       <span className="text-[10px] font-bold text-slate-300 uppercase">Assessment</span>
-                       <span className={`text-[10px] font-bold uppercase tracking-widest ${sc >= 7 ? 'text-indigo-600' : sc >= 5 ? 'text-amber-600' : 'text-rose-600'}`}>
-                          {scoreLabel(sc)}
-                       </span>
-                    </div>
-                  </BentoCard>
-                );
-              })}
-           </div>
+                  </div>
+                  <h4 style={{ color: brand.white, fontSize: '14px', fontWeight: 700, textTransform: 'uppercase', marginBottom: '8px' }}>{l.name}</h4>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+                    <Sparkline score={sc} />
+                    <span style={labelStyle}>Trend</span>
+                  </div>
+                  <p style={{ color: brand.smoke, fontSize: '12px', lineHeight: 1.5, marginBottom: '16px', minHeight: '36px' }}>{layerRec(l.id, sc)}</p>
+                  <div style={{ borderTop: `1px solid ${brand.border}`, paddingTop: '12px', display: 'flex', justifyContent: 'space-between' }}>
+                    <span style={labelStyle}>Status</span>
+                    <span style={{ ...labelStyle, color: sc >= 7 ? brand.success : sc >= 5 ? brand.amber : brand.error }}>{scoreLabel(sc)}</span>
+                  </div>
+                </BentoCard>
+              );
+            })}
+          </div>
         </div>
       </div>
     );
   }
 
+  /* ─── Main Form ─── */
   return (
-    <div style={{ background: '#f8fafc', color: '#0f172a' }} className="dna-lab min-h-screen bg-slate-50 text-slate-900 p-4 md:p-12 relative selection:bg-indigo-600 selection:text-white font-sans">
-      <LabBackground />
-      <style jsx global>{`
-        @keyframes progress { 0% { width: 0%; } 100% { width: 100%; } }
-        .animate-progress { animation: progress 2s ease-in-out; }
-        .dna-lab, .dna-lab * { color: inherit; }
-        .dna-lab { color: #0f172a !important; background: #f8fafc !important; }
-        .dna-lab .text-slate-900 { color: #0f172a !important; }
-        .dna-lab .text-slate-800 { color: #1e293b !important; }
-        .dna-lab .text-slate-700 { color: #334155 !important; }
-        .dna-lab .text-slate-600 { color: #475569 !important; }
-        .dna-lab .text-slate-500 { color: #64748b !important; }
-        .dna-lab .text-slate-400 { color: #94a3b8 !important; }
-        .dna-lab .text-slate-300 { color: #cbd5e1 !important; }
-        .dna-lab .text-indigo-600 { color: #4f46e5 !important; }
-        .dna-lab .text-amber-600 { color: #d97706 !important; }
-        .dna-lab .text-rose-600 { color: #e11d48 !important; }
-        .dna-lab .text-white { color: #ffffff !important; }
-        .dna-lab .bg-white { background-color: #ffffff !important; }
-        .dna-lab .bg-slate-50 { background-color: #f8fafc !important; }
-        .dna-lab .bg-slate-100 { background-color: #f1f5f9 !important; }
-        .dna-lab .bg-slate-200 { background-color: #e2e8f0 !important; }
-        .dna-lab .bg-indigo-50 { background-color: #eef2ff !important; }
-        .dna-lab .bg-indigo-600 { background-color: #4f46e5 !important; }
-        .dna-lab .border-slate-100 { border-color: #f1f5f9 !important; }
-        .dna-lab .border-slate-200 { border-color: #e2e8f0 !important; }
-        .dna-lab .border-indigo-100 { border-color: #c7d2fe !important; }
-        .dna-lab .border-indigo-600 { border-color: #4f46e5 !important; }
-        .dna-lab select, .dna-lab input, .dna-lab textarea { color: #0f172a !important; background-color: #f8fafc !important; }
-        .dna-lab select option { color: #0f172a !important; background-color: #ffffff !important; }
-      `}</style>
-
+    <div style={pageStyle}>
+      {/* Email Modal */}
       {showEmail && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-           <div className="bg-white border border-slate-200 p-10 rounded-3xl max-w-lg w-full shadow-2xl">
-              <div className="text-center mb-8">
-                 <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-indigo-600 border border-indigo-100">
-                    <Mail size={32} />
-                 </div>
-                 <h2 className="text-3xl font-black tracking-tight mb-2 uppercase text-slate-900">Finalizing Report</h2>
-                 <p className="text-slate-500 font-medium">Enter your credentials to extract the full tactical brief and priority action plan.</p>
+        <div style={{ position: 'fixed', inset: 0, zIndex: 100, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(8px)' }}>
+          <div style={{ background: brand.carbon, border: `1px solid ${brand.amber}`, padding: '48px', borderRadius: '24px', maxWidth: '480px', width: '100%', boxShadow: '0 0 40px rgba(245,158,11,0.15)' }}>
+            <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+              <div style={{ width: '64px', height: '64px', background: 'rgba(245,158,11,0.1)', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', border: '1px solid rgba(245,158,11,0.2)' }}>
+                <Mail size={32} color={brand.amber} />
               </div>
-              <input 
-                type="email" 
-                placeholder="EMAIL@COMMAND.IO"
-                className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900 font-mono mb-4 focus:border-indigo-600 outline-none transition-all uppercase text-xs tracking-widest"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button 
-                onClick={() => handleEmailSubmit(email)}
-                className="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold uppercase tracking-widest hover:bg-indigo-700 transition-all active:scale-95 shadow-lg shadow-indigo-100"
-              >
-                Access Diagnostic Brief
-              </button>
-           </div>
+              <h2 style={{ color: brand.white, fontSize: '24px', fontWeight: 900, textTransform: 'uppercase', marginBottom: '8px' }}>Unlock Report</h2>
+              <p style={{ color: brand.smoke }}>Enter your email to access the full diagnostic brief.</p>
+            </div>
+            <input type="email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)}
+              style={{ ...inputStyle, marginBottom: '16px', textTransform: 'none', fontSize: '14px' }} />
+            <button onClick={() => handleEmailSubmit(email)} style={btnPrimary}>Access Report</button>
+          </div>
         </div>
       )}
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        {/* Progress Stepper */}
-        <div className="flex gap-2 mb-16 max-w-md mx-auto">
-           {[...Array(8)].map((_, i) => (
-             <div 
-               key={i} 
-               className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${step >= i-1 ? 'bg-indigo-600' : 'bg-slate-200'}`}
-             />
-           ))}
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        {/* Progress */}
+        <div style={{ display: 'flex', gap: '6px', maxWidth: '400px', margin: '0 auto 48px' }}>
+          {[...Array(8)].map((_, i) => (
+            <div key={i} style={{ flex: 1, height: '4px', borderRadius: '4px', background: step >= i - 1 ? brand.amber : brand.border, transition: 'background 0.3s', boxShadow: step >= i - 1 ? '0 0 8px rgba(245,158,11,0.3)' : 'none' }} />
+          ))}
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-16 items-start">
-           {/* Left Content */}
-           <div className="lg:col-span-5 space-y-8">
-              <div>
-                <LabTag className="mb-4">DIAGNOSTIC_INIT // STEP_0{step + 2}</LabTag>
-                <h1 className="text-7xl font-black tracking-tighter leading-[0.9] text-slate-900 uppercase">
-                  BUSINESS<br/><span className="text-indigo-600">DNA SCANNER</span>
-                </h1>
-                <p className="text-slate-500 mt-8 text-xl font-medium leading-relaxed max-w-md">
-                  {step === -1 
-                    ? "Initialize your session by documenting the core business context for cross-dimensional analysis." 
-                    : `Analyzing ${LAYERS[step].name}. Evaluate your internal maturity across these 4 data points.`}
-                </p>
-              </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '48px', alignItems: 'start' }}>
+          {/* Left */}
+          <div>
+            <HUDTag>Diagnostic // Step {step + 2} of 8</HUDTag>
+            <h1 style={{ color: brand.white, fontSize: '48px', fontWeight: 900, lineHeight: 0.95, letterSpacing: '-0.03em', marginTop: '16px', textTransform: 'uppercase', fontFamily: "'Space Grotesk', system-ui" }}>
+              Business<br /><span style={{ color: brand.amber }}>DNA Scanner</span>
+            </h1>
+            <p style={{ color: brand.silver, marginTop: '24px', fontSize: '16px', lineHeight: 1.6 }}>
+              {step === -1
+                ? "Set your business context to begin the 7-layer diagnostic scan."
+                : `Analyzing ${LAYERS[step].name}. Rate your maturity across each data point.`}
+            </p>
 
-              {/* Grid Preview */}
-              <div className="grid grid-cols-4 gap-3 pt-10 border-t border-slate-200">
-                 {LAYERS.map((l, i) => (
-                   <div key={l.id} className={`p-3 rounded-xl border flex items-center justify-center transition-all ${step === i ? 'bg-indigo-600 border-indigo-600 text-white shadow-lg' : 'bg-white border-slate-200 text-slate-400'}`}>
-                      {ICONS[l.iconName]}
-                   </div>
-                 ))}
-                 <div className="p-3 bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-300">
-                    <Layers size={20} />
-                 </div>
+            {/* Layer Grid Preview */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginTop: '40px', paddingTop: '24px', borderTop: `1px solid ${brand.border}` }}>
+              {LAYERS.map((l, i) => (
+                <div key={l.id} style={{
+                  padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: step === i ? brand.amber : brand.graphite,
+                  border: `1px solid ${step === i ? brand.amber : brand.border}`,
+                  color: step === i ? brand.void : brand.smoke,
+                  transition: 'all 0.2s',
+                }}>
+                  {ICONS[l.iconName]}
+                </div>
+              ))}
+              <div style={{ padding: '12px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: brand.graphite, border: `1px solid ${brand.border}`, color: brand.smoke }}>
+                <Activity size={20} />
               </div>
-           </div>
+            </div>
+          </div>
 
-           {/* Right Interactive Area */}
-           <div className="lg:col-span-7">
-              <div className="bg-white border border-slate-200 rounded-[2.5rem] p-10 md:p-14 shadow-xl shadow-slate-200 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-indigo-600/10" />
-                
-                {step === -1 ? (
-                   <div className="space-y-12">
-                      <div className="space-y-4">
-                        <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
-                           <Search size={12} className="text-indigo-600" /> Executive Summary
+          {/* Right */}
+          <div>
+            <BentoCard style={{ padding: '40px', borderRadius: '24px' }}>
+              {step === -1 ? (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                  <div>
+                    <div style={{ ...labelStyle, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <Search size={12} color={brand.amber} /> Business Overview
+                    </div>
+                    <textarea
+                      placeholder="Describe your business model and value proposition..."
+                      value={businessCtx.description || ''}
+                      onChange={(e) => setBusinessCtx({ ...businessCtx, description: e.target.value })}
+                      style={{ ...inputStyle, minHeight: '140px', textTransform: 'none', fontSize: '14px', resize: 'vertical' }}
+                    />
+                  </div>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                    {[
+                      { label: 'Archetype', options: BUSINESS_TYPES, key: 'type' },
+                      { label: 'Stage', options: BUSINESS_STAGES, key: 'stage' },
+                      { label: 'Team Size', options: TEAM_SIZES, key: 'teamSize' },
+                      { label: 'Goal', options: PRIMARY_GOALS, key: 'goal' },
+                    ].map((item) => (
+                      <div key={item.label}>
+                        <div style={{ ...labelStyle, marginBottom: '8px' }}>{item.label}</div>
+                        <select value={businessCtx[item.key as keyof BusinessContext] || ''}
+                          onChange={(e) => setBusinessCtx({ ...businessCtx, [item.key]: e.target.value })}
+                          style={{ ...inputStyle, cursor: 'pointer', appearance: 'none' }}>
+                          <option value="">Select...</option>
+                          {item.options.map(o => <option key={o} value={o}>{o}</option>)}
+                        </select>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => setStep(0)} style={btnPrimary}>
+                    Start Diagnostic <ArrowRight size={20} />
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
+                  {/* Layer Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', borderBottom: `1px solid ${brand.border}`, paddingBottom: '20px' }}>
+                    <div>
+                      <h2 style={{ color: brand.white, fontSize: '28px', fontWeight: 900, textTransform: 'uppercase' }}>Layer {step + 1}</h2>
+                      <p style={{ color: brand.amber, fontWeight: 700, fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{LAYERS[step].name}</p>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '36px', fontWeight: 900, color: brand.amber, lineHeight: 1 }}>{layerScore(LAYERS[step].id, answers)}</div>
+                      <div style={labelStyle}>Score</div>
+                    </div>
+                  </div>
+
+                  {/* Questions */}
+                  {LAYERS[step].questions.map((q, qi) => (
+                    <div key={q.id} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                      <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
+                        <span style={{ color: brand.amber, fontFamily: "'JetBrains Mono', monospace", fontWeight: 900, fontSize: '16px' }}>0{qi + 1}</span>
+                        <h4 style={{ color: brand.white, fontSize: '16px', fontWeight: 700, lineHeight: 1.4 }}>{q.question}</h4>
+                      </div>
+
+                      {/* Checkboxes */}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', paddingLeft: '32px' }}>
+                        {q.checkboxes.map(cb => {
+                          const checked = checks[q.id]?.[cb.id];
+                          return (
+                            <button key={cb.id}
+                              onClick={() => {
+                                const nc = { ...checks };
+                                if (!nc[q.id]) nc[q.id] = {};
+                                nc[q.id][cb.id] = !nc[q.id][cb.id];
+                                setChecks(nc);
+                                setAnswers({ ...answers, [q.id]: scoreFromCheckboxes(q.id, nc) });
+                              }}
+                              style={{
+                                textAlign: 'left', padding: '12px', borderRadius: '10px', fontSize: '10px', fontWeight: 700,
+                                textTransform: 'uppercase', letterSpacing: '0.06em', cursor: 'pointer', transition: 'all 0.15s',
+                                background: checked ? brand.amber : brand.graphite,
+                                border: `1px solid ${checked ? brand.amber : brand.border}`,
+                                color: checked ? brand.void : brand.smoke,
+                              }}
+                            >
+                              {cb.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      {/* Density Slider */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', paddingLeft: '32px' }}>
+                        <span style={labelStyle}>Density</span>
+                        <div style={{ flex: 1, display: 'flex', gap: '4px', height: '10px' }}>
+                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                            <button key={n} onClick={() => setAnswers({ ...answers, [q.id]: n })}
+                              style={{
+                                flex: 1, borderRadius: '2px', cursor: 'pointer', border: 'none', transition: 'background 0.15s',
+                                background: answers[q.id] === n ? brand.amber : brand.graphite,
+                              }} />
+                          ))}
                         </div>
-                        <textarea 
-                          className="w-full bg-slate-50 border border-slate-200 p-6 rounded-2xl text-slate-800 font-medium text-lg focus:border-indigo-600 focus:bg-white outline-none transition-all min-h-[180px] shadow-inner"
-                          placeholder="Describe the business model and primary value proposition..."
-                          value={businessCtx.description || ''}
-                          onChange={(e) => setBusinessCtx({...businessCtx, description: e.target.value})}
-                        />
+                        <span style={{ width: '28px', textAlign: 'center', fontFamily: "'JetBrains Mono', monospace", fontWeight: 900, color: brand.amber, fontSize: '14px' }}>
+                          {answers[q.id] || 0}
+                        </span>
                       </div>
-                      
-                      <div className="grid md:grid-cols-2 gap-8">
-                         {[
-                           { label: 'Archetype', options: BUSINESS_TYPES, key: 'type' },
-                           { label: 'Market Life', options: BUSINESS_STAGES, key: 'stage' },
-                           { label: 'Team Load', options: TEAM_SIZES, key: 'teamSize' },
-                           { label: 'Objective', options: PRIMARY_GOALS, key: 'goal' },
-                         ].map((item) => (
-                           <div key={item.label}>
-                              <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest mb-3">{item.label}</div>
-                              <select 
-                                className="w-full bg-slate-50 border border-slate-200 p-4 rounded-xl text-slate-900 font-bold outline-none cursor-pointer hover:border-indigo-300 hover:bg-white transition-all appearance-none uppercase text-[10px] tracking-wider"
-                                value={businessCtx[item.key as keyof BusinessContext] || ''}
-                                onChange={(e) => setBusinessCtx({...businessCtx, [item.key]: e.target.value})}
-                              >
-                                 <option value="">SELECT_{item.label.toUpperCase()}</option>
-                                 {item.options.map(o => <option key={o} value={o}>{o}</option>)}
-                              </select>
-                           </div>
-                         ))}
-                      </div>
+                    </div>
+                  ))}
 
-                      <button 
-                        onClick={() => setStep(0)}
-                        className="w-full group bg-indigo-600 text-white py-6 rounded-2xl font-black text-xl uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-4 shadow-xl shadow-indigo-100 active:scale-[0.98]"
-                      >
-                        Start Diagnostic Scan <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-                      </button>
-                   </div>
-                ) : (
-                   <div className="space-y-12">
-                      <div className="flex justify-between items-end border-b border-slate-100 pb-8">
-                         <div>
-                            <h2 className="text-4xl font-black tracking-tight text-slate-900 uppercase">Layer {step + 1}</h2>
-                            <p className="text-indigo-600 font-bold tracking-widest uppercase text-xs">{LAYERS[step].name}</p>
-                         </div>
-                         <div className="text-right">
-                            <div className="text-5xl font-black text-indigo-600 leading-none">
-                               {layerScore(LAYERS[step].id, answers)}
-                            </div>
-                            <div className="text-[9px] text-slate-400 font-bold uppercase tracking-widest mt-1">DIMENSION_IQ</div>
-                         </div>
-                      </div>
-
-                      <div className="space-y-10">
-                         {LAYERS[step].questions.map((q, qi) => (
-                            <div key={q.id} className="space-y-6">
-                               <div className="flex gap-5">
-                                  <span className="text-indigo-600 font-mono font-black text-lg">0{qi+1}</span>
-                                  <h4 className="text-xl font-bold text-slate-800 leading-tight">{q.question}</h4>
-                                </div>
-                                
-                                <div className="grid md:grid-cols-2 gap-3 pl-10">
-                                   {q.checkboxes.map(cb => {
-                                      const checked = checks[q.id]?.[cb.id];
-                                      return (
-                                        <button 
-                                          key={cb.id}
-                                          onClick={() => {
-                                             const newChecks = { ...checks };
-                                             if (!newChecks[q.id]) newChecks[q.id] = {};
-                                             newChecks[q.id][cb.id] = !newChecks[q.id][cb.id];
-                                             setChecks(newChecks);
-                                             const suggested = scoreFromCheckboxes(q.id, newChecks);
-                                             setAnswers({...answers, [q.id]: suggested});
-                                          }}
-                                          className={`text-left p-4 rounded-xl border text-[10px] font-bold uppercase tracking-widest transition-all
-                                                     ${checked ? 'bg-indigo-600 border-indigo-600 text-white shadow-md' : 'bg-slate-50 border-slate-200 text-slate-500 hover:bg-white hover:border-indigo-200'}`}
-                                        >
-                                           {cb.label}
-                                        </button>
-                                      );
-                                   })}
-                                </div>
-
-                                <div className="flex justify-between items-center gap-6 pl-10">
-                                   <div className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Density</div>
-                                   <div className="flex-1 flex gap-1.5 h-3">
-                                      {[1,2,3,4,5,6,7,8,9,10].map(n => (
-                                        <button 
-                                          key={n}
-                                          onClick={() => setAnswers({...answers, [q.id]: n})}
-                                          className={`flex-1 rounded-sm transition-all ${answers[q.id] === n ? 'bg-indigo-600' : 'bg-slate-100 hover:bg-slate-200'}`}
-                                        />
-                                      ))}
-                                   </div>
-                                   <div className="w-8 text-center font-mono font-black text-indigo-600">{answers[q.id] || 0}</div>
-                                </div>
-                            </div>
-                         ))}
-                      </div>
-
-                      <div className="flex gap-4 pt-10">
-                         <button 
-                           onClick={() => setStep(step - 1)}
-                           className="flex-1 border border-slate-200 py-5 rounded-2xl font-bold text-slate-400 uppercase tracking-widest hover:text-indigo-600 hover:bg-slate-50 transition-all text-xs"
-                         >
-                            PREV_LAYER
-                         </button>
-                         <button 
-                           onClick={handleNext}
-                           className="flex-[2] bg-indigo-600 text-white py-5 rounded-2xl font-black text-lg uppercase tracking-widest hover:bg-indigo-700 transition-all flex items-center justify-center gap-4 shadow-xl shadow-indigo-100 active:scale-[0.98]"
-                         >
-                            {step === 6 ? 'Generate Intelligence Brief' : 'Next_Layer'} <ArrowRight />
-                         </button>
-                      </div>
-                   </div>
-                )}
-              </div>
-           </div>
+                  {/* Nav */}
+                  <div style={{ display: 'flex', gap: '12px', paddingTop: '16px' }}>
+                    <button onClick={() => setStep(step - 1)}
+                      style={{ flex: 1, padding: '16px', background: 'transparent', border: `1px solid ${brand.border}`, borderRadius: '14px', color: brand.smoke, fontWeight: 700, cursor: 'pointer', textTransform: 'uppercase', fontSize: '11px', letterSpacing: '0.06em' }}>
+                      Previous
+                    </button>
+                    <button onClick={handleNext}
+                      style={{ ...btnPrimary, flex: 2, width: 'auto', borderRadius: '14px', fontSize: '14px' }}>
+                      {step === 6 ? 'Generate Report' : 'Next Layer'} <ArrowRight size={18} />
+                    </button>
+                  </div>
+                </div>
+              )}
+            </BentoCard>
+          </div>
         </div>
       </div>
     </div>
