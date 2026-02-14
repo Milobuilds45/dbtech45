@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T08:29:03.351Z",
+    "lastHeartbeat": "2026-02-14T08:34:03.224Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T08:24:35.357Z"
+      "lastSeen": "2026-02-14T08:32:10.869Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T08:29:02.228Z"
+      "lastSeen": "2026-02-14T08:30:24.130Z"
     },
     {
       "name": "Bobby",
@@ -50,7 +50,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -68,7 +68,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -77,7 +77,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -86,7 +86,7 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -95,26 +95,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T08:29:02.228Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 16
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T08:24:35.357Z",
+      "lastActivity": "2026-02-14T08:32:10.869Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 23
+    },
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T08:30:24.130Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 16
     },
     {
       "key": "agent:paula:main",
@@ -153,7 +153,7 @@
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:03:40.161Z",
       "role": "Wellness Coach",
@@ -164,7 +164,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:03:12.212Z",
       "role": "Restaurant Marketing",
@@ -175,7 +175,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:03:03.360Z",
       "role": "Weather & News",
@@ -186,7 +186,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:02:43.027Z",
       "role": "Social Strategist",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T08:29:04.277Z",
+  "generatedAt": "2026-02-14T08:34:04.144Z",
   "version": 2
 }
