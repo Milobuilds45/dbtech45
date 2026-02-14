@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T12:54:02.000Z",
+    "lastHeartbeat": "2026-02-14T12:59:02.225Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -23,7 +23,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -63,7 +63,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:54:01.123Z"
+      "lastSeen": "2026-02-14T12:58:58.961Z"
     },
     {
       "name": "Dax",
@@ -72,7 +72,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:53:32.539Z"
+      "lastSeen": "2026-02-14T12:56:06.869Z"
     },
     {
       "name": "Remy",
@@ -100,10 +100,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:54:01.123Z",
+      "lastActivity": "2026-02-14T12:58:58.961Z",
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 16
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-14T12:56:06.869Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 8
     },
     {
       "key": "agent:milo:main",
@@ -115,17 +126,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:53:32.539Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 8
     },
     {
       "key": "agent:dwight:main",
@@ -175,7 +175,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T12:29:01.471Z",
       "role": "Full Stack Architect",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T12:54:02.294Z",
+  "generatedAt": "2026-02-14T12:59:02.534Z",
   "version": 2
 }
