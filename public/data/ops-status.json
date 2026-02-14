@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T15:54:05.408Z",
+    "lastHeartbeat": "2026-02-14T15:59:03.492Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -45,7 +45,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T15:54:04.496Z"
+      "lastSeen": "2026-02-14T15:54:37.715Z"
     },
     {
       "name": "Dwight",
@@ -100,7 +100,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-14T15:54:04.496Z",
+      "lastActivity": "2026-02-14T15:54:37.715Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T15:54:08.426Z",
+  "generatedAt": "2026-02-14T15:59:04.456Z",
   "version": 2
 }
