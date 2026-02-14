@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-14T08:34:03.224Z",
+    "lastHeartbeat": "2026-02-14T08:39:03.211Z",
     "totalCrons": 15,
     "activeSessions": 9,
     "totalAgents": 9,
@@ -32,7 +32,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -59,7 +59,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -131,7 +131,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:06:51.998Z",
       "role": "Tech Guru",
@@ -142,7 +142,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T08:06:43.911Z",
       "role": "Trading Advisor",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-14T08:34:04.144Z",
+  "generatedAt": "2026-02-14T08:39:04.127Z",
   "version": 2
 }
