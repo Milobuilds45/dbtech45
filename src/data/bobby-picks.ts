@@ -303,6 +303,118 @@ Boring? Yes. Profitable? Yes. That's the point.
     source: 'Weekly Brief — Feb 5, 2026',
   },
 
+  // ═══ IPO RESEARCH — Feb 15, 2026 ═══
+  {
+    id: 'ipo-databricks-20260215',
+    date: '2026-02-15',
+    symbol: 'DATABRICKS',
+    name: 'Databricks (Pre-IPO)',
+    priceAtPick: 0,
+    direction: 'ACCUMULATE',
+    type: 'ipo',
+    conviction: 5,
+    rating: 5,
+    status: 'watching',
+    thesis: '$5.4B ARR growing 65% YoY. Positive FCF. $1.4B from AI products. Net retention >140%. Best enterprise software IPO candidate.',
+    analysis: `**The best enterprise software IPO since Snowflake.**
+
+$134B valuation. Just raised $7B ($5B equity + $2B debt) from JPMorgan and others.
+
+- $5.4B ARR (+65% YoY in Q4) — accelerating, not decelerating
+- $1.4B from AI products alone
+- Net revenue retention >140% — customers keep spending more
+- Positive free cash flow — rare for hypergrowth at this scale
+- 12,000+ customers, Data Lakehouse platform
+
+Competes with Snowflake but winning on AI integration. Open-source foundation (Apache Spark) = massive developer loyalty.
+
+**Buy day one if priced under $150B.**
+
+*Sources: CNBC (Feb 9), TechFundingNews, AI Insider*`,
+    tags: ['IPO', 'AI', 'data', 'enterprise', 'SaaS', 'pre-IPO'],
+    source: 'Saturday IPO Research Brief — Feb 15, 2026',
+  },
+  {
+    id: 'ipo-fps-20260215',
+    date: '2026-02-15',
+    symbol: 'FPS',
+    name: 'Forgent Power Solutions',
+    priceAtPick: 33,
+    direction: 'ACCUMULATE',
+    type: 'ipo',
+    conviction: 4,
+    rating: 4,
+    status: 'active',
+    entry: '$30-32 on pullback',
+    target: '$35-40',
+    thesis: 'AI data center electrical infrastructure. IPO at $27, up 22%. Over-allotment fully exercised. Boring but essential.',
+    analysis: `**Already public. Already working.**
+
+IPO'd Feb 5 at $27. Up 22% since. $8.2B valuation. Over-allotment fully exercised — underwriters wanted more shares.
+
+Electrical distribution equipment for commercial/industrial buildings — switchgear, panel boards, power distribution units. Every AI data center needs this.
+
+Competes with Vertiv (VRT), Hubbell (HUBB), Eaton (ETN). Focused on data center buildout specifically.
+
+**Wait for pullback to $30-32, then accumulate.**
+
+*Sources: Seeking Alpha (Feb 6), StockTitan (Feb 12), NYSE*`,
+    tags: ['IPO', 'infrastructure', 'data-center', 'electrical', 'recently-listed'],
+    source: 'Saturday IPO Research Brief — Feb 15, 2026',
+  },
+  {
+    id: 'ipo-canva-20260215',
+    date: '2026-02-15',
+    symbol: 'CANVA',
+    name: 'Canva (Pre-IPO)',
+    priceAtPick: 0,
+    direction: 'ACCUMULATE',
+    type: 'ipo',
+    conviction: 4,
+    rating: 4,
+    status: 'watching',
+    thesis: '$3.5B revenue. 260M monthly users. 95% of Fortune 500. $42B valuation. Australia\'s largest private tech company.',
+    analysis: `**Consumer SaaS machine at scale.**
+
+260M monthly active users, 21M paying subscribers. $3.5B revenue (2025). $42B secondary valuation.
+
+95% of Fortune 500 use Canva. 12.47% of the graphics market. AI features (Magic Design) expanding the TAM.
+
+Adobe is the only real competitor at 10x the price. Canva's price point wins the mass market.
+
+**Buy when it lists if priced under $50B.**
+
+*Sources: DemandSage, Dealroom, Backlinko*`,
+    tags: ['IPO', 'SaaS', 'design', 'consumer', 'pre-IPO'],
+    source: 'Saturday IPO Research Brief — Feb 15, 2026',
+  },
+  {
+    id: 'avoid-klar-20260215',
+    date: '2026-02-15',
+    symbol: 'KLAR',
+    name: 'Klarna Group',
+    priceAtPick: 12,
+    direction: 'SHORT',
+    type: 'contrarian',
+    conviction: 4,
+    rating: 2,
+    status: 'active',
+    thesis: 'STAY AWAY. Down 56% from IPO. Class action lawsuits. Credit losses spiked 102%. Earnings Feb 19 could be ugly.',
+    analysis: `**Cautionary tale. Do not touch.**
+
+Down 56% from first-day close. Down 37.6% in last 30 days. Class action securities fraud lawsuits filed (Hagens Berman). Credit loss provisions spiked 102%.
+
+BNPL works when the economy is strong. When consumers get squeezed, they stop paying. Klarna's losses are exploding.
+
+Earnings Feb 19 could stabilize or destroy another 20%. Lawsuit deadline Feb 20.
+
+**Only buy scenario: under $10 with clean earnings and lawsuit settlement.**
+
+*Sources: Motley Fool (Feb 15), Simply Wall St, GlobeNewsWire (Feb 11)*`,
+    tags: ['IPO', 'fintech', 'BNPL', 'avoid', 'lawsuit', 'recently-listed'],
+    source: 'Saturday IPO Research Brief — Feb 15, 2026',
+  },
+
   // ═══ OVERNIGHT PORTFOLIO — Feb 6, 2026 ═══
   {
     id: 'portfolio-nvda-20260206',
