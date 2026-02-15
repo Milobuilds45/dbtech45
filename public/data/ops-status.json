@@ -4,23 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T10:59:03.106Z",
+    "lastHeartbeat": "2026-02-15T11:04:03.105Z",
     "totalCrons": 17,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
-      {
-        "id": "offline-tony",
-        "type": "warning",
-        "message": "Tony agent offline for >21 hours",
-        "timestamp": "2026-02-15T10:59:03.106Z",
-        "resolved": false
-      },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >23 hours",
-        "timestamp": "2026-02-15T10:59:03.106Z",
+        "timestamp": "2026-02-15T11:04:03.104Z",
         "resolved": false
       },
       {
@@ -88,11 +81,11 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T13:37:42.886Z"
+      "lastSeen": "2026-02-15T11:00:10.743Z"
     },
     {
       "name": "Dax",
@@ -123,6 +116,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T11:00:10.743Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 23
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -199,17 +203,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
-    },
-    {
-      "key": "agent:tony:main",
-      "agent": "Tony",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T13:37:42.886Z",
-      "role": "Tech Guru",
-      "cost": 0,
-      "sessionCount": 22
     },
     {
       "key": "agent:wendy:main",
@@ -411,10 +404,10 @@
       "humanSchedule": "0 6 * * *",
       "agent": "Tony",
       "description": "DAILY RESTAURANT PREP SHEET (6:00 AM). You are Tony (Restaurant Operations). Read your SOUL.md and workspace memory file",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T11:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-15T11:00:00.003Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-16T11:00:00.000Z",
+      "duration": "11s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -480,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T10:59:04.053Z",
+  "generatedAt": "2026-02-15T11:04:04.054Z",
   "version": 2
 }
