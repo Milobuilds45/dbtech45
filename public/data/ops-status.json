@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T14:14:02.596Z",
+    "lastHeartbeat": "2026-02-15T14:19:02.494Z",
     "totalCrons": 17,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >26 hours",
-        "timestamp": "2026-02-15T14:14:02.596Z",
+        "timestamp": "2026-02-15T14:19:02.494Z",
         "resolved": false
       },
       {
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T14:14:03.506Z",
+  "generatedAt": "2026-02-15T14:19:03.440Z",
   "version": 2
 }
