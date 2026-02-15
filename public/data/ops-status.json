@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T20:29:03.265Z",
+    "lastHeartbeat": "2026-02-15T20:34:03.585Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T20:11:39.806Z"
+      "lastSeen": "2026-02-15T20:31:01.613Z"
     },
     {
       "name": "Anders",
@@ -42,7 +42,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T20:28:14.398Z"
+      "lastSeen": "2026-02-15T20:32:13.778Z"
     },
     {
       "name": "Bobby",
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T20:27:02.179Z"
+      "lastSeen": "2026-02-15T20:32:56.640Z"
     },
     {
       "name": "Dwight",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T20:28:14.398Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 20
-    },
-    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T20:27:02.179Z",
+      "lastActivity": "2026-02-15T20:32:56.640Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
+    },
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T20:32:13.778Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 20
     },
     {
       "key": "agent:milo:main",
@@ -137,7 +137,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T20:11:39.806Z",
+      "lastActivity": "2026-02-15T20:31:01.613Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T20:29:04.218Z",
+  "generatedAt": "2026-02-15T20:34:04.645Z",
   "version": 2
 }
