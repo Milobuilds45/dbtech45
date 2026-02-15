@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T03:04:02.682Z",
+    "lastHeartbeat": "2026-02-15T03:09:03.790Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -12,22 +12,22 @@
       {
         "id": "offline-tony",
         "type": "warning",
-        "message": "Tony agent offline for >13 hours",
-        "timestamp": "2026-02-15T03:04:02.681Z",
+        "message": "Tony agent offline for >14 hours",
+        "timestamp": "2026-02-15T03:09:03.790Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >15 hours",
-        "timestamp": "2026-02-15T03:04:02.681Z",
+        "timestamp": "2026-02-15T03:09:03.790Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >15 hours",
-        "timestamp": "2026-02-15T03:04:02.681Z",
+        "timestamp": "2026-02-15T03:09:03.790Z",
         "resolved": false
       }
     ]
@@ -40,7 +40,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:02:37.784Z"
+      "lastSeen": "2026-02-15T03:09:02.551Z"
     },
     {
       "name": "Anders",
@@ -49,7 +49,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T02:54:34.675Z"
+      "lastSeen": "2026-02-15T03:08:14.696Z"
     },
     {
       "name": "Bobby",
@@ -122,7 +122,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:02:37.784Z",
+      "lastActivity": "2026-02-15T03:09:02.551Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -133,7 +133,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T02:54:34.675Z",
+      "lastActivity": "2026-02-15T03:08:14.696Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T03:04:03.826Z",
+  "generatedAt": "2026-02-15T03:09:04.954Z",
   "version": 2
 }
