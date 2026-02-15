@@ -55,18 +55,74 @@ const AGENTS = [
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
-const AGENT_REASONING: Record<string, string> = {
-  bobby: '"This addresses a real gap. Professional-grade data locked behind $2K terminals. We democratize it and print money. Simple math. — Axe"',
-  tony: '"Restaurant margins are razor-thin. Most owners are flying blind on food costs. I\'ve seen it from the line for 40 years — this actually works. No sugarcoating."',
-  paula: '"Small businesses pay $2K-5K for basic branding that takes weeks. We deliver professional quality in minutes at 95% cost reduction. Less, but better. That\'s the whole pitch."',
-  anders: '"Design-to-code handoff is the biggest bottleneck. Automate it. Save teams weeks. Ship the MVP, get feedback, iterate. Code talks, bullshit walks."',
-  dwight: '"Fact: Competitive intelligence is currently either expensive consultants or manual labor. This democratizes enterprise-grade intelligence gathering. Question: Why hasn\'t anyone done this? Answer: They lack my methodology."',
-  dax: '"Volume negates luck. Data teams waste 80% of their time formatting instead of finding insights. Ship the tool, measure the results, iterate. Stop planning. Start shipping."',
-  milo: '"Business coordination is broken. Too many tools, no integration, constant context switching. A single command center with AI changes everything. That\'s what we\'re building."',
-  remy: '"Content creation for restaurants is a massive pain point. They spend thousands on agencies for mediocre output. A $50 TikTok video can outperform a $5,000 ad if the story is right."',
-  wendy: '"Performance coaching is the most underleveraged growth tool. You don\'t want to feel good. You want to be effective. Habits compound. Small daily improvements create massive long-term results."',
-  collaborative: '"By combining different domains, we create solutions none of us could build alone. That\'s leverage. That\'s genuine cross-domain innovation. Ship it or kill it."',
+const AGENT_REASONING: Record<string, string[]> = {
+  bobby: [
+    '"This addresses a real gap. Professional-grade data locked behind $2K terminals. We democratize it and print money. Simple math. — Axe"',
+    '"The market inefficiency here is obvious. Retail gets crumbs while institutions feast. This levels the field. Risk-adjusted, this is a no-brainer."',
+    '"I\'ve been watching this space for years. The timing is perfect — API costs down, demand up. Execute fast, capture the window."',
+    '"Price discovery is broken for retail. This fixes it. Show me where the edge is and I\'ll show you the money."',
+  ],
+  tony: [
+    '"Restaurant margins are razor-thin. Most owners are flying blind on food costs. I\'ve seen it from the line for 40 years — this actually works. No sugarcoating."',
+    '"Every restaurant I\'ve ever worked in had the same problem: nobody knew their real numbers until it was too late. This changes that."',
+    '"In this business, you either control costs or costs control you. Simple tool, massive impact. I\'ve lived this pain."',
+    '"Owners work 80-hour weeks and still lose money. Not because they\'re bad — because they don\'t have visibility. Give them the dashboard, change their life."',
+  ],
+  paula: [
+    '"Small businesses pay $2K-5K for basic branding that takes weeks. We deliver professional quality in minutes at 95% cost reduction. Less, but better. That\'s the whole pitch."',
+    '"Good design shouldn\'t require a $50K budget and 3-month timeline. Democratize quality. Make the barrier to entry disappear."',
+    '"Typography is the difference between professional and amateur. AI can nail the fundamentals now. Let it do the heavy lifting."',
+    '"The market is flooded with mediocre templates. We\'re not making templates — we\'re making systems. Big difference. Clarity over cleverness."',
+  ],
+  anders: [
+    '"Design-to-code handoff is the biggest bottleneck. Automate it. Save teams weeks. Ship the MVP, get feedback, iterate. Code talks, bullshit walks."',
+    '"Every hour spent on deployment config is an hour not spent building features. Remove the friction. Make shipping effortless."',
+    '"The stack doesn\'t matter if you can\'t ship. Complexity is the enemy. Build simple, deploy fast, scale later."',
+    '"I\'ve seen teams spend more time on infrastructure than product. That\'s backwards. This inverts the ratio."',
+  ],
+  dwight: [
+    '"Fact: Competitive intelligence is currently either expensive consultants or manual labor. This democratizes enterprise-grade intelligence gathering. Question: Why hasn\'t anyone done this? Answer: They lack my methodology."',
+    '"Information asymmetry is profitable. Those who know first, win. This tool accelerates knowledge acquisition by 10x minimum."',
+    '"The signal-to-noise ratio in most data sources is abysmal. Filtering is the real value. AI changes the economics completely."',
+    '"Bears beat Battlestar Galactica. But seriously — surveillance at scale used to require a team. Now it requires an API call."',
+  ],
+  dax: [
+    '"Volume negates luck. Data teams waste 80% of their time formatting instead of finding insights. Ship the tool, measure the results, iterate. Stop planning. Start shipping."',
+    '"The bottleneck isn\'t analysis — it\'s presentation. Executives can\'t read raw data. Make it visual, make it obvious, make it actionable."',
+    '"Social signals move faster than traditional metrics. Whoever reads them first, wins. This is real-time competitive advantage."',
+    '"Data without narrative is just noise. The story is the product. Build tools that tell stories, not generate charts."',
+  ],
+  milo: [
+    '"Business coordination is broken. Too many tools, no integration, constant context switching. A single command center with AI changes everything. That\'s what we\'re building."',
+    '"Orchestration is underrated. The best systems don\'t just do tasks — they coordinate resources. That\'s where the leverage is."',
+    '"I see the gaps between agents every day. Handoffs break, context gets lost. Fix the coordination layer, multiply everyone\'s output."',
+    '"Strategic value comes from synthesis, not just execution. Connect the dots that nobody else sees."',
+  ],
+  remy: [
+    '"Content creation for restaurants is a massive pain point. They spend thousands on agencies for mediocre output. A $50 TikTok video can outperform a $5,000 ad if the story is right."',
+    '"Local marketing is personal. Generic templates fail because they miss the soul of the business. AI can help scale authenticity."',
+    '"The restaurant industry is criminally underserved by marketing tools. Everyone\'s building for tech companies. We build for Main Street."',
+    '"Engagement beats impressions. A hundred true fans beats a million scrollers. Build tools that create real connection."',
+  ],
+  wendy: [
+    '"Performance coaching is the most underleveraged growth tool. You don\'t want to feel good. You want to be effective. Habits compound. Small daily improvements create massive long-term results."',
+    '"Work-life balance is a myth without systems. Build the systems first, then the flexibility follows."',
+    '"Personal optimization isn\'t selfish — it\'s prerequisite. You can\'t pour from an empty cup. Fill the cup first."',
+    '"Everyone knows what to do. The gap is doing it consistently. That\'s what we\'re solving — the execution gap."',
+  ],
+  collaborative: [
+    '"By combining different domains, we create solutions none of us could build alone. That\'s leverage. That\'s genuine cross-domain innovation. Ship it or kill it."',
+    '"The best ideas happen at intersections. Trading + Design. Operations + Tech. This collaboration finds edges nobody else sees."',
+    '"Individual agents optimize locally. Together we optimize globally. The network effect of specialized intelligence is real."',
+    '"Cross-pollination beats specialization for breakthrough ideas. Let us surprise you with what we find together."',
+  ],
 };
+
+// Get random reasoning for an agent
+function getRandomReasoning(agentId: string): string {
+  const reasonings = AGENT_REASONING[agentId] || AGENT_REASONING.collaborative;
+  return reasonings[Math.floor(Math.random() * reasonings.length)];
+}
 
 interface IdeaTemplate {
   title: string;
@@ -492,7 +548,12 @@ function genCollab(agentIds: string[], creativity: CreativityLevel): AgentIdea {
 function statusColor(s: string) { return s === 'approved' || s === 'launched' ? brand.success : s === 'reviewed' ? brand.amber : s === 'building' ? brand.info : s === 'rejected' ? brand.error : brand.smoke; }
 function mktColor(s: string) { return s === 'massive' ? brand.success : s === 'large' ? brand.info : s === 'medium' ? brand.amber : brand.smoke; }
 function fmtDate(d: string) { return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }); }
-function getReasoning(idea: AgentIdea) { return idea.agentId === 'collaborative' ? AGENT_REASONING.collaborative : AGENT_REASONING[idea.agentId] || '"This leverages my domain expertise to solve a real market need."'; }
+function getReasoning(idea: AgentIdea) { 
+  // Use a seeded random based on idea id for consistency when re-rendering
+  const seed = idea.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const reasonings = idea.agentId === 'collaborative' ? AGENT_REASONING.collaborative : AGENT_REASONING[idea.agentId] || ['"This leverages my domain expertise to solve a real market need."'];
+  return reasonings[seed % reasonings.length];
+}
 function riskColor(level: CreativityLevel) { return level === 'experimental' ? '#22C55E' : level === 'creative' ? brand.amber : brand.smoke; }
 
 // Helpers
@@ -521,41 +582,99 @@ export default function AgentIdeasPage() {
   const [hydrated, setHydrated] = useState(false);
   const [sourceFilter, setSourceFilter] = useState<IdeaSourceFilter>('all');
 
-  // Load from localStorage on mount
+  // Load from Supabase on mount
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as AgentIdea[];
-        if (Array.isArray(parsed)) setIdeas(parsed.map(i => ({ ...i, source: i.source || 'generated' })));
+    const loadIdeas = async () => {
+      try {
+        const res = await fetch('/api/ideas');
+        if (res.ok) {
+          const data = await res.json();
+          const allIdeas = (data.ideas || []).map((i: any) => ({
+            id: i.id,
+            agentId: i.agent_id,
+            agentName: i.agent_name,
+            title: i.title,
+            description: i.description,
+            problemSolved: i.problem_solved,
+            targetMarket: i.target_market,
+            businessModel: i.business_model,
+            revenueProjection: i.revenue_projection,
+            competitiveAdvantage: i.competitive_advantage,
+            developmentTime: i.development_time,
+            riskAssessment: i.risk_assessment,
+            tags: i.tags || [],
+            derekRating: i.derek_rating,
+            agentConfidence: i.agent_confidence,
+            marketSize: i.market_size,
+            status: i.status,
+            plainEnglish: i.plain_english,
+            source: i.source,
+            createdAt: i.created_at,
+            updatedAt: i.updated_at,
+          }));
+          const generated = allIdeas.filter((i: AgentIdea) => i.source === 'generated');
+          const autonomous = allIdeas.filter((i: AgentIdea) => i.source === 'autonomous');
+          setIdeas(generated);
+          setAutonomousIdeas(autonomous);
+        }
+      } catch (err) {
+        console.error('Failed to load ideas:', err);
+        // Fallback to localStorage for offline support
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored) {
+            const parsed = JSON.parse(stored) as AgentIdea[];
+            if (Array.isArray(parsed)) setIdeas(parsed.map(i => ({ ...i, source: i.source || 'generated' })));
+          }
+        } catch {}
       }
-      // Load autonomous ideas
-      const autoStored = localStorage.getItem(AUTONOMOUS_KEY);
-      if (autoStored) {
-        const autoParsed = JSON.parse(autoStored) as AgentIdea[];
-        if (Array.isArray(autoParsed)) setAutonomousIdeas(autoParsed.map(i => ({ ...i, source: 'autonomous' as const })));
-      }
-    } catch {}
-    setHydrated(true);
+      setHydrated(true);
+    };
+    loadIdeas();
   }, []);
 
-  // Save to localStorage on change
-  useEffect(() => {
-    if (!hydrated) return;
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(ideas)); } catch {}
-  }, [ideas, hydrated]);
+  // Save to Supabase when ideas change
+  const saveIdeasToDb = async (ideasToSave: AgentIdea[]) => {
+    try {
+      await fetch('/api/ideas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ideas: ideasToSave }),
+      });
+    } catch (err) {
+      console.error('Failed to save ideas:', err);
+    }
+  };
 
   const toggle = (id: string) => setSelectedAgents(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
-  const rate = (id: string, r: number) => setIdeas(p => p.map(i => i.id === id ? { ...i, derekRating: r } : i));
-  const reject = (id: string) => {
+  
+  const rate = async (id: string, r: number) => {
+    setIdeas(p => p.map(i => i.id === id ? { ...i, derekRating: r } : i));
+    // Save to Supabase
+    try {
+      await fetch('/api/ideas', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, derekRating: r }),
+      });
+    } catch (err) {
+      console.error('Failed to save rating:', err);
+    }
+  };
+  
+  const reject = async (id: string) => {
     const idea = ideas.find(i => i.id === id);
     if (!idea) return;
-    const rejected = { ...idea, status: 'rejected' as const, rejectedAt: new Date().toISOString() };
+    // Update status to rejected in Supabase
     try {
-      const existing = JSON.parse(localStorage.getItem(REJECTED_KEY) || '[]');
-      existing.unshift(rejected);
-      localStorage.setItem(REJECTED_KEY, JSON.stringify(existing));
-    } catch {}
+      await fetch('/api/ideas', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: 'rejected' }),
+      });
+    } catch (err) {
+      console.error('Failed to reject idea:', err);
+    }
     setIdeas(p => p.filter(i => i.id !== id));
     router.push('/os/agents/ideas/rejected');
   };
@@ -567,15 +686,25 @@ export default function AgentIdeasPage() {
     });
   }, []);
 
-  const generate = () => {
+  const generate = async () => {
     if (selectedAgents.length === 0) return;
     setIsLoading(true);
-    setTimeout(() => {
-      if (ideaMode === 'collaborative') setIdeas(p => [genCollab(selectedAgents, creativityLevel), ...p]);
-      else setIdeas(p => [...genIndividual(selectedAgents, creativityLevel), ...p]);
-      setSelectedDay(todayKey());
-      setIsLoading(false);
-    }, 1200);
+    
+    // Generate ideas
+    let newIdeas: AgentIdea[];
+    if (ideaMode === 'collaborative') {
+      newIdeas = [genCollab(selectedAgents, creativityLevel)];
+    } else {
+      newIdeas = genIndividual(selectedAgents, creativityLevel);
+    }
+    
+    // Save to Supabase
+    await saveIdeasToDb(newIdeas);
+    
+    // Update local state
+    setIdeas(p => [...newIdeas, ...p]);
+    setSelectedDay(todayKey());
+    setIsLoading(false);
   };
 
   // Combine all ideas based on source filter
