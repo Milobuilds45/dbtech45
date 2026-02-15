@@ -303,6 +303,384 @@ Boring? Yes. Profitable? Yes. That's the point.
     source: 'Weekly Brief — Feb 5, 2026',
   },
 
+  // ═══ OVERNIGHT PORTFOLIO — Feb 6, 2026 ═══
+  {
+    id: 'portfolio-nvda-20260206',
+    date: '2026-02-06',
+    symbol: 'NVDA',
+    name: 'NVIDIA',
+    priceAtPick: 172.74,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 5,
+    rating: 5,
+    status: 'active',
+    entry: 'DCA: 1/3 now, 1/3 after earnings (Feb 25), 1/3 on dip below $160',
+    target: '$350-400 (3-year)',
+    stop: '$140 mental stop',
+    thesis: 'AI king. Every hyperscaler spending $100B+ on AI infra. Blackwell chips sold out through 2026. Earnings Feb 25.',
+    analysis: `**3-Year Hold — $2,000 allocation in $20K portfolio (10%).**
+
+Nvidia makes the chips that power artificial intelligence. Every time you hear about ChatGPT, self-driving cars, or robots — Nvidia's hardware is underneath it. Selling pickaxes during a gold rush. Except this gold rush is real.
+
+**Why It's a Good 3-Year Hold:**
+- AI isn't slowing down. Every major tech company spending $100B+ on AI infrastructure
+- Wall Street expects ~$4.69 EPS for fiscal 2026
+- Next earnings: Feb 25 — major catalyst
+- Blackwell chips sold out through 2026
+
+**Bull Case:** AI spending accelerates, data center revenue doubles. 3-Year target: $350-$400
+**Bear Case:** Competition from AMD, custom chips eat margins. Worst case: $120-$140
+
+Risk Level: 6/10. Confidence: 8.5/10.
+
+*Source: Benzinga, Feb 5, 2026*`,
+    tags: ['AI', 'semi', 'portfolio', '3-year-hold', 'DCA'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-amzn-20260206',
+    date: '2026-02-06',
+    symbol: 'AMZN',
+    name: 'Amazon.com',
+    priceAtPick: 200,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 5,
+    rating: 5,
+    status: 'active',
+    entry: '$200-210 (post-earnings dip)',
+    target: '$320-380 (3-year)',
+    stop: '$175 mental stop',
+    thesis: 'Post-earnings 10% dip on $200B AI capex guidance. Classic overreaction. AWS accelerating. Buy the fear.',
+    analysis: `**3-Year Hold — $3,000 allocation in $20K portfolio (15%).**
+
+AWS is the real money machine. Netflix, Airbnb, government agencies all run on it. Delivery trucks are the sideshow. Cloud is the main event.
+
+**Entry:** BUY THE DIP. Stock dropped 10% after hours on $200B AI capex guidance. Classic overreaction — Google said the same thing, dipped, then recovered.
+
+**Why 3-Year Hold:**
+- AWS re-accelerating as AI workloads explode
+- Advertising: $50B+ revenue stream nobody talks about
+- Amazon is a utility at this point
+
+**Bull Case:** AWS margins expand, AI revenue own segment. Target: $320-$380
+**Bear Case:** $200B capex burns cash, AWS growth disappoints. Worst case: $180-$200
+
+Risk Level: 4/10. Confidence: 9/10.
+
+*Source: CNBC, Feb 5, 2026*`,
+    tags: ['FAANG', 'cloud', 'AWS', 'portfolio', '3-year-hold', 'dip-buy'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-cost-20260206',
+    date: '2026-02-06',
+    symbol: 'COST',
+    name: 'Costco Wholesale',
+    priceAtPick: 990,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 4,
+    rating: 4,
+    status: 'active',
+    entry: 'DCA: 1/3 now, 1/3 at $950, 1/3 at $920',
+    target: '$1,300-1,500 (3-year)',
+    stop: 'None — hold through volatility',
+    thesis: '93% membership renewal rate. Recession-proof. Oppenheimer target $1,100, Goldman $1,171.',
+    analysis: `**3-Year Hold — Watch/Accumulate.**
+
+Costco makes most profit from $65-$130/yr membership fees, not product sales. 70M+ households pay to shop there. That's recurring revenue.
+
+**Why 3-Year Hold:**
+- Recession-proof — people flock TO Costco when times get tough
+- 93% membership renewal rate — loyalty money can't buy
+- International expansion: China, Japan, Europe
+- Oppenheimer target $1,100, Goldman $1,171
+
+**Bull Case:** Membership hits 80M+, international growth. Target: $1,300-$1,500
+**Bear Case:** Valuation compresses, Walmart+ competition. Worst case: $800-$850
+
+Risk Level: 3/10. Confidence: 8/10. The "sleep at night" stock.
+
+*Source: Benzinga, Motley Fool, Feb 5, 2026*`,
+    tags: ['retail', 'defensive', 'membership', 'recession-proof', '3-year-hold'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-voo-20260206',
+    date: '2026-02-06',
+    symbol: 'VOO',
+    name: 'Vanguard S&P 500 ETF',
+    priceAtPick: 624.54,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 5,
+    rating: 5,
+    status: 'active',
+    entry: 'Buy full position immediately — this is your anchor',
+    target: 'Long-term hold',
+    thesis: 'Foundation of $20K portfolio (35%). 500 biggest US companies. Set it and forget it.',
+    analysis: `**Portfolio Foundation — $7,000 allocation (35%).**
+
+The anchor. S&P 500 index. You don't time this, you just own it. Historically returns ~10% annually. In down markets, it's your floor. In up markets, it keeps pace.
+
+No stop loss. No timing. Just buy.`,
+    tags: ['ETF', 'index', 'foundation', 'portfolio', 'S&P500'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-qqq-20260206',
+    date: '2026-02-06',
+    symbol: 'QQQ',
+    name: 'Invesco QQQ Trust',
+    priceAtPick: 605.75,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 4,
+    rating: 4,
+    status: 'active',
+    entry: 'Week 2 — let earnings turbulence settle',
+    target: 'Long-term hold',
+    thesis: 'Tech/AI growth engine for $20K portfolio (20%). Nasdaq 100 concentrated exposure.',
+    analysis: `**Growth Engine — $4,000 allocation (20%).**
+
+Concentrated tech/AI exposure. More aggressive than VOO. Wait for Week 2 (Feb 10-14) to buy — let the Amazon/Google earnings turbulence settle first.
+
+No stop loss on ETFs. Ride them.`,
+    tags: ['ETF', 'tech', 'Nasdaq', 'portfolio', 'growth'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-schd-20260206',
+    date: '2026-02-06',
+    symbol: 'SCHD',
+    name: 'Schwab US Dividend Equity ETF',
+    priceAtPick: 31.01,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 4,
+    rating: 4,
+    status: 'active',
+    entry: 'Buy full position Week 1 — defensive anchor',
+    target: 'Hold + reinvest dividends',
+    thesis: 'Dividend shield for $20K portfolio (15%). Pays dividends while you wait. Up 12% YTD.',
+    analysis: `**Dividend Shield — $3,000 allocation (15%).**
+
+Pays you dividends while you wait. Down market protection. Up 12% YTD in 2026. This is your parachute when tech sells off.
+
+Buy full position Week 1 alongside VOO.`,
+    tags: ['ETF', 'dividend', 'defensive', 'portfolio', 'income'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+  {
+    id: 'portfolio-pltr-20260206',
+    date: '2026-02-06',
+    symbol: 'PLTR',
+    name: 'Palantir Technologies',
+    priceAtPick: 139.54,
+    direction: 'ACCUMULATE',
+    type: 'growth',
+    conviction: 3,
+    rating: 3,
+    status: 'active',
+    entry: 'Week 3 — let it find a floor after 11% drop',
+    target: '$280 (double = take half)',
+    stop: '$105 mental stop',
+    thesis: 'Speculative AI/defense play (5% of portfolio). Down 11.6% = entry point. If AI defense spending explodes, this rips.',
+    analysis: `**Lottery Ticket — $1,000 allocation (5%).**
+
+High-risk, high-reward AI/defense play. Down 11.6% yesterday = entry point. 
+
+Crushed earnings: $1.41B rev (+70% YoY), FY26 guide $7.18B vs $6.22B expected. Karp called it "indisputably the best results in tech in the last decade."
+
+If it doubles ($280), sell half and lock profits. Mental stop at $105. This is speculative — size accordingly.`,
+    tags: ['AI', 'defense', 'speculative', 'portfolio', 'high-risk'],
+    source: 'Overnight Portfolio Report — Feb 6, 2026',
+  },
+
+  // ═══ WEEKEND RESEARCH — Jan 31, 2026 ═══
+  {
+    id: 'swing-wmb-20260131',
+    date: '2026-01-31',
+    symbol: 'WMB',
+    name: 'Williams Companies',
+    priceAtPick: 52,
+    direction: 'LONG',
+    type: 'swing',
+    conviction: 4,
+    rating: 4,
+    status: 'expired',
+    entry: '$52 (breakout level)',
+    target: '$60+',
+    stop: '$50',
+    thesis: 'Just broke to all-time highs. Energy sector leader. Midstream demand + nat gas infrastructure.',
+    analysis: `**Breakout Confirmed.**
+
+- **Setup:** Just broke to all-time highs (source: IBD Jan 30)
+- **Support:** $52 (prior resistance now support)
+- **Target:** $60+ (measured move)
+- **Stop:** $50 (below breakout level)
+- **Why:** Energy sector leadership, midstream demand, nat gas infrastructure play
+- **Trade:** Long stock or Feb calls at $55 strike
+
+*Source: Investor's Business Daily, Jan 30, 2026*`,
+    tags: ['energy', 'breakout', 'midstream', 'nat-gas', 'ATH'],
+    source: 'Weekend Research — Jan 31, 2026',
+  },
+  {
+    id: 'swing-aapl-20260131',
+    date: '2026-01-31',
+    symbol: 'AAPL',
+    name: 'Apple',
+    priceAtPick: 250,
+    direction: 'LONG',
+    type: 'earnings',
+    conviction: 4,
+    rating: 4,
+    status: 'expired',
+    entry: '$250-252 (50-day MA test)',
+    target: '$280',
+    stop: '$242',
+    thesis: 'Post-earnings dip buy. Record iPhone quarter. AI concerns overblown. Buybacks ongoing.',
+    analysis: `**Post-Earnings Dip Buy.**
+
+- **Setup:** Record iPhone quarter (+surge in sales), stock faded on AI "memory" concerns
+- **Support:** $250 (50-day MA zone)
+- **Target:** $280 (prior highs)
+- **Stop:** $242 (below recent swing low)
+- **Why:** Best quarter ever, AI concerns overblown, buybacks ongoing
+- **Trade:** Wait for $250-252 support test, then long
+
+*Source: Apple IR, Reuters, Jan 30, 2026*`,
+    tags: ['FAANG', 'earnings', 'dip-buy', 'iPhone', 'buybacks'],
+    source: 'Weekend Research — Jan 31, 2026',
+  },
+  {
+    id: 'swing-xle-20260131',
+    date: '2026-01-31',
+    symbol: 'XLE',
+    name: 'Energy Select SPDR ETF',
+    priceAtPick: 93,
+    direction: 'LONG',
+    type: 'swing',
+    conviction: 4,
+    rating: 4,
+    status: 'expired',
+    entry: '$92-93 zone',
+    target: '$102 (2022 highs)',
+    stop: '$89',
+    thesis: '+12.24% YTD. Best performing sector. Oil stable, refinery margins strong, ~3.5% dividend yield.',
+    analysis: `**Sector Momentum Play.**
+
+- **Setup:** +12.24% YTD, best performing sector
+- **Support:** $92-93 zone
+- **Target:** $102 (2022 highs)
+- **Stop:** $89
+- **Why:** Oil stabilizing, refinery margins strong, dividend yield ~3.5%
+- **Trade:** Long ETF or energy majors (XOM, CVX)
+
+*Source: Yahoo Finance Sector Dashboard, Jan 30, 2026*`,
+    tags: ['ETF', 'energy', 'sector-momentum', 'dividend'],
+    source: 'Weekend Research — Jan 31, 2026',
+  },
+  {
+    id: 'short-tsla-20260131',
+    date: '2026-01-31',
+    symbol: 'TSLA',
+    name: 'Tesla',
+    priceAtPick: 450,
+    direction: 'SHORT',
+    type: 'contrarian',
+    conviction: 3,
+    rating: 3,
+    status: 'expired',
+    entry: '$450-460 (resistance zone)',
+    target: '$380 (gap fill)',
+    stop: '$475 (new high)',
+    thesis: 'Trading at 632 P/E on core earnings. Overextended. EV competition heating up.',
+    analysis: `**Bearish — Overextended.**
+
+- **Setup:** Trading at 632 P/E on "core" earnings (Fortune analysis)
+- **Resistance:** $450-460 zone
+- **Target:** $380 (gap fill)
+- **Stop:** $475 (new high)
+- **Why:** Valuation extreme even for Tesla, EV competition heating up
+- **Trade:** Put spreads or stay flat
+
+*Source: Fortune Tesla Valuation Analysis, Jan 30, 2026*`,
+    tags: ['EV', 'overvalued', 'bearish', 'put-spreads'],
+    source: 'Weekend Research — Jan 31, 2026',
+  },
+  {
+    id: 'short-smh-20260131',
+    date: '2026-01-31',
+    symbol: 'SMH',
+    name: 'VanEck Semiconductor ETF',
+    priceAtPick: 260,
+    direction: 'SHORT',
+    type: 'contrarian',
+    conviction: 3,
+    rating: 3,
+    status: 'expired',
+    entry: '$260 (broken resistance)',
+    target: '$225 if support fails',
+    stop: 'Above $260 reclaim',
+    thesis: 'Tech weakness. AI chip trade exhausted. Inventory concerns. Hedge long tech with SMH puts.',
+    analysis: `**Bearish/Hedge — Tech Weakness.**
+
+- **Setup:** Nasdaq lagging, semis rolling over
+- **Support:** $240 (200-day MA)
+- **Resistance:** $260 (broken)
+- **Target:** $225 if support fails
+- **Why:** AI chip trade exhausted, inventory concerns
+- **Trade:** Hedge long tech with SMH puts
+
+*Source: Yahoo Finance, Barchart, Jan 30, 2026*`,
+    tags: ['ETF', 'semi', 'bearish', 'hedge', 'puts'],
+    source: 'Weekend Research — Jan 31, 2026',
+  },
+
+  // ═══ BA TRADE PLAN — Jan 30, 2026 ═══
+  {
+    id: 'options-ba-20260130',
+    date: '2026-01-30',
+    symbol: 'BA',
+    name: 'Boeing',
+    priceAtPick: 233,
+    direction: 'LONG',
+    type: 'options',
+    conviction: 4,
+    rating: 4,
+    status: 'expired',
+    entry: '$240C 2/27 at ~$4.80-5.00',
+    target: '$248-254',
+    stop: 'Daily close below $225',
+    thesis: 'Defense sector laggard. Bounced off 50 EMA + 0.618 Fib confluence support at $225. $2.81B F-15 contract catalyst.',
+    analysis: `**Defense Sector Laggard Play.**
+
+- **Position:** Long BA $240C 2/27
+- **Entry:** Limit $4.80-5.00 (wide spread — NO market orders)
+- **Trigger:** Reclaim 21 EMA at $237 = bullish breakout
+
+**Technical Setup:**
+- ✅ Bounced off 50 EMA ($225.68) + 0.618 Fib ($225.14) — confluence support held
+- ✅ RSI at 49.62 — neutral, basing at 50, curling up
+- ❌ Below 21 EMA ($237.05) — needs to reclaim
+
+**Catalysts:**
+- $2.81B F-15 Air Force contract
+- Air India ordered 30 more 737 MAX jets
+- New CEO Ortberg cleaning house
+- Aerospace & Defense sector up 46% in 2025
+
+**Targets:** T1: $240 (take 1/3), T2: $248-250 (take 1/3), T3: $254+ (let ride)
+
+*Source: Boeing IR, IBD, Jan 30, 2026*`,
+    tags: ['options', 'defense', 'laggard', 'fib', 'catalyst'],
+    source: 'BA Trade Plan — Jan 30, 2026',
+  },
+
   // ═══ MSFT TRADE — Jan 29, 2026 ═══
   {
     id: 'options-msft-20260129',
