@@ -481,7 +481,7 @@ export default function SkillsInventory() {
     return agents.filter(a =>
       a.name.toLowerCase().includes(q) ||
       a.role.toLowerCase().includes(q) ||
-      a.topSkills.some(s => s.name.toLowerCase().includes(q))
+      a.skills.some(s => s.name.toLowerCase().includes(q))
     );
   }, [agents, search]);
 

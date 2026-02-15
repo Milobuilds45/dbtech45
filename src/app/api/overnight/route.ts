@@ -44,6 +44,7 @@ interface OvernightRow {
 }
 
 interface OvernightItem {
+  id?: string;
   agent: string;
   agentColor: string;
   type: string;
@@ -77,7 +78,12 @@ async function fetchOvernightCommits(dateStr: string): Promise<OvernightItem[]> 
   const dayStart = new Date(`${dateStr}T05:00:00Z`); // midnight EST
   const dayEnd = new Date(`${dateStr}T12:00:00Z`);   // 7am EST
 
-  const repos = ['Milobuilds45/dbtech45', '7LayerLabs/clawd-milo', '7LayerLabs/milo-hq'];
+  const repos = [
+    'Milobuilds45/dbtech45', '7LayerLabs/clawd-milo', '7LayerLabs/milo-hq',
+    '7LayerLabs/clawd-bobby', '7LayerLabs/clawd-anders', '7LayerLabs/clawd-paula',
+    '7LayerLabs/clawd-tony', '7LayerLabs/clawd-dax', '7LayerLabs/clawd-remy',
+    '7LayerLabs/clawd-wendy', '7LayerLabs/clawd-dwight',
+  ];
 
   for (const repo of repos) {
     try {
@@ -126,6 +132,7 @@ async function fetchOvernightCommits(dateStr: string): Promise<OvernightItem[]> 
 // Convert Supabase row to OvernightItem
 function rowToItem(row: OvernightRow): OvernightItem {
   return {
+    id: row.id,
     agent: row.agent,
     agentColor: row.agent_color,
     type: row.type,
@@ -287,6 +294,44 @@ export async function POST(request: Request) {
     cache = null;
 
     return NextResponse.json({ ok: true, inserted: data?.length || 0 });
+  } catch (error) {
+    return NextResponse.json({ error: String(error) }, { status: 500 });
+  }
+}
+
+// PATCH: Update status on existing overnight items (approve/reject)
+export async function PATCH(request: Request) {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
+  }
+
+  try {
+    const body = await request.json();
+    const { id, status } = body as { id: string; status: string };
+
+    if (!id || !status) {
+      return NextResponse.json({ error: 'id and status are required' }, { status: 400 });
+    }
+
+    const allowedStatuses = ['approved', 'rejected', 'pending', 'success', 'error', 'completed', 'skipped'];
+    if (!allowedStatuses.includes(status)) {
+      return NextResponse.json({ error: `Invalid status. Must be one of: ${allowedStatuses.join(', ')}` }, { status: 400 });
+    }
+
+    const { data, error } = await supabase
+      .from('overnight_results')
+      .update({ status })
+      .eq('id', id)
+      .select();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // Invalidate cache
+    cache = null;
+
+    return NextResponse.json({ ok: true, updated: data?.length || 0 });
   } catch (error) {
     return NextResponse.json({ error: String(error) }, { status: 500 });
   }
