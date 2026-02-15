@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "6e4e04c0",
+      "author": "Milo",
+      "timestamp": "2026-02-15 00:44:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "044cd949",
       "author": "Milo",
       "timestamp": "2026-02-15 00:39:04 -0500",
@@ -365,13 +372,6 @@
       "message": "feat: consolidate Generate Resources and Skill Development into unified UI"
     },
     {
-      "type": "commit",
-      "id": "fab125c3",
-      "author": "Milo",
-      "timestamp": "2026-02-14 21:44:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -456,5 +456,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T05:44:03.835Z"
+  "generatedAt": "2026-02-15T05:49:03.813Z"
 }
