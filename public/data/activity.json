@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "234acb45",
+      "author": "Milo",
+      "timestamp": "2026-02-15 01:34:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "487988bd",
       "author": "Milo",
       "timestamp": "2026-02-15 01:29:04 -0500",
@@ -365,13 +372,6 @@
       "message": "fix: unify rating bar colors with legend scale, fix Scale 1-6 typo, remove specific number promises from skill suggestions"
     },
     {
-      "type": "commit",
-      "id": "41035c9d",
-      "author": "Milo",
-      "timestamp": "2026-02-14 22:17:01 -0500",
-      "message": "feat: rebuild task board with 3-column agent mission control"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -456,5 +456,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T06:34:03.889Z"
+  "generatedAt": "2026-02-15T06:39:03.957Z"
 }
