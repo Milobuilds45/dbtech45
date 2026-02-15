@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T13:59:02.853Z",
+    "lastHeartbeat": "2026-02-15T14:04:02.461Z",
     "totalCrons": 17,
-    "activeSessions": 7,
+    "activeSessions": 8,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >26 hours",
-        "timestamp": "2026-02-15T13:59:02.853Z",
+        "timestamp": "2026-02-15T14:04:02.461Z",
         "resolved": false
       },
       {
@@ -36,11 +36,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T13:01:20.993Z"
+      "lastSeen": "2026-02-15T14:01:33.650Z"
     },
     {
       "name": "Anders",
@@ -54,11 +54,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T04:28:45.650Z"
+      "lastSeen": "2026-02-15T14:02:57.146Z"
     },
     {
       "name": "Paula",
@@ -117,12 +117,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T14:02:57.146Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 62
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T13:01:20.993Z",
+      "lastActivity": "2026-02-15T14:01:33.650Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
@@ -192,17 +203,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 23
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T04:28:45.650Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 61
     },
     {
       "key": "agent:wendy:main",
@@ -374,10 +374,10 @@
       "humanSchedule": "0 9 * * 0",
       "agent": "Bobby",
       "description": "SUNDAY GROWTH STOCKS BRIEF (9:00 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T14:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-15T14:00:00.007Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-22T14:00:00.000Z",
+      "duration": "178s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T13:59:03.767Z",
+  "generatedAt": "2026-02-15T14:04:03.388Z",
   "version": 2
 }
