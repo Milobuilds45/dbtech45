@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw, Archive, ChevronDown, ChevronRight, Undo2 } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -218,6 +218,11 @@ export default function AgentAssist() {
   const STORAGE_KEY = 'dbtech-assist-resources';
   const DELETED_KEY = 'dbtech-assist-deleted';
   const VERIFIED_KEY = 'dbtech-assist-verified';
+  const ARCHIVED_KEY = 'dbtech-assist-archived';
+  
+  // Archive state
+  const [archivedResources, setArchivedResources] = useState<AgentResource[]>([]);
+  const [showArchive, setShowArchive] = useState(false);
 
   // Load agent skills data
   useEffect(() => {
@@ -248,6 +253,15 @@ export default function AgentAssist() {
       const deletedIds: string[] = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
       const verifiedIds: string[] = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
       const removedIds = new Set([...deletedIds, ...verifiedIds]);
+      
+      // Load archived resources
+      const archivedStored = localStorage.getItem(ARCHIVED_KEY);
+      if (archivedStored) {
+        const archivedParsed = JSON.parse(archivedStored) as AgentResource[];
+        if (Array.isArray(archivedParsed)) {
+          setArchivedResources(archivedParsed);
+        }
+      }
 
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
@@ -369,9 +383,53 @@ export default function AgentAssist() {
     } catch {}
   };
 
+  const unarchiveResource = (id: string) => {
+    const resource = archivedResources.find(r => r.id === id);
+    if (!resource) return;
+    
+    // Remove from archive
+    setArchivedResources(prev => {
+      const updated = prev.filter(r => r.id !== id);
+      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    
+    // Add back to active resources
+    const { archivedAt, ...activeResource } = resource as AgentResource & { archivedAt?: string };
+    setResources(prev => [activeResource, ...prev]);
+    
+    // Remove from verified IDs
+    try {
+      const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
+      const updated = verified.filter((vid: string) => vid !== id);
+      localStorage.setItem(VERIFIED_KEY, JSON.stringify(updated));
+    } catch {}
+  };
+
+  const deleteArchivedResource = (id: string) => {
+    setArchivedResources(prev => {
+      const updated = prev.filter(r => r.id !== id);
+      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+  };
+
   const verifyResource = async (id: string) => {
     const resource = resources.find(r => r.id === id);
+    if (!resource) return;
+    
+    // Remove from active resources
     setResources(prev => prev.filter(r => r.id !== id));
+    
+    // Add to archived resources with timestamp
+    const archivedResource = { ...resource, archivedAt: new Date().toISOString() };
+    setArchivedResources(prev => {
+      const updated = [archivedResource, ...prev];
+      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
+      return updated;
+    });
+    
+    // Keep verified IDs for backwards compatibility
     try {
       const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
       verified.push(id);
@@ -775,6 +833,172 @@ export default function AgentAssist() {
             </button>
           </div>
         </div>
+
+        {/* In Your Stack (Archive) */}
+        {archivedResources.length > 0 && (
+          <div style={{
+            background: '#0A0A0A',
+            border: `1px solid ${brand.border}`,
+            borderRadius: '16px',
+            marginBottom: '20px',
+            overflow: 'hidden',
+          }}>
+            {/* Header - Clickable to expand/collapse */}
+            <button
+              onClick={() => setShowArchive(!showArchive)}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                padding: '16px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+              }}
+            >
+              {showArchive ? <ChevronDown size={18} style={{ color: brand.success }} /> : <ChevronRight size={18} style={{ color: brand.success }} />}
+              <Archive size={18} style={{ color: brand.success }} />
+              <span style={{ color: brand.white, fontSize: '15px', fontWeight: 700 }}>In Your Stack</span>
+              <span style={{
+                background: `${brand.success}20`,
+                color: brand.success,
+                padding: '2px 10px',
+                borderRadius: '12px',
+                fontSize: '12px',
+                fontWeight: 600,
+              }}>
+                {archivedResources.length}
+              </span>
+              <span style={{ color: brand.smoke, fontSize: '13px', marginLeft: 'auto' }}>
+                {showArchive ? 'Click to collapse' : 'Click to expand'}
+              </span>
+            </button>
+
+            {/* Archived Resources List */}
+            {showArchive && (
+              <div style={{ padding: '0 24px 24px 24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {archivedResources.map(resource => {
+                    const agent = AGENTS.find(a => a.id === resource.agentId);
+                    return (
+                      <div
+                        key={resource.id}
+                        style={{
+                          background: brand.graphite,
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '12px',
+                          padding: '16px 20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                        }}
+                      >
+                        {/* Category Icon */}
+                        <div style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          background: `${agent?.color || brand.smoke}15`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: agent?.color || brand.smoke,
+                          flexShrink: 0,
+                        }}>
+                          {CATEGORY_ICONS[resource.category]}
+                        </div>
+
+                        {/* Info */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ color: brand.white, fontSize: '14px', fontWeight: 600 }}>{resource.title}</span>
+                            <a
+                              href={resource.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: brand.amber, display: 'flex' }}
+                              onClick={e => e.stopPropagation()}
+                            >
+                              <ExternalLink size={14} />
+                            </a>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ color: agent?.color || brand.smoke, fontSize: '12px', fontWeight: 600 }}>
+                              {resource.agentName}
+                            </span>
+                            <span style={{ color: brand.smoke, fontSize: '11px' }}>•</span>
+                            <span style={{
+                              color: getTypeColor(resource.type),
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              textTransform: 'uppercase',
+                            }}>
+                              {resource.type.replace('-', ' ')}
+                            </span>
+                            {resource.pricing && (
+                              <>
+                                <span style={{ color: brand.smoke, fontSize: '11px' }}>•</span>
+                                <span style={{ color: brand.smoke, fontSize: '11px' }}>{resource.pricing}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                          <button
+                            onClick={() => unarchiveResource(resource.id)}
+                            title="Move back to suggestions"
+                            style={{
+                              background: 'transparent',
+                              border: `1px solid ${brand.border}`,
+                              borderRadius: '6px',
+                              padding: '6px 10px',
+                              cursor: 'pointer',
+                              color: brand.smoke,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = brand.amber; e.currentTarget.style.borderColor = brand.amber; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                          >
+                            <Undo2 size={12} /> Restore
+                          </button>
+                          <button
+                            onClick={() => deleteArchivedResource(resource.id)}
+                            title="Remove from archive"
+                            style={{
+                              background: 'transparent',
+                              border: `1px solid ${brand.border}`,
+                              borderRadius: '6px',
+                              padding: '6px',
+                              cursor: 'pointer',
+                              color: brand.smoke,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = brand.error; e.currentTarget.style.borderColor = brand.error; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Search & Filters */}
         <div style={{
