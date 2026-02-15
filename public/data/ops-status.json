@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T04:59:02.594Z",
+    "lastHeartbeat": "2026-02-15T05:04:02.586Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-15T04:59:02.593Z",
+        "timestamp": "2026-02-15T05:04:02.586Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-15T04:59:02.593Z",
+        "timestamp": "2026-02-15T05:04:02.586Z",
         "resolved": false
       },
       {
@@ -70,7 +70,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -149,7 +149,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T04:30:28.369Z",
       "role": "Creative Director",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T04:59:03.554Z",
+  "generatedAt": "2026-02-15T05:04:03.561Z",
   "version": 2
 }
