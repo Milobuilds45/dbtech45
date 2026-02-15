@@ -22,7 +22,9 @@
       "ratings": {
         "technical": 5,
         "business": 6,
-        "core": 7
+        "core": 7,
+        "autonomy": 6,
+        "awareness": 6
       },
       "skills": [
         { "name": "Agent Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -46,7 +48,9 @@
       "ratings": {
         "technical": 9,
         "business": 4,
-        "core": 7
+        "core": 7,
+        "autonomy": 7,
+        "awareness": 4
       },
       "ratingNotes": "Technical expert. Business: 'done but not deployed' issues - needs to verify delivery.",
       "skills": [
@@ -73,7 +77,9 @@
       "ratings": {
         "technical": 6,
         "business": 5,
-        "core": 8
+        "core": 8,
+        "autonomy": 7,
+        "awareness": 5
       },
       "skills": [
         { "name": "UI/UX Design", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -97,7 +103,9 @@
       "ratings": {
         "technical": 7,
         "business": 8,
-        "core": 8
+        "core": 8,
+        "autonomy": 8,
+        "awareness": 8
       },
       "skills": [
         { "name": "Market Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -121,7 +129,9 @@
       "ratings": {
         "technical": 5,
         "business": 5,
-        "core": 7
+        "core": 7,
+        "autonomy": 5,
+        "awareness": 8
       },
       "skills": [
         { "name": "System Monitoring", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -143,7 +153,9 @@
       "ratings": {
         "technical": 6,
         "business": 5,
-        "core": 7
+        "core": 7,
+        "autonomy": 6,
+        "awareness": 7
       },
       "skills": [
         { "name": "Social Media Strategy", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -165,7 +177,9 @@
       "ratings": {
         "technical": 4,
         "business": 8,
-        "core": 8
+        "core": 8,
+        "autonomy": 7,
+        "awareness": 5
       },
       "skills": [
         { "name": "Menu Engineering", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -188,7 +202,9 @@
       "ratings": {
         "technical": 4,
         "business": 6,
-        "core": 6
+        "core": 6,
+        "autonomy": 5,
+        "awareness": 5
       },
       "skills": [
         { "name": "Restaurant Marketing", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -210,7 +226,9 @@
       "ratings": {
         "technical": 4,
         "business": 3,
-        "core": 8
+        "core": 8,
+        "autonomy": 6,
+        "awareness": 4
       },
       "skills": [
         { "name": "Family Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },

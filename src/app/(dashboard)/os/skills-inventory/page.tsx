@@ -42,6 +42,8 @@ interface AgentConfig {
     technical: number;
     business: number;
     core: number;
+    autonomy: number;
+    awareness: number;
   };
   skills: AgentSkill[];
   notes: string;
@@ -281,6 +283,8 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
             { label: 'Technical', rating: agent.ratings.technical, color: '#3B82F6' },
             { label: 'Business', rating: agent.ratings.business, color: '#EF4444' },
             { label: 'Core', rating: agent.ratings.core, color: T.amber },
+            { label: 'Autonomy', rating: agent.ratings.autonomy, color: '#8B5CF6' },
+            { label: 'Awareness', rating: agent.ratings.awareness, color: '#06B6D4' },
           ].map(bar => (
             <div key={bar.label}>
               <span style={{ fontSize: 11, color: T.secondary }}>{bar.label}</span>
