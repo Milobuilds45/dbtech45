@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T18:24:03.064Z",
+    "lastHeartbeat": "2026-02-15T18:29:03.289Z",
     "totalCrons": 17,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -56,11 +56,11 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:03:48.479Z"
+      "lastSeen": "2026-02-15T18:27:42.996Z"
     },
     {
       "name": "Dwight",
@@ -105,17 +105,28 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T18:15:46.626Z"
+      "lastSeen": "2026-02-15T18:25:41.870Z"
     }
   ],
   "sessions": [
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T18:27:42.996Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
     {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T18:15:46.626Z",
+      "lastActivity": "2026-02-15T18:25:41.870Z",
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
@@ -141,17 +152,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 62
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:03:48.479Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
     },
     {
       "key": "agent:dax:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T18:24:04.017Z",
+  "generatedAt": "2026-02-15T18:29:04.237Z",
   "version": 2
 }
