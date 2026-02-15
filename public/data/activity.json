@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "b0062f51",
+      "author": "Milo",
+      "timestamp": "2026-02-15 10:07:36 -0500",
+      "message": "feat(picks): backfill all historical Bobby picks from MILO archives"
+    },
+    {
+      "type": "commit",
+      "id": "2e662f6e",
+      "author": "Milo",
+      "timestamp": "2026-02-15 10:04:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "fd2124e0",
       "author": "Milo",
       "timestamp": "2026-02-15 10:02:05 -0500",
@@ -365,25 +379,11 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "9a3991c3",
-      "author": "Milo",
-      "timestamp": "2026-02-15 06:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "736f12eb",
       "timestamp": "2026-02-15T11:00:11.282Z",
       "message": "Cron run: ok",
       "jobId": "736f12eb-6a10-4197-bbb0-8a10f0e8689a"
-    },
-    {
-      "type": "commit",
-      "id": "a299fcb9",
-      "author": "Milo",
-      "timestamp": "2026-02-15 05:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     },
     {
       "type": "cron_run",
@@ -414,5 +414,5 @@
       "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
     }
   ],
-  "generatedAt": "2026-02-15T15:04:03.772Z"
+  "generatedAt": "2026-02-15T15:09:04.227Z"
 }

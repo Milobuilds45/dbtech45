@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T15:04:02.628Z",
+    "lastHeartbeat": "2026-02-15T15:09:03.079Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >27 hours",
-        "timestamp": "2026-02-15T15:04:02.627Z",
+        "timestamp": "2026-02-15T15:09:03.079Z",
         "resolved": false
       },
       {
@@ -40,7 +40,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:02:38.170Z"
+      "lastSeen": "2026-02-15T15:08:31.247Z"
     },
     {
       "name": "Anders",
@@ -58,7 +58,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:03:18.351Z"
+      "lastSeen": "2026-02-15T15:07:50.401Z"
     },
     {
       "name": "Paula",
@@ -117,6 +117,28 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T15:08:31.247Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T15:07:50.401Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 62
+    },
+    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
@@ -126,28 +148,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:03:18.351Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 62
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:02:38.170Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:dax:main",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T15:04:03.581Z",
+  "generatedAt": "2026-02-15T15:09:04.007Z",
   "version": 2
 }
