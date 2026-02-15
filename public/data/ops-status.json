@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T21:04:03.333Z",
+    "lastHeartbeat": "2026-02-15T21:09:03.328Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -140,7 +140,7 @@
       "lastActivity": "2026-02-15T20:39:04.145Z",
       "role": "Full Stack Architect",
       "cost": 0,
-      "sessionCount": 19
+      "sessionCount": 18
     },
     {
       "key": "agent:wendy:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T21:04:04.299Z",
+  "generatedAt": "2026-02-15T21:09:04.295Z",
   "version": 2
 }
