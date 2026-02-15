@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T21:09:03.328Z",
+    "lastHeartbeat": "2026-02-15T21:14:03.332Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -38,7 +38,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -135,7 +135,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T20:39:04.145Z",
       "role": "Full Stack Architect",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T21:09:04.295Z",
+  "generatedAt": "2026-02-15T21:14:04.293Z",
   "version": 2
 }
