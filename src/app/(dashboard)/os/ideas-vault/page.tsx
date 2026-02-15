@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, Suspense } from "react";
+import { useState, useEffect, useCallback, useRef, Suspense } from "react";
 import { brand, styles } from "@/lib/brand";
 import { useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
@@ -14,11 +14,15 @@ interface Idea {
   created_at: string;
 }
 
+interface ChatMessage {
+  role: 'user' | 'assistant';
+  content: string;
+}
+
 const STAGES = [
   { key: 'spark', label: 'Spark', color: '#10B981' },
   { key: 'shaping', label: 'Beginning Stages', color: '#A855F7' },
   { key: 'building', label: 'Building', color: '#F59E0B' },
-  { key: 'shipped', label: 'Shipped', color: '#3B82F6' },
 ] as const;
 
 function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
@@ -39,6 +43,14 @@ function IdeasVault() {
   const [showArchive, setShowArchive] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [mounted, setMounted] = useState(false);
+
+  // Expand modal state
+  const [expandIdea, setExpandIdea] = useState<Idea | null>(null);
+  const [expandChat, setExpandChat] = useState<ChatMessage[]>([]);
+  const [expandInput, setExpandInput] = useState('');
+  const [expandLoading, setExpandLoading] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const expandInputRef = useRef<HTMLTextAreaElement>(null);
 
   // Prevent SSR flash - only render after client mount
   useEffect(() => { setMounted(true); }, []);
@@ -117,6 +129,104 @@ function IdeasVault() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams, loaded]);
+
+  // Scroll chat to bottom
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [expandChat]);
+
+  // Focus input when modal opens
+  useEffect(() => {
+    if (expandIdea && !expandLoading) {
+      setTimeout(() => expandInputRef.current?.focus(), 100);
+    }
+  }, [expandIdea, expandLoading]);
+
+  // Open expand modal and kick off initial analysis
+  const openExpand = async (idea: Idea) => {
+    setExpandIdea(idea);
+    setExpandChat([]);
+    setExpandInput('');
+    setExpandLoading(true);
+
+    try {
+      const res = await fetch('/api/ideas/expand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: idea.title,
+          description: idea.description,
+          history: [],
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setExpandChat([{ role: 'assistant', content: data.response }]);
+      } else {
+        setExpandChat([{ role: 'assistant', content: 'Failed to analyze idea. Try again.' }]);
+      }
+    } catch {
+      setExpandChat([{ role: 'assistant', content: 'Connection error. Try again.' }]);
+    }
+    setExpandLoading(false);
+  };
+
+  // Send a follow-up message in the expand chat
+  const sendExpandMessage = async () => {
+    if (!expandInput.trim() || !expandIdea || expandLoading) return;
+
+    const userMsg = expandInput.trim();
+    const newHistory = [...expandChat, { role: 'user' as const, content: userMsg }];
+    setExpandChat(newHistory);
+    setExpandInput('');
+    setExpandLoading(true);
+
+    try {
+      const res = await fetch('/api/ideas/expand', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: expandIdea.title,
+          description: expandIdea.description,
+          history: newHistory,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setExpandChat([...newHistory, { role: 'assistant', content: data.response }]);
+      } else {
+        setExpandChat([...newHistory, { role: 'assistant', content: 'Error getting response. Try again.' }]);
+      }
+    } catch {
+      setExpandChat([...newHistory, { role: 'assistant', content: 'Connection error. Try again.' }]);
+    }
+    setExpandLoading(false);
+  };
+
+  // Close expand modal
+  const closeExpand = () => {
+    setExpandIdea(null);
+    setExpandChat([]);
+    setExpandInput('');
+    setExpandLoading(false);
+  };
+
+  // Save expanded notes back to the idea description
+  const saveExpandNotes = () => {
+    if (!expandIdea) return;
+    // Collect all assistant messages as expanded notes
+    const notes = expandChat
+      .filter(m => m.role === 'assistant')
+      .map(m => m.content)
+      .join('\n\n---\n\n');
+    const updatedDesc = expandIdea.description
+      ? `${expandIdea.description}\n\n--- Expanded Notes ---\n\n${notes}`
+      : `--- Expanded Notes ---\n\n${notes}`;
+
+    setIdeas(prev => prev.map(i => i.id === expandIdea.id ? { ...i, description: updatedDesc } : i));
+    updateIdeaInDB(expandIdea.id, { description: updatedDesc } as Partial<Idea>);
+    closeExpand();
+  };
 
   const addIdea = () => {
     if (!newIdea.trim()) return;
@@ -197,6 +307,12 @@ function IdeasVault() {
         {/* Stage Legend */}
         <div style={{ display: 'flex', gap: '12px', marginBottom: '20px', flexWrap: 'wrap', alignItems: 'center' }}>
           <span style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Flow:</span>
+          {/* Expand step */}
+          <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: brand.amber }} />
+            <span style={{ color: brand.silver, fontSize: '12px' }}>Expand</span>
+            <span style={{ color: brand.smoke, fontSize: '12px' }}>&rarr;</span>
+          </span>
           {STAGES.map((s, i) => (
             <span key={s.key} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span style={{ display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', background: s.color }} />
@@ -233,8 +349,17 @@ function IdeasVault() {
                   </p>
                 </div>
                 <div style={{ borderTop: `1px solid ${brand.border}`, paddingTop: '0.75rem' }}>
-                  {/* Status Buttons */}
+                  {/* Status Buttons with Expand */}
                   <div style={{ display: 'flex', gap: '4px', marginBottom: '8px', flexWrap: 'wrap' }}>
+                    <button onClick={() => openExpand(idea)}
+                      style={{
+                        padding: '3px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
+                        cursor: 'pointer',
+                        border: `1px solid ${brand.amber}`,
+                        background: 'transparent',
+                        color: brand.amber,
+                        transition: 'all 0.15s',
+                      }}>Expand</button>
                     {STAGES.map(s => (
                       <button key={s.key} onClick={() => updateStatus(idea.id, s.key)}
                         style={{
@@ -313,6 +438,191 @@ function IdeasVault() {
           <a href="/os" style={styles.backLink}>Back to Mission Control</a>
         </div>
       </div>
+
+      {/* Expand Modal Overlay */}
+      {expandIdea && (
+        <div
+          onClick={(e) => { if (e.target === e.currentTarget) closeExpand(); }}
+          style={{
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.85)', zIndex: 1000,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            padding: '1rem',
+          }}>
+          <div style={{
+            background: brand.carbon, border: `1px solid ${brand.border}`,
+            borderRadius: '16px', width: '100%', maxWidth: '700px',
+            maxHeight: '85vh', display: 'flex', flexDirection: 'column',
+            overflow: 'hidden',
+          }}>
+            {/* Modal Header */}
+            <div style={{
+              padding: '1.25rem 1.5rem', borderBottom: `1px solid ${brand.border}`,
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              flexShrink: 0,
+            }}>
+              <div>
+                <div style={{ color: brand.amber, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '4px' }}>
+                  Expanding Idea
+                </div>
+                <h3 style={{ color: brand.white, margin: 0, fontSize: '18px', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>
+                  {expandIdea.title}
+                </h3>
+                {expandIdea.description && (
+                  <p style={{ color: brand.smoke, fontSize: '13px', margin: '4px 0 0' }}>
+                    {expandIdea.description.length > 120 ? expandIdea.description.slice(0, 120) + '...' : expandIdea.description}
+                  </p>
+                )}
+              </div>
+              <button onClick={closeExpand} style={{
+                background: 'none', border: 'none', color: brand.smoke,
+                fontSize: '24px', cursor: 'pointer', padding: '4px 8px',
+                lineHeight: 1,
+              }}>x</button>
+            </div>
+
+            {/* Chat Messages */}
+            <div style={{
+              flex: 1, overflowY: 'auto', padding: '1.25rem 1.5rem',
+              display: 'flex', flexDirection: 'column', gap: '1rem',
+            }}>
+              {expandChat.length === 0 && expandLoading && (
+                <div style={{
+                  color: brand.smoke, fontSize: '14px', fontFamily: "'JetBrains Mono', monospace",
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                }}>
+                  <span style={{
+                    display: 'inline-block', width: '8px', height: '8px',
+                    borderRadius: '50%', background: brand.amber,
+                    animation: 'pulse 1.5s ease-in-out infinite',
+                  }} />
+                  Analyzing idea...
+                </div>
+              )}
+              {expandChat.map((msg, i) => (
+                <div key={i} style={{
+                  alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                  maxWidth: '90%',
+                }}>
+                  <div style={{
+                    background: msg.role === 'user' ? brand.graphite : 'rgba(245, 158, 11, 0.08)',
+                    border: `1px solid ${msg.role === 'user' ? brand.border : 'rgba(245, 158, 11, 0.2)'}`,
+                    borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+                    padding: '0.75rem 1rem',
+                  }}>
+                    <div
+                      style={{
+                        color: brand.silver, fontSize: '14px', lineHeight: '1.6',
+                        whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                      }}
+                      dangerouslySetInnerHTML={{
+                        __html: msg.content
+                          .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#fff">$1</strong>')
+                          .replace(/\n- /g, '\n\u2022 ')
+                          .replace(/\n(\d+)\. /g, '\n$1. ')
+                          .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;font-size:13px;font-family:JetBrains Mono,monospace">$1</code>')
+                          .replace(/^### (.+)$/gm, '<strong style="color:#F59E0B;font-size:15px">$1</strong>')
+                          .replace(/^## (.+)$/gm, '<strong style="color:#F59E0B;font-size:16px">$1</strong>')
+                      }}
+                    />
+                  </div>
+                  <div style={{
+                    fontSize: '10px', color: brand.smoke, marginTop: '4px',
+                    textAlign: msg.role === 'user' ? 'right' : 'left',
+                  }}>
+                    {msg.role === 'user' ? 'You' : 'AI'}
+                  </div>
+                </div>
+              ))}
+              {expandLoading && expandChat.length > 0 && (
+                <div style={{
+                  color: brand.smoke, fontSize: '13px', fontFamily: "'JetBrains Mono', monospace",
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  alignSelf: 'flex-start',
+                }}>
+                  <span style={{
+                    display: 'inline-block', width: '6px', height: '6px',
+                    borderRadius: '50%', background: brand.amber,
+                    animation: 'pulse 1.5s ease-in-out infinite',
+                  }} />
+                  Thinking...
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </div>
+
+            {/* Input Area */}
+            <div style={{
+              padding: '1rem 1.5rem', borderTop: `1px solid ${brand.border}`,
+              display: 'flex', gap: '8px', alignItems: 'flex-end',
+              flexShrink: 0,
+            }}>
+              <textarea
+                ref={expandInputRef}
+                value={expandInput}
+                onChange={(e) => setExpandInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendExpandMessage();
+                  }
+                }}
+                placeholder="Answer questions or ask for more detail..."
+                disabled={expandLoading}
+                style={{
+                  ...styles.input,
+                  flex: 1, height: '44px', resize: 'none',
+                  opacity: expandLoading ? 0.5 : 1,
+                }}
+              />
+              <button
+                onClick={sendExpandMessage}
+                disabled={expandLoading || !expandInput.trim()}
+                style={{
+                  ...styles.button,
+                  padding: '0.65rem 1.25rem',
+                  opacity: expandLoading || !expandInput.trim() ? 0.4 : 1,
+                  fontSize: '13px',
+                }}>
+                Send
+              </button>
+            </div>
+
+            {/* Action Bar */}
+            <div style={{
+              padding: '0.75rem 1.5rem', borderTop: `1px solid ${brand.border}`,
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              flexShrink: 0,
+            }}>
+              <span style={{ color: brand.smoke, fontSize: '11px' }}>
+                {expandChat.filter(m => m.role === 'user').length} exchanges
+              </span>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button onClick={closeExpand} style={{
+                  background: 'none', border: `1px solid ${brand.border}`,
+                  borderRadius: '6px', padding: '6px 16px',
+                  color: brand.smoke, cursor: 'pointer', fontSize: '12px',
+                }}>Close</button>
+                <button onClick={saveExpandNotes} disabled={expandChat.length === 0} style={{
+                  background: expandChat.length === 0 ? brand.graphite : brand.amber,
+                  border: 'none', borderRadius: '6px', padding: '6px 16px',
+                  color: expandChat.length === 0 ? brand.smoke : brand.void,
+                  cursor: expandChat.length === 0 ? 'default' : 'pointer',
+                  fontSize: '12px', fontWeight: 600,
+                }}>Save Notes to Idea</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Pulse animation for loading indicator */}
+      <style>{`
+        @keyframes pulse {
+          0%, 100% { opacity: 0.3; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.2); }
+        }
+      `}</style>
     </div>
   );
 }
