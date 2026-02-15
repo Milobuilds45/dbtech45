@@ -4,16 +4,23 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T00:59:03.422Z",
+    "lastHeartbeat": "2026-02-15T01:04:06.143Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": [
+      {
+        "id": "offline-remy",
+        "type": "warning",
+        "message": "Remy agent offline for >13 hours",
+        "timestamp": "2026-02-15T01:04:06.142Z",
+        "resolved": false
+      },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-15T00:59:03.421Z",
+        "timestamp": "2026-02-15T01:04:06.142Z",
         "resolved": false
       }
     ]
@@ -26,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:58:51.572Z"
+      "lastSeen": "2026-02-15T01:03:32.867Z"
     },
     {
       "name": "Anders",
@@ -35,16 +42,16 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:44:32.893Z"
+      "lastSeen": "2026-02-15T01:04:04.263Z"
     },
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T14:09:25.214Z"
+      "lastSeen": "2026-02-15T00:59:59.156Z"
     },
     {
       "name": "Paula",
@@ -53,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:51:10.826Z"
+      "lastSeen": "2026-02-15T01:03:59.308Z"
     },
     {
       "name": "Dwight",
@@ -62,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:57:35.056Z"
+      "lastSeen": "2026-02-15T01:02:28.658Z"
     },
     {
       "name": "Tony",
@@ -103,12 +110,34 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T01:04:04.263Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T01:03:59.308Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:58:51.572Z",
+      "lastActivity": "2026-02-15T01:03:32.867Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
@@ -119,32 +148,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:57:35.056Z",
+      "lastActivity": "2026-02-15T01:02:28.658Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 56
     },
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:51:10.826Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:44:32.893Z",
-      "role": "Full Stack Architect",
+      "lastActivity": "2026-02-15T00:59:59.156Z",
+      "role": "Trading Advisor",
       "cost": 0,
-      "sessionCount": 18
+      "sessionCount": 61
     },
     {
       "key": "agent:dax:main",
@@ -156,17 +174,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 21
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T14:09:25.214Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 61
     },
     {
       "key": "agent:tony:main",
@@ -459,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T00:59:04.584Z",
+  "generatedAt": "2026-02-15T01:04:08.250Z",
   "version": 2
 }
