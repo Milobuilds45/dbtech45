@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T02:39:03.503Z",
+    "lastHeartbeat": "2026-02-15T02:44:03.732Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >13 hours",
-        "timestamp": "2026-02-15T02:39:03.503Z",
+        "timestamp": "2026-02-15T02:44:03.731Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-15T02:39:03.503Z",
+        "timestamp": "2026-02-15T02:44:03.731Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >15 hours",
-        "timestamp": "2026-02-15T02:39:03.503Z",
+        "timestamp": "2026-02-15T02:44:03.731Z",
         "resolved": false
       }
     ]
@@ -67,7 +67,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T02:24:00.483Z"
+      "lastSeen": "2026-02-15T02:44:02.552Z"
     },
     {
       "name": "Dwight",
@@ -117,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T02:44:02.552Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -137,17 +148,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 56
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T02:24:00.483Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
     },
     {
       "key": "agent:anders:main",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T02:39:04.650Z",
+  "generatedAt": "2026-02-15T02:44:04.952Z",
   "version": 2
 }
