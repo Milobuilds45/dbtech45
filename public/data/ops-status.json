@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T12:04:03.215Z",
+    "lastHeartbeat": "2026-02-15T12:09:03.200Z",
     "totalCrons": 17,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >24 hours",
-        "timestamp": "2026-02-15T12:04:03.215Z",
+        "timestamp": "2026-02-15T12:09:03.200Z",
         "resolved": false
       },
       {
@@ -36,11 +36,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T11:08:14.867Z"
+      "lastSeen": "2026-02-15T12:08:16.895Z"
     },
     {
       "name": "Anders",
@@ -117,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T12:08:16.895Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
@@ -137,17 +148,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T11:08:14.867Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:tony:main",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T12:04:04.171Z",
+  "generatedAt": "2026-02-15T12:09:04.155Z",
   "version": 2
 }
