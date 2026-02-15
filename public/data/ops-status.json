@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T05:29:02.685Z",
+    "lastHeartbeat": "2026-02-15T05:34:02.692Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >16 hours",
-        "timestamp": "2026-02-15T05:29:02.685Z",
+        "timestamp": "2026-02-15T05:34:02.691Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-15T05:29:02.685Z",
+        "message": "Wendy agent offline for >18 hours",
+        "timestamp": "2026-02-15T05:34:02.691Z",
         "resolved": false
       },
       {
@@ -143,7 +143,7 @@
       "lastActivity": "2026-02-15T04:42:59.954Z",
       "role": "Full Stack Architect",
       "cost": 0,
-      "sessionCount": 18
+      "sessionCount": 17
     },
     {
       "key": "agent:paula:main",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T05:29:03.693Z",
+  "generatedAt": "2026-02-15T05:34:03.698Z",
   "version": 2
 }
