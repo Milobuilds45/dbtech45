@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T22:29:03.123Z",
+    "lastHeartbeat": "2026-02-15T22:34:04.566Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T22:27:35.657Z"
+      "lastSeen": "2026-02-15T22:34:02.211Z"
     },
     {
       "name": "Anders",
@@ -83,7 +83,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -115,7 +115,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T22:27:35.657Z",
+      "lastActivity": "2026-02-15T22:34:02.211Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
@@ -124,7 +124,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T22:03:53.385Z",
       "role": "Social Strategist",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T22:29:04.152Z",
+  "generatedAt": "2026-02-15T22:34:05.572Z",
   "version": 2
 }
