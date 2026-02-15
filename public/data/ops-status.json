@@ -4,23 +4,23 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T06:24:02.933Z",
+    "lastHeartbeat": "2026-02-15T06:29:02.781Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >17 hours",
-        "timestamp": "2026-02-15T06:24:02.933Z",
+        "timestamp": "2026-02-15T06:29:02.780Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >18 hours",
-        "timestamp": "2026-02-15T06:24:02.933Z",
+        "timestamp": "2026-02-15T06:29:02.780Z",
         "resolved": false
       },
       {
@@ -79,7 +79,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -182,7 +182,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T02:24:35.107Z",
       "role": "Weather & News",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T06:24:03.966Z",
+  "generatedAt": "2026-02-15T06:29:03.802Z",
   "version": 2
 }
