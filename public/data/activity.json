@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "caae14be",
+      "author": "Milo",
+      "timestamp": "2026-02-14 21:23:50 -0500",
+      "message": "feat: Agent Ideas now uses Supabase + dynamic agent reasoning with multiple variations"
+    },
+    {
+      "type": "commit",
+      "id": "c50d302a",
+      "author": "Milo",
+      "timestamp": "2026-02-14 21:19:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "02997c63",
       "author": "Milo",
       "timestamp": "2026-02-14 21:14:04 -0500",
@@ -337,20 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "c30262e8",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:37:11 -0500",
-      "message": "feat: add In Plain English section to Agent Ideas cards"
-    },
-    {
-      "type": "commit",
-      "id": "aff2b736",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:34:07 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +435,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T02:19:04.729Z"
+  "generatedAt": "2026-02-15T02:24:04.794Z"
 }
