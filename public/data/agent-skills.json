@@ -1,16 +1,16 @@
 {
-  "lastUpdated": "2026-02-14T19:46:00Z",
+  "lastUpdated": "2026-02-14T20:08:00Z",
   "ratingScale": {
     "1": "Novice",
-    "2": "Beginner", 
+    "2": "Novice", 
     "3": "Learning",
-    "4": "Developing",
+    "4": "Learning",
     "5": "Competent",
-    "6": "Proficient",
-    "7": "Advanced",
-    "8": "Expert",
-    "9": "Master",
-    "10": "World-Class"
+    "6": "Competent",
+    "7": "Strong",
+    "8": "Strong",
+    "9": "Expert",
+    "10": "Expert"
   },
   "agents": {
     "milo": {
@@ -20,9 +20,9 @@
       "icon": "⚡",
       "description": "Orchestrates agent collaboration, manages priorities, coordinates sprints, and maintains system memory",
       "ratings": {
-        "technical": 6,
-        "business": 5,
-        "core": 8
+        "technical": 5,
+        "business": 6,
+        "core": 7
       },
       "skills": [
         { "name": "Agent Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
