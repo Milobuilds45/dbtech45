@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T12:29:03.246Z",
+    "lastHeartbeat": "2026-02-15T12:34:03.280Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >24 hours",
-        "timestamp": "2026-02-15T12:29:03.246Z",
+        "message": "Wendy agent offline for >25 hours",
+        "timestamp": "2026-02-15T12:34:03.279Z",
         "resolved": false
       },
       {
@@ -99,11 +99,11 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:41:41.223Z"
+      "lastSeen": "2026-02-15T12:30:12.664Z"
     },
     {
       "name": "Wendy",
@@ -116,6 +116,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T12:30:12.664Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 845
+    },
     {
       "key": "agent:dwight:main",
       "agent": "Dwight",
@@ -183,17 +194,6 @@
       "sessionCount": 61
     },
     {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:41:41.223Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 844
-    },
-    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
@@ -239,10 +239,10 @@
       "humanSchedule": "30 7 * * *",
       "agent": "Remy",
       "description": "DAILY MARKETING OPPORTUNITIES BRIEF. You are Remy (Restaurant Marketing). Read your SOUL.md and workspace memory files f",
-      "lastRun": "2026-02-14T12:30:00.008Z",
+      "lastRun": "2026-02-15T12:30:00.007Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-15T12:30:00.000Z",
-      "duration": "12s",
+      "nextRun": "2026-02-16T12:30:00.000Z",
+      "duration": "13s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T12:29:04.200Z",
+  "generatedAt": "2026-02-15T12:34:04.212Z",
   "version": 2
 }
