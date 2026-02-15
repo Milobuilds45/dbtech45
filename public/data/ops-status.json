@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T16:04:02.602Z",
+    "lastHeartbeat": "2026-02-15T16:09:02.689Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -29,11 +29,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:08:31.247Z"
+      "lastSeen": "2026-02-15T16:07:58.621Z"
     },
     {
       "name": "Anders",
@@ -110,6 +110,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T16:07:58.621Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
@@ -119,17 +130,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:08:31.247Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:bobby:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T16:04:03.553Z",
+  "generatedAt": "2026-02-15T16:09:03.625Z",
   "version": 2
 }
