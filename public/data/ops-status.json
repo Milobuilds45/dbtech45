@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T00:44:06.564Z",
+    "lastHeartbeat": "2026-02-15T00:49:03.403Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-15T00:44:06.564Z",
+        "timestamp": "2026-02-15T00:49:03.402Z",
         "resolved": false
       }
     ]
@@ -26,7 +26,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:43:52.055Z"
+      "lastSeen": "2026-02-15T00:46:28.197Z"
     },
     {
       "name": "Anders",
@@ -35,7 +35,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:44:06.134Z"
+      "lastSeen": "2026-02-15T00:44:32.893Z"
     },
     {
       "name": "Bobby",
@@ -49,11 +49,11 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:30:29.727Z"
+      "lastSeen": "2026-02-15T00:48:55.903Z"
     },
     {
       "name": "Dwight",
@@ -103,15 +103,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:44:08.274Z",
-      "role": "Full Stack Architect",
+      "lastActivity": "2026-02-15T00:48:55.903Z",
+      "role": "Creative Director",
       "cost": 0,
-      "sessionCount": 18
+      "sessionCount": 19
     },
     {
       "key": "agent:milo:main",
@@ -119,10 +119,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:43:52.055Z",
+      "lastActivity": "2026-02-15T00:46:28.197Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T00:44:32.893Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 18
     },
     {
       "key": "agent:dax:main",
@@ -145,17 +156,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 56
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:30:29.727Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
     },
     {
       "key": "agent:bobby:main",
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T00:44:10.335Z",
+  "generatedAt": "2026-02-15T00:49:04.546Z",
   "version": 2
 }

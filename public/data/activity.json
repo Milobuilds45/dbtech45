@@ -2,6 +2,34 @@
   "activity": [
     {
       "type": "commit",
+      "id": "9c5a24ed",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:48:46 -0500",
+      "message": "feat: Agent ratings now 1-10 scale"
+    },
+    {
+      "type": "commit",
+      "id": "e33fb0c3",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:47:32 -0500",
+      "message": "feat: Agent skills now data-driven from agent-configs.json - ratings 1-6 scale, editable, auto-refresh"
+    },
+    {
+      "type": "commit",
+      "id": "7cba727d",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:44:17 -0500",
+      "message": "feat: rewire overnight planning from mock data to real JSON persistence"
+    },
+    {
+      "type": "commit",
+      "id": "16003b73",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:44:10 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "f8f09574",
       "author": "Milo",
       "timestamp": "2026-02-14 19:42:16 -0500",
@@ -323,34 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "da4c3697",
-      "author": "Milo",
-      "timestamp": "2026-02-14 16:44:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "70cbf6a8",
-      "author": "Milo",
-      "timestamp": "2026-02-14 16:39:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "c22946b8",
-      "author": "Milo",
-      "timestamp": "2026-02-14 16:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "0af48108",
-      "author": "Milo",
-      "timestamp": "2026-02-14 16:29:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-15T00:44:10.629Z"
+  "generatedAt": "2026-02-15T00:49:04.650Z"
 }
