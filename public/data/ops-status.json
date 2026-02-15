@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T10:49:03.087Z",
+    "lastHeartbeat": "2026-02-15T10:54:03.125Z",
     "totalCrons": 17,
     "activeSessions": 1,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >21 hours",
-        "timestamp": "2026-02-15T10:49:03.087Z",
+        "timestamp": "2026-02-15T10:54:03.124Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >23 hours",
-        "timestamp": "2026-02-15T10:49:03.087Z",
+        "timestamp": "2026-02-15T10:54:03.124Z",
         "resolved": false
       },
       {
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T10:49:04.034Z",
+  "generatedAt": "2026-02-15T10:54:04.084Z",
   "version": 2
 }
