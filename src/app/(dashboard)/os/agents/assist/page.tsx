@@ -1,8 +1,8 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw, Archive, ChevronDown, ChevronRight, Undo2 } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw, Archive, ChevronDown, ChevronRight, Undo2, AlertCircle, Loader2, Check } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -10,20 +10,20 @@ interface AgentResource {
   agentName: string;
   title: string;
   description: string;
-  plainEnglish: string; // Simple explanation anyone can understand
+  plainEnglish: string;
   url: string;
   category: 'api' | 'tool' | 'library' | 'service' | 'dataset' | 'framework' | 'reference' | 'other';
   type: 'open-source' | 'free-tier' | 'documentation' | 'tutorial' | 'reference';
   tags: string[];
   useCase: string;
   rating: number;
-  usefulFor: string[]; // Which agents could benefit
+  usefulFor: string[];
   githubStars?: number;
   lastUpdated?: string;
   pricing?: string;
   createdAt: string;
   addedBy: string;
-  skillCategory?: string; // Which skill category this was generated for (if skill-focused)
+  skillCategory?: string;
 }
 
 const AGENTS = [
@@ -49,7 +49,6 @@ const CATEGORY_ICONS = {
   other: <Plus size={16} />,
 };
 
-// Mock data - replace with API calls
 const mockResources: AgentResource[] = [
   {
     id: '1',
@@ -202,6 +201,95 @@ const BUDGET_OPTIONS: { value: BudgetTier; label: string; description: string }[
   { value: 'any', label: 'Any Price', description: 'Show me the best, price no object' },
 ];
 
+// ──────────────────────────────────────────
+// Toast notification component
+// ──────────────────────────────────────────
+interface ToastMessage {
+  id: number;
+  text: string;
+  type: 'success' | 'error' | 'info';
+}
+
+function Toast({ message, onDismiss }: { message: ToastMessage; onDismiss: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onDismiss, 4000);
+    return () => clearTimeout(timer);
+  }, [onDismiss]);
+
+  const bgColor = message.type === 'success' ? '#22C55E' : message.type === 'error' ? '#EF4444' : '#3B82F6';
+  const Icon = message.type === 'success' ? Check : message.type === 'error' ? AlertCircle : CheckCircle;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        background: '#1A1A1A',
+        border: `1px solid ${bgColor}50`,
+        borderLeft: `3px solid ${bgColor}`,
+        borderRadius: '10px',
+        padding: '12px 16px',
+        color: '#E5E5E5',
+        fontSize: '13px',
+        fontWeight: 500,
+        boxShadow: `0 8px 30px rgba(0,0,0,0.4), 0 0 15px ${bgColor}15`,
+        animation: 'slideInRight 0.3s ease-out',
+        maxWidth: '380px',
+      }}
+    >
+      <Icon size={16} style={{ color: bgColor, flexShrink: 0 }} />
+      <span style={{ flex: 1 }}>{message.text}</span>
+      <button
+        onClick={onDismiss}
+        style={{
+          background: 'transparent',
+          border: 'none',
+          color: '#888',
+          cursor: 'pointer',
+          padding: '2px',
+          display: 'flex',
+          flexShrink: 0,
+        }}
+      >
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+function ToastContainer({ messages, onDismiss }: { messages: ToastMessage[]; onDismiss: (id: number) => void }) {
+  if (messages.length === 0) return null;
+  return (
+    <>
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `}</style>
+      <div
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
+        {messages.map((msg) => (
+          <Toast key={msg.id} message={msg} onDismiss={() => onDismiss(msg.id)} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ──────────────────────────────────────────
+// Main component
+// ──────────────────────────────────────────
 export default function AgentAssist() {
   const [resources, setResources] = useState<AgentResource[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -219,6 +307,21 @@ export default function AgentAssist() {
   const [archivedResources, setArchivedResources] = useState<AgentResource[]>([]);
   const [showArchive, setShowArchive] = useState(false);
   const [dbReady, setDbReady] = useState(false);
+  const [dbError, setDbError] = useState<string | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // Toast state
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const toastIdRef = { current: 0 };
+
+  const addToast = useCallback((text: string, type: 'success' | 'error' | 'info' = 'success') => {
+    const id = ++toastIdRef.current;
+    setToasts((prev) => [...prev.slice(-4), { id, text, type }]);
+  }, []);
+
+  const dismissToast = useCallback((id: number) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
 
   // Load agent skills data
   useEffect(() => {
@@ -289,38 +392,69 @@ export default function AgentAssist() {
     status,
   });
 
-  // Load from Supabase, seed mock data if empty
+  // Load from Supabase, seed mock data only if table is truly empty
   useEffect(() => {
     const loadFromDb = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('agent_resources')
-          .select('*')
-          .order('created_at', { ascending: false });
+      setIsInitialLoad(true);
+      setDbError(null);
 
-        if (error) {
-          console.error('Supabase load error:', error);
-          // Fallback to mock data
+      try {
+        // First, check if Supabase is actually reachable by doing a count query
+        const { count, error: countError } = await supabase
+          .from('agent_resources')
+          .select('*', { count: 'exact', head: true });
+
+        if (countError) {
+          console.error('[AgentAssist] Supabase connection error:', countError.message, countError.details);
+          setDbError(`Database connection failed: ${countError.message}`);
           setResources(mockResources);
           setDbReady(true);
+          setIsInitialLoad(false);
           return;
         }
 
-        if (!data || data.length === 0) {
-          // First load - seed with mock data to Supabase
+        // If the table is truly empty (count === 0), seed once
+        if (count === 0) {
+          console.log('[AgentAssist] Empty table — seeding mock data');
           const rows = mockResources.map(r => resourceToDb(r, 'active'));
-          await supabase.from('agent_resources').upsert(rows);
+          const { error: seedError } = await supabase.from('agent_resources').upsert(rows);
+          if (seedError) {
+            console.error('[AgentAssist] Seed failed:', seedError.message);
+            setDbError(`Failed to seed initial data: ${seedError.message}`);
+          }
           setResources(mockResources);
+          setArchivedResources([]);
         } else {
-          const active = data.filter((r: Record<string, unknown>) => r.status === 'active').map(dbToResource);
-          const archived = data.filter((r: Record<string, unknown>) => r.status === 'archived').map(dbToResource);
+          // Load all rows
+          const { data, error: loadError } = await supabase
+            .from('agent_resources')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (loadError) {
+            console.error('[AgentAssist] Load error:', loadError.message);
+            setDbError(`Failed to load resources: ${loadError.message}`);
+            setResources(mockResources);
+            setDbReady(true);
+            setIsInitialLoad(false);
+            return;
+          }
+
+          const rows = data || [];
+          const active = rows.filter((r: Record<string, unknown>) => r.status === 'active').map(dbToResource);
+          const archived = rows.filter((r: Record<string, unknown>) => r.status === 'archived').map(dbToResource);
           setResources(active);
           setArchivedResources(archived);
+          console.log(`[AgentAssist] Loaded ${active.length} active, ${archived.length} archived from Supabase`);
         }
-      } catch {
+      } catch (err: any) {
+        console.error('[AgentAssist] Unexpected error during load:', err);
+        setDbError(`Unexpected error: ${err?.message || 'Unknown'}`);
         setResources(mockResources);
       }
+
       setDbReady(true);
+      setIsInitialLoad(false);
     };
     loadFromDb();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -359,10 +493,16 @@ export default function AgentAssist() {
       setResources(prev => [...newResources, ...prev]);
       setIsLoading(false);
       
-      // Persist to Supabase
+      // Persist to Supabase with error handling
       if (newResources.length > 0) {
         const rows = newResources.map(r => resourceToDb(r, 'active'));
-        supabase.from('agent_resources').upsert(rows).then(() => {});
+        const { error } = await supabase.from('agent_resources').upsert(rows);
+        if (error) {
+          console.error('[AgentAssist] Failed to persist generated resources:', error.message);
+          addToast('Generated resources but failed to save to database — they may not persist', 'error');
+        } else {
+          addToast(`Generated ${newResources.length} new resource${newResources.length > 1 ? 's' : ''}`, 'success');
+        }
       }
       
       if (newResources.length === 1) {
@@ -370,8 +510,9 @@ export default function AgentAssist() {
       } else if (newResources.length > 1) {
         showNotification(`Generated ${newResources.length} new resource recommendations!`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to generate resource:', error);
+      addToast('Failed to generate resources — try again', 'error');
       setIsLoading(false);
     }
   };
@@ -410,62 +551,101 @@ export default function AgentAssist() {
       setResources(prev => [...newResources, ...prev]);
       setIsSkillLoading(false);
       
-      // Persist to Supabase
+      // Persist to Supabase with error handling
       if (newResources.length > 0) {
         const rows = newResources.map(r => resourceToDb(r, 'active'));
-        supabase.from('agent_resources').upsert(rows).then(() => {});
+        const { error } = await supabase.from('agent_resources').upsert(rows);
+        if (error) {
+          console.error('[AgentAssist] Failed to persist skill resources:', error.message);
+          addToast('Generated but failed to save — may not persist across devices', 'error');
+        } else {
+          addToast(`Generated ${newResources.length} ${skillDevCategory} improvement${newResources.length > 1 ? 's' : ''}`, 'success');
+        }
       }
       
       if (newResources.length > 0) {
-        showNotification(`Generated ${newResources.length} ${skillDevCategory} improvement suggestions for ${agentData?.name}`);
+        showNotification(`Generated ${newResources.length} ${skillDevCategory} improvement suggestions for ${agentSkillsData[agentId]?.name}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to generate skill resource:', error);
+      addToast('Failed to generate skill resources — try again', 'error');
       setIsSkillLoading(false);
     }
   };
 
   const deleteResource = async (id: string) => {
+    // Save previous state for rollback
+    const prevResources = resources;
     setResources(prev => prev.filter(r => r.id !== id));
-    try {
-      await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
-    } catch {}
+
+    const { error } = await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Delete failed:', error.message);
+      setResources(prevResources); // rollback
+      addToast('Failed to delete — try again', 'error');
+    }
   };
 
   const unarchiveResource = async (id: string) => {
     const resource = archivedResources.find(r => r.id === id);
     if (!resource) return;
     
-    // Remove from archive, add back to active
+    // Save previous state for rollback
+    const prevArchived = archivedResources;
+    const prevResources = resources;
+
     setArchivedResources(prev => prev.filter(r => r.id !== id));
     setResources(prev => [resource, ...prev]);
     
-    try {
-      await supabase.from('agent_resources').update({ status: 'active' }).eq('id', id);
-    } catch {}
+    const { error } = await supabase.from('agent_resources').update({ status: 'active' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Unarchive failed:', error.message);
+      setArchivedResources(prevArchived); // rollback
+      setResources(prevResources);
+      addToast('Failed to restore — try again', 'error');
+    } else {
+      addToast('Restored to suggestions', 'info');
+    }
   };
 
   const deleteArchivedResource = async (id: string) => {
+    const prevArchived = archivedResources;
     setArchivedResources(prev => prev.filter(r => r.id !== id));
-    try {
-      await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
-    } catch {}
+
+    const { error } = await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Delete archived failed:', error.message);
+      setArchivedResources(prevArchived); // rollback
+      addToast('Failed to delete — try again', 'error');
+    }
   };
 
   const verifyResource = async (id: string) => {
     const resource = resources.find(r => r.id === id);
     if (!resource) return;
     
-    // Remove from active, add to archived
+    // Save previous state for rollback
+    const prevResources = resources;
+    const prevArchived = archivedResources;
+
+    // Optimistic update
     setResources(prev => prev.filter(r => r.id !== id));
     setArchivedResources(prev => [resource, ...prev]);
     
-    // Update in Supabase
-    try {
-      await supabase.from('agent_resources').update({ status: 'archived' }).eq('id', id);
-    } catch {}
+    // Persist to Supabase
+    const { error } = await supabase.from('agent_resources').update({ status: 'archived' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Archive failed:', error.message);
+      // Rollback
+      setResources(prevResources);
+      setArchivedResources(prevArchived);
+      addToast('Failed to save to stack — try again', 'error');
+      return; // Don't proceed with skill update if archive failed
+    }
 
-    // If this resource was generated for a specific skill, bump the skill rating by +0.5
+    addToast(`"${resource.title}" saved to your stack`, 'success');
+
+    // If this resource was generated for a specific skill, bump the skill rating
     if (resource?.skillCategory && resource?.agentId) {
       try {
         const res = await fetch('/api/agent-skills', {
@@ -534,12 +714,18 @@ export default function AgentAssist() {
     }
   });
 
-  const rateResource = (id: string, rating: number) => {
+  const rateResource = async (id: string, rating: number) => {
+    const prevResources = resources;
     setResources(prev => prev.map(resource => 
       resource.id === id ? { ...resource, rating } : resource
     ));
-    // Persist to Supabase
-    supabase.from('agent_resources').update({ rating }).eq('id', id).then(() => {});
+    // Persist to Supabase with error handling
+    const { error } = await supabase.from('agent_resources').update({ rating }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Rating update failed:', error.message);
+      setResources(prevResources);
+      addToast('Failed to update rating', 'error');
+    }
   };
 
   const formatNumber = (num: number) => {
@@ -595,13 +781,90 @@ export default function AgentAssist() {
     }
   };
 
+  // ──────────────────────────────────────────
+  // Loading state
+  // ──────────────────────────────────────────
+  if (isInitialLoad) {
+    return (
+      <div style={styles.page}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h1 style={styles.h1}>Agent Assist</h1>
+            <p style={styles.subtitle}>Open-source tools, APIs, and resources to enhance agent capabilities</p>
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 40px',
+            gap: '16px',
+          }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              border: `3px solid ${brand.border}`,
+              borderTopColor: brand.amber,
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite',
+            }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <p style={{ color: brand.smoke, fontSize: '14px' }}>Loading your stack from the cloud...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.page}>
+      <ToastContainer messages={toasts} onDismiss={dismissToast} />
+
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={styles.h1}>Agent Assist</h1>
           <p style={styles.subtitle}>Open-source tools, APIs, and resources to enhance agent capabilities</p>
         </div>
+
+        {/* Database error banner */}
+        {dbError && (
+          <div style={{
+            background: 'rgba(239,68,68,0.08)',
+            border: '1px solid rgba(239,68,68,0.3)',
+            borderRadius: '12px',
+            padding: '14px 20px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}>
+            <AlertCircle size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ color: '#EF4444', fontSize: '13px', fontWeight: 600, marginBottom: '2px' }}>
+                Sync Issue
+              </div>
+              <div style={{ color: '#F87171', fontSize: '12px' }}>
+                {dbError}. Showing local data — changes may not persist across devices.
+              </div>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                background: 'rgba(239,68,68,0.15)',
+                border: '1px solid rgba(239,68,68,0.3)',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                color: '#F87171',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Retry
+            </button>
+          </div>
+        )}
 
         {/* Generate Resources */}
         <div style={{
@@ -759,7 +1022,7 @@ export default function AgentAssist() {
               </div>
             </div>
 
-            {/* Current Rating Display - Shows when exactly 1 agent selected + skill selected */}
+            {/* Current Rating Display */}
             {selectedAgents.length === 1 && skillDevCategory && agentSkillsData[selectedAgents[0]] && (
               <div style={{
                 background: brand.graphite,
@@ -795,7 +1058,7 @@ export default function AgentAssist() {
                   background: `${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}15`,
                   borderRadius: '6px',
                 }}>
-                  {agentSkillsData[selectedAgents[0]].name}'s {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}
+                  {agentSkillsData[selectedAgents[0]].name}&apos;s {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}
                 </div>
               </div>
             )}
@@ -828,10 +1091,8 @@ export default function AgentAssist() {
             <button
               onClick={() => {
                 if (skillDevCategory && selectedAgents.length === 1) {
-                  // Use skill-focused generation
                   generateSkillResource();
                 } else {
-                  // Use general generation
                   generateResource(selectedAgents);
                 }
               }}
@@ -1410,7 +1671,7 @@ export default function AgentAssist() {
                     </div>
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                       {resource.usefulFor.map(agentId => {
-                        const agent = AGENTS.find(a => a.id === agentId);
+                        const usefulAgent = AGENTS.find(a => a.id === agentId);
                         return (
                           <span
                             key={agentId}
@@ -1418,12 +1679,12 @@ export default function AgentAssist() {
                               padding: '3px 8px',
                               borderRadius: '12px',
                               fontSize: '11px',
-                              background: `${agent?.color || brand.smoke}20`,
-                              color: agent?.color || brand.smoke,
+                              background: `${usefulAgent?.color || brand.smoke}20`,
+                              color: usefulAgent?.color || brand.smoke,
                               fontWeight: 600,
                             }}
                           >
-                            {agent?.name || agentId}
+                            {usefulAgent?.name || agentId}
                           </span>
                         );
                       })}
