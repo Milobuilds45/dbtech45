@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T19:44:00Z",
+  "lastUpdated": "2026-02-14T19:46:00Z",
   "agents": {
     "milo": {
       "name": "Milo",
@@ -8,9 +8,9 @@
       "icon": "⚡",
       "description": "Orchestrates agent collaboration, manages priorities, coordinates sprints, and maintains system memory",
       "ratings": {
-        "technical": 4,
-        "business": 3,
-        "core": 5
+        "technical": 6,
+        "business": 5,
+        "core": 8
       },
       "topSkills": [
         { "name": "Agent Coordination", "level": "Expert" },
@@ -27,9 +27,9 @@
       "icon": "AN",
       "description": "Builds and deploys production applications, manages infrastructure, handles complex integrations",
       "ratings": {
-        "technical": 6,
-        "business": 3,
-        "core": 4
+        "technical": 9,
+        "business": 4,
+        "core": 7
       },
       "topSkills": [
         { "name": "Next.js Development", "level": "Expert" },
@@ -37,7 +37,7 @@
         { "name": "Database Design", "level": "Advanced" }
       ],
       "totalSkills": 13,
-      "notes": "Technical expert, business skills need work - target: business 5"
+      "notes": "Technical expert, business skills need work - target: business 7"
     },
     "paula": {
       "name": "Paula",
@@ -46,9 +46,9 @@
       "icon": "✦",
       "description": "Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic",
       "ratings": {
-        "technical": 5,
-        "business": 3,
-        "core": 4
+        "technical": 7,
+        "business": 5,
+        "core": 7
       },
       "topSkills": [
         { "name": "UI/UX Design", "level": "Expert" },
@@ -65,9 +65,9 @@
       "icon": "AX",
       "description": "Analyzes markets, generates trading signals, manages risk, provides investment education",
       "ratings": {
-        "technical": 5,
-        "business": 5,
-        "core": 4
+        "technical": 8,
+        "business": 8,
+        "core": 7
       },
       "topSkills": [
         { "name": "Market Analysis", "level": "Expert" },
@@ -84,9 +84,9 @@
       "icon": "DW",
       "description": "Monitors systems, provides briefings, analyzes performance, manages intelligence gathering",
       "ratings": {
-        "technical": 4,
-        "business": 3,
-        "core": 4
+        "technical": 6,
+        "business": 5,
+        "core": 7
       },
       "topSkills": [
         { "name": "System Monitoring", "level": "Expert" },
@@ -103,9 +103,9 @@
       "icon": "DX",
       "description": "Analyzes social trends, creates content strategies, manages digital presence and engagement",
       "ratings": {
-        "technical": 5,
-        "business": 3,
-        "core": 4
+        "technical": 7,
+        "business": 5,
+        "core": 7
       },
       "topSkills": [
         { "name": "Social Media Strategy", "level": "Expert" },
@@ -122,9 +122,9 @@
       "icon": "TN",
       "description": "Manages restaurant operations, optimizes costs, handles inventory and staff scheduling",
       "ratings": {
-        "technical": 3,
-        "business": 5,
-        "core": 4
+        "technical": 5,
+        "business": 8,
+        "core": 7
       },
       "topSkills": [
         { "name": "Menu Engineering", "level": "Expert" },
@@ -141,9 +141,9 @@
       "icon": "RM",
       "description": "Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach",
       "ratings": {
-        "technical": 3,
-        "business": 4,
-        "core": 4
+        "technical": 5,
+        "business": 6,
+        "core": 6
       },
       "topSkills": [
         { "name": "Restaurant Marketing", "level": "Expert" },
@@ -160,9 +160,9 @@
       "icon": "WR",
       "description": "Manages personal matters, family coordination, wellness tracking, and lifestyle optimization",
       "ratings": {
-        "technical": 3,
-        "business": 2,
-        "core": 5
+        "technical": 4,
+        "business": 3,
+        "core": 8
       },
       "topSkills": [
         { "name": "Family Coordination", "level": "Expert" },
@@ -174,11 +174,15 @@
     }
   },
   "ratingScale": {
-    "1": "Beginner",
-    "2": "Learning",
-    "3": "Competent",
-    "4": "Advanced",
-    "5": "Expert",
-    "6": "Master"
+    "1": "Novice",
+    "2": "Beginner",
+    "3": "Learning",
+    "4": "Developing",
+    "5": "Competent",
+    "6": "Proficient",
+    "7": "Advanced",
+    "8": "Expert",
+    "9": "Master",
+    "10": "World-Class"
   }
 }

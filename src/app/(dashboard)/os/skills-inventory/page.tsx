@@ -131,7 +131,7 @@ const convertSkillsData = (data: SkillData): { categories: SkillCategory[], allS
 };
 
 /* ───────────────── Reusable Components ───────────────── */
-function RatingBar({ rating, max = 6, color }: { rating: number; max?: number; color: string }) {
+function RatingBar({ rating, max = 10, color }: { rating: number; max?: number; color: string }) {
   const pct = Math.min((rating / max) * 100, 100);
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
@@ -270,7 +270,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
           ].map(bar => (
             <div key={bar.label}>
               <span style={{ fontSize: 11, color: T.secondary }}>{bar.label}</span>
-              <RatingBar rating={bar.rating} max={6} color={bar.color} />
+              <RatingBar rating={bar.rating} max={10} color={bar.color} />
             </div>
           ))}
         </div>
@@ -508,14 +508,15 @@ export default function SkillsInventory() {
             />
 
             {/* Rating Scale Legend */}
-            <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 11, color: T.muted }}>
+            <div style={{ display: 'flex', gap: 4, alignItems: 'center', fontSize: 11, color: T.muted }}>
               <span>Scale:</span>
-              {[1, 2, 3, 4, 5, 6].map(n => (
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
                 <span key={n} style={{
-                  padding: '2px 6px', borderRadius: 4,
-                  background: n <= 2 ? 'rgba(239,68,68,0.15)' : n <= 4 ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)',
-                  color: n <= 2 ? T.red : n <= 4 ? T.amber : T.green,
+                  padding: '2px 5px', borderRadius: 4,
+                  background: n <= 3 ? 'rgba(239,68,68,0.15)' : n <= 6 ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)',
+                  color: n <= 3 ? T.red : n <= 6 ? T.amber : T.green,
                   fontFamily: "'JetBrains Mono', monospace",
+                  fontSize: 10,
                 }}>{n}</span>
               ))}
             </div>
