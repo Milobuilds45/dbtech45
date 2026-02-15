@@ -51,10 +51,38 @@ const AGENT_ROLES: Record<string, { role: string; needs: string[]; searchTerms: 
 const CATEGORIES = ['api', 'tool', 'library', 'service', 'dataset', 'framework', 'reference', 'other'] as const;
 const TYPES = ['open-source', 'free-tier', 'documentation', 'tutorial', 'reference'] as const;
 
+// Skill-focused search terms for improvement
+const SKILL_IMPROVEMENT_TERMS: Record<string, string[]> = {
+  technical: [
+    'developer tools 2026', 'coding productivity tools', 'API development tools',
+    'automation framework', 'debugging tools', 'code quality tools',
+    'technical documentation tools', 'developer workflow optimization',
+  ],
+  business: [
+    'business analytics tools', 'ROI calculator tools', 'business strategy framework',
+    'stakeholder management tools', 'business metrics dashboard', 'financial modeling tools',
+    'business intelligence platform', 'KPI tracking tools', 'business case templates',
+  ],
+  core: [
+    'productivity optimization tools', 'workflow automation', 'task management system',
+    'performance tracking tools', 'skill improvement platform', 'professional development',
+  ],
+  autonomy: [
+    'decision making framework', 'problem solving tools', 'autonomous workflow tools',
+    'self-service analytics', 'independent research tools', 'initiative tracking',
+    'proactive monitoring tools', 'self-directed learning platform',
+  ],
+  awareness: [
+    'trend monitoring tools', 'news aggregation API', 'market intelligence platform',
+    'competitive analysis tools', 'research automation', 'industry news tracker',
+    'social listening tools', 'real-time alerts system', 'knowledge management',
+  ],
+};
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { agentIds, existingTitles = [], creativity = 'creative', budget = 'any' } = body;
+    const { agentIds, existingTitles = [], creativity = 'creative', budget = 'any', skillFocus } = body;
 
     // Build pricing filter for search queries
     const budgetMap: Record<string, string> = {
@@ -73,10 +101,27 @@ export async function POST(request: NextRequest) {
       const agentInfo = AGENT_ROLES[agentId];
       if (!agentInfo) continue;
 
-      // Pick a random search term, append budget filter
-      const shuffled = [...agentInfo.searchTerms].sort(() => Math.random() - 0.5);
-      const baseTerm = shuffled[0];
-      const searchTerm = pricingModifier ? `${baseTerm} ${pricingModifier}` : baseTerm;
+      // Pick a search term based on whether this is skill-focused or general
+      let baseTerm: string;
+      let skillContext = '';
+      
+      if (skillFocus && skillFocus.category) {
+        // Use skill-specific search terms
+        const skillTerms = SKILL_IMPROVEMENT_TERMS[skillFocus.category] || [];
+        const shuffledSkill = [...skillTerms].sort(() => Math.random() - 0.5);
+        baseTerm = shuffledSkill[0] || agentInfo.searchTerms[0];
+        skillContext = ` for ${agentInfo.role.toLowerCase()}`;
+        // Add context about improving from current to target
+        if (skillFocus.currentRating && skillFocus.targetRating) {
+          skillContext += ` improve ${skillFocus.category} skills`;
+        }
+      } else {
+        // General search
+        const shuffled = [...agentInfo.searchTerms].sort(() => Math.random() - 0.5);
+        baseTerm = shuffled[0];
+      }
+      
+      const searchTerm = pricingModifier ? `${baseTerm}${skillContext} ${pricingModifier}` : `${baseTerm}${skillContext}`;
 
       // Search the web for fresh suggestions
       let webResults: Array<{ title: string; url: string; description: string }> = [];
@@ -140,11 +185,22 @@ export async function POST(request: NextRequest) {
         const need = agentInfo.needs[Math.floor(Math.random() * agentInfo.needs.length)];
 
         // Generate a plain English explanation
-        const plainEnglishTemplates = [
-          `This helps ${agentFirst} handle ${need} automatically instead of doing it manually. Think of it as a specialized assistant just for that one job.`,
-          `Gives ${agentFirst} the ability to work with ${need} faster and more accurately. Without it, this would take way longer or require a human to do it.`,
-          `A plug-and-play tool that ${agentFirst} can use for ${need}. It is already built and tested — no need to build it from scratch.`,
-        ];
+        let plainEnglishTemplates: string[];
+        
+        if (skillFocus && skillFocus.category) {
+          const skillLabel = skillFocus.category.charAt(0).toUpperCase() + skillFocus.category.slice(1);
+          plainEnglishTemplates = [
+            `This will help ${agentFirst} improve their ${skillLabel} skills from ${skillFocus.currentRating || '?'} to ${skillFocus.targetRating || '?'}. Focus on using this regularly.`,
+            `A resource specifically for boosting ${agentFirst}'s ${skillLabel} capabilities. Current rating: ${skillFocus.currentRating}/10 — goal is to reach ${skillFocus.targetRating}/10.`,
+            `This targets ${agentFirst}'s ${skillLabel} growth area. Learning and applying this should move the needle on their ${skillLabel} rating.`,
+          ];
+        } else {
+          plainEnglishTemplates = [
+            `This helps ${agentFirst} handle ${need} automatically instead of doing it manually. Think of it as a specialized assistant just for that one job.`,
+            `Gives ${agentFirst} the ability to work with ${need} faster and more accurately. Without it, this would take way longer or require a human to do it.`,
+            `A plug-and-play tool that ${agentFirst} can use for ${need}. It is already built and tested — no need to build it from scratch.`,
+          ];
+        }
 
         results.push({
           id: `${Date.now()}-${agentId}-${Math.random().toString(36).slice(2, 8)}`,

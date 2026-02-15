@@ -171,6 +171,26 @@ const mockResources: AgentResource[] = [
 type GenerationMode = 'individual' | 'collaborative';
 type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
 type BudgetTier = 'open-source' | 'free-tier' | 'budget-30' | 'budget-50' | 'budget-100' | 'any';
+type SkillCategory = 'technical' | 'business' | 'core' | 'autonomy' | 'awareness';
+
+const SKILL_CATEGORIES: { value: SkillCategory; label: string; color: string; description: string }[] = [
+  { value: 'technical', label: 'Technical', color: '#3B82F6', description: 'Tools, code, APIs, implementation' },
+  { value: 'business', label: 'Business', color: '#EF4444', description: 'ROI, strategy, P&L, stakeholders' },
+  { value: 'core', label: 'Core', color: '#F59E0B', description: 'Primary job function mastery' },
+  { value: 'autonomy', label: 'Autonomy', color: '#8B5CF6', description: 'Self-direction, problem-solving' },
+  { value: 'awareness', label: 'Awareness', color: '#06B6D4', description: 'Trends, research, staying informed' },
+];
+
+interface AgentSkillData {
+  name: string;
+  ratings: {
+    technical: number;
+    business: number;
+    core: number;
+    autonomy: number;
+    awareness: number;
+  };
+}
 
 const BUDGET_OPTIONS: { value: BudgetTier; label: string; description: string }[] = [
   { value: 'open-source', label: 'Open Source Only', description: 'Free forever, no strings' },
@@ -188,10 +208,39 @@ export default function AgentAssist() {
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
   const [budgetTier, setBudgetTier] = useState<BudgetTier>('any');
+  
+  // Skill Development state
+  const [skillDevAgent, setSkillDevAgent] = useState<string | null>(null);
+  const [skillDevCategory, setSkillDevCategory] = useState<SkillCategory | null>(null);
+  const [agentSkillsData, setAgentSkillsData] = useState<Record<string, AgentSkillData>>({});
+  const [isSkillLoading, setIsSkillLoading] = useState(false);
 
   const STORAGE_KEY = 'dbtech-assist-resources';
   const DELETED_KEY = 'dbtech-assist-deleted';
   const VERIFIED_KEY = 'dbtech-assist-verified';
+
+  // Load agent skills data
+  useEffect(() => {
+    const loadSkillsData = async () => {
+      try {
+        const res = await fetch('/data/agent-skills.json');
+        if (res.ok) {
+          const data = await res.json();
+          const skillsMap: Record<string, AgentSkillData> = {};
+          Object.entries(data.agents).forEach(([id, agent]: [string, any]) => {
+            skillsMap[id] = {
+              name: agent.name,
+              ratings: agent.ratings,
+            };
+          });
+          setAgentSkillsData(skillsMap);
+        }
+      } catch (error) {
+        console.error('Failed to load skills data:', error);
+      }
+    };
+    loadSkillsData();
+  }, []);
 
   // Load from localStorage (primary), seed with mock data if empty
   useEffect(() => {
@@ -265,6 +314,48 @@ export default function AgentAssist() {
     } catch (error) {
       console.error('Failed to generate resource:', error);
       setIsLoading(false);
+    }
+  };
+
+  const generateSkillResource = async () => {
+    if (!skillDevAgent || !skillDevCategory) return;
+    
+    setIsSkillLoading(true);
+    try {
+      const agentData = agentSkillsData[skillDevAgent];
+      const currentRating = agentData?.ratings[skillDevCategory] || 5;
+      const existingTitles = resources.map(r => r.title);
+      
+      const res = await fetch('/api/agent-assist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: [skillDevAgent],
+          existingTitles,
+          creativity: 'creative',
+          budget: 'any',
+          skillFocus: {
+            category: skillDevCategory,
+            currentRating,
+            targetRating: Math.min(currentRating + 2, 10),
+          },
+        }),
+      });
+      
+      if (!res.ok) throw new Error('API failed');
+      
+      const data = await res.json();
+      const newResources: AgentResource[] = data.resources || [];
+      
+      setResources(prev => [...newResources, ...prev]);
+      setIsSkillLoading(false);
+      
+      if (newResources.length > 0) {
+        showNotification(`Generated ${newResources.length} ${skillDevCategory} improvement suggestions for ${agentData?.name}`);
+      }
+    } catch (error) {
+      console.error('Failed to generate skill resource:', error);
+      setIsSkillLoading(false);
     }
   };
 
@@ -549,6 +640,157 @@ export default function AgentAssist() {
               {isLoading ? 'Generating...' : `Generate (${selectedAgents.length})`}
             </button>
           </div>
+        </div>
+
+        {/* Skill Development Section */}
+        <div style={{
+          background: '#0A0A0A',
+          border: `1px solid ${brand.border}`,
+          borderRadius: '16px',
+          padding: '28px 32px',
+          marginBottom: '20px',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <Brain size={18} style={{ color: '#8B5CF6' }} />
+            <span style={{ color: brand.white, fontSize: '16px', fontWeight: 700 }}>Skill Development</span>
+            <span style={{ color: brand.smoke, fontSize: '13px', marginLeft: '8px' }}>
+              Generate resources to improve specific skills
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', alignItems: 'flex-end' }}>
+            {/* Agent Selector */}
+            <div style={{ minWidth: '200px' }}>
+              <div style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                Select Agent
+              </div>
+              <select
+                value={skillDevAgent || ''}
+                onChange={(e) => setSkillDevAgent(e.target.value || null)}
+                style={{
+                  width: '100%',
+                  background: brand.graphite,
+                  border: `1px solid ${brand.border}`,
+                  borderRadius: '8px',
+                  padding: '10px 12px',
+                  color: brand.white,
+                  fontSize: '14px',
+                  outline: 'none',
+                }}
+              >
+                <option value="">Choose agent...</option>
+                {AGENTS.map(agent => (
+                  <option key={agent.id} value={agent.id}>{agent.name}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Skill Category Selector */}
+            <div style={{ minWidth: '200px' }}>
+              <div style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                Skill to Improve
+              </div>
+              <select
+                value={skillDevCategory || ''}
+                onChange={(e) => setSkillDevCategory(e.target.value as SkillCategory || null)}
+                style={{
+                  width: '100%',
+                  background: brand.graphite,
+                  border: `1px solid ${brand.border}`,
+                  borderRadius: '8px',
+                  padding: '10px 12px',
+                  color: brand.white,
+                  fontSize: '14px',
+                  outline: 'none',
+                }}
+              >
+                <option value="">Choose skill...</option>
+                {SKILL_CATEGORIES.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Current Rating Display */}
+            {skillDevAgent && skillDevCategory && agentSkillsData[skillDevAgent] && (
+              <div style={{
+                background: brand.graphite,
+                borderRadius: '10px',
+                padding: '12px 20px',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '4px',
+                minWidth: '120px',
+              }}>
+                <div style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase' }}>
+                  Current Rating
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{
+                    fontSize: '28px',
+                    fontWeight: 700,
+                    color: agentSkillsData[skillDevAgent].ratings[skillDevCategory] <= 3 ? '#EF4444' :
+                           agentSkillsData[skillDevAgent].ratings[skillDevCategory] <= 6 ? brand.amber : '#22C55E',
+                  }}>
+                    {agentSkillsData[skillDevAgent].ratings[skillDevCategory]}
+                  </span>
+                  <span style={{ color: brand.smoke, fontSize: '16px' }}>/10</span>
+                </div>
+                <div style={{ 
+                  color: SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color, 
+                  fontSize: '12px', 
+                  fontWeight: 600 
+                }}>
+                  {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}
+                </div>
+              </div>
+            )}
+
+            {/* Generate Button */}
+            <button
+              onClick={generateSkillResource}
+              disabled={isSkillLoading || !skillDevAgent || !skillDevCategory}
+              style={{
+                background: isSkillLoading || !skillDevAgent || !skillDevCategory ? brand.smoke : '#8B5CF6',
+                color: brand.white,
+                border: 'none',
+                borderRadius: '10px',
+                padding: '12px 24px',
+                fontSize: '14px',
+                fontWeight: 700,
+                cursor: isSkillLoading || !skillDevAgent || !skillDevCategory ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                opacity: isSkillLoading || !skillDevAgent || !skillDevCategory ? 0.5 : 1,
+                boxShadow: isSkillLoading || !skillDevAgent || !skillDevCategory ? 'none' : '0 0 20px rgba(139,92,246,0.4)',
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <Lightbulb size={16} />
+              {isSkillLoading ? 'Finding Resources...' : 'Get Improvement Ideas'}
+            </button>
+          </div>
+
+          {/* Skill Category Quick Info */}
+          {skillDevCategory && (
+            <div style={{
+              marginTop: '16px',
+              padding: '12px 16px',
+              background: `${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}10`,
+              border: `1px solid ${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}30`,
+              borderRadius: '8px',
+            }}>
+              <span style={{ color: SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color, fontWeight: 600 }}>
+                {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}:
+              </span>{' '}
+              <span style={{ color: brand.silver }}>
+                {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.description}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Search & Filters */}
