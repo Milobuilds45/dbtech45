@@ -2,6 +2,7 @@
 import { brand, styles } from "@/lib/brand";
 import { useState, useEffect, useCallback } from "react";
 import OpsGuard from '@/components/OpsGuard';
+import { getRecentlyArchived, ArchivedResource, CATEGORY_ICONS } from '@/lib/archived-resources';
 
 interface StatItem {
   value: string;
@@ -65,6 +66,122 @@ interface OpsStatusFile {
     totalCrons: number;
   };
   generatedAt?: string;
+}
+
+function RecentlyAcquiredSection() {
+  const [resources, setResources] = useState<ArchivedResource[]>([]);
+
+  useEffect(() => {
+    const loadResources = () => setResources(getRecentlyArchived(5));
+    loadResources();
+    
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'dbtech-assist-archived') loadResources();
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  if (resources.length === 0) return null;
+
+  const formatTimeAgo = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    
+    if (diffHours < 1) return 'Just now';
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays === 1) return 'Yesterday';
+    return `${diffDays}d ago`;
+  };
+
+  return (
+    <div style={{ ...styles.card, background: brand.carbon, marginBottom: '16px' }}>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        marginBottom: '16px',
+        paddingBottom: '12px',
+        borderBottom: `1px solid ${brand.border}`,
+      }}>
+        <span style={{
+          width: 32,
+          height: 32,
+          borderRadius: 8,
+          background: 'rgba(34,197,94,0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 14,
+        }}>🔧</span>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontSize: 14, fontWeight: 600, color: brand.white }}>Recently Acquired</div>
+          <div style={{ fontSize: 11, color: brand.smoke }}>Tools & resources added to the stack</div>
+        </div>
+        <a
+          href="/os/agents/assist"
+          style={{
+            fontSize: 11,
+            color: brand.amber,
+            textDecoration: 'none',
+            fontFamily: "'JetBrains Mono', monospace",
+          }}
+        >
+          View All →
+        </a>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        {resources.map(r => (
+          <a
+            key={r.id}
+            href={r.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '10px 12px',
+              background: brand.graphite,
+              borderRadius: '8px',
+              textDecoration: 'none',
+              border: `1px solid ${brand.border}`,
+              transition: 'all 0.15s',
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = brand.success; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = brand.border; }}
+          >
+            <span style={{ fontSize: 16, flexShrink: 0 }}>{CATEGORY_ICONS[r.category] || '📦'}</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 13, color: brand.white, fontWeight: 500 }}>{r.title}</div>
+              <div style={{ fontSize: 11, color: brand.smoke, marginTop: 2 }}>
+                {r.agentName} • {r.category}
+              </div>
+            </div>
+            <div style={{ textAlign: 'right', flexShrink: 0 }}>
+              <div style={{
+                fontSize: 10,
+                color: brand.success,
+                fontFamily: "'JetBrains Mono', monospace",
+                padding: '2px 6px',
+                background: 'rgba(34,197,94,0.1)',
+                borderRadius: 4,
+              }}>
+                ✓ ACQUIRED
+              </div>
+              <div style={{ fontSize: 10, color: brand.smoke, marginTop: 4 }}>
+                {formatTimeAgo(r.archivedAt || r.createdAt)}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default function ActivityDashboard() {
@@ -255,6 +372,9 @@ export default function ActivityDashboard() {
             </div>
           ))}
         </div>
+
+        {/* Recently Acquired Resources */}
+        <RecentlyAcquiredSection />
 
         {/* Activity Stream */}
         <div style={{ ...styles.card, background: brand.carbon }}>

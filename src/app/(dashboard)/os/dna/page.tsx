@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import OpsGuard from '@/components/OpsGuard';
+import { getArchivedResources, ArchivedResource, CATEGORY_ICONS, TYPE_COLORS } from '@/lib/archived-resources';
 
 /* ───────────────── Design Tokens (Paula's spec) ───────────────── */
 const T = {
@@ -775,6 +776,120 @@ function PrincipleCard({ p, expanded, onToggle }: { p: Principle; expanded: bool
   );
 }
 
+/* ───────────────── The Stack Section ───────────────── */
+function TheStackSection() {
+  const [resources, setResources] = useState<ArchivedResource[]>([]);
+  const [collapsed, setCollapsed] = useState(true);
+
+  useEffect(() => {
+    const loadResources = () => setResources(getArchivedResources());
+    loadResources();
+    
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'dbtech-assist-archived') loadResources();
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, []);
+
+  if (resources.length === 0) return null;
+
+  // Group by category
+  const byCategory = resources.reduce((acc, r) => {
+    const cat = r.category;
+    if (!acc[cat]) acc[cat] = [];
+    acc[cat].push(r);
+    return acc;
+  }, {} as Record<string, ArchivedResource[]>);
+
+  const categoryOrder = ['api', 'service', 'library', 'framework', 'tool', 'dataset', 'reference', 'other'];
+  const sortedCategories = Object.keys(byCategory).sort((a, b) => categoryOrder.indexOf(a) - categoryOrder.indexOf(b));
+
+  return (
+    <div style={{ marginTop: 48 }}>
+      <button
+        onClick={() => setCollapsed(!collapsed)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+          padding: '16px 20px', background: T.card, border: `1px solid ${T.border}`,
+          borderRadius: collapsed ? 8 : '8px 8px 0 0', cursor: 'pointer', color: T.text,
+          transition: 'border-color 0.2s',
+        }}
+        onMouseEnter={e => (e.currentTarget.style.borderColor = '#22C55E')}
+        onMouseLeave={e => (e.currentTarget.style.borderColor = T.border)}
+      >
+        <span style={{
+          width: 36, height: 36, borderRadius: 8, flexShrink: 0,
+          background: 'rgba(34,197,94,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 16,
+        }}>🔧</span>
+        <div style={{ flex: 1, textAlign: 'left' }}>
+          <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: '#22C55E' }}>
+            The Stack
+          </div>
+          <div style={{ fontSize: 11, color: T.muted, fontFamily: "'JetBrains Mono', monospace", marginTop: 2 }}>
+            Tools, APIs, and resources we use • {resources.length} items
+          </div>
+        </div>
+        <span style={{
+          padding: '4px 12px', borderRadius: 6,
+          background: 'rgba(34,197,94,0.12)', color: '#22C55E',
+          fontSize: 11, fontFamily: "'JetBrains Mono', monospace", fontWeight: 600,
+        }}>{resources.length} ACQUIRED</span>
+        <span style={{ fontSize: 14, color: T.muted }}>{collapsed ? '▼' : '▲'}</span>
+      </button>
+
+      {!collapsed && (
+        <div style={{
+          padding: '20px', background: T.elevated, borderRadius: '0 0 8px 8px',
+          border: `1px solid ${T.border}`, borderTop: 'none',
+        }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {sortedCategories.map(cat => (
+              <div key={cat}>
+                <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span>{CATEGORY_ICONS[cat] || '📦'}</span>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}s ({byCategory[cat].length})
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 10 }}>
+                  {byCategory[cat].map(r => (
+                    <a
+                      key={r.id}
+                      href={r.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 10,
+                        padding: '10px 12px', background: T.card, borderRadius: 6,
+                        textDecoration: 'none', transition: 'all 0.15s',
+                        border: `1px solid ${T.border}`,
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = T.amber; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; }}
+                    >
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text, fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.title}</div>
+                        <div style={{ fontSize: 10, color: T.muted, marginTop: 2 }}>{r.agentName} • {r.type.replace('-', ' ')}</div>
+                      </div>
+                      <span style={{
+                        fontSize: 9, fontFamily: "'JetBrains Mono', monospace", padding: '2px 6px',
+                        borderRadius: 4, background: `${TYPE_COLORS[r.type] || T.muted}20`,
+                        color: TYPE_COLORS[r.type] || T.muted, flexShrink: 0,
+                      }}>
+                        {r.pricing || 'FREE'}
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ───────────────── Main Page ───────────────── */
 export default function DNA() {
   const [expandedPrinciples, setExpandedPrinciples] = useState<Record<string, boolean>>({});
@@ -898,6 +1013,9 @@ export default function DNA() {
             );
           })}
         </div>
+
+        {/* The Stack - Acquired Tools & Resources */}
+        <TheStackSection />
 
         {/* Core Philosophy */}
         <div style={{ marginTop: 48 }}>

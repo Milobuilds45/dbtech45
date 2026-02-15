@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo, useEffect } from 'react';
 import OpsGuard from '@/components/OpsGuard';
+import { getArchivedByAgent, ArchivedResource, CATEGORY_ICONS, TYPE_COLORS } from '@/lib/archived-resources';
 
 /* ───────────────── Design Tokens (Paula's spec) ───────────────── */
 const T = {
@@ -247,6 +248,64 @@ function CategoryCard({ category, defaultOpen = false }: { category: SkillCatego
   );
 }
 
+/* ───────────────── Acquired Resources Component ───────────────── */
+function AcquiredResources({ agentId, agentColor }: { agentId: string; agentColor: string }) {
+  const [resources, setResources] = useState<ArchivedResource[]>([]);
+
+  useEffect(() => {
+    // Load on mount and listen for storage changes
+    const loadResources = () => setResources(getArchivedByAgent(agentId));
+    loadResources();
+    
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'dbtech-assist-archived') loadResources();
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => window.removeEventListener('storage', handleStorage);
+  }, [agentId]);
+
+  if (resources.length === 0) return null;
+
+  return (
+    <div>
+      <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.green, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <span>🔧</span> ACQUIRED TOOLS ({resources.length})
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        {resources.map(r => (
+          <a
+            key={r.id}
+            href={r.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              padding: '8px 10px', background: T.elevated, borderRadius: 6,
+              textDecoration: 'none', transition: 'all 0.15s',
+              border: `1px solid ${T.border}`,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = agentColor; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = T.border; }}
+          >
+            <span style={{ fontSize: 14 }}>{CATEGORY_ICONS[r.category] || '📦'}</span>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text, fontWeight: 500 }}>{r.title}</div>
+              <div style={{ fontSize: 10, color: T.muted, marginTop: 2 }}>{r.type.replace('-', ' ')}</div>
+            </div>
+            <span style={{
+              fontSize: 9, fontFamily: "'JetBrains Mono', monospace", padding: '2px 6px',
+              borderRadius: 4, background: `${TYPE_COLORS[r.type] || T.muted}20`,
+              color: TYPE_COLORS[r.type] || T.muted,
+            }}>
+              {r.pricing || 'FREE'}
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ───────────────── Agent Card (Data-Driven) ───────────────── */
 function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded: boolean; onToggle: () => void }) {
   return (
@@ -350,6 +409,9 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
               <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.4 }}>{agent.notes}</div>
             </div>
           )}
+
+          {/* Acquired Resources from Agent Assist */}
+          <AcquiredResources agentId={agent.name.toLowerCase()} agentColor={agent.color} />
         </div>
       )}
 
