@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "300fe9dd",
+      "author": "Milo",
+      "timestamp": "2026-02-15 02:49:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "35148445",
       "author": "Milo",
       "timestamp": "2026-02-15 02:44:04 -0500",
@@ -351,13 +358,6 @@
       "message": "feat(markets): add fundamentals panel, earnings calendar, dividend tracker, historical moves"
     },
     {
-      "type": "commit",
-      "id": "1a87c3e4",
-      "author": "Milo",
-      "timestamp": "2026-02-14 23:01:50 -0500",
-      "message": "fix: migrate Agent Assist from localStorage to Supabase for cross-device sync"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-15T03:30:16.939Z",
@@ -456,5 +456,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T07:49:03.977Z"
+  "generatedAt": "2026-02-15T07:54:04.024Z"
 }
