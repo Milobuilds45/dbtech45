@@ -23,6 +23,7 @@ interface AgentResource {
   pricing?: string;
   createdAt: string;
   addedBy: string;
+  skillCategory?: string; // Which skill category this was generated for (if skill-focused)
 }
 
 const AGENTS = [
@@ -337,7 +338,7 @@ export default function AgentAssist() {
           skillFocus: {
             category: skillDevCategory,
             currentRating,
-            targetRating: Math.min(currentRating + 2, 10),
+            targetRating: Math.min(currentRating + 1, 10),
           },
         }),
       });
@@ -368,13 +369,37 @@ export default function AgentAssist() {
     } catch {}
   };
 
-  const verifyResource = (id: string) => {
+  const verifyResource = async (id: string) => {
+    const resource = resources.find(r => r.id === id);
     setResources(prev => prev.filter(r => r.id !== id));
     try {
       const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
       verified.push(id);
       localStorage.setItem(VERIFIED_KEY, JSON.stringify(verified));
     } catch {}
+
+    // If this resource was generated for a specific skill, bump the skill rating by +0.5
+    if (resource?.skillCategory && resource?.agentId) {
+      try {
+        const res = await fetch('/api/agent-skills', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agentId: resource.agentId,
+            category: resource.skillCategory,
+            delta: 0.5,
+          }),
+        });
+        if (res.ok) {
+          const result = await res.json();
+          if (result.previousRating !== result.newRating) {
+            console.log(`Skill updated: ${resource.agentName} ${resource.skillCategory} ${result.previousRating} → ${result.newRating}`);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to update skill rating:', e);
+      }
+    }
   };
 
   const handleAgentSelect = (agentId: string) => {

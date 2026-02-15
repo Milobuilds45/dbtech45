@@ -189,10 +189,13 @@ export async function POST(request: NextRequest) {
         
         if (skillFocus && skillFocus.category) {
           const skillLabel = skillFocus.category.charAt(0).toUpperCase() + skillFocus.category.slice(1);
+          // Cap improvement at +1 -- nobody jumps multiple points from one resource
+          const current = skillFocus.currentRating || 5;
+          const target = Math.min(current + 1, 10);
           plainEnglishTemplates = [
-            `This will help ${agentFirst} improve their ${skillLabel} skills from ${skillFocus.currentRating || '?'} to ${skillFocus.targetRating || '?'}. Focus on using this regularly.`,
-            `A resource specifically for boosting ${agentFirst}'s ${skillLabel} capabilities. Current rating: ${skillFocus.currentRating}/10 — goal is to reach ${skillFocus.targetRating}/10.`,
-            `This targets ${agentFirst}'s ${skillLabel} growth area. Learning and applying this should move the needle on their ${skillLabel} rating.`,
+            `This can help ${agentFirst} strengthen their ${skillLabel} skills (currently ${current}/10). Consistent use could move the needle toward ${target}/10.`,
+            `A resource for incrementally improving ${agentFirst}'s ${skillLabel} capabilities. Current: ${current}/10. Realistic next step: ${target}/10.`,
+            `Targets ${agentFirst}'s ${skillLabel} growth area. Mastering this material is one step toward moving from ${current} to ${target}/10.`,
           ];
         } else {
           plainEnglishTemplates = [
@@ -220,6 +223,7 @@ export async function POST(request: NextRequest) {
           createdAt: new Date().toISOString(),
           addedBy: agentId,
           searchedWith: searchTerm,
+          ...(skillFocus?.category ? { skillCategory: skillFocus.category } : {}),
         });
       } else {
         // Fallback: generate from agent's needs with randomization
