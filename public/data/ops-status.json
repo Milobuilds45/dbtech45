@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T00:49:03.403Z",
+    "lastHeartbeat": "2026-02-15T00:54:03.479Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-15T00:49:03.402Z",
+        "timestamp": "2026-02-15T00:54:03.478Z",
         "resolved": false
       }
     ]
@@ -53,7 +53,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:48:55.903Z"
+      "lastSeen": "2026-02-15T00:51:10.826Z"
     },
     {
       "name": "Dwight",
@@ -108,7 +108,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:48:55.903Z",
+      "lastActivity": "2026-02-15T00:51:10.826Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T00:49:04.546Z",
+  "generatedAt": "2026-02-15T00:54:04.637Z",
   "version": 2
 }
