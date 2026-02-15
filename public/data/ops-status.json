@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T01:19:05.536Z",
+    "lastHeartbeat": "2026-02-15T01:24:05.196Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-15T01:19:05.536Z",
+        "timestamp": "2026-02-15T01:24:05.196Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-15T01:19:05.536Z",
+        "timestamp": "2026-02-15T01:24:05.196Z",
         "resolved": false
       }
     ]
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T01:17:43.224Z"
+      "lastSeen": "2026-02-15T01:21:33.738Z"
     },
     {
       "name": "Dwight",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T01:15:27.073Z"
+      "lastSeen": "2026-02-15T01:21:49.440Z"
     },
     {
       "name": "Tony",
@@ -110,6 +110,28 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T01:21:49.440Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T01:21:33.738Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -119,28 +141,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T01:17:43.224Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 19
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T01:15:27.073Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
     },
     {
       "key": "agent:anders:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T01:19:06.701Z",
+  "generatedAt": "2026-02-15T01:24:06.351Z",
   "version": 2
 }
