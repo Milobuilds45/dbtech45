@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
+import { BOBBY_PICKS, getPickStats, type BobbyPick } from '@/data/bobby-picks';
 import ImpliedMoveCard from '@/components/markets/ImpliedMoveCard';
 import EconomicCalendar from '@/components/markets/EconomicCalendar';
 import BobbyCalls from '@/components/markets/BobbyCalls';
@@ -71,6 +72,18 @@ export default function Markets() {
   const [sec,setSec]=useState<Record<string,SectorQuote>>({});
   const [pcr,setPcr]=useState<PCRData|null>(null);
   const [spk,setSpk]=useState<Record<string,SparklineData>>({});
+  const [expandedPick,setExpandedPick]=useState<string|null>(null);
+  const [picksFilter,setPicksFilter]=useState<'all'|'active'|'wins'|'growth'|'options'|'ipo'>('all');
+  const pickStats = useMemo(()=>getPickStats(),[]);
+  const filteredPicks = useMemo(()=>{
+    let p = [...BOBBY_PICKS].sort((a,b)=>b.date.localeCompare(a.date));
+    if(picksFilter==='active') p=p.filter(x=>x.status==='active'||x.status==='watching');
+    else if(picksFilter==='wins') p=p.filter(x=>x.status==='win');
+    else if(picksFilter==='growth') p=p.filter(x=>x.type==='growth');
+    else if(picksFilter==='options') p=p.filter(x=>x.type==='options');
+    else if(picksFilter==='ipo') p=p.filter(x=>x.type==='ipo');
+    return p;
+  },[picksFilter]);
   const [fund,setFund]=useState<FundamentalsData|null>(null);
   const [fundLoad,setFundLoad]=useState(false);
   const [fundTab,setFundTab]=useState<'fundamentals'|'chain'>('fundamentals');
@@ -574,6 +587,90 @@ export default function Markets() {
 
         {/* TRADE JOURNAL */}
         <TradeJournal />
+
+        {/* BOBBY'S PICKS — Historical Write-ups & Calls */}
+        <div style={{...styles.card,marginBottom:'1.5rem',padding:0,overflow:'hidden'}}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 16px',borderBottom:`1px solid ${brand.border}`,background:brand.graphite}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <span style={{fontSize:16}}>🔥</span>
+              <span style={{color:brand.amber,fontWeight:700,fontSize:14,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em'}}>{"BOBBY'S PICKS"}</span>
+              <span style={{padding:'2px 10px',borderRadius:4,fontSize:11,fontFamily:M,background:'rgba(34,197,94,0.1)',color:'#22C55E',fontWeight:700}}>{pickStats.winRate}% Win Rate</span>
+              <span style={{fontSize:10,fontFamily:M,color:brand.smoke}}>{pickStats.wins}W / {pickStats.losses}L</span>
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:6}}>
+              <span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,background:'rgba(245,158,11,0.1)',color:brand.amber}}>{pickStats.active} Active</span>
+              <span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,background:'rgba(113,113,122,0.1)',color:brand.smoke}}>{pickStats.total} Total</span>
+            </div>
+          </div>
+          {/* Filter tabs */}
+          <div style={{display:'flex',gap:0,borderBottom:`1px solid ${brand.border}`}}>
+            {([['all','All'],['active','Active'],['wins','Wins'],['growth','Growth'],['options','Options'],['ipo','IPO']] as const).map(([key,label])=>
+              <button key={key} onClick={()=>setPicksFilter(key as typeof picksFilter)} style={{flex:1,padding:'8px 0',background:picksFilter===key?'rgba(245,158,11,0.08)':'transparent',border:'none',borderBottom:picksFilter===key?`2px solid ${brand.amber}`:'2px solid transparent',color:picksFilter===key?brand.amber:brand.smoke,fontFamily:M,fontSize:11,fontWeight:700,cursor:'pointer'}}>{label}</button>
+            )}
+          </div>
+          {/* Picks list */}
+          <div style={{maxHeight:600,overflowY:'auto'}}>
+            {filteredPicks.map((pick:BobbyPick)=>{
+              const isOpen=expandedPick===pick.id;
+              const sc:Record<string,{bg:string;color:string;label:string}>={
+                active:{bg:'rgba(34,197,94,0.1)',color:'#22C55E',label:'ACTIVE'},
+                win:{bg:'rgba(34,197,94,0.1)',color:'#22C55E',label:'WIN ✓'},
+                loss:{bg:'rgba(239,68,68,0.1)',color:'#EF4444',label:'LOSS ✗'},
+                expired:{bg:'rgba(113,113,122,0.1)',color:brand.smoke,label:'EXPIRED'},
+                watching:{bg:'rgba(245,158,11,0.1)',color:brand.amber,label:'WATCHING'},
+              };
+              const st=sc[pick.status]||sc.expired;
+              return <div key={pick.id} style={{borderBottom:`1px solid ${brand.border}`}}>
+                {/* Header row — always visible */}
+                <div onClick={()=>setExpandedPick(isOpen?null:pick.id)} style={{display:'flex',alignItems:'center',gap:12,padding:'12px 16px',cursor:'pointer',background:isOpen?'rgba(245,158,11,0.04)':'transparent',transition:'background 0.15s'}}>
+                  <span style={{fontSize:11,color:brand.smoke,fontFamily:M,minWidth:80}}>{pick.date}</span>
+                  <span onClick={(e)=>{e.stopPropagation();tickClick(pick.symbol);}} style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:M,minWidth:60,cursor:'pointer'}}>{pick.symbol}</span>
+                  <span style={{fontSize:12,color:brand.white,fontWeight:600,minWidth:100}}>{fp(pick.priceAtPick)}</span>
+                  <span style={{fontSize:10,fontFamily:M,padding:'2px 6px',borderRadius:3,background:pick.direction==='LONG'?'rgba(34,197,94,0.1)':pick.direction==='SHORT'?'rgba(239,68,68,0.1)':'rgba(245,158,11,0.1)',color:pick.direction==='LONG'?'#22C55E':pick.direction==='SHORT'?'#EF4444':brand.amber,fontWeight:700}}>{pick.direction}</span>
+                  <span style={{flex:1,fontSize:11,color:brand.silver,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{pick.thesis}</span>
+                  <span style={{display:'flex',gap:1}}>{Array.from({length:pick.conviction},(_,i)=><span key={i} style={{fontSize:10}}>🔥</span>)}</span>
+                  <span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,fontWeight:700,background:st.bg,color:st.color}}>{st.label}</span>
+                  {pick.result?.pnl&&<span style={{fontSize:11,fontFamily:M,fontWeight:700,color:pick.result.pnl.startsWith('+')?'#22C55E':'#EF4444'}}>{pick.result.pnl}</span>}
+                  <span style={{color:brand.smoke,fontSize:14,transform:isOpen?'rotate(180deg)':'rotate(0deg)',transition:'transform 0.2s'}}>▾</span>
+                </div>
+                {/* Expanded analysis */}
+                {isOpen&&<div style={{padding:'0 16px 16px 16px',background:'rgba(0,0,0,0.15)'}}>
+                  <div style={{display:'flex',gap:16,marginBottom:12,flexWrap:'wrap'}}>
+                    <div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span style={{fontSize:10,color:brand.smoke}}>Type:</span>
+                      <span style={{padding:'2px 6px',borderRadius:3,fontSize:10,fontFamily:M,background:'rgba(245,158,11,0.1)',color:brand.amber}}>{pick.type.toUpperCase()}</span>
+                    </div>
+                    {pick.entry&&<div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span style={{fontSize:10,color:brand.smoke}}>Entry:</span>
+                      <span style={{fontSize:11,fontFamily:M,color:'#22C55E',fontWeight:600}}>{pick.entry}</span>
+                    </div>}
+                    {pick.target&&<div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span style={{fontSize:10,color:brand.smoke}}>Target:</span>
+                      <span style={{fontSize:11,fontFamily:M,color:brand.amber,fontWeight:600}}>{pick.target}</span>
+                    </div>}
+                    {pick.stop&&<div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span style={{fontSize:10,color:brand.smoke}}>Stop:</span>
+                      <span style={{fontSize:11,fontFamily:M,color:'#EF4444',fontWeight:600}}>{pick.stop}</span>
+                    </div>}
+                    {pick.result?.exitDate&&<div style={{display:'flex',alignItems:'center',gap:6}}>
+                      <span style={{fontSize:10,color:brand.smoke}}>Exited:</span>
+                      <span style={{fontSize:11,fontFamily:M,color:brand.silver}}>{pick.result.exitDate}</span>
+                    </div>}
+                  </div>
+                  {pick.result?.notes&&<div style={{padding:'8px 12px',borderRadius:6,background:'rgba(34,197,94,0.06)',border:'1px solid rgba(34,197,94,0.15)',marginBottom:12}}>
+                    <span style={{fontSize:11,color:'#22C55E',fontFamily:M}}>{pick.result.notes}</span>
+                  </div>}
+                  <div style={{fontSize:12,color:brand.silver,lineHeight:1.7,fontFamily:'system-ui, sans-serif',whiteSpace:'pre-wrap'}}>{pick.analysis}</div>
+                  <div style={{display:'flex',gap:6,marginTop:12,flexWrap:'wrap'}}>
+                    {pick.tags.map(tag=><span key={tag} style={{padding:'2px 8px',borderRadius:12,fontSize:9,fontFamily:M,background:'rgba(113,113,122,0.1)',color:brand.smoke}}>{tag}</span>)}
+                  </div>
+                  {pick.source&&<div style={{marginTop:8,fontSize:10,color:brand.smoke,fontFamily:M,fontStyle:'italic'}}>Source: {pick.source}</div>}
+                </div>}
+              </div>;
+            })}
+            {filteredPicks.length===0&&<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>No picks match this filter</div>}
+          </div>
+        </div>
 
         {/* FOOTER */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:16,padding:'12px 0',borderTop:`1px solid ${brand.border}`}}>
