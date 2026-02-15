@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T13:29:02.514Z",
+    "lastHeartbeat": "2026-02-15T13:34:02.397Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -12,8 +12,8 @@
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >25 hours",
-        "timestamp": "2026-02-15T13:29:02.514Z",
+        "message": "Wendy agent offline for >26 hours",
+        "timestamp": "2026-02-15T13:34:02.397Z",
         "resolved": false
       },
       {
@@ -36,7 +36,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -90,7 +90,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -120,7 +120,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T13:01:20.993Z",
       "role": "Chief of Staff",
@@ -131,7 +131,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T13:00:49.171Z",
       "role": "Social Strategist",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T13:29:03.454Z",
+  "generatedAt": "2026-02-15T13:34:03.311Z",
   "version": 2
 }
