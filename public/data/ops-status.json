@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T19:34:03.199Z",
+    "lastHeartbeat": "2026-02-15T19:39:03.290Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
@@ -29,7 +29,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -38,11 +38,11 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T11:53:14.244Z"
+      "lastSeen": "2026-02-15T19:38:55.694Z"
     },
     {
       "name": "Bobby",
@@ -101,7 +101,7 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -109,6 +109,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T19:38:55.694Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 17
+    },
     {
       "key": "agent:paula:main",
       "agent": "Paula",
@@ -124,7 +135,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T19:07:59.399Z",
       "role": "Chief of Staff",
@@ -135,7 +146,7 @@
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T19:05:07.310Z",
       "role": "Wellness Coach",
@@ -185,17 +196,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 57
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T11:53:14.244Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 17
     },
     {
       "key": "agent:tony:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T19:34:04.153Z",
+  "generatedAt": "2026-02-15T19:39:04.289Z",
   "version": 2
 }
