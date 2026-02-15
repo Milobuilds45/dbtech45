@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T19:19:03.194Z",
+    "lastHeartbeat": "2026-02-15T19:24:03.187Z",
     "totalCrons": 17,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -83,7 +83,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -146,7 +146,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T18:51:16.988Z",
       "role": "Social Strategist",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T19:19:04.168Z",
+  "generatedAt": "2026-02-15T19:24:04.141Z",
   "version": 2
 }
