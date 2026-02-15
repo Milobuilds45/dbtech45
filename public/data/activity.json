@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "ff15fef5",
+      "author": "Milo",
+      "timestamp": "2026-02-15 14:14:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "a6c4773b",
       "author": "Milo",
       "timestamp": "2026-02-15 14:09:04 -0500",
@@ -344,13 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "b0062f51",
-      "author": "Milo",
-      "timestamp": "2026-02-15 10:07:36 -0500",
-      "message": "feat(picks): backfill all historical Bobby picks from MILO archives"
-    },
-    {
       "type": "cron_run",
       "id": "a63a4c14",
       "timestamp": "2026-02-15T14:02:58.275Z",
@@ -414,5 +414,5 @@
       "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
     }
   ],
-  "generatedAt": "2026-02-15T19:14:04.223Z"
+  "generatedAt": "2026-02-15T19:19:04.273Z"
 }
