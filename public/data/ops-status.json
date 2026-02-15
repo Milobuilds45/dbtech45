@@ -4,18 +4,11 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T15:14:02.574Z",
+    "lastHeartbeat": "2026-02-15T15:19:02.520Z",
     "totalCrons": 17,
-    "activeSessions": 7,
+    "activeSessions": 8,
     "totalAgents": 9,
     "alerts": [
-      {
-        "id": "offline-wendy",
-        "type": "warning",
-        "message": "Wendy agent offline for >27 hours",
-        "timestamp": "2026-02-15T15:14:02.573Z",
-        "resolved": false
-      },
       {
         "id": "cron-fail-3d56a05b",
         "type": "error",
@@ -108,14 +101,25 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:03:05.004Z"
+      "lastSeen": "2026-02-15T15:15:40.926Z"
     }
   ],
   "sessions": [
+    {
+      "key": "agent:wendy:main",
+      "agent": "Wendy",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T15:15:40.926Z",
+      "role": "Wellness Coach",
+      "cost": 0,
+      "sessionCount": 11
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -203,17 +207,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 23
-    },
-    {
-      "key": "agent:wendy:main",
-      "agent": "Wendy",
-      "model": "claude-opus-4-5",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:03:05.004Z",
-      "role": "Wellness Coach",
-      "cost": 0,
-      "sessionCount": 11
     }
   ],
   "crons": [
@@ -473,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T15:14:03.519Z",
+  "generatedAt": "2026-02-15T15:19:03.461Z",
   "version": 2
 }
