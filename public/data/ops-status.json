@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T06:09:02.759Z",
+    "lastHeartbeat": "2026-02-15T06:14:02.731Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >17 hours",
-        "timestamp": "2026-02-15T06:09:02.759Z",
+        "timestamp": "2026-02-15T06:14:02.730Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >18 hours",
-        "timestamp": "2026-02-15T06:09:02.759Z",
+        "timestamp": "2026-02-15T06:14:02.730Z",
         "resolved": false
       },
       {
@@ -43,11 +43,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T05:10:15.568Z"
+      "lastSeen": "2026-02-15T06:10:14.851Z"
     },
     {
       "name": "Anders",
@@ -127,9 +127,9 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T05:10:15.568Z",
+      "lastActivity": "2026-02-15T06:10:14.851Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 26
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T06:09:03.781Z",
+  "generatedAt": "2026-02-15T06:14:03.726Z",
   "version": 2
 }
