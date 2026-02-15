@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T19:04:03.314Z",
+    "lastHeartbeat": "2026-02-15T19:09:03.173Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": [
       {
@@ -29,11 +29,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T18:08:00.013Z"
+      "lastSeen": "2026-02-15T19:07:59.399Z"
     },
     {
       "name": "Anders",
@@ -47,7 +47,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T19:03:18.076Z"
+      "lastSeen": "2026-02-15T19:07:57.668Z"
     },
     {
       "name": "Dwight",
@@ -105,17 +105,28 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T19:03:11.294Z"
+      "lastSeen": "2026-02-15T19:05:07.310Z"
     }
   ],
   "sessions": [
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T19:07:59.399Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
     {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T19:03:18.076Z",
+      "lastActivity": "2026-02-15T19:07:57.668Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
@@ -126,7 +137,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T19:03:11.294Z",
+      "lastActivity": "2026-02-15T19:05:07.310Z",
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
@@ -143,21 +154,10 @@
       "sessionCount": 22
     },
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T18:08:00.013Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
-    },
-    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T15:07:50.401Z",
       "role": "Trading Advisor",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T19:04:04.284Z",
+  "generatedAt": "2026-02-15T19:09:04.159Z",
   "version": 2
 }
