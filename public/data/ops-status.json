@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T04:39:02.618Z",
+    "lastHeartbeat": "2026-02-15T04:44:02.592Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-15T04:39:02.617Z",
+        "timestamp": "2026-02-15T04:44:02.592Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-15T04:39:02.617Z",
+        "timestamp": "2026-02-15T04:44:02.592Z",
         "resolved": false
       },
       {
@@ -56,7 +56,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T04:38:23.045Z"
+      "lastSeen": "2026-02-15T04:42:59.954Z"
     },
     {
       "name": "Bobby",
@@ -129,7 +129,7 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T04:38:23.045Z",
+      "lastActivity": "2026-02-15T04:42:59.954Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 19
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T04:39:03.611Z",
+  "generatedAt": "2026-02-15T04:44:03.615Z",
   "version": 2
 }
