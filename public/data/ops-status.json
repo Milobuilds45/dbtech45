@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T18:14:03.036Z",
+    "lastHeartbeat": "2026-02-15T18:19:03.039Z",
     "totalCrons": 17,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -101,14 +101,25 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:42:32.302Z"
+      "lastSeen": "2026-02-15T18:15:46.626Z"
     }
   ],
   "sessions": [
+    {
+      "key": "agent:wendy:main",
+      "agent": "Wendy",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T18:15:46.626Z",
+      "role": "Wellness Coach",
+      "cost": 0,
+      "sessionCount": 11
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -119,17 +130,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
-    },
-    {
-      "key": "agent:wendy:main",
-      "agent": "Wendy",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:42:32.302Z",
-      "role": "Wellness Coach",
-      "cost": 0,
-      "sessionCount": 11
     },
     {
       "key": "agent:bobby:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T18:14:03.978Z",
+  "generatedAt": "2026-02-15T18:19:03.968Z",
   "version": 2
 }
