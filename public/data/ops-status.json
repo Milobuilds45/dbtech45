@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T20:04:03.495Z",
+    "lastHeartbeat": "2026-02-15T20:09:03.275Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -42,7 +42,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T20:04:00.788Z"
+      "lastSeen": "2026-02-15T20:08:40.086Z"
     },
     {
       "name": "Bobby",
@@ -115,10 +115,10 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T20:04:00.788Z",
+      "lastActivity": "2026-02-15T20:08:40.086Z",
       "role": "Full Stack Architect",
       "cost": 0,
-      "sessionCount": 18
+      "sessionCount": 19
     },
     {
       "key": "agent:milo:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T20:04:04.507Z",
+  "generatedAt": "2026-02-15T20:09:04.247Z",
   "version": 2
 }
