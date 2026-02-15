@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T00:04:03.535Z",
+    "lastHeartbeat": "2026-02-15T00:09:04.715Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": []
   },
@@ -18,7 +18,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:04:00.330Z"
+      "lastSeen": "2026-02-15T00:05:09.131Z"
     },
     {
       "name": "Anders",
@@ -27,7 +27,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T00:01:53.020Z"
+      "lastSeen": "2026-02-15T00:08:17.044Z"
     },
     {
       "name": "Bobby",
@@ -68,7 +68,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -95,26 +95,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:04:00.330Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
-    },
-    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T00:01:53.020Z",
+      "lastActivity": "2026-02-15T00:08:17.044Z",
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 16
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T00:05:09.131Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 25
     },
     {
       "key": "agent:dwight:main",
@@ -142,7 +142,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-14T20:08:52.927Z",
       "role": "Social Strategist",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T00:04:04.735Z",
+  "generatedAt": "2026-02-15T00:09:05.895Z",
   "version": 2
 }

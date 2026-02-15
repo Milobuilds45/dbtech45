@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "41250079",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:08:06 -0500",
+      "message": "feat: connect Agent Ideas to DNA Scanner with auto-scoring and Quick Scan"
+    },
+    {
+      "type": "commit",
+      "id": "4948cbbf",
+      "author": "Milo",
+      "timestamp": "2026-02-14 19:04:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "9fd25552",
       "author": "Milo",
       "timestamp": "2026-02-14 19:01:46 -0500",
@@ -337,20 +351,6 @@
       "message": "Move Agent Reasoning to full-width section for better readability"
     },
     {
-      "type": "commit",
-      "id": "17dfb146",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:59:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "e3dc70d0",
-      "author": "Milo",
-      "timestamp": "2026-02-14 15:54:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -442,5 +442,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-15T00:04:04.850Z"
+  "generatedAt": "2026-02-15T00:09:06.024Z"
 }
