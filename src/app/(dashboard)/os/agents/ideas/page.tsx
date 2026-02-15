@@ -2,7 +2,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
-import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull, Bot, Wand2 } from 'lucide-react';
+import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull, Bot, Wand2, Dna } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
 const STORAGE_KEY = 'dbtech-agent-ideas';
@@ -956,6 +956,28 @@ export default function AgentIdeasPage() {
                       <button onClick={() => router.push(`/os/kanban?add_title=${encodeURIComponent(idea.title)}&add_project=${encodeURIComponent(idea.agentName)}`)} style={{
                         background: 'transparent', color: brand.info, border: `1px solid ${brand.info}`, borderRadius: '6px', padding: '7px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
                       }}><Zap size={13} />Kanban</button>
+                      <button onClick={() => {
+                        try {
+                          localStorage.setItem('dna-scan-idea', JSON.stringify({
+                            title: idea.title,
+                            description: idea.description,
+                            plainEnglish: idea.plainEnglish || '',
+                            problemSolved: idea.problemSolved,
+                            targetMarket: idea.targetMarket,
+                            businessModel: idea.businessModel,
+                            revenueProjection: idea.revenueProjection,
+                            competitiveAdvantage: idea.competitiveAdvantage,
+                            developmentTime: idea.developmentTime,
+                            riskAssessment: idea.riskAssessment,
+                            agentConfidence: idea.agentConfidence,
+                            marketSize: idea.marketSize,
+                            agentName: idea.agentName,
+                          }));
+                        } catch {}
+                        router.push('/tools/dna-scanner?from=ideas');
+                      }} style={{
+                        background: `${brand.amber}15`, color: brand.amber, border: `1px solid ${brand.amber}`, borderRadius: '6px', padding: '7px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
+                      }}><Dna size={13} />DNA Scan</button>
                     </div>
                   </div>
                 )}

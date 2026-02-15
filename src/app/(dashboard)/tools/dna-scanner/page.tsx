@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useRef, useEffect, useCallback, useMemo, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { brand } from '@/lib/brand';
 import {
   ChevronRight, ChevronLeft, Download, Mail,
@@ -79,10 +80,100 @@ const Sparkline = ({ score }: { score: number }) => {
 };
 
 /* ═══════════════════════════════════════════════════════
+   Idea → DNA Score Mapping
+   ═══════════════════════════════════════════════════════ */
+
+function inferBusinessType(idea: any): string {
+  const text = `${idea.title} ${idea.description} ${idea.businessModel}`.toLowerCase();
+  if (text.includes('subscription') || text.includes('saas') || text.includes('/month') || text.includes('per month')) return 'SaaS';
+  if (text.includes('restaurant') || text.includes('kitchen') || text.includes('food')) return 'Restaurant';
+  if (text.includes('marketplace') || text.includes('platform fee') || text.includes('network')) return 'Marketplace';
+  if (text.includes('e-commerce') || text.includes('shop') || text.includes('store')) return 'E-commerce';
+  if (text.includes('content') || text.includes('media') || text.includes('social')) return 'Content/Media';
+  if (text.includes('consulting') || text.includes('agency') || text.includes('service')) return 'Service';
+  return 'SaaS';
+}
+
+function computeIdeaScores(idea: any): Record<string, number> {
+  const scores: Record<string, number> = {};
+  const text = `${idea.description} ${idea.problemSolved} ${idea.targetMarket} ${idea.businessModel} ${idea.competitiveAdvantage} ${idea.riskAssessment}`.toLowerCase();
+  const conf = idea.agentConfidence || 3;
+  const mktSize = idea.marketSize === 'massive' ? 9 : idea.marketSize === 'large' ? 7 : idea.marketSize === 'medium' ? 5 : 3;
+
+  // Layer 1: Problem/Solution Fit (4 questions)
+  const hasClearProblem = idea.problemSolved && idea.problemSolved.length > 30;
+  const hasUrgency = text.includes('waste') || text.includes('lose') || text.includes('cost') || text.includes('pain') || text.includes('struggle');
+  const hasCost = text.includes('$') || text.includes('billion') || text.includes('million') || text.includes('annually');
+  scores['l1q1'] = hasClearProblem ? Math.min(conf + 3, 10) : conf;
+  scores['l1q2'] = hasUrgency ? Math.min(conf + 2, 10) : Math.max(conf - 1, 1);
+  scores['l1q3'] = hasCost ? Math.min(conf + 3, 10) : Math.max(conf, 2);
+  scores['l1q4'] = hasClearProblem && hasUrgency ? Math.min(conf + 2, 10) : conf;
+
+  // Layer 2: Market Opportunity (4 questions)
+  const hasMarket = idea.targetMarket && idea.targetMarket.length > 20;
+  const hasSpecificAudience = text.includes('professional') || text.includes('business owner') || text.includes('developer') || text.includes('trader') || text.includes('restaurant');
+  scores['l2q1'] = hasMarket ? Math.min(mktSize, 10) : 3;
+  scores['l2q2'] = hasSpecificAudience ? Math.min(mktSize + 1, 10) : Math.max(mktSize - 2, 1);
+  scores['l2q3'] = mktSize >= 7 ? 7 : mktSize >= 5 ? 5 : 3;
+  scores['l2q4'] = hasMarket && hasSpecificAudience ? Math.min(mktSize + 1, 10) : mktSize;
+
+  // Layer 3: Revenue Model (4 questions)
+  const hasRevenue = idea.revenueProjection && idea.revenueProjection.length > 10;
+  const hasModel = idea.businessModel && idea.businessModel.length > 15;
+  const hasPricing = text.includes('$') && (text.includes('/month') || text.includes('per month') || text.includes('one-time'));
+  const hasTiers = text.includes('conservative') || text.includes('moderate') || text.includes('aggressive');
+  scores['l3q1'] = hasModel && hasPricing ? 7 : hasModel ? 5 : 3;
+  scores['l3q2'] = hasPricing ? 7 : 4;
+  scores['l3q3'] = hasTiers ? 7 : hasRevenue ? 5 : 3;
+  scores['l3q4'] = hasModel ? 6 : 3;
+
+  // Layer 4: Go-to-Market (4 questions)
+  const hasGTM = text.includes('launch') || text.includes('marketing') || text.includes('acquire') || text.includes('growth');
+  scores['l4q1'] = hasSpecificAudience ? 6 : 3;
+  scores['l4q2'] = hasGTM ? 5 : 3;
+  scores['l4q3'] = 3; // Distribution channels unknown
+  scores['l4q4'] = hasGTM ? 4 : 2;
+
+  // Layer 5: Operations (4 questions)
+  const hasBuildTime = idea.developmentTime && idea.developmentTime.length > 5;
+  const fastBuild = text.includes('hour') || text.includes('1 day') || text.includes('2 day') || text.includes('24');
+  scores['l5q1'] = hasBuildTime ? (fastBuild ? 7 : 5) : 3;
+  scores['l5q2'] = fastBuild ? 6 : 4;
+  scores['l5q3'] = 3; // Team/processes unknown for idea stage
+  scores['l5q4'] = 4; // Default for scalability
+
+  // Layer 6: Metrics (4 questions)
+  const hasMetrics = text.includes('arr') || text.includes('subscriber') || text.includes('revenue') || text.includes('customer');
+  scores['l6q1'] = hasMetrics ? 5 : 2;
+  scores['l6q2'] = hasTiers ? 6 : 3;
+  scores['l6q3'] = 3;
+  scores['l6q4'] = hasRevenue ? 5 : 2;
+
+  // Layer 7: Competitive Moat (4 questions)
+  const hasCompetitive = idea.competitiveAdvantage && idea.competitiveAdvantage.length > 20;
+  const hasFirst = text.includes('first') || text.includes('only') || text.includes('unique');
+  const hasRisk = idea.riskAssessment && idea.riskAssessment.length > 30;
+  scores['l7q1'] = hasCompetitive ? 6 : 3;
+  scores['l7q2'] = hasFirst ? 7 : 4;
+  scores['l7q3'] = hasCompetitive && hasFirst ? 6 : 3;
+  scores['l7q4'] = hasRisk ? 5 : 3;
+
+  return scores;
+}
+
+/* ═══════════════════════════════════════════════════════
    Main Scanner
    ═══════════════════════════════════════════════════════ */
 
-export default function DNAScannerPage() {
+export default function DNAScannerPageWrapper() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#888' }}>Loading scanner...</div>}>
+      <DNAScannerPage />
+    </Suspense>
+  );
+}
+
+function DNAScannerPage() {
   const [step, setStep] = useState(-1);
   const [answers, setAnswers] = useState<Answers>({});
   const [checks, setChecks] = useState<CheckboxSelections>({});
@@ -92,13 +183,47 @@ export default function DNAScannerPage() {
   const [email, setEmail] = useState('');
   const [unlocked, setUnlocked] = useState(false);
   const [isScanning, setIsScanning] = useState(false);
+  const [ideaSource, setIdeaSource] = useState<any>(null);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     try {
       const s = localStorage.getItem('dna-scanner-email');
       if (s) { setEmail(s); setUnlocked(true); }
     } catch {}
-  }, []);
+
+    // Load idea data from Agent Ideas
+    if (searchParams.get('from') === 'ideas') {
+      try {
+        const raw = localStorage.getItem('dna-scan-idea');
+        if (raw) {
+          const idea = JSON.parse(raw);
+          setIdeaSource(idea);
+
+          // Pre-fill business context
+          const desc = [
+            idea.title,
+            idea.plainEnglish || idea.description,
+            `Target Market: ${idea.targetMarket}`,
+            `Business Model: ${idea.businessModel}`,
+            `Revenue: ${idea.revenueProjection}`,
+          ].join('\n\n');
+          setBusinessCtx(prev => ({
+            ...prev,
+            description: desc,
+            type: inferBusinessType(idea),
+            stage: 'Idea',
+            teamSize: 'Solo',
+            goal: 'Find PMF',
+          }));
+
+          // Auto-score based on idea data
+          const autoScores = computeIdeaScores(idea);
+          setAnswers(autoScores);
+        }
+      } catch {}
+    }
+  }, [searchParams]);
 
   const handleNext = () => {
     if (step < 6) setStep(step + 1);
@@ -295,6 +420,24 @@ export default function DNAScannerPage() {
                 : `Analyzing ${LAYERS[step].name}. Rate your maturity across each data point.`}
             </p>
 
+            {/* Idea Source Banner */}
+            {ideaSource && step === -1 && (
+              <div style={{
+                marginTop: '20px', padding: '16px', borderRadius: '12px',
+                background: `${brand.amber}10`, border: `1px solid ${brand.amber}30`,
+              }}>
+                <div style={{ color: brand.amber, fontSize: '11px', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '6px' }}>
+                  Loaded from Agent Ideas
+                </div>
+                <div style={{ color: brand.white, fontSize: '16px', fontWeight: 700, marginBottom: '4px' }}>
+                  {ideaSource.title}
+                </div>
+                <div style={{ color: brand.smoke, fontSize: '12px' }}>
+                  by {ideaSource.agentName} &bull; Auto-scored from idea data
+                </div>
+              </div>
+            )}
+
             {/* Layer Grid Preview */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px', marginTop: '40px', paddingTop: '24px', borderTop: `1px solid ${brand.border}` }}>
               {LAYERS.map((l, i) => (
@@ -348,9 +491,23 @@ export default function DNAScannerPage() {
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => setStep(0)} style={btnPrimary}>
-                    Start Diagnostic <ArrowRight size={20} />
-                  </button>
+                  <div style={{ display: 'flex', gap: '12px' }}>
+                    <button onClick={() => setStep(0)} style={{ ...btnPrimary, flex: 1 }}>
+                      Start Diagnostic <ArrowRight size={20} />
+                    </button>
+                    {ideaSource && (
+                      <button onClick={() => {
+                        if (!unlocked) { setShowEmail(true); return; }
+                        runFinalScan();
+                      }} style={{
+                        ...btnPrimary, flex: 1,
+                        background: 'transparent', color: brand.amber,
+                        border: `2px solid ${brand.amber}`,
+                      }}>
+                        <Dna size={20} /> Quick Scan
+                      </button>
+                    )}
+                  </div>
                 </div>
               ) : (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
