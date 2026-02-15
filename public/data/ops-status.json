@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T03:24:02.890Z",
+    "lastHeartbeat": "2026-02-15T03:29:03.217Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-15T03:24:02.889Z",
+        "timestamp": "2026-02-15T03:29:03.217Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >15 hours",
-        "timestamp": "2026-02-15T03:24:02.889Z",
+        "timestamp": "2026-02-15T03:29:03.217Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:22:54.678Z"
+      "lastSeen": "2026-02-15T03:25:58.695Z"
     },
     {
       "name": "Anders",
@@ -74,7 +74,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:24:01.113Z"
+      "lastSeen": "2026-02-15T03:29:02.266Z"
     },
     {
       "name": "Dwight",
@@ -110,7 +110,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:22:02.792Z"
+      "lastSeen": "2026-02-15T03:27:50.426Z"
     },
     {
       "name": "Wendy",
@@ -129,21 +129,10 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:24:01.113Z",
+      "lastActivity": "2026-02-15T03:29:02.266Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:22:54.678Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
     },
     {
       "key": "agent:remy:main",
@@ -151,10 +140,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:22:02.792Z",
+      "lastActivity": "2026-02-15T03:27:50.426Z",
       "role": "Restaurant Marketing",
       "cost": 0,
       "sessionCount": 844
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T03:25:58.695Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 25
     },
     {
       "key": "agent:anders:main",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T03:24:04.158Z",
+  "generatedAt": "2026-02-15T03:29:04.468Z",
   "version": 2
 }

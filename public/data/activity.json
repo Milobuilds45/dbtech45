@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "c0e7ae4f",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:29:01 -0500",
+      "message": "feat: integrate archived resources across Skills Inventory, DNA, and Activity Dashboard"
+    },
+    {
+      "type": "commit",
+      "id": "c1e32248",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:25:41 -0500",
+      "message": "feat: archive resources marked as 'Have it' with collapsible view"
+    },
+    {
+      "type": "commit",
+      "id": "0f9a6699",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:24:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "b832978f",
       "author": "Milo",
       "timestamp": "2026-02-14 22:19:05 -0500",
@@ -344,27 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "f8f09574",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:42:16 -0500",
-      "message": "feat: DNA Scanner V3 - Intelligence Feed sidebar with Market Pulse, Strategic Auditor, Bleed Meter"
-    },
-    {
-      "type": "commit",
-      "id": "6c2c17bc",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "8daa3e62",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:34:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -449,5 +449,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T03:24:04.269Z"
+  "generatedAt": "2026-02-15T03:29:04.662Z"
 }
