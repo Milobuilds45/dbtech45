@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T23:14:02.638Z",
+    "lastHeartbeat": "2026-02-15T23:19:02.609Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 7,
     "totalAgents": 9,
     "alerts": [
       {
@@ -78,7 +78,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T23:00:35.816Z"
+      "lastSeen": "2026-02-15T23:18:57.249Z"
     },
     {
       "name": "Dax",
@@ -92,11 +92,11 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T12:30:12.664Z"
+      "lastSeen": "2026-02-15T23:18:57.080Z"
     },
     {
       "name": "Wendy",
@@ -115,10 +115,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T23:00:35.816Z",
+      "lastActivity": "2026-02-15T23:18:57.249Z",
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 24
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T23:18:57.080Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 845
     },
     {
       "key": "agent:milo:main",
@@ -185,17 +196,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T12:30:12.664Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 845
     },
     {
       "key": "agent:dwight:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T23:14:03.690Z",
+  "generatedAt": "2026-02-15T23:19:03.645Z",
   "version": 2
 }
