@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { Calendar, Clock, Edit3, Save, X, ChevronLeft, ChevronRight, Moon, Star } from 'lucide-react';
 
@@ -21,6 +21,7 @@ interface DailyPlan {
   suggestions: OvernightSuggestion[];
   notes: string;
   approved: boolean;
+  empty?: boolean;
 }
 
 const AGENTS = [
@@ -35,87 +36,59 @@ const AGENTS = [
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
-// Mock data - replace with API calls
-const generateMockPlan = (date: string): DailyPlan => ({
-  date,
-  approved: false,
-  notes: '',
-  suggestions: [
-    {
-      id: `${date}-1`,
-      agentId: 'bobby',
-      agentName: 'Bobby',
-      suggestion: 'Analyze pre-market futures and options flow for tomorrow\'s trading session. Update risk models based on current volatility.',
-      priority: 'high',
-      category: 'analysis',
-      estimatedHours: 2,
-      status: 'suggested',
-      createdAt: date,
-      updatedAt: date,
-    },
-    {
-      id: `${date}-2`,
-      agentId: 'anders',
-      agentName: 'Anders',
-      suggestion: 'Complete AxeCap terminal performance optimization and implement new caching strategy for market data APIs.',
-      priority: 'high',
-      category: 'development',
-      estimatedHours: 3,
-      status: 'suggested',
-      createdAt: date,
-      updatedAt: date,
-    },
-    {
-      id: `${date}-3`,
-      agentId: 'paula',
-      agentName: 'Paula',
-      suggestion: 'Design new brand assets for the upcoming Biz-in-a-Box marketing campaign. Create mockups for landing page.',
-      priority: 'medium',
-      category: 'content',
-      estimatedHours: 2.5,
-      status: 'suggested',
-      createdAt: date,
-      updatedAt: date,
-    },
-    {
-      id: `${date}-4`,
-      agentId: 'dwight',
-      agentName: 'Dwight',
-      suggestion: 'Research emerging AI tools and frameworks. Compile intelligence brief on competitor analysis for agent marketplaces.',
-      priority: 'medium',
-      category: 'research',
-      estimatedHours: 2,
-      status: 'suggested',
-      createdAt: date,
-      updatedAt: date,
-    },
-    {
-      id: `${date}-5`,
-      agentId: 'milo',
-      agentName: 'Milo',
-      suggestion: 'Update project documentation and coordinate tomorrow\'s agent tasks. Review and organize memory systems.',
-      priority: 'low',
-      category: 'planning',
-      estimatedHours: 1.5,
-      status: 'suggested',
-      createdAt: date,
-      updatedAt: date,
-    },
-  ]
-});
+const CACHE_KEY_PREFIX = 'overnight-plan-';
+
+function getCachedPlan(date: string): DailyPlan | null {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY_PREFIX + date);
+    if (raw) return JSON.parse(raw);
+  } catch { /* ignore */ }
+  return null;
+}
+
+function setCachedPlan(date: string, plan: DailyPlan): void {
+  try {
+    localStorage.setItem(CACHE_KEY_PREFIX + date, JSON.stringify(plan));
+  } catch { /* ignore */ }
+}
 
 export default function OvernightPlanning() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
-  const [dailyPlan, setDailyPlan] = useState<DailyPlan>(generateMockPlan(selectedDate));
+  const [dailyPlan, setDailyPlan] = useState<DailyPlan>({ date: selectedDate, suggestions: [], notes: '', approved: false, empty: true });
+  const [loading, setLoading] = useState(true);
   const [editingNotes, setEditingNotes] = useState(false);
-  const [notes, setNotes] = useState(dailyPlan.notes);
+  const [notes, setNotes] = useState('');
   const [editingSuggestion, setEditingSuggestion] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
 
+  const fetchPlan = useCallback(async (date: string) => {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/overnight-plans?date=${date}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const plan: DailyPlan = await res.json();
+      plan.date = date;
+      setDailyPlan(plan);
+      setNotes(plan.notes || '');
+      setCachedPlan(date, plan);
+    } catch {
+      // Fallback to localStorage cache
+      const cached = getCachedPlan(date);
+      if (cached) {
+        setDailyPlan(cached);
+        setNotes(cached.notes || '');
+      } else {
+        setDailyPlan({ date, suggestions: [], notes: '', approved: false, empty: true });
+        setNotes('');
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   useEffect(() => {
-    // Load plan for selected date
-    setDailyPlan(generateMockPlan(selectedDate));
-  }, [selectedDate]);
+    fetchPlan(selectedDate);
+  }, [selectedDate, fetchPlan]);
 
   const navigateDate = (direction: 'prev' | 'next') => {
     const currentDate = new Date(selectedDate);
@@ -124,7 +97,7 @@ export default function OvernightPlanning() {
   };
 
   const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+    const date = new Date(dateStr + 'T12:00:00');
     return date.toLocaleDateString('en-US', { 
       weekday: 'long',
       year: 'numeric', 
@@ -152,13 +125,49 @@ export default function OvernightPlanning() {
     }
   };
 
-  const updateSuggestionStatus = (id: string, status: OvernightSuggestion['status']) => {
+  const postAction = async (body: Record<string, unknown>) => {
+    try {
+      const res = await fetch('/api/overnight-plans', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const result = await res.json();
+      if (result.plan) {
+        const updated = { ...result.plan, date: selectedDate, empty: false };
+        setDailyPlan(updated);
+        setCachedPlan(selectedDate, updated);
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const updateSuggestionStatus = async (id: string, status: OvernightSuggestion['status']) => {
+    // Optimistic update
     setDailyPlan(prev => ({
       ...prev,
       suggestions: prev.suggestions.map(s => 
         s.id === id ? { ...s, status, updatedAt: new Date().toISOString() } : s
       )
     }));
+
+    const success = await postAction({
+      action: 'update-status',
+      date: selectedDate,
+      suggestionId: id,
+      status,
+    });
+
+    if (!success) {
+      // Update localStorage with optimistic state anyway
+      setDailyPlan(prev => {
+        setCachedPlan(selectedDate, prev);
+        return prev;
+      });
+    }
   };
 
   const saveSuggestionEdit = (id: string) => {
@@ -177,17 +186,26 @@ export default function OvernightPlanning() {
     setEditText(suggestion.suggestion);
   };
 
-  const saveNotes = () => {
+  const saveNotes = async () => {
     setDailyPlan(prev => ({ ...prev, notes }));
     setEditingNotes(false);
+    await postAction({
+      action: 'update-notes',
+      date: selectedDate,
+      notes,
+    });
   };
 
-  const approvePlan = () => {
-    setDailyPlan(prev => ({ ...prev, approved: !prev.approved }));
+  const approvePlan = async () => {
+    const newApproved = !dailyPlan.approved;
+    setDailyPlan(prev => ({ ...prev, approved: newApproved }));
+    await postAction({
+      action: newApproved ? 'approve' : 'reject',
+      date: selectedDate,
+    });
   };
 
   const totalHours = dailyPlan.suggestions.reduce((sum, s) => sum + s.estimatedHours, 0);
-  const approvedSuggestions = dailyPlan.suggestions.filter(s => s.status === 'approved');
 
   return (
     <div style={styles.page}>
@@ -233,7 +251,7 @@ export default function OvernightPlanning() {
                 {formatDate(selectedDate)}
               </div>
               <div style={{ color: brand.smoke, fontSize: '12px' }}>
-                {totalHours} estimated hours • {dailyPlan.suggestions.length} suggestions
+                {dailyPlan.empty ? 'No plan for this date' : `${totalHours} estimated hours • ${dailyPlan.suggestions.length} suggestions`}
               </div>
             </div>
           </div>
@@ -255,385 +273,412 @@ export default function OvernightPlanning() {
           </button>
         </div>
 
-        {/* Plan Status & Actions */}
-        <div style={{
-          ...styles.card,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '16px 24px',
-          marginBottom: '20px',
-          background: dailyPlan.approved ? 'rgba(34,197,94,0.1)' : 'rgba(245,158,11,0.1)',
-          border: `1px solid ${dailyPlan.approved ? brand.success : brand.amber}`,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: dailyPlan.approved ? brand.success : brand.amber,
-            }} />
-            <span style={{ 
-              color: dailyPlan.approved ? brand.success : brand.amber,
-              fontWeight: 600,
-            }}>
-              {dailyPlan.approved ? 'Plan Approved' : 'Awaiting Approval'}
-            </span>
+        {loading ? (
+          <div style={{
+            ...styles.card,
+            padding: '48px',
+            textAlign: 'center' as const,
+            color: brand.smoke,
+          }}>
+            Loading plan...
           </div>
-
-          <button
-            onClick={approvePlan}
-            style={{
-              background: dailyPlan.approved ? 'transparent' : brand.amber,
-              color: dailyPlan.approved ? brand.success : brand.void,
-              border: dailyPlan.approved ? `1px solid ${brand.success}` : 'none',
-              borderRadius: '6px',
-              padding: '8px 16px',
-              fontSize: '14px',
-              fontWeight: 600,
-              cursor: 'pointer',
+        ) : dailyPlan.empty ? (
+          <div style={{
+            ...styles.card,
+            padding: '48px',
+            textAlign: 'center' as const,
+          }}>
+            <Moon size={40} style={{ color: brand.smoke, marginBottom: '16px' }} />
+            <div style={{ color: brand.silver, fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>
+              No overnight plan for this date
+            </div>
+            <div style={{ color: brand.smoke, fontSize: '14px' }}>
+              Navigate to a date with planned tasks or wait for agents to submit suggestions.
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Plan Status & Actions */}
+            <div style={{
+              ...styles.card,
               display: 'flex',
               alignItems: 'center',
-              gap: '6px',
-            }}
-          >
-            <Star size={16} style={{ 
-              fill: dailyPlan.approved ? brand.success : brand.void 
-            }} />
-            {dailyPlan.approved ? 'Approved' : 'Approve Plan'}
-          </button>
-        </div>
+              justifyContent: 'space-between',
+              padding: '16px 24px',
+              marginBottom: '20px',
+              background: dailyPlan.approved ? 'rgba(34,197,94,0.1)' : 'rgba(245,158,11,0.1)',
+              border: `1px solid ${dailyPlan.approved ? brand.success : brand.amber}`,
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{
+                  width: '8px',
+                  height: '8px',
+                  borderRadius: '50%',
+                  background: dailyPlan.approved ? brand.success : brand.amber,
+                }} />
+                <span style={{ 
+                  color: dailyPlan.approved ? brand.success : brand.amber,
+                  fontWeight: 600,
+                }}>
+                  {dailyPlan.approved ? 'Plan Approved' : 'Awaiting Approval'}
+                </span>
+              </div>
 
-        {/* Suggestions */}
-        <div style={{ marginBottom: '24px' }}>
-          <h3 style={{ 
-            color: brand.amber, 
-            fontSize: '18px', 
-            fontWeight: 600, 
-            marginBottom: '16px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px'
-          }}>
-            <Moon size={20} />
-            Agent Suggestions
-          </h3>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {dailyPlan.suggestions.map(suggestion => {
-              const agent = AGENTS.find(a => a.id === suggestion.agentId);
-              const isEditing = editingSuggestion === suggestion.id;
-
-              return (
-                <div
-                  key={suggestion.id}
-                  style={{
-                    ...styles.card,
-                    padding: '20px',
-                    border: suggestion.status === 'approved' ? 
-                      `1px solid ${brand.success}` : 
-                      `1px solid ${brand.border}`,
-                  }}
-                >
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    marginBottom: '12px',
-                  }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                      <div style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '6px',
-                        background: '#000000',
-                        border: `2px solid ${agent?.color || brand.smoke}`,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: agent?.color || brand.smoke,
-                        fontWeight: 700,
-                        fontSize: '12px',
-                      }}>
-                        {suggestion.agentName.substring(0, 2).toUpperCase()}
-                      </div>
-                      <div>
-                        <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>
-                          {suggestion.agentName}
-                        </div>
-                        <div style={{ color: brand.smoke, fontSize: '12px' }}>
-                          {suggestion.estimatedHours}h • {suggestion.category}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        background: `${getPriorityColor(suggestion.priority)}20`,
-                        color: getPriorityColor(suggestion.priority),
-                        textTransform: 'uppercase',
-                      }}>
-                        {suggestion.priority}
-                      </span>
-
-                      <span style={{
-                        padding: '4px 8px',
-                        borderRadius: '4px',
-                        fontSize: '11px',
-                        fontWeight: 600,
-                        background: `${getStatusColor(suggestion.status)}20`,
-                        color: getStatusColor(suggestion.status),
-                        textTransform: 'uppercase',
-                      }}>
-                        {suggestion.status.replace('-', ' ')}
-                      </span>
-
-                      {!isEditing && (
-                        <button
-                          onClick={() => startEditSuggestion(suggestion)}
-                          style={{
-                            background: 'transparent',
-                            border: 'none',
-                            color: brand.smoke,
-                            cursor: 'pointer',
-                            padding: '4px',
-                          }}
-                        >
-                          <Edit3 size={14} />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {isEditing ? (
-                    <div style={{ marginBottom: '12px' }}>
-                      <textarea
-                        value={editText}
-                        onChange={(e) => setEditText(e.target.value)}
-                        style={{
-                          width: '100%',
-                          background: brand.graphite,
-                          border: `1px solid ${brand.border}`,
-                          borderRadius: '6px',
-                          padding: '12px',
-                          color: brand.white,
-                          fontSize: '14px',
-                          fontFamily: 'inherit',
-                          resize: 'vertical',
-                          minHeight: '80px',
-                          outline: 'none',
-                        }}
-                      />
-                      <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
-                        <button
-                          onClick={() => saveSuggestionEdit(suggestion.id)}
-                          style={{
-                            background: brand.success,
-                            color: brand.void,
-                            border: 'none',
-                            borderRadius: '4px',
-                            padding: '6px 12px',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                          }}
-                        >
-                          <Save size={12} />
-                          Save
-                        </button>
-                        <button
-                          onClick={() => {
-                            setEditingSuggestion(null);
-                            setEditText('');
-                          }}
-                          style={{
-                            background: 'transparent',
-                            color: brand.smoke,
-                            border: `1px solid ${brand.border}`,
-                            borderRadius: '4px',
-                            padding: '6px 12px',
-                            fontSize: '12px',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '4px',
-                          }}
-                        >
-                          <X size={12} />
-                          Cancel
-                        </button>
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={{
-                      color: brand.silver,
-                      fontSize: '14px',
-                      lineHeight: '1.5',
-                      marginBottom: '12px',
-                    }}>
-                      {suggestion.suggestion}
-                    </div>
-                  )}
-
-                  {!isEditing && (
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <button
-                        onClick={() => updateSuggestionStatus(suggestion.id, 'approved')}
-                        disabled={suggestion.status === 'approved'}
-                        style={{
-                          background: suggestion.status === 'approved' ? brand.success : 'transparent',
-                          color: suggestion.status === 'approved' ? brand.void : brand.success,
-                          border: `1px solid ${brand.success}`,
-                          borderRadius: '4px',
-                          padding: '6px 12px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          cursor: suggestion.status === 'approved' ? 'default' : 'pointer',
-                          opacity: suggestion.status === 'approved' ? 0.7 : 1,
-                        }}
-                      >
-                        {suggestion.status === 'approved' ? 'Approved' : 'Approve'}
-                      </button>
-
-                      <button
-                        onClick={() => updateSuggestionStatus(suggestion.id, 'rejected')}
-                        disabled={suggestion.status === 'rejected'}
-                        style={{
-                          background: suggestion.status === 'rejected' ? brand.error : 'transparent',
-                          color: suggestion.status === 'rejected' ? brand.void : brand.error,
-                          border: `1px solid ${brand.error}`,
-                          borderRadius: '4px',
-                          padding: '6px 12px',
-                          fontSize: '12px',
-                          fontWeight: 600,
-                          cursor: suggestion.status === 'rejected' ? 'default' : 'pointer',
-                          opacity: suggestion.status === 'rejected' ? 0.7 : 1,
-                        }}
-                      >
-                        {suggestion.status === 'rejected' ? 'Rejected' : 'Reject'}
-                      </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Notes Section */}
-        <div style={styles.card}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            marginBottom: '16px',
-          }}>
-            <h3 style={{ color: brand.amber, fontSize: '16px', fontWeight: 600 }}>
-              Notes & Modifications
-            </h3>
-            {!editingNotes && (
               <button
-                onClick={() => {
-                  setEditingNotes(true);
-                  setNotes(dailyPlan.notes);
-                }}
+                onClick={approvePlan}
                 style={{
-                  background: 'transparent',
-                  border: `1px solid ${brand.border}`,
+                  background: dailyPlan.approved ? 'transparent' : brand.amber,
+                  color: dailyPlan.approved ? brand.success : brand.void,
+                  border: dailyPlan.approved ? `1px solid ${brand.success}` : 'none',
                   borderRadius: '6px',
-                  padding: '6px 12px',
-                  color: brand.silver,
+                  padding: '8px 16px',
+                  fontSize: '14px',
+                  fontWeight: 600,
                   cursor: 'pointer',
-                  fontSize: '12px',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '4px',
+                  gap: '6px',
                 }}
               >
-                <Edit3 size={12} />
-                Edit Notes
+                <Star size={16} style={{ 
+                  fill: dailyPlan.approved ? brand.success : brand.void 
+                }} />
+                {dailyPlan.approved ? 'Approved' : 'Approve Plan'}
               </button>
-            )}
-          </div>
+            </div>
 
-          {editingNotes ? (
-            <div>
-              <textarea
-                value={notes}
-                onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add notes about tonight's plan, modifications, or special instructions..."
-                style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  fontFamily: 'inherit',
-                  resize: 'vertical',
-                  minHeight: '100px',
-                  outline: 'none',
-                }}
-              />
-              <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
-                <button
-                  onClick={saveNotes}
-                  style={{
-                    background: brand.amber,
-                    color: brand.void,
-                    border: 'none',
-                    borderRadius: '6px',
-                    padding: '8px 16px',
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                  }}
-                >
-                  <Save size={14} />
-                  Save Notes
-                </button>
-                <button
-                  onClick={() => {
-                    setEditingNotes(false);
-                    setNotes(dailyPlan.notes);
-                  }}
-                  style={{
-                    background: 'transparent',
-                    color: brand.smoke,
-                    border: `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 16px',
-                    fontSize: '14px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Cancel
-                </button>
+            {/* Suggestions */}
+            <div style={{ marginBottom: '24px' }}>
+              <h3 style={{ 
+                color: brand.amber, 
+                fontSize: '18px', 
+                fontWeight: 600, 
+                marginBottom: '16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px'
+              }}>
+                <Moon size={20} />
+                Agent Suggestions
+              </h3>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {dailyPlan.suggestions.map(suggestion => {
+                  const agent = AGENTS.find(a => a.id === suggestion.agentId);
+                  const isEditing = editingSuggestion === suggestion.id;
+
+                  return (
+                    <div
+                      key={suggestion.id}
+                      style={{
+                        ...styles.card,
+                        padding: '20px',
+                        border: suggestion.status === 'approved' ? 
+                          `1px solid ${brand.success}` : 
+                          `1px solid ${brand.border}`,
+                      }}
+                    >
+                      <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'flex-start',
+                        marginBottom: '12px',
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                          <div style={{
+                            width: '32px',
+                            height: '32px',
+                            borderRadius: '6px',
+                            background: '#000000',
+                            border: `2px solid ${agent?.color || brand.smoke}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: agent?.color || brand.smoke,
+                            fontWeight: 700,
+                            fontSize: '12px',
+                          }}>
+                            {suggestion.agentName.substring(0, 2).toUpperCase()}
+                          </div>
+                          <div>
+                            <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>
+                              {suggestion.agentName}
+                            </div>
+                            <div style={{ color: brand.smoke, fontSize: '12px' }}>
+                              {suggestion.estimatedHours}h • {suggestion.category}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            fontWeight: 600,
+                            background: `${getPriorityColor(suggestion.priority)}20`,
+                            color: getPriorityColor(suggestion.priority),
+                            textTransform: 'uppercase',
+                          }}>
+                            {suggestion.priority}
+                          </span>
+
+                          <span style={{
+                            padding: '4px 8px',
+                            borderRadius: '4px',
+                            fontSize: '11px',
+                            fontWeight: 600,
+                            background: `${getStatusColor(suggestion.status)}20`,
+                            color: getStatusColor(suggestion.status),
+                            textTransform: 'uppercase',
+                          }}>
+                            {suggestion.status.replace('-', ' ')}
+                          </span>
+
+                          {!isEditing && (
+                            <button
+                              onClick={() => startEditSuggestion(suggestion)}
+                              style={{
+                                background: 'transparent',
+                                border: 'none',
+                                color: brand.smoke,
+                                cursor: 'pointer',
+                                padding: '4px',
+                              }}
+                            >
+                              <Edit3 size={14} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+
+                      {isEditing ? (
+                        <div style={{ marginBottom: '12px' }}>
+                          <textarea
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                            style={{
+                              width: '100%',
+                              background: brand.graphite,
+                              border: `1px solid ${brand.border}`,
+                              borderRadius: '6px',
+                              padding: '12px',
+                              color: brand.white,
+                              fontSize: '14px',
+                              fontFamily: 'inherit',
+                              resize: 'vertical',
+                              minHeight: '80px',
+                              outline: 'none',
+                            }}
+                          />
+                          <div style={{ display: 'flex', gap: '8px', marginTop: '8px' }}>
+                            <button
+                              onClick={() => saveSuggestionEdit(suggestion.id)}
+                              style={{
+                                background: brand.success,
+                                color: brand.void,
+                                border: 'none',
+                                borderRadius: '4px',
+                                padding: '6px 12px',
+                                fontSize: '12px',
+                                fontWeight: 600,
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              <Save size={12} />
+                              Save
+                            </button>
+                            <button
+                              onClick={() => {
+                                setEditingSuggestion(null);
+                                setEditText('');
+                              }}
+                              style={{
+                                background: 'transparent',
+                                color: brand.smoke,
+                                border: `1px solid ${brand.border}`,
+                                borderRadius: '4px',
+                                padding: '6px 12px',
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '4px',
+                              }}
+                            >
+                              <X size={12} />
+                              Cancel
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{
+                          color: brand.silver,
+                          fontSize: '14px',
+                          lineHeight: '1.5',
+                          marginBottom: '12px',
+                        }}>
+                          {suggestion.suggestion}
+                        </div>
+                      )}
+
+                      {!isEditing && (
+                        <div style={{ display: 'flex', gap: '8px' }}>
+                          <button
+                            onClick={() => updateSuggestionStatus(suggestion.id, 'approved')}
+                            disabled={suggestion.status === 'approved'}
+                            style={{
+                              background: suggestion.status === 'approved' ? brand.success : 'transparent',
+                              color: suggestion.status === 'approved' ? brand.void : brand.success,
+                              border: `1px solid ${brand.success}`,
+                              borderRadius: '4px',
+                              padding: '6px 12px',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              cursor: suggestion.status === 'approved' ? 'default' : 'pointer',
+                              opacity: suggestion.status === 'approved' ? 0.7 : 1,
+                            }}
+                          >
+                            {suggestion.status === 'approved' ? 'Approved' : 'Approve'}
+                          </button>
+
+                          <button
+                            onClick={() => updateSuggestionStatus(suggestion.id, 'rejected')}
+                            disabled={suggestion.status === 'rejected'}
+                            style={{
+                              background: suggestion.status === 'rejected' ? brand.error : 'transparent',
+                              color: suggestion.status === 'rejected' ? brand.void : brand.error,
+                              border: `1px solid ${brand.error}`,
+                              borderRadius: '4px',
+                              padding: '6px 12px',
+                              fontSize: '12px',
+                              fontWeight: 600,
+                              cursor: suggestion.status === 'rejected' ? 'default' : 'pointer',
+                              opacity: suggestion.status === 'rejected' ? 0.7 : 1,
+                            }}
+                          >
+                            {suggestion.status === 'rejected' ? 'Rejected' : 'Reject'}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          ) : (
-            <div style={{
-              color: dailyPlan.notes ? brand.silver : brand.smoke,
-              fontSize: '14px',
-              fontStyle: dailyPlan.notes ? 'normal' : 'italic',
-              lineHeight: '1.5',
-              minHeight: '60px',
-            }}>
-              {dailyPlan.notes || 'No notes yet. Click "Edit Notes" to add instructions or modifications.'}
+
+            {/* Notes Section */}
+            <div style={styles.card}>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                marginBottom: '16px',
+              }}>
+                <h3 style={{ color: brand.amber, fontSize: '16px', fontWeight: 600 }}>
+                  Notes & Modifications
+                </h3>
+                {!editingNotes && (
+                  <button
+                    onClick={() => {
+                      setEditingNotes(true);
+                      setNotes(dailyPlan.notes);
+                    }}
+                    style={{
+                      background: 'transparent',
+                      border: `1px solid ${brand.border}`,
+                      borderRadius: '6px',
+                      padding: '6px 12px',
+                      color: brand.silver,
+                      cursor: 'pointer',
+                      fontSize: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                    }}
+                  >
+                    <Edit3 size={12} />
+                    Edit Notes
+                  </button>
+                )}
+              </div>
+
+              {editingNotes ? (
+                <div>
+                  <textarea
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Add notes about tonight's plan, modifications, or special instructions..."
+                    style={{
+                      width: '100%',
+                      background: brand.graphite,
+                      border: `1px solid ${brand.border}`,
+                      borderRadius: '6px',
+                      padding: '12px',
+                      color: brand.white,
+                      fontSize: '14px',
+                      fontFamily: 'inherit',
+                      resize: 'vertical',
+                      minHeight: '100px',
+                      outline: 'none',
+                    }}
+                  />
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                    <button
+                      onClick={saveNotes}
+                      style={{
+                        background: brand.amber,
+                        color: brand.void,
+                        border: 'none',
+                        borderRadius: '6px',
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        fontWeight: 600,
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                      }}
+                    >
+                      <Save size={14} />
+                      Save Notes
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEditingNotes(false);
+                        setNotes(dailyPlan.notes);
+                      }}
+                      style={{
+                        background: 'transparent',
+                        color: brand.smoke,
+                        border: `1px solid ${brand.border}`,
+                        borderRadius: '6px',
+                        padding: '8px 16px',
+                        fontSize: '14px',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div style={{
+                  color: dailyPlan.notes ? brand.silver : brand.smoke,
+                  fontSize: '14px',
+                  fontStyle: dailyPlan.notes ? 'normal' : 'italic',
+                  lineHeight: '1.5',
+                  minHeight: '60px',
+                }}>
+                  {dailyPlan.notes || 'No notes yet. Click "Edit Notes" to add instructions or modifications.'}
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
