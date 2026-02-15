@@ -25,6 +25,13 @@ const levelColor: Record<string, { bg: string; text: string }> = {
 /* ───────────────── Interfaces ───────────────── */
 interface Skill { name: string; level: 'Expert' | 'Advanced' | 'Intermediate'; desc: string }
 
+interface AgentSkill {
+  name: string;
+  level: 'Expert' | 'Advanced' | 'Intermediate';
+  category: 'technical' | 'business' | 'core';
+  addedDate: string;
+}
+
 interface AgentConfig {
   name: string;
   role: string;
@@ -36,8 +43,7 @@ interface AgentConfig {
     business: number;
     core: number;
   };
-  topSkills: { name: string; level: string }[];
-  totalSkills: number;
+  skills: AgentSkill[];
   notes: string;
 }
 
@@ -47,18 +53,26 @@ interface AgentConfigData {
   ratingScale: Record<string, string>;
 }
 
+// Helper to get top skills sorted by level
+const getTopSkills = (skills: AgentSkill[], count: number = 3): AgentSkill[] => {
+  const levelOrder = { 'Expert': 0, 'Advanced': 1, 'Intermediate': 2 };
+  return [...skills]
+    .sort((a, b) => levelOrder[a.level] - levelOrder[b.level])
+    .slice(0, count);
+};
+
 interface InventorySkill { name: string; icon: string; purpose: string; ready: boolean; dependency?: string }
 interface SkillCategory { name: string; color: string; skills: InventorySkill[] }
 type ViewMode = 'agent' | 'category' | 'status';
 
 /* ───────────────── Fetch Functions ───────────────── */
-const fetchAgentConfigs = async (): Promise<AgentConfigData | null> => {
+const fetchAgentSkills = async (): Promise<AgentConfigData | null> => {
   try {
-    const response = await fetch('/data/agent-configs.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error('Failed to fetch agent configs');
+    const response = await fetch('/data/agent-skills.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch agent skills');
     return await response.json();
   } catch (error) {
-    console.error('Error fetching agent configs:', error);
+    console.error('Error fetching agent skills:', error);
     return null;
   }
 };
@@ -250,7 +264,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
             <span style={{
               fontSize: 10, fontFamily: "'JetBrains Mono', monospace", padding: '2px 8px',
               borderRadius: 4, background: 'rgba(245,158,11,0.12)', color: T.amber,
-            }}>{agent.totalSkills} skills</span>
+            }}>{agent.skills.length} skills</span>
           </div>
           <div style={{ fontSize: 12, color: agent.color, fontWeight: 500 }}>{agent.role}</div>
         </div>
@@ -276,11 +290,11 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
         </div>
       </div>
 
-      {/* Top Skills */}
+      {/* Top Skills (auto-sorted by level) */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 8 }}>TOP SKILLS</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {agent.topSkills.map((s, i) => (
+          {getTopSkills(agent.skills, 3).map((s, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 8px', background: T.elevated, borderRadius: 6 }}>
               <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text }}>{s.name}</span>
               <LevelBadge level={s.level} />
@@ -289,11 +303,42 @@ function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded
         </div>
       </div>
 
-      {/* Notes (shown when expanded) */}
-      {expanded && agent.notes && (
-        <div style={{ marginBottom: 12, padding: '10px 12px', background: T.elevated, borderRadius: 6, borderLeft: `3px solid ${T.amber}` }}>
-          <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 4 }}>DEVELOPMENT NOTES</div>
-          <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.4 }}>{agent.notes}</div>
+      {/* Expanded: All Skills by Category + Notes */}
+      {expanded && (
+        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* All Skills grouped by category */}
+          {(['core', 'technical', 'business'] as const).map(category => {
+            const categorySkills = agent.skills.filter(s => s.category === category);
+            if (categorySkills.length === 0) return null;
+            const categoryColors = { core: T.amber, technical: '#3B82F6', business: '#EF4444' };
+            const categoryLabels = { core: 'CORE SKILLS', technical: 'TECHNICAL SKILLS', business: 'BUSINESS SKILLS' };
+            return (
+              <div key={category}>
+                <div style={{ fontSize: 12, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: categoryColors[category], marginBottom: 8 }}>
+                  {categoryLabels[category]} ({categorySkills.length})
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {categorySkills.map((s, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 8px', background: T.elevated, borderRadius: 6 }}>
+                      <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: T.text }}>{s.name}</span>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{ fontSize: 9, color: T.muted }}>{s.addedDate}</span>
+                        <LevelBadge level={s.level} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+          
+          {/* Development Notes */}
+          {agent.notes && (
+            <div style={{ padding: '10px 12px', background: T.elevated, borderRadius: 6, borderLeft: `3px solid ${T.amber}` }}>
+              <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 4 }}>DEVELOPMENT NOTES</div>
+              <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.4 }}>{agent.notes}</div>
+            </div>
+          )}
         </div>
       )}
 
@@ -402,8 +447,8 @@ export default function SkillsInventory() {
     const loadData = async () => {
       setConfigLoading(true);
 
-      // Load agent configs
-      const configs = await fetchAgentConfigs();
+      // Load agent skills
+      const configs = await fetchAgentSkills();
       if (configs) {
         setAgentConfigs(configs);
         setLastUpdated(configs.lastUpdated);
@@ -551,7 +596,7 @@ export default function SkillsInventory() {
           {/* Footer */}
           <div style={{ marginTop: 40, textAlign: 'center', paddingTop: 20, borderTop: `1px solid ${T.border}` }}>
             <p style={{ fontSize: 11, color: T.muted, fontFamily: "'JetBrains Mono', monospace" }}>
-              Data source: /data/agent-configs.json • Edit file to update ratings
+              Data source: /data/agent-skills.json • Edit to update ratings & skills
             </p>
             <a href="/os" style={{ color: T.amber, textDecoration: 'none', fontSize: 13, fontWeight: 500 }}>
               ← Back to Mission Control
