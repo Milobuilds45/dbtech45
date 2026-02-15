@@ -1,6 +1,13 @@
 {
   "activity": [
     {
+      "type": "commit",
+      "id": "78b0da96",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:34:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-15T03:30:16.939Z",
@@ -358,13 +365,6 @@
       "message": "feat: Agent skills now data-driven from agent-configs.json - ratings 1-6 scale, editable, auto-refresh"
     },
     {
-      "type": "commit",
-      "id": "7cba727d",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:44:17 -0500",
-      "message": "feat: rewire overnight planning from mock data to real JSON persistence"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -449,5 +449,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T03:34:04.027Z"
+  "generatedAt": "2026-02-15T03:39:04.286Z"
 }
