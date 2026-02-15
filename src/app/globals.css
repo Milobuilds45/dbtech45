@@ -5,6 +5,15 @@
    ======================================== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Dark theme for native select dropdowns */
+select, option {
+  background-color: #111111;
+  color: #F5F5F5;
+}
+option:checked, option:hover {
+  background-color: #1A1A1A;
+}
+
 /* Loading animations */
 @keyframes pulse {
   0%, 100% { opacity: 0.4; }
