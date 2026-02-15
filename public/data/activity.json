@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "4cf50e68",
+      "author": "Milo",
+      "timestamp": "2026-02-15 03:34:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "2e28428c",
       "author": "Milo",
       "timestamp": "2026-02-15 03:29:04 -0500",
@@ -358,13 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "b6d41e85",
-      "author": "Milo",
-      "timestamp": "2026-02-14 23:30:18 -0500",
-      "message": "docs: add AxeCap Terminal v5 design handoff for Anders"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-15T03:30:16.939Z",
@@ -456,5 +456,5 @@
       "jobId": "e3746cbd-d836-4104-aa7d-8f20f69b385e"
     }
   ],
-  "generatedAt": "2026-02-15T08:34:04.003Z"
+  "generatedAt": "2026-02-15T08:39:03.965Z"
 }
