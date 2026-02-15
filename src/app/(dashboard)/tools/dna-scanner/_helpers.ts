@@ -29,6 +29,7 @@ export type CheckboxSelections = Record<string, Record<string, boolean>>;
 
 export interface BusinessContext {
   description?: string;
+  referenceUrl?: string;
   type?: string;
   stage?: string;
   teamSize?: string;
@@ -603,6 +604,151 @@ export function getPriorityActions(a: Answers): PriorityAction[] {
     }))
     .sort((x, y) => x.score - y.score)
     .slice(0, 3);
+}
+
+/* ═══════════════════════════════════════════════════════
+   PDF Generation
+   ═══════════════════════════════════════════════════════ */
+
+/* ═══════════════════════════════════════════════════════
+   Intelligence Feed — V3 Auditor Logic
+   ═══════════════════════════════════════════════════════ */
+
+const LAYER_NAMES: Record<number, string> = {
+  1: 'Problem/Solution Fit',
+  2: 'Market Opportunity',
+  3: 'Business Model',
+  4: 'Go-to-Market Strategy',
+  5: 'Operations & Execution',
+  6: 'Financial Health',
+  7: 'Risk Management',
+};
+
+/** Market Pulse: one-line reality check per layer based on score */
+export function getMarketPulseNote(layerId: number, score: number): string {
+  const notes: Record<number, [string, string, string]> = {
+    1: [
+      '72% of startups fail because they build something nobody wants.',
+      'You see the problem — but have you quantified the urgency from the buyer\'s side?',
+      'Strong conviction. The real test: would customers pay 2x your price?',
+    ],
+    2: [
+      'Without validated market data, you\'re guessing your ceiling.',
+      'Market awareness is developing. Most founders overestimate their SAM by 5-10x.',
+      'Deep market knowledge is rare. But markets shift — stay paranoid.',
+    ],
+    3: [
+      'Revenue clarity is survival. 60% of failed startups had unclear monetization.',
+      'Model is forming. Watch your LTV:CAC — it lies to optimists.',
+      'Solid economics on paper. Stress-test: what breaks at 10x volume?',
+    ],
+    4: [
+      'No channels = no business. You need at least one repeatable acquisition path.',
+      'Channels exist but aren\'t predictable yet. That\'s normal — but track religiously.',
+      'Strong GTM. Most companies plateau here — don\'t coast.',
+    ],
+    5: [
+      'Chaos is not a growth strategy. Even lean teams need documented playbooks.',
+      'Operational basics in place. The next hire will expose every undocumented process.',
+      'Clean operations are a moat most founders ignore. You\'re ahead.',
+    ],
+    6: [
+      'If you don\'t know your runway to the day, you\'re already in danger.',
+      'Financial awareness growing. Common trap: confusing revenue with profit.',
+      'Financial discipline this early is exceptional. Don\'t let growth spending erode it.',
+    ],
+    7: [
+      'Hope is not a risk strategy. Identify your single-point-of-failure today.',
+      'Some risk awareness. Ask: what\'s the one thing that kills us in 90 days?',
+      'Resilient thinking. Keep stress-testing — the risks you can\'t see are the dangerous ones.',
+    ],
+  };
+  const i = score < 4 ? 0 : score <= 6 ? 1 : 2;
+  return notes[layerId]?.[i] || '';
+}
+
+/** Strategic Auditor: context-aware commentary based on stage and team size */
+export function getStrategicAudit(layerId: number, score: number, stage: string, teamSize: string): string {
+  const layerName = LAYER_NAMES[layerId] || `Layer ${layerId}`;
+  const isSolo = teamSize === 'Solo' || teamSize === '2-5';
+  const isEarly = stage === 'Idea' || stage === 'Pre-revenue';
+  const isGrowing = stage === 'Growing' || stage === 'Scaling';
+
+  // Low scores (1-3): encouraging context
+  if (score <= 3) {
+    if (isEarly) {
+      return `A ${score}/10 in ${layerName} is expected at ${stage} stage. Focus on validating one thing at a time — this improves fast with deliberate effort.`;
+    }
+    if (isSolo) {
+      return `${score}/10 as a ${teamSize} team is a red flag in ${layerName}. Consider outsourcing or automating your weakest link here before it compounds.`;
+    }
+    return `${score}/10 in ${layerName} at ${stage} stage needs immediate attention. This is likely costing you more than you realize.`;
+  }
+
+  // Medium scores (4-6): actionable nudges
+  if (score <= 6) {
+    if (isEarly) {
+      return `${score}/10 — decent for ${stage}. The gap between a 5 and an 8 in ${layerName} is usually one focused sprint and a better framework.`;
+    }
+    if (isGrowing) {
+      return `${score}/10 at ${stage} stage means ${layerName} is becoming a bottleneck. What got you here won't get you to the next level.`;
+    }
+    return `${score}/10 in ${layerName}. Solid but not defensible. One targeted improvement this quarter moves the needle significantly.`;
+  }
+
+  // High scores (7-10): tough love
+  if (score >= 9) {
+    return `${score}/10 is elite-level confidence. Verify this isn't optimism bias — have an outsider audit your ${layerName.toLowerCase()} assumptions.`;
+  }
+  return `${score}/10 is strong. The question isn't where you are — it's whether this holds under 3x growth pressure.`;
+}
+
+/** Tough Questions for high scorers (8+) */
+export function getToughQuestion(layerId: number, score: number): string {
+  if (score < 8) return '';
+  const questions: Record<number, string[]> = {
+    1: [
+      'If your problem is so clear, why haven\'t incumbents solved it already?',
+      'What happens to your thesis if the problem severity drops 50% next year?',
+    ],
+    2: [
+      'If the market is this good, where are the 20 other startups racing you?',
+      'How do you defend against a clone with 10x your budget entering tomorrow?',
+    ],
+    3: [
+      'Your unit economics look great — but do they hold with paid acquisition at scale?',
+      'What happens to your model if your biggest customer churns next month?',
+    ],
+    4: [
+      'If your GTM is this strong, why aren\'t you growing 3x faster?',
+      'What\'s your plan when your primary channel costs double in 12 months?',
+    ],
+    5: [
+      'If ops are this solid, could you onboard 5 new hires next week without chaos?',
+      'What\'s the single process that, if it breaks, takes down everything?',
+    ],
+    6: [
+      'Your financials look strong on paper. When was the last time you stress-tested a 40% revenue drop?',
+      'Are you tracking leading indicators or just lagging ones?',
+    ],
+    7: [
+      'If your risk management is elite, what\'s your blind spot? Everyone has one.',
+      'Could your business survive losing its #1 customer and #1 employee in the same week?',
+    ],
+  };
+  const opts = questions[layerId] || ['What makes you confident this score is accurate?'];
+  return opts[score >= 9 ? 0 : 1] || opts[0];
+}
+
+/** Bleed Meter: calculates founder inefficiency tax from Ops and Finance gaps */
+export function calculateBleedMeter(a: Answers): { monthlyBleed: number; opsGap: number; financeGap: number } {
+  const opsScore = layerScore(5, a);
+  const finScore = layerScore(6, a);
+  const opsGap = Math.max(0, 10 - opsScore);
+  const financeGap = Math.max(0, 10 - finScore);
+  // 16 hours/month per gap point * $100/hr
+  const monthlyBleed = Math.round((opsGap + financeGap) * 16 * 100);
+  return { monthlyBleed, opsGap, financeGap };
 }
 
 /* ═══════════════════════════════════════════════════════

@@ -1,0 +1,218 @@
+{
+  "plans": {
+    "2026-02-12": {
+      "suggestions": [
+        {
+          "id": "2026-02-12-bobby-1",
+          "agentId": "bobby",
+          "agentName": "Bobby",
+          "suggestion": "Run end-of-week portfolio risk assessment. Rebalance exposure on BTC/ETH pair trades based on Thursday volatility spike.",
+          "priority": "high",
+          "category": "analysis",
+          "estimatedHours": 2,
+          "status": "completed",
+          "result": "Portfolio rebalanced. Reduced BTC long exposure by 8%, added ETH hedge.",
+          "createdAt": "2026-02-12T04:00:00Z",
+          "updatedAt": "2026-02-12T09:30:00Z"
+        },
+        {
+          "id": "2026-02-12-anders-1",
+          "agentId": "anders",
+          "agentName": "Anders",
+          "suggestion": "Deploy hotfix for AxeCap terminal WebSocket reconnection bug. Users reporting dropped connections after 30min idle.",
+          "priority": "high",
+          "category": "development",
+          "estimatedHours": 2.5,
+          "status": "completed",
+          "result": "Hotfix deployed. WebSocket keep-alive interval reduced to 15s, reconnect logic hardened.",
+          "createdAt": "2026-02-12T04:00:00Z",
+          "updatedAt": "2026-02-12T08:15:00Z"
+        },
+        {
+          "id": "2026-02-12-paula-1",
+          "agentId": "paula",
+          "agentName": "Paula",
+          "suggestion": "Finalize brand color palette for Biz-in-a-Box v2 landing page. Deliver Figma mockups for hero section.",
+          "priority": "medium",
+          "category": "content",
+          "estimatedHours": 3,
+          "status": "completed",
+          "result": "Figma mockups delivered. Hero section uses new gradient palette with amber/purple accent.",
+          "createdAt": "2026-02-12T04:00:00Z",
+          "updatedAt": "2026-02-12T10:00:00Z"
+        },
+        {
+          "id": "2026-02-12-dwight-1",
+          "agentId": "dwight",
+          "agentName": "Dwight",
+          "suggestion": "Compile intelligence brief on new AI agent marketplace competitors launched this week. Focus on pricing models.",
+          "priority": "medium",
+          "category": "research",
+          "estimatedHours": 2,
+          "status": "completed",
+          "result": "Brief delivered. 3 new competitors identified, none with real-time trading integration.",
+          "createdAt": "2026-02-12T04:00:00Z",
+          "updatedAt": "2026-02-12T07:45:00Z"
+        },
+        {
+          "id": "2026-02-12-milo-1",
+          "agentId": "milo",
+          "agentName": "Milo",
+          "suggestion": "Reorganize agent memory files and archive stale daily logs older than 7 days. Update coordination protocols.",
+          "priority": "low",
+          "category": "planning",
+          "estimatedHours": 1,
+          "status": "completed",
+          "result": "Memory cleanup done. 23 stale files archived. Coordination doc updated.",
+          "createdAt": "2026-02-12T04:00:00Z",
+          "updatedAt": "2026-02-12T06:30:00Z"
+        }
+      ],
+      "notes": "Full sweep night. All agents delivered. Bobby's rebalance was critical — volatility spike nearly triggered stop-loss.",
+      "approved": true
+    },
+    "2026-02-13": {
+      "suggestions": [
+        {
+          "id": "2026-02-13-bobby-1",
+          "agentId": "bobby",
+          "agentName": "Bobby",
+          "suggestion": "Backtest new momentum strategy on SOL/USDT 15m candles. Compare Sharpe ratio against current live strategy.",
+          "priority": "high",
+          "category": "analysis",
+          "estimatedHours": 2.5,
+          "status": "completed",
+          "result": "Backtest complete. New strategy Sharpe 1.42 vs current 1.18. Recommending paper trade for 48h before live.",
+          "createdAt": "2026-02-13T04:00:00Z",
+          "updatedAt": "2026-02-13T08:00:00Z"
+        },
+        {
+          "id": "2026-02-13-anders-1",
+          "agentId": "anders",
+          "agentName": "Anders",
+          "suggestion": "Implement server-side caching layer for market data API. Current cold-start latency is 2.3s, target under 500ms.",
+          "priority": "high",
+          "category": "development",
+          "estimatedHours": 3,
+          "status": "completed",
+          "result": "Redis caching layer deployed. Cold-start now 380ms. Cache invalidation on 30s TTL for price data.",
+          "createdAt": "2026-02-13T04:00:00Z",
+          "updatedAt": "2026-02-13T09:00:00Z"
+        },
+        {
+          "id": "2026-02-13-paula-1",
+          "agentId": "paula",
+          "agentName": "Paula",
+          "suggestion": "Design agent avatar system for OS dashboard. Each agent needs a consistent visual identity across all views.",
+          "priority": "medium",
+          "category": "content",
+          "estimatedHours": 2,
+          "status": "completed",
+          "result": "Avatar system designed. SVG-based with color-coded borders matching agent brand colors.",
+          "createdAt": "2026-02-13T04:00:00Z",
+          "updatedAt": "2026-02-13T07:30:00Z"
+        },
+        {
+          "id": "2026-02-13-dwight-1",
+          "agentId": "dwight",
+          "agentName": "Dwight",
+          "suggestion": "Monitor overnight crypto regulatory news feeds. Flag any SEC/CFTC announcements affecting DeFi or stablecoin positions.",
+          "priority": "high",
+          "category": "research",
+          "estimatedHours": 1.5,
+          "status": "completed",
+          "result": "No material regulatory actions overnight. EU MiCA implementation timeline updated in intel doc.",
+          "createdAt": "2026-02-13T04:00:00Z",
+          "updatedAt": "2026-02-13T06:00:00Z"
+        },
+        {
+          "id": "2026-02-13-milo-1",
+          "agentId": "milo",
+          "agentName": "Milo",
+          "suggestion": "Review all agent cron schedules for conflicts. Two agents hitting the same API endpoint simultaneously caused rate-limiting yesterday.",
+          "priority": "medium",
+          "category": "planning",
+          "estimatedHours": 1,
+          "status": "completed",
+          "result": "Cron schedules staggered. Bobby shifted to :05, Dwight to :15. No more collisions.",
+          "createdAt": "2026-02-13T04:00:00Z",
+          "updatedAt": "2026-02-13T05:45:00Z"
+        }
+      ],
+      "notes": "Clean night. Bobby's backtest results look promising — watch the paper trade results tomorrow.",
+      "approved": true
+    },
+    "2026-02-14": {
+      "suggestions": [
+        {
+          "id": "2026-02-14-bobby-1",
+          "agentId": "bobby",
+          "agentName": "Bobby",
+          "suggestion": "Analyze pre-market futures positioning and options flow for Valentine's Day trading session. Low volume expected — adjust position sizing down 20%.",
+          "priority": "high",
+          "category": "analysis",
+          "estimatedHours": 2,
+          "status": "suggested",
+          "result": null,
+          "createdAt": "2026-02-14T04:00:00Z",
+          "updatedAt": "2026-02-14T04:00:00Z"
+        },
+        {
+          "id": "2026-02-14-anders-1",
+          "agentId": "anders",
+          "agentName": "Anders",
+          "suggestion": "Rewire overnight planning page from mock data to persistent JSON storage. Add API routes for CRUD operations on daily plans.",
+          "priority": "high",
+          "category": "development",
+          "estimatedHours": 3,
+          "status": "suggested",
+          "result": null,
+          "createdAt": "2026-02-14T04:00:00Z",
+          "updatedAt": "2026-02-14T04:00:00Z"
+        },
+        {
+          "id": "2026-02-14-paula-1",
+          "agentId": "paula",
+          "agentName": "Paula",
+          "suggestion": "Create Valentine's Day themed social media assets for DBTech brand. Subtle, on-brand — not cheesy.",
+          "priority": "medium",
+          "category": "content",
+          "estimatedHours": 2,
+          "status": "suggested",
+          "result": null,
+          "createdAt": "2026-02-14T04:00:00Z",
+          "updatedAt": "2026-02-14T04:00:00Z"
+        },
+        {
+          "id": "2026-02-14-dwight-1",
+          "agentId": "dwight",
+          "agentName": "Dwight",
+          "suggestion": "Deep dive on OpenAI's latest model release announcements. Assess impact on our agent architecture and potential migration paths.",
+          "priority": "medium",
+          "category": "research",
+          "estimatedHours": 2,
+          "status": "suggested",
+          "result": null,
+          "createdAt": "2026-02-14T04:00:00Z",
+          "updatedAt": "2026-02-14T04:00:00Z"
+        },
+        {
+          "id": "2026-02-14-milo-1",
+          "agentId": "milo",
+          "agentName": "Milo",
+          "suggestion": "Review and update agent coordination protocols. Prepare weekly summary of all agent outputs for Derek's Monday review.",
+          "priority": "low",
+          "category": "planning",
+          "estimatedHours": 1.5,
+          "status": "suggested",
+          "result": null,
+          "createdAt": "2026-02-14T04:00:00Z",
+          "updatedAt": "2026-02-14T04:00:00Z"
+        }
+      ],
+      "notes": "",
+      "approved": false
+    }
+  },
+  "lastUpdated": "2026-02-14T04:00:00Z"
+}

@@ -19,6 +19,7 @@ import {
   scoreColor, scoreLabel, overallLabel, layerRec, layerAction,
   generatePDF, scoreFromCheckboxes, getLayerStrengthsWeaknesses,
   getPriorityActions,
+  getMarketPulseNote, getStrategicAudit, getToughQuestion, calculateBleedMeter,
   BUSINESS_TYPES, BUSINESS_STAGES, TEAM_SIZES, PRIMARY_GOALS,
   type Answers, type CheckboxSelections, type BusinessContext,
 } from './_helpers';
@@ -78,6 +79,211 @@ const Sparkline = ({ score }: { score: number }) => {
     </svg>
   );
 };
+
+/* ═══════════════════════════════════════════════════════
+   Intelligence Feed Sidebar (V3)
+   ═══════════════════════════════════════════════════════ */
+
+const SidebarDivider = () => (
+  <div style={{ height: '1px', background: `linear-gradient(90deg, transparent, ${brand.border}, transparent)`, margin: '16px 0' }} />
+);
+
+function IntelligenceSidebar({ step, answers, businessCtx }: {
+  step: number; answers: Answers; businessCtx: BusinessContext;
+}) {
+  const stage = businessCtx.stage || 'Idea';
+  const teamSize = businessCtx.teamSize || 'Solo';
+  const bleed = calculateBleedMeter(answers);
+
+  // Gather completed layer data for Market Pulse
+  const completedLayers: { id: number; name: string; score: number }[] = [];
+  for (let i = 0; i <= 6; i++) {
+    const layer = LAYERS[i];
+    const sc = layerScore(layer.id, answers);
+    if (sc > 0) {
+      completedLayers.push({ id: layer.id, name: layer.shortName, score: sc });
+    }
+  }
+
+  // Current layer for Strategic Auditor
+  const currentLayer = LAYERS[step];
+  const currentScore = currentLayer ? layerScore(currentLayer.id, answers) : 0;
+
+  const sidebarLabelStyle: React.CSSProperties = {
+    color: brand.smoke, fontSize: '9px', fontWeight: 700,
+    letterSpacing: '0.12em', textTransform: 'uppercase',
+    fontFamily: "'JetBrains Mono', monospace",
+  };
+
+  return (
+    <div style={{
+      background: brand.carbon,
+      border: `1px solid ${brand.border}`,
+      borderRadius: '16px',
+      padding: '20px',
+      height: 'fit-content',
+      position: 'sticky',
+      top: '32px',
+    }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+        <Activity size={14} color={brand.amber} />
+        <span style={{
+          color: brand.amber, fontSize: '10px', fontWeight: 800,
+          letterSpacing: '0.12em', textTransform: 'uppercase',
+          fontFamily: "'JetBrains Mono', monospace",
+        }}>
+          Intelligence Feed
+        </span>
+      </div>
+
+      {/* Section A: Market Pulse */}
+      <div>
+        <div style={{ ...sidebarLabelStyle, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Layers size={10} color={brand.amber} /> Market Pulse
+        </div>
+        {completedLayers.length === 0 ? (
+          <p style={{ color: brand.smoke, fontSize: '11px', fontStyle: 'italic' }}>
+            Answer questions to see market intelligence...
+          </p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            {completedLayers.map((cl) => (
+              <div key={cl.id} style={{
+                padding: '8px 10px', borderRadius: '8px',
+                background: brand.graphite,
+                border: `1px solid ${cl.score >= 8 ? 'rgba(245,158,11,0.4)' : brand.border}`,
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                  <span style={{ color: brand.silver, fontSize: '10px', fontWeight: 700, textTransform: 'uppercase' }}>{cl.name}</span>
+                  <span style={{
+                    fontSize: '11px', fontWeight: 900,
+                    fontFamily: "'JetBrains Mono', monospace",
+                    color: cl.score >= 7 ? brand.success : cl.score >= 4 ? brand.amber : brand.error,
+                  }}>{cl.score}/10</span>
+                </div>
+                {/* Perception bar */}
+                <div style={{ height: '3px', background: brand.border, borderRadius: '2px', marginBottom: '4px' }}>
+                  <div style={{
+                    height: '100%', borderRadius: '2px',
+                    width: `${cl.score * 10}%`,
+                    background: cl.score >= 7 ? brand.success : cl.score >= 4 ? brand.amber : brand.error,
+                    transition: 'width 0.3s',
+                  }} />
+                </div>
+                <p style={{ color: brand.smoke, fontSize: '10px', lineHeight: 1.4, margin: 0 }}>
+                  {getMarketPulseNote(cl.id, cl.score)}
+                </p>
+                {cl.score >= 8 && (
+                  <div style={{
+                    marginTop: '4px', padding: '4px 6px', borderRadius: '4px',
+                    background: 'rgba(245,158,11,0.08)',
+                    border: '1px solid rgba(245,158,11,0.2)',
+                  }}>
+                    <span style={{ color: brand.amber, fontSize: '9px', fontWeight: 700, letterSpacing: '0.08em' }}>
+                      ⚠ PERCEPTION GAP
+                    </span>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <SidebarDivider />
+
+      {/* Section B: Strategic Auditor */}
+      <div>
+        <div style={{ ...sidebarLabelStyle, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <Search size={10} color={brand.amber} /> Strategic Auditor
+        </div>
+        {currentScore > 0 ? (
+          <div style={{
+            padding: '10px', borderRadius: '8px',
+            background: brand.graphite,
+            border: `1px solid ${brand.border}`,
+          }}>
+            <p style={{ color: brand.silver, fontSize: '11px', lineHeight: 1.5, margin: 0, marginBottom: currentScore >= 8 ? '8px' : '0' }}>
+              {getStrategicAudit(currentLayer.id, currentScore, stage, teamSize)}
+            </p>
+            {currentScore >= 8 && (
+              <div style={{
+                padding: '8px', borderRadius: '6px', marginTop: '4px',
+                background: 'rgba(245,158,11,0.06)',
+                borderLeft: `2px solid ${brand.amber}`,
+              }}>
+                <span style={{ ...sidebarLabelStyle, color: brand.amber, display: 'block', marginBottom: '4px' }}>
+                  Tough Question
+                </span>
+                <p style={{ color: brand.amberLight, fontSize: '11px', lineHeight: 1.4, margin: 0, fontStyle: 'italic' }}>
+                  {getToughQuestion(currentLayer.id, currentScore)}
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p style={{ color: brand.smoke, fontSize: '11px', fontStyle: 'italic' }}>
+            Score this layer to get strategic insights...
+          </p>
+        )}
+      </div>
+
+      <SidebarDivider />
+
+      {/* Section C: Bleed Meter */}
+      <div>
+        <div style={{ ...sidebarLabelStyle, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <AlertTriangle size={10} color={bleed.monthlyBleed > 0 ? brand.error : brand.smoke} /> Bleed Meter
+        </div>
+        <div style={{
+          padding: '12px', borderRadius: '8px',
+          background: bleed.monthlyBleed > 0
+            ? 'rgba(239,68,68,0.06)'
+            : brand.graphite,
+          border: `1px solid ${bleed.monthlyBleed > 0 ? 'rgba(239,68,68,0.25)' : brand.border}`,
+        }}>
+          <div style={{ ...sidebarLabelStyle, marginBottom: '6px', color: brand.smoke }}>
+            Founder Inefficiency Tax
+          </div>
+          <div style={{
+            fontSize: bleed.monthlyBleed > 0 ? '24px' : '18px',
+            fontWeight: 900,
+            fontFamily: "'JetBrains Mono', monospace",
+            color: bleed.monthlyBleed > 0 ? brand.error : brand.smoke,
+            lineHeight: 1,
+            marginBottom: '8px',
+          }}>
+            {bleed.monthlyBleed > 0
+              ? `-$${bleed.monthlyBleed.toLocaleString()}/mo`
+              : '$0/mo'
+            }
+          </div>
+          {bleed.monthlyBleed > 0 ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: brand.smoke, fontSize: '10px' }}>Ops gap</span>
+                <span style={{ color: brand.error, fontSize: '10px', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
+                  {bleed.opsGap.toFixed(1)} pts → ${(Math.round(bleed.opsGap * 16 * 100)).toLocaleString()}/mo
+                </span>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ color: brand.smoke, fontSize: '10px' }}>Finance gap</span>
+                <span style={{ color: brand.error, fontSize: '10px', fontWeight: 700, fontFamily: "'JetBrains Mono', monospace" }}>
+                  {bleed.financeGap.toFixed(1)} pts → ${(Math.round(bleed.financeGap * 16 * 100)).toLocaleString()}/mo
+                </span>
+              </div>
+            </div>
+          ) : (
+            <p style={{ color: brand.smoke, fontSize: '10px', margin: 0 }}>
+              Complete Ops & Finance layers to calculate bleed.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ═══════════════════════════════════════════════════════
    Idea → DNA Score Mapping
@@ -399,7 +605,7 @@ function DNAScannerPage() {
         </div>
       )}
 
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: step >= 0 && step <= 6 ? '1400px' : '1100px', margin: '0 auto', transition: 'max-width 0.3s' }}>
         {/* Progress */}
         <div style={{ display: 'flex', gap: '6px', maxWidth: '400px', margin: '0 auto 48px' }}>
           {[...Array(8)].map((_, i) => (
@@ -407,7 +613,7 @@ function DNAScannerPage() {
           ))}
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '5fr 7fr', gap: '48px', alignItems: 'start' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: step >= 0 && step <= 6 ? '3fr 5fr 4fr' : '5fr 7fr', gap: step >= 0 && step <= 6 ? '24px' : '48px', alignItems: 'start' }}>
           {/* Left */}
           <div>
             <HUDTag>Diagnostic // Step {step + 2} of 8</HUDTag>
@@ -471,6 +677,18 @@ function DNAScannerPage() {
                       value={businessCtx.description || ''}
                       onChange={(e) => setBusinessCtx({ ...businessCtx, description: e.target.value })}
                       style={{ ...inputStyle, minHeight: '140px', textTransform: 'none', fontSize: '14px', resize: 'vertical' }}
+                    />
+                  </div>
+                  <div>
+                    <div style={{ ...labelStyle, marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <ExternalLink size={12} color={brand.amber} /> Reference URL
+                    </div>
+                    <input
+                      type="url"
+                      placeholder="https://yourwebsite.com"
+                      value={businessCtx.referenceUrl || ''}
+                      onChange={(e) => setBusinessCtx({ ...businessCtx, referenceUrl: e.target.value })}
+                      style={{ ...inputStyle, textTransform: 'none', fontSize: '14px' }}
                     />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
@@ -592,6 +810,11 @@ function DNAScannerPage() {
               )}
             </BentoCard>
           </div>
+
+          {/* Intelligence Feed Sidebar — only during questionnaire */}
+          {step >= 0 && step <= 6 && (
+            <IntelligenceSidebar step={step} answers={answers} businessCtx={businessCtx} />
+          )}
         </div>
       </div>
     </div>
