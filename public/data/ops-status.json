@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T18:59:03.543Z",
+    "lastHeartbeat": "2026-02-15T19:04:03.314Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T18:57:55.100Z"
+      "lastSeen": "2026-02-15T19:03:18.076Z"
     },
     {
       "name": "Dwight",
@@ -101,11 +101,11 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T18:25:41.870Z"
+      "lastSeen": "2026-02-15T19:03:11.294Z"
     }
   ],
   "sessions": [
@@ -115,10 +115,21 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T18:57:55.100Z",
+      "lastActivity": "2026-02-15T19:03:18.076Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
+    },
+    {
+      "key": "agent:wendy:main",
+      "agent": "Wendy",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T19:03:11.294Z",
+      "role": "Wellness Coach",
+      "cost": 0,
+      "sessionCount": 11
     },
     {
       "key": "agent:dax:main",
@@ -130,17 +141,6 @@
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 22
-    },
-    {
-      "key": "agent:wendy:main",
-      "agent": "Wendy",
-      "model": "claude-opus-4-5",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T18:25:41.870Z",
-      "role": "Wellness Coach",
-      "cost": 0,
-      "sessionCount": 11
     },
     {
       "key": "agent:milo:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T18:59:04.522Z",
+  "generatedAt": "2026-02-15T19:04:04.284Z",
   "version": 2
 }
