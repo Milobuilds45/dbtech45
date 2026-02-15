@@ -36,21 +36,7 @@ const AGENTS = [
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
-const CACHE_KEY_PREFIX = 'overnight-plan-';
-
-function getCachedPlan(date: string): DailyPlan | null {
-  try {
-    const raw = localStorage.getItem(CACHE_KEY_PREFIX + date);
-    if (raw) return JSON.parse(raw);
-  } catch { /* ignore */ }
-  return null;
-}
-
-function setCachedPlan(date: string, plan: DailyPlan): void {
-  try {
-    localStorage.setItem(CACHE_KEY_PREFIX + date, JSON.stringify(plan));
-  } catch { /* ignore */ }
-}
+// Cache removed — data fetched from API (backed by server-side JSON)
 
 export default function OvernightPlanning() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -70,17 +56,10 @@ export default function OvernightPlanning() {
       plan.date = date;
       setDailyPlan(plan);
       setNotes(plan.notes || '');
-      setCachedPlan(date, plan);
     } catch {
-      // Fallback to localStorage cache
-      const cached = getCachedPlan(date);
-      if (cached) {
-        setDailyPlan(cached);
-        setNotes(cached.notes || '');
-      } else {
-        setDailyPlan({ date, suggestions: [], notes: '', approved: false, empty: true });
-        setNotes('');
-      }
+      // API unavailable — show empty state
+      setDailyPlan({ date, suggestions: [], notes: '', approved: false, empty: true });
+      setNotes('');
     } finally {
       setLoading(false);
     }
@@ -137,7 +116,6 @@ export default function OvernightPlanning() {
       if (result.plan) {
         const updated = { ...result.plan, date: selectedDate, empty: false };
         setDailyPlan(updated);
-        setCachedPlan(selectedDate, updated);
       }
       return true;
     } catch {
@@ -161,13 +139,7 @@ export default function OvernightPlanning() {
       status,
     });
 
-    if (!success) {
-      // Update localStorage with optimistic state anyway
-      setDailyPlan(prev => {
-        setCachedPlan(selectedDate, prev);
-        return prev;
-      });
-    }
+    // If API fails, optimistic update persists in state only
   };
 
   const saveSuggestionEdit = (id: string) => {

@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { brand, styles } from '@/lib/brand';
+import { supabase } from '@/lib/supabase';
 
 interface Quote { symbol: string; name: string; price: number; change: number; changePercent: number; high: number; low: number; marketState?: string; }
 interface NewsItem { id: string; title: string; publisher: string; link?: string; publishedAt: string; relatedSymbol: string; }
@@ -133,15 +134,26 @@ export default function Markets() {
   const expChange = useCallback((e:string) => { setSexp(e); if(csym) fetchC(csym,e); },[csym,fetchC]);
   const refreshAll = useCallback(() => { fetchD(wl);fetchZ();fetchU();fetchS();fetchP();fetchEarn(wl);fetchDivs(wl);setCd(30); },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchEarn,fetchDivs,wl]);
 
-  const addSym = useCallback(() => {
+  const addSym = useCallback(async () => {
     const s=ns.trim().toUpperCase();
-    if(s&&!wl.includes(s)){const n=[...wl,s];setWl(n);localStorage.setItem('axecap-watchlist',JSON.stringify(n));setNs('');fetchD(n);fetchSp([s]);}
+    if(s&&!wl.includes(s)){const n=[...wl,s];setWl(n);setNs('');fetchD(n);fetchSp([s]);
+      try { await supabase.from('user_watchlist').upsert({ symbol: s }, { onConflict: 'symbol' }); } catch {}
+    }
   },[ns,wl,fetchD,fetchSp]);
-  const remSym = useCallback((s:string) => { const n=wl.filter(x=>x!==s);setWl(n);localStorage.setItem('axecap-watchlist',JSON.stringify(n)); },[wl]);
+  const remSym = useCallback(async (s:string) => { const n=wl.filter(x=>x!==s);setWl(n);
+    try { await supabase.from('user_watchlist').delete().eq('symbol', s); } catch {}
+  },[wl]);
 
   useEffect(() => {
-    let w=DWL; try{const s=localStorage.getItem('axecap-watchlist');if(s){w=JSON.parse(s);setWl(w);}}catch{}
-    fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);fetchEarn(w);fetchDivs(w);
+    const loadWatchlist = async () => {
+      let w = DWL;
+      try {
+        const { data } = await supabase.from('user_watchlist').select('symbol').order('added_at');
+        if (data && data.length > 0) { w = data.map((r: { symbol: string }) => r.symbol); setWl(w); }
+      } catch {}
+      fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);fetchEarn(w);fetchDivs(w);
+    };
+    loadWatchlist();
   },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,fetchEarn,fetchDivs]);
 
   useEffect(() => {

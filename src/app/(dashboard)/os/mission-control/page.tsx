@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState, useCallback } from 'react';
+import { supabase } from '@/lib/supabase';
 
 type TabId = 'health' | 'crons' | 'tasks' | 'sessions';
 type TaskPriority = 'low' | 'medium' | 'high' | 'critical';
@@ -117,11 +118,43 @@ function pc(p: TaskPriority) {
 
 function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
-const TK = 'milo-mc-tasks';
-function loadT(): Task[] {
-  try { const r = typeof window !== 'undefined' ? localStorage.getItem(TK) : null; return r ? JSON.parse(r) : []; } catch { return []; }
+// Tasks stored in Supabase 'todos' table
+async function loadTasksFromDb(): Promise<Task[]> {
+  try {
+    const { data } = await supabase.from('todos').select('*').order('created_at', { ascending: false });
+    if (data && data.length > 0) {
+      return data.map((t: any) => ({
+        id: t.id,
+        title: t.title,
+        description: t.description || '',
+        priority: t.priority || 'medium',
+        agent: t.assignee || 'Milo',
+        dueDate: t.due_date || '',
+        column: (t.status === 'in_progress' ? 'in-progress' : t.status) as TaskColumn || 'backlog',
+        createdAt: t.created_at,
+      }));
+    }
+  } catch {}
+  return [];
 }
-function saveT(t: Task[]) { if (typeof window !== 'undefined') localStorage.setItem(TK, JSON.stringify(t)); }
+async function saveTaskToDb(t: Task) {
+  try {
+    await supabase.from('todos').upsert({
+      id: t.id,
+      title: t.title,
+      description: t.description,
+      priority: t.priority,
+      assignee: t.agent,
+      due_date: t.dueDate || null,
+      status: t.column === 'in-progress' ? 'in_progress' : t.column,
+      created_at: t.createdAt,
+      updated_at: new Date().toISOString(),
+    }, { onConflict: 'id' });
+  } catch {}
+}
+async function deleteTaskFromDb(id: string) {
+  try { await supabase.from('todos').delete().eq('id', id); } catch {}
+}
 
 function Row({ l, v, c, bold }: { l: string; v: string; c?: string; bold?: boolean }) {
   return (
@@ -234,17 +267,33 @@ export default function MissionControlPage() {
     }
   }, []);
 
-  useEffect(() => { refresh(); setTasks(loadT()); setLoading(false); const i = setInterval(refresh, 30000); return () => clearInterval(i); }, [refresh]);
-  useEffect(() => { if (!loading) saveT(tasks); }, [tasks, loading]);
+  useEffect(() => {
+    refresh();
+    loadTasksFromDb().then(t => { setTasks(t); setLoading(false); });
+    const i = setInterval(refresh, 30000);
+    return () => clearInterval(i);
+  }, [refresh]);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (!form.title.trim()) return;
-    setTasks(p => [...p, { ...form, id: uid(), createdAt: new Date().toISOString() }]);
+    const newTask: Task = { ...form, id: uid(), createdAt: new Date().toISOString() };
+    setTasks(p => [...p, newTask]);
     setForm({ title: '', description: '', priority: 'medium', agent: 'Milo', dueDate: '', column: 'backlog' });
     setModal(false);
+    await saveTaskToDb(newTask);
   };
-  const deleteTask = (id: string) => setTasks(p => p.filter(t => t.id !== id));
-  const moveTask = (id: string, col: TaskColumn) => setTasks(p => p.map(t => t.id === id ? { ...t, column: col } : t));
+  const deleteTask = async (id: string) => {
+    setTasks(p => p.filter(t => t.id !== id));
+    await deleteTaskFromDb(id);
+  };
+  const moveTask = async (id: string, col: TaskColumn) => {
+    let movedTask: Task | undefined;
+    setTasks(p => p.map(t => {
+      if (t.id === id) { movedTask = { ...t, column: col }; return movedTask; }
+      return t;
+    }));
+    if (movedTask) await saveTaskToDb(movedTask);
+  };
 
   const fCrons = sys.cronJobs.filter(c => (cronFA === 'all' || c.agent === cronFA) && (cronFS === 'all' || c.status === cronFS));
   const fTasks = tasks.filter(t => (taskFA === 'all' || t.agent === taskFA) && (taskFP === 'all' || t.priority === taskFP));

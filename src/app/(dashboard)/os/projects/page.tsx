@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { brand, styles } from "@/lib/brand";
+import { supabase } from '@/lib/supabase';
 
 type StatusKey = 'shipped' | 'building' | 'beta' | 'planning' | 'shaping' | 'spark' | 'paused' | 'killed';
 
@@ -68,18 +69,42 @@ const DEFAULT_PROJECTS: Project[] = [
   { title: "Family Calendar AI", desc: "Smart family scheduling that coordinates 9 people's lives with AI conflict resolution.", status: "spark", progress: 5, priority: 2 },
 ];
 
-const STORAGE_KEY = 'dbtech-projects';
-
-function loadProjects(): Project[] {
+// Projects stored in Supabase 'user_projects' table
+async function loadProjectsFromDb(): Promise<Project[] | null> {
   try {
-    const stored = typeof window !== 'undefined' ? localStorage.getItem(STORAGE_KEY) : null;
-    if (stored) return JSON.parse(stored);
+    const { data } = await supabase.from('user_projects').select('*').order('sort_order');
+    if (data && data.length > 0) {
+      return data.map((p: any) => ({
+        title: p.title,
+        desc: p.description || '',
+        status: p.status as StatusKey,
+        progress: p.progress || 0,
+        priority: p.priority || 1,
+      }));
+    }
   } catch {}
-  return DEFAULT_PROJECTS;
+  return null; // null means no data in DB yet
 }
 
-function saveProjects(projects: Project[]) {
-  if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(projects));
+async function saveProjectsToDb(projects: Project[]) {
+  try {
+    // Delete all then re-insert with sort_order to preserve drag ordering
+    await supabase.from('user_projects').delete().gte('id', 0);
+    const rows = projects.map((p, i) => ({
+      title: p.title,
+      description: p.desc,
+      status: p.status,
+      progress: p.progress,
+      priority: p.priority,
+      sort_order: i,
+      updated_at: new Date().toISOString(),
+    }));
+    if (rows.length > 0) {
+      await supabase.from('user_projects').insert(rows);
+    }
+  } catch (err) {
+    console.error('Failed to save projects:', err);
+  }
 }
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
@@ -122,13 +147,21 @@ export default function Projects() {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setProjects(loadProjects());
-    setMounted(true);
+    loadProjectsFromDb().then(dbProjects => {
+      if (dbProjects) {
+        setProjects(dbProjects);
+      } else {
+        // First load: seed Supabase with defaults
+        setProjects(DEFAULT_PROJECTS);
+        saveProjectsToDb(DEFAULT_PROJECTS);
+      }
+      setMounted(true);
+    });
   }, []);
 
   const updateProjects = (updated: Project[]) => {
     setProjects(updated);
-    saveProjects(updated);
+    saveProjectsToDb(updated);
   };
 
   const handleDragStart = (index: number) => {

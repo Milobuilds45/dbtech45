@@ -5,9 +5,7 @@ import { brand, styles } from '@/lib/brand';
 import { Star, Zap, Target, ThumbsDown, Archive, Users, User, Lightbulb, Sparkles, Shield, AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, Skull, Bot, Wand2, Dna } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
-const STORAGE_KEY = 'dbtech-agent-ideas';
-const REJECTED_KEY = 'dbtech-agent-ideas-rejected';
-const AUTONOMOUS_KEY = 'dbtech-agent-ideas-autonomous';
+// Storage keys removed - all data now in Supabase via /api/ideas
 
 interface AgentIdea {
   id: string;
@@ -619,14 +617,6 @@ export default function AgentIdeasPage() {
         }
       } catch (err) {
         console.error('Failed to load ideas:', err);
-        // Fallback to localStorage for offline support
-        try {
-          const stored = localStorage.getItem(STORAGE_KEY);
-          if (stored) {
-            const parsed = JSON.parse(stored) as AgentIdea[];
-            if (Array.isArray(parsed)) setIdeas(parsed.map(i => ({ ...i, source: i.source || 'generated' })));
-          }
-        } catch {}
       }
       setHydrated(true);
     };
