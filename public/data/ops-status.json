@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T04:04:02.827Z",
+    "lastHeartbeat": "2026-02-15T04:09:02.620Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -12,15 +12,15 @@
       {
         "id": "offline-tony",
         "type": "warning",
-        "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-15T04:04:02.827Z",
+        "message": "Tony agent offline for >15 hours",
+        "timestamp": "2026-02-15T04:09:02.620Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >16 hours",
-        "timestamp": "2026-02-15T04:04:02.827Z",
+        "timestamp": "2026-02-15T04:09:02.620Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:48:00.049Z"
+      "lastSeen": "2026-02-15T04:06:36.943Z"
     },
     {
       "name": "Anders",
@@ -56,7 +56,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T04:04:01.164Z"
+      "lastSeen": "2026-02-15T04:08:59.897Z"
     },
     {
       "name": "Bobby",
@@ -65,7 +65,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T04:03:45.037Z"
+      "lastSeen": "2026-02-15T04:05:51.294Z"
     },
     {
       "name": "Paula",
@@ -74,7 +74,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:48:52.470Z"
+      "lastSeen": "2026-02-15T04:06:24.109Z"
     },
     {
       "name": "Dwight",
@@ -129,30 +129,8 @@
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T04:04:01.164Z",
+      "lastActivity": "2026-02-15T04:08:59.897Z",
       "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 19
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T04:03:45.037Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 61
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:48:52.470Z",
-      "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
     },
@@ -162,10 +140,32 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:48:00.049Z",
+      "lastActivity": "2026-02-15T04:06:36.943Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T04:06:24.109Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 19
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T04:05:51.294Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 61
     },
     {
       "key": "agent:remy:main",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T04:04:03.857Z",
+  "generatedAt": "2026-02-15T04:09:03.631Z",
   "version": 2
 }
