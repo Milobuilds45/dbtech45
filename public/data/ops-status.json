@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T21:59:02.446Z",
+    "lastHeartbeat": "2026-02-15T22:04:02.479Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -83,11 +83,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T18:51:16.988Z"
+      "lastSeen": "2026-02-15T22:03:53.385Z"
     },
     {
       "name": "Remy",
@@ -109,6 +109,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T22:03:53.385Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 23
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -152,17 +163,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T18:51:16.988Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 22
     },
     {
       "key": "agent:bobby:main",
@@ -382,10 +382,10 @@
       "humanSchedule": "0 17 * * 0",
       "agent": "Dax",
       "description": "WEEKLY SOCIAL MEDIA STRATEGY SESSION (5:00 PM Sunday). You are Dax (Social Media Strategist). Read your SOUL.md and work",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T22:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-15T22:00:00.012Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-22T22:00:00.000Z",
+      "duration": "23s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T21:59:03.412Z",
+  "generatedAt": "2026-02-15T22:04:03.469Z",
   "version": 2
 }
