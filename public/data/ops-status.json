@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T22:44:02.574Z",
+    "lastHeartbeat": "2026-02-15T22:49:02.566Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": [
       {
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T22:44:01.163Z"
+      "lastSeen": "2026-02-15T22:47:36.366Z"
     },
     {
       "name": "Anders",
@@ -47,11 +47,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:07:50.401Z"
+      "lastSeen": "2026-02-15T22:48:51.604Z"
     },
     {
       "name": "Paula",
@@ -110,12 +110,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T22:48:51.604Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 62
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T22:44:01.163Z",
+      "lastActivity": "2026-02-15T22:47:36.366Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
@@ -163,17 +174,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:07:50.401Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 62
     },
     {
       "key": "agent:remy:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T22:44:03.597Z",
+  "generatedAt": "2026-02-15T22:49:03.581Z",
   "version": 2
 }
