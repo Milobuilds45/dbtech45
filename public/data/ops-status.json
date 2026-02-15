@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T15:39:02.957Z",
+    "lastHeartbeat": "2026-02-15T15:44:02.725Z",
     "totalCrons": 17,
     "activeSessions": 8,
     "totalAgents": 9,
@@ -105,7 +105,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T15:15:40.926Z"
+      "lastSeen": "2026-02-15T15:42:32.302Z"
     }
   ],
   "sessions": [
@@ -115,7 +115,7 @@
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T15:15:40.926Z",
+      "lastActivity": "2026-02-15T15:42:32.302Z",
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T15:39:03.909Z",
+  "generatedAt": "2026-02-15T15:44:03.658Z",
   "version": 2
 }
