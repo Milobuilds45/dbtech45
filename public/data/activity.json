@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "40f0090d",
+      "author": "Milo",
+      "timestamp": "2026-02-14 20:49:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "ed91cdad",
       "author": "Milo",
       "timestamp": "2026-02-14 20:44:04 -0500",
@@ -344,13 +351,6 @@
       "message": "feat: add 'In Plain English' explainer to every Agent Assist resource card"
     },
     {
-      "type": "commit",
-      "id": "b9dd7a94",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:19:06 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +435,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T01:49:04.799Z"
+  "generatedAt": "2026-02-15T01:54:04.729Z"
 }

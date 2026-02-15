@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T01:49:03.496Z",
+    "lastHeartbeat": "2026-02-15T01:54:03.491Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-15T01:49:03.496Z",
+        "timestamp": "2026-02-15T01:54:03.491Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >14 hours",
-        "timestamp": "2026-02-15T01:49:03.496Z",
+        "timestamp": "2026-02-15T01:54:03.491Z",
         "resolved": false
       }
     ]
@@ -56,7 +56,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -65,7 +65,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -135,7 +135,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T01:21:49.440Z",
       "role": "Weather & News",
@@ -146,7 +146,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T01:21:33.738Z",
       "role": "Creative Director",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T01:49:04.689Z",
+  "generatedAt": "2026-02-15T01:54:04.625Z",
   "version": 2
 }
