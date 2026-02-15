@@ -189,13 +189,11 @@ export async function POST(request: NextRequest) {
         
         if (skillFocus && skillFocus.category) {
           const skillLabel = skillFocus.category.charAt(0).toUpperCase() + skillFocus.category.slice(1);
-          // Cap improvement at +1 -- nobody jumps multiple points from one resource
           const current = skillFocus.currentRating || 5;
-          const target = Math.min(current + 1, 10);
           plainEnglishTemplates = [
-            `This can help ${agentFirst} strengthen their ${skillLabel} skills (currently ${current}/10). Consistent use could move the needle toward ${target}/10.`,
-            `A resource for incrementally improving ${agentFirst}'s ${skillLabel} capabilities. Current: ${current}/10. Realistic next step: ${target}/10.`,
-            `Targets ${agentFirst}'s ${skillLabel} growth area. Mastering this material is one step toward moving from ${current} to ${target}/10.`,
+            `This can help ${agentFirst} incrementally strengthen their ${skillLabel} skills (currently ${current}/10). Consistent use moves the needle over time.`,
+            `A resource for gradually improving ${agentFirst}'s ${skillLabel} capabilities. Current: ${current}/10. Every bit of practice counts.`,
+            `Targets ${agentFirst}'s ${skillLabel} growth area. Applying this regularly will contribute to steady improvement from ${current}/10.`,
           ];
         } else {
           plainEnglishTemplates = [

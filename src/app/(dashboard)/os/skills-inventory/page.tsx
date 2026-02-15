@@ -147,14 +147,21 @@ const convertSkillsData = (data: SkillData): { categories: SkillCategory[], allS
 };
 
 /* ───────────────── Reusable Components ───────────────── */
-function RatingBar({ rating, max = 10, color }: { rating: number; max?: number; color: string }) {
+function ratingColor(rating: number): string {
+  if (rating <= 3) return '#EF4444';  // red
+  if (rating <= 6) return '#F59E0B';  // amber
+  return '#22C55E';                    // green
+}
+
+function RatingBar({ rating, max = 10 }: { rating: number; max?: number; color?: string }) {
   const pct = Math.min((rating / max) * 100, 100);
+  const barColor = ratingColor(rating);
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
       <div style={{ flex: 1, height: 8, background: T.border, borderRadius: 4, overflow: 'hidden' }}>
-        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 4, transition: 'width 0.4s ease' }} />
+        <div style={{ width: `${pct}%`, height: '100%', background: barColor, borderRadius: 4, transition: 'width 0.4s ease' }} />
       </div>
-      <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text, minWidth: 16, textAlign: 'right', fontWeight: 600 }}>{rating}</span>
+      <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: barColor, minWidth: 16, textAlign: 'right', fontWeight: 600 }}>{rating}</span>
     </div>
   );
 }
@@ -518,7 +525,7 @@ export default function SkillsInventory() {
           <div style={{ marginBottom: 24 }}>
             <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 28, fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>Skills Inventory</h1>
             <p style={{ fontSize: 13, color: T.secondary, margin: 0 }}>
-              Agent proficiency ratings • Scale 1-6 • Updated: {lastUpdated ? new Date(lastUpdated).toLocaleDateString() : 'N/A'}
+              Agent proficiency ratings • Scale 1-10 • Updated: {lastUpdated ? new Date(lastUpdated).toLocaleDateString() : 'N/A'}
             </p>
           </div>
 
