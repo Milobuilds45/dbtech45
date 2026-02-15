@@ -215,14 +215,10 @@ export default function AgentAssist() {
   const [agentSkillsData, setAgentSkillsData] = useState<Record<string, AgentSkillData>>({});
   const [isSkillLoading, setIsSkillLoading] = useState(false);
 
-  const STORAGE_KEY = 'dbtech-assist-resources';
-  const DELETED_KEY = 'dbtech-assist-deleted';
-  const VERIFIED_KEY = 'dbtech-assist-verified';
-  const ARCHIVED_KEY = 'dbtech-assist-archived';
-  
   // Archive state
   const [archivedResources, setArchivedResources] = useState<AgentResource[]>([]);
   const [showArchive, setShowArchive] = useState(false);
+  const [dbReady, setDbReady] = useState(false);
 
   // Load agent skills data
   useEffect(() => {
@@ -247,45 +243,88 @@ export default function AgentAssist() {
     loadSkillsData();
   }, []);
 
-  // Load from localStorage (primary), seed with mock data if empty
-  useEffect(() => {
-    try {
-      const deletedIds: string[] = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-      const verifiedIds: string[] = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
-      const removedIds = new Set([...deletedIds, ...verifiedIds]);
-      
-      // Load archived resources
-      const archivedStored = localStorage.getItem(ARCHIVED_KEY);
-      if (archivedStored) {
-        const archivedParsed = JSON.parse(archivedStored) as AgentResource[];
-        if (Array.isArray(archivedParsed)) {
-          setArchivedResources(archivedParsed);
-        }
-      }
+  // Helper: map DB row to AgentResource
+  const dbToResource = (row: Record<string, unknown>): AgentResource => ({
+    id: row.id as string,
+    agentId: row.agent_id as string,
+    agentName: row.agent_name as string,
+    title: row.title as string,
+    description: (row.description as string) || '',
+    plainEnglish: (row.plain_english as string) || '',
+    url: (row.url as string) || '',
+    category: (row.category as AgentResource['category']) || 'other',
+    type: (row.type as AgentResource['type']) || 'open-source',
+    tags: (row.tags as string[]) || [],
+    useCase: (row.use_case as string) || '',
+    rating: (row.rating as number) || 3,
+    usefulFor: (row.useful_for as string[]) || [],
+    githubStars: row.github_stars as number | undefined,
+    lastUpdated: row.last_updated as string | undefined,
+    pricing: row.pricing as string | undefined,
+    createdAt: row.created_at as string,
+    addedBy: (row.added_by as string) || '',
+    skillCategory: row.skill_category as string | undefined,
+  });
 
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        const parsed = JSON.parse(stored) as AgentResource[];
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          setResources(parsed.filter(r => !removedIds.has(r.id)));
+  // Helper: map AgentResource to DB row
+  const resourceToDb = (r: AgentResource, status: string = 'active') => ({
+    id: r.id,
+    agent_id: r.agentId,
+    agent_name: r.agentName,
+    title: r.title,
+    description: r.description,
+    plain_english: r.plainEnglish,
+    url: r.url,
+    category: r.category,
+    type: r.type,
+    tags: r.tags,
+    use_case: r.useCase,
+    rating: r.rating,
+    useful_for: r.usefulFor,
+    github_stars: r.githubStars || null,
+    last_updated: r.lastUpdated || null,
+    pricing: r.pricing || null,
+    added_by: r.addedBy,
+    skill_category: r.skillCategory || null,
+    status,
+  });
+
+  // Load from Supabase, seed mock data if empty
+  useEffect(() => {
+    const loadFromDb = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('agent_resources')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) {
+          console.error('Supabase load error:', error);
+          // Fallback to mock data
+          setResources(mockResources);
+          setDbReady(true);
           return;
         }
-      }
-      // First load - seed with mock data
-      const seeded = mockResources.filter(r => !removedIds.has(r.id));
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(mockResources));
-      setResources(seeded);
-    } catch {
-      setResources(mockResources);
-    }
-  }, []);
 
-  // Persist to localStorage on change
-  useEffect(() => {
-    if (resources.length > 0) {
-      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(resources)); } catch {}
-    }
-  }, [resources]);
+        if (!data || data.length === 0) {
+          // First load - seed with mock data to Supabase
+          const rows = mockResources.map(r => resourceToDb(r, 'active'));
+          await supabase.from('agent_resources').upsert(rows);
+          setResources(mockResources);
+        } else {
+          const active = data.filter((r: Record<string, unknown>) => r.status === 'active').map(dbToResource);
+          const archived = data.filter((r: Record<string, unknown>) => r.status === 'archived').map(dbToResource);
+          setResources(active);
+          setArchivedResources(archived);
+        }
+      } catch {
+        setResources(mockResources);
+      }
+      setDbReady(true);
+    };
+    loadFromDb();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const showNotification = (message: string) => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -319,6 +358,12 @@ export default function AgentAssist() {
       
       setResources(prev => [...newResources, ...prev]);
       setIsLoading(false);
+      
+      // Persist to Supabase
+      if (newResources.length > 0) {
+        const rows = newResources.map(r => resourceToDb(r, 'active'));
+        supabase.from('agent_resources').upsert(rows).then(() => {});
+      }
       
       if (newResources.length === 1) {
         showNotification(`New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
@@ -365,6 +410,12 @@ export default function AgentAssist() {
       setResources(prev => [...newResources, ...prev]);
       setIsSkillLoading(false);
       
+      // Persist to Supabase
+      if (newResources.length > 0) {
+        const rows = newResources.map(r => resourceToDb(r, 'active'));
+        supabase.from('agent_resources').upsert(rows).then(() => {});
+      }
+      
       if (newResources.length > 0) {
         showNotification(`Generated ${newResources.length} ${skillDevCategory} improvement suggestions for ${agentData?.name}`);
       }
@@ -374,66 +425,44 @@ export default function AgentAssist() {
     }
   };
 
-  const deleteResource = (id: string) => {
+  const deleteResource = async (id: string) => {
     setResources(prev => prev.filter(r => r.id !== id));
     try {
-      const deleted = JSON.parse(localStorage.getItem(DELETED_KEY) || '[]');
-      deleted.push(id);
-      localStorage.setItem(DELETED_KEY, JSON.stringify(deleted));
+      await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
     } catch {}
   };
 
-  const unarchiveResource = (id: string) => {
+  const unarchiveResource = async (id: string) => {
     const resource = archivedResources.find(r => r.id === id);
     if (!resource) return;
     
-    // Remove from archive
-    setArchivedResources(prev => {
-      const updated = prev.filter(r => r.id !== id);
-      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
-      return updated;
-    });
+    // Remove from archive, add back to active
+    setArchivedResources(prev => prev.filter(r => r.id !== id));
+    setResources(prev => [resource, ...prev]);
     
-    // Add back to active resources
-    const { archivedAt, ...activeResource } = resource as AgentResource & { archivedAt?: string };
-    setResources(prev => [activeResource, ...prev]);
-    
-    // Remove from verified IDs
     try {
-      const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
-      const updated = verified.filter((vid: string) => vid !== id);
-      localStorage.setItem(VERIFIED_KEY, JSON.stringify(updated));
+      await supabase.from('agent_resources').update({ status: 'active' }).eq('id', id);
     } catch {}
   };
 
-  const deleteArchivedResource = (id: string) => {
-    setArchivedResources(prev => {
-      const updated = prev.filter(r => r.id !== id);
-      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
-      return updated;
-    });
+  const deleteArchivedResource = async (id: string) => {
+    setArchivedResources(prev => prev.filter(r => r.id !== id));
+    try {
+      await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
+    } catch {}
   };
 
   const verifyResource = async (id: string) => {
     const resource = resources.find(r => r.id === id);
     if (!resource) return;
     
-    // Remove from active resources
+    // Remove from active, add to archived
     setResources(prev => prev.filter(r => r.id !== id));
+    setArchivedResources(prev => [resource, ...prev]);
     
-    // Add to archived resources with timestamp
-    const archivedResource = { ...resource, archivedAt: new Date().toISOString() };
-    setArchivedResources(prev => {
-      const updated = [archivedResource, ...prev];
-      try { localStorage.setItem(ARCHIVED_KEY, JSON.stringify(updated)); } catch {}
-      return updated;
-    });
-    
-    // Keep verified IDs for backwards compatibility
+    // Update in Supabase
     try {
-      const verified = JSON.parse(localStorage.getItem(VERIFIED_KEY) || '[]');
-      verified.push(id);
-      localStorage.setItem(VERIFIED_KEY, JSON.stringify(verified));
+      await supabase.from('agent_resources').update({ status: 'archived' }).eq('id', id);
     } catch {}
 
     // If this resource was generated for a specific skill, bump the skill rating by +0.5
@@ -509,6 +538,8 @@ export default function AgentAssist() {
     setResources(prev => prev.map(resource => 
       resource.id === id ? { ...resource, rating } : resource
     ));
+    // Persist to Supabase
+    supabase.from('agent_resources').update({ rating }).eq('id', id).then(() => {});
   };
 
   const formatNumber = (num: number) => {
