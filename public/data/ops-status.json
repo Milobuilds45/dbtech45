@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T16:09:02.689Z",
+    "lastHeartbeat": "2026-02-15T16:14:02.740Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -101,7 +101,7 @@
     {
       "name": "Wendy",
       "role": "Wellness Coach",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -124,7 +124,7 @@
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T15:42:32.302Z",
       "role": "Wellness Coach",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T16:09:03.625Z",
+  "generatedAt": "2026-02-15T16:14:03.713Z",
   "version": 2
 }
