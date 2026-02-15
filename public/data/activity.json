@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "2498637b",
+      "author": "Milo",
+      "timestamp": "2026-02-14 20:17:36 -0500",
+      "message": "feat: Added Autonomy and Awareness skill categories"
+    },
+    {
+      "type": "commit",
+      "id": "32ba22d1",
+      "author": "Milo",
+      "timestamp": "2026-02-14 20:14:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "2d7708f8",
       "author": "Milo",
       "timestamp": "2026-02-14 20:10:02 -0500",
@@ -337,20 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "4ebbf3c6",
-      "author": "Milo",
-      "timestamp": "2026-02-14 17:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "9ee7fac6",
-      "author": "Milo",
-      "timestamp": "2026-02-14 17:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +435,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T01:14:04.965Z"
+  "generatedAt": "2026-02-15T01:19:06.938Z"
 }
