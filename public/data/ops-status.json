@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T03:54:02.774Z",
+    "lastHeartbeat": "2026-02-15T03:59:02.649Z",
     "totalCrons": 17,
     "activeSessions": 7,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-15T03:54:02.773Z",
+        "timestamp": "2026-02-15T03:59:02.648Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >16 hours",
-        "timestamp": "2026-02-15T03:54:02.773Z",
+        "timestamp": "2026-02-15T03:59:02.648Z",
         "resolved": false
       },
       {
@@ -56,7 +56,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:47:34.262Z"
+      "lastSeen": "2026-02-15T03:58:59.158Z"
     },
     {
       "name": "Bobby",
@@ -65,7 +65,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:53:59.723Z"
+      "lastSeen": "2026-02-15T03:58:33.906Z"
     },
     {
       "name": "Paula",
@@ -124,12 +124,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T03:58:59.158Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 18
+    },
+    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:53:59.723Z",
+      "lastActivity": "2026-02-15T03:58:33.906Z",
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 61
@@ -155,17 +166,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:47:34.262Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 18
     },
     {
       "key": "agent:remy:main",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T03:54:03.858Z",
+  "generatedAt": "2026-02-15T03:59:03.669Z",
   "version": 2
 }
