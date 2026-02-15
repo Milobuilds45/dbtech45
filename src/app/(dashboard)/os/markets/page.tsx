@@ -11,6 +11,11 @@ interface UnusualContract extends ZeroDTEContract { volOiRatio: number; }
 interface SectorQuote { price: number; change: number; changePercent: number; volume: number; name: string; high: number; low: number; }
 interface SparklineData { timestamps: number[]; closes: number[]; }
 interface PCRData { pcr: number; totalPuts: number; totalCalls: number; sentiment: string; }
+interface FundamentalsData { symbol: string; name: string; price: number|null; change: number|null; changePercent: number|null; marketCap: string|null; trailingPE: number|null; forwardPE: number|null; pegRatio: number|null; priceToBook: number|null; priceToSales: number|null; epsTrailing: number|null; epsForward: number|null; profitMargin: number|null; operatingMargin: number|null; grossMargin: number|null; returnOnEquity: number|null; fiftyDayAvg: number|null; twoHundredDayAvg: number|null; fiftyTwoWeekHigh: number|null; fiftyTwoWeekLow: number|null; fiftyTwoWeekChange: number|null; beta: number|null; insiderHeld: number|null; institutionHeld: number|null; shortRatio: number|null; shortFloat: number|null; analystRating: string|null; targetPrice: number|null; analystCount: number|null; dividendRate: number|null; dividendYield: number|null; exDividendDate: string|null; earningsDate: string|null; earningsDateStart: string|null; avgVolume3M: number|null; avgVolume10D: number|null; enterpriseValue: string|null; evToRevenue: number|null; evToEbitda: number|null; volume: number|null; [key:string]: unknown; }
+interface EarningsItem { symbol: string; name: string; earningsDate: string|null; earningsDateStart: string|null; earningsDateEnd: string|null; epsTrailing: number|null; epsForward: number|null; trailingPE: number|null; forwardPE: number|null; marketCap: string|null; price: number|null; }
+interface DividendItem { symbol: string; name: string; price: number|null; dividendRate: number|null; dividendYield: number|null; dividendYieldPct: string|null; trailingDividendRate: number|null; exDividendDate: string|null; payable: boolean; }
+interface EarningsHistEvent { date: string; priceBefore: number; priceAfter: number; change: number; changePercent: number; volumeSpike: number; type: 'gap-up'|'gap-down'; }
+interface EarningsHistData { symbol: string; name: string; nextEarnings: string|null; events: EarningsHistEvent[]; avgMove: number|null; upMoves: number; downMoves: number; }
 
 const DWL = ['AAPL','NVDA','TSLA','META','AMZN'];
 const DT = ['ES=F','NQ=F','SPY','^VIX','BTC-USD','^TNX'];
@@ -59,6 +64,15 @@ export default function Markets() {
   const [sec,setSec]=useState<Record<string,SectorQuote>>({});
   const [pcr,setPcr]=useState<PCRData|null>(null);
   const [spk,setSpk]=useState<Record<string,SparklineData>>({});
+  const [fund,setFund]=useState<FundamentalsData|null>(null);
+  const [fundLoad,setFundLoad]=useState(false);
+  const [fundTab,setFundTab]=useState<'fundamentals'|'chain'>('fundamentals');
+  const [earn,setEarn]=useState<EarningsItem[]>([]);
+  const [earnLoad,setEarnLoad]=useState(true);
+  const [divs,setDivs]=useState<DividendItem[]>([]);
+  const [divsLoad,setDivsLoad]=useState(true);
+  const [ehist,setEhist]=useState<EarningsHistData|null>(null);
+  const [ehistLoad,setEhistLoad]=useState(false);
 
   const fetchD = useCallback(async (w: string[]) => {
     try { setErr(null); setRfr(true);
@@ -98,9 +112,26 @@ export default function Markets() {
     } catch{} finally{setCload(false);}
   },[]);
 
-  const tickClick = useCallback((s:string) => { if(csym===s){setCsym(null);setCdata(null);return;} setCsym(s);setSexp('');fetchC(s); },[csym,fetchC]);
+  const fetchFund = useCallback(async (sym:string) => {
+    setFundLoad(true); setFund(null);
+    try { const r=await fetch(`/api/yfinance-data?type=fundamentals&symbol=${encodeURIComponent(sym)}`,{signal:AbortSignal.timeout(10000)}); if(!r.ok) throw new Error(''); setFund(await r.json()); } catch{} finally{setFundLoad(false);}
+  },[]);
+  const fetchEarn = useCallback(async (w:string[]) => {
+    setEarnLoad(true);
+    try { const r=await fetch(`/api/yfinance-data?type=earnings&symbols=${w.join(',')}`,{signal:AbortSignal.timeout(12000)}); if(!r.ok) throw new Error(''); const d=await r.json(); setEarn(d.earnings||[]); } catch{} finally{setEarnLoad(false);}
+  },[]);
+  const fetchDivs = useCallback(async (w:string[]) => {
+    setDivsLoad(true);
+    try { const r=await fetch(`/api/yfinance-data?type=dividends&symbols=${w.join(',')}`,{signal:AbortSignal.timeout(12000)}); if(!r.ok) throw new Error(''); const d=await r.json(); setDivs(d.dividends||[]); } catch{} finally{setDivsLoad(false);}
+  },[]);
+  const fetchEhist = useCallback(async (sym:string) => {
+    setEhistLoad(true); setEhist(null);
+    try { const r=await fetch(`/api/yfinance-data?type=earnings-history&symbol=${encodeURIComponent(sym)}`,{signal:AbortSignal.timeout(12000)}); if(!r.ok) throw new Error(''); setEhist(await r.json()); } catch{} finally{setEhistLoad(false);}
+  },[]);
+
+  const tickClick = useCallback((s:string) => { if(csym===s){setCsym(null);setCdata(null);setFund(null);setEhist(null);return;} setCsym(s);setSexp('');setFundTab('fundamentals');fetchC(s);fetchFund(s);fetchEhist(s); },[csym,fetchC,fetchFund,fetchEhist]);
   const expChange = useCallback((e:string) => { setSexp(e); if(csym) fetchC(csym,e); },[csym,fetchC]);
-  const refreshAll = useCallback(() => { fetchD(wl);fetchZ();fetchU();fetchS();fetchP();setCd(30); },[fetchD,fetchZ,fetchU,fetchS,fetchP,wl]);
+  const refreshAll = useCallback(() => { fetchD(wl);fetchZ();fetchU();fetchS();fetchP();fetchEarn(wl);fetchDivs(wl);setCd(30); },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchEarn,fetchDivs,wl]);
 
   const addSym = useCallback(() => {
     const s=ns.trim().toUpperCase();
@@ -110,8 +141,8 @@ export default function Markets() {
 
   useEffect(() => {
     let w=DWL; try{const s=localStorage.getItem('axecap-watchlist');if(s){w=JSON.parse(s);setWl(w);}}catch{}
-    fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);
-  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp]);
+    fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);fetchEarn(w);fetchDivs(w);
+  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,fetchEarn,fetchDivs]);
 
   useEffect(() => {
     const r=setInterval(()=>{fetchD(wl);fetchZ();fetchU();fetchS();fetchP();},30000);
@@ -232,42 +263,223 @@ export default function Markets() {
           </div>
         </div>
 
-        {/* OPTIONS CHAIN */}
+        {/* TICKER DETAIL PANEL (Fundamentals + Options Chain + Earnings History) */}
         {csym&&<div style={{...styles.card,marginBottom:'1.5rem',padding:0,overflow:'hidden'}}>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 16px',borderBottom:`1px solid ${brand.border}`,background:brand.graphite}}>
             <div style={{display:'flex',alignItems:'center',gap:12,flexWrap:'wrap'}}>
-              <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:M}}>OPTIONS CHAIN | {csym}</span>
+              <span style={{color:brand.amber,fontWeight:700,fontSize:15,fontFamily:M}}>{csym}</span>
+              {fund&&<span style={{fontSize:11,color:brand.smoke}}>{fund.name}</span>}
+              {fund&&fund.price&&<span style={{fontSize:13,fontFamily:M,color:brand.white,fontWeight:700}}>{fp(fund.price as number)}</span>}
+              {fund&&fund.changePercent!=null&&<span style={{fontSize:11,fontFamily:M,color:(fund.changePercent as number)>=0?'#22C55E':'#EF4444'}}>{fpc(fund.changePercent as number)}</span>}
+            </div>
+            <button onClick={()=>{setCsym(null);setCdata(null);setFund(null);setEhist(null);}} style={{background:'none',border:'none',color:brand.smoke,cursor:'pointer',fontSize:18,padding:'0 4px'}}>✕</button>
+          </div>
+          {/* Sub-tabs: Fundamentals | Options Chain | Earnings History */}
+          <div style={{display:'flex',borderBottom:`1px solid ${brand.border}`}}>
+            {(['fundamentals','chain'] as const).map(tab=><button key={tab} onClick={()=>setFundTab(tab)} style={{flex:1,padding:'10px 0',background:fundTab===tab?'rgba(245,158,11,0.08)':'transparent',border:'none',borderBottom:fundTab===tab?`2px solid ${brand.amber}`:'2px solid transparent',color:fundTab===tab?brand.amber:brand.smoke,fontFamily:M,fontSize:12,fontWeight:700,cursor:'pointer',textTransform:'uppercase'}}>{tab==='fundamentals'?'📊 Fundamentals':'⛓ Options Chain'}</button>)}
+          </div>
+
+          {/* FUNDAMENTALS TAB */}
+          {fundTab==='fundamentals'&&<div style={{padding:0}}>
+            {fundLoad?<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading fundamentals...</div>
+            :fund?<div>
+              {/* Valuation + Earnings row */}
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:0}}>
+                {/* Valuation */}
+                <div style={{padding:'16px',borderRight:`1px solid ${brand.border}`,borderBottom:`1px solid ${brand.border}`}}>
+                  <div style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,marginBottom:10,letterSpacing:'0.05em'}}>VALUATION</div>
+                  {[
+                    ['Mkt Cap',fund.marketCap],
+                    ['P/E (TTM)',fund.trailingPE!=null?Number(fund.trailingPE).toFixed(1):null],
+                    ['P/E (Fwd)',fund.forwardPE!=null?Number(fund.forwardPE).toFixed(1):null],
+                    ['PEG',fund.pegRatio!=null?Number(fund.pegRatio).toFixed(2):null],
+                    ['P/B',fund.priceToBook!=null?Number(fund.priceToBook).toFixed(2):null],
+                    ['P/S',fund.priceToSales!=null?Number(fund.priceToSales).toFixed(2):null],
+                    ['EV',fund.enterpriseValue],
+                    ['EV/Rev',fund.evToRevenue!=null?Number(fund.evToRevenue).toFixed(1)+'x':null],
+                    ['EV/EBITDA',fund.evToEbitda!=null?Number(fund.evToEbitda).toFixed(1)+'x':null],
+                  ].map(([label,val])=><div key={label as string} style={{display:'flex',justifyContent:'space-between',padding:'3px 0'}}><span style={{fontSize:11,color:brand.smoke}}>{label}</span><span style={{fontSize:11,color:brand.white,fontFamily:M,fontWeight:600}}>{val??'--'}</span></div>)}
+                </div>
+                {/* Profitability & Earnings */}
+                <div style={{padding:'16px',borderRight:`1px solid ${brand.border}`,borderBottom:`1px solid ${brand.border}`}}>
+                  <div style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,marginBottom:10,letterSpacing:'0.05em'}}>PROFITABILITY</div>
+                  {[
+                    ['EPS (TTM)',fund.epsTrailing!=null?`$${Number(fund.epsTrailing).toFixed(2)}`:null],
+                    ['EPS (Fwd)',fund.epsForward!=null?`$${Number(fund.epsForward).toFixed(2)}`:null],
+                    ['Gross Margin',fund.grossMargin!=null?`${fund.grossMargin}%`:null],
+                    ['Op Margin',fund.operatingMargin!=null?`${fund.operatingMargin}%`:null],
+                    ['Profit Margin',fund.profitMargin!=null?`${fund.profitMargin}%`:null],
+                    ['ROE',fund.returnOnEquity!=null?`${fund.returnOnEquity}%`:null],
+                  ].map(([label,val])=><div key={label as string} style={{display:'flex',justifyContent:'space-between',padding:'3px 0'}}><span style={{fontSize:11,color:brand.smoke}}>{label}</span><span style={{fontSize:11,color:val&&!String(val).startsWith('--')&&!String(val).startsWith('-')?'#22C55E':val&&String(val).startsWith('-')?'#EF4444':brand.white,fontFamily:M,fontWeight:600}}>{val??'--'}</span></div>)}
+                  <div style={{borderTop:`1px solid ${brand.border}`,marginTop:8,paddingTop:8}}>
+                    <div style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,marginBottom:6,letterSpacing:'0.05em'}}>EARNINGS</div>
+                    <div style={{display:'flex',justifyContent:'space-between',padding:'3px 0'}}><span style={{fontSize:11,color:brand.smoke}}>Next Report</span><span style={{fontSize:11,color:fund.earningsDate?brand.amber:brand.smoke,fontFamily:M,fontWeight:700}}>{fund.earningsDate||fund.earningsDateStart||'--'}</span></div>
+                  </div>
+                </div>
+                {/* Technicals & Ownership */}
+                <div style={{padding:'16px',borderBottom:`1px solid ${brand.border}`}}>
+                  <div style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,marginBottom:10,letterSpacing:'0.05em'}}>TECHNICALS</div>
+                  {[
+                    ['50D Avg',fund.fiftyDayAvg!=null?fp(fund.fiftyDayAvg as number):null],
+                    ['200D Avg',fund.twoHundredDayAvg!=null?fp(fund.twoHundredDayAvg as number):null],
+                    ['52W High',fund.fiftyTwoWeekHigh!=null?fp(fund.fiftyTwoWeekHigh as number):null],
+                    ['52W Low',fund.fiftyTwoWeekLow!=null?fp(fund.fiftyTwoWeekLow as number):null],
+                    ['52W Chg',fund.fiftyTwoWeekChange!=null?`${fund.fiftyTwoWeekChange>0?'+':''}${fund.fiftyTwoWeekChange}%`:null],
+                    ['Beta',fund.beta!=null?Number(fund.beta).toFixed(2):null],
+                  ].map(([label,val])=><div key={label as string} style={{display:'flex',justifyContent:'space-between',padding:'3px 0'}}><span style={{fontSize:11,color:brand.smoke}}>{label}</span><span style={{fontSize:11,color:brand.white,fontFamily:M,fontWeight:600}}>{val??'--'}</span></div>)}
+                  <div style={{borderTop:`1px solid ${brand.border}`,marginTop:8,paddingTop:8}}>
+                    <div style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,marginBottom:6,letterSpacing:'0.05em'}}>OWNERSHIP</div>
+                    {[
+                      ['Insider',fund.insiderHeld!=null?`${fund.insiderHeld}%`:null],
+                      ['Institutional',fund.institutionHeld!=null?`${fund.institutionHeld}%`:null],
+                      ['Short Ratio',fund.shortRatio!=null?Number(fund.shortRatio).toFixed(1):null],
+                      ['Short Float',fund.shortFloat!=null?`${fund.shortFloat}%`:null],
+                    ].map(([label,val])=><div key={label as string} style={{display:'flex',justifyContent:'space-between',padding:'3px 0'}}><span style={{fontSize:11,color:brand.smoke}}>{label}</span><span style={{fontSize:11,color:brand.white,fontFamily:M,fontWeight:600}}>{val??'--'}</span></div>)}
+                  </div>
+                </div>
+              </div>
+              {/* Analyst + Dividends bar */}
+              <div style={{display:'flex',gap:0,borderBottom:`1px solid ${brand.border}`}}>
+                <div style={{flex:1,padding:'12px 16px',borderRight:`1px solid ${brand.border}`,display:'flex',alignItems:'center',gap:16}}>
+                  <span style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M}}>ANALYST</span>
+                  {fund.analystRating&&<span style={{fontSize:11,color:brand.white,fontFamily:M}}>{fund.analystRating}</span>}
+                  {fund.targetPrice!=null&&<span style={{fontSize:11,color:brand.smoke}}>Target: <span style={{color:(fund.targetPrice as number)>(fund.price as number||0)?'#22C55E':'#EF4444',fontFamily:M,fontWeight:700}}>{fp(fund.targetPrice as number)}</span></span>}
+                  {fund.analystCount!=null&&<span style={{fontSize:10,color:brand.smoke,fontFamily:M}}>({fund.analystCount} analysts)</span>}
+                </div>
+                <div style={{flex:1,padding:'12px 16px',display:'flex',alignItems:'center',gap:16}}>
+                  <span style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M}}>DIVIDEND</span>
+                  {fund.dividendRate!=null&&fund.dividendRate>0?<>
+                    <span style={{fontSize:11,color:'#22C55E',fontFamily:M,fontWeight:700}}>${Number(fund.dividendRate).toFixed(2)}/yr</span>
+                    {fund.dividendYield!=null&&<span style={{fontSize:11,color:'#22C55E',fontFamily:M}}>({fund.dividendYield}%)</span>}
+                    {fund.exDividendDate&&<span style={{fontSize:10,color:brand.smoke}}>Ex-div: {fund.exDividendDate}</span>}
+                  </>:<span style={{fontSize:11,color:brand.smoke,fontFamily:M}}>No dividend</span>}
+                </div>
+              </div>
+              {/* Earnings History Section (inline) */}
+              {ehistLoad?<div style={{padding:20,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading earnings history...</div>
+              :ehist&&ehist.events.length>0?<div style={{padding:'12px 16px'}}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+                  <span style={{fontSize:10,color:brand.amber,fontWeight:700,fontFamily:M,letterSpacing:'0.05em'}}>SIGNIFICANT MOVES (2Y)</span>
+                  {ehist.avgMove!=null&&<span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,background:'rgba(245,158,11,0.1)',color:brand.amber}}>Avg: ±{ehist.avgMove}%</span>}
+                  <span style={{fontSize:10,fontFamily:M,color:'#22C55E'}}>↑{ehist.upMoves}</span>
+                  <span style={{fontSize:10,fontFamily:M,color:'#EF4444'}}>↓{ehist.downMoves}</span>
+                  {ehist.nextEarnings&&<span style={{fontSize:10,color:brand.smoke,fontFamily:M}}>Next earnings: <span style={{color:brand.amber,fontWeight:700}}>{ehist.nextEarnings}</span></span>}
+                </div>
+                <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+                  {ehist.events.slice(0,10).map((ev,i)=><div key={i} style={{padding:'6px 10px',borderRadius:6,background:ev.type==='gap-up'?'rgba(34,197,94,0.08)':'rgba(239,68,68,0.08)',border:`1px solid ${ev.type==='gap-up'?'rgba(34,197,94,0.2)':'rgba(239,68,68,0.2)'}`,minWidth:100}}>
+                    <div style={{fontSize:9,color:brand.smoke,fontFamily:M,marginBottom:2}}>{ev.date}</div>
+                    <div style={{fontSize:13,fontWeight:700,fontFamily:M,color:ev.type==='gap-up'?'#22C55E':'#EF4444'}}>{ev.changePercent>0?'+':''}{ev.changePercent}%</div>
+                    <div style={{fontSize:9,color:brand.smoke,fontFamily:M}}>{ev.volumeSpike}x vol</div>
+                  </div>)}
+                </div>
+              </div>:null}
+            </div>
+            :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No fundamentals data</div>}
+          </div>}
+
+          {/* OPTIONS CHAIN TAB */}
+          {fundTab==='chain'&&<div>
+            <div style={{display:'flex',alignItems:'center',gap:12,padding:'8px 16px',borderBottom:`1px solid ${brand.border}`,background:'rgba(0,0,0,0.2)'}}>
               {cdata&&<><span style={{fontSize:10,color:brand.smoke,fontFamily:M}}>Spot: <span style={{color:brand.white}}>{f2(cdata.currentPrice)}</span></span>
                 {cdata.expirations?.length>1&&<select value={sexp} onChange={e=>expChange(e.target.value)} style={{background:brand.graphite,color:brand.amber,border:`1px solid ${brand.border}`,borderRadius:4,padding:'2px 8px',fontSize:10,fontFamily:M,cursor:'pointer'}}>{cdata.expirations.map(x=><option key={x} value={x}>{x}</option>)}</select>}</>}
             </div>
-            <button onClick={()=>{setCsym(null);setCdata(null);}} style={{background:'none',border:'none',color:brand.smoke,cursor:'pointer',fontSize:18,padding:'0 4px'}}>✕</button>
-          </div>
-          <div style={{display:'flex',borderBottom:`1px solid ${brand.border}`}}>
-            {(['calls','puts'] as const).map(tab=><button key={tab} onClick={()=>setCtab(tab)} style={{flex:1,padding:'10px 0',background:ctab===tab?'rgba(245,158,11,0.08)':'transparent',border:'none',borderBottom:ctab===tab?`2px solid ${brand.amber}`:'2px solid transparent',color:ctab===tab?(tab==='calls'?'#22C55E':'#EF4444'):brand.smoke,fontFamily:M,fontSize:12,fontWeight:700,cursor:'pointer'}}>{tab.toUpperCase()} {cdata&&<span style={{fontSize:10,opacity:0.7}}>({(tab==='calls'?cdata.calls:cdata.puts).length})</span>}</button>)}
-          </div>
-          <div style={{overflowX:'auto',maxHeight:400}}>
-            {cload?<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading options chain...</div>
-            :cdata?<table style={{width:'100%',borderCollapse:'collapse'}}>
-              <thead><tr><th style={thl}>Strike</th><th style={ths}>Last</th><th style={ths}>Chg</th><th style={ths}>Chg%</th><th style={ths}>Vol</th><th style={ths}>OI</th><th style={ths}>IV</th><th style={ths}>Δ</th><th style={ths}>Γ</th><th style={ths}>Θ</th><th style={ths}>V</th></tr></thead>
-              <tbody>{(ctab==='calls'?cdata.calls:cdata.puts).map((o,idx)=>{
-                const atm=cdata.currentPrice>0&&Math.abs(o.strike-cdata.currentPrice)<=(cdata.currentPrice*0.005);
-                const itm=ctab==='calls'?o.strike<cdata.currentPrice:o.strike>cdata.currentPrice;
-                return <tr key={`${o.strike}-${idx}`} style={{background:atm?'rgba(245,158,11,0.10)':itm?`rgba(${ctab==='calls'?'34,197,94':'239,68,68'},0.05)`:'transparent'}}>
-                  <td style={{...tdl,color:atm?brand.amber:brand.white,fontWeight:atm?700:600}}>{f2(o.strike)}{atm&&<span style={{marginLeft:6,fontSize:9,color:brand.amber}}>ATM</span>}</td>
-                  <td style={{...tds,color:brand.white}}>{f2(o.last)}</td>
-                  <td style={{...tds,color:(o.change??0)>=0?'#22C55E':'#EF4444'}}>{o.change?(o.change>0?'+':'')+o.change.toFixed(2):'--'}</td>
-                  <td style={{...tds,color:(o.changePercent??0)>=0?'#22C55E':'#EF4444'}}>{o.changePercent?fpc(o.changePercent):'--'}</td>
-                  <td style={{...tds,fontWeight:o.volume>10000?700:400,color:o.volume>10000?brand.white:brand.silver}}>{fv(o.volume)}</td>
-                  <td style={tds}>{fv(o.openInterest)}</td>
-                  <td style={tds}>{fi(o.impliedVolatility)}</td>
-                  <td style={{...tds,color:ctab==='calls'?'#22C55E':'#EF4444'}}>{fd(o.delta)}</td>
-                  <td style={tds}>{o.gamma?o.gamma.toFixed(4):'--'}</td>
-                  <td style={tds}>{o.theta?o.theta.toFixed(4):'--'}</td>
-                  <td style={tds}>{o.vega?o.vega.toFixed(4):'--'}</td>
-                </tr>})}</tbody></table>
-            :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No chain data</div>}
-          </div>
+            <div style={{display:'flex',borderBottom:`1px solid ${brand.border}`}}>
+              {(['calls','puts'] as const).map(tab=><button key={tab} onClick={()=>setCtab(tab)} style={{flex:1,padding:'10px 0',background:ctab===tab?'rgba(245,158,11,0.08)':'transparent',border:'none',borderBottom:ctab===tab?`2px solid ${brand.amber}`:'2px solid transparent',color:ctab===tab?(tab==='calls'?'#22C55E':'#EF4444'):brand.smoke,fontFamily:M,fontSize:12,fontWeight:700,cursor:'pointer'}}>{tab.toUpperCase()} {cdata&&<span style={{fontSize:10,opacity:0.7}}>({(tab==='calls'?cdata.calls:cdata.puts).length})</span>}</button>)}
+            </div>
+            <div style={{overflowX:'auto',maxHeight:400}}>
+              {cload?<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading options chain...</div>
+              :cdata?<table style={{width:'100%',borderCollapse:'collapse'}}>
+                <thead><tr><th style={thl}>Strike</th><th style={ths}>Last</th><th style={ths}>Chg</th><th style={ths}>Chg%</th><th style={ths}>Vol</th><th style={ths}>OI</th><th style={ths}>IV</th><th style={ths}>Δ</th><th style={ths}>Γ</th><th style={ths}>Θ</th><th style={ths}>V</th></tr></thead>
+                <tbody>{(ctab==='calls'?cdata.calls:cdata.puts).map((o,idx)=>{
+                  const atm=cdata.currentPrice>0&&Math.abs(o.strike-cdata.currentPrice)<=(cdata.currentPrice*0.005);
+                  const itm=ctab==='calls'?o.strike<cdata.currentPrice:o.strike>cdata.currentPrice;
+                  return <tr key={`${o.strike}-${idx}`} style={{background:atm?'rgba(245,158,11,0.10)':itm?`rgba(${ctab==='calls'?'34,197,94':'239,68,68'},0.05)`:'transparent'}}>
+                    <td style={{...tdl,color:atm?brand.amber:brand.white,fontWeight:atm?700:600}}>{f2(o.strike)}{atm&&<span style={{marginLeft:6,fontSize:9,color:brand.amber}}>ATM</span>}</td>
+                    <td style={{...tds,color:brand.white}}>{f2(o.last)}</td>
+                    <td style={{...tds,color:(o.change??0)>=0?'#22C55E':'#EF4444'}}>{o.change?(o.change>0?'+':'')+o.change.toFixed(2):'--'}</td>
+                    <td style={{...tds,color:(o.changePercent??0)>=0?'#22C55E':'#EF4444'}}>{o.changePercent?fpc(o.changePercent):'--'}</td>
+                    <td style={{...tds,fontWeight:o.volume>10000?700:400,color:o.volume>10000?brand.white:brand.silver}}>{fv(o.volume)}</td>
+                    <td style={tds}>{fv(o.openInterest)}</td>
+                    <td style={tds}>{fi(o.impliedVolatility)}</td>
+                    <td style={{...tds,color:ctab==='calls'?'#22C55E':'#EF4444'}}>{fd(o.delta)}</td>
+                    <td style={tds}>{o.gamma?o.gamma.toFixed(4):'--'}</td>
+                    <td style={tds}>{o.theta?o.theta.toFixed(4):'--'}</td>
+                    <td style={tds}>{o.vega?o.vega.toFixed(4):'--'}</td>
+                  </tr>})}</tbody></table>
+              :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No chain data</div>}
+            </div>
+          </div>}
         </div>}
+
+        {/* EARNINGS CALENDAR + DIVIDEND TRACKER */}
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1.5rem',marginBottom:'1.5rem'}}>
+          {/* Earnings Calendar */}
+          <div style={{...styles.card,padding:0,overflow:'hidden'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 16px',borderBottom:`1px solid ${brand.border}`,background:brand.graphite}}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <span style={{fontSize:14}}>📅</span>
+                <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em'}}>EARNINGS CALENDAR</span>
+              </div>
+              <span style={{fontSize:10,color:brand.smoke,fontFamily:M}}>Watchlist</span>
+            </div>
+            {earnLoad?<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading earnings dates...</div>
+            :earn.length>0?<table style={{width:'100%',borderCollapse:'collapse'}}>
+              <thead><tr><th style={thl}>Symbol</th><th style={thl}>Name</th><th style={ths}>Earnings Date</th><th style={ths}>EPS (TTM)</th><th style={ths}>EPS (Fwd)</th><th style={ths}>P/E</th><th style={ths}>Mkt Cap</th></tr></thead>
+              <tbody>{earn.map(e=>{
+                const isPast=e.earningsDate&&new Date(e.earningsDate)<new Date();
+                const isSoon=e.earningsDate&&!isPast&&(new Date(e.earningsDate).getTime()-Date.now())<7*24*60*60*1000;
+                return <tr key={e.symbol}>
+                  <td onClick={()=>tickClick(e.symbol)} style={{...tdl,color:brand.amber,fontWeight:700,cursor:'pointer'}}>{e.symbol}</td>
+                  <td style={{...tdl,fontSize:11,maxWidth:120,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{e.name}</td>
+                  <td style={{...tds,color:isSoon?'#EF4444':isPast?brand.smoke:brand.white,fontWeight:isSoon?700:400}}>
+                    {e.earningsDate||'--'}
+                    {isSoon&&<span style={{marginLeft:4,fontSize:9,padding:'1px 5px',borderRadius:3,background:'rgba(239,68,68,0.15)',color:'#EF4444'}}>SOON</span>}
+                  </td>
+                  <td style={tds}>{e.epsTrailing!=null?`$${e.epsTrailing.toFixed(2)}`:'--'}</td>
+                  <td style={tds}>{e.epsForward!=null?`$${e.epsForward.toFixed(2)}`:'--'}</td>
+                  <td style={tds}>{e.trailingPE!=null?e.trailingPE.toFixed(1):'--'}</td>
+                  <td style={{...tds,fontSize:11}}>{e.marketCap||'--'}</td>
+                </tr>;})}
+              </tbody>
+            </table>
+            :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No earnings data</div>}
+          </div>
+
+          {/* Dividend Tracker */}
+          <div style={{...styles.card,padding:0,overflow:'hidden'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'12px 16px',borderBottom:`1px solid ${brand.border}`,background:brand.graphite}}>
+              <div style={{display:'flex',alignItems:'center',gap:8}}>
+                <span style={{fontSize:14}}>💰</span>
+                <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em'}}>DIVIDEND TRACKER</span>
+              </div>
+              <span style={{fontSize:10,color:brand.smoke,fontFamily:M}}>Watchlist</span>
+            </div>
+            {divsLoad?<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading dividend data...</div>
+            :divs.length>0?<table style={{width:'100%',borderCollapse:'collapse'}}>
+              <thead><tr><th style={thl}>Symbol</th><th style={thl}>Name</th><th style={ths}>Price</th><th style={ths}>Div Rate</th><th style={ths}>Yield</th><th style={ths}>Ex-Div Date</th><th style={{...ths,textAlign:'center'}}>Status</th></tr></thead>
+              <tbody>{divs.map(d=>{
+                const exSoon=d.exDividendDate&&(new Date(d.exDividendDate).getTime()-Date.now())<14*24*60*60*1000&&new Date(d.exDividendDate)>new Date();
+                return <tr key={d.symbol}>
+                  <td onClick={()=>tickClick(d.symbol)} style={{...tdl,color:brand.amber,fontWeight:700,cursor:'pointer'}}>{d.symbol}</td>
+                  <td style={{...tdl,fontSize:11,maxWidth:120,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{d.name}</td>
+                  <td style={{...tds,color:brand.white}}>{d.price!=null?fp(d.price):'--'}</td>
+                  <td style={{...tds,color:d.payable?'#22C55E':brand.smoke}}>{d.dividendRate!=null&&d.dividendRate>0?`$${d.dividendRate.toFixed(2)}`:d.trailingDividendRate!=null&&d.trailingDividendRate>0?`$${d.trailingDividendRate.toFixed(2)}`:'--'}</td>
+                  <td style={{...tds,color:d.payable?'#22C55E':brand.smoke,fontWeight:d.payable?700:400}}>{d.dividendYieldPct||'--'}</td>
+                  <td style={{...tds,color:exSoon?brand.amber:brand.silver}}>
+                    {d.exDividendDate||'--'}
+                    {exSoon&&<span style={{marginLeft:4,fontSize:9,padding:'1px 5px',borderRadius:3,background:'rgba(245,158,11,0.15)',color:brand.amber}}>SOON</span>}
+                  </td>
+                  <td style={{...tds,textAlign:'center'}}>
+                    {d.payable
+                      ?<span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,background:'rgba(34,197,94,0.1)',color:'#22C55E',fontWeight:700}}>PAYS</span>
+                      :<span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,background:'rgba(113,113,122,0.1)',color:brand.smoke}}>NONE</span>}
+                  </td>
+                </tr>;})}
+              </tbody>
+            </table>
+            :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No dividend data</div>}
+          </div>
+        </div>
 
         {/* 0DTE SCANNER */}
         <div style={{...styles.card,marginBottom:'1.5rem',padding:0,overflow:'hidden'}}>
