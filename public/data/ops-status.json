@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T00:24:03.361Z",
+    "lastHeartbeat": "2026-02-15T00:29:03.551Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": []
   },
@@ -50,11 +50,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T23:47:36.918Z"
+      "lastSeen": "2026-02-15T00:29:00.761Z"
     },
     {
       "name": "Tony",
@@ -68,11 +68,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T20:08:52.927Z"
+      "lastSeen": "2026-02-15T00:28:05.987Z"
     },
     {
       "name": "Remy",
@@ -94,6 +94,28 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T00:29:00.761Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 56
+    },
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T00:28:05.987Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 21
+    },
     {
       "key": "agent:anders:main",
       "agent": "Anders",
@@ -117,17 +139,6 @@
       "sessionCount": 25
     },
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T23:47:36.918Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 56
-    },
-    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
@@ -137,17 +148,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 19
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T20:08:52.927Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 21
     },
     {
       "key": "agent:bobby:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T00:24:04.559Z",
+  "generatedAt": "2026-02-15T00:29:04.750Z",
   "version": 2
 }
