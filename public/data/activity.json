@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "3cce2472",
+      "author": "Milo",
+      "timestamp": "2026-02-14 21:54:29 -0500",
+      "message": "fix: dark theme for native select dropdowns across OS pages"
+    },
+    {
+      "type": "commit",
+      "id": "a061d39f",
+      "author": "Milo",
+      "timestamp": "2026-02-14 21:54:10 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "c355bbd0",
       "author": "Milo",
       "timestamp": "2026-02-14 21:49:06 -0500",
@@ -337,20 +351,6 @@
       "message": "fix: activity dashboard data parsing to match actual JSON structure"
     },
     {
-      "type": "commit",
-      "id": "5301006d",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:59:06 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "1b717868",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:57:18 -0500",
-      "message": "fix: persist deletes and verifies to localStorage so they survive refresh"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +435,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T02:54:10.299Z"
+  "generatedAt": "2026-02-15T02:59:04.053Z"
 }
