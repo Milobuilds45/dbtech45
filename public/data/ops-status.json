@@ -4,23 +4,23 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T08:24:02.911Z",
+    "lastHeartbeat": "2026-02-15T08:29:02.885Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >19 hours",
-        "timestamp": "2026-02-15T08:24:02.910Z",
+        "timestamp": "2026-02-15T08:29:02.885Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >20 hours",
-        "timestamp": "2026-02-15T08:24:02.910Z",
+        "timestamp": "2026-02-15T08:29:02.885Z",
         "resolved": false
       },
       {
@@ -61,7 +61,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -160,7 +160,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T04:28:45.650Z",
       "role": "Trading Advisor",
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T08:24:03.882Z",
+  "generatedAt": "2026-02-15T08:29:03.848Z",
   "version": 2
 }
