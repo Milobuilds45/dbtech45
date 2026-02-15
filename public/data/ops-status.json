@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T22:59:02.650Z",
+    "lastHeartbeat": "2026-02-15T23:04:02.582Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 7,
     "totalAgents": 9,
     "alerts": [
       {
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T22:51:58.466Z"
+      "lastSeen": "2026-02-15T23:00:34.328Z"
     },
     {
       "name": "Anders",
@@ -74,11 +74,11 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T11:00:10.743Z"
+      "lastSeen": "2026-02-15T23:00:35.816Z"
     },
     {
       "name": "Dax",
@@ -110,6 +110,28 @@
   ],
   "sessions": [
     {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T23:00:35.816Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 24
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T23:00:34.328Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
@@ -119,17 +141,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 62
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T22:51:58.466Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:dax:main",
@@ -196,17 +207,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 57
-    },
-    {
-      "key": "agent:tony:main",
-      "agent": "Tony",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T11:00:10.743Z",
-      "role": "Tech Guru",
-      "cost": 0,
-      "sessionCount": 23
     }
   ],
   "crons": [
@@ -412,10 +412,10 @@
       "humanSchedule": "0 18 * * 0",
       "agent": "Tony",
       "description": "WEEKLY RESTAURANT ANALYSIS (6:00 PM Sunday). You are Tony (Restaurant Operations). Read your SOUL.md and workspace memor",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T23:00:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-15T23:00:00.007Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-22T23:00:00.000Z",
+      "duration": "36s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T22:59:03.649Z",
+  "generatedAt": "2026-02-15T23:04:03.587Z",
   "version": 2
 }
