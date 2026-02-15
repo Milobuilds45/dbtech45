@@ -2,6 +2,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
+import ImpliedMoveCard from '@/components/markets/ImpliedMoveCard';
+import EconomicCalendar from '@/components/markets/EconomicCalendar';
+import BobbyCalls from '@/components/markets/BobbyCalls';
+import OptionsFlow from '@/components/markets/OptionsFlow';
+import GexLevels from '@/components/markets/GexLevels';
+import TradeJournal from '@/components/markets/TradeJournal';
 
 interface Quote { symbol: string; name: string; price: number; change: number; changePercent: number; high: number; low: number; marketState?: string; }
 interface NewsItem { id: string; title: string; publisher: string; link?: string; publishedAt: string; relatedSymbol: string; }
@@ -74,6 +80,7 @@ export default function Markets() {
   const [divsLoad,setDivsLoad]=useState(true);
   const [ehist,setEhist]=useState<EarningsHistData|null>(null);
   const [ehistLoad,setEhistLoad]=useState(false);
+  const [newsTab,setNewsTab]=useState<'news'|'bobby'>('news');
 
   const fetchD = useCallback(async (w: string[]) => {
     try { setErr(null); setRfr(true);
@@ -222,6 +229,9 @@ export default function Markets() {
           </div>
         </div>
 
+        {/* GEX LEVELS (SPY/QQQ only) */}
+        {cdata&&(csym==='SPY'||csym==='QQQ')&&<GexLevels symbol={csym} currentPrice={cdata.currentPrice} calls={cdata.calls} puts={cdata.puts}/>}
+
         {/* SECTOR HEATMAP */}
         <div style={{marginBottom:'1.5rem'}}>
           <div style={{display:'flex',gap:4,flexWrap:'wrap'}}>
@@ -233,7 +243,10 @@ export default function Markets() {
           </div>
         </div>
 
-        {/* TWO COLUMNS: WATCHLIST + NEWS */}
+        {/* ECONOMIC CALENDAR */}
+        <EconomicCalendar />
+
+        {/* TWO COLUMNS: WATCHLIST + NEWS/BOBBY */}
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'1.5rem',marginBottom:'1.5rem'}}>
           <div style={styles.card}>
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:16}}>
@@ -259,7 +272,11 @@ export default function Markets() {
           </div>
 
           <div style={styles.card}>
-            <div style={{color:brand.amber,fontSize:13,fontWeight:600,marginBottom:16,fontFamily:M}}>MARKET BRIEFING</div>
+            {/* Tabs: News | Bobby's Calls */}
+            <div style={{display:'flex',borderBottom:`1px solid ${brand.border}`,marginBottom:12,margin:'-1.5rem -1.5rem 12px -1.5rem',padding:0}}>
+              {(['news','bobby'] as const).map(tab=><button key={tab} onClick={()=>setNewsTab(tab)} style={{flex:1,padding:'10px 0',background:newsTab===tab?'rgba(245,158,11,0.08)':'transparent',border:'none',borderBottom:newsTab===tab?`2px solid ${brand.amber}`:'2px solid transparent',color:newsTab===tab?brand.amber:brand.smoke,fontFamily:M,fontSize:12,fontWeight:700,cursor:'pointer',textTransform:'uppercase'}}>{tab==='news'?'📰 News':'🔥 Bobby\'s Calls'}</button>)}
+            </div>
+            {newsTab==='news'?<>
             {news.length>0?news.slice(0,10).map((n,i)=>(
               <div key={n.id} style={{display:'flex',alignItems:'flex-start',gap:10,padding:'10px 0',borderBottom:i<Math.min(news.length,10)-1?`1px solid ${brand.border}`:'none'}}>
                 <div style={{flexShrink:0,minWidth:55,textAlign:'right'}}>
@@ -272,6 +289,7 @@ export default function Markets() {
                 </div>
               </div>
             )):<div style={{color:brand.smoke,fontSize:12,textAlign:'center',padding:'20px 0',fontFamily:M}}>Loading market briefing...</div>}
+            </>:<BobbyCalls/>}
           </div>
         </div>
 
@@ -367,6 +385,9 @@ export default function Markets() {
                   </>:<span style={{fontSize:11,color:brand.smoke,fontFamily:M}}>No dividend</span>}
                 </div>
               </div>
+              {/* Implied Move Card — shows when earnings within 14 days */}
+              {csym&&<ImpliedMoveCard symbol={csym}/>}
+
               {/* Earnings History Section (inline) */}
               {ehistLoad?<div style={{padding:20,textAlign:'center',color:brand.smoke,fontSize:12,fontFamily:M}}>Loading earnings history...</div>
               :ehist&&ehist.events.length>0?<div style={{padding:'12px 16px'}}>
@@ -420,6 +441,8 @@ export default function Markets() {
                   </tr>})}</tbody></table>
               :<div style={{padding:32,textAlign:'center',color:brand.smoke,fontSize:12}}>No chain data</div>}
             </div>
+            {/* Options Flow Visualization */}
+            {cdata&&<OptionsFlow symbol={csym} expDate={cdata.expDate||sexp} currentPrice={cdata.currentPrice} calls={cdata.calls} puts={cdata.puts}/>}
           </div>}
         </div>}
 
@@ -549,6 +572,9 @@ export default function Markets() {
           </div>
         </div>
 
+        {/* TRADE JOURNAL */}
+        <TradeJournal />
+
         {/* FOOTER */}
         <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginTop:16,padding:'12px 0',borderTop:`1px solid ${brand.border}`}}>
           <div style={{display:'flex',alignItems:'center',gap:10}}>
@@ -558,7 +584,7 @@ export default function Markets() {
             <span style={{fontFamily:M,fontSize:11,color:brand.smoke}}>Powered by <span style={{color:'#22C55E',fontWeight:600}}>Bobby</span> // Trading Advisor AI</span>
           </div>
           <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <span style={{fontFamily:M,fontSize:10,color:brand.smoke}}>AXECAP TERMINAL v4.0</span>
+            <span style={{fontFamily:M,fontSize:10,color:brand.smoke}}>AXECAP TERMINAL v5.0</span>
             <span style={{fontSize:10,color:brand.smoke}}>{live?'Live data via Yahoo Finance':'Cached/fallback data'}{lr&&` | ${fmt(lr)}`}</span>
           </div>
         </div>

@@ -364,6 +364,143 @@ async function handleEarningsHistory(symbol: string) {
   };
 }
 
+/* ─── Implied Move Calculator ─── */
+async function handleImpliedMove(symbol: string) {
+  // Get fundamentals (for earnings date + current price)
+  const quotes = await fetchExtendedQuote([symbol]);
+  const q = quotes[symbol];
+  if (!q) return { symbol, error: 'No data available' };
+
+  const currentPrice = (q.regularMarketPrice as number) ?? 0;
+  const earningsTs = (q.earningsTimestamp as number) ?? (q.earningsTimestampStart as number) ?? 0;
+  if (!earningsTs || !currentPrice) {
+    return { symbol, currentPrice, earningsDate: null, daysToEarnings: null, error: 'No earnings date or price' };
+  }
+
+  const earningsDate = new Date(earningsTs * 1000).toISOString().split('T')[0];
+  const daysToEarnings = Math.ceil((earningsTs * 1000 - Date.now()) / (86400000));
+
+  // Only calculate if within 60 days (but UI will filter to 14)
+  if (daysToEarnings < -30 || daysToEarnings > 60) {
+    return { symbol, currentPrice, earningsDate, daysToEarnings, error: 'Earnings not imminent' };
+  }
+
+  // Fetch options chain via Yahoo for nearest expiration after earnings
+  let atmStraddle = null;
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+    const res = await fetch(
+      `https://query2.finance.yahoo.com/v7/finance/options/${encodeURIComponent(symbol)}`,
+      { signal: controller.signal, headers: { 'User-Agent': UA }, cache: 'no-store' }
+    );
+    clearTimeout(timeout);
+    if (res.ok) {
+      const data = await res.json();
+      const chain = data?.optionChain?.result?.[0];
+      if (chain) {
+        const spot = chain.quote?.regularMarketPrice ?? currentPrice;
+        // Find expiration closest to (but after) earnings
+        const expirations: number[] = chain.expirationDates || [];
+        const earningsMs = earningsTs * 1000;
+        let bestExp = expirations[0];
+        for (const exp of expirations) {
+          if (exp * 1000 >= earningsMs) { bestExp = exp; break; }
+        }
+
+        // Try to get chain for that expiration
+        let options = chain.options?.[0];
+        if (bestExp && bestExp !== (chain.options?.[0]?.expirationDate)) {
+          try {
+            const res2 = await fetch(
+              `https://query2.finance.yahoo.com/v7/finance/options/${encodeURIComponent(symbol)}?date=${bestExp}`,
+              { headers: { 'User-Agent': UA }, cache: 'no-store', signal: AbortSignal.timeout(6000) }
+            );
+            if (res2.ok) {
+              const d2 = await res2.json();
+              options = d2?.optionChain?.result?.[0]?.options?.[0] || options;
+            }
+          } catch {}
+        }
+
+        if (options) {
+          const calls = options.calls || [];
+          const puts = options.puts || [];
+
+          // Find ATM call and put (closest strike to spot)
+          let bestCall = calls[0];
+          let bestPut = puts[0];
+          let minCallDist = Infinity;
+          let minPutDist = Infinity;
+
+          for (const c of calls) {
+            const dist = Math.abs((c.strike ?? 0) - spot);
+            if (dist < minCallDist) { minCallDist = dist; bestCall = c; }
+          }
+          for (const p of puts) {
+            const dist = Math.abs((p.strike ?? 0) - spot);
+            if (dist < minPutDist) { minPutDist = dist; bestPut = p; }
+          }
+
+          if (bestCall && bestPut) {
+            const callPrice = bestCall.lastPrice ?? bestCall.ask ?? 0;
+            const putPrice = bestPut.lastPrice ?? bestPut.ask ?? 0;
+            const totalPremium = callPrice + putPrice;
+            const impliedMove = totalPremium;
+            const impliedMovePercent = spot > 0 ? (totalPremium / spot) * 100 : 0;
+
+            atmStraddle = {
+              callStrike: bestCall.strike ?? 0,
+              callPrice: +callPrice.toFixed(2),
+              putStrike: bestPut.strike ?? 0,
+              putPrice: +putPrice.toFixed(2),
+              totalPremium: +totalPremium.toFixed(2),
+              impliedMove: +impliedMove.toFixed(2),
+              impliedMovePercent: +impliedMovePercent.toFixed(2),
+              expiration: bestExp ? new Date(bestExp * 1000).toISOString().split('T')[0] : null,
+            };
+          }
+        }
+      }
+    }
+  } catch {}
+
+  // Get historical earnings moves
+  const histData = await handleEarningsHistory(symbol);
+  const historicalMoves = (histData.events || []).slice(0, 8).map((e: {
+    date: string;
+    changePercent: number;
+    type: 'gap-up' | 'gap-down';
+  }) => ({
+    date: e.date,
+    quarter: e.date.substring(0, 7),
+    actualMove: Math.abs(e.changePercent),
+    actualMovePercent: Math.abs(e.changePercent),
+    direction: e.type === 'gap-up' ? 'up' as const : 'down' as const,
+  }));
+
+  const avgHistoricalMovePercent = historicalMoves.length > 0
+    ? +(historicalMoves.reduce((s: number, m: { actualMovePercent: number }) => s + m.actualMovePercent, 0) / historicalMoves.length).toFixed(2)
+    : 0;
+
+  const impliedPct = atmStraddle?.impliedMovePercent ?? 0;
+  const edgePercent = +(impliedPct - avgHistoricalMovePercent).toFixed(2);
+  const edge: 'cheap' | 'fair' | 'expensive' = edgePercent < -1 ? 'cheap' : edgePercent > 1 ? 'expensive' : 'fair';
+
+  return {
+    symbol,
+    currentPrice,
+    earningsDate,
+    daysToEarnings,
+    atmStraddle,
+    historicalMoves,
+    avgHistoricalMove: avgHistoricalMovePercent,
+    avgHistoricalMovePercent,
+    edge,
+    edgePercent,
+  };
+}
+
 /* ─── Main Handler ─── */
 export async function GET(request: Request) {
   try {
@@ -389,9 +526,13 @@ export async function GET(request: Request) {
         const data = await handleEarningsHistory(symbol);
         return NextResponse.json({ ...data, timestamp: new Date().toISOString() });
       }
+      case 'implied-move': {
+        const data = await handleImpliedMove(symbol);
+        return NextResponse.json({ ...data, timestamp: new Date().toISOString() });
+      }
       default:
         return NextResponse.json(
-          { error: 'Invalid type. Use: fundamentals, earnings, dividends, earnings-history' },
+          { error: 'Invalid type. Use: fundamentals, earnings, dividends, earnings-history, implied-move' },
           { status: 400 }
         );
     }
