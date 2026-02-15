@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T11:04:03.105Z",
+    "lastHeartbeat": "2026-02-15T11:09:03.129Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >23 hours",
-        "timestamp": "2026-02-15T11:04:03.104Z",
+        "timestamp": "2026-02-15T11:09:03.129Z",
         "resolved": false
       },
       {
@@ -36,11 +36,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T10:08:30.439Z"
+      "lastSeen": "2026-02-15T11:08:14.867Z"
     },
     {
       "name": "Anders",
@@ -117,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T11:08:14.867Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 28
+    },
+    {
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
@@ -126,17 +137,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 23
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T10:08:30.439Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 28
     },
     {
       "key": "agent:anders:main",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T11:04:04.054Z",
+  "generatedAt": "2026-02-15T11:09:04.094Z",
   "version": 2
 }
