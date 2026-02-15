@@ -4,9 +4,9 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T18:49:03.091Z",
+    "lastHeartbeat": "2026-02-15T18:54:03.262Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
@@ -83,11 +83,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T13:00:49.171Z"
+      "lastSeen": "2026-02-15T18:51:16.988Z"
     },
     {
       "name": "Remy",
@@ -109,6 +109,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T18:51:16.988Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 22
+    },
     {
       "key": "agent:paula:main",
       "agent": "Paula",
@@ -152,17 +163,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 62
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T13:00:49.171Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 22
     },
     {
       "key": "agent:remy:main",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T18:49:04.028Z",
+  "generatedAt": "2026-02-15T18:54:04.341Z",
   "version": 2
 }
