@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "c355bbd0",
+      "author": "Milo",
+      "timestamp": "2026-02-14 21:49:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "483daae4",
       "author": "Milo",
       "timestamp": "2026-02-14 21:48:22 -0500",
@@ -344,13 +351,6 @@
       "message": "fix: persist deletes and verifies to localStorage so they survive refresh"
     },
     {
-      "type": "commit",
-      "id": "ff9ec136",
-      "author": "Milo",
-      "timestamp": "2026-02-14 18:54:06 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +435,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T02:49:06.690Z"
+  "generatedAt": "2026-02-15T02:54:10.299Z"
 }
