@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T18:34:03.057Z",
+    "lastHeartbeat": "2026-02-15T18:39:03.070Z",
     "totalCrons": 17,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -29,7 +29,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -135,7 +135,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T18:08:00.013Z",
       "role": "Chief of Staff",
@@ -466,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T18:34:03.996Z",
+  "generatedAt": "2026-02-15T18:39:04.001Z",
   "version": 2
 }
