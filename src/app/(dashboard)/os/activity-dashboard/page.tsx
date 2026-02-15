@@ -29,32 +29,42 @@ interface ActivityData {
 interface ActivityDataFile {
   activity: {
     type: string;
+    id?: string;
+    author?: string;
     timestamp: string;
-    details: any;
+    message?: string;
+    jobId?: string;
+    details?: any;
   }[];
-  stats: {
-    gitCommits: {
-      last7Days: number;
-      repositories: string[];
-    };
-    cronRuns: {
-      last7Days: number;
-      successful: number;
-    };
-  };
+  generatedAt?: string;
 }
 
 interface OpsStatusFile {
   agents: {
-    total: number;
-    active: number;
-    sessions: any[];
-  };
+    name: string;
+    role: string;
+    status: string;
+    model: string;
+    health: string;
+    lastSeen: string;
+  }[];
+  sessions: {
+    key: string;
+    agent: string;
+    status: string;
+  }[];
   crons: {
-    total: number;
-    active: number;
+    id: string;
+    name: string;
+    enabled: boolean;
+    lastStatus?: string;
+  }[];
+  system: {
+    totalAgents: number;
+    activeSessions: number;
+    totalCrons: number;
   };
-  system: any;
+  generatedAt?: string;
 }
 
 export default function ActivityDashboard() {
@@ -77,43 +87,41 @@ export default function ActivityDashboard() {
       const activityData: ActivityDataFile = await activityResponse.json();
       const opsData: OpsStatusFile = await opsResponse.json();
 
-      // Build stats from real data
+      // Compute stats from real data
+      const activeAgents = Array.isArray(opsData.agents)
+        ? opsData.agents.filter(a => a.status === 'running').length
+        : opsData.system?.activeSessions || 0;
+
+      const commits = activityData.activity.filter(a => a.type === 'commit');
+      const cronRuns = activityData.activity.filter(a => a.type === 'cron_run' || a.type === 'cron');
+      const uniqueRepos = new Set(commits.map(c => (c.message || '').split(':')[0])).size || 1;
+
       const stats: StatItem[] = [
-        { 
-          value: opsData.agents.active.toString(), 
-          label: 'ACTIVE AGENTS', 
-          color: brand.amber 
-        },
-        { 
-          value: activityData.stats.gitCommits.repositories.length.toString(), 
-          label: 'REPOS ACTIVE', 
-          color: brand.success 
-        },
-        { 
-          value: activityData.stats.gitCommits.last7Days.toString(), 
-          label: 'COMMITS (7D)', 
-          color: brand.info 
-        },
-        { 
-          value: activityData.stats.cronRuns.last7Days.toString(), 
-          label: 'CRON RUNS (7D)', 
-          color: '#8B5CF6' 
-        }
+        { value: activeAgents.toString(), label: 'ACTIVE AGENTS', color: brand.amber },
+        { value: uniqueRepos.toString(), label: 'REPOS ACTIVE', color: brand.success },
+        { value: commits.length.toString(), label: 'COMMITS (7D)', color: brand.info },
+        { value: cronRuns.length.toString(), label: 'CRON RUNS (7D)', color: '#8B5CF6' },
       ];
 
-      // Convert activity data
-      const activity: ActivityItem[] = activityData.activity.map((item, index) => ({
-        time: new Date(item.timestamp).toLocaleTimeString('en-US', {
-          hour: 'numeric',
-          minute: '2-digit',
-          hour12: true
-        }),
-        type: item.type,
-        agent: item.details.agent || 'System',
-        msg: item.details.message || item.details.summary || 'Activity recorded',
-        color: item.type === 'commit' ? brand.success : item.type === 'cron' ? '#8B5CF6' : brand.amber,
-        icon: item.type === 'commit' ? '📝' : item.type === 'cron' ? '⚡' : '🔄'
-      })).slice(0, 20); // Show latest 20 items
+      // Convert activity items - handle both flat and nested formats
+      const activity: ActivityItem[] = activityData.activity.map((item) => {
+        const agent = item.author || item.details?.agent || 'System';
+        const msg = item.message || item.details?.message || item.details?.summary || 'Activity recorded';
+        const isCommit = item.type === 'commit';
+        const isCron = item.type === 'cron_run' || item.type === 'cron';
+        return {
+          time: new Date(item.timestamp).toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+          }),
+          type: isCommit ? 'commit' : isCron ? 'cron' : item.type,
+          agent,
+          msg,
+          color: isCommit ? brand.success : isCron ? '#8B5CF6' : brand.amber,
+          icon: isCommit ? '📝' : isCron ? '⚡' : '🔄',
+        };
+      }).slice(0, 30);
 
       const result: ActivityData = {
         stats,
