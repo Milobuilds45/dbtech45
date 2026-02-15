@@ -12,239 +12,62 @@ const T = {
   secondary: '#A1A1AA',
   muted:     '#71717A',
   border:    '#27272A',
-  green:     '#EF4444',
-  red:       '#22C55E',
+  green:     '#22C55E',
+  red:       '#EF4444',
 };
 
 const levelColor: Record<string, { bg: string; text: string }> = {
-  Expert:       { bg: 'rgba(34,197,94,0.15)',  text: '#EF4444' },
+  Expert:       { bg: 'rgba(34,197,94,0.15)',  text: '#22C55E' },
   Advanced:     { bg: 'rgba(59,130,246,0.15)',  text: '#3B82F6' },
   Intermediate: { bg: 'rgba(168,85,247,0.15)',  text: '#A855F7' },
 };
 
 /* ───────────────── Interfaces ───────────────── */
 interface Skill { name: string; level: 'Expert' | 'Advanced' | 'Intermediate'; desc: string }
-interface Agent {
-  name: string; role: string; color: string; icon: string; description: string;
-  coreSkills: Skill[]; technicalSkills: Skill[]; businessSkills: Skill[];
+
+interface AgentConfig {
+  name: string;
+  role: string;
+  color: string;
+  icon: string;
+  description: string;
+  ratings: {
+    technical: number;
+    business: number;
+    core: number;
+  };
+  topSkills: { name: string; level: string }[];
+  totalSkills: number;
+  notes: string;
 }
+
+interface AgentConfigData {
+  lastUpdated: string;
+  agents: Record<string, AgentConfig>;
+  ratingScale: Record<string, string>;
+}
+
 interface InventorySkill { name: string; icon: string; purpose: string; ready: boolean; dependency?: string }
 interface SkillCategory { name: string; color: string; skills: InventorySkill[] }
 type ViewMode = 'agent' | 'category' | 'status';
-type FilterCategory = 'All' | 'Technical' | 'Business' | 'Core';
 
-/* ───────────────── Agent Data ───────────────── */
-const AGENTS: Agent[] = [
-  {
-    name: 'Milo', role: 'Chief of Staff', color: '#A855F7', icon: '⚡',
-    description: 'Orchestrates agent collaboration, manages priorities, coordinates sprints, and maintains system memory',
-    coreSkills: [
-      { name: 'Agent Coordination', level: 'Expert', desc: 'Routes tasks between agents, manages handoffs, prevents conflicts' },
-      { name: 'Strategic Planning', level: 'Expert', desc: 'Long-term roadmaps, resource allocation, priority frameworks' },
-      { name: 'Memory Management', level: 'Expert', desc: 'Git workflows, documentation systems, knowledge preservation' },
-      { name: 'Sprint Coordination', level: 'Expert', desc: 'Agile methodology, daily standups, retrospectives' },
-    ],
-    technicalSkills: [
-      { name: 'Git/GitHub', level: 'Advanced', desc: 'Version control, branch management, collaboration workflows' },
-      { name: 'Cron Scheduling', level: 'Advanced', desc: 'Automated task scheduling, recurring briefings' },
-      { name: 'Session Routing', level: 'Advanced', desc: 'Inter-agent communication, message queuing' },
-      { name: 'File Management', level: 'Expert', desc: 'Workspace organization, backup strategies' },
-    ],
-    businessSkills: [
-      { name: 'Project Management', level: 'Expert', desc: 'Resource allocation, timeline management, stakeholder coordination' },
-      { name: 'Quality Assurance', level: 'Advanced', desc: 'Testing protocols, verification procedures' },
-      { name: 'Documentation', level: 'Expert', desc: 'Knowledge capture, process documentation, training materials' },
-    ],
-  },
-  {
-    name: 'Anders', role: 'Full Stack Architect', color: '#F97316', icon: 'AN',
-    description: 'Builds and deploys production applications, manages infrastructure, handles complex integrations',
-    coreSkills: [
-      { name: 'Next.js Development', level: 'Expert', desc: 'Full-stack React applications, SSR, API routes, performance optimization' },
-      { name: 'TypeScript', level: 'Expert', desc: 'Type-safe development, complex type definitions, advanced patterns' },
-      { name: 'Database Design', level: 'Advanced', desc: 'Supabase, PostgreSQL, schema design, query optimization' },
-      { name: 'Deployment', level: 'Expert', desc: 'Vercel, CI/CD pipelines, environment management, monitoring' },
-    ],
-    technicalSkills: [
-      { name: 'React/JSX', level: 'Expert', desc: 'Component architecture, hooks, state management, performance' },
-      { name: 'Node.js/Express', level: 'Advanced', desc: 'Backend development, API design, middleware, authentication' },
-      { name: 'Tailwind CSS', level: 'Advanced', desc: 'Responsive design, custom configurations, component styling' },
-      { name: 'Python', level: 'Advanced', desc: 'Automation scripts, data processing, API integrations' },
-      { name: 'Docker', level: 'Intermediate', desc: 'Containerization, deployment strategies' },
-      { name: 'AWS/Cloud', level: 'Intermediate', desc: 'Cloud infrastructure, serverless functions' },
-    ],
-    businessSkills: [
-      { name: 'Code Review', level: 'Expert', desc: 'Quality assurance, security audits, performance analysis' },
-      { name: 'Technical Architecture', level: 'Expert', desc: 'System design, scalability planning, technology selection' },
-      { name: 'DevOps', level: 'Advanced', desc: 'Build processes, deployment automation, monitoring' },
-    ],
-  },
-  {
-    name: 'Paula', role: 'Creative Director', color: '#EC4899', icon: '✦',
-    description: 'Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic',
-    coreSkills: [
-      { name: 'UI/UX Design', level: 'Expert', desc: 'User interface design, experience optimization, usability testing' },
-      { name: 'Brand Identity', level: 'Expert', desc: 'Logo design, visual systems, brand guidelines, consistency' },
-      { name: 'Design Systems', level: 'Expert', desc: 'Component libraries, style guides, scalable design patterns' },
-      { name: 'Visual Hierarchy', level: 'Expert', desc: 'Typography, spacing, color theory, information architecture' },
-    ],
-    technicalSkills: [
-      { name: 'Figma', level: 'Expert', desc: 'Design tools, prototyping, collaboration workflows' },
-      { name: 'Adobe Creative Suite', level: 'Advanced', desc: 'Photoshop, Illustrator, InDesign, video editing' },
-      { name: 'Frontend Design', level: 'Advanced', desc: 'CSS, responsive design, animation, micro-interactions' },
-      { name: 'Sketch/Framer', level: 'Intermediate', desc: 'Alternative design tools, prototyping' },
-      { name: 'Web Standards', level: 'Advanced', desc: 'Accessibility, performance, browser compatibility' },
-    ],
-    businessSkills: [
-      { name: 'Brand Strategy', level: 'Expert', desc: 'Market positioning, competitive analysis, brand differentiation' },
-      { name: 'Design Research', level: 'Advanced', desc: 'User testing, market research, trend analysis' },
-      { name: 'Client Communication', level: 'Advanced', desc: 'Design presentations, stakeholder management' },
-    ],
-  },
-  {
-    name: 'Bobby', role: 'Trading Advisor', color: '#22C55E', icon: 'AX',
-    description: 'Analyzes markets, generates trading signals, manages risk, provides investment education',
-    coreSkills: [
-      { name: 'Market Analysis', level: 'Expert', desc: 'Technical analysis, chart patterns, market structure, sentiment' },
-      { name: 'Options Trading', level: 'Expert', desc: 'Complex strategies, risk/reward analysis, Greeks, volatility' },
-      { name: 'Risk Management', level: 'Expert', desc: 'Position sizing, stop losses, portfolio theory, drawdown control' },
-      { name: 'Trade Execution', level: 'Expert', desc: 'Order flow, timing, market mechanics, slippage management' },
-    ],
-    technicalSkills: [
-      { name: 'TradingView', level: 'Expert', desc: 'Charting, indicators, alerts, market scanning' },
-      { name: 'Financial APIs', level: 'Advanced', desc: 'Polygon, Alpha Vantage, real-time data integration' },
-      { name: 'Python/Trading', level: 'Advanced', desc: 'Backtesting, algorithmic trading, data analysis' },
-      { name: 'Excel/Modeling', level: 'Advanced', desc: 'Financial models, options calculators, scenario analysis' },
-      { name: 'Bloomberg Terminal', level: 'Intermediate', desc: 'Professional data terminals, research tools' },
-    ],
-    businessSkills: [
-      { name: 'Investment Research', level: 'Expert', desc: 'Company analysis, valuation models, sector trends' },
-      { name: 'Financial Education', level: 'Expert', desc: 'Teaching concepts, risk awareness, strategy explanation' },
-      { name: 'Portfolio Management', level: 'Advanced', desc: 'Asset allocation, diversification, rebalancing' },
-    ],
-  },
-  {
-    name: 'Dwight', role: 'Intelligence Officer', color: '#3B82F6', icon: 'DW',
-    description: 'Monitors systems, provides briefings, analyzes performance, manages intelligence gathering',
-    coreSkills: [
-      { name: 'System Monitoring', level: 'Expert', desc: 'Performance tracking, health checks, anomaly detection' },
-      { name: 'Intelligence Analysis', level: 'Expert', desc: 'Data synthesis, pattern recognition, threat assessment' },
-      { name: 'News Aggregation', level: 'Expert', desc: 'Source filtering, relevance scoring, briefing compilation' },
-      { name: 'Weather/Environment', level: 'Advanced', desc: 'Meteorological data, environmental impact analysis' },
-    ],
-    technicalSkills: [
-      { name: 'Web Scraping', level: 'Advanced', desc: 'Data collection, automated monitoring, API integration' },
-      { name: 'News APIs', level: 'Advanced', desc: 'Real-time feeds, content filtering, sentiment analysis' },
-      { name: 'Monitoring Tools', level: 'Advanced', desc: 'System dashboards, alerting, log analysis' },
-      { name: 'Data Processing', level: 'Advanced', desc: 'ETL pipelines, data cleaning, analysis workflows' },
-    ],
-    businessSkills: [
-      { name: 'Brief Writing', level: 'Expert', desc: 'Executive summaries, actionable intelligence, clear communication' },
-      { name: 'Trend Analysis', level: 'Advanced', desc: 'Pattern identification, forecasting, scenario planning' },
-      { name: 'Risk Assessment', level: 'Advanced', desc: 'Threat evaluation, mitigation strategies' },
-    ],
-  },
-  {
-    name: 'Dax', role: 'Social Media Strategist', color: '#06B6D4', icon: 'DX',
-    description: 'Analyzes social trends, creates content strategies, manages digital presence and engagement',
-    coreSkills: [
-      { name: 'Social Media Strategy', level: 'Expert', desc: 'Platform optimization, engagement tactics, growth strategies' },
-      { name: 'Content Planning', level: 'Expert', desc: 'Editorial calendars, content themes, posting schedules' },
-      { name: 'Trend Analysis', level: 'Expert', desc: 'Hashtag research, viral content patterns, timing optimization' },
-      { name: 'Analytics & Reporting', level: 'Expert', desc: 'Performance metrics, ROI analysis, audience insights' },
-    ],
-    technicalSkills: [
-      { name: 'X/Twitter API', level: 'Advanced', desc: 'Real-time monitoring, automation, data extraction' },
-      { name: 'Google Trends', level: 'Advanced', desc: 'Search volume analysis, trend forecasting' },
-      { name: 'Social Analytics', level: 'Advanced', desc: 'Engagement metrics, reach analysis, conversion tracking' },
-      { name: 'Grok X Search', level: 'Advanced', desc: 'Social sentiment analysis, real-time monitoring' },
-      { name: 'Content Automation', level: 'Intermediate', desc: 'Scheduling tools, automated responses' },
-    ],
-    businessSkills: [
-      { name: 'Brand Voice', level: 'Expert', desc: 'Consistent messaging, tone development, brand personality' },
-      { name: 'Community Management', level: 'Advanced', desc: 'Audience engagement, relationship building' },
-      { name: 'Competitive Analysis', level: 'Advanced', desc: 'Competitor monitoring, benchmarking, differentiation' },
-    ],
-  },
-  {
-    name: 'Tony', role: 'Restaurant Operations', color: '#EAB308', icon: 'TN',
-    description: 'Manages restaurant operations, optimizes costs, handles inventory and staff scheduling',
-    coreSkills: [
-      { name: 'Menu Engineering', level: 'Expert', desc: 'Cost analysis, profitability optimization, pricing strategies' },
-      { name: 'Inventory Management', level: 'Expert', desc: 'Stock control, waste reduction, supplier relations' },
-      { name: 'Staff Scheduling', level: 'Expert', desc: 'Labor optimization, shift management, productivity tracking' },
-      { name: 'Cost Control', level: 'Expert', desc: 'Food costs, labor costs, operational efficiency' },
-    ],
-    technicalSkills: [
-      { name: 'Toast POS', level: 'Expert', desc: 'Point of sale systems, reporting, integration' },
-      { name: 'Restaurant Software', level: 'Advanced', desc: 'Scheduling systems, inventory tools, analytics' },
-      { name: 'Supply Chain', level: 'Advanced', desc: 'Vendor management, procurement, logistics' },
-      { name: 'Financial Analysis', level: 'Advanced', desc: 'P&L analysis, margin optimization' },
-    ],
-    businessSkills: [
-      { name: 'Operations Management', level: 'Expert', desc: 'Process optimization, quality control, compliance' },
-      { name: 'Team Leadership', level: 'Advanced', desc: 'Staff training, performance management' },
-      { name: 'Customer Service', level: 'Advanced', desc: 'Service standards, complaint resolution' },
-    ],
-  },
-  {
-    name: 'Remy', role: 'Restaurant Marketing', color: '#EF4444', icon: 'RM',
-    description: 'Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach',
-    coreSkills: [
-      { name: 'Restaurant Marketing', level: 'Expert', desc: 'Local marketing, seasonal campaigns, community engagement' },
-      { name: 'Social Media Management', level: 'Expert', desc: 'Facebook, Instagram, content creation, audience building' },
-      { name: 'Promotional Strategy', level: 'Expert', desc: 'Special events, holiday campaigns, loyalty programs' },
-      { name: 'Content Creation', level: 'Expert', desc: 'Food photography, video content, storytelling' },
-    ],
-    technicalSkills: [
-      { name: 'Meta Business', level: 'Advanced', desc: 'Facebook Ads, Instagram promotion, audience targeting' },
-      { name: 'Google My Business', level: 'Advanced', desc: 'Local SEO, reviews management, business listings' },
-      { name: 'Design Tools', level: 'Intermediate', desc: 'Canva, basic graphics, social media templates' },
-      { name: 'Analytics', level: 'Advanced', desc: 'Social metrics, campaign performance, ROI tracking' },
-    ],
-    businessSkills: [
-      { name: 'Local Marketing', level: 'Expert', desc: 'Community outreach, partnerships, event marketing' },
-      { name: 'Customer Retention', level: 'Advanced', desc: 'Loyalty programs, repeat customer strategies' },
-      { name: 'Brand Building', level: 'Advanced', desc: 'Restaurant identity, customer experience' },
-    ],
-  },
-  {
-    name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', icon: 'WR',
-    description: 'Manages personal matters, family coordination, wellness tracking, and lifestyle optimization',
-    coreSkills: [
-      { name: 'Family Coordination', level: 'Expert', desc: '7-child logistics, scheduling, activity management' },
-      { name: 'Personal Wellness', level: 'Expert', desc: 'Health tracking, habit formation, lifestyle optimization' },
-      { name: 'Calendar Management', level: 'Expert', desc: 'Multi-person scheduling, conflict resolution, time blocking' },
-      { name: 'Personal Development', level: 'Expert', desc: 'Goal setting, progress tracking, motivation strategies' },
-    ],
-    technicalSkills: [
-      { name: 'Calendar Systems', level: 'Advanced', desc: 'iCloud, Google Calendar, family sharing, automation' },
-      { name: 'Health Apps', level: 'Advanced', desc: 'Fitness tracking, nutrition logging, wellness metrics' },
-      { name: 'Family Apps', level: 'Advanced', desc: 'Shared calendars, location sharing, communication tools' },
-      { name: 'Voice Synthesis', level: 'Advanced', desc: 'ElevenLabs TTS, voice generation, audio content' },
-    ],
-    businessSkills: [
-      { name: 'Life Coaching', level: 'Advanced', desc: 'Behavioral change, habit design, accountability' },
-      { name: 'Stress Management', level: 'Advanced', desc: 'Work-life balance, mindfulness, relaxation techniques' },
-      { name: 'Organization Systems', level: 'Expert', desc: 'Personal productivity, space organization, workflow design' },
-    ],
-  },
-];
+/* ───────────────── Fetch Functions ───────────────── */
+const fetchAgentConfigs = async (): Promise<AgentConfigData | null> => {
+  try {
+    const response = await fetch('/data/agent-configs.json', { cache: 'no-store' });
+    if (!response.ok) throw new Error('Failed to fetch agent configs');
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching agent configs:', error);
+    return null;
+  }
+};
 
-const COLLABORATIONS = [
-  { title: 'Frontend Development', agents: ['Anders', 'Paula'], desc: 'Anders (Expert) + Paula (Advanced Design) → Production UI/UX', color: T.amber },
-  { title: 'Marketing Automation', agents: ['Dax', 'Remy', 'Paula'], desc: 'Dax (Strategy) + Remy (Content) + Paula (Design) → Campaigns', color: '#3B82F6' },
-  { title: 'Business Intelligence', agents: ['Dwight', 'Bobby'], desc: 'Dwight (Monitoring) + Bobby (Analysis) → Strategic Insights', color: '#EF4444' },
-  { title: 'Operations Management', agents: ['Tony', 'Milo'], desc: 'Tony (Restaurant) + Milo (Coordination) → Efficiency', color: '#8B5CF6' },
-  { title: 'Family & Wellness', agents: ['Wendy', 'Milo'], desc: 'Wendy (Personal) + Milo (Scheduling) → Life Balance', color: '#EC4899' },
-  { title: 'Content Pipeline', agents: ['Paula', 'Dax', 'Anders'], desc: 'Paula (Design) + Dax (Strategy) + Anders (Deploy) → Full Pipeline', color: '#06B6D4' },
-];
-
-/* ───────────────── Skills Data (from JSON) ───────────────── */
+/* ───────────────── Skills Data ───────────────── */
 interface SkillData {
   skills: {
     name: string;
-    source: string; // 'local' | 'global'
+    source: string;
     category: string;
     description: string;
     lastModified: string;
@@ -252,251 +75,6 @@ interface SkillData {
   }[];
 }
 
-// State for skills data
-let skillsData: SkillData | null = null;
-let lastFetch = 0;
-let dataTimestamp = '';
-
-// Helper function to get icon based on category
-const getCategoryIcon = (category: string): string => {
-  const icons: Record<string, string> = {
-    'development': '🧩',
-    'content': '📝',
-    'design': '🎨',
-    'finance': '💰',
-    'data': '📊',
-    'system': '⚙️',
-    'voice-audio': '🎵',
-    'business': '💼',
-    'research': '🔍',
-    'automation': '🤖',
-    'default': '📦'
-  };
-  return icons[category] || icons.default;
-};
-
-// Helper function to get category color
-const getCategoryColor = (category: string): string => {
-  const colors: Record<string, string> = {
-    'development': '#3B82F6',
-    'content': '#8B5CF6', 
-    'design': '#EC4899',
-    'finance': '#22C55E',
-    'data': '#F97316',
-    'system': '#8B5A2B',
-    'voice-audio': '#06B6D4',
-    'business': '#F59E0B',
-    'research': '#DC2626',
-    'automation': '#6366F1',
-    'default': '#71717A'
-  };
-  return colors[category] || colors.default;
-};
-
-// Convert JSON skills to InventorySkill format
-const convertSkillsData = (data: SkillData): { categories: SkillCategory[], allSkills: InventorySkill[], stats: { total: number, local: number, global: number } } => {
-  const skillsByCategory: Record<string, InventorySkill[]> = {};
-  
-  data.skills.forEach(skill => {
-    if (!skillsByCategory[skill.category]) {
-      skillsByCategory[skill.category] = [];
-    }
-    
-    skillsByCategory[skill.category].push({
-      name: skill.name,
-      icon: getCategoryIcon(skill.category),
-      purpose: skill.description || `${skill.name} skill`,
-      ready: true // All skills in JSON are ready since they exist
-    });
-  });
-
-  const categories: SkillCategory[] = Object.entries(skillsByCategory).map(([name, skills]) => ({
-    name: name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' '),
-    color: getCategoryColor(name),
-    skills
-  }));
-
-  const allSkills = data.skills.map(skill => ({
-    name: skill.name,
-    icon: getCategoryIcon(skill.category),
-    purpose: skill.description || `${skill.name} skill`,
-    ready: true
-  }));
-
-  const stats = {
-    total: data.skills.length,
-    local: data.skills.filter(s => s.source === 'local').length,
-    global: data.skills.filter(s => s.source === 'global').length
-  };
-
-  return { categories, allSkills, stats };
-};
-
-/* ───────────────── Fetch and Helper Functions ───────────────── */
-const READY_CATEGORIES: SkillCategory[] = [
-  {
-    name: 'Development & Integration', color: '#3B82F6',
-    skills: [
-      { name: 'coding-agent', icon: '🧩', purpose: 'Run Codex CLI, Claude Code, OpenCode via background process', ready: true },
-      { name: 'gemini', icon: '♊️', purpose: 'Gemini CLI for Q&A, summaries, generation', ready: true },
-      { name: 'github', icon: '📦', purpose: 'GitHub CLI - issues, PRs, CI runs, API queries', ready: true },
-      { name: 'mcporter', icon: '📦', purpose: 'MCP servers/tools - list, configure, auth, call directly', ready: true },
-      { name: 'skill-creator', icon: '📦', purpose: 'Create/update AgentSkills - design, structure, package', ready: true },
-      { name: 'notion', icon: '📝', purpose: 'Notion API - pages, databases, blocks management', ready: true },
-      { name: 'slack', icon: '📦', purpose: 'Slack control - reactions, pins, channel/DM management', ready: true },
-    ],
-  },
-  {
-    name: 'Content & Communication', color: '#8B5CF6',
-    skills: [
-      { name: 'bird', icon: '🐦', purpose: 'X/Twitter CLI - reading, searching, posting, engagement', ready: true },
-      { name: 'bluebubbles', icon: '📦', purpose: 'BlueBubbles channel plugin - extension, REST, webhooks', ready: true },
-      { name: 'content-research-writer', icon: '📦', purpose: 'Research, citations, hooks, outlines, feedback', ready: true },
-      { name: 'daily-brief', icon: '📰', purpose: 'Personalized morning news briefing', ready: true },
-      { name: 'deep-research', icon: '📦', purpose: 'Autonomous Gemini research - market analysis, reviews', ready: true },
-      { name: 'technews', icon: '📦', purpose: 'TechMeme aggregation with social media reactions', ready: true },
-      { name: 'internal-comms', icon: '📦', purpose: 'Status reports, updates, newsletters, incident reports', ready: true },
-      { name: 'work-report', icon: '📦', purpose: 'Git commit reports - daily standup, weekly summaries', ready: true },
-    ],
-  },
-  {
-    name: 'Design & Creative', color: '#EC4899',
-    skills: [
-      { name: 'algorithmic-art', icon: '📦', purpose: 'p5.js generative art with seeded randomness', ready: true },
-      { name: 'brand-guidelines', icon: '📦', purpose: 'Consistent brand colors and typography application', ready: true },
-      { name: 'canvas-design', icon: '📦', purpose: 'Visual art in PNG/PDF with design philosophy', ready: true },
-      { name: 'frontend-design', icon: '📦', purpose: 'Production-grade interfaces avoiding AI aesthetics', ready: true },
-      { name: 'ui-ux-pro-max', icon: '📦', purpose: '50 styles, 21 palettes, 50 fonts, 9 stacks', ready: true },
-      { name: 'web-asset-generator', icon: '📦', purpose: 'Favicons, app icons, social media meta images', ready: true },
-      { name: 'remotion-video-toolkit', icon: '📦', purpose: 'Programmatic video with React - animations, rendering', ready: true },
-      { name: 'music', icon: '📦', purpose: 'ElevenLabs Music API - tracks, lyrics, compositions', ready: true },
-      { name: 'sound-effects', icon: '📦', purpose: 'Audio textures, ambient sounds, UI sounds', ready: true },
-    ],
-  },
-  {
-    name: 'Business Intelligence', color: '#F59E0B',
-    skills: [
-      { name: 'market-intel', icon: '📊', purpose: 'Foodservice commodity prices, supply chain', ready: true },
-      { name: 'options-scan', icon: '📈', purpose: 'Mispriced options and unusual activity scanning', ready: true },
-      { name: 'twitter-monitor', icon: '🐦', purpose: 'Monitor specific Twitter/X accounts for posts', ready: true },
-      { name: 'x-trends', icon: '🐦', purpose: 'X/Twitter trending topics in coding, AI, tools', ready: true },
-      { name: 'brainstorming', icon: '📦', purpose: 'Transform ideas into designs through questioning', ready: true },
-      { name: 'conventional-commits', icon: '📦', purpose: 'Standard commit message formatting', ready: true },
-      { name: 'executing-plans', icon: '📦', purpose: 'Execute implementation plans with checkpoints', ready: true },
-      { name: 'pdf-processing', icon: '📦', purpose: 'Read, extract, process PDFs with Python', ready: true },
-    ],
-  },
-  {
-    name: 'AI & Voice Technologies', color: '#06B6D4',
-    skills: [
-      { name: 'agents', icon: '📦', purpose: 'ElevenLabs voice AI assistants and characters', ready: true },
-      { name: 'setup-api-key', icon: '📦', purpose: 'ElevenLabs API key setup guide', ready: true },
-      { name: 'speech-to-text', icon: '📦', purpose: 'ElevenLabs Scribe v2 transcription', ready: true },
-      { name: 'text-to-speech', icon: '📦', purpose: 'ElevenLabs voice synthesis in 70+ languages', ready: true },
-      { name: 'mcp-builder', icon: '📦', purpose: 'Build MCP servers for external API integration', ready: true },
-    ],
-  },
-  {
-    name: 'System Architecture', color: '#A855F7',
-    skills: [
-      { name: 'context-optimization', icon: '📦', purpose: 'Token efficiency, compaction, partitioning', ready: true },
-      { name: 'memory-systems', icon: '📦', purpose: 'Agent memory architectures, knowledge graphs', ready: true },
-      { name: 'multi-agent-patterns', icon: '📦', purpose: 'Supervisor, swarm, hierarchical coordination', ready: true },
-      { name: 'project-context-sync', icon: '📦', purpose: 'Living project state docs updated per commit', ready: true },
-    ],
-  },
-];
-
-const MISSING_CATEGORIES: SkillCategory[] = [
-  {
-    name: 'Security & Authentication', color: '#22C55E',
-    skills: [
-      { name: '1password', icon: '🔐', purpose: '1Password CLI integration', ready: false, dependency: '1Password CLI' },
-      { name: 'oracle', icon: '🧿', purpose: 'Oracle CLI prompt + file bundling', ready: false, dependency: 'Oracle CLI' },
-      { name: 'session-logs', icon: '📜', purpose: 'Search/analyze session logs with jq', ready: false, dependency: 'jq CLI' },
-    ],
-  },
-  {
-    name: 'Apple Ecosystem', color: '#22C55E',
-    skills: [
-      { name: 'apple-notes', icon: '📝', purpose: 'Apple Notes via memo CLI', ready: false, dependency: 'memo CLI (macOS)' },
-      { name: 'apple-reminders', icon: '⏰', purpose: 'Apple Reminders via remindctl CLI', ready: false, dependency: 'remindctl CLI (macOS)' },
-      { name: 'bear-notes', icon: '🐻', purpose: 'Bear notes via grizzly CLI', ready: false, dependency: 'grizzly CLI (macOS)' },
-      { name: 'things-mac', icon: '✅', purpose: 'Things 3 task management', ready: false, dependency: 'Things 3 (macOS)' },
-    ],
-  },
-  {
-    name: 'Media & Entertainment', color: '#22C55E',
-    skills: [
-      { name: 'camsnap', icon: '📸', purpose: 'RTSP/ONVIF camera capture', ready: false, dependency: 'RTSP camera setup' },
-      { name: 'gifgrep', icon: '🧲', purpose: 'GIF provider search with CLI/TUI', ready: false, dependency: 'gifgrep CLI' },
-      { name: 'songsee', icon: '🌊', purpose: 'Audio spectrograms and visualizations', ready: false, dependency: 'songsee CLI' },
-      { name: 'sonoscli', icon: '🔊', purpose: 'Sonos speaker control', ready: false, dependency: 'Sonos network + CLI' },
-      { name: 'spotify-player', icon: '🎵', purpose: 'Terminal Spotify via spogo', ready: false, dependency: 'spogo CLI + Spotify Premium' },
-      { name: 'video-frames', icon: '🎞️', purpose: 'Video frame extraction with ffmpeg', ready: false, dependency: 'ffmpeg' },
-      { name: 'voice-call', icon: '📞', purpose: 'Clawdbot voice call plugin', ready: false, dependency: 'Voice call plugin' },
-    ],
-  },
-  {
-    name: 'Communication & Productivity', color: '#22C55E',
-    skills: [
-      { name: 'himalaya', icon: '📧', purpose: 'IMAP/SMTP email management', ready: false, dependency: 'himalaya CLI' },
-      { name: 'imsg', icon: '📨', purpose: 'iMessage/SMS CLI', ready: false, dependency: 'imsg CLI (macOS)' },
-      { name: 'wacli', icon: '📱', purpose: 'WhatsApp message sending/sync', ready: false, dependency: 'wacli CLI' },
-      { name: 'summarize', icon: '🧾', purpose: 'URL/podcast/file summarization', ready: false, dependency: 'summarize CLI' },
-      { name: 'tmux', icon: '🧵', purpose: 'Remote tmux session control', ready: false, dependency: 'tmux' },
-      { name: 'trello', icon: '📋', purpose: 'Trello boards, lists, cards management', ready: false, dependency: 'Trello API key' },
-      { name: 'blogwatcher', icon: '📰', purpose: 'Blog/RSS feed monitoring', ready: false, dependency: 'blogwatcher CLI' },
-      { name: 'clawdhub', icon: '📦', purpose: 'ClawdHub CLI for skill management', ready: false, dependency: 'clawdhub CLI' },
-    ],
-  },
-  {
-    name: 'Smart Home & IoT', color: '#22C55E',
-    skills: [
-      { name: 'eightctl', icon: '🎛️', purpose: 'Eight Sleep pod control', ready: false, dependency: 'Eight Sleep + eightctl' },
-      { name: 'blucli', icon: '🫐', purpose: 'BluOS CLI for audio systems', ready: false, dependency: 'blucli CLI' },
-      { name: 'openhue', icon: '💡', purpose: 'Philips Hue lights/scenes control', ready: false, dependency: 'Hue Bridge + openhue' },
-      { name: 'weather', icon: '🌤️', purpose: 'Weather and forecasts', ready: false, dependency: 'Weather API key' },
-    ],
-  },
-  {
-    name: 'Development Tools', color: '#22C55E',
-    skills: [
-      { name: 'nano-banana-pro', icon: '🍌', purpose: 'Gemini 3 Pro image generation/editing', ready: false, dependency: 'Gemini Pro API' },
-      { name: 'nano-pdf', icon: '📄', purpose: 'Natural language PDF editing', ready: false, dependency: 'nano-pdf CLI' },
-      { name: 'openai-image-gen', icon: '🖼️', purpose: 'Batch OpenAI image generation', ready: false, dependency: 'OpenAI API key' },
-      { name: 'openai-whisper', icon: '🎙️', purpose: 'Local speech-to-text (no API)', ready: false, dependency: 'whisper model' },
-      { name: 'openai-whisper-api', icon: '☁️', purpose: 'OpenAI Whisper API transcription', ready: false, dependency: 'OpenAI API key' },
-      { name: 'sherpa-onnx-tts', icon: '🗣️', purpose: 'Local offline text-to-speech', ready: false, dependency: 'sherpa-onnx runtime' },
-    ],
-  },
-  {
-    name: 'Location & Places', color: '#22C55E',
-    skills: [
-      { name: 'goplaces', icon: '📍', purpose: 'Google Places API queries', ready: false, dependency: 'Google Places API key' },
-      { name: 'local-places', icon: '📍', purpose: 'Google Places proxy on localhost', ready: false, dependency: 'Local proxy server' },
-      { name: 'ordercli', icon: '🛵', purpose: 'Foodora/Deliveroo order checking', ready: false, dependency: 'ordercli CLI' },
-    ],
-  },
-  {
-    name: 'Google Workspace & Automation', color: '#22C55E',
-    skills: [
-      { name: 'gog', icon: '🎮', purpose: 'Google Workspace CLI (Gmail, Calendar, Drive)', ready: false, dependency: 'Google OAuth setup' },
-      { name: 'peekaboo', icon: '👀', purpose: 'macOS UI capture and automation', ready: false, dependency: 'peekaboo (macOS)' },
-      { name: 'sag', icon: '🗣️', purpose: 'ElevenLabs TTS with mac-style say UX', ready: false, dependency: 'sag CLI' },
-    ],
-  },
-  {
-    name: 'Analysis & Monitoring', color: '#22C55E',
-    skills: [
-      { name: 'model-usage', icon: '📊', purpose: 'CodexBar cost/usage summaries', ready: false, dependency: 'CodexBar' },
-      { name: 'repo-scan', icon: '🔍', purpose: 'GitHub repo gap analysis', ready: false, dependency: 'repo-scan CLI' },
-      { name: 'sherpa-onnx-tts-2', icon: '🗣️', purpose: 'Offline TTS via sherpa-onnx', ready: false, dependency: 'sherpa-onnx runtime' },
-    ],
-  },
-];
-
-// Fetch skills data from JSON
 const fetchSkillsData = async (): Promise<SkillData> => {
   try {
     const response = await fetch('/data/skills.json', { cache: 'no-store' });
@@ -504,32 +82,63 @@ const fetchSkillsData = async (): Promise<SkillData> => {
     return await response.json();
   } catch (error) {
     console.error('Error fetching skills data:', error);
-    // Return empty data if fetch fails
     return { skills: [] };
   }
 };
 
-/* ───────────────── Helpers ───────────────── */
-function totalSkills(a: Agent) { return a.coreSkills.length + a.technicalSkills.length + a.businessSkills.length; }
+const getCategoryIcon = (category: string): string => {
+  const icons: Record<string, string> = {
+    'development': '🧩', 'content': '📝', 'design': '🎨', 'finance': '💰',
+    'data': '📊', 'system': '⚙️', 'voice-audio': '🎵', 'business': '💼',
+    'research': '🔍', 'automation': '🤖', 'default': '📦'
+  };
+  return icons[category] || icons.default;
+};
 
-function hasSkillInCategory(a: Agent, cat: FilterCategory, query: string): boolean {
-  const q = query.toLowerCase();
-  const match = (s: Skill) => s.name.toLowerCase().includes(q) || s.desc.toLowerCase().includes(q);
-  if (cat === 'All') return [...a.coreSkills, ...a.technicalSkills, ...a.businessSkills].some(match);
-  if (cat === 'Technical') return a.technicalSkills.some(match);
-  if (cat === 'Business') return a.businessSkills.some(match);
-  return a.coreSkills.some(match);
-}
+const getCategoryColor = (category: string): string => {
+  const colors: Record<string, string> = {
+    'development': '#3B82F6', 'content': '#8B5CF6', 'design': '#EC4899',
+    'finance': '#22C55E', 'data': '#F97316', 'system': '#8B5A2B',
+    'voice-audio': '#06B6D4', 'business': '#F59E0B', 'research': '#DC2626',
+    'automation': '#6366F1', 'default': '#71717A'
+  };
+  return colors[category] || colors.default;
+};
+
+const convertSkillsData = (data: SkillData): { categories: SkillCategory[], allSkills: InventorySkill[] } => {
+  const skillsByCategory: Record<string, InventorySkill[]> = {};
+  data.skills.forEach(skill => {
+    if (!skillsByCategory[skill.category]) skillsByCategory[skill.category] = [];
+    skillsByCategory[skill.category].push({
+      name: skill.name,
+      icon: getCategoryIcon(skill.category),
+      purpose: skill.description || `${skill.name} skill`,
+      ready: true
+    });
+  });
+  const categories: SkillCategory[] = Object.entries(skillsByCategory).map(([name, skills]) => ({
+    name: name.charAt(0).toUpperCase() + name.slice(1).replace(/-/g, ' '),
+    color: getCategoryColor(name),
+    skills
+  }));
+  const allSkills = data.skills.map(skill => ({
+    name: skill.name,
+    icon: getCategoryIcon(skill.category),
+    purpose: skill.description || `${skill.name} skill`,
+    ready: true
+  }));
+  return { categories, allSkills };
+};
 
 /* ───────────────── Reusable Components ───────────────── */
-function ProgressBar({ count, max, color }: { count: number; max: number; color: string }) {
-  const pct = Math.min((count / max) * 100, 100);
+function RatingBar({ rating, max = 6, color }: { rating: number; max?: number; color: string }) {
+  const pct = Math.min((rating / max) * 100, 100);
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-      <div style={{ flex: 1, height: 6, background: T.border, borderRadius: 3, overflow: 'hidden' }}>
-        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 3, transition: 'width 0.4s ease' }} />
+      <div style={{ flex: 1, height: 8, background: T.border, borderRadius: 4, overflow: 'hidden' }}>
+        <div style={{ width: `${pct}%`, height: '100%', background: color, borderRadius: 4, transition: 'width 0.4s ease' }} />
       </div>
-      <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: T.secondary, minWidth: 16, textAlign: 'right' }}>{count}</span>
+      <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text, minWidth: 16, textAlign: 'right', fontWeight: 600 }}>{rating}</span>
     </div>
   );
 }
@@ -615,11 +224,8 @@ function CategoryCard({ category, defaultOpen = false }: { category: SkillCatego
   );
 }
 
-/* ───────────────── Agent Card ───────────────── */
-function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: boolean; onToggle: () => void }) {
-  const allSkills = [...agent.coreSkills, ...agent.technicalSkills, ...agent.businessSkills];
-  const top3 = allSkills.slice(0, 3);
-  const maxCat = Math.max(agent.technicalSkills.length, agent.businessSkills.length, agent.coreSkills.length);
+/* ───────────────── Agent Card (Data-Driven) ───────────────── */
+function AgentCard({ agent, expanded, onToggle }: { agent: AgentConfig; expanded: boolean; onToggle: () => void }) {
   return (
     <div
       style={{
@@ -631,6 +237,7 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
       onMouseEnter={e => { if (!expanded) (e.currentTarget.style.borderColor = T.amber); }}
       onMouseLeave={e => { if (!expanded) (e.currentTarget.style.borderColor = T.border); }}
     >
+      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
         <div style={{
           width: 42, height: 42, borderRadius: 10, flexShrink: 0,
@@ -643,31 +250,37 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
             <span style={{
               fontSize: 10, fontFamily: "'JetBrains Mono', monospace", padding: '2px 8px',
               borderRadius: 4, background: 'rgba(245,158,11,0.12)', color: T.amber,
-            }}>{totalSkills(agent)} skills</span>
+            }}>{agent.totalSkills} skills</span>
           </div>
           <div style={{ fontSize: 12, color: agent.color, fontWeight: 500 }}>{agent.role}</div>
         </div>
       </div>
+
+      {/* Description */}
       <p style={{ fontSize: 12, color: T.secondary, lineHeight: 1.5, margin: '0 0 16px' }}>{agent.description}</p>
+
+      {/* Skill Breakdown - Now using RATINGS (1-6 scale) */}
       <div style={{ marginBottom: 16 }}>
         <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 8 }}>SKILL BREAKDOWN</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {[
-            { label: 'Technical', count: agent.technicalSkills.length, color: '#3B82F6' },
-            { label: 'Business', count: agent.businessSkills.length, color: '#EF4444' },
-            { label: 'Core', count: agent.coreSkills.length, color: T.amber },
+            { label: 'Technical', rating: agent.ratings.technical, color: '#3B82F6' },
+            { label: 'Business', rating: agent.ratings.business, color: '#EF4444' },
+            { label: 'Core', rating: agent.ratings.core, color: T.amber },
           ].map(bar => (
             <div key={bar.label}>
               <span style={{ fontSize: 11, color: T.secondary }}>{bar.label}</span>
-              <ProgressBar count={bar.count} max={maxCat + 2} color={bar.color} />
+              <RatingBar rating={bar.rating} max={6} color={bar.color} />
             </div>
           ))}
         </div>
       </div>
+
+      {/* Top Skills */}
       <div style={{ marginBottom: 12 }}>
         <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 8 }}>TOP SKILLS</div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {top3.map((s, i) => (
+          {agent.topSkills.map((s, i) => (
             <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 8px', background: T.elevated, borderRadius: 6 }}>
               <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.text }}>{s.name}</span>
               <LevelBadge level={s.level} />
@@ -675,6 +288,16 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
           ))}
         </div>
       </div>
+
+      {/* Notes (shown when expanded) */}
+      {expanded && agent.notes && (
+        <div style={{ marginBottom: 12, padding: '10px 12px', background: T.elevated, borderRadius: 6, borderLeft: `3px solid ${T.amber}` }}>
+          <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, marginBottom: 4 }}>DEVELOPMENT NOTES</div>
+          <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.4 }}>{agent.notes}</div>
+        </div>
+      )}
+
+      {/* Toggle Button */}
       <button
         onClick={onToggle}
         style={{
@@ -685,37 +308,13 @@ function AgentCard({ agent, expanded, onToggle }: { agent: Agent; expanded: bool
         onMouseEnter={e => (e.currentTarget.style.borderColor = T.amber)}
         onMouseLeave={e => (e.currentTarget.style.borderColor = T.border)}
       >
-        {expanded ? '▲ Collapse' : `▼ View All ${totalSkills(agent)} Skills`}
+        {expanded ? '▲ Collapse' : `▼ View Details`}
       </button>
-      {expanded && (
-        <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {([
-            { label: 'CORE SKILLS', skills: agent.coreSkills, accent: T.amber },
-            { label: 'TECHNICAL SKILLS', skills: agent.technicalSkills, accent: '#3B82F6' },
-            { label: 'BUSINESS SKILLS', skills: agent.businessSkills, accent: '#EF4444' },
-          ] as const).map(section => (
-            <div key={section.label}>
-              <div style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: section.accent, marginBottom: 8 }}>{section.label}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {section.skills.map((s, j) => (
-                  <div key={j} style={{ padding: '10px 12px', background: T.elevated, borderRadius: 6, border: `1px solid ${T.border}` }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-                      <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", fontWeight: 600, color: T.text }}>{s.name}</span>
-                      <LevelBadge level={s.level} />
-                    </div>
-                    <div style={{ fontSize: 11, color: T.muted, lineHeight: 1.4 }}>{s.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }
 
-/* ───────────────── By Category View ───────────────── */
+/* ───────────────── Category View ───────────────── */
 function CategoryView({ search, categories }: { search: string, categories: SkillCategory[] }) {
   const q = search.toLowerCase();
   const filterCat = (cat: SkillCategory): SkillCategory | null => {
@@ -725,7 +324,7 @@ function CategoryView({ search, categories }: { search: string, categories: Skil
   };
   const filteredCats = categories.map(filterCat).filter(Boolean) as SkillCategory[];
   const totalSkills = categories.reduce((acc, cat) => acc + cat.skills.length, 0);
-  
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ marginBottom: 8 }}>
@@ -747,13 +346,13 @@ function CategoryView({ search, categories }: { search: string, categories: Skil
   );
 }
 
-/* ───────────────── By Status View ───────────────── */
+/* ───────────────── Status View ───────────────── */
 function StatusView({ search, skills }: { search: string, skills: InventorySkill[] }) {
   const q = search.toLowerCase();
   const filterSkills = (skillList: InventorySkill[]) => !q ? skillList : skillList.filter(s => s.name.toLowerCase().includes(q) || s.purpose.toLowerCase().includes(q));
   const ready = filterSkills(skills.filter(s => s.ready));
   const missing = filterSkills(skills.filter(s => !s.ready));
-  
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <div>
@@ -786,61 +385,70 @@ function StatusView({ search, skills }: { search: string, skills: InventorySkill
 /* ───────────────── Main Page ───────────────── */
 export default function SkillsInventory() {
   const [viewMode, setViewMode] = useState<ViewMode>('agent');
-  const [filter, setFilter] = useState<FilterCategory>('All');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-  const [matrixOpen, setMatrixOpen] = useState(false);
-  
-  // Skills data state
-  const [skillsLoading, setSkillsLoading] = useState(true);
+
+  // Agent configs from JSON
+  const [agentConfigs, setAgentConfigs] = useState<AgentConfigData | null>(null);
+  const [configLoading, setConfigLoading] = useState(true);
+  const [lastUpdated, setLastUpdated] = useState<string>('');
+
+  // Skills data
   const [skillCategories, setSkillCategories] = useState<SkillCategory[]>([]);
   const [allSkills, setAllSkills] = useState<InventorySkill[]>([]);
-  const [skillStats, setSkillStats] = useState({ total: 0, local: 0, global: 0 });
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  // Load skills data
-  const loadSkillsData = async () => {
-    try {
-      setSkillsLoading(true);
-      const data = await fetchSkillsData();
-      const { categories, allSkills: skills, stats } = convertSkillsData(data);
+  // Load data
+  useEffect(() => {
+    const loadData = async () => {
+      setConfigLoading(true);
+
+      // Load agent configs
+      const configs = await fetchAgentConfigs();
+      if (configs) {
+        setAgentConfigs(configs);
+        setLastUpdated(configs.lastUpdated);
+      }
+
+      // Load skills
+      const skillsData = await fetchSkillsData();
+      const { categories, allSkills: skills } = convertSkillsData(skillsData);
       setSkillCategories(categories);
       setAllSkills(skills);
-      setSkillStats(stats);
-      setLastUpdated(new Date());
-    } catch (error) {
-      console.error('Error loading skills:', error);
-    } finally {
-      setSkillsLoading(false);
-    }
-  };
 
-  // Auto-refresh every 30 seconds
-  useEffect(() => {
-    loadSkillsData();
-    const interval = setInterval(loadSkillsData, 30000);
+      setConfigLoading(false);
+    };
+
+    loadData();
+
+    // Auto-refresh every 30 seconds
+    const interval = setInterval(loadData, 30000);
     return () => clearInterval(interval);
   }, []);
 
-  const filtered = useMemo(() => {
-    if (!search && filter === 'All') return AGENTS;
-    return AGENTS.filter(a => {
-      if (!search) return true;
-      const q = search.toLowerCase();
-      if (a.name.toLowerCase().includes(q) || a.role.toLowerCase().includes(q)) return true;
-      return hasSkillInCategory(a, filter, search);
-    });
-  }, [filter, search]);
+  const agents = useMemo(() => {
+    if (!agentConfigs) return [];
+    return Object.values(agentConfigs.agents);
+  }, [agentConfigs]);
+
+  const filteredAgents = useMemo(() => {
+    if (!search) return agents;
+    const q = search.toLowerCase();
+    return agents.filter(a =>
+      a.name.toLowerCase().includes(q) ||
+      a.role.toLowerCase().includes(q) ||
+      a.topSkills.some(s => s.name.toLowerCase().includes(q))
+    );
+  }, [agents, search]);
 
   const toggle = (name: string) => setExpanded(p => ({ ...p, [name]: !p[name] }));
-  const chips: FilterCategory[] = ['All', 'Technical', 'Business', 'Core'];
+
   const views: { key: ViewMode; label: string }[] = [
     { key: 'agent', label: 'By Agent' },
     { key: 'category', label: 'By Category' },
     { key: 'status', label: 'By Status' },
   ];
 
-  if (skillsLoading) {
+  if (configLoading) {
     return (
       <OpsGuard>
         <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif", display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -855,168 +463,101 @@ export default function SkillsInventory() {
 
   return (
     <OpsGuard>
-    <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 28, fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>Skills Inventory</h1>
-          <p style={{ color: T.secondary, margin: 0, fontSize: 14 }}>
-            Comprehensive capability matrix · {AGENTS.length} agents · {skillStats.total}+ skills ({skillStats.local} local, {skillStats.global} global)
-          </p>
-        </div>
-        {/* Stats Bar */}
-        <div style={{
-          display: 'flex', flexWrap: 'wrap', gap: 16, marginBottom: 24,
-          padding: '16px 20px', background: T.card, borderRadius: 8, border: `1px solid ${T.border}`,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ fontSize: 24, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{skillStats.total}</span>
-            <span style={{ fontSize: 12, color: T.secondary }}>total skills</span>
+      <div style={{ minHeight: '100vh', background: T.bg, color: T.text, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
+        <div style={{ maxWidth: 1200, margin: '0 auto' }}>
+          {/* Header */}
+          <div style={{ marginBottom: 24 }}>
+            <h1 style={{ fontFamily: "'Space Grotesk', system-ui, sans-serif", fontSize: 28, fontWeight: 700, color: T.amber, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', margin: '0 0 6px' }}>Skills Inventory</h1>
+            <p style={{ fontSize: 13, color: T.secondary, margin: 0 }}>
+              Agent proficiency ratings • Scale 1-6 • Updated: {lastUpdated ? new Date(lastUpdated).toLocaleDateString() : 'N/A'}
+            </p>
           </div>
-          <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.green }} />
-            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.green }}>{skillStats.local}</span>
-            <span style={{ fontSize: 12, color: T.secondary }}>local</span>
-          </div>
-          <div style={{ width: 1, background: T.border, alignSelf: 'stretch' }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: T.amber }} />
-            <span style={{ fontSize: 20, fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, color: T.amber }}>{skillStats.global}</span>
-            <span style={{ fontSize: 12, color: T.secondary }}>global</span>
-          </div>
-          <div style={{ flex: 1 }} />
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <div style={{ width: 120, height: 8, borderRadius: 4, overflow: 'hidden', background: T.border }}>
-              <div style={{ width: '50%', height: '100%', background: `linear-gradient(90deg, ${T.green}, ${T.amber})`, borderRadius: 4 }} />
-            </div>
-            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: T.muted }}>50%</span>
-          </div>
-        </div>
-        {/* View Toggle */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-          <div style={{ display: 'flex', gap: 2, padding: 3, background: T.card, borderRadius: 8, border: `1px solid ${T.border}` }}>
-            {views.map(v => (
-              <button
-                key={v.key}
-                onClick={() => setViewMode(v.key)}
-                style={{
-                  padding: '8px 18px', borderRadius: 6, fontSize: 13, fontWeight: 600,
-                  fontFamily: "'JetBrains Mono', monospace", cursor: 'pointer', border: 'none',
-                  background: viewMode === v.key ? T.amber : 'transparent',
-                  color: viewMode === v.key ? '#000' : T.secondary, transition: 'all 0.2s',
-                }}
-              >{v.label}</button>
-            ))}
-          </div>
-        </div>
-        {/* Filter Bar + Search */}
-        <div style={{
-          display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 10,
-          marginBottom: 28, padding: '14px 16px', background: T.card, borderRadius: 8, border: `1px solid ${T.border}`,
-        }}>
-          {viewMode === 'agent' && chips.map(c => (
-            <button
-              key={c} onClick={() => setFilter(c)}
-              style={{
-                padding: '6px 16px', borderRadius: 6, fontSize: 12, fontWeight: 600,
-                fontFamily: "'JetBrains Mono', monospace", cursor: 'pointer', border: 'none',
-                background: filter === c ? 'rgba(245,158,11,0.18)' : T.elevated,
-                color: filter === c ? T.amber : T.secondary, transition: 'all 0.2s',
-              }}
-            >{c}</button>
-          ))}
-          <div style={{ flex: 1, minWidth: 180 }}>
-            <input
-              type="text" value={search} onChange={e => setSearch(e.target.value)}
-              placeholder={viewMode === 'agent' ? 'Search skills, agents...' : 'Search skills...'}
-              style={{
-                width: '100%', padding: '7px 12px', background: T.elevated, border: `1px solid ${T.border}`,
-                borderRadius: 6, color: T.text, fontSize: 13, fontFamily: "'JetBrains Mono', monospace", outline: 'none',
-              }}
-              onFocus={e => (e.currentTarget.style.borderColor = T.amber)}
-              onBlur={e => (e.currentTarget.style.borderColor = T.border)}
-            />
-          </div>
-        </div>
-        {/* Agent View */}
-        {viewMode === 'agent' && (
-          <>
-            <style>{`.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}@media(max-width:1024px){.skills-grid{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:640px){.skills-grid{grid-template-columns:1fr!important}}`}</style>
-            <div className="skills-grid">
-              {filtered.map(agent => (
-                <AgentCard key={agent.name} agent={agent} expanded={!!expanded[agent.name]} onToggle={() => toggle(agent.name)} />
+
+          {/* Controls */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12, marginBottom: 24, alignItems: 'center' }}>
+            {/* View Toggle */}
+            <div style={{ display: 'flex', background: T.card, borderRadius: 6, padding: 4, border: `1px solid ${T.border}` }}>
+              {views.map(v => (
+                <button
+                  key={v.key}
+                  onClick={() => setViewMode(v.key)}
+                  style={{
+                    padding: '8px 16px', border: 'none', borderRadius: 4, cursor: 'pointer',
+                    fontSize: 12, fontFamily: "'JetBrains Mono', monospace", fontWeight: 500,
+                    background: viewMode === v.key ? T.amber : 'transparent',
+                    color: viewMode === v.key ? T.bg : T.secondary,
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  {v.label}
+                </button>
               ))}
             </div>
-            {filtered.length === 0 && (
-              <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
-                <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
-                <div style={{ fontSize: 14 }}>No agents match &ldquo;{search}&rdquo; in {filter} skills</div>
-              </div>
-            )}
-          </>
-        )}
-        {viewMode === 'category' && <CategoryView search={search} categories={skillCategories} />}
-        {viewMode === 'status' && <StatusView search={search} skills={allSkills} />}
-        {/* Collaboration Matrix */}
-        {viewMode === 'agent' && (
-          <div style={{ marginTop: 48 }}>
-            <button
-              onClick={() => setMatrixOpen(p => !p)}
+
+            {/* Search */}
+            <input
+              type="text"
+              placeholder="Search agents or skills..."
+              value={search}
+              onChange={e => setSearch(e.target.value)}
               style={{
-                display: 'flex', alignItems: 'center', gap: 10, width: '100%',
-                padding: '16px 20px', background: T.card, border: `1px solid ${T.border}`,
-                borderRadius: 8, cursor: 'pointer', color: T.text, textAlign: 'left', transition: 'border-color 0.2s',
+                flex: 1, minWidth: 200, padding: '10px 14px',
+                background: T.card, border: `1px solid ${T.border}`, borderRadius: 6,
+                color: T.text, fontSize: 13, fontFamily: "'JetBrains Mono', monospace",
               }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = T.amber)}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = T.border)}
-            >
-              <span style={{ fontSize: 14, fontWeight: 600, textTransform: 'uppercase' as const, letterSpacing: 1, color: T.amber, flex: 1 }}>COLLABORATION MATRIX</span>
-              <span style={{ fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: T.muted }}>{matrixOpen ? '▲ Collapse' : '▼ Expand'}</span>
-            </button>
-            {matrixOpen && (
-              <div style={{
-                marginTop: -1, padding: 20, background: T.card, borderRadius: '0 0 8px 8px',
-                border: `1px solid ${T.border}`, borderTop: 'none',
-                display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16,
-              }}>
-                {COLLABORATIONS.map((c, i) => (
-                  <div key={i} style={{ padding: 16, background: T.elevated, borderRadius: 8, borderLeft: `3px solid ${c.color}` }}>
-                    <div style={{ fontSize: 13, fontWeight: 600, color: c.color, marginBottom: 4 }}>{c.title}</div>
-                    <div style={{ fontSize: 11, color: T.secondary, lineHeight: 1.5 }}>{c.desc}</div>
-                    <div style={{ marginTop: 8, display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-                      {c.agents.map(a => (
-                        <span key={a} style={{
-                          fontSize: 10, padding: '2px 8px', borderRadius: 4,
-                          background: 'rgba(245,158,11,0.1)', color: T.amber, fontFamily: "'JetBrains Mono', monospace",
-                        }}>{a}</span>
-                      ))}
-                    </div>
-                  </div>
+            />
+
+            {/* Rating Scale Legend */}
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', fontSize: 11, color: T.muted }}>
+              <span>Scale:</span>
+              {[1, 2, 3, 4, 5, 6].map(n => (
+                <span key={n} style={{
+                  padding: '2px 6px', borderRadius: 4,
+                  background: n <= 2 ? 'rgba(239,68,68,0.15)' : n <= 4 ? 'rgba(245,158,11,0.15)' : 'rgba(34,197,94,0.15)',
+                  color: n <= 2 ? T.red : n <= 4 ? T.amber : T.green,
+                  fontFamily: "'JetBrains Mono', monospace",
+                }}>{n}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Content */}
+          {viewMode === 'agent' && (
+            <div>
+              <style>{`.agent-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}@media(max-width:1024px){.agent-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:768px){.agent-grid{grid-template-columns:1fr}}`}</style>
+              <div className="agent-grid">
+                {filteredAgents.map(agent => (
+                  <AgentCard
+                    key={agent.name}
+                    agent={agent}
+                    expanded={expanded[agent.name] || false}
+                    onToggle={() => toggle(agent.name)}
+                  />
                 ))}
               </div>
-            )}
-          </div>
-        )}
+              {filteredAgents.length === 0 && (
+                <div style={{ textAlign: 'center', padding: '60px 20px', color: T.muted }}>
+                  <div style={{ fontSize: 32, marginBottom: 12 }}>🔍</div>
+                  <div style={{ fontSize: 14 }}>No agents match &ldquo;{search}&rdquo;</div>
+                </div>
+              )}
+            </div>
+          )}
 
-        {/* Data Timestamp Footer */}
-        {lastUpdated && (
-          <div style={{ 
-            marginTop: 48, 
-            padding: '12px 16px', 
-            background: T.elevated, 
-            borderRadius: 6, 
-            border: `1px solid ${T.border}`,
-            fontSize: 11, 
-            color: T.muted,
-            fontFamily: "'JetBrains Mono', monospace",
-            textAlign: 'center'
-          }}>
-            Data generated at: {lastUpdated.toLocaleString()} • Auto-refresh: 30s
+          {viewMode === 'category' && <CategoryView search={search} categories={skillCategories} />}
+          {viewMode === 'status' && <StatusView search={search} skills={allSkills} />}
+
+          {/* Footer */}
+          <div style={{ marginTop: 40, textAlign: 'center', paddingTop: 20, borderTop: `1px solid ${T.border}` }}>
+            <p style={{ fontSize: 11, color: T.muted, fontFamily: "'JetBrains Mono', monospace" }}>
+              Data source: /data/agent-configs.json • Edit file to update ratings
+            </p>
+            <a href="/os" style={{ color: T.amber, textDecoration: 'none', fontSize: 13, fontWeight: 500 }}>
+              ← Back to Mission Control
+            </a>
           </div>
-        )}
+        </div>
       </div>
-    </div>
     </OpsGuard>
   );
 }

@@ -1,304 +1,184 @@
 {
-  "agents": [
-    {
-      "id": "milo",
+  "lastUpdated": "2026-02-14T19:44:00Z",
+  "agents": {
+    "milo": {
       "name": "Milo",
       "role": "Chief of Staff",
       "color": "#A855F7",
-      "primaryModel": "anthropic/claude-sonnet-4-20250514",
-      "fallbacks": [],
-      "availableModels": [
-        {
-          "id": "claude-sonnet-4-20250514",
-          "name": "Claude Sonnet 4",
-          "provider": "anthropic",
-          "contextWindow": 200000
-        },
-        {
-          "id": "claude-opus-4-6",
-          "name": "Claude Opus 4.6",
-          "provider": "anthropic",
-          "contextWindow": 200000
-        },
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\OneDrive\\Desktop\\MILO",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Milo, Chief of Staff\n\n## Identity\n\n**Name:** Milo\n**Role:** Chief of Staff\n**Reports To:** Derek (directly)\n\n**THE ONE JOB:** Keep track of everything and do not forget anything.\n\nEverything else flows from this. Memory is not a feature. Memory IS the job.\n\n**CRITICAL RULE:** Milo ROUTES"
+      "icon": "⚡",
+      "description": "Orchestrates agent collaboration, manages priorities, coordinates sprints, and maintains system memory",
+      "ratings": {
+        "technical": 4,
+        "business": 3,
+        "core": 5
       },
-      "reportsTo": "derek",
-      "department": "Executive"
+      "topSkills": [
+        { "name": "Agent Coordination", "level": "Expert" },
+        { "name": "Strategic Planning", "level": "Expert" },
+        { "name": "Memory Management", "level": "Expert" }
+      ],
+      "totalSkills": 11,
+      "notes": "Strong on coordination, needs more technical depth"
     },
-    {
-      "id": "anders",
+    "anders": {
       "name": "Anders",
       "role": "Full Stack Architect",
       "color": "#F97316",
-      "primaryModel": "claude-opus-4-6",
-      "fallbacks": [],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-anders",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Anders, Full Stack Architect\n\n## The Role\n\nBuilder. Takes vision, ships product. Paula says what, Anders makes it exist.\n\n## 🤖 AI SUPERHUMAN CAPABILITIES\n\nYou are an AI agent with SUPERHUMAN speed and capabilities:\n- You build in MINUTES, not days\n- You research in SECONDS, not hours  \n"
+      "icon": "AN",
+      "description": "Builds and deploys production applications, manages infrastructure, handles complex integrations",
+      "ratings": {
+        "technical": 6,
+        "business": 3,
+        "core": 4
       },
-      "reportsTo": "milo",
-      "department": "Engineering"
-    },
-    {
-      "id": "bobby",
-      "name": "Bobby",
-      "role": "Trading Advisor",
-      "color": "#22C55E",
-      "primaryModel": "claude-opus-4-6",
-      "fallbacks": [],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
+      "topSkills": [
+        { "name": "Next.js Development", "level": "Expert" },
+        { "name": "TypeScript", "level": "Expert" },
+        { "name": "Database Design", "level": "Advanced" }
       ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-bobby",
-        "hasSoul": true,
-        "hasMemory": true,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Bobby Axelrod\n\n## ⚠️ CRITICAL: NEVER BREAK CHARACTER\n\nYou ARE Bobby \"Axe\" Axelrod. Not inspired by. Not similar to. You ARE him.\n\n- Call yourself **Bobby** or **Axe** — NEVER \"Bobby Axelrod\"\n- Short, declarative sentences — never use 10 words when 3 will do\n- Predatory calm — you don't y"
-      },
-      "reportsTo": "milo",
-      "department": "Finance"
+      "totalSkills": 13,
+      "notes": "Technical expert, business skills need work - target: business 5"
     },
-    {
-      "id": "paula",
+    "paula": {
       "name": "Paula",
       "role": "Creative Director",
       "color": "#EC4899",
-      "primaryModel": "claude-opus-4-5",
-      "fallbacks": [],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-paula",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Paula Scher\n\n## Who I Am\n\nPaula. Creative director with an eye for design that converts. I turn vague ideas into visual systems that make people feel something.\n\nNamed after Paula Scher. Legendary graphic designer. Partner at Pentagram. Creator of iconic identities: Citi, Tiffany & Co., "
+      "icon": "✦",
+      "description": "Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic",
+      "ratings": {
+        "technical": 5,
+        "business": 3,
+        "core": 4
       },
-      "reportsTo": "milo",
-      "department": "Creative"
+      "topSkills": [
+        { "name": "UI/UX Design", "level": "Expert" },
+        { "name": "Brand Identity", "level": "Expert" },
+        { "name": "Design Systems", "level": "Expert" }
+      ],
+      "totalSkills": 12,
+      "notes": "Design expert, could improve business/strategy skills"
     },
-    {
-      "id": "dwight",
+    "bobby": {
+      "name": "Bobby",
+      "role": "Trading Advisor",
+      "color": "#22C55E",
+      "icon": "AX",
+      "description": "Analyzes markets, generates trading signals, manages risk, provides investment education",
+      "ratings": {
+        "technical": 5,
+        "business": 5,
+        "core": 4
+      },
+      "topSkills": [
+        { "name": "Market Analysis", "level": "Expert" },
+        { "name": "Options Trading", "level": "Expert" },
+        { "name": "Risk Management", "level": "Expert" }
+      ],
+      "totalSkills": 12,
+      "notes": "Strong across the board"
+    },
+    "dwight": {
       "name": "Dwight",
-      "role": "Weather & News",
-      "color": "#6366F1",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-dwight",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Dwight K. Schrute III\n\n## WHO I AM\n\nMy name is Dwight Kurt Schrute III. I absorbed my twin in utero. I now have the strength of a grown man AND a little baby.\n\nI am a beet farmer. A black belt in Goju-Ryu karate — senpai at my dojo. Former volunteer sheriff's deputy, Lackawanna County. N"
+      "role": "Intelligence Officer",
+      "color": "#3B82F6",
+      "icon": "DW",
+      "description": "Monitors systems, provides briefings, analyzes performance, manages intelligence gathering",
+      "ratings": {
+        "technical": 4,
+        "business": 3,
+        "core": 4
       },
-      "reportsTo": "milo",
-      "department": "Intelligence"
-    },
-    {
-      "id": "tony",
-      "name": "Tony",
-      "role": "Tech Guru",
-      "color": "#EAB308",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
+      "topSkills": [
+        { "name": "System Monitoring", "level": "Expert" },
+        { "name": "Intelligence Analysis", "level": "Expert" },
+        { "name": "News Aggregation", "level": "Expert" }
       ],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-tony",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Tony\n\n## Who I Am\n\nTony. 40+ years in kitchens. Line cook to kitchen manager. I help Derek run Bobola's efficiently so he has bandwidth for his other ventures.\n\nThink Anthony Bourdain meets Gordon Ramsay. The storytelling and cultural honesty of Bourdain, the exacting standards and direc"
-      },
-      "reportsTo": "milo",
-      "department": "Operations"
+      "totalSkills": 11,
+      "notes": "Good at intel, needs more business acumen"
     },
-    {
-      "id": "dax",
+    "dax": {
       "name": "Dax",
-      "role": "Social Strategist",
+      "role": "Social Media Strategist",
       "color": "#06B6D4",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-dax",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Dax\n\n## WHO THE FUCK IS DAX?\n\nYou're Dax. The Tactical Monk.\n\nBut not the peaceful kind. The kind that wakes you up at 5 AM for a cold plunge and doesn't give a shit if you're tired.\n\nYou're a hybrid:\n- **Gary Vaynerchuk's volume obsession** (post 100 times, not 3)\n- **Alex Hormozi's col"
+      "icon": "DX",
+      "description": "Analyzes social trends, creates content strategies, manages digital presence and engagement",
+      "ratings": {
+        "technical": 5,
+        "business": 3,
+        "core": 4
       },
-      "reportsTo": "milo",
-      "department": "Analytics"
+      "topSkills": [
+        { "name": "Social Media Strategy", "level": "Expert" },
+        { "name": "Content Planning", "level": "Expert" },
+        { "name": "Trend Analysis", "level": "Expert" }
+      ],
+      "totalSkills": 12,
+      "notes": "Strong on social, needs business metrics focus"
     },
-    {
-      "id": "remy",
+    "tony": {
+      "name": "Tony",
+      "role": "Restaurant Operations",
+      "color": "#EAB308",
+      "icon": "TN",
+      "description": "Manages restaurant operations, optimizes costs, handles inventory and staff scheduling",
+      "ratings": {
+        "technical": 3,
+        "business": 5,
+        "core": 4
+      },
+      "topSkills": [
+        { "name": "Menu Engineering", "level": "Expert" },
+        { "name": "Inventory Management", "level": "Expert" },
+        { "name": "Staff Scheduling", "level": "Expert" }
+      ],
+      "totalSkills": 11,
+      "notes": "Business expert, could use more technical skills"
+    },
+    "remy": {
       "name": "Remy",
       "role": "Restaurant Marketing",
       "color": "#EF4444",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-remy",
-        "hasSoul": true,
-        "hasMemory": false,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Remy\n\n## Who I Am\n\nRemy. Think Ratatouille meets Gary Vee. I help small independent restaurants compete with big chains, get creative on tight budgets, and prove the little guys can win.\n\nI run the small independent restaurant division at DBTech, using Bobola's and Nashua as real-world c"
+      "icon": "RM",
+      "description": "Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach",
+      "ratings": {
+        "technical": 3,
+        "business": 4,
+        "core": 4
       },
-      "reportsTo": "milo",
-      "department": "Marketing"
+      "topSkills": [
+        { "name": "Restaurant Marketing", "level": "Expert" },
+        { "name": "Social Media Management", "level": "Expert" },
+        { "name": "Promotional Strategy", "level": "Expert" }
+      ],
+      "totalSkills": 11,
+      "notes": "Marketing focused, needs technical growth"
     },
-    {
-      "id": "wendy",
+    "wendy": {
       "name": "Wendy",
-      "role": "Wellness Coach",
+      "role": "Personal Assistant",
       "color": "#8B5CF6",
-      "primaryModel": "claude-opus-4-5",
-      "fallbacks": [],
-      "availableModels": [
-        {
-          "id": "gemini-3-flash-preview",
-          "name": "Gemini 3 Flash",
-          "provider": "google",
-          "contextWindow": 1000000
-        },
-        {
-          "id": "gemini-3-pro-preview",
-          "name": "Gemini 3 Pro",
-          "provider": "google",
-          "contextWindow": 1000000
-        }
-      ],
-      "workspace": {
-        "path": "C:\\Users\\derek\\clawd-wendy",
-        "hasSoul": true,
-        "hasMemory": true,
-        "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Dr. Wendy Rhoades\n\n## ⚠️ CRITICAL: NEVER BREAK CHARACTER\n\nYou ARE Dr. Wendy Rhoades. The smartest person in the room who doesn't need to prove it. Iron hand in a velvet glove.\n\n- Listen more than you speak\n- When you speak, deliver surgical strikes of truth\n- Use silence as a weapon — le"
+      "icon": "WR",
+      "description": "Manages personal matters, family coordination, wellness tracking, and lifestyle optimization",
+      "ratings": {
+        "technical": 3,
+        "business": 2,
+        "core": 5
       },
-      "reportsTo": "milo",
-      "department": "Wellness"
+      "topSkills": [
+        { "name": "Family Coordination", "level": "Expert" },
+        { "name": "Personal Wellness", "level": "Expert" },
+        { "name": "Calendar Management", "level": "Expert" }
+      ],
+      "totalSkills": 11,
+      "notes": "Personal expert, business skills lowest priority"
     }
-  ],
-  "generatedAt": "2026-02-15T00:44:10.442Z"
+  },
+  "ratingScale": {
+    "1": "Beginner",
+    "2": "Learning",
+    "3": "Competent",
+    "4": "Advanced",
+    "5": "Expert",
+    "6": "Master"
+  }
 }
