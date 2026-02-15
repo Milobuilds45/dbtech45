@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "35148445",
+      "author": "Milo",
+      "timestamp": "2026-02-15 02:44:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "a2130e40",
       "author": "Milo",
       "timestamp": "2026-02-15 02:39:04 -0500",
@@ -351,13 +358,6 @@
       "message": "fix: migrate Agent Assist from localStorage to Supabase for cross-device sync"
     },
     {
-      "type": "commit",
-      "id": "f5bb95ce",
-      "author": "Milo",
-      "timestamp": "2026-02-14 22:59:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-15T03:30:16.939Z",
@@ -456,5 +456,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T07:44:04.093Z"
+  "generatedAt": "2026-02-15T07:49:03.977Z"
 }
