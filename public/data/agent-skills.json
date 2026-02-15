@@ -48,6 +48,7 @@
         "business": 4,
         "core": 7
       },
+      "ratingNotes": "Technical expert. Business: 'done but not deployed' issues - needs to verify delivery.",
       "skills": [
         { "name": "Next.js Development", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
         { "name": "TypeScript", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
@@ -70,9 +71,9 @@
       "icon": "✦",
       "description": "Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic",
       "ratings": {
-        "technical": 7,
+        "technical": 6,
         "business": 5,
-        "core": 7
+        "core": 8
       },
       "skills": [
         { "name": "UI/UX Design", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -94,9 +95,9 @@
       "icon": "AX",
       "description": "Analyzes markets, generates trading signals, manages risk, provides investment education",
       "ratings": {
-        "technical": 8,
+        "technical": 7,
         "business": 8,
-        "core": 7
+        "core": 8
       },
       "skills": [
         { "name": "Market Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -118,7 +119,7 @@
       "icon": "DW",
       "description": "Monitors systems, provides briefings, analyzes performance, manages intelligence gathering",
       "ratings": {
-        "technical": 6,
+        "technical": 5,
         "business": 5,
         "core": 7
       },
@@ -140,7 +141,7 @@
       "icon": "DX",
       "description": "Analyzes social trends, creates content strategies, manages digital presence and engagement",
       "ratings": {
-        "technical": 7,
+        "technical": 6,
         "business": 5,
         "core": 7
       },
@@ -162,9 +163,9 @@
       "icon": "TN",
       "description": "Manages restaurant operations, optimizes costs, handles inventory and staff scheduling",
       "ratings": {
-        "technical": 5,
+        "technical": 4,
         "business": 8,
-        "core": 7
+        "core": 8
       },
       "skills": [
         { "name": "Menu Engineering", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
@@ -185,7 +186,7 @@
       "icon": "RM",
       "description": "Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach",
       "ratings": {
-        "technical": 5,
+        "technical": 4,
         "business": 6,
         "core": 6
       },
