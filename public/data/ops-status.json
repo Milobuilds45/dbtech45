@@ -4,30 +4,37 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T03:14:02.524Z",
+    "lastHeartbeat": "2026-02-15T03:19:04.218Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 7,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-15T03:14:02.524Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-remy",
-        "type": "warning",
-        "message": "Remy agent offline for >15 hours",
-        "timestamp": "2026-02-15T03:14:02.524Z",
+        "timestamp": "2026-02-15T03:19:04.218Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >15 hours",
-        "timestamp": "2026-02-15T03:14:02.524Z",
+        "timestamp": "2026-02-15T03:19:04.218Z",
+        "resolved": false
+      },
+      {
+        "id": "cron-fail-3d56a05b",
+        "type": "error",
+        "message": "Cron \"bobby-morning-brief\" failed: model not allowed: anthropic/gemini-3-flash-preview",
+        "timestamp": "2026-02-15T03:17:13.232Z",
+        "resolved": false
+      },
+      {
+        "id": "cron-fail-75cf9393",
+        "type": "error",
+        "message": "Cron \"bobby-midday-update\" failed: model not allowed: anthropic/gemini-3-flash-preview",
+        "timestamp": "2026-02-15T03:17:21.143Z",
         "resolved": false
       }
     ]
@@ -40,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:12:36.690Z"
+      "lastSeen": "2026-02-15T03:18:59.540Z"
     },
     {
       "name": "Anders",
@@ -49,7 +56,7 @@
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T03:12:56.103Z"
+      "lastSeen": "2026-02-15T03:18:54.524Z"
     },
     {
       "name": "Bobby",
@@ -63,7 +70,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -99,11 +106,11 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-14T12:30:11.511Z"
+      "lastSeen": "2026-02-15T03:18:09.265Z"
     },
     {
       "name": "Wendy",
@@ -117,32 +124,43 @@
   ],
   "sessions": [
     {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:12:56.103Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 17
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T03:12:36.690Z",
+      "lastActivity": "2026-02-15T03:19:04.332Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 25
     },
     {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T03:18:54.524Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 17
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T03:18:09.265Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 844
+    },
+    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T02:48:30.791Z",
       "role": "Creative Director",
@@ -192,17 +210,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 22
-    },
-    {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-14T12:30:11.511Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 844
     },
     {
       "key": "agent:wendy:main",
@@ -284,13 +291,13 @@
       "humanSchedule": "30 9 * * 1-5",
       "agent": "Bobby",
       "description": "MORNING BRIEF (9:30 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files. Market is OPEN -",
-      "lastRun": "2026-02-13T14:30:00.021Z",
-      "lastStatus": "success",
+      "lastRun": "2026-02-15T03:17:13.232Z",
+      "lastStatus": "failure",
       "nextRun": "2026-02-16T14:30:00.000Z",
-      "duration": "200s",
+      "duration": "0s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": null
+      "lastError": "model not allowed: anthropic/gemini-3-flash-preview"
     },
     {
       "id": "75cf9393-00e2-4367-b027-01e5c71d4d11",
@@ -299,13 +306,13 @@
       "humanSchedule": "0 12 * * 1-5",
       "agent": "Bobby",
       "description": "MIDDAY UPDATE (12:00 PM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-13T17:00:00.003Z",
-      "lastStatus": "success",
+      "lastRun": "2026-02-15T03:17:21.143Z",
+      "lastStatus": "failure",
       "nextRun": "2026-02-16T17:00:00.000Z",
-      "duration": "195s",
+      "duration": "0s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": null
+      "lastError": "model not allowed: anthropic/gemini-3-flash-preview"
     },
     {
       "id": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24",
@@ -473,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T03:14:03.498Z",
+  "generatedAt": "2026-02-15T03:19:05.401Z",
   "version": 2
 }

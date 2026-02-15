@@ -2,6 +2,41 @@
   "activity": [
     {
       "type": "commit",
+      "id": "b90a6b4f",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:18:42 -0500",
+      "message": "fix: unify rating bar colors with legend scale, fix Scale 1-6 typo, remove specific number promises from skill suggestions"
+    },
+    {
+      "type": "cron_run",
+      "id": "75cf9393",
+      "timestamp": "2026-02-15T03:17:21.153Z",
+      "message": "Cron run: ok",
+      "jobId": "75cf9393-00e2-4367-b027-01e5c71d4d11"
+    },
+    {
+      "type": "cron_run",
+      "id": "3d56a05b",
+      "timestamp": "2026-02-15T03:17:13.259Z",
+      "message": "Cron run: ok",
+      "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
+    },
+    {
+      "type": "commit",
+      "id": "41035c9d",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:17:01 -0500",
+      "message": "feat: rebuild task board with 3-column agent mission control"
+    },
+    {
+      "type": "commit",
+      "id": "6bcaaf67",
+      "author": "Milo",
+      "timestamp": "2026-02-14 22:14:03 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "04576942",
       "author": "Milo",
       "timestamp": "2026-02-14 22:09:05 -0500",
@@ -330,27 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "e4a70f37",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:24:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "5b0605ed",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "b6ea5dfc",
-      "author": "Milo",
-      "timestamp": "2026-02-14 19:14:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bc892137",
       "timestamp": "2026-02-14T14:10:43.818Z",
@@ -435,5 +449,5 @@
       "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T03:14:03.605Z"
+  "generatedAt": "2026-02-15T03:19:05.615Z"
 }
