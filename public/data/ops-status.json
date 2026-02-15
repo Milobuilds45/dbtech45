@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-15T04:44:02.592Z",
+    "lastHeartbeat": "2026-02-15T04:49:02.749Z",
     "totalCrons": 17,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-15T04:44:02.592Z",
+        "timestamp": "2026-02-15T04:49:02.748Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-15T04:44:02.592Z",
+        "timestamp": "2026-02-15T04:49:02.748Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T04:25:58.964Z"
+      "lastSeen": "2026-02-15T04:46:50.587Z"
     },
     {
       "name": "Anders",
@@ -124,6 +124,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-15T04:46:50.587Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 26
+    },
+    {
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
@@ -155,17 +166,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 61
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T04:25:58.964Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 25
     },
     {
       "key": "agent:remy:main",
@@ -471,15 +471,15 @@
       "humanSchedule": "45 23 * * *",
       "agent": "Milo",
       "description": "🔧 NIGHTLY DBTECH45.COM MAINTENANCE (11:45 PM)",
-      "lastRun": null,
-      "lastStatus": "pending",
-      "nextRun": "2026-02-15T04:45:00.000Z",
-      "duration": null,
+      "lastRun": "2026-02-15T04:45:00.011Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-16T04:45:00.000Z",
+      "duration": "111s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-15T04:44:03.615Z",
+  "generatedAt": "2026-02-15T04:49:03.701Z",
   "version": 2
 }
