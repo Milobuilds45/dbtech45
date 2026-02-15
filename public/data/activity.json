@@ -1,6 +1,13 @@
 {
   "activity": [
     {
+      "type": "commit",
+      "id": "095cc606",
+      "author": "Milo",
+      "timestamp": "2026-02-15 03:09:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "cron_run",
       "id": "08c18bdc",
       "timestamp": "2026-02-15T08:08:55.771Z",
@@ -358,13 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "e1f96eff",
-      "author": "Milo",
-      "timestamp": "2026-02-14 23:10:18 -0500",
-      "message": "feat: migrate all localStorage to Supabase for cross-device sync"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-15T03:30:16.939Z",
@@ -454,14 +454,7 @@
       "timestamp": "2026-02-14T12:06:46.784Z",
       "message": "Cron run: ok",
       "jobId": "e3746cbd-d836-4104-aa7d-8f20f69b385e"
-    },
-    {
-      "type": "cron_run",
-      "id": "61b6eecf",
-      "timestamp": "2026-02-14T08:10:02.481Z",
-      "message": "Cron run: ok",
-      "jobId": "61b6eecf-139d-472b-b7f0-f5e1ad9cc0dd"
     }
   ],
-  "generatedAt": "2026-02-15T08:09:03.934Z"
+  "generatedAt": "2026-02-15T08:14:04.019Z"
 }
