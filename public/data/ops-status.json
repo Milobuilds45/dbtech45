@@ -4,23 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T16:59:02.113Z",
+    "lastHeartbeat": "2026-02-16T17:04:02.205Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >22 hours",
-        "timestamp": "2026-02-16T16:59:02.112Z",
-        "resolved": false
-      },
-      {
-        "id": "cron-fail-75cf9393",
-        "type": "error",
-        "message": "Cron \"bobby-midday-update\" failed: model not allowed: anthropic/gemini-3-flash-preview",
-        "timestamp": "2026-02-15T03:30:16.930Z",
+        "timestamp": "2026-02-16T17:04:02.205Z",
         "resolved": false
       }
     ]
@@ -47,11 +40,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T14:30:24.360Z"
+      "lastSeen": "2026-02-16T17:00:24.330Z"
     },
     {
       "name": "Paula",
@@ -83,7 +76,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -110,6 +103,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T17:00:24.330Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 64
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -119,17 +123,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 31
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T14:30:24.360Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 63
     },
     {
       "key": "agent:anders:main",
@@ -157,7 +150,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T13:00:57.092Z",
       "role": "Social Strategist",
@@ -292,13 +285,13 @@
       "humanSchedule": "0 12 * * 1-5",
       "agent": "Bobby",
       "description": "MIDDAY UPDATE (12:00 PM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-15T03:30:16.930Z",
-      "lastStatus": "failure",
-      "nextRun": "2026-02-16T17:00:00.000Z",
-      "duration": "0s",
+      "lastRun": "2026-02-16T17:00:00.014Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-17T17:00:00.000Z",
+      "duration": "25s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": "model not allowed: anthropic/gemini-3-flash-preview"
+      "lastError": null
     },
     {
       "id": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24",
@@ -466,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T16:59:02.237Z",
+  "generatedAt": "2026-02-16T17:04:02.333Z",
   "version": 2
 }
