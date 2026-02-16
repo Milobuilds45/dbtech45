@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "f72d78ba",
+      "author": "Milo",
+      "timestamp": "2026-02-16 17:59:02 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "3c2c001a",
       "author": "Milo",
       "timestamp": "2026-02-16 17:54:02 -0500",
@@ -351,13 +358,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "4f354e40",
-      "author": "Milo",
-      "timestamp": "2026-02-16 13:49:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-16T17:00:25.100Z",
@@ -426,14 +426,7 @@
       "timestamp": "2026-02-16T04:45:23.341Z",
       "message": "Cron run: ok",
       "jobId": "d3941baa-0f44-434e-bf32-b5e4e3b57b84"
-    },
-    {
-      "type": "cron_run",
-      "id": "e0a8624b",
-      "timestamp": "2026-02-15T23:00:36.484Z",
-      "message": "Cron run: ok",
-      "jobId": "e0a8624b-ea7f-4f8b-8729-a85bb90489f7"
     }
   ],
-  "generatedAt": "2026-02-16T22:59:02.073Z"
+  "generatedAt": "2026-02-16T23:04:02.039Z"
 }
