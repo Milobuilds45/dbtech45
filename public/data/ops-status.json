@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T21:29:01.666Z",
+    "lastHeartbeat": "2026-02-16T21:34:01.776Z",
     "totalCrons": 17,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >26 hours",
-        "timestamp": "2026-02-16T21:29:01.666Z",
+        "timestamp": "2026-02-16T21:34:01.775Z",
         "resolved": false
       }
     ]
@@ -40,11 +40,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T17:00:24.330Z"
+      "lastSeen": "2026-02-16T21:30:23.411Z"
     },
     {
       "name": "Paula",
@@ -103,6 +103,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T21:30:23.411Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 65
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -112,17 +123,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 31
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T17:00:24.330Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 64
     },
     {
       "key": "agent:anders:main",
@@ -300,10 +300,10 @@
       "humanSchedule": "30 16 * * 1-4",
       "agent": "Bobby",
       "description": "DAILY RECAP (4:30 PM Mon-Thu). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-12T21:30:00.003Z",
+      "lastRun": "2026-02-16T21:30:00.003Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T21:30:00.000Z",
-      "duration": "108s",
+      "nextRun": "2026-02-17T21:30:00.000Z",
+      "duration": "24s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T21:29:01.791Z",
+  "generatedAt": "2026-02-16T21:34:01.905Z",
   "version": 2
 }
