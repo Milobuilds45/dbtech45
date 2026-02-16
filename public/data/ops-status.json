@@ -4,58 +4,51 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T12:14:04.914Z",
+    "lastHeartbeat": "2026-02-16T12:19:04.148Z",
     "totalCrons": 17,
-    "activeSessions": 2,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >16 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >15 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-dwight",
-        "type": "warning",
-        "message": "Dwight agent offline for >24 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >14 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-16T12:14:04.914Z",
+        "timestamp": "2026-02-16T12:19:04.147Z",
         "resolved": false
       },
       {
@@ -114,11 +107,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T12:15:13.170Z"
+      "lastSeen": "2026-02-16T12:15:12.689Z"
     },
     {
       "name": "Tony",
@@ -158,6 +151,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T12:15:12.689Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 58
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -245,17 +249,6 @@
       "role": "Wellness Coach",
       "cost": 0,
       "sessionCount": 11
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T12:15:13.170Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 57
     }
   ],
   "crons": [
@@ -266,10 +259,10 @@
       "humanSchedule": "15 7 * * *",
       "agent": "Dwight",
       "description": "MORNING NEWS & WEATHER BRIEF. You are Dwight (Weather & News). Read your SOUL.md and workspace memory files. Provide Der",
-      "lastRun": "2026-02-15T12:15:00.010Z",
+      "lastRun": "2026-02-16T12:15:00.014Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T12:15:00.000Z",
-      "duration": "14s",
+      "nextRun": "2026-02-17T12:15:00.000Z",
+      "duration": "13s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -515,6 +508,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T12:14:08.252Z",
+  "generatedAt": "2026-02-16T12:19:07.445Z",
   "version": 2
 }
