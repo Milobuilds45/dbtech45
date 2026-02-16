@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T23:34:01.839Z",
+    "lastHeartbeat": "2026-02-16T23:39:01.903Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -12,8 +12,8 @@
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >28 hours",
-        "timestamp": "2026-02-16T23:34:01.839Z",
+        "message": "Wendy agent offline for >29 hours",
+        "timestamp": "2026-02-16T23:39:01.903Z",
         "resolved": false
       }
     ]
@@ -22,11 +22,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T22:37:20.694Z"
+      "lastSeen": "2026-02-16T23:37:19.899Z"
     },
     {
       "name": "Anders",
@@ -106,9 +106,9 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-16T22:37:20.694Z",
+      "lastActivity": "2026-02-16T23:37:19.899Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 31
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T23:34:01.966Z",
+  "generatedAt": "2026-02-16T23:39:02.033Z",
   "version": 2
 }
