@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T03:19:02.920Z",
+    "lastHeartbeat": "2026-02-16T03:24:02.928Z",
     "totalCrons": 17,
-    "activeSessions": 3,
+    "activeSessions": 1,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >15 hours",
-        "timestamp": "2026-02-16T03:19:02.919Z",
+        "timestamp": "2026-02-16T03:24:02.928Z",
         "resolved": false
       },
       {
@@ -81,7 +81,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -99,7 +99,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -131,7 +131,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T23:20:14.563Z",
       "role": "Tech Guru",
@@ -142,7 +142,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T23:19:36.129Z",
       "role": "Restaurant Marketing",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T03:19:03.914Z",
+  "generatedAt": "2026-02-16T03:24:03.919Z",
   "version": 2
 }
