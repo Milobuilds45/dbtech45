@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T13:29:03.891Z",
+    "lastHeartbeat": "2026-02-16T13:34:06.023Z",
     "totalCrons": 17,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,28 +13,28 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >17 hours",
-        "timestamp": "2026-02-16T13:29:03.890Z",
+        "timestamp": "2026-02-16T13:34:06.022Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >15 hours",
-        "timestamp": "2026-02-16T13:29:03.890Z",
+        "timestamp": "2026-02-16T13:34:06.022Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >16 hours",
-        "timestamp": "2026-02-16T13:29:03.890Z",
+        "message": "Paula agent offline for >17 hours",
+        "timestamp": "2026-02-16T13:34:06.022Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >18 hours",
-        "timestamp": "2026-02-16T13:29:03.890Z",
+        "timestamp": "2026-02-16T13:34:06.022Z",
         "resolved": false
       },
       {
@@ -57,7 +57,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -111,7 +111,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -141,7 +141,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T13:01:34.183Z",
       "role": "Chief of Staff",
@@ -152,7 +152,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T13:00:57.092Z",
       "role": "Social Strategist",
@@ -494,6 +494,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T13:29:06.715Z",
+  "generatedAt": "2026-02-16T13:34:08.942Z",
   "version": 2
 }
