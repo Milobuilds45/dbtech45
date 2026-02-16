@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T00:59:02.722Z",
+    "lastHeartbeat": "2026-02-16T01:04:02.724Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >13 hours",
-        "timestamp": "2026-02-16T00:59:02.721Z",
+        "timestamp": "2026-02-16T01:04:02.724Z",
         "resolved": false
       },
       {
@@ -40,7 +40,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T00:46:19.569Z"
+      "lastSeen": "2026-02-16T01:00:47.016Z"
     },
     {
       "name": "Anders",
@@ -63,7 +63,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -122,7 +122,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-16T00:46:19.569Z",
+      "lastActivity": "2026-02-16T01:00:47.016Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 28
@@ -175,7 +175,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T21:01:15.884Z",
       "role": "Creative Director",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T00:59:03.729Z",
+  "generatedAt": "2026-02-16T01:04:03.728Z",
   "version": 2
 }
