@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T21:34:01.776Z",
+    "lastHeartbeat": "2026-02-16T21:39:01.706Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -12,8 +12,8 @@
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >26 hours",
-        "timestamp": "2026-02-16T21:34:01.775Z",
+        "message": "Wendy agent offline for >27 hours",
+        "timestamp": "2026-02-16T21:39:01.705Z",
         "resolved": false
       }
     ]
@@ -22,11 +22,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T20:37:20.205Z"
+      "lastSeen": "2026-02-16T21:37:19.861Z"
     },
     {
       "name": "Anders",
@@ -103,6 +103,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T21:37:19.861Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 31
+    },
+    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
@@ -112,17 +123,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 65
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T20:37:20.205Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 31
     },
     {
       "key": "agent:anders:main",
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T21:34:01.905Z",
+  "generatedAt": "2026-02-16T21:39:01.831Z",
   "version": 2
 }
