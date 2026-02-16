@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T17:59:02.269Z",
+    "lastHeartbeat": "2026-02-16T18:04:02.309Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >23 hours",
-        "timestamp": "2026-02-16T17:59:02.269Z",
+        "timestamp": "2026-02-16T18:04:02.308Z",
         "resolved": false
       }
     ]
@@ -31,7 +31,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -49,7 +49,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -128,7 +128,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T14:00:47.768Z",
       "role": "Full Stack Architect",
@@ -139,7 +139,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T14:00:23.519Z",
       "role": "Creative Director",
@@ -459,6 +459,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T17:59:02.394Z",
+  "generatedAt": "2026-02-16T18:04:02.587Z",
   "version": 2
 }
