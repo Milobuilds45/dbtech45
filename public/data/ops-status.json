@@ -4,30 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T14:29:02.042Z",
+    "lastHeartbeat": "2026-02-16T14:34:02.046Z",
     "totalCrons": 17,
-    "activeSessions": 7,
+    "activeSessions": 8,
     "totalAgents": 9,
     "alerts": [
-      {
-        "id": "offline-bobby",
-        "type": "warning",
-        "message": "Bobby agent offline for >16 hours",
-        "timestamp": "2026-02-16T14:29:02.042Z",
-        "resolved": false
-      },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >19 hours",
-        "timestamp": "2026-02-16T14:29:02.042Z",
-        "resolved": false
-      },
-      {
-        "id": "cron-fail-3d56a05b",
-        "type": "error",
-        "message": "Cron \"bobby-morning-brief\" failed: model not allowed: anthropic/gemini-3-flash-preview",
-        "timestamp": "2026-02-15T03:30:09.361Z",
+        "timestamp": "2026-02-16T14:34:02.045Z",
         "resolved": false
       },
       {
@@ -43,7 +29,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -52,7 +38,7 @@
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -61,16 +47,16 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T22:52:04.860Z"
+      "lastSeen": "2026-02-16T14:30:24.360Z"
     },
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -124,10 +110,21 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T14:30:24.360Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 63
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T14:01:34.155Z",
       "role": "Chief of Staff",
@@ -138,7 +135,7 @@
       "key": "agent:anders:main",
       "agent": "Anders",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T14:00:47.768Z",
       "role": "Full Stack Architect",
@@ -149,7 +146,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T14:00:23.519Z",
       "role": "Creative Director",
@@ -199,17 +196,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T22:52:04.860Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 62
     },
     {
       "key": "agent:wendy:main",
@@ -291,13 +277,13 @@
       "humanSchedule": "30 9 * * 1-5",
       "agent": "Bobby",
       "description": "MORNING BRIEF (9:30 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files. Market is OPEN -",
-      "lastRun": "2026-02-15T03:30:09.361Z",
-      "lastStatus": "failure",
-      "nextRun": "2026-02-16T14:30:00.000Z",
-      "duration": "0s",
+      "lastRun": "2026-02-16T14:30:00.014Z",
+      "lastStatus": "success",
+      "nextRun": "2026-02-17T14:30:00.000Z",
+      "duration": "25s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": "model not allowed: anthropic/gemini-3-flash-preview"
+      "lastError": null
     },
     {
       "id": "75cf9393-00e2-4367-b027-01e5c71d4d11",
@@ -480,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T14:29:02.182Z",
+  "generatedAt": "2026-02-16T14:34:02.175Z",
   "version": 2
 }
