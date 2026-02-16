@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T12:09:04.124Z",
+    "lastHeartbeat": "2026-02-16T12:14:04.914Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -12,50 +12,50 @@
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >15 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "message": "Anders agent offline for >16 hours",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >15 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >24 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >14 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-16T12:09:04.124Z",
+        "timestamp": "2026-02-16T12:14:04.914Z",
         "resolved": false
       },
       {
@@ -515,6 +515,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T12:09:06.548Z",
+  "generatedAt": "2026-02-16T12:14:08.252Z",
   "version": 2
 }
