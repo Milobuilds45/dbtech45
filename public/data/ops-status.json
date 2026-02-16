@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T11:59:05.095Z",
+    "lastHeartbeat": "2026-02-16T12:04:04.986Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,49 +13,49 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >15 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >15 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >24 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >14 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-16T11:59:05.094Z",
+        "timestamp": "2026-02-16T12:04:04.985Z",
         "resolved": false
       },
       {
@@ -78,11 +78,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T11:00:46.609Z"
+      "lastSeen": "2026-02-16T12:00:46.375Z"
     },
     {
       "name": "Anders",
@@ -159,6 +159,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T12:00:46.375Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 31
+    },
+    {
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
@@ -168,17 +179,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T11:00:46.609Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 31
     },
     {
       "key": "agent:remy:main",
@@ -515,6 +515,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T11:59:08.394Z",
+  "generatedAt": "2026-02-16T12:04:07.840Z",
   "version": 2
 }
