@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T07:59:03.561Z",
+    "lastHeartbeat": "2026-02-16T08:04:03.471Z",
     "totalCrons": 17,
     "activeSessions": 1,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >20 hours",
-        "timestamp": "2026-02-16T07:59:03.561Z",
+        "timestamp": "2026-02-16T08:04:03.470Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-16T07:59:03.561Z",
+        "timestamp": "2026-02-16T08:04:03.470Z",
         "resolved": false
       },
       {
@@ -43,11 +43,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T07:00:47.011Z"
+      "lastSeen": "2026-02-16T08:00:46.474Z"
     },
     {
       "name": "Anders",
@@ -127,12 +127,12 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-16T07:00:47.011Z",
+      "lastActivity": "2026-02-16T08:00:46.474Z",
       "role": "Chief of Staff",
       "cost": 0,
-      "sessionCount": 29
+      "sessionCount": 30
     },
     {
       "key": "agent:tony:main",
@@ -456,10 +456,10 @@
       "humanSchedule": "0 3 * * *",
       "agent": "Milo",
       "description": "🎆 SMART COLLABORATIVE SURPRISE BUILDER (3:00 AM)",
-      "lastRun": "2026-02-15T08:00:00.005Z",
+      "lastRun": "2026-02-16T08:00:00.012Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T08:00:00.000Z",
-      "duration": "536s",
+      "nextRun": "2026-02-17T08:00:00.000Z",
+      "duration": "23s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T07:59:04.652Z",
+  "generatedAt": "2026-02-16T08:04:06.255Z",
   "version": 2
 }
