@@ -4,51 +4,44 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T12:29:04.221Z",
+    "lastHeartbeat": "2026-02-16T12:34:05.449Z",
     "totalCrons": 17,
-    "activeSessions": 3,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >16 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
+        "timestamp": "2026-02-16T12:34:05.449Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >14 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
+        "timestamp": "2026-02-16T12:34:05.449Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >15 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
+        "message": "Paula agent offline for >16 hours",
+        "timestamp": "2026-02-16T12:34:05.449Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
-        "message": "Dax agent offline for >14 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-remy",
-        "type": "warning",
-        "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
+        "message": "Dax agent offline for >15 hours",
+        "timestamp": "2026-02-16T12:34:05.449Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >17 hours",
-        "timestamp": "2026-02-16T12:29:04.220Z",
+        "timestamp": "2026-02-16T12:34:05.449Z",
         "resolved": false
       },
       {
@@ -71,7 +64,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -134,11 +127,11 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T23:19:36.129Z"
+      "lastSeen": "2026-02-16T12:30:14.649Z"
     },
     {
       "name": "Wendy",
@@ -151,6 +144,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-16T12:30:14.649Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 846
+    },
     {
       "key": "agent:dwight:main",
       "agent": "Dwight",
@@ -166,7 +170,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T12:00:46.375Z",
       "role": "Chief of Staff",
@@ -183,17 +187,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 25
-    },
-    {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-15T23:19:36.129Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 845
     },
     {
       "key": "agent:bobby:main",
@@ -274,10 +267,10 @@
       "humanSchedule": "30 7 * * *",
       "agent": "Remy",
       "description": "DAILY MARKETING OPPORTUNITIES BRIEF. You are Remy (Restaurant Marketing). Read your SOUL.md and workspace memory files f",
-      "lastRun": "2026-02-15T12:30:00.007Z",
+      "lastRun": "2026-02-16T12:30:00.003Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T12:30:00.000Z",
-      "duration": "13s",
+      "nextRun": "2026-02-17T12:30:00.000Z",
+      "duration": "15s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -508,6 +501,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T12:29:07.865Z",
+  "generatedAt": "2026-02-16T12:34:07.789Z",
   "version": 2
 }
