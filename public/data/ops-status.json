@@ -4,44 +4,44 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T10:59:03.093Z",
+    "lastHeartbeat": "2026-02-16T11:04:04.507Z",
     "totalCrons": 17,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >14 hours",
-        "timestamp": "2026-02-16T10:59:03.092Z",
+        "timestamp": "2026-02-16T11:04:04.507Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >14 hours",
-        "timestamp": "2026-02-16T10:59:03.092Z",
+        "timestamp": "2026-02-16T11:04:04.507Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >23 hours",
-        "timestamp": "2026-02-16T10:59:03.092Z",
+        "timestamp": "2026-02-16T11:04:04.507Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >13 hours",
-        "timestamp": "2026-02-16T10:59:03.092Z",
+        "timestamp": "2026-02-16T11:04:04.507Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >16 hours",
-        "timestamp": "2026-02-16T10:59:03.092Z",
+        "timestamp": "2026-02-16T11:04:04.507Z",
         "resolved": false
       },
       {
@@ -64,11 +64,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T10:00:46.233Z"
+      "lastSeen": "2026-02-16T11:00:46.609Z"
     },
     {
       "name": "Anders",
@@ -109,11 +109,11 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-15T23:20:14.563Z"
+      "lastSeen": "2026-02-16T11:00:28.510Z"
     },
     {
       "name": "Dax",
@@ -148,9 +148,9 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-16T10:00:46.233Z",
+      "lastActivity": "2026-02-16T11:00:46.609Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 31
@@ -159,12 +159,12 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "offline",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-15T23:20:14.563Z",
+      "lastActivity": "2026-02-16T11:00:28.510Z",
       "role": "Tech Guru",
       "cost": 0,
-      "sessionCount": 24
+      "sessionCount": 25
     },
     {
       "key": "agent:remy:main",
@@ -432,10 +432,10 @@
       "humanSchedule": "0 6 * * *",
       "agent": "Tony",
       "description": "DAILY RESTAURANT PREP SHEET (6:00 AM). You are Tony (Restaurant Operations). Read your SOUL.md and workspace memory file",
-      "lastRun": "2026-02-15T11:00:00.003Z",
+      "lastRun": "2026-02-16T11:00:00.009Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T11:00:00.000Z",
-      "duration": "11s",
+      "nextRun": "2026-02-17T11:00:00.000Z",
+      "duration": "29s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -501,6 +501,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T10:59:04.092Z",
+  "generatedAt": "2026-02-16T11:04:07.892Z",
   "version": 2
 }
