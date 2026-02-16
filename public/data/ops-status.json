@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T07:49:04.033Z",
+    "lastHeartbeat": "2026-02-16T07:54:06.852Z",
     "totalCrons": 17,
     "activeSessions": 1,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >20 hours",
-        "timestamp": "2026-02-16T07:49:04.032Z",
+        "timestamp": "2026-02-16T07:54:06.852Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >13 hours",
-        "timestamp": "2026-02-16T07:49:04.032Z",
+        "timestamp": "2026-02-16T07:54:06.852Z",
         "resolved": false
       },
       {
@@ -480,6 +480,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T07:49:06.263Z",
+  "generatedAt": "2026-02-16T07:54:08.802Z",
   "version": 2
 }
