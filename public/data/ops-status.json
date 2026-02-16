@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T04:44:03.091Z",
+    "lastHeartbeat": "2026-02-16T04:49:03.063Z",
     "totalCrons": 17,
     "activeSessions": 1,
     "totalAgents": 9,
@@ -12,8 +12,8 @@
       {
         "id": "offline-dwight",
         "type": "warning",
-        "message": "Dwight agent offline for >16 hours",
-        "timestamp": "2026-02-16T04:44:03.090Z",
+        "message": "Dwight agent offline for >17 hours",
+        "timestamp": "2026-02-16T04:49:03.063Z",
         "resolved": false
       },
       {
@@ -36,11 +36,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T04:00:46.988Z"
+      "lastSeen": "2026-02-16T04:45:22.678Z"
     },
     {
       "name": "Anders",
@@ -120,12 +120,12 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-16T04:00:46.988Z",
+      "lastActivity": "2026-02-16T04:45:22.678Z",
       "role": "Chief of Staff",
       "cost": 0,
-      "sessionCount": 28
+      "sessionCount": 29
     },
     {
       "key": "agent:tony:main",
@@ -464,15 +464,15 @@
       "humanSchedule": "45 23 * * *",
       "agent": "Milo",
       "description": "🔧 NIGHTLY DBTECH45.COM MAINTENANCE (11:45 PM)",
-      "lastRun": "2026-02-15T04:45:00.011Z",
+      "lastRun": "2026-02-16T04:45:00.003Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-16T04:45:00.000Z",
-      "duration": "111s",
+      "nextRun": "2026-02-17T04:45:00.000Z",
+      "duration": "23s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T04:44:04.091Z",
+  "generatedAt": "2026-02-16T04:49:04.042Z",
   "version": 2
 }
