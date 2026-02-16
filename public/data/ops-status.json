@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T03:04:02.929Z",
+    "lastHeartbeat": "2026-02-16T03:09:02.951Z",
     "totalCrons": 17,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >15 hours",
-        "timestamp": "2026-02-16T03:04:02.928Z",
+        "timestamp": "2026-02-16T03:09:02.950Z",
         "resolved": false
       },
       {
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T03:04:04.012Z",
+  "generatedAt": "2026-02-16T03:09:03.943Z",
   "version": 2
 }
