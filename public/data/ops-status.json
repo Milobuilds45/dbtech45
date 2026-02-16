@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T05:29:03.178Z",
+    "lastHeartbeat": "2026-02-16T05:34:03.165Z",
     "totalCrons": 17,
     "activeSessions": 1,
     "totalAgents": 9,
@@ -13,7 +13,7 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >17 hours",
-        "timestamp": "2026-02-16T05:29:03.177Z",
+        "timestamp": "2026-02-16T05:34:03.165Z",
         "resolved": false
       },
       {
@@ -36,7 +36,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -120,7 +120,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-16T05:00:47.537Z",
       "role": "Chief of Staff",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T05:29:04.176Z",
+  "generatedAt": "2026-02-16T05:34:04.163Z",
   "version": 2
 }
