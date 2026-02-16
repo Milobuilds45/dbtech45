@@ -4,16 +4,16 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-16T02:49:02.888Z",
+    "lastHeartbeat": "2026-02-16T02:54:02.965Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >15 hours",
-        "timestamp": "2026-02-16T02:49:02.887Z",
+        "timestamp": "2026-02-16T02:54:02.965Z",
         "resolved": false
       },
       {
@@ -54,7 +54,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -153,7 +153,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-15T22:52:04.860Z",
       "role": "Trading Advisor",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-16T02:49:03.881Z",
+  "generatedAt": "2026-02-16T02:54:03.990Z",
   "version": 2
 }
