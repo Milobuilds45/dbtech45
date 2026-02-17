@@ -4,30 +4,23 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T17:59:02.509Z",
+    "lastHeartbeat": "2026-02-17T18:04:06.928Z",
     "totalCrons": 17,
-    "activeSessions": 2,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >28 hours",
-        "timestamp": "2026-02-17T17:59:02.508Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-paula",
-        "type": "warning",
-        "message": "Paula agent offline for >28 hours",
-        "timestamp": "2026-02-17T17:59:02.508Z",
+        "timestamp": "2026-02-17T18:04:06.928Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >47 hours",
-        "timestamp": "2026-02-17T17:59:02.508Z",
+        "timestamp": "2026-02-17T18:04:06.928Z",
         "resolved": false
       }
     ]
@@ -40,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T17:59:02.450Z"
+      "lastSeen": "2026-02-17T18:03:51.861Z"
     },
     {
       "name": "Anders",
@@ -63,11 +56,11 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T14:00:23.519Z"
+      "lastSeen": "2026-02-17T18:04:04.121Z"
     },
     {
       "name": "Dwight",
@@ -117,12 +110,23 @@
   ],
   "sessions": [
     {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T18:04:04.121Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 20
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T17:59:02.450Z",
+      "lastActivity": "2026-02-17T18:03:51.861Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
@@ -192,17 +196,6 @@
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 18
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T14:00:23.519Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 20
     },
     {
       "key": "agent:wendy:main",
@@ -473,6 +466,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T17:59:02.640Z",
+  "generatedAt": "2026-02-17T18:04:08.926Z",
   "version": 2
 }
