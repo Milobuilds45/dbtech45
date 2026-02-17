@@ -43,14 +43,14 @@ const BRAND_ASSETS = [
 ];
 
 const AGENTS = [
-  { name: 'Paula', role: 'Full Stack Architect + Creative Director', initials: 'PA', color: '#EC4899' },
   { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
+  { name: 'Wendy', role: 'Psychology', initials: 'WR', color: '#8B5CF6' },
   { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#22C55E' },
+  { name: 'Paula', role: 'Full Stack Architect + Creative Director', initials: 'PA', color: '#EC4899' },
   { name: 'Remy', role: 'Restaurant Operations', initials: 'RM', color: '#EAB308' },
+  { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1' },
   { name: 'Dax', role: 'Content / Data', initials: 'DX', color: '#06B6D4' },
   { name: 'Webb', role: 'Research', initials: 'WB', color: '#3B82F6' },
-  { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1' },
-  { name: 'Wendy', role: 'Psychology', initials: 'WR', color: '#8B5CF6' },
 ];
 
 export default function BrandKitPage() {
@@ -199,7 +199,7 @@ export default function BrandKitPage() {
         {/* Agent Identities */}
         <section style={{ marginBottom: '3rem' }}>
           <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Agent Identities</h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
             {AGENTS.map(a => (
               <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
                 <div style={{
