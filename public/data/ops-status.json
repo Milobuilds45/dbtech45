@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T18:34:06.029Z",
+    "lastHeartbeat": "2026-02-17T18:39:07.375Z",
     "totalCrons": 16,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >29 hours",
-        "timestamp": "2026-02-17T18:34:06.028Z",
+        "timestamp": "2026-02-17T18:39:07.375Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >47 hours",
-        "timestamp": "2026-02-17T18:34:06.028Z",
+        "message": "Wendy agent offline for >48 hours",
+        "timestamp": "2026-02-17T18:39:07.375Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T18:32:12.180Z"
+      "lastSeen": "2026-02-17T18:39:06.755Z"
     },
     {
       "name": "Anders",
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T18:33:59.548Z"
+      "lastSeen": "2026-02-17T18:39:03.014Z"
     },
     {
       "name": "Dwight",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T18:34:06.716Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 20
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T18:32:12.180Z",
+      "lastActivity": "2026-02-17T18:39:06.755Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T18:39:03.014Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 20
     },
     {
       "key": "agent:bobby:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T18:34:09.029Z",
+  "generatedAt": "2026-02-17T18:39:10.775Z",
   "version": 2
 }
