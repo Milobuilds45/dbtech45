@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T01:34:02.003Z",
+    "lastHeartbeat": "2026-02-17T01:39:02.020Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,35 +13,35 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >13 hours",
-        "timestamp": "2026-02-17T01:34:02.003Z",
+        "timestamp": "2026-02-17T01:39:02.019Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-17T01:34:02.003Z",
+        "timestamp": "2026-02-17T01:39:02.019Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >13 hours",
-        "timestamp": "2026-02-17T01:34:02.003Z",
+        "timestamp": "2026-02-17T01:39:02.019Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-17T01:34:02.003Z",
+        "timestamp": "2026-02-17T01:39:02.019Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >30 hours",
-        "timestamp": "2026-02-17T01:34:02.003Z",
+        "message": "Wendy agent offline for >31 hours",
+        "timestamp": "2026-02-17T01:39:02.019Z",
         "resolved": false
       }
     ]
@@ -50,11 +50,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T00:37:20.782Z"
+      "lastSeen": "2026-02-17T01:37:20.146Z"
     },
     {
       "name": "Anders",
@@ -131,6 +131,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T01:37:20.146Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 31
+    },
+    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
@@ -140,17 +151,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 66
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T00:37:20.782Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 31
     },
     {
       "key": "agent:anders:main",
@@ -487,6 +487,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T01:34:02.124Z",
+  "generatedAt": "2026-02-17T01:39:02.139Z",
   "version": 2
 }
