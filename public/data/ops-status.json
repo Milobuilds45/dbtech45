@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T21:59:05.112Z",
+    "lastHeartbeat": "2026-02-17T22:04:03.375Z",
     "totalCrons": 16,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >32 hours",
-        "timestamp": "2026-02-17T21:59:05.112Z",
+        "timestamp": "2026-02-17T22:04:03.375Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >51 hours",
-        "timestamp": "2026-02-17T21:59:05.112Z",
+        "timestamp": "2026-02-17T22:04:03.375Z",
         "resolved": false
       }
     ]
@@ -47,7 +47,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:56:39.827Z"
+      "lastSeen": "2026-02-17T22:01:18.620Z"
     },
     {
       "name": "Tony",
@@ -110,6 +110,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T22:01:18.620Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 59
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -119,17 +130,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:56:39.827Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 59
     },
     {
       "key": "agent:dax:main",
@@ -146,7 +146,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T21:33:11.869Z",
       "role": "Trading Advisor",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T21:59:06.743Z",
+  "generatedAt": "2026-02-17T22:04:04.978Z",
   "version": 2
 }
