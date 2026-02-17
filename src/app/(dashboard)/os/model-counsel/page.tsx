@@ -34,7 +34,7 @@ export default function ModelCounselPage() {
     void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
     amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
     white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#EF4444', info: '#3B82F6',
+    success: '#10B981', error: '#22C55E', info: '#3B82F6',
     border: '#222222',
   };
 
@@ -130,7 +130,7 @@ export default function ModelCounselPage() {
     <div style={{ padding: '20px 30px' }}>
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber }}>Model Counsel</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>Model Counsel</div>
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Ask one question. Get every perspective.</div>
         </div>
         {responses.length > 0 && (
@@ -183,7 +183,7 @@ export default function ModelCounselPage() {
       {/* Model Selector - Centered Grid */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Select Models</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Select Models</span>
           <div style={{ display: 'flex', gap: '6px' }}>
             <button onClick={selectAll} style={{ fontSize: '11px', padding: '4px 12px', borderRadius: '4px', background: b.graphite, border: `1px solid ${b.border}`, color: b.silver, cursor: 'pointer' }}>All</button>
             <button onClick={selectNone} style={{ fontSize: '11px', padding: '4px 12px', borderRadius: '4px', background: b.graphite, border: `1px solid ${b.border}`, color: b.silver, cursor: 'pointer' }}>None</button>

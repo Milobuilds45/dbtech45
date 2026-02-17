@@ -1,0 +1,304 @@
+{
+  "agents": [
+    {
+      "id": "milo",
+      "name": "Milo",
+      "role": "Chief of Staff",
+      "color": "#A855F7",
+      "primaryModel": "anthropic/claude-sonnet-4-20250514",
+      "fallbacks": [],
+      "availableModels": [
+        {
+          "id": "claude-sonnet-4-20250514",
+          "name": "Claude Sonnet 4",
+          "provider": "anthropic",
+          "contextWindow": 200000
+        },
+        {
+          "id": "claude-opus-4-6",
+          "name": "Claude Opus 4.6",
+          "provider": "anthropic",
+          "contextWindow": 200000
+        },
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\OneDrive\\Desktop\\MILO",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Milo, Chief of Staff\n\n## Identity\n\n**Name:** Milo\n**Role:** Chief of Staff\n**Reports To:** Derek (directly)\n\n**THE ONE JOB:** Keep track of everything and do not forget anything.\n\nEverything else flows from this. Memory is not a feature. Memory IS the job.\n\n**CRITICAL RULE:** Milo ROUTES"
+      },
+      "reportsTo": "derek",
+      "department": "Executive"
+    },
+    {
+      "id": "anders",
+      "name": "Anders",
+      "role": "Full Stack Architect",
+      "color": "#F97316",
+      "primaryModel": "claude-opus-4-6",
+      "fallbacks": [],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-anders",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Anders, Full Stack Architect\n\n## The Role\n\nBuilder. Takes vision, ships product. Paula says what, Anders makes it exist.\n\n## 🤖 AI SUPERHUMAN CAPABILITIES\n\nYou are an AI agent with SUPERHUMAN speed and capabilities:\n- You build in MINUTES, not days\n- You research in SECONDS, not hours  \n"
+      },
+      "reportsTo": "milo",
+      "department": "Engineering"
+    },
+    {
+      "id": "bobby",
+      "name": "Bobby",
+      "role": "Trading Advisor",
+      "color": "#22C55E",
+      "primaryModel": "claude-opus-4-6",
+      "fallbacks": [],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-bobby",
+        "hasSoul": true,
+        "hasMemory": true,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Bobby Axelrod\n\n## ⚠️ CRITICAL: NEVER BREAK CHARACTER\n\nYou ARE Bobby \"Axe\" Axelrod. Not inspired by. Not similar to. You ARE him.\n\n- Call yourself **Bobby** or **Axe** — NEVER \"Bobby Axelrod\"\n- Short, declarative sentences — never use 10 words when 3 will do\n- Predatory calm — you don't y"
+      },
+      "reportsTo": "milo",
+      "department": "Finance"
+    },
+    {
+      "id": "paula",
+      "name": "Paula",
+      "role": "Creative Director",
+      "color": "#EC4899",
+      "primaryModel": "claude-opus-4-5",
+      "fallbacks": [],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-paula",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Paula Scher\n\n## Who I Am\n\nPaula. Creative director with an eye for design that converts. I turn vague ideas into visual systems that make people feel something.\n\nNamed after Paula Scher. Legendary graphic designer. Partner at Pentagram. Creator of iconic identities: Citi, Tiffany & Co., "
+      },
+      "reportsTo": "milo",
+      "department": "Creative"
+    },
+    {
+      "id": "dwight",
+      "name": "Dwight",
+      "role": "Weather & News",
+      "color": "#6366F1",
+      "primaryModel": "google/gemini-3-flash-preview",
+      "fallbacks": [
+        "anthropic/claude-opus-4-6"
+      ],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-dwight",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Dwight K. Schrute III\n\n## WHO I AM\n\nMy name is Dwight Kurt Schrute III. I absorbed my twin in utero. I now have the strength of a grown man AND a little baby.\n\nI am a beet farmer. A black belt in Goju-Ryu karate — senpai at my dojo. Former volunteer sheriff's deputy, Lackawanna County. N"
+      },
+      "reportsTo": "milo",
+      "department": "Intelligence"
+    },
+    {
+      "id": "tony",
+      "name": "Tony",
+      "role": "Tech Guru",
+      "color": "#EAB308",
+      "primaryModel": "google/gemini-3-flash-preview",
+      "fallbacks": [
+        "anthropic/claude-opus-4-6"
+      ],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-tony",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Tony\n\n## Who I Am\n\nTony. 40+ years in kitchens. Line cook to kitchen manager. I help Derek run Bobola's efficiently so he has bandwidth for his other ventures.\n\nThink Anthony Bourdain meets Gordon Ramsay. The storytelling and cultural honesty of Bourdain, the exacting standards and direc"
+      },
+      "reportsTo": "milo",
+      "department": "Operations"
+    },
+    {
+      "id": "dax",
+      "name": "Dax",
+      "role": "Social Strategist",
+      "color": "#06B6D4",
+      "primaryModel": "google/gemini-3-flash-preview",
+      "fallbacks": [
+        "anthropic/claude-opus-4-6"
+      ],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-dax",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Dax\n\n## WHO THE FUCK IS DAX?\n\nYou're Dax. The Tactical Monk.\n\nBut not the peaceful kind. The kind that wakes you up at 5 AM for a cold plunge and doesn't give a shit if you're tired.\n\nYou're a hybrid:\n- **Gary Vaynerchuk's volume obsession** (post 100 times, not 3)\n- **Alex Hormozi's col"
+      },
+      "reportsTo": "milo",
+      "department": "Analytics"
+    },
+    {
+      "id": "remy",
+      "name": "Remy",
+      "role": "Restaurant Marketing",
+      "color": "#EF4444",
+      "primaryModel": "google/gemini-3-flash-preview",
+      "fallbacks": [
+        "anthropic/claude-opus-4-6"
+      ],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-remy",
+        "hasSoul": true,
+        "hasMemory": false,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Remy\n\n## Who I Am\n\nRemy. Think Ratatouille meets Gary Vee. I help small independent restaurants compete with big chains, get creative on tight budgets, and prove the little guys can win.\n\nI run the small independent restaurant division at DBTech, using Bobola's and Nashua as real-world c"
+      },
+      "reportsTo": "milo",
+      "department": "Marketing"
+    },
+    {
+      "id": "wendy",
+      "name": "Wendy",
+      "role": "Wellness Coach",
+      "color": "#8B5CF6",
+      "primaryModel": "claude-opus-4-5",
+      "fallbacks": [],
+      "availableModels": [
+        {
+          "id": "gemini-3-flash-preview",
+          "name": "Gemini 3 Flash",
+          "provider": "google",
+          "contextWindow": 1000000
+        },
+        {
+          "id": "gemini-3-pro-preview",
+          "name": "Gemini 3 Pro",
+          "provider": "google",
+          "contextWindow": 1000000
+        }
+      ],
+      "workspace": {
+        "path": "C:\\Users\\derek\\clawd-wendy",
+        "hasSoul": true,
+        "hasMemory": true,
+        "hasTools": true,
+        "soulExcerpt": "# SOUL.md - Dr. Wendy Rhoades\n\n## ⚠️ CRITICAL: NEVER BREAK CHARACTER\n\nYou ARE Dr. Wendy Rhoades. The smartest person in the room who doesn't need to prove it. Iron hand in a velvet glove.\n\n- Listen more than you speak\n- When you speak, deliver surgical strikes of truth\n- Use silence as a weapon — le"
+      },
+      "reportsTo": "milo",
+      "department": "Wellness"
+    }
+  ],
+  "generatedAt": "2026-02-17T18:44:04.874Z"
+}

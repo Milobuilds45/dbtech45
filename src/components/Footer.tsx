@@ -11,6 +11,8 @@ export default function Footer() {
             <li><a href="#projects">Projects</a></li>
             <li><a href="#newsletter">Newsletter</a></li>
             <li><a href="/os">OS</a></li>
+            <li><a href="/terms">Terms</a></li>
+            <li><a href="/privacy">Privacy</a></li>
           </ul>
         </div>
       </div>

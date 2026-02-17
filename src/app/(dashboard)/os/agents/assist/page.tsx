@@ -1,8 +1,8 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
-import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap } from 'lucide-react';
+import { Package, ExternalLink, Star, Filter, Search, Plus, Tag, Bookmark, Github, Globe, Database, Terminal, Code, Cpu, Users, User, Lightbulb, Brain, Sparkles, Shield, Zap, Trash2, CheckCircle, X, RotateCcw, Archive, ChevronDown, ChevronRight, Undo2, AlertCircle, Loader2, Check } from 'lucide-react';
 
 interface AgentResource {
   id: string;
@@ -10,29 +10,30 @@ interface AgentResource {
   agentName: string;
   title: string;
   description: string;
+  plainEnglish: string;
   url: string;
   category: 'api' | 'tool' | 'library' | 'service' | 'dataset' | 'framework' | 'reference' | 'other';
   type: 'open-source' | 'free-tier' | 'documentation' | 'tutorial' | 'reference';
   tags: string[];
   useCase: string;
   rating: number;
-  usefulFor: string[]; // Which agents could benefit
+  usefulFor: string[];
   githubStars?: number;
   lastUpdated?: string;
   pricing?: string;
   createdAt: string;
   addedBy: string;
+  skillCategory?: string;
 }
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
-  { id: 'bobby', name: 'Bobby', color: '#EF4444' },
-  { id: 'dwight', name: 'Dwight', color: '#6366F1' },
-  { id: 'tony', name: 'Tony', color: '#EAB308' },
+  { id: 'bobby', name: 'Bobby', color: '#22C55E' },
+  { id: 'dwight', name: 'Dwight', color: '#3B82F6' },
   { id: 'dax', name: 'Dax', color: '#06B6D4' },
-  { id: 'remy', name: 'Remy', color: '#22C55E' },
+  { id: 'remy', name: 'Remy', color: '#EAB308' },
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
@@ -47,7 +48,6 @@ const CATEGORY_ICONS = {
   other: <Plus size={16} />,
 };
 
-// Mock data - replace with API calls
 const mockResources: AgentResource[] = [
   {
     id: '1',
@@ -55,6 +55,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Bobby',
     title: 'yfinance - Python Yahoo Finance API',
     description: 'Reliable and efficient way to download historical market data from Yahoo Finance. Perfect for backtesting and analysis.',
+    plainEnglish: 'Lets Bobby pull stock prices, charts, and market history automatically instead of looking things up manually. Think of it like giving him a direct line to Yahoo Finance.',
     url: 'https://github.com/ranaroussi/yfinance',
     category: 'library',
     type: 'open-source',
@@ -74,6 +75,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Paula',
     title: 'Framer Motion',
     description: 'Production-ready motion library for React. Makes creating smooth animations and interactions incredibly simple.',
+    plainEnglish: 'Makes buttons slide, pages fade in, and things move smoothly on websites. Without it, everything just pops in like a PowerPoint. With it, the site feels alive.',
     url: 'https://www.framer.com/motion/',
     category: 'library',
     type: 'open-source',
@@ -93,6 +95,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Dwight',
     title: 'Perplexity AI API',
     description: 'Real-time search and AI-powered research API. Great for getting current information and fact-checking.',
+    plainEnglish: 'Like giving Dwight his own Google that also reads and summarizes the results for him. He asks a question, gets an answer with sources — not just a list of links.',
     url: 'https://docs.perplexity.ai/',
     category: 'api',
     type: 'free-tier',
@@ -110,6 +113,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Anders',
     title: 'Supabase',
     description: 'Open source Firebase alternative. Real-time database, authentication, and storage with a great developer experience.',
+    plainEnglish: 'The place where all our app data lives — user accounts, saved info, everything. It is like a spreadsheet on steroids that apps can read and write to instantly.',
     url: 'https://supabase.com/',
     category: 'service',
     type: 'free-tier',
@@ -127,6 +131,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Dax',
     title: 'Pandas Profiling',
     description: 'Generates profile reports from pandas DataFrames. Essential for data exploration and quality assessment.',
+    plainEnglish: 'Takes a big pile of data and instantly tells you what is in it — what is missing, what looks weird, what the averages are. Like a health check-up but for data instead of people.',
     url: 'https://github.com/ydataai/ydata-profiling',
     category: 'tool',
     type: 'open-source',
@@ -146,6 +151,7 @@ const mockResources: AgentResource[] = [
     agentName: 'Milo',
     title: 'LangChain',
     description: 'Framework for developing applications with language models. Perfect for building AI agent workflows.',
+    plainEnglish: 'The toolkit for building AI agents that can do multi-step tasks. Instead of just answering questions, agents built with this can search, think, and take actions on their own.',
     url: 'https://python.langchain.com/',
     category: 'framework',
     type: 'open-source',
@@ -163,90 +169,295 @@ const mockResources: AgentResource[] = [
 
 type GenerationMode = 'individual' | 'collaborative';
 type CreativityLevel = 'safe' | 'creative' | 'experimental' | 'simple';
+type BudgetTier = 'open-source' | 'free-tier' | 'budget-30' | 'budget-50' | 'budget-100' | 'any';
+type SkillCategory = 'technical' | 'business' | 'core' | 'autonomy' | 'awareness';
 
+const SKILL_CATEGORIES: { value: SkillCategory; label: string; color: string; description: string }[] = [
+  { value: 'technical', label: 'Technical', color: '#3B82F6', description: 'Tools, code, APIs, implementation' },
+  { value: 'business', label: 'Business', color: '#EF4444', description: 'ROI, strategy, P&L, stakeholders' },
+  { value: 'core', label: 'Core', color: '#F59E0B', description: 'Primary job function mastery' },
+  { value: 'autonomy', label: 'Autonomy', color: '#8B5CF6', description: 'Self-direction, problem-solving' },
+  { value: 'awareness', label: 'Awareness', color: '#06B6D4', description: 'Trends, research, staying informed' },
+];
+
+interface AgentSkillData {
+  name: string;
+  ratings: {
+    technical: number;
+    business: number;
+    core: number;
+    autonomy: number;
+    awareness: number;
+  };
+}
+
+const BUDGET_OPTIONS: { value: BudgetTier; label: string; description: string }[] = [
+  { value: 'open-source', label: 'Open Source Only', description: 'Free forever, no strings' },
+  { value: 'free-tier', label: 'Free Tier / Trial', description: 'Free to start, may have limits' },
+  { value: 'budget-30', label: 'Up to $30/mo', description: 'Light subscription budget' },
+  { value: 'budget-50', label: 'Up to $50/mo', description: 'Medium subscription budget' },
+  { value: 'budget-100', label: 'Up to $100/mo', description: 'Premium tools budget' },
+  { value: 'any', label: 'Any Price', description: 'Show me the best, price no object' },
+];
+
+// ──────────────────────────────────────────
+// Toast notification component
+// ──────────────────────────────────────────
+interface ToastMessage {
+  id: number;
+  text: string;
+  type: 'success' | 'error' | 'info';
+}
+
+function Toast({ message, onDismiss }: { message: ToastMessage; onDismiss: () => void }) {
+  useEffect(() => {
+    const timer = setTimeout(onDismiss, 4000);
+    return () => clearTimeout(timer);
+  }, [onDismiss]);
+
+  const bgColor = message.type === 'success' ? '#22C55E' : message.type === 'error' ? '#EF4444' : '#3B82F6';
+  const Icon = message.type === 'success' ? Check : message.type === 'error' ? AlertCircle : CheckCircle;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        background: '#1A1A1A',
+        border: `1px solid ${bgColor}50`,
+        borderLeft: `3px solid ${bgColor}`,
+        borderRadius: '10px',
+        padding: '12px 16px',
+        color: '#E5E5E5',
+        fontSize: '13px',
+        fontWeight: 500,
+        boxShadow: `0 8px 30px rgba(0,0,0,0.4), 0 0 15px ${bgColor}15`,
+        animation: 'slideInRight 0.3s ease-out',
+        maxWidth: '380px',
+      }}
+    >
+      <Icon size={16} style={{ color: bgColor, flexShrink: 0 }} />
+      <span style={{ flex: 1 }}>{message.text}</span>
+      <button
+        onClick={onDismiss}
+        style={{
+          background: 'transparent',
+          border: 'none',
+          color: '#888',
+          cursor: 'pointer',
+          padding: '2px',
+          display: 'flex',
+          flexShrink: 0,
+        }}
+      >
+        <X size={14} />
+      </button>
+    </div>
+  );
+}
+
+function ToastContainer({ messages, onDismiss }: { messages: ToastMessage[]; onDismiss: (id: number) => void }) {
+  if (messages.length === 0) return null;
+  return (
+    <>
+      <style>{`
+        @keyframes slideInRight {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+      `}</style>
+      <div
+        style={{
+          position: 'fixed',
+          top: '20px',
+          right: '20px',
+          zIndex: 9999,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '8px',
+        }}
+      >
+        {messages.map((msg) => (
+          <Toast key={msg.id} message={msg} onDismiss={() => onDismiss(msg.id)} />
+        ))}
+      </div>
+    </>
+  );
+}
+
+// ──────────────────────────────────────────
+// Main component
+// ──────────────────────────────────────────
 export default function AgentAssist() {
-  const [resources, setResources] = useState<AgentResource[]>(mockResources);
+  const [resources, setResources] = useState<AgentResource[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedAgents, setSelectedAgents] = useState<string[]>([]);
   const [generationMode, setGenerationMode] = useState<GenerationMode>('individual');
   const [creativityLevel, setCreativityLevel] = useState<CreativityLevel>('creative');
-  // Uses shared supabase client from @/lib/supabase (safe stub when env vars missing)
+  const [budgetTier, setBudgetTier] = useState<BudgetTier>('any');
+  
+  // Skill Development state
+  const [skillDevCategory, setSkillDevCategory] = useState<SkillCategory | null>(null);
+  const [agentSkillsData, setAgentSkillsData] = useState<Record<string, AgentSkillData>>({});
+  const [isSkillLoading, setIsSkillLoading] = useState(false);
 
-  // Load real resources and set up real-time subscription
+  // Archive state
+  const [archivedResources, setArchivedResources] = useState<AgentResource[]>([]);
+  const [showArchive, setShowArchive] = useState(false);
+  const [dbReady, setDbReady] = useState(false);
+  const [dbError, setDbError] = useState<string | null>(null);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  // Toast state
+  const [toasts, setToasts] = useState<ToastMessage[]>([]);
+  const toastIdRef = { current: 0 };
+
+  const addToast = useCallback((text: string, type: 'success' | 'error' | 'info' = 'success') => {
+    const id = ++toastIdRef.current;
+    setToasts((prev) => [...prev.slice(-4), { id, text, type }]);
+  }, []);
+
+  const dismissToast = useCallback((id: number) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  // Load agent skills data
   useEffect(() => {
-    const loadResources = async () => {
-      const { data, error } = await supabase
-        .from('assist_resources')
-        .select('*')
-        .order('created_at', { ascending: false });
-      
-      if (!error && data) {
-        // Convert database format to component format
-        const convertedResources = data.map(item => ({
-          id: item.id,
-          agentId: item.agent_id,
-          agentName: item.agent_name,
-          title: item.title,
-          description: item.description,
-          url: item.url || '',
-          category: item.category,
-          type: item.type,
-          tags: item.tags || [],
-          useCase: item.use_case,
-          rating: item.rating || 3,
-          usefulFor: item.useful_for || [],
-          githubStars: item.github_stars,
-          lastUpdated: item.last_updated,
-          pricing: item.pricing,
-          createdAt: item.created_at,
-          addedBy: item.added_by || item.agent_name,
-        }));
-        setResources(convertedResources);
+    const loadSkillsData = async () => {
+      try {
+        const res = await fetch('/data/agent-skills.json');
+        if (res.ok) {
+          const data = await res.json();
+          const skillsMap: Record<string, AgentSkillData> = {};
+          Object.entries(data.agents).forEach(([id, agent]: [string, any]) => {
+            skillsMap[id] = {
+              name: agent.name,
+              ratings: agent.ratings,
+            };
+          });
+          setAgentSkillsData(skillsMap);
+        }
+      } catch (error) {
+        console.error('Failed to load skills data:', error);
       }
     };
+    loadSkillsData();
+  }, []);
 
-    loadResources();
+  // Helper: map DB row to AgentResource
+  const dbToResource = (row: Record<string, unknown>): AgentResource => ({
+    id: row.id as string,
+    agentId: row.agent_id as string,
+    agentName: row.agent_name as string,
+    title: row.title as string,
+    description: (row.description as string) || '',
+    plainEnglish: (row.plain_english as string) || '',
+    url: (row.url as string) || '',
+    category: (row.category as AgentResource['category']) || 'other',
+    type: (row.type as AgentResource['type']) || 'open-source',
+    tags: (row.tags as string[]) || [],
+    useCase: (row.use_case as string) || '',
+    rating: (row.rating as number) || 3,
+    usefulFor: (row.useful_for as string[]) || [],
+    githubStars: row.github_stars as number | undefined,
+    lastUpdated: row.last_updated as string | undefined,
+    pricing: row.pricing as string | undefined,
+    createdAt: row.created_at as string,
+    addedBy: (row.added_by as string) || '',
+    skillCategory: row.skill_category as string | undefined,
+  });
 
-    // Real-time subscription
-    const subscription = supabase
-      .channel('assist_resources_changes')
-      .on('postgres_changes', 
-        { event: 'INSERT', schema: 'public', table: 'assist_resources' },
-        (payload) => {
-          const newResource = payload.new;
-          const convertedResource = {
-            id: newResource.id,
-            agentId: newResource.agent_id,
-            agentName: newResource.agent_name,
-            title: newResource.title,
-            description: newResource.description,
-            url: newResource.url || '',
-            category: newResource.category,
-            type: newResource.type,
-            tags: newResource.tags || [],
-            useCase: newResource.use_case,
-            rating: newResource.rating || 3,
-            usefulFor: newResource.useful_for || [],
-            githubStars: newResource.github_stars,
-            lastUpdated: newResource.last_updated,
-            pricing: newResource.pricing,
-            createdAt: newResource.created_at,
-            addedBy: newResource.added_by || newResource.agent_name,
-          };
-          
-          setResources(prev => [convertedResource, ...prev]);
-          
-          if (newResource.auto_generated) {
-            showNotification(`🔧 New tool from ${newResource.agent_name}: ${newResource.title}`);
-          }
+  // Helper: map AgentResource to DB row
+  const resourceToDb = (r: AgentResource, status: string = 'active') => ({
+    id: r.id,
+    agent_id: r.agentId,
+    agent_name: r.agentName,
+    title: r.title,
+    description: r.description,
+    plain_english: r.plainEnglish,
+    url: r.url,
+    category: r.category,
+    type: r.type,
+    tags: r.tags,
+    use_case: r.useCase,
+    rating: r.rating,
+    useful_for: r.usefulFor,
+    github_stars: r.githubStars || null,
+    last_updated: r.lastUpdated || null,
+    pricing: r.pricing || null,
+    added_by: r.addedBy,
+    skill_category: r.skillCategory || null,
+    status,
+  });
+
+  // Load from Supabase, seed mock data only if table is truly empty
+  useEffect(() => {
+    const loadFromDb = async () => {
+      setIsInitialLoad(true);
+      setDbError(null);
+
+      try {
+        // First, check if Supabase is actually reachable by doing a count query
+        const { count, error: countError } = await supabase
+          .from('agent_resources')
+          .select('*', { count: 'exact', head: true });
+
+        if (countError) {
+          console.error('[AgentAssist] Supabase connection error:', countError.message, countError.details);
+          setDbError(`Database connection failed: ${countError.message}`);
+          setResources(mockResources);
+          setDbReady(true);
+          setIsInitialLoad(false);
+          return;
         }
-      )
-      .subscribe();
 
-    return () => {
-      subscription.unsubscribe();
+        // If the table is truly empty (count === 0), seed once
+        if (count === 0) {
+          console.log('[AgentAssist] Empty table — seeding mock data');
+          const rows = mockResources.map(r => resourceToDb(r, 'active'));
+          const { error: seedError } = await supabase.from('agent_resources').upsert(rows);
+          if (seedError) {
+            console.error('[AgentAssist] Seed failed:', seedError.message);
+            setDbError(`Failed to seed initial data: ${seedError.message}`);
+          }
+          setResources(mockResources);
+          setArchivedResources([]);
+        } else {
+          // Load all rows
+          const { data, error: loadError } = await supabase
+            .from('agent_resources')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+          if (loadError) {
+            console.error('[AgentAssist] Load error:', loadError.message);
+            setDbError(`Failed to load resources: ${loadError.message}`);
+            setResources(mockResources);
+            setDbReady(true);
+            setIsInitialLoad(false);
+            return;
+          }
+
+          const rows = data || [];
+          const active = rows.filter((r: Record<string, unknown>) => r.status === 'active').map(dbToResource);
+          const archived = rows.filter((r: Record<string, unknown>) => r.status === 'archived').map(dbToResource);
+          setResources(active);
+          setArchivedResources(archived);
+          console.log(`[AgentAssist] Loaded ${active.length} active, ${archived.length} archived from Supabase`);
+        }
+      } catch (err: any) {
+        console.error('[AgentAssist] Unexpected error during load:', err);
+        setDbError(`Unexpected error: ${err?.message || 'Unknown'}`);
+        setResources(mockResources);
+      }
+
+      setDbReady(true);
+      setIsInitialLoad(false);
     };
-  }, [supabase]);
+    loadFromDb();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const showNotification = (message: string) => {
     if ('Notification' in window && Notification.permission === 'granted') {
@@ -260,125 +471,200 @@ export default function AgentAssist() {
     setIsLoading(true);
     try {
       const agentsToUse = agentIds.length > 0 ? agentIds : AGENTS.map(a => a.id);
+      const existingTitles = resources.map(r => r.title);
       
-      const newResources: AgentResource[] = [];
+      const res = await fetch('/api/agent-assist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: agentsToUse,
+          existingTitles,
+          creativity: creativityLevel,
+          budget: budgetTier,
+        }),
+      });
       
-      for (const agentId of agentsToUse) {
-        const agent = AGENTS.find(a => a.id === agentId);
-        if (!agent) continue;
-        
-        // Agent-specific resource recommendations
-        const agentResources = {
-          bobby: {
-            title: 'Alpha Vantage API',
-            description: 'Professional-grade financial market data API with real-time and historical stock, forex, and crypto data.',
-            url: 'https://www.alphavantage.co/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'Real-time market data for trading algorithms and portfolio management applications',
-            pricing: 'Free: 25 calls/day, Premium: $49.99/month for 1200 calls/minute',
-            githubStars: 0,
-            usefulFor: ['bobby', 'dax'],
-          },
-          tony: {
-            title: 'Square POS API',
-            description: 'Comprehensive point-of-sale API for restaurants with inventory management and payment processing.',
-            url: 'https://developer.squareup.com/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'Restaurant POS integration, inventory tracking, payment processing, and customer management',
-            pricing: 'Free to integrate, 2.6% + 10¢ per transaction',
-            githubStars: 0,
-            usefulFor: ['tony', 'milo'],
-          },
-          paula: {
-            title: 'Framer Motion',
-            description: 'Production-ready motion library for React with declarative animations and gesture support.',
-            url: 'https://www.framer.com/motion/',
-            category: 'library' as const,
-            type: 'open-source' as const,
-            useCase: 'Creating smooth animations and micro-interactions in React applications and websites',
-            pricing: 'Free and open source',
-            githubStars: 23400,
-            usefulFor: ['paula', 'anders'],
-          },
-          anders: {
-            title: 'Supabase',
-            description: 'Open source Firebase alternative with PostgreSQL database, authentication, and real-time subscriptions.',
-            url: 'https://supabase.com/',
-            category: 'service' as const,
-            type: 'free-tier' as const,
-            useCase: 'Backend-as-a-service for rapid application development with real-time features',
-            pricing: 'Free tier: 500MB DB, Pro: $25/month per project',
-            githubStars: 72600,
-            usefulFor: ['anders', 'milo', 'paula'],
-          },
-          dwight: {
-            title: 'NewsAPI',
-            description: 'JSON API for live worldwide news headlines and articles from 80,000+ sources.',
-            url: 'https://newsapi.org/',
-            category: 'api' as const,
-            type: 'free-tier' as const,
-            useCase: 'News aggregation, content curation, and real-time information gathering for research',
-            pricing: 'Free: 1000 requests/month, Pro: $449/month for 250k requests',
-            githubStars: 0,
-            usefulFor: ['dwight', 'milo'],
-          },
-          dax: {
-            title: 'Apache Superset',
-            description: 'Modern data exploration and visualization platform with rich set of data visualizations.',
-            url: 'https://superset.apache.org/',
-            category: 'tool' as const,
-            type: 'open-source' as const,
-            useCase: 'Business intelligence dashboards, data exploration, and interactive data visualization',
-            pricing: 'Free and open source',
-            githubStars: 62100,
-            usefulFor: ['dax', 'milo', 'dwight'],
-          },
-          milo: {
-            title: 'n8n',
-            description: 'Fair-code workflow automation tool for connecting APIs, databases, and services with visual workflows.',
-            url: 'https://n8n.io/',
-            category: 'tool' as const,
-            type: 'open-source' as const,
-            useCase: 'Business process automation, API orchestration, and workflow management',
-            pricing: 'Free self-hosted, Cloud: $20/month per user',
-            githubStars: 47800,
-            usefulFor: ['milo', 'anders', 'tony'],
-          },
-        };
-        
-        const resourceTemplate = agentResources[agentId as keyof typeof agentResources];
-        if (resourceTemplate) {
-          const mockResource: AgentResource = {
-            id: `${Date.now()}-${agentId}`,
-            agentId,
-            agentName: agent.name,
-            ...resourceTemplate,
-            tags: [agentId, 'recommended', resourceTemplate.category],
-            rating: 4 + Math.floor(Math.random() * 2), // 4-5
-            createdAt: new Date().toISOString(),
-            addedBy: agentId,
-          };
-          
-          newResources.push(mockResource);
+      if (!res.ok) throw new Error('API failed');
+      
+      const data = await res.json();
+      const newResources: AgentResource[] = data.resources || [];
+      
+      setResources(prev => [...newResources, ...prev]);
+      setIsLoading(false);
+      
+      // Persist to Supabase with error handling
+      if (newResources.length > 0) {
+        const rows = newResources.map(r => resourceToDb(r, 'active'));
+        const { error } = await supabase.from('agent_resources').upsert(rows);
+        if (error) {
+          console.error('[AgentAssist] Failed to persist generated resources:', error.message);
+          addToast('Generated resources but failed to save to database — they may not persist', 'error');
+        } else {
+          addToast(`Generated ${newResources.length} new resource${newResources.length > 1 ? 's' : ''}`, 'success');
         }
       }
       
-      setTimeout(() => {
-        setResources(prev => [...newResources, ...prev]);
-        setIsLoading(false);
-        
-        if (newResources.length === 1) {
-          showNotification(`🔧 New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
-        } else {
-          showNotification(`🔧 Generated ${newResources.length} new resource recommendations!`);
-        }
-      }, 1500);
-      
-    } catch (error) {
+      if (newResources.length === 1) {
+        showNotification(`New resource from ${newResources[0].agentName}: ${newResources[0].title}`);
+      } else if (newResources.length > 1) {
+        showNotification(`Generated ${newResources.length} new resource recommendations!`);
+      }
+    } catch (error: any) {
       console.error('Failed to generate resource:', error);
+      addToast('Failed to generate resources — try again', 'error');
       setIsLoading(false);
+    }
+  };
+
+  const generateSkillResource = async () => {
+    if (selectedAgents.length !== 1 || !skillDevCategory) return;
+    
+    const agentId = selectedAgents[0];
+    setIsSkillLoading(true);
+    try {
+      const agentData = agentSkillsData[agentId];
+      const currentRating = agentData?.ratings[skillDevCategory] || 5;
+      const existingTitles = resources.map(r => r.title);
+      
+      const res = await fetch('/api/agent-assist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          agentIds: [agentId],
+          existingTitles,
+          creativity: 'creative',
+          budget: budgetTier,
+          skillFocus: {
+            category: skillDevCategory,
+            currentRating,
+            targetRating: Math.min(currentRating + 1, 10),
+          },
+        }),
+      });
+      
+      if (!res.ok) throw new Error('API failed');
+      
+      const data = await res.json();
+      const newResources: AgentResource[] = data.resources || [];
+      
+      setResources(prev => [...newResources, ...prev]);
+      setIsSkillLoading(false);
+      
+      // Persist to Supabase with error handling
+      if (newResources.length > 0) {
+        const rows = newResources.map(r => resourceToDb(r, 'active'));
+        const { error } = await supabase.from('agent_resources').upsert(rows);
+        if (error) {
+          console.error('[AgentAssist] Failed to persist skill resources:', error.message);
+          addToast('Generated but failed to save — may not persist across devices', 'error');
+        } else {
+          addToast(`Generated ${newResources.length} ${skillDevCategory} improvement${newResources.length > 1 ? 's' : ''}`, 'success');
+        }
+      }
+      
+      if (newResources.length > 0) {
+        showNotification(`Generated ${newResources.length} ${skillDevCategory} improvement suggestions for ${agentSkillsData[agentId]?.name}`);
+      }
+    } catch (error: any) {
+      console.error('Failed to generate skill resource:', error);
+      addToast('Failed to generate skill resources — try again', 'error');
+      setIsSkillLoading(false);
+    }
+  };
+
+  const deleteResource = async (id: string) => {
+    // Save previous state for rollback
+    const prevResources = resources;
+    setResources(prev => prev.filter(r => r.id !== id));
+
+    const { error } = await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Delete failed:', error.message);
+      setResources(prevResources); // rollback
+      addToast('Failed to delete — try again', 'error');
+    }
+  };
+
+  const unarchiveResource = async (id: string) => {
+    const resource = archivedResources.find(r => r.id === id);
+    if (!resource) return;
+    
+    // Save previous state for rollback
+    const prevArchived = archivedResources;
+    const prevResources = resources;
+
+    setArchivedResources(prev => prev.filter(r => r.id !== id));
+    setResources(prev => [resource, ...prev]);
+    
+    const { error } = await supabase.from('agent_resources').update({ status: 'active' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Unarchive failed:', error.message);
+      setArchivedResources(prevArchived); // rollback
+      setResources(prevResources);
+      addToast('Failed to restore — try again', 'error');
+    } else {
+      addToast('Restored to suggestions', 'info');
+    }
+  };
+
+  const deleteArchivedResource = async (id: string) => {
+    const prevArchived = archivedResources;
+    setArchivedResources(prev => prev.filter(r => r.id !== id));
+
+    const { error } = await supabase.from('agent_resources').update({ status: 'deleted' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Delete archived failed:', error.message);
+      setArchivedResources(prevArchived); // rollback
+      addToast('Failed to delete — try again', 'error');
+    }
+  };
+
+  const verifyResource = async (id: string) => {
+    const resource = resources.find(r => r.id === id);
+    if (!resource) return;
+    
+    // Save previous state for rollback
+    const prevResources = resources;
+    const prevArchived = archivedResources;
+
+    // Optimistic update
+    setResources(prev => prev.filter(r => r.id !== id));
+    setArchivedResources(prev => [resource, ...prev]);
+    
+    // Persist to Supabase
+    const { error } = await supabase.from('agent_resources').update({ status: 'archived' }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Archive failed:', error.message);
+      // Rollback
+      setResources(prevResources);
+      setArchivedResources(prevArchived);
+      addToast('Failed to save to stack — try again', 'error');
+      return; // Don't proceed with skill update if archive failed
+    }
+
+    addToast(`"${resource.title}" saved to your stack`, 'success');
+
+    // If this resource was generated for a specific skill, bump the skill rating
+    if (resource?.skillCategory && resource?.agentId) {
+      try {
+        const res = await fetch('/api/agent-skills', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            agentId: resource.agentId,
+            category: resource.skillCategory,
+            delta: 0.5,
+          }),
+        });
+        if (res.ok) {
+          const result = await res.json();
+          if (result.previousRating !== result.newRating) {
+            console.log(`Skill updated: ${resource.agentName} ${resource.skillCategory} ${result.previousRating} → ${result.newRating}`);
+          }
+        }
+      } catch (e) {
+        console.error('Failed to update skill rating:', e);
+      }
     }
   };
 
@@ -427,10 +713,18 @@ export default function AgentAssist() {
     }
   });
 
-  const rateResource = (id: string, rating: number) => {
+  const rateResource = async (id: string, rating: number) => {
+    const prevResources = resources;
     setResources(prev => prev.map(resource => 
       resource.id === id ? { ...resource, rating } : resource
     ));
+    // Persist to Supabase with error handling
+    const { error } = await supabase.from('agent_resources').update({ rating }).eq('id', id);
+    if (error) {
+      console.error('[AgentAssist] Rating update failed:', error.message);
+      setResources(prevResources);
+      addToast('Failed to update rating', 'error');
+    }
   };
 
   const formatNumber = (num: number) => {
@@ -486,205 +780,627 @@ export default function AgentAssist() {
     }
   };
 
+  // ──────────────────────────────────────────
+  // Loading state
+  // ──────────────────────────────────────────
+  if (isInitialLoad) {
+    return (
+      <div style={styles.page}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <div style={{ marginBottom: '24px' }}>
+            <h1 style={styles.h1}>Agent Assist</h1>
+            <p style={styles.subtitle}>Open-source tools, APIs, and resources to enhance agent capabilities</p>
+          </div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '80px 40px',
+            gap: '16px',
+          }}>
+            <div style={{
+              width: '40px',
+              height: '40px',
+              border: `3px solid ${brand.border}`,
+              borderTopColor: brand.amber,
+              borderRadius: '50%',
+              animation: 'spin 0.8s linear infinite',
+            }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <p style={{ color: brand.smoke, fontSize: '14px' }}>Loading your stack from the cloud...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.page}>
+      <ToastContainer messages={toasts} onDismiss={dismissToast} />
+
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         <div style={{ marginBottom: '24px' }}>
           <h1 style={styles.h1}>Agent Assist</h1>
           <p style={styles.subtitle}>Open-source tools, APIs, and resources to enhance agent capabilities</p>
         </div>
 
-        {/* Filters & Search */}
+        {/* Database error banner */}
+        {dbError && (
+          <div style={{
+            background: 'rgba(239,68,68,0.08)',
+            border: '1px solid rgba(239,68,68,0.3)',
+            borderRadius: '12px',
+            padding: '14px 20px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}>
+            <AlertCircle size={18} style={{ color: '#EF4444', flexShrink: 0 }} />
+            <div style={{ flex: 1 }}>
+              <div style={{ color: '#EF4444', fontSize: '13px', fontWeight: 600, marginBottom: '2px' }}>
+                Sync Issue
+              </div>
+              <div style={{ color: '#F87171', fontSize: '12px' }}>
+                {dbError}. Showing local data — changes may not persist across devices.
+              </div>
+            </div>
+            <button
+              onClick={() => window.location.reload()}
+              style={{
+                background: 'rgba(239,68,68,0.15)',
+                border: '1px solid rgba(239,68,68,0.3)',
+                borderRadius: '8px',
+                padding: '6px 12px',
+                color: '#F87171',
+                fontSize: '12px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              Retry
+            </button>
+          </div>
+        )}
+
+        {/* Generate Resources */}
         <div style={{
-          ...styles.card,
-          padding: '20px',
+          background: '#0A0A0A',
+          border: `1px solid ${brand.border}`,
+          borderRadius: '16px',
+          padding: '28px 32px',
           marginBottom: '20px',
         }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-            gap: '16px',
-            marginBottom: '16px',
-          }}>
-            {/* Generate Resources Controls */}
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Generate Resources
-              </label>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '8px' }}>
-                <button
-                  onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
-                  style={{
-                    background: selectedAgents.length === AGENTS.length ? brand.amber : 'transparent',
-                    color: selectedAgents.length === AGENTS.length ? brand.void : brand.amber,
-                    border: `1px solid ${brand.amber}`,
-                    borderRadius: '4px',
-                    padding: '4px 8px',
-                    fontSize: '11px',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                  }}
-                >
-                  All
-                </button>
-                {AGENTS.map(agent => (
-                  <button
-                    key={agent.id}
-                    onClick={() => handleAgentSelect(agent.id)}
-                    style={{
-                      background: selectedAgents.includes(agent.id) ? agent.color : 'transparent',
-                      color: selectedAgents.includes(agent.id) ? brand.void : agent.color,
-                      border: `1px solid ${agent.color}`,
-                      borderRadius: '4px',
-                      padding: '4px 8px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    {agent.name}
-                  </button>
-                ))}
-              </div>
-              
+          {/* Header Row */}
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <Zap size={18} style={{ color: brand.amber }} />
+              <span style={{ color: brand.white, fontSize: '16px', fontWeight: 700 }}>Generate Resources</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <button
-                onClick={() => generateResource(selectedAgents)}
-                disabled={isLoading || selectedAgents.length === 0}
+                onClick={() => { setSelectedAgents([]); setBudgetTier('any'); setSkillDevCategory(null); }}
                 style={{
-                  background: isLoading || selectedAgents.length === 0 ? brand.smoke : brand.amber,
-                  color: brand.void,
-                  border: 'none',
-                  borderRadius: '6px',
-                  padding: '8px 16px',
-                  fontSize: '14px',
+                  background: 'transparent',
+                  color: brand.smoke,
+                  border: `1px solid ${brand.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontSize: '13px',
                   fontWeight: 600,
-                  cursor: isLoading || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
+                  cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  opacity: isLoading || selectedAgents.length === 0 ? 0.7 : 1,
-                  width: '100%',
+                  transition: 'all 0.15s',
                 }}
               >
-                {isLoading ? '⏳ Generating...' : `🚀 Generate (${selectedAgents.length})`}
+                <RotateCcw size={13} />
+                Clear
               </button>
-            </div>
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Search
-              </label>
-              <div style={{ position: 'relative' }}>
-                <Search size={16} style={{ 
-                  position: 'absolute', 
-                  left: '12px', 
-                  top: '50%', 
-                  transform: 'translateY(-50%)',
-                  color: brand.smoke 
-                }} />
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search tools, APIs, libraries..."
-                  style={{
-                    width: '100%',
-                    background: brand.graphite,
-                    border: `1px solid ${brand.border}`,
-                    borderRadius: '6px',
-                    padding: '8px 12px 8px 36px',
-                    color: brand.white,
-                    fontSize: '14px',
-                    outline: 'none',
-                  }}
-                />
-              </div>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Category
-              </label>
-              <select
-                value={selectedCategory || ''}
-                onChange={(e) => setSelectedCategory(e.target.value || null)}
+              <button
+                onClick={() => setSelectedAgents(AGENTS.map(a => a.id))}
                 style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
+                  background: selectedAgents.length === AGENTS.length ? `${brand.amber}15` : 'transparent',
+                  color: selectedAgents.length === AGENTS.length ? brand.amber : brand.smoke,
+                  border: `1px solid ${selectedAgents.length === AGENTS.length ? brand.amber : brand.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.15s',
                 }}
               >
-                <option value="">All Categories</option>
-                {categories.map(cat => (
-                  <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Type
-              </label>
-              <select
-                value={selectedType || ''}
-                onChange={(e) => setSelectedType(e.target.value || null)}
-                style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
-                }}
-              >
-                <option value="">All Types</option>
-                {types.map(type => (
-                  <option key={type} value={type}>
-                    {type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div>
-              <label style={{ color: brand.smoke, fontSize: '12px', display: 'block', marginBottom: '6px' }}>
-                Sort By
-              </label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as any)}
-                style={{
-                  width: '100%',
-                  background: brand.graphite,
-                  border: `1px solid ${brand.border}`,
-                  borderRadius: '6px',
-                  padding: '8px 12px',
-                  color: brand.white,
-                  fontSize: '14px',
-                  outline: 'none',
-                }}
-              >
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="rating">Highest Rated</option>
-                <option value="stars">Most GitHub Stars</option>
-              </select>
+                Select All
+              </button>
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: '16px', color: brand.smoke, fontSize: '14px' }}>
+          {/* Agent Selection */}
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '20px' }}>
+            {AGENTS.map(agent => {
+              const isOn = selectedAgents.includes(agent.id);
+              return (
+                <button
+                  key={agent.id}
+                  onClick={() => handleAgentSelect(agent.id)}
+                  style={{
+                    background: isOn ? `${agent.color}15` : '#111',
+                    color: isOn ? brand.white : brand.smoke,
+                    border: isOn ? `2px solid ${agent.color}` : `1px solid ${brand.border}`,
+                    borderRadius: '10px',
+                    padding: '8px 18px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    opacity: isOn ? 1 : 0.5,
+                    boxShadow: isOn ? `0 0 12px ${agent.color}20` : 'none',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                  }}
+                >
+                  <div style={{
+                    width: '8px',
+                    height: '8px',
+                    borderRadius: '50%',
+                    background: isOn ? agent.color : brand.smoke,
+                    transition: 'all 0.2s',
+                  }} />
+                  {agent.name}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Skill + Budget + Current Rating Row */}
+          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '20px', flexWrap: 'wrap', marginBottom: '20px' }}>
+            {/* Skill to Improve Dropdown */}
+            <div style={{ minWidth: '180px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <Brain size={14} style={{ color: '#8B5CF6' }} />
+                <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Skill to Improve</span>
+              </div>
+              <select
+                value={skillDevCategory || ''}
+                onChange={(e) => setSkillDevCategory(e.target.value as SkillCategory || null)}
+                style={{
+                  width: '100%',
+                  background: skillDevCategory ? `${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}15` : '#111',
+                  border: skillDevCategory ? `2px solid ${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}` : `1px solid ${brand.border}`,
+                  borderRadius: '8px',
+                  padding: '8px 12px',
+                  color: skillDevCategory ? brand.white : brand.smoke,
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  outline: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}
+              >
+                <option value="">Any / General</option>
+                {SKILL_CATEGORIES.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* Budget */}
+            <div style={{ flex: 1, minWidth: '280px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <div style={{ flex: 1, height: '1px', background: brand.border }} />
+                <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Budget</span>
+                <div style={{ flex: 1, height: '1px', background: brand.border }} />
+              </div>
+              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                {BUDGET_OPTIONS.map(opt => (
+                  <button
+                    key={opt.value}
+                    onClick={() => setBudgetTier(opt.value)}
+                    title={opt.description}
+                    style={{
+                      background: budgetTier === opt.value ? `${brand.amber}15` : '#111',
+                      color: budgetTier === opt.value ? brand.amber : brand.smoke,
+                      border: budgetTier === opt.value ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
+                      borderRadius: '8px',
+                      padding: '6px 14px',
+                      fontSize: '12px',
+                      fontWeight: 600,
+                      cursor: 'pointer',
+                      transition: 'all 0.2s',
+                      opacity: budgetTier === opt.value ? 1 : 0.6,
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Current Rating Display */}
+            {selectedAgents.length === 1 && skillDevCategory && agentSkillsData[selectedAgents[0]] && (
+              <div style={{
+                background: brand.graphite,
+                borderRadius: '10px',
+                padding: '10px 16px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                border: `1px solid ${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}40`,
+                flexShrink: 0,
+              }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ color: brand.smoke, fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', marginBottom: '2px' }}>
+                    Current
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '2px' }}>
+                    <span style={{
+                      fontSize: '24px',
+                      fontWeight: 700,
+                      color: agentSkillsData[selectedAgents[0]].ratings[skillDevCategory] <= 3 ? '#EF4444' :
+                             agentSkillsData[selectedAgents[0]].ratings[skillDevCategory] <= 6 ? brand.amber : '#22C55E',
+                    }}>
+                      {agentSkillsData[selectedAgents[0]].ratings[skillDevCategory]}
+                    </span>
+                    <span style={{ color: brand.smoke, fontSize: '12px' }}>/10</span>
+                  </div>
+                </div>
+                <div style={{ 
+                  color: SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color, 
+                  fontSize: '11px', 
+                  fontWeight: 600,
+                  padding: '4px 8px',
+                  background: `${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}15`,
+                  borderRadius: '6px',
+                }}>
+                  {agentSkillsData[selectedAgents[0]].name}&apos;s {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Skill Category Info Banner */}
+          {skillDevCategory && (
+            <div style={{
+              marginBottom: '20px',
+              padding: '10px 14px',
+              background: `${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}08`,
+              border: `1px solid ${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color}25`,
+              borderRadius: '8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}>
+              <Lightbulb size={14} style={{ color: SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color, flexShrink: 0 }} />
+              <span style={{ color: SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.color, fontWeight: 600, fontSize: '13px' }}>
+                {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}:
+              </span>
+              <span style={{ color: brand.silver, fontSize: '13px' }}>
+                {SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.description}
+              </span>
+            </div>
+          )}
+
+          {/* Generate Button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+            <button
+              onClick={() => {
+                if (skillDevCategory && selectedAgents.length === 1) {
+                  generateSkillResource();
+                } else {
+                  generateResource(selectedAgents);
+                }
+              }}
+              disabled={(isLoading || isSkillLoading) || selectedAgents.length === 0}
+              style={{
+                background: (isLoading || isSkillLoading) || selectedAgents.length === 0 ? brand.smoke : 
+                           (skillDevCategory && selectedAgents.length === 1) ? '#8B5CF6' : brand.amber,
+                color: (skillDevCategory && selectedAgents.length === 1) ? brand.white : brand.void,
+                border: 'none',
+                borderRadius: '10px',
+                padding: '12px 28px',
+                fontSize: '15px',
+                fontWeight: 700,
+                cursor: (isLoading || isSkillLoading) || selectedAgents.length === 0 ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                opacity: (isLoading || isSkillLoading) || selectedAgents.length === 0 ? 0.5 : 1,
+                boxShadow: (isLoading || isSkillLoading) || selectedAgents.length === 0 ? 'none' : 
+                          (skillDevCategory && selectedAgents.length === 1) ? '0 0 20px rgba(139,92,246,0.4)' : `0 0 20px ${brand.amber}40`,
+                transition: 'all 0.2s',
+                whiteSpace: 'nowrap',
+                flexShrink: 0,
+              }}
+            >
+              {(skillDevCategory && selectedAgents.length === 1) ? <Lightbulb size={16} /> : <Zap size={16} />}
+              {(isLoading || isSkillLoading) ? 'Generating...' : 
+               (skillDevCategory && selectedAgents.length === 1) ? `Improve ${SKILL_CATEGORIES.find(c => c.value === skillDevCategory)?.label}` :
+               `Generate (${selectedAgents.length})`}
+            </button>
+          </div>
+        </div>
+
+        {/* In Your Stack (Archive) */}
+        {archivedResources.length > 0 && (
+          <div style={{
+            background: '#0A0A0A',
+            border: `1px solid ${brand.border}`,
+            borderRadius: '16px',
+            marginBottom: '20px',
+            overflow: 'hidden',
+          }}>
+            {/* Header - Clickable to expand/collapse */}
+            <button
+              onClick={() => setShowArchive(!showArchive)}
+              style={{
+                width: '100%',
+                background: 'transparent',
+                border: 'none',
+                padding: '16px 24px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+              }}
+            >
+              {showArchive ? <ChevronDown size={18} style={{ color: brand.success }} /> : <ChevronRight size={18} style={{ color: brand.success }} />}
+              <Archive size={18} style={{ color: brand.success }} />
+              <span style={{ color: brand.white, fontSize: '15px', fontWeight: 700 }}>In Your Stack</span>
+              <span style={{
+                background: `${brand.success}20`,
+                color: brand.success,
+                padding: '2px 10px',
+                borderRadius: '12px',
+                fontSize: '12px',
+                fontWeight: 600,
+              }}>
+                {archivedResources.length}
+              </span>
+              <span style={{ color: brand.smoke, fontSize: '13px', marginLeft: 'auto' }}>
+                {showArchive ? 'Click to collapse' : 'Click to expand'}
+              </span>
+            </button>
+
+            {/* Archived Resources List */}
+            {showArchive && (
+              <div style={{ padding: '0 24px 24px 24px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {archivedResources.map(resource => {
+                    const agent = AGENTS.find(a => a.id === resource.agentId);
+                    return (
+                      <div
+                        key={resource.id}
+                        style={{
+                          background: brand.graphite,
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '12px',
+                          padding: '16px 20px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '16px',
+                        }}
+                      >
+                        {/* Category Icon */}
+                        <div style={{
+                          width: '36px',
+                          height: '36px',
+                          borderRadius: '8px',
+                          background: `${agent?.color || brand.smoke}15`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          color: agent?.color || brand.smoke,
+                          flexShrink: 0,
+                        }}>
+                          {CATEGORY_ICONS[resource.category]}
+                        </div>
+
+                        {/* Info */}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                            <span style={{ color: brand.white, fontSize: '14px', fontWeight: 600 }}>{resource.title}</span>
+                            <a
+                              href={resource.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{ color: brand.amber, display: 'flex' }}
+                              onClick={e => e.stopPropagation()}
+                            >
+                              <ExternalLink size={14} />
+                            </a>
+                          </div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <span style={{ color: agent?.color || brand.smoke, fontSize: '12px', fontWeight: 600 }}>
+                              {resource.agentName}
+                            </span>
+                            <span style={{ color: brand.smoke, fontSize: '11px' }}>•</span>
+                            <span style={{
+                              color: getTypeColor(resource.type),
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              textTransform: 'uppercase',
+                            }}>
+                              {resource.type.replace('-', ' ')}
+                            </span>
+                            {resource.pricing && (
+                              <>
+                                <span style={{ color: brand.smoke, fontSize: '11px' }}>•</span>
+                                <span style={{ color: brand.smoke, fontSize: '11px' }}>{resource.pricing}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Actions */}
+                        <div style={{ display: 'flex', gap: '8px', flexShrink: 0 }}>
+                          <button
+                            onClick={() => unarchiveResource(resource.id)}
+                            title="Move back to suggestions"
+                            style={{
+                              background: 'transparent',
+                              border: `1px solid ${brand.border}`,
+                              borderRadius: '6px',
+                              padding: '6px 10px',
+                              cursor: 'pointer',
+                              color: brand.smoke,
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '4px',
+                              fontSize: '11px',
+                              fontWeight: 600,
+                              transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = brand.amber; e.currentTarget.style.borderColor = brand.amber; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                          >
+                            <Undo2 size={12} /> Restore
+                          </button>
+                          <button
+                            onClick={() => deleteArchivedResource(resource.id)}
+                            title="Remove from archive"
+                            style={{
+                              background: 'transparent',
+                              border: `1px solid ${brand.border}`,
+                              borderRadius: '6px',
+                              padding: '6px',
+                              cursor: 'pointer',
+                              color: brand.smoke,
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              transition: 'all 0.15s',
+                            }}
+                            onMouseEnter={(e) => { e.currentTarget.style.color = brand.error; e.currentTarget.style.borderColor = brand.error; }}
+                            onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Search & Filters */}
+        <div style={{
+          ...styles.card,
+          padding: '16px 20px',
+          marginBottom: '20px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '12px',
+          flexWrap: 'wrap',
+        }}>
+          {/* Search */}
+          <div style={{ position: 'relative', flex: 1, minWidth: '200px' }}>
+            <Search size={15} style={{
+              position: 'absolute',
+              left: '12px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              color: brand.smoke,
+            }} />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search tools, APIs, libraries..."
+              style={{
+                width: '100%',
+                background: brand.graphite,
+                border: `1px solid ${brand.border}`,
+                borderRadius: '8px',
+                padding: '9px 12px 9px 36px',
+                color: brand.white,
+                fontSize: '14px',
+                outline: 'none',
+              }}
+            />
+          </div>
+
+          {/* Category */}
+          <select
+            value={selectedCategory || ''}
+            onChange={(e) => setSelectedCategory(e.target.value || null)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '140px',
+            }}
+          >
+            <option value="">All Categories</option>
+            {categories.map(cat => (
+              <option key={cat} value={cat}>
+                {cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
+          </select>
+
+          {/* Type */}
+          <select
+            value={selectedType || ''}
+            onChange={(e) => setSelectedType(e.target.value || null)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '130px',
+            }}
+          >
+            <option value="">All Types</option>
+            {types.map(type => (
+              <option key={type} value={type}>
+                {type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+              </option>
+            ))}
+          </select>
+
+          {/* Sort */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            style={{
+              background: brand.graphite,
+              border: `1px solid ${brand.border}`,
+              borderRadius: '8px',
+              padding: '9px 12px',
+              color: brand.white,
+              fontSize: '13px',
+              outline: 'none',
+              minWidth: '140px',
+            }}
+          >
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="rating">Highest Rated</option>
+            <option value="stars">Most GitHub Stars</option>
+          </select>
+
+          {/* Stats */}
+          <div style={{ display: 'flex', gap: '12px', color: brand.smoke, fontSize: '12px', marginLeft: 'auto', whiteSpace: 'nowrap' }}>
             <span>{filteredResources.length} resources</span>
-            <span>•</span>
+            <span style={{ color: brand.border }}>|</span>
             <span>{resources.filter(r => r.type === 'open-source').length} open source</span>
-            <span>•</span>
+            <span style={{ color: brand.border }}>|</span>
             <span>{resources.filter(r => r.rating >= 4).length} highly rated</span>
           </div>
         </div>
@@ -742,16 +1458,47 @@ export default function AgentAssist() {
                       </h3>
                     </div>
 
+                    {/* Clickable URL */}
+                    {resource.url && (
+                      <a
+                        href={resource.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: brand.amber,
+                          fontSize: '13px',
+                          textDecoration: 'none',
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: '6px',
+                          marginBottom: '10px',
+                          padding: '4px 10px',
+                          background: `${brand.amber}08`,
+                          border: `1px solid ${brand.amber}20`,
+                          borderRadius: '6px',
+                          transition: 'all 0.15s',
+                          maxWidth: '100%',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        <ExternalLink size={13} style={{ flexShrink: 0 }} />
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {resource.url.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                        </span>
+                      </a>
+                    )}
+
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
                       <div style={{
                         width: '24px',
                         height: '24px',
                         borderRadius: '4px',
-                        background: agent?.color || brand.smoke,
+                        background: '#000000',
+                        border: `2px solid ${agent?.color || brand.smoke}`,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        color: brand.void,
+                        color: agent?.color || brand.smoke,
                         fontWeight: 700,
                         fontSize: '10px',
                       }}>
@@ -775,6 +1522,23 @@ export default function AgentAssist() {
                       {resource.description}
                     </p>
 
+                    {resource.plainEnglish && (
+                      <div style={{
+                        background: 'rgba(245,158,11,0.06)',
+                        border: `1px solid rgba(245,158,11,0.15)`,
+                        borderRadius: '8px',
+                        padding: '12px 14px',
+                        marginBottom: '12px',
+                      }}>
+                        <div style={{ color: brand.amber, fontSize: '11px', fontWeight: 700, marginBottom: '4px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                          In Plain English
+                        </div>
+                        <div style={{ color: brand.silver, fontSize: '14px', lineHeight: '1.6' }}>
+                          {resource.plainEnglish}
+                        </div>
+                      </div>
+                    )}
+
                     <div style={{
                       background: brand.graphite,
                       borderRadius: '6px',
@@ -791,7 +1555,7 @@ export default function AgentAssist() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
+                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                       <span style={{
                         padding: '4px 8px',
                         borderRadius: '4px',
@@ -803,6 +1567,48 @@ export default function AgentAssist() {
                       }}>
                         {resource.type.replace('-', ' ')}
                       </span>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); verifyResource(resource.id); }}
+                        title="We have this — remove"
+                        style={{
+                          background: 'transparent',
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '6px',
+                          padding: '4px 8px',
+                          cursor: 'pointer',
+                          color: brand.smoke,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = brand.success; e.currentTarget.style.borderColor = brand.success; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                      >
+                        <CheckCircle size={13} /> Have it
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deleteResource(resource.id); }}
+                        title="Delete resource"
+                        style={{
+                          background: 'transparent',
+                          border: `1px solid ${brand.border}`,
+                          borderRadius: '6px',
+                          padding: '6px',
+                          cursor: 'pointer',
+                          color: brand.smoke,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          transition: 'all 0.15s',
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.color = brand.error; e.currentTarget.style.borderColor = brand.error; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.color = brand.smoke; e.currentTarget.style.borderColor = brand.border; }}
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
 
                     {resource.githubStars && (
@@ -864,7 +1670,7 @@ export default function AgentAssist() {
                     </div>
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                       {resource.usefulFor.map(agentId => {
-                        const agent = AGENTS.find(a => a.id === agentId);
+                        const usefulAgent = AGENTS.find(a => a.id === agentId);
                         return (
                           <span
                             key={agentId}
@@ -872,12 +1678,12 @@ export default function AgentAssist() {
                               padding: '3px 8px',
                               borderRadius: '12px',
                               fontSize: '11px',
-                              background: `${agent?.color || brand.smoke}20`,
-                              color: agent?.color || brand.smoke,
+                              background: `${usefulAgent?.color || brand.smoke}20`,
+                              color: usefulAgent?.color || brand.smoke,
                               fontWeight: 600,
                             }}
                           >
-                            {agent?.name || agentId}
+                            {usefulAgent?.name || agentId}
                           </span>
                         );
                       })}

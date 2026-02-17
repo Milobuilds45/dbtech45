@@ -1,7 +1,8 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { brand, styles } from '@/lib/brand';
-import { Bot, Send, User } from 'lucide-react';
+import { Bot, Send } from 'lucide-react';
 
 interface ChatMessage {
   id: string;
@@ -12,15 +13,16 @@ interface ChatMessage {
 }
 
 const AGENTS = [
-  { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI' },
-  { id: 'anders', name: 'Anders', role: 'Full Stack Architect', color: '#F97316', initials: 'AN' },
-  { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#EC4899', initials: 'PA' },
-  { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#EF4444', initials: 'AX' },
-  { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#6366F1', initials: 'DW' },
-  { id: 'tony', name: 'Tony', role: 'Operations', color: '#EAB308', initials: 'TN' },
-  { id: 'dax', name: 'Dax', role: 'Data Analyst', color: '#06B6D4', initials: 'DX' },
-  { id: 'remy', name: 'Remy', role: 'Marketing', color: '#22C55E', initials: 'RM' },
-  { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WR' },
+  { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI', image: '/os/agents/milo.png' },
+  { id: 'anders', name: 'Anders', role: 'Full Stack Architect', color: '#FF8C00', initials: 'AN', image: '/os/agents/anders.png' },
+  { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
+  { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#00A000', initials: 'BO', image: '/os/agents/bobby.png' },
+  { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#7B68EE', initials: 'DW', image: '/os/agents/dwight.png' },
+  { id: 'tony', name: 'Tony', role: 'Operations', color: '#F4D03F', initials: 'TN', image: '/os/agents/tony.png' },
+  { id: 'dax', name: 'Dax', role: 'Content Writer', color: '#00FFFF', initials: 'DX', image: '/os/agents/dax.png' },
+  { id: 'remy', name: 'Remy', role: 'Marketing', color: '#E53935', initials: 'RM', image: '/os/agents/remy.png' },
+  { id: 'webb', name: 'Webb', role: 'Deep Research', color: '#2979FF', initials: 'WB', image: '/os/agents/webb.png' },
+  { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WN', image: '/os/agents/wendy.png' },
 ];
 
 export default function AgentsDirectChat() {
@@ -55,14 +57,29 @@ export default function AgentsDirectChat() {
     setLoading(true);
 
     try {
-      // TODO: Replace with actual API call to agent
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+      // Send message to OpenClaw Gateway API
+      const response = await fetch('/api/gateway/send', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agentId: selectedAgent.id,
+          message: currentMessage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API request failed: ${response.status}`);
+      }
+
+      const data = await response.json();
       
       const agentResponse: ChatMessage = {
         id: (Date.now() + 1).toString(),
         from: 'agent',
         agent: selectedAgent.id,
-        message: `Hi Derek! This is ${selectedAgent.name}. I received your message: "${currentMessage}". This is a prototype - actual agent integration coming soon!`,
+        message: data.response || `Response received from ${selectedAgent.name}`,
         timestamp: new Date(),
       };
 
@@ -74,7 +91,7 @@ export default function AgentsDirectChat() {
         id: (Date.now() + 1).toString(),
         from: 'agent',
         agent: selectedAgent.id,
-        message: 'Sorry, I encountered an error. Please try again.',
+        message: 'Sorry, I encountered an error connecting to the agent. Please try again.',
         timestamp: new Date(),
       };
       setMessages(prev => [...prev, errorMessage]);
@@ -140,20 +157,33 @@ export default function AgentsDirectChat() {
                     transition: 'all 0.2s',
                   }}
                 >
-                  <div style={{
-                    width: '36px',
-                    height: '36px',
-                    borderRadius: '8px',
-                    background: agent.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: brand.void,
-                    fontWeight: 700,
-                    fontSize: '12px',
-                  }}>
-                    {agent.initials}
-                  </div>
+                  {agent.image ? (
+                    <div style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '8px',
+                      overflow: 'hidden',
+                      background: '#000000',
+                    }}>
+                      <Image src={agent.image} alt={agent.name} width={36} height={36} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '8px',
+                      background: '#000000',
+                      border: `2px solid ${agent.color}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: agent.color,
+                      fontWeight: 700,
+                      fontSize: '12px',
+                    }}>
+                      {agent.initials}
+                    </div>
+                  )}
                   <div>
                     <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>
                       {agent.name}
@@ -185,20 +215,33 @@ export default function AgentsDirectChat() {
               gap: '12px',
               background: brand.graphite,
             }}>
-              <div style={{
-                width: '32px',
-                height: '32px',
-                borderRadius: '6px',
-                background: selectedAgent.color,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: brand.void,
-                fontWeight: 700,
-                fontSize: '12px',
-              }}>
-                {selectedAgent.initials}
-              </div>
+              {selectedAgent.image ? (
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  overflow: 'hidden',
+                  background: '#000000',
+                }}>
+                  <Image src={selectedAgent.image} alt={selectedAgent.name} width={32} height={32} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                </div>
+              ) : (
+                <div style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '6px',
+                  background: '#000000',
+                  border: `2px solid ${selectedAgent.color}`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: selectedAgent.color,
+                  fontWeight: 700,
+                  fontSize: '12px',
+                }}>
+                  {selectedAgent.initials}
+                </div>
+              )}
               <div>
                 <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>
                   {selectedAgent.name}
@@ -243,25 +286,46 @@ export default function AgentsDirectChat() {
                     flexDirection: msg.from === 'user' ? 'row-reverse' : 'row',
                   }}
                 >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '6px',
-                    background: msg.from === 'user' ? brand.amber : selectedAgent.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: brand.void,
-                    flexShrink: 0,
-                  }}>
-                    {msg.from === 'user' ? (
-                      <User size={16} />
-                    ) : (
-                      <span style={{ fontWeight: 700, fontSize: '10px' }}>
-                        {selectedAgent.initials}
-                      </span>
-                    )}
-                  </div>
+                  {msg.from === 'user' ? (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      border: `2px solid ${brand.amber}`,
+                      overflow: 'hidden',
+                      flexShrink: 0,
+                    }}>
+                      <Image src="/derek-avatar.png" alt="Derek" width={32} height={32} style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top', transform: 'scale(1.25)' }} />
+                    </div>
+                  ) : selectedAgent.image ? (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      background: '#000000',
+                      flexShrink: 0,
+                    }}>
+                      <Image src={selectedAgent.image} alt={selectedAgent.name} width={32} height={32} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      background: '#000000',
+                      border: `2px solid ${selectedAgent.color}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: selectedAgent.color,
+                      flexShrink: 0,
+                      fontWeight: 700,
+                      fontSize: '10px',
+                    }}>
+                      {selectedAgent.initials}
+                    </div>
+                  )}
 
                   <div style={{
                     maxWidth: '70%',
@@ -295,20 +359,33 @@ export default function AgentsDirectChat() {
                   alignItems: 'center',
                   gap: '12px',
                 }}>
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '6px',
-                    background: selectedAgent.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: brand.void,
-                    fontWeight: 700,
-                    fontSize: '10px',
-                  }}>
-                    {selectedAgent.initials}
-                  </div>
+                  {selectedAgent.image ? (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      overflow: 'hidden',
+                      background: '#000000',
+                    }}>
+                      <Image src={selectedAgent.image} alt={selectedAgent.name} width={32} height={32} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    </div>
+                  ) : (
+                    <div style={{
+                      width: '32px',
+                      height: '32px',
+                      borderRadius: '6px',
+                      background: '#000000',
+                      border: `2px solid ${selectedAgent.color}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: selectedAgent.color,
+                      fontWeight: 700,
+                      fontSize: '10px',
+                    }}>
+                      {selectedAgent.initials}
+                    </div>
+                  )}
                   <div style={{
                     padding: '12px 16px',
                     borderRadius: '12px',

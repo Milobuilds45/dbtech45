@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#000000"/>
+  <!-- Circle frame -->
+  <circle cx="512" cy="512" r="420" fill="none" stroke="#B19CD9" stroke-width="24"/>
+  <!-- Brain icon - simplified line art -->
+  <!-- Left hemisphere -->
+  <path d="M 512 340 
+           C 440 340, 360 380, 360 460 
+           C 360 500, 380 530, 360 560 
+           C 340 590, 340 630, 370 660 
+           C 400 690, 460 690, 512 680" 
+        fill="none" stroke="#B19CD9" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Right hemisphere -->
+  <path d="M 512 340 
+           C 584 340, 664 380, 664 460 
+           C 664 500, 644 530, 664 560 
+           C 684 590, 684 630, 654 660 
+           C 624 690, 564 690, 512 680" 
+        fill="none" stroke="#B19CD9" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Center dividing line -->
+  <line x1="512" y1="340" x2="512" y2="680" stroke="#B19CD9" stroke-width="18"/>
+  <!-- Brain folds - left -->
+  <path d="M 400 440 C 430 460, 470 450, 500 460" fill="none" stroke="#B19CD9" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 390 540 C 420 555, 460 545, 500 555" fill="none" stroke="#B19CD9" stroke-width="16" stroke-linecap="round"/>
+  <!-- Brain folds - right -->
+  <path d="M 624 440 C 594 460, 554 450, 524 460" fill="none" stroke="#B19CD9" stroke-width="16" stroke-linecap="round"/>
+  <path d="M 634 540 C 604 555, 564 545, 524 555" fill="none" stroke="#B19CD9" stroke-width="16" stroke-linecap="round"/>
+  <!-- Brain stem -->
+  <path d="M 490 680 L 490 720 C 490 740, 534 740, 534 720 L 534 680" fill="none" stroke="#B19CD9" stroke-width="18" stroke-linecap="round"/>
+</svg>

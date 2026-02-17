@@ -1,0 +1,228 @@
+{
+  "lastUpdated": "2026-02-17T18:08:00Z",
+  "ratingScale": {
+    "1": "Novice",
+    "2": "Novice", 
+    "3": "Learning",
+    "4": "Learning",
+    "5": "Competent",
+    "6": "Competent",
+    "7": "Strong",
+    "8": "Strong",
+    "9": "Expert",
+    "10": "Expert"
+  },
+  "agents": {
+    "milo": {
+      "name": "Milo",
+      "role": "Chief of Staff",
+      "color": "#A855F7",
+      "icon": "⚡",
+      "description": "Orchestrates agent collaboration, manages priorities, coordinates sprints, and maintains system memory",
+      "ratings": {
+        "technical": 5,
+        "business": 6,
+        "core": 7,
+        "autonomy": 6,
+        "awareness": 6
+      },
+      "skills": [
+        { "name": "Agent Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Strategic Planning", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Memory Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Sprint Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Git/GitHub", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Cron Scheduling", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Session Routing", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
+        { "name": "Project Management", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Documentation", "level": "Expert", "category": "business", "addedDate": "2026-01-01" }
+      ],
+      "notes": "Strong on coordination, needs more technical depth"
+    },
+    "anders": {
+      "name": "Anders",
+      "role": "Full Stack Architect",
+      "color": "#F97316",
+      "icon": "AN",
+      "description": "Builds and deploys production applications, manages infrastructure, handles complex integrations",
+      "ratings": {
+        "technical": 9,
+        "business": 4,
+        "core": 7,
+        "autonomy": 7,
+        "awareness": 4
+      },
+      "ratingNotes": "Technical expert. Business: 'done but not deployed' issues - needs to verify delivery.",
+      "skills": [
+        { "name": "Next.js Development", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "TypeScript", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "React/JSX", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Database Design", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Deployment/Vercel", "level": "Expert", "category": "technical", "addedDate": "2026-01-15" },
+        { "name": "Node.js/Express", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Tailwind CSS", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Python", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
+        { "name": "Code Review", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Technical Architecture", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "DevOps", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
+      ],
+      "notes": "Technical expert, business skills need work - target: business 7"
+    },
+    "paula": {
+      "name": "Paula",
+      "role": "Creative Director",
+      "color": "#EC4899",
+      "icon": "✦",
+      "description": "Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic",
+      "ratings": {
+        "technical": 6,
+        "business": 5,
+        "core": 8,
+        "autonomy": 7,
+        "awareness": 5
+      },
+      "skills": [
+        { "name": "UI/UX Design", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Brand Identity", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Design Systems", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Visual Hierarchy", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Figma", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Frontend Design", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Image Generation", "level": "Advanced", "category": "technical", "addedDate": "2026-02-14" },
+        { "name": "Brand Strategy", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Design Research", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
+      ],
+      "notes": "Design expert, could improve business/strategy skills"
+    },
+    "bobby": {
+      "name": "Bobby",
+      "role": "Trading Advisor",
+      "color": "#22C55E",
+      "icon": "AX",
+      "description": "Analyzes markets, generates trading signals, manages risk, provides investment education",
+      "ratings": {
+        "technical": 7,
+        "business": 8,
+        "core": 8,
+        "autonomy": 8,
+        "awareness": 8
+      },
+      "skills": [
+        { "name": "Market Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Options Trading", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Risk Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Trade Execution", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "TradingView", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Financial APIs", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Python/Trading", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
+        { "name": "Investment Research", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Financial Education", "level": "Expert", "category": "business", "addedDate": "2026-01-15" }
+      ],
+      "notes": "Strong across the board"
+    },
+    "dwight": {
+      "name": "Dwight",
+      "role": "Intelligence Officer",
+      "color": "#3B82F6",
+      "icon": "DW",
+      "description": "Monitors systems, provides briefings, analyzes performance, manages intelligence gathering",
+      "ratings": {
+        "technical": 5,
+        "business": 5,
+        "core": 7,
+        "autonomy": 5,
+        "awareness": 8
+      },
+      "skills": [
+        { "name": "System Monitoring", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Intelligence Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "News Aggregation", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Web Scraping", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "News APIs", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Brief Writing", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Trend Analysis", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
+      ],
+      "notes": "Good at intel, needs more business acumen"
+    },
+    "dax": {
+      "name": "Dax",
+      "role": "Social Media Strategist",
+      "color": "#06B6D4",
+      "icon": "DX",
+      "description": "Analyzes social trends, creates content strategies, manages digital presence and engagement",
+      "ratings": {
+        "technical": 6,
+        "business": 5,
+        "core": 7,
+        "autonomy": 6,
+        "awareness": 7
+      },
+      "skills": [
+        { "name": "Social Media Strategy", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Content Planning", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Trend Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "X/Twitter API", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Social Analytics", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
+        { "name": "Brand Voice", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Community Management", "level": "Advanced", "category": "business", "addedDate": "2026-01-15" }
+      ],
+      "notes": "Strong on social, needs business metrics focus"
+    },
+    "remy": {
+      "name": "Remy",
+      "role": "Restaurant Operations & Marketing",
+      "color": "#EAB308",
+      "icon": "RM",
+      "description": "Complete restaurant expertise combining operations and marketing. Manages Toast POS, inventory, staff scheduling, cost control, social media, and promotional campaigns with Tony's practical operational mindset",
+      "ratings": {
+        "technical": 5,
+        "business": 8,
+        "core": 8,
+        "autonomy": 7,
+        "awareness": 6
+      },
+      "skills": [
+        { "name": "Menu Engineering", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Inventory Management", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Staff Scheduling", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Cost Control", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Restaurant Marketing", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Social Media Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Promotional Strategy", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Operations Management", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Toast POS", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Restaurant Software", "level": "Advanced", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Meta Business", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Google My Business", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Team Leadership", "level": "Advanced", "category": "business", "addedDate": "2026-02-17" },
+        { "name": "Local Marketing", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
+        { "name": "Customer Retention", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
+      ],
+      "notes": "Merged Tony's operational expertise with Remy's marketing knowledge. Unified restaurant strategy with Tony's practical mindset and proactive planning approach"
+    },
+    "wendy": {
+      "name": "Wendy",
+      "role": "Personal Assistant",
+      "color": "#8B5CF6",
+      "icon": "WR",
+      "description": "Manages personal matters, family coordination, wellness tracking, and lifestyle optimization",
+      "ratings": {
+        "technical": 4,
+        "business": 3,
+        "core": 8,
+        "autonomy": 6,
+        "awareness": 4
+      },
+      "skills": [
+        { "name": "Family Coordination", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Personal Wellness", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Calendar Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
+        { "name": "Personal Development", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Calendar Systems", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Voice Synthesis", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
+        { "name": "Life Coaching", "level": "Advanced", "category": "business", "addedDate": "2026-01-01" }
+      ],
+      "notes": "Personal expert, business skills lowest priority"
+    }
+  }
+}

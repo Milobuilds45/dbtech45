@@ -1,6 +1,7 @@
 'use client';
 
 import { brand, styles } from '@/lib/brand';
+import OpsGuard from '@/components/OpsGuard';
 
 const COLORS = [
   { name: 'Void', hex: '#000000', desc: 'Primary background' },
@@ -13,7 +14,7 @@ const COLORS = [
   { name: 'Silver', hex: '#A3A3A3', desc: 'Body text, descriptions' },
   { name: 'Smoke', hex: '#737373', desc: 'Muted text, timestamps' },
   { name: 'Success', hex: '#10B981', desc: 'Shipped, online, positive' },
-  { name: 'Error', hex: '#EF4444', desc: 'Critical, high priority' },
+  { name: 'Error', hex: '#22C55E', desc: 'Critical, high priority' },
   { name: 'Info', hex: '#3B82F6', desc: 'Links, informational' },
   { name: 'Warning', hex: '#EAB308', desc: 'In progress, caution' },
   { name: 'Border', hex: '#222222', desc: 'Card borders, dividers' },
@@ -25,19 +26,28 @@ const TYPOGRAPHY = [
 ];
 
 const LOGOS = [
-  { name: 'DB Badge', element: 'DB', desc: 'Primary mark -- amber square with DB initials', bg: brand.amber, color: brand.void },
-  { name: 'Wordmark', element: 'DBTECH45', desc: 'Full wordmark for headers and nav', bg: 'transparent', color: brand.white },
-  { name: 'Terminal Prompt', element: '~/DBTech45', desc: 'Terminal-style logo for dev contexts', bg: 'transparent', color: brand.amber },
-  { name: 'Derek Avatar', element: null, desc: 'Personal brand mark with gold trims', bg: 'transparent', color: brand.white, isImage: true, imagePath: '/derek-avatar.png' },
+  { name: 'Derek Avatar', desc: 'Personal brand mark with gold trims', isImage: true, imagePath: '/derek-avatar.png', rounded: true },
+  { name: 'Wordmark Bold Condensed', desc: 'Headers, dark backgrounds', isImage: true, imagePath: '/brand/db45-wordmark-bold.png', rounded: false, seamless: true },
+  { name: 'Wordmark Bold Inverse', desc: 'Light backgrounds, accent sections', isImage: true, imagePath: '/brand/db45-wordmark-bold-inverse.png', rounded: false, lightBg: true },
+  { name: 'Wordmark Italic', desc: 'Sports/dynamic content', isImage: false, element: 'DBTECH45', fontStyle: 'italic' },
+  { name: 'Wordmark Italic Inverse', desc: 'Light backgrounds', isImage: true, imagePath: '/brand/db45-italic-inverse.png', rounded: false, lightBg: true },
+  { name: 'Cap Brandmark', desc: 'Favicon, icons, small contexts', isImage: true, imagePath: '/brand/dbtech-logo-cap.png', rounded: true, scale: 1.8 },
 ] as const;
+
+const BRAND_ASSETS = [
+  { filename: 'derek-avatar.png', path: '/derek-avatar.png', useCase: 'Profile images, about sections, personal branding' },
+  { filename: 'db45-wordmark-bold.png', path: '/brand/db45-wordmark-bold.png', useCase: 'Headers, navigation, dark backgrounds' },
+  { filename: 'db45-wordmark-bold-inverse.png', path: '/brand/db45-wordmark-bold-inverse.png', useCase: 'Light backgrounds, accent sections, print' },
+  { filename: 'db45-italic-inverse.png', path: '/brand/db45-italic-inverse.png', useCase: 'Light backgrounds, sports/dynamic content' },
+  { filename: 'dbtech-logo-cap.png', path: '/brand/dbtech-logo-cap.png', useCase: 'Favicon, app icons, small contexts, social avatars' },
+];
 
 const AGENTS = [
   { name: 'Anders', role: 'Full Stack Architect', initials: 'AN', color: '#F97316' },
   { name: 'Paula', role: 'Design Director', initials: 'PA', color: '#EC4899' },
   { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
-  { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#EF4444' },
-  { name: 'Remy', role: 'Marketing', initials: 'RM', color: '#22C55E' },
-  { name: 'Tony', role: 'Operations', initials: 'TN', color: '#EAB308' },
+  { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#22C55E' },
+  { name: 'Remy', role: 'Restaurant Operations & Marketing', initials: 'RM', color: '#EAB308' },
   { name: 'Dax', role: 'Content / Data', initials: 'DX', color: '#06B6D4' },
   { name: 'Webb', role: 'Research', initials: 'WB', color: '#3B82F6' },
   { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1' },
@@ -46,6 +56,7 @@ const AGENTS = [
 
 export default function BrandKitPage() {
   return (
+    <OpsGuard>
     <div style={styles.page}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <h1 style={styles.h1}>Brand Kit</h1>
@@ -53,43 +64,59 @@ export default function BrandKitPage() {
 
         {/* Logo Marks */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Logo Marks</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Logo Marks</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {LOGOS.map((l: any) => (
               <div key={l.name} style={{ ...styles.card, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', padding: '2rem' }}>
                 {l.isImage ? (
                   <div style={{ 
-                    width: '120px', 
+                    width: l.rounded ? '120px' : '240px', 
                     height: '120px', 
-                    borderRadius: '16px', 
+                    borderRadius: l.rounded ? '16px' : '12px', 
                     overflow: 'hidden',
-                    border: `2px solid ${brand.amber}`,
-                    background: brand.graphite,
+                    border: (l.lightBg || l.seamless) ? 'none' : `2px solid ${brand.amber}`,
+                    background: (l.lightBg || l.seamless) ? 'transparent' : brand.graphite,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center'
+                    justifyContent: 'center',
+                    padding: (l.lightBg || l.seamless) ? '0' : (l.rounded ? '0' : '16px'),
                   }}>
                     <img 
                       src={l.imagePath} 
                       alt={l.name}
                       style={{ 
-                        width: '100%', 
-                        height: '100%', 
-                        objectFit: 'cover',
-                        objectPosition: 'center'
+                        maxWidth: '100%', 
+                        maxHeight: '100%', 
+                        objectFit: (l.lightBg || l.seamless) ? 'contain' : (l.rounded ? 'cover' : 'contain'),
+                        objectPosition: 'center',
+                        width: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        height: (l.lightBg || l.seamless) ? '100%' : (l.rounded ? '100%' : 'auto'),
+                        transform: l.scale ? `scale(${l.scale})` : undefined,
                       }}
                     />
                   </div>
                 ) : (
                   <div style={{
-                    background: l.bg, color: l.color, padding: l.bg === 'transparent' ? '0' : '16px 20px',
-                    borderRadius: l.bg === 'transparent' ? '0' : '12px', fontWeight: 700,
-                    fontSize: l.name === 'DB Badge' ? '24px' : '20px',
-                    fontFamily: l.name === 'Terminal Prompt' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif",
-                    letterSpacing: l.name === 'Wordmark' ? '0.1em' : undefined,
+                    width: '240px',
+                    height: '120px',
+                    borderRadius: '12px',
+                    overflow: 'hidden',
+                    border: `2px solid ${brand.amber}`,
+                    background: brand.graphite,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}>
-                    {l.name === 'Terminal Prompt' && <span style={{ color: brand.smoke }}>~/</span>}
-                    {l.name === 'Terminal Prompt' ? 'DBTech45' : l.element}
+                    <span style={{
+                      color: brand.amber,
+                      fontWeight: 700,
+                      fontSize: '28px',
+                      fontStyle: l.fontStyle || 'normal',
+                      fontFamily: "'Inter', sans-serif",
+                      letterSpacing: '0.08em',
+                    }}>
+                      {l.element}
+                    </span>
                   </div>
                 )}
                 <div style={{ textAlign: 'center' }}>
@@ -101,9 +128,38 @@ export default function BrandKitPage() {
           </div>
         </section>
 
+        {/* Brand Assets */}
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Brand Assets</h2>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+            {BRAND_ASSETS.map((a) => (
+              <div key={a.filename} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '16px', padding: '16px' }}>
+                <div style={{ 
+                  width: '80px', 
+                  height: '80px', 
+                  borderRadius: '12px', 
+                  overflow: 'hidden', 
+                  border: `1px solid ${brand.border}`, 
+                  background: brand.graphite, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  <img src={a.path} alt={a.filename} style={{ maxWidth: '90%', maxHeight: '90%', objectFit: 'contain' }} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ color: brand.white, fontFamily: "'JetBrains Mono', monospace", fontSize: '13px', fontWeight: 600, marginBottom: '6px' }}>{a.filename}</div>
+                  <div style={{ color: brand.smoke, fontSize: '12px', lineHeight: '1.4' }}>{a.useCase}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Color Palette */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Color Palette</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Color Palette</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '12px' }}>
             {COLORS.map(c => (
               <div key={c.name} style={{ ...styles.card, padding: '0', overflow: 'hidden' }}>
@@ -122,7 +178,7 @@ export default function BrandKitPage() {
 
         {/* Typography */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Typography</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Typography</h2>
           <div style={{ display: 'grid', gap: '16px' }}>
             {TYPOGRAPHY.map(t => (
               <div key={t.name} style={styles.card}>
@@ -143,14 +199,15 @@ export default function BrandKitPage() {
 
         {/* Agent Identities */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Agent Identities</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Agent Identities</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '12px' }}>
             {AGENTS.map(a => (
               <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
                 <div style={{
-                  width: '40px', height: '40px', borderRadius: '10px', background: a.color,
+                  width: '40px', height: '40px', borderRadius: '10px', background: brand.void,
+                  border: `2px solid ${a.color}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: brand.void, fontWeight: 700, fontSize: '13px', flexShrink: 0,
+                  color: a.color, fontWeight: 700, fontSize: '13px', flexShrink: 0,
                 }}>{a.initials}</div>
                 <div>
                   <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{a.name}</div>
@@ -163,7 +220,7 @@ export default function BrandKitPage() {
 
         {/* Usage Rules */}
         <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, marginBottom: '16px' }}>Usage Rules</h2>
+          <h2 style={{ color: brand.amber, fontSize: '18px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em', marginBottom: '16px' }}>Usage Rules</h2>
           <div style={styles.card}>
             <div style={{ display: 'grid', gap: '12px' }}>
               {[
@@ -190,5 +247,6 @@ export default function BrandKitPage() {
         </div>
       </div>
     </div>
+    </OpsGuard>
   );
 }

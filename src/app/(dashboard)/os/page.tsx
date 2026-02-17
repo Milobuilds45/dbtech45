@@ -8,7 +8,7 @@ export default function OSPage() {
     void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
     amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
     white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#EF4444', info: '#3B82F6', warning: '#EAB308',
+    success: '#10B981', error: '#22C55E', info: '#3B82F6', warning: '#EAB308',
     border: '#222222',
   };
 
@@ -60,13 +60,75 @@ export default function OSPage() {
   return (
     <div style={{ padding: '20px 30px' }}>
       <div style={{ marginBottom: '30px' }}>
-        <div style={{ fontSize: '28px', fontWeight: 700, color: b.white }}>Mission Control</div>
-        <div style={{ color: b.smoke, marginTop: '4px' }}>Real-time data from Supabase -- {goals.length} goals, {todos.length} todos tracked</div>
+        <div style={{ fontSize: '28px', fontWeight: 700, color: b.white, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>Derek OS</div>
+        <div style={{ color: b.smoke, marginTop: '4px' }}>Operating system for Derek's AI agent ecosystem -- {goals.length} goals, {todos.length} todos tracked</div>
+      </div>
+
+      {/* MILO Mission Control - NEW! */}
+      <div style={{ background: `linear-gradient(135deg, ${b.carbon}, ${b.graphite})`, border: `2px solid ${b.amber}`, borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <h2 style={{ color: b.amber, marginBottom: '12px', fontSize: '24px', fontWeight: 700, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em', display: 'flex', alignItems: 'center', gap: '12px' }}>
+              MILO MISSION CONTROL
+              <span style={{ 
+                fontSize: '10px', 
+                background: b.success, 
+                color: b.void,
+                padding: '3px 6px', 
+                borderRadius: '3px', 
+                fontWeight: 600 
+              }}>
+                NEW!
+              </span>
+            </h2>
+            <p style={{ color: b.silver, marginBottom: '20px', fontSize: '16px' }}>
+              Real-time gateway health, agent status, cron monitoring, and system alerts
+            </p>
+            <p style={{ color: b.smoke, fontSize: '14px' }}>
+              Built by Milo during overnight ops • Live system diagnostics • Auto-refresh monitoring
+            </p>
+          </div>
+          <div style={{ fontSize: '48px', color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, opacity: 0.15 }}>MC</div>
+        </div>
+        
+        <div style={{ display: 'flex', gap: '16px', marginTop: '24px', flexWrap: 'wrap' }}>
+          <button 
+            style={{ 
+              background: b.amber, 
+              color: b.void, 
+              border: 'none', 
+              padding: '14px 28px', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              fontWeight: 700, 
+              fontSize: '16px',
+              boxShadow: `0 4px 12px ${b.amber}33`
+            }}
+            onClick={() => window.location.href = '/os/mission-control'}
+          >
+            Launch Mission Control
+          </button>
+          <button 
+            style={{ 
+              background: 'none', 
+              color: b.amber, 
+              border: `2px solid ${b.amber}`, 
+              padding: '12px 24px', 
+              borderRadius: '8px', 
+              cursor: 'pointer', 
+              fontWeight: 600, 
+              fontSize: '14px' 
+            }}
+            onClick={() => alert('Features: Gateway health, Agent heartbeats, Cron monitoring, System alerts, Real-time diagnostics')}
+          >
+            View Features
+          </button>
+        </div>
       </div>
 
       {/* Brand Assets */}
       <div style={{ background: b.carbon, border: `1px solid ${b.border}`, borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
-        <h2 style={{ color: b.amber, marginBottom: '16px', fontSize: '20px', fontWeight: 700 }}>Brand Assets by Paula</h2>
+        <h2 style={{ color: b.amber, marginBottom: '16px', fontSize: '20px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Brand Assets by Paula</h2>
         <p style={{ color: b.silver, marginBottom: '20px', fontSize: '14px' }}>Complete DBTECH45 brand system</p>
         <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
           <button style={{ background: b.amber, color: b.void, border: 'none', padding: '12px 24px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}
@@ -85,7 +147,7 @@ export default function OSPage() {
 
         {/* Goals */}
         <div style={card}>
-          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>Live Goals Progress</h3>
+          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Live Goals Progress</h3>
           {goals.length === 0 && <div style={{ color: b.smoke, fontSize: '14px' }}>No active goals</div>}
           {goals.map((g) => {
             const pct = g.target_value ? Math.round((g.current_value / g.target_value) * 100) : 0;
@@ -93,13 +155,13 @@ export default function OSPage() {
               <div key={g.id} style={{ marginBottom: '12px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px', fontSize: '14px' }}>
                   <span style={{ color: b.silver }}>{g.title}</span>
-                  <span style={{ color: progressColor(pct) }}>{pct}%</span>
+                  <span style={{ color: progressColor(pct), fontFamily: "'JetBrains Mono', monospace", fontVariantNumeric: 'tabular-nums' }}>{pct}%</span>
                 </div>
                 <div style={{ background: b.graphite, height: '4px', borderRadius: '2px' }}>
                   <div style={{ background: progressColor(pct), width: `${pct}%`, height: '100%', borderRadius: '2px', transition: 'width 0.3s' }} />
                 </div>
                 {g.deadline && (
-                  <div style={{ fontSize: '11px', color: b.smoke, marginTop: '2px' }}>Due: {new Date(g.deadline).toLocaleDateString()}</div>
+                  <div style={{ fontSize: '11px', color: b.smoke, marginTop: '2px', fontFamily: "'JetBrains Mono', monospace", letterSpacing: '0.05em' }}>Due: {new Date(g.deadline).toLocaleDateString()}</div>
                 )}
               </div>
             );
@@ -108,7 +170,7 @@ export default function OSPage() {
 
         {/* Todos */}
         <div style={card}>
-          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>Active Todos</h3>
+          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Active Todos</h3>
           {todos.length === 0 && <div style={{ color: b.smoke, fontSize: '14px' }}>All clear</div>}
           {todos.map((t) => (
             <div key={t.id} style={{ marginBottom: '12px', paddingBottom: '8px', borderBottom: `1px solid ${b.border}` }}>
@@ -124,11 +186,11 @@ export default function OSPage() {
 
         {/* Agent Status */}
         <div style={card}>
-          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>Agent Status</h3>
+          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Agent Status</h3>
           {agents.map((a, i) => (
             <div key={i} style={{ marginBottom: '8px', display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
               <span style={{ color: b.silver }}>{a.name}</span>
-              <span style={{ color: b.success }}>{a.status}</span>
+              <span style={{ color: b.success, fontFamily: "'JetBrains Mono', monospace", fontSize: '12px', textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>{a.status}</span>
             </div>
           ))}
           <div style={{ marginTop: '12px', fontSize: '12px', color: b.smoke }}>All agents responding to heartbeat</div>
@@ -136,7 +198,7 @@ export default function OSPage() {
 
         {/* Activity Feed */}
         <div style={{ ...card, gridColumn: 'span 2' }}>
-          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600 }}>Recent Activity</h3>
+          <h3 style={{ color: b.amber, marginBottom: '16px', fontSize: '16px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Recent Activity</h3>
           {activities.length === 0 && <div style={{ color: b.smoke, fontSize: '14px' }}>No activity yet</div>}
           {activities.map((a) => (
             <div key={a.id} style={{ marginBottom: '10px', display: 'flex', gap: '12px', fontSize: '14px' }}>

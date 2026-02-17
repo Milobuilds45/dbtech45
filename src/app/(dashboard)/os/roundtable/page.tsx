@@ -18,13 +18,13 @@ interface RoundMessage {
 
 // Agent display config (no emojis, solid colors, logo-ready boxes)
 const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: string; color: string }> = {
-  bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#EF4444' },
+  bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#22C55E' },
   wendy: { initials: 'WR', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
   dwight: { initials: 'DW', label: 'Dwight', role: 'Intel', color: '#3B82F6' },
   dax: { initials: 'DX', label: 'Dax', role: 'Data', color: '#06B6D4' },
   tony: { initials: 'TN', label: 'Tony', role: 'Operations', color: '#EAB308' },
   paula: { initials: 'PA', label: 'Paula', role: 'Creative', color: '#EC4899' },
-  remy: { initials: 'RM', label: 'Remy', role: 'Marketing', color: '#22C55E' },
+  remy: { initials: 'RM', label: 'Remy', role: 'Marketing', color: '#EF4444' },
   anders: { initials: 'AN', label: 'Anders', role: 'Engineering', color: '#F97316' },
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
 };
@@ -34,7 +34,7 @@ export default function RoundtablePage() {
     void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
     amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
     white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#EF4444', info: '#3B82F6',
+    success: '#10B981', error: '#22C55E', info: '#3B82F6',
     border: '#222222',
   };
 
@@ -113,13 +113,13 @@ export default function RoundtablePage() {
       {/* Header */}
       <div style={{ marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div>
-          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber }}>The Roundtable</div>
+          <div style={{ fontSize: '28px', fontWeight: 700, color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>The Roundtable</div>
           <div style={{ color: b.smoke, marginTop: '4px', fontSize: '14px' }}>Your agents debate. You decide.</div>
         </div>
         {loading && (
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: b.error }} />
-            <span style={{ fontSize: '13px', fontWeight: 600, color: b.error, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Live — Round {currentRound}</span>
+            <span style={{ fontSize: '13px', fontWeight: 600, color: b.error, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'JetBrains Mono', monospace" }}>Live — Round {currentRound}</span>
           </div>
         )}
       </div>
@@ -127,7 +127,7 @@ export default function RoundtablePage() {
       {/* Agent Grid - Square Boxes */}
       <div style={{ marginBottom: '20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
-          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Panelists</span>
+          <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Panelists</span>
           <span style={{ fontSize: '11px', color: b.smoke }}>{selectedAgents.length} selected (min 2)</span>
         </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
@@ -150,9 +150,10 @@ export default function RoundtablePage() {
               >
                 <div style={{
                   width: '36px', height: '36px', borderRadius: '8px',
-                  background: selected ? agent.color : b.graphite,
+                  background: '#000000',
+                  border: `2px solid ${selected ? agent.color : b.border}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: selected ? b.void : b.smoke,
+                  color: selected ? agent.color : b.smoke,
                   fontSize: '13px', fontWeight: 700,
                 }}>{agent.initials}</div>
                 <div style={{ fontSize: '12px', fontWeight: 600, color: selected ? b.white : b.smoke }}>{agent.label}</div>
@@ -256,7 +257,7 @@ export default function RoundtablePage() {
                           style={{ transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)', transition: 'transform 0.2s', flexShrink: 0 }}>
                           <polyline points="6 9 12 15 18 9"/>
                         </svg>
-                        <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: display.color, display: 'flex', alignItems: 'center', justifyContent: 'center', color: b.void, fontSize: '10px', fontWeight: 700 }}>{display.initials}</div>
+                        <div style={{ width: '28px', height: '28px', borderRadius: '6px', background: '#000000', border: `2px solid ${display.color}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: display.color, fontSize: '10px', fontWeight: 700 }}>{display.initials}</div>
                         <span style={{ fontWeight: 700, fontSize: '13px', color: display.color }}>{display.label}</span>
                         <span style={{ fontSize: '10px', color: b.smoke, background: b.graphite, padding: '2px 8px', borderRadius: '4px' }}>{display.role}</span>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginLeft: 'auto', fontSize: '10px', color: b.smoke }}>

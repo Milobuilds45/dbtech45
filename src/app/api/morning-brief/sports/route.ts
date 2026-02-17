@@ -1,285 +1,124 @@
 import { NextResponse } from 'next/server';
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SPORTS API — ESPN Scores, News, Standings, Schedules
-// v2: Added news articles, standings, game IDs for box score links
-// ═══════════════════════════════════════════════════════════════════════════
-
-interface GameData {
-  id: string;
+interface Game {
   league: string;
-  sport: string; // 'basketball' | 'hockey' | 'football'
-  leagueSlug: string; // 'nba' | 'nhl' | 'nfl'
-  away: string;
-  awayFull: string;
-  home: string;
-  homeFull: string;
-  awayScore: string;
-  homeScore: string;
-  awayLogo: string;
-  homeLogo: string;
   status: string;
-  statusDetail: string;
-  time: string;
-  broadcast: string;
-  spread: string;
-  overUnder: string;
-  headline: string;
-  awayRecord: string;
-  homeRecord: string;
-  boxScoreUrl: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  detail: string;
+  startTime: string;
+  isBoston: boolean;
 }
 
-interface NewsArticle {
-  headline: string;
-  description: string;
-  url: string;
-  source: string;
-  imageUrl: string;
-  published: string;
-}
-
-interface StandingsTeam {
-  rank: number;
-  name: string;
-  abbr: string;
-  record: string;
-  isBostonTeam: boolean;
-}
-
-// ─── ESPN Scoreboard ────────────────────────────────────────────────────
-async function getESPNScoreboard(sport: string, league: string): Promise<GameData[]> {
+async function fetchESPN(sport: string, league: string): Promise<Game[]> {
   try {
-    const res = await fetch(
-      `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard`,
-      { next: { revalidate: 300 } }
-    );
+    const url = `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard`;
+    const res = await fetch(url, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     const data = await res.json();
-    const events = data.events ?? [];
-    const games: GameData[] = [];
 
-    for (const event of events) {
-      const comp = event.competitions?.[0];
-      if (!comp) continue;
-      const competitors = comp.competitors ?? [];
-      const away = competitors.find((c: { homeAway: string }) => c.homeAway === 'away');
-      const home = competitors.find((c: { homeAway: string }) => c.homeAway === 'home');
-      if (!away || !home) continue;
+    const bostonTeams = ['BOS', 'NE', 'Boston', 'Celtics', 'Bruins', 'Red Sox', 'Patriots', 'Revolution'];
 
-      const gameId = event.id ?? comp.id ?? '';
-      const gameDate = new Date(event.date ?? comp.date);
-      const timeStr = gameDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' });
-      const statusState = comp.status?.type?.state ?? event.status?.type?.state ?? '';
-      const statusDesc = comp.status?.type?.description ?? event.status?.type?.description ?? '';
+    return (data.events || []).map((event: Record<string, unknown>) => {
+      const competition = (event.competitions as Record<string, unknown>[])?.[0];
+      if (!competition) return null;
 
-      let status = 'Scheduled';
-      if (statusState === 'post') status = 'Final';
-      else if (statusState === 'in') status = 'Live';
+      const competitors = competition.competitors as Record<string, unknown>[];
+      const home = competitors?.find((c: Record<string, unknown>) => c.homeAway === 'home');
+      const away = competitors?.find((c: Record<string, unknown>) => c.homeAway === 'away');
 
-      const broadcasts = comp.broadcasts ?? [];
-      let broadcast = '';
-      if (broadcasts.length > 0 && broadcasts[0].names?.length > 0) broadcast = broadcasts[0].names[0];
+      if (!home || !away) return null;
 
-      const odds = comp.odds?.[0];
-      const spread = odds?.details ?? '';
-      const overUnder = odds?.overUnder ? `${odds.overUnder}` : '';
+      const homeTeamData = home.team as Record<string, unknown>;
+      const awayTeamData = away.team as Record<string, unknown>;
 
-      const headlines = comp.headlines ?? event.headlines ?? [];
-      const headline = headlines[0]?.shortLinkText ?? headlines[0]?.description ?? '';
+      const homeTeam = (homeTeamData?.displayName as string) || 'TBD';
+      const awayTeam = (awayTeamData?.displayName as string) || 'TBD';
+      const homeAbbrev = (homeTeamData?.abbreviation as string) || '';
+      const awayAbbrev = (awayTeamData?.abbreviation as string) || '';
+      const homeScore = home.score ? parseInt(home.score as string) : null;
+      const awayScore = away.score ? parseInt(away.score as string) : null;
 
-      // Build box score URL: https://www.espn.com/{sport}/boxscore/_/gameId/{id}
-      const espnSport = sport === 'hockey' ? 'nhl' : sport === 'basketball' && league === 'nba' ? 'nba' : sport === 'football' ? 'nfl' : league;
-      const boxScoreUrl = gameId ? `https://www.espn.com/${espnSport}/boxscore/_/gameId/${gameId}` : '';
+      const statusObj = event.status as Record<string, unknown>;
+      const statusType = statusObj?.type as Record<string, unknown>;
+      const statusName = (statusType?.name as string) || '';
+      const statusDetail = (statusType?.shortDetail as string) || (statusType?.detail as string) || '';
 
-      games.push({
-        id: gameId,
-        league: league.toUpperCase(),
-        sport,
-        leagueSlug: league,
-        away: away.team?.abbreviation ?? '???',
-        awayFull: away.team?.displayName ?? away.team?.abbreviation ?? '???',
-        home: home.team?.abbreviation ?? '???',
-        homeFull: home.team?.displayName ?? home.team?.abbreviation ?? '???',
-        awayScore: away.score ?? '0',
-        homeScore: home.score ?? '0',
-        awayLogo: away.team?.logo ?? '',
-        homeLogo: home.team?.logo ?? '',
-        status,
-        statusDetail: statusDesc,
-        time: timeStr,
-        broadcast,
-        spread,
-        overUnder,
-        headline,
-        awayRecord: away.records?.[0]?.summary ?? '',
-        homeRecord: home.records?.[0]?.summary ?? '',
-        boxScoreUrl,
+      let status = 'scheduled';
+      if (statusName === 'STATUS_FINAL') status = 'final';
+      else if (statusName === 'STATUS_IN_PROGRESS') status = 'live';
+      else if (statusName === 'STATUS_HALFTIME') status = 'halftime';
+
+      const isBoston = bostonTeams.some(bt =>
+        homeTeam.includes(bt) || awayTeam.includes(bt) ||
+        homeAbbrev === bt || awayAbbrev === bt
+      );
+
+      const startDate = new Date(event.date as string);
+      const startTime = startDate.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'America/New_York',
       });
-    }
-    return games;
-  } catch (e) {
-    console.error(`ESPN ${league} scoreboard failed:`, e);
-    return [];
-  }
-}
 
-// ─── ESPN News ──────────────────────────────────────────────────────────
-async function getESPNNews(sport: string, league: string, limit: number = 8): Promise<NewsArticle[]> {
-  try {
-    const res = await fetch(
-      `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=${limit}`,
-      { next: { revalidate: 1800 } }
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.articles ?? []).map((a: {
-      headline?: string;
-      description?: string;
-      links?: { web?: { href?: string } };
-      images?: Array<{ url?: string; caption?: string }>;
-      published?: string;
-      source?: string;
-      type?: string;
-    }) => ({
-      headline: a.headline ?? '',
-      description: a.description ?? '',
-      url: a.links?.web?.href ?? '',
-      source: a.source ?? 'ESPN',
-      imageUrl: a.images?.[0]?.url ?? '',
-      published: a.published ?? '',
-    }));
-  } catch (e) {
-    console.error(`ESPN ${league} news failed:`, e);
-    return [];
-  }
-}
-
-// ─── ESPN Standings ─────────────────────────────────────────────────────
-async function getNBAEastStandings(): Promise<StandingsTeam[]> {
-  try {
-    const res = await fetch(
-      'https://site.api.espn.com/apis/v2/sports/basketball/nba/standings',
-      { next: { revalidate: 3600 } }
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    // ESPN standings: children[0] = Eastern, children[1] = Western
-    const eastern = data.children?.find((c: { name?: string; abbreviation?: string }) =>
-      c.name?.includes('Eastern') || c.abbreviation === 'E'
-    );
-    if (!eastern) return [];
-    
-    const entries = eastern.standings?.entries ?? [];
-    const bostonAbbrs = ['BOS'];
-    
-    return entries.slice(0, 8).map((entry: {
-      team?: { abbreviation?: string; displayName?: string; shortDisplayName?: string };
-      stats?: Array<{ name?: string; displayValue?: string }>;
-    }, i: number) => {
-      const team = entry.team;
-      const wins = entry.stats?.find((s: { name?: string }) => s.name === 'wins')?.displayValue ?? '0';
-      const losses = entry.stats?.find((s: { name?: string }) => s.name === 'losses')?.displayValue ?? '0';
-      const abbr = team?.abbreviation ?? '???';
       return {
-        rank: i + 1,
-        name: team?.shortDisplayName ?? team?.displayName ?? '???',
-        abbr,
-        record: `${wins}-${losses}`,
-        isBostonTeam: bostonAbbrs.includes(abbr),
+        league: league.toUpperCase(),
+        status,
+        homeTeam,
+        awayTeam,
+        homeScore,
+        awayScore,
+        detail: statusDetail || (status === 'final' ? 'Final' : startTime),
+        startTime,
+        isBoston,
       };
-    });
-  } catch (e) {
-    console.error('NBA standings failed:', e);
-    return [];
-  }
-}
-
-async function getNHLAtlanticStandings(): Promise<StandingsTeam[]> {
-  try {
-    const res = await fetch(
-      'https://site.api.espn.com/apis/v2/sports/hockey/nhl/standings',
-      { next: { revalidate: 3600 } }
-    );
-    if (!res.ok) return [];
-    const data = await res.json();
-    // NHL: children are conferences, then divisions within
-    // Find Atlantic division
-    let atlanticEntries: Array<{
-      team?: { abbreviation?: string; displayName?: string; shortDisplayName?: string };
-      stats?: Array<{ name?: string; displayValue?: string }>;
-    }> = [];
-    
-    for (const conference of (data.children ?? [])) {
-      for (const division of (conference.children ?? [])) {
-        if (division.name?.includes('Atlantic') || division.abbreviation === 'A') {
-          atlanticEntries = division.standings?.entries ?? [];
-          break;
-        }
-      }
-      if (atlanticEntries.length > 0) break;
-    }
-    
-    if (atlanticEntries.length === 0) return [];
-    
-    const bostonAbbrs = ['BOS'];
-    
-    return atlanticEntries.slice(0, 8).map((entry, i: number) => {
-      const team = entry.team;
-      const points = entry.stats?.find((s) => s.name === 'points')?.displayValue ?? '0';
-      const abbr = team?.abbreviation ?? '???';
-      return {
-        rank: i + 1,
-        name: team?.shortDisplayName ?? team?.displayName ?? '???',
-        abbr,
-        record: `${points} pts`,
-        isBostonTeam: bostonAbbrs.includes(abbr),
-      };
-    });
-  } catch (e) {
-    console.error('NHL standings failed:', e);
+    }).filter(Boolean) as Game[];
+  } catch {
     return [];
   }
 }
 
 export async function GET() {
-  const [nba, nhl, nfl, nbaNews, nhlNews, nbaStandings, nhlStandings] = await Promise.all([
-    getESPNScoreboard('basketball', 'nba'),
-    getESPNScoreboard('hockey', 'nhl'),
-    getESPNScoreboard('football', 'nfl'),
-    getESPNNews('basketball', 'nba', 6),
-    getESPNNews('hockey', 'nhl', 4),
-    getNBAEastStandings(),
-    getNHLAtlanticStandings(),
-  ]);
+  try {
+    const [nba, nhl, mlb, nfl] = await Promise.all([
+      fetchESPN('basketball', 'nba'),
+      fetchESPN('hockey', 'nhl'),
+      fetchESPN('baseball', 'mlb'),
+      fetchESPN('football', 'nfl'),
+    ]);
 
-  const allGames = [...nba, ...nhl, ...nfl];
-  const scores = allGames.filter(g => g.status === 'Final' || g.status === 'Live');
-  const today = allGames.filter(g => g.status === 'Scheduled');
+    // Sort: Boston teams first, then by status (live > final > scheduled)
+    const allGames = [...nba, ...nhl, ...mlb, ...nfl];
+    
+    const statusOrder: Record<string, number> = { live: 0, halftime: 1, final: 2, scheduled: 3 };
+    allGames.sort((a, b) => {
+      if (a.isBoston && !b.isBoston) return -1;
+      if (!a.isBoston && b.isBoston) return 1;
+      return (statusOrder[a.status] || 3) - (statusOrder[b.status] || 3);
+    });
 
-  // Boston teams
-  const bostonAbbrs = ['BOS', 'NE'];
-  const isBostonGame = (g: GameData) => bostonAbbrs.includes(g.away) || bostonAbbrs.includes(g.home);
+    // Separate by completed/upcoming
+    const completed = allGames.filter(g => g.status === 'final');
+    const live = allGames.filter(g => g.status === 'live' || g.status === 'halftime');
+    const upcoming = allGames.filter(g => g.status === 'scheduled');
 
-  // Merge and deduplicate news, interleaving NBA/NHL
-  const allNews: NewsArticle[] = [];
-  const maxLen = Math.max(nbaNews.length, nhlNews.length);
-  for (let i = 0; i < maxLen; i++) {
-    if (i < nbaNews.length) allNews.push(nbaNews[i]);
-    if (i < nhlNews.length) allNews.push(nhlNews[i]);
+    return NextResponse.json({
+      completed,
+      live,
+      upcoming,
+      allGames,
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error('Sports API error:', error);
+    return NextResponse.json({
+      completed: [],
+      live: [],
+      upcoming: [],
+      allGames: [],
+      fallback: true,
+    });
   }
-
-  return NextResponse.json({
-    scores,
-    today,
-    boston_games: allGames.filter(isBostonGame),
-    news: allNews,
-    standings: {
-      nba_east: nbaStandings,
-      nhl_atlantic: nhlStandings,
-    },
-    generated_at: new Date().toISOString(),
-  }, {
-    headers: { 'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=60' },
-  });
 }

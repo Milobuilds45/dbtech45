@@ -2,6 +2,7 @@
 import { useState, useCallback, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { brand, styles } from "@/lib/brand";
+import { supabase } from "@/lib/supabase";
 
 type ColumnId = 'backlog' | 'in_progress' | 'review' | 'done';
 type Priority = 'low' | 'medium' | 'high';
@@ -13,6 +14,8 @@ interface Task {
   priority: Priority;
   assignee: string | null;
   project?: string;
+  description?: string | null;
+  due_date?: string | null;
 }
 
 const columns: { id: ColumnId; title: string; color: string }[] = [
@@ -24,18 +27,7 @@ const columns: { id: ColumnId; title: string; color: string }[] = [
 
 const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb', 'Dwight', 'Wendy', 'Derek'];
 
-const DEFAULT_TASKS: Task[] = [
-  { id: '1', title: 'Sunday Squares payment integration', status: 'backlog', priority: 'high', assignee: 'Anders', project: 'Sunday Squares' },
-  { id: '2', title: 'Soul Solace mood tracking UI', status: 'backlog', priority: 'high', assignee: 'Paula', project: 'Soul Solace' },
-  { id: '3', title: 'Signal & Noise newsletter draft', status: 'backlog', priority: 'medium', assignee: 'Remy' },
-  { id: '4', title: 'tickR signal generation testing', status: 'in_progress', priority: 'high', assignee: 'Bobby', project: 'tickR' },
-  { id: '5', title: 'Boundless itinerary AI training', status: 'in_progress', priority: 'medium', assignee: 'Webb', project: 'Boundless' },
-  { id: '6', title: 'Restaurant cost tracker design', status: 'review', priority: 'medium', assignee: 'Paula' },
-  { id: '7', title: 'dbtech45.com navigation links', status: 'done', priority: 'high', assignee: 'Anders', project: 'dbtech45' },
-  { id: '8', title: 'Model Counsel API restoration', status: 'done', priority: 'high', assignee: 'Anders' },
-];
-
-function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+function genId() { return crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 
 export default function KanbanPage() {
   return (
@@ -47,32 +39,101 @@ export default function KanbanPage() {
 
 function Kanban() {
   const searchParams = useSearchParams();
-  const [todos, setTodos] = useState<Task[]>(DEFAULT_TASKS);
+  const [todos, setTodos] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
   const [newTask, setNewTask] = useState('');
-
-  // Accept incoming task from SaaS page or Ideas Vault via query params
-  useEffect(() => {
-    const title = searchParams.get('add_title');
-    if (title) {
-      const exists = todos.some(t => t.title === title);
-      if (!exists) {
-        setTodos(prev => [{
-          id: genId(),
-          title,
-          status: 'backlog' as ColumnId,
-          priority: 'high' as Priority,
-          assignee: null,
-          project: searchParams.get('add_project') || undefined,
-        }, ...prev]);
-      }
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams]);
   const [newPriority, setNewPriority] = useState<Priority>('medium');
   const [newAssignee, setNewAssignee] = useState('');
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [dragOverCol, setDragOverCol] = useState<ColumnId | null>(null);
+
+  // Load tasks from Supabase
+  const loadTasks = useCallback(async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase
+        .from('todos')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) {
+        console.error('Failed to load tasks:', error);
+        return;
+      }
+
+      if (data) {
+        setTodos(data.map((row: Record<string, unknown>) => ({
+          id: row.id as string,
+          title: row.title as string,
+          status: (row.status as ColumnId) || 'backlog',
+          priority: (row.priority as Priority) || 'medium',
+          assignee: (row.assignee as string) || null,
+          project: (row.project as string) || undefined,
+          description: row.description as string | null,
+          due_date: row.due_date as string | null,
+        })));
+      }
+    } catch (err) {
+      console.error('Load error:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadTasks();
+  }, [loadTasks]);
+
+  // Accept incoming task from query params
+  useEffect(() => {
+    const title = searchParams.get('add_title');
+    if (title && !loading && !todos.some(t => t.title === title)) {
+      const task: Task = {
+        id: genId(),
+        title,
+        status: 'backlog',
+        priority: 'high',
+        assignee: null,
+        project: searchParams.get('add_project') || undefined,
+      };
+      addTaskToDb(task);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams, loading]);
+
+  // Add task to Supabase
+  const addTaskToDb = async (task: Task) => {
+    setSaving(true);
+    const { data, error } = await supabase
+      .from('todos')
+      .insert({
+        title: task.title,
+        status: task.status,
+        priority: task.priority,
+        assignee: task.assignee,
+        project: task.project || null,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Insert error:', error);
+    } else if (data) {
+      setTodos(prev => [{
+        id: data.id,
+        title: data.title,
+        status: data.status,
+        priority: data.priority,
+        assignee: data.assignee,
+        project: data.project || undefined,
+        description: data.description,
+        due_date: data.due_date,
+      }, ...prev]);
+    }
+    setSaving(false);
+  };
 
   const addTask = useCallback(() => {
     if (!newTask.trim()) return;
@@ -83,27 +144,63 @@ function Kanban() {
       priority: newPriority,
       assignee: newAssignee || null,
     };
-    setTodos(prev => [task, ...prev]);
+    addTaskToDb(task);
     setNewTask('');
     setNewPriority('medium');
     setNewAssignee('');
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newTask, newPriority, newAssignee]);
 
+  // Update task in Supabase
+  const updateTask = async (taskId: string, updates: Partial<Task>) => {
+    // Optimistic update
+    setTodos(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
+
+    const dbUpdates: Record<string, unknown> = { updated_at: new Date().toISOString() };
+    if (updates.status !== undefined) dbUpdates.status = updates.status;
+    if (updates.priority !== undefined) dbUpdates.priority = updates.priority;
+    if (updates.assignee !== undefined) dbUpdates.assignee = updates.assignee;
+
+    const { error } = await supabase
+      .from('todos')
+      .update(dbUpdates)
+      .eq('id', taskId);
+
+    if (error) {
+      console.error('Update error:', error);
+      loadTasks(); // Revert on error
+    }
+  };
+
   const moveTask = useCallback((taskId: string, newStatus: ColumnId) => {
-    setTodos(prev => prev.map(t => t.id === taskId ? { ...t, status: newStatus } : t));
+    updateTask(taskId, { status: newStatus });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updatePriority = useCallback((taskId: string, priority: Priority) => {
-    setTodos(prev => prev.map(t => t.id === taskId ? { ...t, priority } : t));
+    updateTask(taskId, { priority });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const updateAssignee = useCallback((taskId: string, assignee: string) => {
-    setTodos(prev => prev.map(t => t.id === taskId ? { ...t, assignee: assignee || null } : t));
+    updateTask(taskId, { assignee: assignee || null });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const deleteTask = useCallback((taskId: string) => {
+  const deleteTask = useCallback(async (taskId: string) => {
     setTodos(prev => prev.filter(t => t.id !== taskId));
     if (editingId === taskId) setEditingId(null);
+
+    const { error } = await supabase
+      .from('todos')
+      .delete()
+      .eq('id', taskId);
+
+    if (error) {
+      console.error('Delete error:', error);
+      loadTasks(); // Revert
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editingId]);
 
   const handleDragStart = (e: React.DragEvent, id: string) => {
@@ -140,19 +237,55 @@ function Kanban() {
   const handleTouchMove = useCallback((col: ColumnId) => {
     if (draggedId) moveTask(draggedId, col);
     setDraggedId(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draggedId, moveTask]);
 
   const priorityColor = (p: string) => p === 'high' ? brand.error : p === 'medium' ? brand.amber : brand.success;
   const getColumnTasks = (col: ColumnId) => todos.filter(t => t.status === col);
 
+  if (loading) {
+    return (
+      <div style={styles.page}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+          <h1 style={styles.h1}>Kanban Board</h1>
+          <div style={{ ...styles.card, textAlign: 'center', padding: '48px' }}>
+            <div style={{ color: brand.smoke, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px' }}>
+              Loading tasks from database...
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div style={styles.page}>
       <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-        <h1 style={styles.h1}>Kanban Board</h1>
-        <p style={styles.subtitle}>
-          Drag cards between columns. Click a card to edit priority and assignee.
-          {` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
-        </p>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
+          <div>
+            <h1 style={styles.h1}>Kanban Board</h1>
+            <p style={styles.subtitle}>
+              Drag cards between columns. Click a card to edit priority and assignee.
+              {` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
+              {saving && <span style={{ marginLeft: '8px', color: brand.amber, fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>Saving...</span>}
+            </p>
+          </div>
+          <button
+            onClick={loadTasks}
+            style={{
+              background: 'rgba(245,158,11,0.1)',
+              border: `1px solid ${brand.border}`,
+              borderRadius: '6px',
+              padding: '4px 10px',
+              color: brand.amber,
+              fontSize: '12px',
+              fontFamily: "'JetBrains Mono', monospace",
+              cursor: 'pointer',
+            }}
+          >
+            ↻ Refresh
+          </button>
+        </div>
 
         {/* Flow info */}
         <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -302,8 +435,8 @@ function Kanban() {
           })}
         </div>
 
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="/os" style={styles.backLink}>Back to Mission Control</a>
+        <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '11px', color: brand.smoke, fontFamily: "'JetBrains Mono', monospace" }}>
+          All changes saved to database automatically
         </div>
       </div>
     </div>

@@ -142,7 +142,7 @@ export default function DailyFeed() {
   return (
     <div style={{ minHeight: '100vh', backgroundColor: brand.void, color: brand.white, padding: '2rem', fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
-        <h1 style={{ color: brand.amber, fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700 }}>Daily Feed</h1>
+        <h1 style={{ color: brand.amber, fontSize: '2rem', marginBottom: '0.5rem', fontWeight: 700, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>Daily Feed</h1>
         <p style={{ color: brand.silver, marginBottom: '1rem' }}>
           Live updates from Supabase. Notes, deploys, activity.
         </p>

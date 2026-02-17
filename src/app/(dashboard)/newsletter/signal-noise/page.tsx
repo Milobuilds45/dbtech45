@@ -1,68 +1,96 @@
-export default function SignalNoise() {
+'use client';
+import { useState } from 'react';
+import { TrendingUp, Check } from 'lucide-react';
+
+export default function SignalNoisePage() {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setStatus('loading');
+    
+    // TODO: Connect to email service (Buttondown, ConvertKit, etc.)
+    // For now, simulate success
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setStatus('success');
+  };
+
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#0a0a0a', color: '#00ff00', padding: '2rem' }}>
-      <div className="terminal" style={{ maxWidth: '600px', margin: '0 auto', fontFamily: 'monospace' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <span style={{ color: '#666' }}>derek@dbtech45:~$ </span>
-          <span>subscribe --newsletter signal-noise</span>
+    <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex items-center justify-center px-6 py-20">
+      <div className="max-w-lg w-full">
+        <div className="mb-8">
+          <a href="/" className="text-[#f59e0b] hover:underline text-sm font-mono">
+            ← Back to Home
+          </a>
         </div>
-        
-        <h1 style={{ color: '#00ff00', fontSize: '2rem', marginBottom: '1rem' }}>📡 Signal & Noise</h1>
-        <p style={{ color: '#999', marginBottom: '2rem' }}>Daily market intelligence filtered through 15 years of trading experience.</p>
-        
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
-          <h2 style={{ color: '#00ff00', marginBottom: '1rem' }}>What You Get Daily</h2>
-          <div style={{ color: '#999' }}>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Pre-market analysis and key levels</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Technical setups and trade ideas</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Macro themes driving the market</p>
-            <p style={{ marginBottom: '0.5rem' }}>✅ Risk management insights</p>
-            <p>✅ AI-powered signal generation</p>
+
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[#f59e0b]/10 text-[#f59e0b] mb-6">
+            <TrendingUp size={32} />
           </div>
+          <div className="inline-block px-3 py-1 bg-[#f59e0b]/15 text-[#f59e0b] text-xs font-mono uppercase tracking-wider rounded-full mb-4">
+            Coming Soon
+          </div>
+          <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+            Signal & Noise
+          </h1>
+          <p className="text-[#71717a] font-mono text-sm">Daily Market Intelligence</p>
         </div>
-        
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px', marginBottom: '2rem' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>Subscribe</h3>
-          <input 
-            type="email" 
-            placeholder="your.email@domain.com"
-            style={{ 
-              width: '100%', 
-              padding: '0.75rem', 
-              backgroundColor: '#222', 
-              border: '1px solid #333', 
-              borderRadius: '4px', 
-              color: '#00ff00',
-              fontFamily: 'monospace',
-              marginBottom: '1rem'
-            }}
-          />
-          <button style={{ 
-            backgroundColor: '#00ff00', 
-            color: '#000', 
-            padding: '0.75rem 2rem', 
-            border: 'none', 
-            borderRadius: '4px', 
-            fontWeight: 'bold',
-            cursor: 'pointer',
-            fontFamily: 'monospace',
-            width: '100%'
-          }}>
-            Join Signal & Noise →
-          </button>
-        </div>
-        
-        <div style={{ backgroundColor: '#111', padding: '1.5rem', borderRadius: '8px' }}>
-          <h3 style={{ color: '#00ff00', marginBottom: '1rem' }}>Powered by Bobby AI</h3>
-          <p style={{ color: '#999' }}>
-            My trading advisor AI processes market data 24/7, identifying patterns and opportunities 
-            human traders might miss. No fluff, no predictions - just actionable intelligence.
+
+        <div className="bg-[#111113] border border-[#27272a] rounded-xl p-8 mb-8">
+          <p className="text-[#a1a1aa] text-center mb-6 leading-relaxed">
+            Market intelligence filtered through 15 years of trading experience. 
+            Technical analysis, macro themes, and conviction plays that actually matter.
           </p>
+
+          <ul className="space-y-3 mb-8">
+            {[
+              'Daily pre-market analysis',
+              'Key levels and setups',
+              'Macro themes and catalysts',
+              'Options flow highlights',
+              'No fluff, just signal'
+            ].map((item, i) => (
+              <li key={i} className="flex items-center gap-3 text-sm text-[#a1a1aa]">
+                <Check size={16} className="text-[#EF4444] flex-shrink-0" />
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          {status === 'success' ? (
+            <div className="text-center py-6">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#EF4444]/10 text-[#EF4444] mb-4">
+                <Check size={24} />
+              </div>
+              <p className="text-[#EF4444] font-medium mb-2">You're on the list!</p>
+              <p className="text-[#71717a] text-sm">We'll notify you when Signal & Noise launches.</p>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your@email.com"
+                required
+                className="w-full px-4 py-3 bg-[#0a0a0a] border border-[#27272a] rounded-lg text-[#fafafa] placeholder-[#52525b] focus:outline-none focus:border-[#f59e0b] transition-colors"
+              />
+              <button
+                type="submit"
+                disabled={status === 'loading'}
+                className="w-full py-3 bg-[#f59e0b] text-[#0a0a0a] font-semibold rounded-lg hover:bg-[#fbbf24] transition-colors disabled:opacity-50"
+              >
+                {status === 'loading' ? 'Joining...' : 'Get Early Access'}
+              </button>
+            </form>
+          )}
         </div>
-        
-        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-          <a href="/" style={{ color: '#666', textDecoration: 'none' }}>← Back to dbtech45.com</a>
-        </div>
+
+        <p className="text-center text-[#52525b] text-xs">
+          No spam. Unsubscribe anytime.
+        </p>
       </div>
     </div>
   );

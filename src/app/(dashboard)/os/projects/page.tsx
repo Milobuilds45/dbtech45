@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { brand, styles } from "@/lib/brand";
+import { supabase } from '@/lib/supabase';
 
 type StatusKey = 'shipped' | 'building' | 'beta' | 'planning' | 'shaping' | 'spark' | 'paused' | 'killed';
 
@@ -68,7 +69,43 @@ const DEFAULT_PROJECTS: Project[] = [
   { title: "Family Calendar AI", desc: "Smart family scheduling that coordinates 9 people's lives with AI conflict resolution.", status: "spark", progress: 5, priority: 2 },
 ];
 
-// No localStorage - clean state every load
+// Projects stored in Supabase 'user_projects' table
+async function loadProjectsFromDb(): Promise<Project[] | null> {
+  try {
+    const { data } = await supabase.from('user_projects').select('*').order('sort_order');
+    if (data && data.length > 0) {
+      return data.map((p: any) => ({
+        title: p.title,
+        desc: p.description || '',
+        status: p.status as StatusKey,
+        progress: p.progress || 0,
+        priority: p.priority || 1,
+      }));
+    }
+  } catch {}
+  return null; // null means no data in DB yet
+}
+
+async function saveProjectsToDb(projects: Project[]) {
+  try {
+    // Delete all then re-insert with sort_order to preserve drag ordering
+    await supabase.from('user_projects').delete().gte('id', 0);
+    const rows = projects.map((p, i) => ({
+      title: p.title,
+      description: p.desc,
+      status: p.status,
+      progress: p.progress,
+      priority: p.priority,
+      sort_order: i,
+      updated_at: new Date().toISOString(),
+    }));
+    if (rows.length > 0) {
+      await supabase.from('user_projects').insert(rows);
+    }
+  } catch (err) {
+    console.error('Failed to save projects:', err);
+  }
+}
 
 function StarRating({ value, onChange }: { value: number; onChange: (v: number) => void }) {
   const [hovered, setHovered] = useState(0);
@@ -107,9 +144,24 @@ export default function Projects() {
   const [sortBy, setSortBy] = useState<'default' | 'priority' | 'status'>('default');
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    loadProjectsFromDb().then(dbProjects => {
+      if (dbProjects) {
+        setProjects(dbProjects);
+      } else {
+        // First load: seed Supabase with defaults
+        setProjects(DEFAULT_PROJECTS);
+        saveProjectsToDb(DEFAULT_PROJECTS);
+      }
+      setMounted(true);
+    });
+  }, []);
 
   const updateProjects = (updated: Project[]) => {
     setProjects(updated);
+    saveProjectsToDb(updated);
   };
 
   const handleDragStart = (index: number) => {
@@ -277,7 +329,7 @@ export default function Projects() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <span style={{ color: brand.smoke, fontSize: '13px', fontWeight: 600, opacity: 0.4 }}>#{realIdx + 1}</span>
-                    <h3 style={{ color: brand.white, margin: 0, fontSize: '16px' }}>{p.title}</h3>
+                    <h3 style={{ color: brand.white, margin: 0, fontSize: '16px', fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>{p.title}</h3>
                   </div>
                   <span
                     onClick={() => setEditingIdx(isEditing ? null : realIdx)}

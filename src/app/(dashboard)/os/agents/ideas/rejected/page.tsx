@@ -4,18 +4,15 @@ import { useRouter } from 'next/navigation';
 import { brand, styles } from '@/lib/brand';
 import { RotateCcw, Trash2, Star, Target, ArrowLeft, Skull } from 'lucide-react';
 
-const REJECTED_KEY = 'dbtech-agent-ideas-rejected-v2';
-const STORAGE_KEY = 'dbtech-agent-ideas-v2';
-
 const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
-  { id: 'bobby', name: 'Bobby', color: '#EF4444' },
+  { id: 'bobby', name: 'Bobby', color: '#22C55E' },
   { id: 'dwight', name: 'Dwight', color: '#6366F1' },
   { id: 'tony', name: 'Tony', color: '#EAB308' },
   { id: 'dax', name: 'Dax', color: '#06B6D4' },
-  { id: 'remy', name: 'Remy', color: '#22C55E' },
+  { id: 'remy', name: 'Remy', color: '#EF4444' },
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
 
@@ -52,39 +49,83 @@ export default function RejectedArchive() {
   const [rejected, setRejected] = useState<AgentIdea[]>([]);
   const [hydrated, setHydrated] = useState(false);
 
+  // Load rejected ideas from Supabase via API
   useEffect(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem(REJECTED_KEY) || '[]');
-      if (Array.isArray(stored)) setRejected(stored);
-    } catch {}
-    setHydrated(true);
+    const loadRejected = async () => {
+      try {
+        const res = await fetch('/api/ideas');
+        if (res.ok) {
+          const data = await res.json();
+          const rejectedIdeas = (data.ideas || [])
+            .filter((i: any) => i.status === 'rejected')
+            .map((i: any) => ({
+              id: i.id,
+              agentId: i.agent_id,
+              agentName: i.agent_name,
+              title: i.title,
+              description: i.description,
+              problemSolved: i.problem_solved,
+              targetMarket: i.target_market,
+              businessModel: i.business_model,
+              revenueProjection: i.revenue_projection,
+              competitiveAdvantage: i.competitive_advantage,
+              developmentTime: i.development_time,
+              riskAssessment: i.risk_assessment,
+              tags: i.tags || [],
+              derekRating: i.derek_rating,
+              agentConfidence: i.agent_confidence,
+              marketSize: i.market_size,
+              status: i.status,
+              createdAt: i.created_at,
+              updatedAt: i.updated_at,
+            }));
+          setRejected(rejectedIdeas);
+        }
+      } catch (err) {
+        console.error('Failed to load rejected ideas:', err);
+      }
+      setHydrated(true);
+    };
+    loadRejected();
   }, []);
 
-  const restore = (id: string) => {
+  const restore = async (id: string) => {
     const idea = rejected.find(i => i.id === id);
     if (!idea) return;
-    // Remove from rejected
-    const updated = rejected.filter(i => i.id !== id);
-    localStorage.setItem(REJECTED_KEY, JSON.stringify(updated));
-    setRejected(updated);
-    // Add back to active ideas
+    // Update status back to 'submitted' in Supabase
     try {
-      const active = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-      active.unshift({ ...idea, status: 'submitted', rejectedAt: undefined });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(active));
-    } catch {}
+      await fetch('/api/ideas', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, status: 'submitted' }),
+      });
+    } catch (err) {
+      console.error('Failed to restore idea:', err);
+    }
+    // Remove from local state
+    setRejected(prev => prev.filter(i => i.id !== id));
     // Go back to ideas page
     router.push('/os/agents/ideas');
   };
 
-  const permanentDelete = (id: string) => {
-    const updated = rejected.filter(i => i.id !== id);
-    localStorage.setItem(REJECTED_KEY, JSON.stringify(updated));
-    setRejected(updated);
+  const permanentDelete = async (id: string) => {
+    try {
+      await fetch(`/api/ideas?id=${id}`, { method: 'DELETE' });
+    } catch (err) {
+      console.error('Failed to delete idea:', err);
+    }
+    setRejected(prev => prev.filter(i => i.id !== id));
   };
 
-  const clearAll = () => {
-    localStorage.removeItem(REJECTED_KEY);
+  const clearAll = async () => {
+    // Delete all rejected ideas from Supabase
+    try {
+      await Promise.all(rejected.map(idea =>
+        fetch(`/api/ideas?id=${idea.id}`, { method: 'DELETE' })
+      ));
+    } catch (err) {
+      console.error('Failed to clear all:', err);
+    }
     setRejected([]);
   };
 
@@ -167,10 +208,10 @@ export default function RejectedArchive() {
                 <div style={{ padding: '16px 20px' }}>
                   {/* Top row */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '10px' }}>
-                    {/* Agent badge - black box, colored outline */}
+                    {/* Agent badge */}
                     <div style={{
                       width: '36px', height: '36px', borderRadius: '8px',
-                      background: brand.void, border: `2px solid ${agent?.color || (isCollab ? brand.amber : brand.smoke)}`,
+                      background: '#000000', border: `2px solid ${agent?.color || (isCollab ? brand.amber : brand.smoke)}`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       color: agent?.color || (isCollab ? brand.amber : brand.smoke), fontWeight: 700, fontSize: '12px', flexShrink: 0,
                       opacity: 0.6,
@@ -241,7 +282,7 @@ export default function RejectedArchive() {
                     borderTop: `1px solid ${brand.border}`, paddingTop: '10px', marginBottom: '10px',
                   }}>
                     <span>Created: {fmtDate(idea.createdAt)}</span>
-                    {idea.rejectedAt && <span>Rejected: {fmtDate(idea.rejectedAt)} at {fmtTime(idea.rejectedAt)}</span>}
+                    {idea.updatedAt && <span>Rejected: {fmtDate(idea.updatedAt)} at {fmtTime(idea.updatedAt)}</span>}
                   </div>
 
                   {/* Action buttons */}

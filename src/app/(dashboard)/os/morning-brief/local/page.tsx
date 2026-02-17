@@ -1,11 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-
-// ═══════════════════════════════════════════════════════════════════════════
-// LOCAL — Nashua, NH News + Weather
-// Design by Paula · Built by Anders
-// ═══════════════════════════════════════════════════════════════════════════
+import { useEffect, useState } from 'react';
+import styles from '../morning-brief.module.css';
 
 interface LocalStory {
   title: string;
@@ -13,118 +9,118 @@ interface LocalStory {
   source: string;
   description: string;
   time: string;
+  town?: string;
 }
 
-interface LocalData {
-  stories: LocalStory[];
-  weather: {
-    current: { temp: number; condition: string };
-    forecast: Array<{ day: string; high: number; low: number; emoji?: string }>;
-  };
+interface WeatherForecast {
+  day: string;
+  high: number;
+  low: number;
+  condition: string;
+  emoji: string;
+}
+
+interface WeatherData {
+  current: { temp: number; feelsLike?: number; condition: string; emoji: string; windSpeed: number; humidity: number };
+  forecast: WeatherForecast[];
 }
 
 export default function LocalPage() {
-  const [data, setData] = useState<LocalData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [stories, setStories] = useState<LocalStory[]>([]);
+  const [weather, setWeather] = useState<WeatherData | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/morning-brief/local');
-        if (!res.ok) throw new Error(`${res.status}`);
-        setData(await res.json());
-      } catch (e) {
-        console.error('Local data fetch failed:', e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
+    fetch('/api/morning-brief/local').then(r => r.json()).then(d => setStories(d.stories || [])).catch(() => {});
+    fetch('/api/morning-brief/weather').then(r => r.json()).then(setWeather).catch(() => {});
   }, []);
 
-  if (loading) return <div className="loading-pulse">LOADING LOCAL NEWS...</div>;
-  if (!data) return <div className="loading-pulse">LOCAL DATA UNAVAILABLE</div>;
-
   return (
-    <main className="section-page">
-      <header className="section-header">
-        <h1 className="section-title">Local</h1>
-        <p className="section-subtitle">News from Nashua, NH and the greater Southern New Hampshire region.</p>
+    <main className={styles.sectionPage}>
+      <header className={styles.sectionHeader}>
+        <h1 className={styles.sectionTitle}>Local</h1>
+        <p className={styles.sectionSubtitle}>News from Nashua & Hudson NH, Lowell, Dracut & Chelmsford MA.</p>
       </header>
 
-      <div className="tech-layout">
-        {/* ══════════ MAIN CONTENT ══════════ */}
-        <div className="tech-river">
-          {data.stories.map((story, i) => (
-            <article key={i} className="story-cluster">
-              <div className="cluster-main">
-                {story.time && <div className="cluster-time">{story.time}</div>}
-                <h2 className="cluster-headline">
-                  <a href={story.url} target="_blank" rel="noopener noreferrer">{story.title}</a>
-                </h2>
-                <span className="cluster-source">{story.source}</span>
-                {story.description && (
-                  <p className="cluster-deck">{story.description}</p>
-                )}
-              </div>
-            </article>
-          ))}
-          {data.stories.length === 0 && (
-            <div style={{ padding: '48px 0', textAlign: 'center', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-              No local news available at this time.
+      <div className={styles.techLayout}>
+        <div className={styles.techRiver}>
+          {stories.length === 0 ? (
+            <div className={styles.loading}>
+              <span className={styles.loadingDot}>{'\u25CF'}</span> Loading local news...
             </div>
+          ) : (
+            stories.map((story, i) => (
+              <article key={i} className={styles.storyCluster}>
+                <div className={styles.clusterTime}>{story.time}</div>
+                <h2 className={styles.clusterHeadline}>
+                  <a href={story.url} target="_blank" rel="noopener noreferrer">
+                    {story.title}
+                  </a>
+                </h2>
+                <span className={styles.clusterSource}>{story.source}{story.town ? ` \u2022 ${story.town}` : ''}</span>
+                {story.description && (
+                  <p className={styles.clusterDeck}>{story.description}</p>
+                )}
+              </article>
+            ))
           )}
         </div>
 
-        {/* ══════════ SIDEBAR ══════════ */}
-        <aside className="tech-sidebar">
+        {/* SIDEBAR */}
+        <aside className={styles.techSidebar}>
           {/* Weather Detail */}
-          <div className="sidebar-box">
-            <h4>Weather — Nashua</h4>
-            <div style={{ textAlign: 'center', padding: '16px 0' }}>
-              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, fontWeight: 700 }}>
-                {data.weather.current.temp}°
+          {weather && (
+            <div className={styles.sidebarBox}>
+              <h4 className={styles.sidebarBoxTitle}>Weather - Nashua</h4>
+              <div className={styles.weatherCurrent}>
+                <div className={styles.weatherTempLarge}>{Math.round(weather.current.temp)}{'\u00B0'}</div>
+                {weather.current.feelsLike !== undefined && weather.current.feelsLike !== weather.current.temp && (
+                  <div style={{ fontSize: 13, color: '#A3A3A3', marginTop: 2 }}>
+                    Feels like {weather.current.feelsLike}{'\u00B0'}
+                  </div>
+                )}
+                <div className={styles.weatherCondition}>
+                  {weather.current.emoji} {weather.current.condition}
+                </div>
               </div>
-              <div style={{ color: 'var(--text-secondary)', marginBottom: 16 }}>
-                {data.weather.current.condition}
-              </div>
-            </div>
-            <div style={{ fontSize: 12 }}>
-              {data.weather.forecast.map((f, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: i < data.weather.forecast.length - 1 ? '1px solid var(--border)' : 'none' }}>
+              {weather.forecast?.map((f, i) => (
+                <div key={i} className={styles.weatherForecastRow}>
                   <span>{f.day}</span>
-                  <span>{f.high}° / {f.low}°{f.emoji || ''}</span>
+                  <span>{f.high}{'\u00B0'} / {f.low}{'\u00B0'} {f.emoji}</span>
                 </div>
               ))}
             </div>
-          </div>
+          )}
 
           {/* Traffic */}
-          <div className="sidebar-box">
-            <h4>Traffic & Commute</h4>
-            <div style={{ fontSize: 12 }}>
-              {[
-                { route: 'Route 3 South', status: '⚠️ Check for delays', color: 'var(--amber)' },
-                { route: 'Everett Turnpike', status: '✓ Clear', color: 'var(--green)' },
-                { route: 'Route 101A', status: '✓ Clear', color: 'var(--green)' },
-                { route: 'I-93 to Boston', status: '⚠️ Check conditions', color: 'var(--amber)' },
-              ].map((r, i) => (
-                <div key={i} style={{ padding: '8px 0', borderBottom: i < 3 ? '1px solid var(--border)' : 'none' }}>
-                  <div style={{ fontWeight: 600 }}>{r.route}</div>
-                  <div style={{ color: r.color }}>{r.status}</div>
-                </div>
-              ))}
+          <div className={styles.sidebarBox}>
+            <h4 className={styles.sidebarBoxTitle}>Traffic & Commute</h4>
+            <div className={styles.trafficItem}>
+              <div className={styles.trafficRoute}>Route 3 South</div>
+              <div className={styles.trafficDelay}>{'\u26A0\uFE0F'} Check for delays</div>
+            </div>
+            <div className={styles.trafficItem}>
+              <div className={styles.trafficRoute}>Everett Turnpike</div>
+              <div className={styles.trafficClear}>{'\u2713'} Typically clear</div>
+            </div>
+            <div className={styles.trafficItem}>
+              <div className={styles.trafficRoute}>Route 101A</div>
+              <div className={styles.trafficClear}>{'\u2713'} Typically clear</div>
+            </div>
+            <div className={styles.trafficItem}>
+              <div className={styles.trafficRoute}>I-93 to Boston</div>
+              <div className={styles.trafficDelay}>{'\u26A0\uFE0F'} Variable \u2014 Salem area</div>
             </div>
           </div>
 
           {/* Local Links */}
-          <div className="sidebar-box">
-            <h4>Local Links</h4>
-            <div style={{ fontSize: 13, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <a href="https://www.nashuatelegraph.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>Nashua Telegraph →</a>
-              <a href="https://www.unionleader.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>Union Leader →</a>
-              <a href="https://www.wmur.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>WMUR News →</a>
-              <a href="https://www.nashuanh.gov" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>City of Nashua →</a>
+          <div className={styles.sidebarBox}>
+            <h4 className={styles.sidebarBoxTitle}>Local Links</h4>
+            <div className={styles.quickLinks}>
+              <a href="https://www.nashuatelegraph.com" target="_blank" rel="noopener noreferrer">Nashua Telegraph \u2192</a>
+              <a href="https://www.unionleader.com" target="_blank" rel="noopener noreferrer">Union Leader \u2192</a>
+              <a href="https://www.wmur.com" target="_blank" rel="noopener noreferrer">WMUR News \u2192</a>
+              <a href="https://www.lowellsun.com" target="_blank" rel="noopener noreferrer">Lowell Sun \u2192</a>
+              <a href="https://www.nashuanh.gov" target="_blank" rel="noopener noreferrer">City of Nashua \u2192</a>
             </div>
           </div>
         </aside>

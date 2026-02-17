@@ -1,394 +1,193 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import styles from '../morning-brief.module.css';
 
-// ═══════════════════════════════════════════════════════════════════════════
-// SPORTS — Scores, News, Standings, Schedules
-// Design by Paula · Built by Anders · v2
-// Focus: NEWS with images, STANDINGS (NBA East + NHL Atlantic),
-//        SCORES with ESPN box score links
-// ═══════════════════════════════════════════════════════════════════════════
-
-interface GameData {
-  id: string;
+interface Game {
   league: string;
-  sport: string;
-  leagueSlug: string;
-  away: string;
-  awayFull: string;
-  home: string;
-  homeFull: string;
-  awayScore: string;
-  homeScore: string;
-  awayLogo: string;
-  homeLogo: string;
   status: string;
-  statusDetail: string;
-  time: string;
-  broadcast: string;
-  spread: string;
-  overUnder: string;
-  headline: string;
-  awayRecord: string;
-  homeRecord: string;
-  boxScoreUrl: string;
-}
-
-interface NewsArticle {
-  headline: string;
-  description: string;
-  url: string;
-  source: string;
-  imageUrl: string;
-  published: string;
-}
-
-interface StandingsTeam {
-  rank: number;
-  name: string;
-  abbr: string;
-  record: string;
-  isBostonTeam: boolean;
-}
-
-interface SportsData {
-  scores: GameData[];
-  today: GameData[];
-  boston_games: GameData[];
-  news: NewsArticle[];
-  standings: {
-    nba_east: StandingsTeam[];
-    nhl_atlantic: StandingsTeam[];
-  };
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: number | null;
+  awayScore: number | null;
+  detail: string;
+  startTime: string;
+  isBoston: boolean;
 }
 
 export default function SportsPage() {
-  const [data, setData] = useState<SportsData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [completed, setCompleted] = useState<Game[]>([]);
+  const [live, setLive] = useState<Game[]>([]);
+  const [upcoming, setUpcoming] = useState<Game[]>([]);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('/api/morning-brief/sports');
-        if (!res.ok) throw new Error(`${res.status}`);
-        setData(await res.json());
-      } catch (e) {
-        console.error('Sports data fetch failed:', e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-    const interval = setInterval(fetchData, 5 * 60 * 1000);
-    return () => clearInterval(interval);
+    fetch('/api/morning-brief/sports')
+      .then(r => r.json())
+      .then(data => {
+        setCompleted(data.completed || []);
+        setLive(data.live || []);
+        setUpcoming(data.upcoming || []);
+      })
+      .catch(() => {});
   }, []);
 
-  if (loading) return <div className="loading-pulse">LOADING SPORTS DATA...</div>;
-  if (!data) return <div className="loading-pulse">SPORTS DATA UNAVAILABLE</div>;
+  const renderScoreCard = (game: Game, index: number) => {
+    const isFinal = game.status === 'final';
+    const homeWins = isFinal && game.homeScore !== null && game.awayScore !== null && game.homeScore > game.awayScore;
+    const awayWins = isFinal && game.homeScore !== null && game.awayScore !== null && game.awayScore > game.homeScore;
 
-  const bostonAbbrs = ['BOS', 'NE'];
-  const isBostonTeam = (abbr: string) => bostonAbbrs.includes(abbr);
+    return (
+      <div key={index} className={styles.scoreCard} style={game.isBoston ? { borderLeft: '3px solid #F59E0B' } : {}}>
+        <div className={styles.scoreCardHeader}>
+          <span className={styles.scoreCardLeague}>{game.league}</span>
+          <span>{game.status === 'final' ? 'Final' : game.status === 'live' ? '\uD83D\uDD34 LIVE' : game.startTime}</span>
+        </div>
+        <div className={styles.scoreCardTeams}>
+          <div className={styles.scoreTeam}>
+            <span className={awayWins ? styles.teamNameWinner : styles.teamName}>
+              {game.awayTeam}
+            </span>
+            {game.awayScore !== null && (
+              <span className={styles.teamScore}>{game.awayScore}</span>
+            )}
+          </div>
+          <div className={styles.scoreTeam}>
+            <span className={homeWins ? styles.teamNameWinner : styles.teamName}>
+              {game.homeTeam}
+            </span>
+            {game.homeScore !== null && (
+              <span className={styles.teamScore}>{game.homeScore}</span>
+            )}
+          </div>
+        </div>
+        <div className={styles.scoreCardFooter}>
+          {game.detail}
+        </div>
+      </div>
+    );
+  };
 
-  function timeAgo(iso: string): string {
-    if (!iso) return '';
-    const diff = Date.now() - new Date(iso).getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    if (hours < 1) return 'Just now';
-    if (hours < 24) return `${hours}h ago`;
-    return `${Math.floor(hours / 24)}d ago`;
-  }
+  const allLoading = completed.length === 0 && live.length === 0 && upcoming.length === 0;
 
   return (
-    <main className="section-page">
-      <header className="section-header">
-        <h1 className="section-title">Sports</h1>
-        <p className="section-subtitle">Scores, schedules, and betting lines. Boston teams in focus.</p>
+    <main className={styles.sectionPage}>
+      <header className={styles.sectionHeader}>
+        <h1 className={styles.sectionTitle}>Sports</h1>
+        <p className={styles.sectionSubtitle}>Scores, schedules, and betting lines. Boston teams in focus.</p>
       </header>
 
-      {/* ══════════ SCOREBOARD — RESULTS ══════════ */}
-      {data.scores.length > 0 && (
-        <section style={{ marginBottom: 32 }}>
-          <h3 className="section-table-header">Last Night&apos;s Results</h3>
-          <div className="scoreboard">
-            {data.scores.map((g, i) => {
-              const awayWon = parseInt(g.awayScore) > parseInt(g.homeScore);
-              const homeWon = parseInt(g.homeScore) > parseInt(g.awayScore);
-              const CardTag = g.boxScoreUrl ? 'a' : 'div';
-              const cardProps = g.boxScoreUrl ? {
-                href: g.boxScoreUrl,
-                target: '_blank',
-                rel: 'noopener noreferrer',
-                style: { display: 'block', textDecoration: 'none', color: 'inherit' },
-              } : {};
+      {allLoading ? (
+        <div className={styles.loading}>
+          <span className={styles.loadingDot}>{'\u25CF'}</span> Loading scores from ESPN...
+        </div>
+      ) : (
+        <>
+          {/* LIVE GAMES */}
+          {live.length > 0 && (
+            <section style={{ marginBottom: 32 }}>
+              <h3 className={styles.pitTableHeader}>{'\uD83D\uDD34'} Live Now</h3>
+              <div className={styles.scoreboard}>
+                {live.map((game, i) => renderScoreCard(game, i))}
+              </div>
+            </section>
+          )}
 
-              return (
-                <CardTag key={i} {...cardProps} className="score-card" title={g.boxScoreUrl ? 'View box score on ESPN' : ''}>
-                  <div className="score-card-header">
-                    <span className="score-card-league">{g.league}</span>
-                    <span>{g.status}{g.boxScoreUrl ? ' ↗' : ''}</span>
-                  </div>
-                  <div className="score-card-teams">
-                    <div className="score-team">
-                      {g.awayLogo && (
-                        <img src={g.awayLogo} alt={g.away} style={{ width: 20, height: 20, marginRight: 8, objectFit: 'contain' }} />
-                      )}
-                      <span className={`team-name ${awayWon ? 'winner' : ''}`}>{g.awayFull}</span>
-                      <span className="team-score">{g.awayScore}</span>
-                    </div>
-                    <div className="score-team">
-                      {g.homeLogo && (
-                        <img src={g.homeLogo} alt={g.home} style={{ width: 20, height: 20, marginRight: 8, objectFit: 'contain' }} />
-                      )}
-                      <span className={`team-name ${homeWon ? 'winner' : ''}`}>{g.homeFull}</span>
-                      <span className="team-score">{g.homeScore}</span>
-                    </div>
-                  </div>
-                  {g.headline && (
-                    <div className="score-card-footer">{g.headline}</div>
-                  )}
-                  {(g.awayRecord || g.homeRecord) && (
-                    <div style={{ fontSize: 10, color: 'var(--text-muted)', marginTop: 4 }}>
-                      {g.away} ({g.awayRecord}) • {g.home} ({g.homeRecord})
-                    </div>
-                  )}
-                </CardTag>
-              );
-            })}
-          </div>
-        </section>
+          {/* COMPLETED GAMES */}
+          {completed.length > 0 && (
+            <section style={{ marginBottom: 32 }}>
+              <h3 className={styles.pitTableHeader}>Recent Results</h3>
+              <div className={styles.scoreboard}>
+                {completed.map((game, i) => renderScoreCard(game, i))}
+              </div>
+            </section>
+          )}
+
+          {/* UPCOMING GAMES */}
+          {upcoming.length > 0 && (
+            <section style={{ marginBottom: 32 }}>
+              <h3 className={styles.pitTableHeader}>{"Today\u2019s Games"}</h3>
+              <table className={styles.marketTable}>
+                <thead>
+                  <tr>
+                    <th>League</th>
+                    <th>Matchup</th>
+                    <th>Time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {upcoming.map((game, i) => (
+                    <tr key={i} className={game.isBoston ? styles.bostonHighlight : ''}>
+                      <td>
+                        <span className={game.isBoston ? styles.amber : ''} style={{ fontWeight: game.isBoston ? 600 : 400 }}>
+                          {game.league}
+                        </span>
+                      </td>
+                      <td className={styles.tdSymbol}>
+                        {game.awayTeam} @ {game.homeTeam}
+                      </td>
+                      <td className={styles.tdPrice}>{game.startTime}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </section>
+          )}
+        </>
       )}
 
-      {/* ══════════ TODAY'S GAMES ══════════ */}
-      {data.today.length > 0 && (
-        <section style={{ marginBottom: 32 }}>
-          <h3 className="section-table-header">Today&apos;s Games</h3>
-          <table className="market-table">
-            <thead>
-              <tr>
-                <th>League</th>
-                <th>Matchup</th>
-                <th>Time</th>
-                <th>TV</th>
-                <th>Spread</th>
-                <th>O/U</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.today.map((g, i) => {
-                const isBos = isBostonTeam(g.away) || isBostonTeam(g.home);
+      <div className={styles.techLayout}>
+        <div className={styles.techRiver}>
+          {/* Boston-focused headlines from completed games */}
+          {completed.filter(g => g.isBoston).length > 0 && (
+            <section style={{ marginBottom: 32 }}>
+              <h3 className={styles.pitTableHeader}>Boston Headlines</h3>
+              {completed.filter(g => g.isBoston).map((game, i) => {
+                const homeWin = game.homeScore !== null && game.awayScore !== null && game.homeScore > game.awayScore;
+                const bostonIsHome = game.homeTeam.includes('Boston') || game.homeTeam.includes('Celtics') || game.homeTeam.includes('Bruins') || game.homeTeam.includes('Red Sox') || game.homeTeam.includes('Patriots');
+                const bostonWon = bostonIsHome ? homeWin : !homeWin;
+                const bostonTeam = bostonIsHome ? game.homeTeam : game.awayTeam;
+                const otherTeam = bostonIsHome ? game.awayTeam : game.homeTeam;
+                const bostonScore = bostonIsHome ? game.homeScore : game.awayScore;
+                const otherScore = bostonIsHome ? game.awayScore : game.homeScore;
+
                 return (
-                  <tr key={i} className={isBos ? 'boston-game' : ''}>
-                    <td>
-                      <span style={isBos ? { color: 'var(--amber)', fontWeight: 600 } : {}}>{g.league}</span>
-                    </td>
-                    <td className="symbol">{g.awayFull} @ {g.homeFull}</td>
-                    <td className="price">{g.time}</td>
-                    <td>{g.broadcast || '—'}</td>
-                    <td className={isBos ? 'change up' : ''}>{g.spread || '—'}</td>
-                    <td>{g.overUnder || '—'}</td>
-                  </tr>
+                  <article key={i} className={styles.storyCluster}>
+                    <div className={styles.clusterHeadline}>
+                      {bostonTeam} {bostonWon ? 'Beat' : 'Fall to'} {otherTeam} {bostonScore}-{otherScore}
+                    </div>
+                    <span className={styles.clusterSource}>{game.league}</span>
+                    <p className={styles.clusterDeck}>{game.detail}</p>
+                  </article>
                 );
               })}
-            </tbody>
-          </table>
-        </section>
-      )}
-
-      {/* ══════════ HEADLINES + SIDEBAR ══════════ */}
-      <div className="tech-layout">
-        <div className="tech-river">
-          {/* ── News Articles with Images ── */}
-          <section style={{ marginBottom: 32 }}>
-            <h3 className="section-table-header">Headlines</h3>
-
-            {data.news.length > 0 ? (
-              data.news.map((article, i) => (
-                <article key={i} className="story-cluster">
-                  <div className="cluster-main" style={{ display: 'flex', gap: 16 }}>
-                    {/* Image thumbnail */}
-                    {article.imageUrl && (
-                      <a
-                        href={article.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ flexShrink: 0 }}
-                      >
-                        <img
-                          src={article.imageUrl}
-                          alt=""
-                          style={{
-                            width: 140,
-                            height: 90,
-                            objectFit: 'cover',
-                            borderRadius: 4,
-                            border: '1px solid var(--border)',
-                          }}
-                        />
-                      </a>
-                    )}
-                    <div style={{ flex: 1 }}>
-                      {article.published && (
-                        <div className="cluster-time">{timeAgo(article.published)}</div>
-                      )}
-                      <h2 className="cluster-headline">
-                        <a href={article.url} target="_blank" rel="noopener noreferrer">
-                          {article.headline}
-                        </a>
-                      </h2>
-                      <span className="cluster-source">{article.source || 'ESPN'}</span>
-                      {article.description && (
-                        <p className="cluster-deck">{article.description}</p>
-                      )}
-                    </div>
-                  </div>
-                </article>
-              ))
-            ) : (
-              /* Fallback: build headlines from game data */
-              [...data.scores, ...data.today].filter(g => g.headline).slice(0, 6).map((g, i) => (
-                <article key={i} className="story-cluster">
-                  <div className="cluster-main">
-                    <h2 className="cluster-headline">
-                      <a href={g.boxScoreUrl || '#'} target={g.boxScoreUrl ? '_blank' : undefined} rel={g.boxScoreUrl ? 'noopener noreferrer' : undefined}>
-                        {g.status === 'Final'
-                          ? `${g.awayFull} ${g.awayScore}, ${g.homeFull} ${g.homeScore}`
-                          : `${g.awayFull} @ ${g.homeFull} — ${g.time}`}
-                      </a>
-                    </h2>
-                    <span className="cluster-source">{g.league}</span>
-                    {g.headline && <p className="cluster-deck">{g.headline}</p>}
-                  </div>
-                </article>
-              ))
-            )}
-
-            {data.news.length === 0 && [...data.scores, ...data.today].filter(g => g.headline).length === 0 && (
-              <div style={{ padding: '24px 0', color: 'var(--text-muted)', fontStyle: 'italic', textAlign: 'center' }}>
-                No sports headlines available at this time.
-              </div>
-            )}
-          </section>
+            </section>
+          )}
         </div>
 
-        {/* ══════════ SIDEBAR ══════════ */}
-        <aside className="tech-sidebar">
-          {/* ── NBA East Standings ── */}
-          {data.standings.nba_east.length > 0 && (
-            <div className="sidebar-box">
-              <h4>NBA East Standings</h4>
-              <div style={{ fontSize: 12 }}>
-                {data.standings.nba_east.map((team, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      padding: '6px 0',
-                      borderBottom: i < data.standings.nba_east.length - 1 ? '1px solid var(--border)' : 'none',
-                      ...(team.isBostonTeam ? { color: 'var(--amber)', fontWeight: 600 } : {}),
-                    }}
-                  >
-                    <span>{team.rank}. {team.name}</span>
-                    <span>{team.record}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── NHL Atlantic Standings ── */}
-          {data.standings.nhl_atlantic.length > 0 && (
-            <div className="sidebar-box">
-              <h4>NHL Atlantic</h4>
-              <div style={{ fontSize: 12 }}>
-                {data.standings.nhl_atlantic.map((team, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      padding: '6px 0',
-                      borderBottom: i < data.standings.nhl_atlantic.length - 1 ? '1px solid var(--border)' : 'none',
-                      ...(team.isBostonTeam ? { color: 'var(--amber)', fontWeight: 600 } : {}),
-                    }}
-                  >
-                    <span>{team.rank}. {team.name}</span>
-                    <span>{team.record}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── Boston Teams Focus ── */}
-          {data.boston_games.length > 0 && (
-            <div className="sidebar-box">
-              <h4>Boston Teams</h4>
-              <div style={{ fontSize: 12 }}>
-                {data.boston_games.map((g, i) => (
-                  <div key={i} style={{ padding: '8px 0', borderBottom: i < data.boston_games.length - 1 ? '1px solid var(--border)' : 'none' }}>
-                    <div style={{ fontWeight: 600 }}>
-                      {g.awayFull} @ {g.homeFull}
-                    </div>
-                    <div style={{ color: g.status === 'Final' ? 'var(--text-secondary)' : 'var(--amber)' }}>
-                      {g.status === 'Final' ? (
-                        <a
-                          href={g.boxScoreUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          style={{ color: 'var(--text-secondary)', textDecoration: 'none' }}
-                        >
-                          Final: {g.awayScore}-{g.homeScore} ↗
-                        </a>
-                      ) : (
-                        `${g.time} — ${g.broadcast || g.league}`
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ── This Week (upcoming Boston games from today list) ── */}
-          <div className="sidebar-box">
-            <h4>This Week</h4>
-            <div style={{ fontSize: 12 }}>
-              {data.today.filter(g => isBostonTeam(g.away) || isBostonTeam(g.home)).length > 0 ? (
-                data.today.filter(g => isBostonTeam(g.away) || isBostonTeam(g.home)).map((g, i) => (
-                  <div key={i} style={{ padding: '8px 0', borderBottom: '1px solid var(--border)' }}>
-                    <div style={{ color: 'var(--amber)', fontSize: 10, textTransform: 'uppercase' }}>Today</div>
-                    <div>{g.awayFull} @ {g.homeFull} ({g.time})</div>
-                  </div>
-                ))
-              ) : (
-                <div style={{ padding: '8px 0', color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                  No Boston games scheduled for today.
+        {/* SIDEBAR */}
+        <aside className={styles.techSidebar}>
+          {/* Boston Games Today */}
+          {upcoming.filter(g => g.isBoston).length > 0 && (
+            <div className={styles.sidebarBox}>
+              <h4 className={styles.sidebarBoxTitle}>Boston Today</h4>
+              {upcoming.filter(g => g.isBoston).map((game, i) => (
+                <div key={i} className={styles.scheduleItem}>
+                  <div className={styles.scheduleDate}>{game.league}</div>
+                  <div>{game.awayTeam.split(' ').pop()} @ {game.homeTeam.split(' ').pop()} - {game.startTime}</div>
                 </div>
-              )}
+              ))}
             </div>
-          </div>
+          )}
 
-          {/* ── Injury Report (placeholder — ESPN doesn't expose injuries in free API) ── */}
-          <div className="sidebar-box">
-            <h4>Injury Report</h4>
-            <div style={{ fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic', padding: '8px 0' }}>
-              Check team pages for latest injury updates.
-            </div>
-            <div style={{ fontSize: 13, display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
-              <a href="https://www.espn.com/nba/injuries" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>NBA Injuries →</a>
-              <a href="https://www.espn.com/nhl/injuries" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>NHL Injuries →</a>
-            </div>
-          </div>
-
-          {/* ── Quick Links ── */}
-          <div className="sidebar-box">
-            <h4>Quick Links</h4>
-            <div style={{ fontSize: 13, display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <a href="https://www.espn.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>ESPN →</a>
-              <a href="https://www.nba.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>NBA.com →</a>
-              <a href="https://www.nhl.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>NHL.com →</a>
-              <a href="https://www.bostonglobe.com/sports" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }}>Boston Globe Sports →</a>
+          {/* Quick Links */}
+          <div className={styles.sidebarBox}>
+            <h4 className={styles.sidebarBoxTitle}>Quick Links</h4>
+            <div className={styles.quickLinks}>
+              <a href="https://www.espn.com" target="_blank" rel="noopener noreferrer">ESPN \u2192</a>
+              <a href="https://www.nba.com/celtics" target="_blank" rel="noopener noreferrer">Celtics \u2192</a>
+              <a href="https://www.nhl.com/bruins" target="_blank" rel="noopener noreferrer">Bruins \u2192</a>
+              <a href="https://www.patriots.com" target="_blank" rel="noopener noreferrer">Patriots \u2192</a>
+              <a href="https://www.mlb.com/redsox" target="_blank" rel="noopener noreferrer">Red Sox \u2192</a>
             </div>
           </div>
         </aside>

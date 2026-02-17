@@ -1,0 +1,1389 @@
+/* ============================================
+   THE MORNING BRIEF - DESIGN SYSTEM
+   ============================================ */
+
+/* ============================================
+   NEWSPAPER CONTAINER
+   ============================================ */
+
+.newspaper {
+    max-width: 1400px;
+    margin: 0 auto;
+    background: #111111;
+    min-height: 100vh;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: #FAFAFA;
+    line-height: 1.5;
+}
+
+.newspaper * {
+    box-sizing: border-box;
+}
+
+.newspaper a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* ============================================
+   MASTHEAD
+   ============================================ */
+
+.masthead {
+    text-align: center;
+    padding: 24px 32px 20px;
+    border-bottom: 3px double #F59E0B;
+}
+
+.mastheadCompact {
+    composes: masthead;
+    padding: 16px 32px;
+}
+
+.mastheadTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.mastheadDate {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #525252;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.mastheadWeather {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #A3A3A3;
+    display: flex;
+    gap: 12px;
+}
+
+.weatherTemp {
+    color: #FAFAFA;
+    font-weight: 600;
+}
+
+.mastheadTitle {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(32px, 6vw, 64px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.mastheadTitleCompact {
+    composes: mastheadTitle;
+    font-size: 32px;
+}
+
+.mastheadTitleAccent {
+    color: #F59E0B;
+}
+
+.mastheadTagline {
+    font-size: 12px;
+    color: #525252;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   NAVIGATION
+   ============================================ */
+
+.sectionNav {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    background: #181818;
+    border-bottom: 1px solid #262626;
+    overflow-x: auto;
+}
+
+.navItem {
+    padding: 14px 24px;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: #A3A3A3;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.navItem:hover {
+    color: #FAFAFA;
+    background: #1F1F1F;
+}
+
+.navItemActive {
+    composes: navItem;
+    color: #F59E0B;
+    border-bottom-color: #F59E0B;
+}
+
+/* ============================================
+   TICKER BAR
+   ============================================ */
+
+.tickerBar {
+    display: flex;
+    gap: 32px;
+    padding: 10px 24px;
+    background: #0A0A0A;
+    border-bottom: 1px solid #262626;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+}
+
+.tickerItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.tickerSymbol {
+    color: #525252;
+    font-weight: 500;
+}
+
+.tickerPrice {
+    color: #FAFAFA;
+}
+
+.tickerChange {
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.tickerChangeUp {
+    composes: tickerChange;
+    background: rgba(34, 197, 94, 0.15);
+    color: #22C55E;
+}
+
+.tickerChangeDown {
+    composes: tickerChange;
+    background: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
+.footer {
+    text-align: center;
+    padding: 32px;
+    border-top: 3px double #F59E0B;
+    background: #181818;
+}
+
+.footerQuote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-size: 16px;
+    color: #A3A3A3;
+    margin-bottom: 8px;
+}
+
+.footerAttr {
+    font-size: 12px;
+    color: #525252;
+}
+
+.footerTagline {
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #F59E0B;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* ============================================
+   FRONT PAGE
+   ============================================ */
+
+.frontPage {
+    padding: 24px;
+}
+
+.leadStory {
+    padding: 32px;
+    margin-bottom: 24px;
+    background: #181818;
+    border: 1px solid #262626;
+    border-left: 4px solid #F59E0B;
+}
+
+.sectionFlag {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #F59E0B;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.leadHeadline {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 12px;
+}
+
+.leadDeck {
+    font-size: 16px;
+    color: #A3A3A3;
+    line-height: 1.6;
+    margin-bottom: 16px;
+    max-width: 800px;
+}
+
+.leadMeta {
+    font-size: 12px;
+    color: #525252;
+    display: flex;
+    gap: 16px;
+}
+
+.metaSection {
+    color: #F59E0B;
+    font-weight: 600;
+}
+
+/* Three Column Grid */
+.frontGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 1024px) {
+    .frontGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .frontGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.frontColumn {
+    background: #181818;
+    border: 1px solid #262626;
+    padding: 20px;
+}
+
+.columnHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #F59E0B;
+    text-decoration: none;
+    color: inherit;
+}
+
+.columnHeader:hover h3 {
+    color: #F59E0B;
+}
+
+.columnHeaderTitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.seeAll {
+    font-size: 11px;
+    color: #525252;
+    transition: color 0.2s;
+}
+
+.columnHeader:hover .seeAll {
+    color: #F59E0B;
+}
+
+.frontStory {
+    padding: 12px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.frontStory:last-of-type {
+    border-bottom: none;
+}
+
+.frontStoryTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.frontStoryDesc {
+    font-size: 13px;
+    color: #A3A3A3;
+    line-height: 1.5;
+}
+
+/* Quick Stats */
+.quickStats {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #262626;
+}
+
+.stat {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    background: #111111;
+    border-radius: 4px;
+}
+
+.statValue {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+}
+
+.statLabel {
+    font-size: 10px;
+    color: #525252;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Games Today */
+.gamesToday {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #262626;
+}
+
+.game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.game:last-child {
+    border-bottom: none;
+}
+
+.gameTeams {
+    font-weight: 600;
+}
+
+.gameTime {
+    color: #A3A3A3;
+}
+
+.gameLine {
+    font-family: 'JetBrains Mono', monospace;
+    color: #F59E0B;
+    font-size: 11px;
+}
+
+/* Trending Topics */
+.trendingTopics {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #262626;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.topic {
+    font-size: 11px;
+    padding: 4px 10px;
+    background: #111111;
+    border: 1px solid #262626;
+    border-radius: 20px;
+    color: #A3A3A3;
+}
+
+/* Bottom Row */
+.frontBottom {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .frontBottom {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .frontBottom {
+        grid-template-columns: 1fr;
+    }
+}
+
+.bottomSection {
+    background: #181818;
+    border: 1px solid #262626;
+    padding: 20px;
+}
+
+.bottomSectionTitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #F59E0B;
+}
+
+/* Calendar */
+.calendarList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.calendarItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 13px;
+}
+
+.calendarItem:last-child {
+    border-bottom: none;
+}
+
+.calTime {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #F59E0B;
+    min-width: 65px;
+}
+
+.calEvent {
+    flex: 1;
+    font-weight: 500;
+}
+
+.calType {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.calTypeEcon {
+    composes: calType;
+    background: rgba(59, 130, 246, 0.15);
+    color: #3B82F6;
+}
+
+.calTypeEarn {
+    composes: calType;
+    background: rgba(34, 197, 94, 0.15);
+    color: #22C55E;
+}
+
+/* Local Stories */
+.localStory {
+    padding: 8px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.localStory:last-child {
+    border-bottom: none;
+}
+
+.localStoryTitle {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+/* Headlines */
+.headlineList {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.headlineItem {
+    padding: 10px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.headlineItem:last-child {
+    border-bottom: none;
+}
+
+.headlineItemTitle {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.headlineTag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+    display: inline-block;
+}
+
+.headlineTagNational {
+    composes: headlineTag;
+    background: rgba(168, 85, 247, 0.15);
+    color: #A855F7;
+}
+
+.headlineTagSports {
+    composes: headlineTag;
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+}
+
+/* Weather Bar */
+.weatherBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 16px 24px;
+    margin-top: 24px;
+    background: #181818;
+    border: 1px solid #262626;
+    border-radius: 4px;
+    font-size: 13px;
+}
+
+.weatherBarLocation {
+    font-weight: 600;
+    color: #F59E0B;
+}
+
+.weatherBarNow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.weatherBarTemp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.weatherBarCond {
+    color: #A3A3A3;
+}
+
+.weatherBarForecast {
+    display: flex;
+    gap: 16px;
+    color: #525252;
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .weatherBar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}
+
+/* ============================================
+   SECTION PAGE LAYOUTS
+   ============================================ */
+
+.sectionPage {
+    padding: 24px;
+}
+
+.sectionHeader {
+    margin-bottom: 24px;
+}
+
+.sectionTitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+}
+
+.sectionSubtitle {
+    font-size: 14px;
+    color: #A3A3A3;
+}
+
+/* ============================================
+   TECHMEME-STYLE LAYOUT (Tech Section)
+   ============================================ */
+
+.techLayout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+}
+
+@media (max-width: 900px) {
+    .techLayout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.techRiver {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Story Cluster */
+.storyCluster {
+    padding: 20px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.clusterTime {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #525252;
+    margin-bottom: 6px;
+}
+
+.clusterHeadline {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.clusterHeadline a:hover {
+    color: #F59E0B;
+}
+
+.clusterSource {
+    font-size: 12px;
+    color: #F59E0B;
+}
+
+.clusterDeck {
+    font-size: 14px;
+    color: #A3A3A3;
+    line-height: 1.5;
+    margin-top: 8px;
+}
+
+/* Related Coverage */
+.clusterRelated {
+    padding-left: 16px;
+    border-left: 2px solid #262626;
+    margin-top: 12px;
+}
+
+.relatedItem {
+    display: flex;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+.relatedSource {
+    color: #F59E0B;
+    min-width: 80px;
+}
+
+.relatedTitle {
+    color: #A3A3A3;
+}
+
+.relatedTitle:hover {
+    color: #FAFAFA;
+}
+
+/* Discussion Links */
+.clusterDiscussion {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #262626;
+    font-size: 12px;
+    color: #525252;
+}
+
+.clusterDiscussion a {
+    color: #A3A3A3;
+    margin-right: 12px;
+}
+
+.clusterDiscussion a:hover {
+    color: #F59E0B;
+}
+
+/* Sidebar */
+.techSidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.sidebarBox {
+    background: #181818;
+    border: 1px solid #262626;
+    padding: 16px;
+}
+
+.sidebarBoxTitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #F59E0B;
+}
+
+.leaderboardItem {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.leaderboardItem:last-child {
+    border-bottom: none;
+}
+
+.leaderboardRank {
+    color: #525252;
+    width: 20px;
+}
+
+.leaderboardName {
+    flex: 1;
+}
+
+.leaderboardCount {
+    color: #F59E0B;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* ============================================
+   MARKET TABLE (The Pit Section)
+   ============================================ */
+
+.marketTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.marketTable th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #525252;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: left;
+    padding: 12px 8px;
+    border-bottom: 2px solid #F59E0B;
+}
+
+.marketTable td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #262626;
+}
+
+.marketTable tr:hover {
+    background: #1F1F1F;
+}
+
+.tdSymbol {
+    font-weight: 600;
+}
+
+.tdPrice {
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.tdChangeUp {
+    font-family: 'JetBrains Mono', monospace;
+    color: #22C55E;
+}
+
+.tdChangeDown {
+    font-family: 'JetBrains Mono', monospace;
+    color: #EF4444;
+}
+
+.tdNote {
+    color: #525252;
+    font-size: 12px;
+}
+
+/* ============================================
+   SPORTS SCOREBOARD
+   ============================================ */
+
+.scoreboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.scoreCard {
+    background: #181818;
+    border: 1px solid #262626;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+.scoreCardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 11px;
+    color: #525252;
+}
+
+.scoreCardLeague {
+    font-weight: 600;
+    color: #F59E0B;
+}
+
+.scoreCardTeams {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.scoreTeam {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.teamName {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.teamNameWinner {
+    composes: teamName;
+    color: #F59E0B;
+}
+
+.teamScore {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.scoreCardFooter {
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid #262626;
+    font-size: 11px;
+    color: #525252;
+}
+
+/* ============================================
+   AI TODAY
+   ============================================ */
+
+.aiHeadlines {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 1024px) {
+    .aiHeadlines {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .aiHeadlines {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+.aiHeadlineCard {
+    background: #181818;
+    border: 1px solid #262626;
+    padding: 16px;
+    border-top: 3px solid #F59E0B;
+}
+
+.aiHeadlineCompany {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #F59E0B;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+
+.aiHeadlineTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 8px;
+}
+
+.aiHeadlineMeta {
+    font-size: 11px;
+    color: #525252;
+}
+
+.categorySection {
+    margin-bottom: 32px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid #262626;
+}
+
+.categorySectionLast {
+    composes: categorySection;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.categoryHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #F59E0B;
+}
+
+.categoryHeaderTitle {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.tierBadge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 4px 8px;
+    background: rgba(245, 158, 11, 0.15);
+    color: #F59E0B;
+    border-radius: 3px;
+}
+
+.categoryStories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+    .categoryStories {
+        grid-template-columns: 1fr;
+    }
+}
+
+.categoryStory {
+    padding: 16px;
+    background: #181818;
+    border: 1px solid #262626;
+}
+
+.categoryStorySource {
+    font-size: 11px;
+    color: #F59E0B;
+    margin-bottom: 6px;
+}
+
+.categoryStoryTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.categoryStoryDesc {
+    font-size: 13px;
+    color: #A3A3A3;
+    line-height: 1.5;
+}
+
+.categoryLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    font-size: 12px;
+}
+
+.categoryLinks a {
+    color: #A3A3A3;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.categoryLinks a:hover {
+    color: #F59E0B;
+}
+
+.linkSource {
+    color: #525252;
+}
+
+.playerGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.playerTag {
+    font-size: 11px;
+    padding: 6px 10px;
+    background: #111111;
+    border: 1px solid #262626;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.playerTagTierA {
+    composes: playerTag;
+    border-color: #F59E0B;
+    color: #F59E0B;
+}
+
+/* ============================================
+   PIT-SPECIFIC SECTION TABLE HEADER
+   ============================================ */
+
+.pitTableHeader {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #F59E0B;
+}
+
+/* ============================================
+   SIDEBAR STAT ROW
+   ============================================ */
+
+.sidebarStatRow {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    padding: 8px 0;
+    background: none;
+    border-bottom: 1px solid #262626;
+}
+
+.sidebarStatRow:last-child {
+    border-bottom: none;
+}
+
+.sidebarStatLabel {
+    font-size: 12px;
+    color: #525252;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.sidebarStatValue {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* Sidebar sector row */
+.sectorRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.sectorRow:last-child {
+    border-bottom: none;
+}
+
+/* Economic Calendar sidebar item */
+.econCalItem {
+    padding: 10px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 12px;
+}
+
+.econCalItem:last-child {
+    border-bottom: none;
+}
+
+.econCalTime {
+    color: #F59E0B;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+}
+
+.econCalTitle {
+    font-weight: 600;
+    margin: 4px 0;
+}
+
+.econCalNote {
+    color: #525252;
+}
+
+/* Trading notes */
+.tradingNoteList {
+    font-size: 12px;
+    line-height: 1.6;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tradingNote {
+    padding: 8px 0;
+    border-bottom: 1px solid #262626;
+}
+
+.tradingNote:last-child {
+    border-bottom: none;
+}
+
+.tradingNoteKey {
+    color: #F59E0B;
+    font-weight: 700;
+}
+
+/* Sports highlight row */
+.bostonHighlight {
+    background: rgba(245, 158, 11, 0.1);
+}
+
+/* Standings row */
+.standingsRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.standingsRow:last-child {
+    border-bottom: none;
+}
+
+.standingsHighlight {
+    composes: standingsRow;
+    color: #F59E0B;
+    font-weight: 600;
+}
+
+/* Schedule items */
+.scheduleItem {
+    padding: 8px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 12px;
+}
+
+.scheduleItem:last-child {
+    border-bottom: none;
+}
+
+.scheduleDate {
+    color: #F59E0B;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+/* Injury report */
+.injuryItem {
+    padding: 6px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 12px;
+}
+
+.injuryItem:last-child {
+    border-bottom: none;
+}
+
+.injuryTeam {
+    color: #F59E0B;
+}
+
+/* Weather detail in sidebar */
+.weatherCurrent {
+    text-align: center;
+    padding: 16px 0;
+}
+
+.weatherTempLarge {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.weatherCondition {
+    color: #A3A3A3;
+    margin-bottom: 16px;
+}
+
+.weatherForecastRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 12px;
+    border-bottom: 1px solid #262626;
+}
+
+.weatherForecastRow:last-child {
+    border-bottom: none;
+}
+
+/* Traffic status */
+.trafficItem {
+    padding: 8px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 12px;
+}
+
+.trafficItem:last-child {
+    border-bottom: none;
+}
+
+.trafficRoute {
+    font-weight: 600;
+}
+
+.trafficClear {
+    color: #22C55E;
+}
+
+.trafficDelay {
+    color: #F59E0B;
+}
+
+/* Events */
+.eventItem {
+    padding: 8px 0;
+    border-bottom: 1px solid #262626;
+    font-size: 12px;
+}
+
+.eventItem:last-child {
+    border-bottom: none;
+}
+
+.eventDate {
+    color: #F59E0B;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+/* Quick links */
+.quickLinks {
+    font-size: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quickLinks a {
+    color: #A3A3A3;
+}
+
+.quickLinks a:hover {
+    color: #F59E0B;
+}
+
+/* HN items */
+.hnItem {
+    margin-bottom: 10px;
+}
+
+.hnItemTitle {
+    color: #FAFAFA;
+    line-height: 1.4;
+    display: block;
+    font-size: 12px;
+}
+
+.hnItemMeta {
+    color: #525252;
+    font-size: 11px;
+}
+
+/* Utility */
+.up { color: #22C55E; }
+.down { color: #EF4444; }
+.amber { color: #F59E0B; }
+.muted { color: #525252; }
+.secondary { color: #A3A3A3; }
+
+/* Loading state */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #525252;
+    font-size: 14px;
+}
+
+.loadingDot {
+    display: inline-block;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}

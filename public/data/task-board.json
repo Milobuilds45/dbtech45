@@ -1,0 +1,109 @@
+{
+  "tasks": [
+    {
+      "id": "tb001",
+      "title": "Build Trading Dashboard v2",
+      "description": "Redesign the trading dashboard with real-time charts, portfolio overview, and options chain viewer. Bobby needs live data feeds integrated with the new UI components.",
+      "priority": "high",
+      "column": "in-progress",
+      "assignedAgents": ["bobby", "anders"],
+      "collaborationType": "sequential",
+      "estimatedHours": 8,
+      "agentNotes": "Bobby handling data architecture, Anders building frontend. Charts library already picked — lightweight canvas-based.",
+      "createdAt": "2026-02-12T09:00:00.000Z",
+      "updatedAt": "2026-02-14T14:30:00.000Z"
+    },
+    {
+      "id": "tb002",
+      "title": "Restaurant Menu Photo Shoot Planning",
+      "description": "Coordinate the upcoming menu photo shoot for Tony's restaurant. Need to schedule photographer, prep dishes, and plan social media rollout.",
+      "priority": "medium",
+      "column": "backlog",
+      "assignedAgents": ["tony", "paula", "remy"],
+      "collaborationType": "parallel",
+      "estimatedHours": 5,
+      "agentNotes": "Tony preps dishes, Paula handles visual direction, Remy plans the social campaign around the new photos.",
+      "createdAt": "2026-02-13T11:00:00.000Z",
+      "updatedAt": "2026-02-13T11:00:00.000Z"
+    },
+    {
+      "id": "tb003",
+      "title": "Weekly Intelligence Brief",
+      "description": "Compile weekly intelligence briefing covering market news, crypto movements, geopolitical events, and weather outlook for the week ahead.",
+      "priority": "high",
+      "column": "in-progress",
+      "assignedAgents": ["dwight"],
+      "collaborationType": "solo",
+      "estimatedHours": 2,
+      "agentNotes": "Standard weekly brief format. Include BTC/ETH price action summary and any SEC news.",
+      "createdAt": "2026-02-14T06:00:00.000Z",
+      "updatedAt": "2026-02-14T10:00:00.000Z"
+    },
+    {
+      "id": "tb004",
+      "title": "Social Media Analytics Report",
+      "description": "Pull engagement metrics across all social platforms, analyze trends, and provide recommendations for content strategy adjustments.",
+      "priority": "medium",
+      "column": "review",
+      "assignedAgents": ["dax", "remy"],
+      "collaborationType": "sequential",
+      "estimatedHours": 3,
+      "agentNotes": "Dax pulls the raw data and metrics. Remy interprets and writes the strategy recommendations.",
+      "createdAt": "2026-02-12T15:00:00.000Z",
+      "updatedAt": "2026-02-14T09:00:00.000Z"
+    },
+    {
+      "id": "tb005",
+      "title": "OS Landing Page Redesign",
+      "description": "Redesign the main dbtech45.com/os landing page with improved navigation, agent showcase section, and cleaner visual hierarchy.",
+      "priority": "critical",
+      "column": "backlog",
+      "assignedAgents": ["paula", "anders"],
+      "collaborationType": "sequential",
+      "estimatedHours": 12,
+      "agentNotes": "Paula designs mockups first, then Anders implements. Need mobile-responsive approach.",
+      "createdAt": "2026-02-14T08:00:00.000Z",
+      "updatedAt": "2026-02-14T08:00:00.000Z"
+    },
+    {
+      "id": "tb006",
+      "title": "Family Calendar Sync Setup",
+      "description": "Set up automated calendar syncing for family events, reminders, and wellness check-ins. Include birthday reminders and appointment tracking.",
+      "priority": "low",
+      "column": "done",
+      "assignedAgents": ["wendy"],
+      "collaborationType": "solo",
+      "estimatedHours": 1,
+      "agentNotes": "Completed. Calendar integration is live and sending reminders via Telegram.",
+      "createdAt": "2026-02-10T12:00:00.000Z",
+      "updatedAt": "2026-02-13T16:00:00.000Z"
+    },
+    {
+      "id": "tb007",
+      "title": "Sprint Planning & Agent Coordination",
+      "description": "Organize the current sprint priorities, assign workloads across agents, and resolve any blocking dependencies between tasks.",
+      "priority": "high",
+      "column": "in-progress",
+      "assignedAgents": ["milo"],
+      "collaborationType": "solo",
+      "estimatedHours": 2,
+      "agentNotes": "Reviewing all agent workloads. Need to rebalance — Bobby and Anders are overloaded.",
+      "createdAt": "2026-02-14T07:00:00.000Z",
+      "updatedAt": "2026-02-14T12:00:00.000Z"
+    },
+    {
+      "id": "tb008",
+      "title": "SEO Audit & Content Calendar",
+      "description": "Run a full SEO audit on dbtech45.com, identify keyword opportunities, and build out a 30-day content calendar with topics and publishing schedule.",
+      "priority": "medium",
+      "column": "done",
+      "assignedAgents": ["remy", "dax"],
+      "collaborationType": "parallel",
+      "estimatedHours": 4,
+      "agentNotes": "Audit complete. Content calendar drafted and shared. Key finding: need more long-tail keyword content.",
+      "createdAt": "2026-02-09T10:00:00.000Z",
+      "updatedAt": "2026-02-12T18:00:00.000Z"
+    }
+  ],
+  "lastUpdated": "2026-02-14T14:30:00.000Z"
+}

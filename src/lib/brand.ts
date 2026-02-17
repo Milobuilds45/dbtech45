@@ -48,6 +48,9 @@ export const styles = {
     fontSize: '2rem',
     marginBottom: '0.5rem',
     fontWeight: 700,
+    fontFamily: "'Space Grotesk', system-ui, sans-serif",
+    textTransform: 'uppercase' as const,
+    letterSpacing: '-0.02em',
   } as React.CSSProperties,
 
   subtitle: {
@@ -113,6 +116,7 @@ export const styles = {
     fontWeight: 600,
     textTransform: 'uppercase' as const,
     letterSpacing: '0.05em',
+    fontFamily: "'Space Grotesk', system-ui, sans-serif",
   },
 
   grid: {
