@@ -4,37 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T14:29:02.277Z",
+    "lastHeartbeat": "2026-02-17T14:34:02.501Z",
     "totalCrons": 17,
-    "activeSessions": 5,
+    "activeSessions": 6,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >24 hours",
-        "timestamp": "2026-02-17T14:29:02.276Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-bobby",
-        "type": "warning",
-        "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-17T14:29:02.276Z",
+        "message": "Anders agent offline for >25 hours",
+        "timestamp": "2026-02-17T14:34:02.500Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >24 hours",
-        "timestamp": "2026-02-17T14:29:02.276Z",
+        "message": "Paula agent offline for >25 hours",
+        "timestamp": "2026-02-17T14:34:02.500Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >43 hours",
-        "timestamp": "2026-02-17T14:29:02.276Z",
+        "timestamp": "2026-02-17T14:34:02.500Z",
         "resolved": false
       }
     ]
@@ -61,11 +54,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T01:00:22.816Z"
+      "lastSeen": "2026-02-17T14:30:23.573Z"
     },
     {
       "name": "Paula",
@@ -124,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T14:30:23.573Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 67
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -177,17 +181,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 26
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T01:00:22.816Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 66
     },
     {
       "key": "agent:anders:main",
@@ -291,10 +284,10 @@
       "humanSchedule": "30 9 * * 1-5",
       "agent": "Bobby",
       "description": "MORNING BRIEF (9:30 AM). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files. Market is OPEN -",
-      "lastRun": "2026-02-16T14:30:00.014Z",
+      "lastRun": "2026-02-17T14:30:00.005Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T14:30:00.000Z",
-      "duration": "25s",
+      "nextRun": "2026-02-18T14:30:00.000Z",
+      "duration": "24s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -480,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T14:29:02.405Z",
+  "generatedAt": "2026-02-17T14:34:02.625Z",
   "version": 2
 }
