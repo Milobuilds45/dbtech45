@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "bb9fad8d",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:43:07 -0500",
+      "message": "fix(dunder): Adjust hero image position and slow talking heads rotation"
+    },
+    {
+      "type": "commit",
+      "id": "d5ba658e",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:41:48 -0500",
+      "message": "fix(dunder): Replace portraits with Gemini-generated realistic versions"
+    },
+    {
+      "type": "commit",
+      "id": "e67ec12e",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:39:08 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "1752a841",
       "author": "Milo",
       "timestamp": "2026-02-17 15:34:09 -0500",
@@ -330,27 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "1e469a5f",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:19:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "349f366b",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:14:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "5f695db6",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:09:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-17T17:01:06.634Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-17T20:39:08.283Z"
+  "generatedAt": "2026-02-17T20:44:06.492Z"
 }
