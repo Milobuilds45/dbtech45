@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T11:29:01.921Z",
+    "lastHeartbeat": "2026-02-17T11:34:01.911Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -12,43 +12,43 @@
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >21 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "message": "Anders agent offline for >22 hours",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >21 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "message": "Paula agent offline for >22 hours",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >23 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
-        "message": "Dax agent offline for >22 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "message": "Dax agent offline for >23 hours",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >23 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >40 hours",
-        "timestamp": "2026-02-17T11:29:01.921Z",
+        "timestamp": "2026-02-17T11:34:01.910Z",
         "resolved": false
       }
     ]
@@ -102,7 +102,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -141,7 +141,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T11:00:26.396Z",
       "role": "Tech Guru",
@@ -494,6 +494,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T11:29:02.046Z",
+  "generatedAt": "2026-02-17T11:34:02.030Z",
   "version": 2
 }
