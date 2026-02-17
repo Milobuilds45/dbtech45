@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T23:19:03.421Z",
+    "lastHeartbeat": "2026-02-17T23:24:03.431Z",
     "totalCrons": 16,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >33 hours",
-        "timestamp": "2026-02-17T23:19:03.420Z",
+        "timestamp": "2026-02-17T23:24:03.431Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >52 hours",
-        "timestamp": "2026-02-17T23:19:03.420Z",
+        "timestamp": "2026-02-17T23:24:03.431Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T23:17:46.989Z"
+      "lastSeen": "2026-02-17T23:22:57.126Z"
     },
     {
       "name": "Anders",
@@ -65,7 +65,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -83,7 +83,7 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -115,7 +115,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T23:17:46.989Z",
+      "lastActivity": "2026-02-17T23:22:57.126Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
@@ -124,7 +124,7 @@
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T22:53:44.741Z",
       "role": "Social Strategist",
@@ -135,7 +135,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T22:52:52.663Z",
       "role": "Weather & News",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T23:19:04.923Z",
+  "generatedAt": "2026-02-17T23:24:04.922Z",
   "version": 2
 }
