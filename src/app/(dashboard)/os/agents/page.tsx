@@ -14,8 +14,7 @@ interface ChatMessage {
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI', image: '/os/agents/milo.png' },
-  { id: 'anders', name: 'Anders', role: 'Full Stack Architect', color: '#FF8C00', initials: 'AN', image: '/os/agents/anders.png' },
-  { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
+  { id: 'paula', name: 'Paula', role: 'Full Stack Architect + Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
   { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#00A000', initials: 'BO', image: '/os/agents/bobby.png' },
   { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#7B68EE', initials: 'DW', image: '/os/agents/dwight.png' },
   { id: 'dax', name: 'Dax', role: 'Content Writer', color: '#00FFFF', initials: 'DX', image: '/os/agents/dax.png' },

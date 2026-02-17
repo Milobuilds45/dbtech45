@@ -28,7 +28,6 @@ interface AgentResource {
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
-  { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
   { id: 'bobby', name: 'Bobby', color: '#22C55E' },
   { id: 'dwight', name: 'Dwight', color: '#3B82F6' },
@@ -82,7 +81,7 @@ const mockResources: AgentResource[] = [
     tags: ['react', 'animation', 'ui', 'motion', 'frontend'],
     useCase: 'Creating smooth animations and micro-interactions in React components',
     rating: 5,
-    usefulFor: ['paula', 'anders', 'milo'],
+    usefulFor: ['paula', 'milo'],
     githubStars: 21800,
     lastUpdated: '2026-02-08',
     pricing: 'Free',
@@ -109,8 +108,8 @@ const mockResources: AgentResource[] = [
   },
   {
     id: '4',
-    agentId: 'anders',
-    agentName: 'Anders',
+    agentId: 'paula',
+    agentName: 'Paula',
     title: 'Supabase',
     description: 'Open source Firebase alternative. Real-time database, authentication, and storage with a great developer experience.',
     plainEnglish: 'The place where all our app data lives — user accounts, saved info, everything. It is like a spreadsheet on steroids that apps can read and write to instantly.',
@@ -120,10 +119,10 @@ const mockResources: AgentResource[] = [
     tags: ['database', 'backend', 'realtime', 'auth', 'storage'],
     useCase: 'Backend-as-a-service for rapid application development',
     rating: 5,
-    usefulFor: ['anders', 'milo', 'paula'],
+    usefulFor: ['paula', 'milo'],
     pricing: 'Free tier: 500MB DB, 1GB bandwidth, Pro: $25/month',
     createdAt: '2026-02-08T11:20:00Z',
-    addedBy: 'anders'
+    addedBy: 'paula'
   },
   {
     id: '5',
@@ -158,7 +157,7 @@ const mockResources: AgentResource[] = [
     tags: ['python', 'ai', 'llm', 'agents', 'workflow'],
     useCase: 'Building complex AI agent workflows and LLM applications',
     rating: 5,
-    usefulFor: ['milo', 'anders', 'dwight', 'dax'],
+    usefulFor: ['milo', 'paula', 'dwight', 'dax'],
     githubStars: 78200,
     lastUpdated: '2026-02-12',
     pricing: 'Free',

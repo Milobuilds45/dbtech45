@@ -43,8 +43,7 @@ const BRAND_ASSETS = [
 ];
 
 const AGENTS = [
-  { name: 'Anders', role: 'Full Stack Architect', initials: 'AN', color: '#F97316' },
-  { name: 'Paula', role: 'Design Director', initials: 'PA', color: '#EC4899' },
+  { name: 'Paula', role: 'Full Stack Architect + Creative Director', initials: 'PA', color: '#EC4899' },
   { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
   { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#22C55E' },
   { name: 'Remy', role: 'Restaurant Operations', initials: 'RM', color: '#EAB308' },

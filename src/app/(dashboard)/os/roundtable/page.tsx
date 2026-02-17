@@ -22,9 +22,8 @@ const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: str
   wendy: { initials: 'WR', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
   dwight: { initials: 'DW', label: 'Dwight', role: 'Intel', color: '#3B82F6' },
   dax: { initials: 'DX', label: 'Dax', role: 'Data', color: '#06B6D4' },
-  paula: { initials: 'PA', label: 'Paula', role: 'Creative', color: '#EC4899' },
+  paula: { initials: 'PA', label: 'Paula', role: 'Full Stack Creative', color: '#EC4899' },
   remy: { initials: 'RM', label: 'Remy', role: 'Restaurant Operations', color: '#EAB308' },
-  anders: { initials: 'AN', label: 'Anders', role: 'Engineering', color: '#F97316' },
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
 };
 

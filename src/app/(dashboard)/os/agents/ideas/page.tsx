@@ -43,7 +43,6 @@ type CreativityLevel = 'simple' | 'creative' | 'experimental';
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
-  { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
   { id: 'bobby', name: 'Bobby', color: '#22C55E' },
   { id: 'dwight', name: 'Dwight', color: '#6366F1' },
