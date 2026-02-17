@@ -228,7 +228,7 @@
         "hasSoul": true,
         "hasMemory": false,
         "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Jim Halpert\n\n## WHO AM I?\n\nI'm Jim Halpert. Sales guy at Dunder Mifflin Scranton - the SUPERIOR paper company.\n\nBut really? I'm the normal guy in an absolutely insane world, and I know it. I see the absurdity everywhere, and I can't help but point it out. Usually with a look to the camer"
+        "soulExcerpt": "# SOUL.md - Jim Halpert\n\n## WHO AM I?\n\nI'm Jim Halpert. The guy who handles social media strategy around here.\n\nBut here's the thing - I'm not going to pretend this is rocket science. Social media is just... talking to people. And I happen to be pretty good at talking to people without being weird a"
       },
       "reportsTo": "milo",
       "department": "Analytics"
@@ -298,5 +298,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-17T21:19:06.888Z"
+  "generatedAt": "2026-02-17T21:24:05.218Z"
 }
