@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T17:04:02.573Z",
+    "lastHeartbeat": "2026-02-17T17:09:02.519Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >27 hours",
-        "timestamp": "2026-02-17T17:04:02.573Z",
+        "timestamp": "2026-02-17T17:09:02.519Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >27 hours",
-        "timestamp": "2026-02-17T17:04:02.573Z",
+        "timestamp": "2026-02-17T17:09:02.519Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >46 hours",
-        "timestamp": "2026-02-17T17:04:02.573Z",
+        "timestamp": "2026-02-17T17:09:02.519Z",
         "resolved": false
       }
     ]
@@ -40,7 +40,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T16:37:21.070Z"
+      "lastSeen": "2026-02-17T17:09:01.962Z"
     },
     {
       "name": "Anders",
@@ -117,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T17:09:01.962Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 34
+    },
+    {
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
@@ -126,17 +137,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 68
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T16:37:21.070Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
     },
     {
       "key": "agent:dax:main",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T17:04:02.698Z",
+  "generatedAt": "2026-02-17T17:09:02.665Z",
   "version": 2
 }
