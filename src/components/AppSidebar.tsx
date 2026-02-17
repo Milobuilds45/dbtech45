@@ -62,6 +62,8 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
   'DNA':           <Dna size={ICON_SIZE} />,
   'Memory Bank':   <Brain size={ICON_SIZE} />,
+  'Second Brain':  <Brain size={ICON_SIZE} />,
+  'DNA Scanner':   <Dna size={ICON_SIZE} />,
   'Skills Inventory': <Wrench size={ICON_SIZE} />,
   'Overnight Sessions': <Calendar size={ICON_SIZE} />,
 };
@@ -96,14 +98,16 @@ const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'DNA Scanner', href: '/tools/dna-scanner' },
   { label: 'Overnight', href: '/os/agents/overnight' },
 ];
 
-// 05 INTEL - Daily Feed, Task Manager, Memory Bank, DNA, Skills
+// 05 INTEL - Daily Feed, Task Manager, Memory Bank, Second Brain, DNA, Skills
 const intelItems: NavItem[] = [
   { label: 'Daily Feed', href: '/os/daily-feed' },
   { label: 'Task Manager', href: '/os/task-manager' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
+  { label: 'Second Brain', href: '/os/second-brain' },
   { label: 'DNA', href: '/os/dna' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
