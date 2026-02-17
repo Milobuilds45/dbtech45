@@ -1,26 +1,26 @@
 {
   "system": {
-    "gatewayStatus": "offline",
+    "gatewayStatus": "online",
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T21:29:03.464Z",
+    "lastHeartbeat": "2026-02-17T21:34:07.973Z",
     "totalCrons": 16,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >31 hours",
-        "timestamp": "2026-02-17T21:29:03.464Z",
+        "message": "Anders agent offline for >32 hours",
+        "timestamp": "2026-02-17T21:34:07.972Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >50 hours",
-        "timestamp": "2026-02-17T21:29:03.464Z",
+        "timestamp": "2026-02-17T21:34:07.972Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:28:42.400Z"
+      "lastSeen": "2026-02-17T21:33:54.261Z"
     },
     {
       "name": "Anders",
@@ -47,11 +47,11 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T17:01:05.560Z"
+      "lastSeen": "2026-02-17T21:33:11.869Z"
     },
     {
       "name": "Paula",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:28:35.470Z"
+      "lastSeen": "2026-02-17T21:33:56.395Z"
     },
     {
       "name": "Tony",
@@ -110,26 +110,37 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:28:42.400Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:28:35.470Z",
+      "lastActivity": "2026-02-17T21:33:56.395Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T21:33:54.261Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 34
+    },
+    {
+      "key": "agent:bobby:main",
+      "agent": "Bobby",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T21:33:11.869Z",
+      "role": "Trading Advisor",
+      "cost": 0,
+      "sessionCount": 69
     },
     {
       "key": "agent:paula:main",
@@ -152,17 +163,6 @@
       "role": "Tech Guru",
       "cost": 0,
       "sessionCount": 26
-    },
-    {
-      "key": "agent:bobby:main",
-      "agent": "Bobby",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T17:01:05.560Z",
-      "role": "Trading Advisor",
-      "cost": 0,
-      "sessionCount": 68
     },
     {
       "key": "agent:dax:main",
@@ -307,10 +307,10 @@
       "humanSchedule": "30 16 * * 1-4",
       "agent": "Bobby",
       "description": "DAILY RECAP (4:30 PM Mon-Thu). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-16T21:30:00.003Z",
+      "lastRun": "2026-02-17T21:30:00.010Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T21:30:00.000Z",
-      "duration": "24s",
+      "nextRun": "2026-02-18T21:30:00.000Z",
+      "duration": "194s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T21:29:05.128Z",
+  "generatedAt": "2026-02-17T21:34:13.256Z",
   "version": 2
 }
