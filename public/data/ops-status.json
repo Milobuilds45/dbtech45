@@ -4,37 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T12:59:02.056Z",
+    "lastHeartbeat": "2026-02-17T13:04:02.089Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >23 hours",
-        "timestamp": "2026-02-17T12:59:02.056Z",
+        "timestamp": "2026-02-17T13:04:02.089Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >23 hours",
-        "timestamp": "2026-02-17T12:59:02.056Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-dax",
-        "type": "warning",
-        "message": "Dax agent offline for >24 hours",
-        "timestamp": "2026-02-17T12:59:02.056Z",
+        "timestamp": "2026-02-17T13:04:02.089Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >42 hours",
-        "timestamp": "2026-02-17T12:59:02.056Z",
+        "timestamp": "2026-02-17T13:04:02.089Z",
         "resolved": false
       }
     ]
@@ -97,16 +90,16 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T13:00:57.092Z"
+      "lastSeen": "2026-02-17T13:00:13.440Z"
     },
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -124,6 +117,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T13:00:13.440Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 25
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -138,7 +142,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T12:30:10.684Z",
       "role": "Restaurant Marketing",
@@ -201,17 +205,6 @@
       "sessionCount": 20
     },
     {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T13:00:57.092Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 24
-    },
-    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
@@ -261,10 +254,10 @@
       "humanSchedule": "0 8 * * *",
       "agent": "Dax",
       "description": "DAILY SOCIAL MEDIA STRATEGY BRIEF. You are Dax (Social Media Strategist). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-16T13:00:00.010Z",
+      "lastRun": "2026-02-17T13:00:00.002Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T13:00:00.000Z",
-      "duration": "57s",
+      "nextRun": "2026-02-18T13:00:00.000Z",
+      "duration": "14s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -480,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T12:59:02.176Z",
+  "generatedAt": "2026-02-17T13:04:02.212Z",
   "version": 2
 }
