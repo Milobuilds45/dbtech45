@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-14T20:08:00Z",
+  "lastUpdated": "2026-02-17T18:08:00Z",
   "ratingScale": {
     "1": "Novice",
     "2": "Novice", 
@@ -168,54 +168,37 @@
       ],
       "notes": "Strong on social, needs business metrics focus"
     },
-    "tony": {
-      "name": "Tony",
-      "role": "Restaurant Operations",
+    "remy": {
+      "name": "Remy",
+      "role": "Restaurant Operations & Marketing",
       "color": "#EAB308",
-      "icon": "TN",
-      "description": "Manages restaurant operations, optimizes costs, handles inventory and staff scheduling",
+      "icon": "RM",
+      "description": "Complete restaurant expertise combining operations and marketing. Manages Toast POS, inventory, staff scheduling, cost control, social media, and promotional campaigns with Tony's practical operational mindset",
       "ratings": {
-        "technical": 4,
+        "technical": 5,
         "business": 8,
         "core": 8,
         "autonomy": 7,
-        "awareness": 5
+        "awareness": 6
       },
       "skills": [
-        { "name": "Menu Engineering", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Inventory Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Staff Scheduling", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Cost Control", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
-        { "name": "Toast POS", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Restaurant Software", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
-        { "name": "Operations Management", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
-        { "name": "Team Leadership", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
-      ],
-      "notes": "Business expert, could use more technical skills"
-    },
-    "remy": {
-      "name": "Remy",
-      "role": "Restaurant Marketing",
-      "color": "#EF4444",
-      "icon": "RM",
-      "description": "Drives restaurant marketing, manages social media, creates promotional campaigns and local outreach",
-      "ratings": {
-        "technical": 4,
-        "business": 6,
-        "core": 6,
-        "autonomy": 5,
-        "awareness": 5
-      },
-      "skills": [
+        { "name": "Menu Engineering", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Inventory Management", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Staff Scheduling", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Cost Control", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
         { "name": "Restaurant Marketing", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "Social Media Management", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "Promotional Strategy", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Operations Management", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Toast POS", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Restaurant Software", "level": "Advanced", "category": "technical", "addedDate": "2026-02-17" },
         { "name": "Meta Business", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
         { "name": "Google My Business", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
+        { "name": "Team Leadership", "level": "Advanced", "category": "business", "addedDate": "2026-02-17" },
         { "name": "Local Marketing", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
         { "name": "Customer Retention", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
       ],
-      "notes": "Marketing focused, needs technical growth"
+      "notes": "Merged Tony's operational expertise with Remy's marketing knowledge. Unified restaurant strategy with Tony's practical mindset and proactive planning approach"
     },
     "wendy": {
       "name": "Wendy",
