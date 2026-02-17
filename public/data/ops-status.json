@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T12:04:01.987Z",
+    "lastHeartbeat": "2026-02-17T12:09:01.972Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,42 +13,42 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >22 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >22 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >24 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >23 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >24 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >41 hours",
-        "timestamp": "2026-02-17T12:04:01.987Z",
+        "timestamp": "2026-02-17T12:09:01.972Z",
         "resolved": false
       }
     ]
@@ -57,7 +57,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -141,7 +141,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T11:37:20.497Z",
       "role": "Chief of Staff",
@@ -494,6 +494,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T12:04:02.120Z",
+  "generatedAt": "2026-02-17T12:09:02.093Z",
   "version": 2
 }
