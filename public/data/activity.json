@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "756b9dff",
+      "author": "Milo",
+      "timestamp": "2026-02-17 18:24:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "e15b5459",
       "author": "Milo",
       "timestamp": "2026-02-17 18:19:05 -0500",
@@ -351,13 +358,6 @@
       "message": "feat: clean up Agent Identities section in Brand Kit"
     },
     {
-      "type": "commit",
-      "id": "d14fc2ae",
-      "author": "Milo",
-      "timestamp": "2026-02-17 14:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-17T17:01:06.634Z",
@@ -421,5 +421,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-17T23:24:05.042Z"
+  "generatedAt": "2026-02-17T23:29:05.011Z"
 }

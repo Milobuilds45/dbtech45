@@ -4,23 +4,23 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T23:24:03.431Z",
+    "lastHeartbeat": "2026-02-17T23:29:03.404Z",
     "totalCrons": 16,
-    "activeSessions": 6,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >33 hours",
-        "timestamp": "2026-02-17T23:24:03.431Z",
+        "timestamp": "2026-02-17T23:29:03.403Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >52 hours",
-        "timestamp": "2026-02-17T23:24:03.431Z",
+        "timestamp": "2026-02-17T23:29:03.403Z",
         "resolved": false
       }
     ]
@@ -74,7 +74,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -168,7 +168,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T19:26:28.709Z",
       "role": "Tech Guru",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T23:24:04.922Z",
+  "generatedAt": "2026-02-17T23:29:04.899Z",
   "version": 2
 }
