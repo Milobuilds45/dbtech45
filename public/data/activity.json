@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "c425e5d0",
+      "author": "Milo",
+      "timestamp": "2026-02-17 14:20:52 -0500",
+      "message": "Merge branch 'master' of https://github.com/Milobuilds45/dbtech45"
+    },
+    {
+      "type": "commit",
+      "id": "3c2ad7e5",
+      "author": "Milo",
+      "timestamp": "2026-02-17 14:20:36 -0500",
+      "message": "feat: update Model Counsel to Claude Sonnet 4.6"
+    },
+    {
+      "type": "commit",
+      "id": "9ed8d06b",
+      "author": "Milo",
+      "timestamp": "2026-02-17 14:19:04 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "2058d591",
       "author": "Milo",
       "timestamp": "2026-02-17 14:14:05 -0500",
@@ -30,6 +51,13 @@
     },
     {
       "type": "commit",
+      "id": "49810d61",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:58:40 -0500",
+      "message": "feat: tactical command center sidebar styling"
+    },
+    {
+      "type": "commit",
       "id": "65bbcd71",
       "author": "Milo",
       "timestamp": "2026-02-17 13:54:09 -0500",
@@ -37,10 +65,31 @@
     },
     {
       "type": "commit",
+      "id": "dfce76d5",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:50:53 -0500",
+      "message": "fix: add Second Brain to Intel, DNA Scanner to Operations"
+    },
+    {
+      "type": "commit",
       "id": "a5c667a7",
       "author": "Milo",
       "timestamp": "2026-02-17 13:49:08 -0500",
       "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
+      "id": "d76b2b6c",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:47:58 -0500",
+      "message": "merge: resolve conflicts - keep sidebar reorganization"
+    },
+    {
+      "type": "commit",
+      "id": "66cd929a",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:47:20 -0500",
+      "message": "fix: reorganize sidebar per Derek's structure"
     },
     {
       "type": "commit",
@@ -309,55 +358,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "cd51edf5",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:39:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "321c018c",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:34:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "1aa791ee",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:29:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "4f718d3c",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:24:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "52f581e4",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:19:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "05b995c9",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:14:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "7db12be9",
-      "author": "Milo",
-      "timestamp": "2026-02-17 10:09:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "3d56a05b",
       "timestamp": "2026-02-17T14:30:24.400Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-17T19:19:04.068Z"
+  "generatedAt": "2026-02-17T19:24:05.496Z"
 }
