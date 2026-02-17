@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T20:14:02.064Z",
+    "lastHeartbeat": "2026-02-17T20:19:03.588Z",
     "totalCrons": 16,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >30 hours",
-        "timestamp": "2026-02-17T20:14:02.063Z",
+        "timestamp": "2026-02-17T20:19:03.588Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >49 hours",
-        "timestamp": "2026-02-17T20:14:02.063Z",
+        "timestamp": "2026-02-17T20:19:03.588Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T20:12:41.752Z"
+      "lastSeen": "2026-02-17T20:18:57.901Z"
     },
     {
       "name": "Anders",
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T20:13:58.152Z"
+      "lastSeen": "2026-02-17T20:17:21.643Z"
     },
     {
       "name": "Dwight",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T20:13:58.152Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 26
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T20:12:41.752Z",
+      "lastActivity": "2026-02-17T20:18:57.901Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T20:17:21.643Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 30
     },
     {
       "key": "agent:tony:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T20:14:02.275Z",
+  "generatedAt": "2026-02-17T20:19:04.848Z",
   "version": 2
 }
