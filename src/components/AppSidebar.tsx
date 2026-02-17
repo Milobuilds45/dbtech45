@@ -31,7 +31,8 @@ import {
   Calendar,
   Sparkles,
   Package,
-  Trophy,
+  Home,
+  Settings,
 } from 'lucide-react';
 
 // ─── Icon size for nav items ────────────────────────────────────────────
@@ -40,13 +41,15 @@ const ICON_SIZE = 18;
 // ─── Section icon map using Lucide components ───────────────────────────
 
 const NAV_ICONS: Record<string, ReactNode> = {
+  'Home':          <Home size={ICON_SIZE} />,
   'Morning Brief': <Newspaper size={ICON_SIZE} />,
-  'Sports Central': <Trophy size={ICON_SIZE} />,
   'Model Counsel': <Zap size={ICON_SIZE} />,
   'Roundtable':    <MessageCircle size={ICON_SIZE} />,
   'Projects':      <FolderKanban size={ICON_SIZE} />,
   'Markets':       <TrendingUp size={ICON_SIZE} />,
+  'Polymarket':    <TrendingUp size={ICON_SIZE} />,
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
+  'Task Manager':  <LayoutDashboard size={ICON_SIZE} />,
   'Quick Links':   <Link2 size={ICON_SIZE} />,
   'Direct Chat':   <Bot size={ICON_SIZE} />,
   'Overnight':     <Moon size={ICON_SIZE} />,
@@ -72,38 +75,44 @@ interface NavItem {
   external?: boolean;
 }
 
-const navItems: NavItem[] = [
+// 02 DASHBOARD - Morning Brief, Projects, Markets, Polymarket
+const dashboardItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
-  { label: 'Sports Central', href: '/os/sports' },
-  { label: 'Model Counsel', href: '/os/model-counsel' },
-  { label: 'Roundtable', href: '/os/roundtable' },
-  { label: 'Projects', href: '/os/projects', badge: '28' },
+  { label: 'Projects', href: '/os/projects', badge: '32' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'Polymarket', href: '/os/polymarket' },
-  { label: 'Daily Feed', href: '/os/daily-feed' },
 ];
 
+// 03 AGENTS
 const agentItems: NavItem[] = [
-  { label: 'Direct Chat', href: '/os/agents' },
-  { label: 'Overnight', href: '/os/agents/overnight' },
-  { label: 'Agent Ideas', href: '/os/agents/ideas' },
+  { label: 'Model Counsel', href: '/os/model-counsel' },
+  { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Agent Assist', href: '/os/agents/assist' },
+  { label: 'Agent Ideas', href: '/os/agents/ideas' },
 ];
 
-const toolItems: NavItem[] = [
-  { label: 'Ideas Vault', href: '/os/ideas-vault' },
+// 04 OPERATIONS
+const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
-  { label: 'Quick Links', href: '/os/quick-links' },
+  { label: 'Ideas Vault', href: '/os/ideas-vault' },
+  { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'Overnight', href: '/os/agents/overnight' },
+];
+
+// 05 INTEL - Daily Feed, Task Manager, Memory Bank, DNA, Skills
+const intelItems: NavItem[] = [
+  { label: 'Daily Feed', href: '/os/daily-feed' },
+  { label: 'Task Manager', href: '/os/task-manager' },
+  { label: 'Memory Bank', href: '/os/memory-bank' },
+  { label: 'DNA', href: '/os/dna' },
+  { label: 'Skills Inventory', href: '/os/skills-inventory' },
+];
+
+// 06 SYSTEM CONFIG
+const systemItems: NavItem[] = [
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
-];
-
-const opsItems: NavItem[] = [
-  { label: 'Overnight Sessions', href: '/os/overnight' },
-  { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
-  { label: 'DNA', href: '/os/dna' },
-  { label: 'Memory Bank', href: '/os/memory-bank' },
-  { label: 'Skills Inventory', href: '/os/skills-inventory' },
+  { label: 'Quick Links', href: '/os/quick-links' },
 ];
 
 // ─── Sidebar component ──────────────────────────────────────────────────
@@ -115,12 +124,14 @@ const COLLAPSED_WIDTH = 60;
 
 interface SectionState {
   command: boolean;
+  dashboard: boolean;
   agents: boolean;
-  tools: boolean;
   operations: boolean;
+  intel: boolean;
+  system: boolean;
 }
 
-const DEFAULT_SECTIONS: SectionState = { command: true, agents: true, tools: true, operations: true };
+const DEFAULT_SECTIONS: SectionState = { command: true, dashboard: true, agents: true, operations: true, intel: true, system: true };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -369,13 +380,17 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       {/* Nav sections */}
       <div style={{ flex: 1, overflowY: 'auto' }}>
         {renderSectionHeader('Command Center', 'command')}
-        {renderSection(navItems, 'command')}
+        {renderSection([{ label: 'Home', href: '/os' }], 'command')}
+        {renderSectionHeader('Dashboard', 'dashboard')}
+        {renderSection(dashboardItems, 'dashboard')}
         {renderSectionHeader('Agents', 'agents')}
         {renderSection(agentItems, 'agents')}
-        {renderSectionHeader('Tools', 'tools')}
-        {renderSection(toolItems, 'tools')}
         {renderSectionHeader('Operations', 'operations')}
         {renderSection(opsItems, 'operations')}
+        {renderSectionHeader('Intel', 'intel')}
+        {renderSection(intelItems, 'intel')}
+        {renderSectionHeader('System Config', 'system')}
+        {renderSection(systemItems, 'system')}
       </div>
 
       {/* Collapse toggle (desktop only) */}

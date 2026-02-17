@@ -1,339 +1,307 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { brand, styles } from "@/lib/brand";
-import { Calendar, ChevronLeft, ChevronRight, Newspaper, TrendingUp, Lightbulb, CheckSquare, Users, Sun, CloudRain, Cloud, Zap, MapPin, ExternalLink, RefreshCw } from 'lucide-react';
 
-interface Brief {
-  id: string;
-  date: string;
-  generatedAt: string;
-  location: string;
-  sections: {
-    news: Array<{ title: string; summary: string; source: string; relevance: string; url?: string }>;
-    marketSnapshot: { premarket: string; keyLevels: string[]; overnight: string };
-    businessIdeas: Array<{ title: string; description: string; effort: string }>;
-    todaysTasks: Array<{ task: string; priority: 'high' | 'medium' | 'low'; source: string }>;
-    agentRecommendations: Array<{ task: string; agent: string; reason: string }>;
-    overnightActivity: Array<{ agent: string; action: string; time: string }>;
-    weather: { temp: string; condition: string; high: string; low: string; humidity?: string; wind?: string };
-    quote: { text: string; author: string };
-  };
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import { useDayContext } from './layout';
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THE MORNING BRIEF — Front Page
+// Design by Paula · Built by Anders · 2026-02-12
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface FrontPageData {
+  headline: { title: string; deck: string; section: string; time: string };
+  pit_preview: Array<{ title: string; excerpt: string }>;
+  sports_preview: Array<{ title: string; excerpt: string }>;
+  tech_preview: Array<{ title: string; excerpt: string }>;
+  pit_stats: { spFutures: string; spDir: string; fearGreed: string };
+  games_today: Array<{ teams: string; time: string; line: string }>;
+  trending_topics: string[];
+  calendar: Array<{ time: string; event: string; type: 'econ' | 'earn' }>;
+  local_stories: Array<{ title: string }>;
+  headlines: Array<{ tag: string; tagClass: string; title: string }>;
+  weather: { temp: number; condition: string; location: string; forecast: Array<{ label: string; range: string }> };
 }
 
-// Fallback data while loading
-const EMPTY_BRIEF: Brief = {
-  id: 'loading',
-  date: new Date().toISOString().split('T')[0],
-  generatedAt: '--',
-  location: 'Nashua, NH',
-  sections: {
-    news: [],
-    marketSnapshot: { premarket: 'Loading...', keyLevels: [], overnight: '' },
-    businessIdeas: [],
-    todaysTasks: [],
-    agentRecommendations: [],
-    overnightActivity: [],
-    weather: { temp: '--', condition: 'Loading', high: '--', low: '--' },
-    quote: { text: 'Loading...', author: '' }
-  }
-};
+const BRIEF_STORAGE_KEY = 'dbtech-morning-briefs-v2';
 
-export default function MorningBrief() {
-  const [brief, setBrief] = useState<Brief>(EMPTY_BRIEF);
+function saveBrief(dateKey: string, data: FrontPageData) {
+  try {
+    const stored = JSON.parse(localStorage.getItem(BRIEF_STORAGE_KEY) || '{}');
+    stored[dateKey] = data;
+    const keys = Object.keys(stored).sort();
+    while (keys.length > 14) { delete stored[keys.shift()!]; }
+    localStorage.setItem(BRIEF_STORAGE_KEY, JSON.stringify(stored));
+  } catch { /* ignore */ }
+}
+
+function loadBrief(dateKey: string): FrontPageData | null {
+  try {
+    const stored = JSON.parse(localStorage.getItem(BRIEF_STORAGE_KEY) || '{}');
+    return stored[dateKey] || null;
+  } catch { return null; }
+}
+
+export default function FrontPage() {
+  const router = useRouter();
+  const { selectedDay, isToday, isFuture, formatDateLabel, goBack, goForward, goToday } = useDayContext();
+  const [data, setData] = useState<FrontPageData | null>(null);
   const [loading, setLoading] = useState(true);
-  const [selectedDate, setSelectedDate] = useState('today');
-  
-  const now = new Date();
-  const formattedDate = now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchBrief();
-  }, [selectedDate]);
-
-  const fetchBrief = async () => {
-    setLoading(true);
+  const fetchData = useCallback(async () => {
+    if (isFuture) { setData(null); setLoading(false); setError(null); return; }
+    if (!isToday) {
+      const cached = loadBrief(selectedDay);
+      if (cached) { setData(cached); setLoading(false); setError(null); return; }
+      setData(null); setLoading(false); setError(null); return;
+    }
     try {
       const res = await fetch('/api/morning-brief');
-      const data = await res.json();
-      setBrief(data);
+      if (!res.ok) throw new Error(`${res.status}`);
+      const json = await res.json();
+      
+      // Transform existing API data to front page format
+      const fpData: FrontPageData = {
+        headline: {
+          title: json.headline?.title ?? 'Markets in Motion',
+          deck: json.headline?.deck ?? '',
+          section: json.headline?.meta?.[0] ?? 'THE PIT',
+          time: `Updated ${new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' })}`,
+        },
+        pit_preview: (json.stories ?? []).slice(0, 3).map((s: { title: string; excerpt: string }) => ({ title: s.title, excerpt: s.excerpt })),
+        sports_preview: (json.sports?.scores ?? []).slice(0, 3).map((g: { away: string; home: string; score: string; league: string }) => ({
+          title: `${g.away} ${g.score?.includes('-') ? g.score.split('-')[0] : ''} at ${g.home} ${g.score?.includes('-') ? g.score.split('-')[1] : ''} (${g.league})`,
+          excerpt: g.score ? `Score: ${g.score}` : 'Upcoming',
+        })),
+        tech_preview: json.tech_preview ?? [
+          { title: 'Latest Tech Headlines', excerpt: 'Visit the Tech section for full coverage.' },
+        ],
+        pit_stats: {
+          spFutures: json.ticker?.[0] ? `${json.ticker[0].changePct >= 0 ? '+' : ''}${json.ticker[0].changePct.toFixed(2)}%` : '--',
+          spDir: json.ticker?.[0] ? (json.ticker[0].changePct >= 0 ? 'up' : 'down') : '',
+          fearGreed: json.quick_stats?.fear_greed ?? '--',
+        },
+        games_today: (json.sports?.today ?? []).slice(0, 3).map((g: { away: string; home: string; score: string; spread: string }) => ({
+          teams: `${g.away} @ ${g.home}`,
+          time: g.score || '--',
+          line: g.spread || '--',
+        })),
+        trending_topics: ['#AI', '#Crypto', '#Markets'],
+        calendar: (json.calendar ?? []).slice(0, 5).map((c: { time: string; event: string; note?: string }) => ({
+          time: c.time,
+          event: c.event,
+          type: (c.note?.toLowerCase().includes('earn') ? 'earn' : 'econ') as 'econ' | 'earn',
+        })),
+        local_stories: json.local_preview ?? [
+          { title: 'Visit the Local section for Nashua, NH news' },
+        ],
+        headlines: json.national_headlines ?? [
+          { tag: 'MARKETS', tagClass: 'sports', title: 'Check each section for full coverage' },
+        ],
+        weather: {
+          temp: json.weather?.temp ?? 0,
+          condition: json.weather?.condition ?? 'Unknown',
+          location: json.weather?.location ?? 'Nashua, NH',
+          forecast: json.weather?.forecast ?? [],
+        },
+      };
+      
+      setData(fpData);
+      saveBrief(selectedDay, fpData);
+      setError(null);
     } catch (e) {
-      console.error('Failed to fetch brief:', e);
+      console.error('Front page fetch failed:', e);
+      setError('Failed to load briefing data');
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedDay, isToday, isFuture]);
 
-  const WeatherIcon = brief.sections.weather.condition?.includes('Cloud') ? Cloud : 
-                      brief.sections.weather.condition?.includes('Rain') ? CloudRain : Sun;
+  useEffect(() => {
+    setLoading(true);
+    fetchData();
+    if (isToday) {
+      const interval = setInterval(fetchData, 5 * 60 * 1000);
+      return () => clearInterval(interval);
+    }
+  }, [fetchData, isToday]);
 
-  const priorityColor = (p: string) => p === 'high' ? brand.error : p === 'medium' ? brand.amber : brand.smoke;
+  // Loading
+  if (loading && !data) {
+    return <div className="loading-pulse">LOADING BRIEFING DATA...</div>;
+  }
 
-  const getRelevanceColor = (rel: string) => {
-    if (rel.includes('Celtics')) return '#007A33';
-    if (rel.includes('Red Sox')) return '#BD3039';
-    if (rel.includes('Patriots')) return '#002244';
-    if (rel.includes('Local')) return brand.info;
-    if (rel.includes('Trading')) return brand.success;
-    if (rel.includes('AI') || rel.includes('Tech')) return brand.amber;
-    return brand.smoke;
-  };
+  // Future / empty
+  if (!data && !loading && !error) {
+    return (
+      <div style={{ padding: '80px 48px', textAlign: 'center' }}>
+        <div style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>{isFuture ? '📰' : '📭'}</div>
+        <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, color: '#A3A3A3', marginBottom: 12 }}>
+          {isFuture ? 'Edition Not Yet Published' : 'No Briefing Available'}
+        </div>
+        <div style={{ fontSize: 14, color: '#525252', marginBottom: 24 }}>
+          {isFuture ? `The ${formatDateLabel(selectedDay).toLowerCase()} edition will be available when it generates.` : 'No cached briefing found for this date.'}
+        </div>
+      </div>
+    );
+  }
+
+  // Error
+  if (error && !data) {
+    return (
+      <div style={{ textAlign: 'center', padding: 48 }}>
+        <div style={{ fontSize: 24, color: '#EF4444', marginBottom: 12 }}>Briefing Unavailable</div>
+        <div style={{ color: '#A3A3A3', marginBottom: 24 }}>{error}</div>
+        <button onClick={fetchData} style={{ background: '#F59E0B', color: '#0A0A0A', border: 'none', padding: '10px 24px', borderRadius: 6, fontWeight: 600, cursor: 'pointer' }}>Retry</button>
+      </div>
+    );
+  }
+
+  if (!data) return null;
 
   return (
-    <div style={{ ...styles.page, background: '#0A0A0A' }}>
-      <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-        
-        {/* Newspaper Header */}
-        <div style={{ borderBottom: `3px solid ${brand.amber}`, paddingBottom: 16, marginBottom: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <MapPin size={14} style={{ color: brand.smoke }} />
-              <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: brand.smoke }}>{brief.location}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-              <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: brand.smoke }}>
-                Generated {brief.generatedAt}
-              </span>
-              <button 
-                onClick={fetchBrief}
-                disabled={loading}
-                style={{ 
-                  background: 'transparent', 
-                  border: 'none', 
-                  cursor: 'pointer', 
-                  padding: 4,
-                  opacity: loading ? 0.5 : 1
-                }}
-              >
-                <RefreshCw size={14} style={{ color: brand.smoke, animation: loading ? 'spin 1s linear infinite' : 'none' }} />
-              </button>
-            </div>
-          </div>
-          
-          <h1 style={{ 
-            fontFamily: "'Georgia', 'Times New Roman', serif", 
-            fontSize: 48, 
-            fontWeight: 400, 
-            color: brand.white, 
-            textAlign: 'center',
-            letterSpacing: '-0.02em',
-            marginBottom: 8
-          }}>
-            The DB Tech Daily
-          </h1>
-          
-          <div style={{ textAlign: 'center', color: brand.smoke, fontSize: 14, fontStyle: 'italic' }}>
-            {formattedDate}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: 4 }}>
-            <span style={{ fontSize: 11, fontFamily: "'JetBrains Mono', monospace", color: brand.amber }}>
-              "Trade by day. Build by night. Dad of 7 always."
-            </span>
-          </div>
+    <main className="front-page">
+      {/* ══════════ LEAD STORY ══════════ */}
+      <section className="lead-story">
+        <div className="section-flag">Top Story</div>
+        <h2 className="lead-headline">{data.headline.title}</h2>
+        <p className="lead-deck">{data.headline.deck}</p>
+        <div className="lead-meta">
+          <span className="meta-section">{data.headline.section}</span>
+          <span className="meta-time">{data.headline.time}</span>
         </div>
+      </section>
 
-        {/* Top Row: Weather + Quote */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 16, marginBottom: 24 }}>
-          {/* Weather */}
-          <div style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: 16 }}>
-            <WeatherIcon size={40} style={{ color: brand.amber }} />
-            <div>
-              <div style={{ fontSize: 28, fontWeight: 700, color: brand.white }}>{brief.sections.weather.temp}</div>
-              <div style={{ fontSize: 12, color: brand.smoke }}>{brief.sections.weather.condition}</div>
-              <div style={{ fontSize: 11, color: brand.smoke }}>
-                H: {brief.sections.weather.high} · L: {brief.sections.weather.low}
-                {brief.sections.weather.humidity && ` · ${brief.sections.weather.humidity}`}
-              </div>
+      {/* ══════════ THREE COLUMN GRID ══════════ */}
+      <div className="front-grid">
+        {/* THE PIT PREVIEW */}
+        <section className="front-column">
+          <div className="column-header" onClick={() => router.push('/os/morning-brief/the-pit')}>
+            <h3>The Pit</h3>
+            <span className="see-all">Full Section →</span>
+          </div>
+          {data.pit_preview.map((s, i) => (
+            <article key={i} className="front-story">
+              <h4>{s.title}</h4>
+              <p>{s.excerpt}</p>
+            </article>
+          ))}
+          <div className="quick-stats">
+            <div className="stat">
+              <span className={`stat-value ${data.pit_stats.spDir}`}>{data.pit_stats.spFutures}</span>
+              <span className="stat-label">S&P Futures</span>
+            </div>
+            <div className="stat">
+              <span className="stat-value">{data.pit_stats.fearGreed}</span>
+              <span className="stat-label">Fear/Greed</span>
             </div>
           </div>
-          
-          {/* Quote */}
-          <div style={{ ...styles.card, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={{ fontFamily: "'Georgia', serif", fontSize: 16, fontStyle: 'italic', color: brand.silver, lineHeight: 1.6 }}>
-              "{brief.sections.quote.text}"
-            </div>
-            <div style={{ fontSize: 12, color: brand.smoke, marginTop: 8 }}>— {brief.sections.quote.author}</div>
-          </div>
-        </div>
+        </section>
 
-        {/* Market Snapshot */}
-        <div style={{ ...styles.card, marginBottom: 24, borderLeft: `4px solid ${brand.success}` }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-            <TrendingUp size={18} style={{ color: brand.success }} />
-            <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Market Snapshot</h2>
+        {/* SPORTS PREVIEW */}
+        <section className="front-column">
+          <div className="column-header" onClick={() => router.push('/os/morning-brief/sports')}>
+            <h3>Sports</h3>
+            <span className="see-all">Full Section →</span>
           </div>
-          <div style={{ fontSize: 20, fontWeight: 600, color: brand.success, marginBottom: 12 }}>{brief.sections.marketSnapshot.premarket}</div>
-          {brief.sections.marketSnapshot.keyLevels.length > 0 && (
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              {brief.sections.marketSnapshot.keyLevels.map((level, i) => (
-                <div key={i} style={{ padding: '8px 12px', background: 'rgba(16,185,129,0.1)', borderRadius: 6, fontSize: 12, fontFamily: "'JetBrains Mono', monospace", color: brand.silver }}>
-                  {level}
+          {data.sports_preview.map((s, i) => (
+            <article key={i} className="front-story">
+              <h4>{s.title}</h4>
+              <p>{s.excerpt}</p>
+            </article>
+          ))}
+          {data.games_today.length > 0 && (
+            <div className="games-today">
+              {data.games_today.map((g, i) => (
+                <div key={i} className="game">
+                  <span className="teams">{g.teams}</span>
+                  <span className="time">{g.time}</span>
+                  <span className="line">{g.line}</span>
                 </div>
               ))}
             </div>
           )}
-          {brief.sections.marketSnapshot.overnight && (
-            <div style={{ fontSize: 11, color: brand.smoke, marginTop: 12 }}>{brief.sections.marketSnapshot.overnight}</div>
-          )}
-        </div>
+        </section>
 
-        {/* News - Full Width */}
-        <div style={{ ...styles.card, marginBottom: 24 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, paddingBottom: 12, borderBottom: `1px solid ${brand.border}` }}>
-            <Newspaper size={18} style={{ color: brand.amber }} />
-            <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Headlines</h2>
-            <span style={{ fontSize: 11, color: brand.smoke, marginLeft: 'auto' }}>Nashua, NH · Boston Sports · Tech</span>
+        {/* TECH PREVIEW */}
+        <section className="front-column">
+          <div className="column-header" onClick={() => router.push('/os/morning-brief/tech')}>
+            <h3>Tech</h3>
+            <span className="see-all">Full Section →</span>
           </div>
-          
-          {brief.sections.news.length === 0 ? (
-            <div style={{ color: brand.smoke, fontSize: 13, padding: 20, textAlign: 'center' }}>
-              {loading ? 'Loading news...' : 'No news available'}
-            </div>
-          ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
-              {brief.sections.news.map((item, i) => (
-                <div key={i} style={{ padding: 16, background: 'rgba(255,255,255,0.02)', borderRadius: 8, border: `1px solid ${brand.border}` }}>
-                  <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 8 }}>
-                    <span style={{ 
-                      fontSize: 10, 
-                      padding: '2px 8px', 
-                      borderRadius: 4, 
-                      background: `${getRelevanceColor(item.relevance)}20`, 
-                      color: getRelevanceColor(item.relevance),
-                      fontWeight: 600
-                    }}>
-                      {item.relevance}
-                    </span>
-                    <span style={{ fontSize: 10, color: brand.smoke }}>{item.source}</span>
-                  </div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: brand.white, marginBottom: 6, lineHeight: 1.4 }}>
-                    {item.title}
-                  </div>
-                  <div style={{ fontSize: 12, color: brand.silver, lineHeight: 1.5 }}>
-                    {item.summary?.slice(0, 150)}{item.summary?.length > 150 ? '...' : ''}
-                  </div>
-                  {item.url && item.url !== '#' && (
-                    <a 
-                      href={item.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      style={{ 
-                        display: 'inline-flex', 
-                        alignItems: 'center', 
-                        gap: 4, 
-                        fontSize: 11, 
-                        color: brand.amber, 
-                        marginTop: 8,
-                        textDecoration: 'none'
-                      }}
-                    >
-                      Read more <ExternalLink size={10} />
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Two Column Layout */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, marginBottom: 24 }}>
-          
-          {/* Today's Tasks */}
-          <div style={{ ...styles.card }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, paddingBottom: 12, borderBottom: `1px solid ${brand.border}` }}>
-              <CheckSquare size={18} style={{ color: brand.info }} />
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Today's Tasks</h2>
-            </div>
-            {brief.sections.todaysTasks.length === 0 ? (
-              <div style={{ color: brand.smoke, fontSize: 13, padding: 10 }}>No tasks scheduled</div>
-            ) : (
-              brief.sections.todaysTasks.map((item, i) => (
-                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12, paddingBottom: 12, borderBottom: i < brief.sections.todaysTasks.length - 1 ? `1px solid ${brand.border}` : 'none' }}>
-                  <div style={{ width: 8, height: 8, borderRadius: '50%', background: priorityColor(item.priority), marginTop: 5, flexShrink: 0 }} />
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 13, color: brand.white, marginBottom: 2 }}>{item.task}</div>
-                    <div style={{ fontSize: 11, color: brand.smoke }}>via {item.source}</div>
-                  </div>
-                </div>
-              ))
-            )}
+          {data.tech_preview.map((s, i) => (
+            <article key={i} className="front-story">
+              <h4>{s.title}</h4>
+              <p>{s.excerpt}</p>
+            </article>
+          ))}
+          <div className="trending-topics">
+            {data.trending_topics.map((t, i) => (
+              <span key={i} className="topic">{t}</span>
+            ))}
           </div>
+        </section>
+      </div>
 
-          {/* Agent Recommendations */}
-          <div style={{ ...styles.card }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, paddingBottom: 12, borderBottom: `1px solid ${brand.border}` }}>
-              <Users size={18} style={{ color: '#A855F7' }} />
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Work Together Today</h2>
-            </div>
-            {brief.sections.agentRecommendations.length === 0 ? (
-              <div style={{ color: brand.smoke, fontSize: 13, padding: 10 }}>No recommendations yet</div>
-            ) : (
-              brief.sections.agentRecommendations.map((item, i) => (
-                <div key={i} style={{ marginBottom: 12, paddingBottom: 12, borderBottom: i < brief.sections.agentRecommendations.length - 1 ? `1px solid ${brand.border}` : 'none' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#A855F7' }}>{item.agent}</span>
-                    <span style={{ fontSize: 10, color: brand.smoke }}>recommends</span>
-                  </div>
-                  <div style={{ fontSize: 13, color: brand.white, marginBottom: 4 }}>{item.task}</div>
-                  <div style={{ fontSize: 11, color: brand.smoke, fontStyle: 'italic' }}>{item.reason}</div>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-
-        {/* Business Ideas */}
-        {brief.sections.businessIdeas.length > 0 && (
-          <div style={{ ...styles.card, marginBottom: 24, borderLeft: `4px solid ${brand.amber}` }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
-              <Lightbulb size={18} style={{ color: brand.amber }} />
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Business Ideas</h2>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
-              {brief.sections.businessIdeas.map((idea, i) => (
-                <div key={i} style={{ padding: 16, background: 'rgba(245,158,11,0.05)', borderRadius: 8, border: `1px solid ${brand.border}` }}>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: brand.amber, marginBottom: 6 }}>{idea.title}</div>
-                  <div style={{ fontSize: 12, color: brand.silver, lineHeight: 1.5, marginBottom: 8 }}>{idea.description}</div>
-                  <div style={{ fontSize: 11, color: brand.smoke }}>⏱ {idea.effort}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Overnight Activity */}
-        {brief.sections.overnightActivity.length > 0 && (
-          <div style={{ ...styles.card }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16, paddingBottom: 12, borderBottom: `1px solid ${brand.border}` }}>
-              <Zap size={18} style={{ color: brand.success }} />
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: brand.white, margin: 0 }}>Overnight Activity</h2>
-            </div>
-            {brief.sections.overnightActivity.map((item, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 12, paddingBottom: 12, borderBottom: i < brief.sections.overnightActivity.length - 1 ? `1px solid ${brand.border}` : 'none' }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 10, color: brand.smoke, minWidth: 70 }}>{item.time}</div>
-                <div>
-                  <span style={{ fontSize: 12, fontWeight: 600, color: brand.amber }}>{item.agent}</span>
-                  <span style={{ fontSize: 12, color: brand.silver }}> {item.action}</span>
-                </div>
+      {/* ══════════ BOTTOM ROW ══════════ */}
+      <div className="front-bottom">
+        {/* TODAY'S CALENDAR */}
+        <section className="bottom-section">
+          <h3>Today&apos;s Calendar</h3>
+          <div className="calendar-list">
+            {data.calendar.map((c, i) => (
+              <div key={i} className="calendar-item-front">
+                <span className="cal-time">{c.time}</span>
+                <span className="cal-event">{c.event}</span>
+                <span className={`cal-type ${c.type}`}>{c.type.toUpperCase()}</span>
               </div>
             ))}
           </div>
-        )}
+        </section>
 
-        {/* Footer */}
-        <div style={{ textAlign: 'center', padding: '32px 0', borderTop: `1px solid ${brand.border}`, marginTop: 32 }}>
-          <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 11, color: brand.smoke }}>
-            DB TECH OS · Morning Brief · {new Date().getFullYear()}
+        {/* NASHUA NEWS */}
+        <section className="bottom-section">
+          <div className="column-header" onClick={() => router.push('/os/morning-brief/local')}>
+            <h3>Nashua News</h3>
+            <span className="see-all">More →</span>
           </div>
-        </div>
+          <div className="local-stories">
+            {data.local_stories.map((s, i) => (
+              <article key={i} className="local-story">
+                <h4>{s.title}</h4>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* HEADLINES */}
+        <section className="bottom-section">
+          <h3>Headlines</h3>
+          <div className="headline-list">
+            {data.headlines.map((h, i) => (
+              <article key={i} className="headline-item">
+                <span className={`headline-tag ${h.tagClass}`}>{h.tag}</span>
+                <h4>{h.title}</h4>
+              </article>
+            ))}
+          </div>
+        </section>
       </div>
 
-      <style jsx global>{`
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
-    </div>
+      {/* ══════════ WEATHER BAR ══════════ */}
+      <div className="weather-bar">
+        <div className="weather-bar-location">{data.weather.location}</div>
+        <div className="weather-bar-now">
+          <span className="weather-bar-temp">{data.weather.temp}°F</span>
+          <span className="weather-bar-cond">{data.weather.condition}</span>
+        </div>
+        <div className="weather-bar-forecast">
+          {data.weather.forecast.map((f, i) => (
+            <span key={i}>{f.label}: {f.range}</span>
+          ))}
+        </div>
+      </div>
+    </main>
   );
 }

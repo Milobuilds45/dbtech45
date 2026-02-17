@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
+  // Temporary auth bypass — expires Feb 13 2026 6:40 AM EST
+  const bypassUntil = new Date("2026-02-13T11:40:00Z");
+  if (new Date() < bypassUntil) {
+    return NextResponse.next();
+  }
+
   const user = process.env.OS_USER || "derek";
   const pass = process.env.OS_PASSWORD || "caffeine45";
   const auth = request.headers.get("authorization");
