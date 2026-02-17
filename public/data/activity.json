@@ -2,6 +2,27 @@
   "activity": [
     {
       "type": "commit",
+      "id": "35723910",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:47:51 -0500",
+      "message": "fix(dunder): Replace hero image with CGI style matching portraits"
+    },
+    {
+      "type": "commit",
+      "id": "562c58fd",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:45:50 -0500",
+      "message": "fix(dunder): Make all portraits consistent CGI style"
+    },
+    {
+      "type": "commit",
+      "id": "08e434d6",
+      "author": "Milo",
+      "timestamp": "2026-02-17 15:44:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "bb9fad8d",
       "author": "Milo",
       "timestamp": "2026-02-17 15:43:07 -0500",
@@ -330,27 +351,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "72b92c6a",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:34:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "ad40d120",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:29:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "55cc5f48",
-      "author": "Milo",
-      "timestamp": "2026-02-17 12:24:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-17T17:01:06.634Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-17T20:44:06.492Z"
+  "generatedAt": "2026-02-17T20:49:11.522Z"
 }
