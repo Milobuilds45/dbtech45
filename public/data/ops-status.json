@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T21:39:03.796Z",
+    "lastHeartbeat": "2026-02-17T21:44:04.108Z",
     "totalCrons": 16,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >32 hours",
-        "timestamp": "2026-02-17T21:39:03.796Z",
+        "timestamp": "2026-02-17T21:44:04.108Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >51 hours",
-        "timestamp": "2026-02-17T21:39:03.796Z",
+        "timestamp": "2026-02-17T21:44:04.108Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:38:57.365Z"
+      "lastSeen": "2026-02-17T21:41:20.279Z"
     },
     {
       "name": "Anders",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:39:04.502Z"
+      "lastSeen": "2026-02-17T21:44:01.035Z"
     },
     {
       "name": "Tony",
@@ -115,7 +115,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:39:04.502Z",
+      "lastActivity": "2026-02-17T21:44:01.035Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
@@ -126,7 +126,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:39:04.357Z",
+      "lastActivity": "2026-02-17T21:41:20.279Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T21:39:05.446Z",
+  "generatedAt": "2026-02-17T21:44:07.134Z",
   "version": 2
 }
