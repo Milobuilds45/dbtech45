@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T21:54:04.001Z",
+    "lastHeartbeat": "2026-02-17T21:59:05.112Z",
     "totalCrons": 16,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >32 hours",
-        "timestamp": "2026-02-17T21:54:04.000Z",
+        "timestamp": "2026-02-17T21:59:05.112Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >51 hours",
-        "timestamp": "2026-02-17T21:54:04.000Z",
+        "timestamp": "2026-02-17T21:59:05.112Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:45:51.939Z"
+      "lastSeen": "2026-02-17T21:57:09.425Z"
     },
     {
       "name": "Anders",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:53:49.149Z"
+      "lastSeen": "2026-02-17T21:56:39.827Z"
     },
     {
       "name": "Tony",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:53:49.149Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 59
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:45:51.939Z",
+      "lastActivity": "2026-02-17T21:57:09.425Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T21:56:39.827Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 59
     },
     {
       "key": "agent:dax:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T21:54:07.389Z",
+  "generatedAt": "2026-02-17T21:59:06.743Z",
   "version": 2
 }
