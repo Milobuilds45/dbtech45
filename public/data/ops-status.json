@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T02:24:02.087Z",
+    "lastHeartbeat": "2026-02-17T02:29:02.094Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,35 +13,35 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >14 hours",
-        "timestamp": "2026-02-17T02:24:02.087Z",
+        "timestamp": "2026-02-17T02:29:02.094Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-17T02:24:02.087Z",
+        "timestamp": "2026-02-17T02:29:02.094Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >13 hours",
-        "timestamp": "2026-02-17T02:24:02.087Z",
+        "timestamp": "2026-02-17T02:29:02.094Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-17T02:24:02.087Z",
+        "timestamp": "2026-02-17T02:29:02.094Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >31 hours",
-        "timestamp": "2026-02-17T02:24:02.087Z",
+        "timestamp": "2026-02-17T02:29:02.094Z",
         "resolved": false
       }
     ]
@@ -487,6 +487,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T02:24:02.207Z",
+  "generatedAt": "2026-02-17T02:29:02.213Z",
   "version": 2
 }
