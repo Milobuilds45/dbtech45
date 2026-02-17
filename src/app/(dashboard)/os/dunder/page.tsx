@@ -104,11 +104,11 @@ export default function DunderNashuaPage() {
   const [showStapler, setShowStapler] = useState(false);
   const [currentTalkingHead, setCurrentTalkingHead] = useState(0);
 
-  // Rotate talking heads
+  // Rotate talking heads (slower - 20 seconds each)
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTalkingHead(prev => (prev + 1) % TALKING_HEADS.length);
-    }, 8000);
+    }, 20000);
     return () => clearInterval(interval);
   }, []);
 
@@ -131,7 +131,7 @@ export default function DunderNashuaPage() {
           src="/os/dunder/hero-conference-room.jpg"
           alt="D.U.N.D.E.R. Conference Room"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          style={{ objectFit: 'cover', objectPosition: 'center top' }}
           priority
         />
         <div style={{
