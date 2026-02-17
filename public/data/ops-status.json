@@ -4,58 +4,51 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T10:59:01.867Z",
+    "lastHeartbeat": "2026-02-17T11:04:01.879Z",
     "totalCrons": 17,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >21 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >21 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >23 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-tony",
-        "type": "warning",
-        "message": "Tony agent offline for >23 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >22 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
-        "message": "Remy agent offline for >22 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "message": "Remy agent offline for >23 hours",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >40 hours",
-        "timestamp": "2026-02-17T10:59:01.867Z",
+        "timestamp": "2026-02-17T11:04:01.878Z",
         "resolved": false
       }
     ]
@@ -109,11 +102,11 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T11:38:31.361Z"
+      "lastSeen": "2026-02-17T11:00:26.396Z"
     },
     {
       "name": "Dax",
@@ -144,6 +137,17 @@
     }
   ],
   "sessions": [
+    {
+      "key": "agent:tony:main",
+      "agent": "Tony",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T11:00:26.396Z",
+      "role": "Tech Guru",
+      "cost": 0,
+      "sessionCount": 26
+    },
     {
       "key": "agent:milo:main",
       "agent": "Milo",
@@ -220,17 +224,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 58
-    },
-    {
-      "key": "agent:tony:main",
-      "agent": "Tony",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T11:38:31.361Z",
-      "role": "Tech Guru",
-      "cost": 0,
-      "sessionCount": 25
     },
     {
       "key": "agent:wendy:main",
@@ -432,10 +425,10 @@
       "humanSchedule": "0 6 * * *",
       "agent": "Tony",
       "description": "DAILY RESTAURANT PREP SHEET (6:00 AM). You are Tony (Restaurant Operations). Read your SOUL.md and workspace memory file",
-      "lastRun": "2026-02-16T11:00:00.009Z",
+      "lastRun": "2026-02-17T11:00:00.002Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-17T11:00:00.000Z",
-      "duration": "29s",
+      "nextRun": "2026-02-18T11:00:00.000Z",
+      "duration": "27s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -501,6 +494,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T10:59:01.990Z",
+  "generatedAt": "2026-02-17T11:04:01.996Z",
   "version": 2
 }
