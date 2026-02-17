@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T01:29:02.052Z",
+    "lastHeartbeat": "2026-02-17T01:34:02.003Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,28 +13,35 @@
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >13 hours",
-        "timestamp": "2026-02-17T01:29:02.052Z",
+        "timestamp": "2026-02-17T01:34:02.003Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >14 hours",
-        "timestamp": "2026-02-17T01:29:02.052Z",
+        "timestamp": "2026-02-17T01:34:02.003Z",
+        "resolved": false
+      },
+      {
+        "id": "offline-dax",
+        "type": "warning",
+        "message": "Dax agent offline for >13 hours",
+        "timestamp": "2026-02-17T01:34:02.003Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-17T01:29:02.052Z",
+        "timestamp": "2026-02-17T01:34:02.003Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >30 hours",
-        "timestamp": "2026-02-17T01:29:02.052Z",
+        "timestamp": "2026-02-17T01:34:02.003Z",
         "resolved": false
       }
     ]
@@ -61,7 +68,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -127,7 +134,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T01:00:22.816Z",
       "role": "Trading Advisor",
@@ -480,6 +487,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T01:29:02.172Z",
+  "generatedAt": "2026-02-17T01:34:02.124Z",
   "version": 2
 }
