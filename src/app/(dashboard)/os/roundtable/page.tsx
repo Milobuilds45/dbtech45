@@ -20,8 +20,9 @@ interface RoundMessage {
 const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: string; color: string }> = {
   bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#22C55E' },
   wendy: { initials: 'WR', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
-  dwight: { initials: 'DW', label: 'Dwight', role: 'Intel', color: '#3B82F6' },
-  dax: { initials: 'DX', label: 'Dax', role: 'Data', color: '#06B6D4' },
+  dwight: { initials: 'DKS', label: 'Dwight K. Schrute', role: 'Intel', color: '#6366F1' },
+  jim: { initials: 'JH', label: 'Jim Halpert', role: 'Social Media', color: '#06B6D4' },
+  michael: { initials: 'MS', label: 'Michael Scott', role: 'World\'s Best Boss', color: '#EAB308' },
   paula: { initials: 'PA', label: 'Paula', role: 'Full Stack Creative', color: '#EC4899' },
   remy: { initials: 'RM', label: 'Remy', role: 'Restaurant Operations', color: '#EAB308' },
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
