@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T19:34:02.751Z",
+    "lastHeartbeat": "2026-02-17T19:39:02.813Z",
     "totalCrons": 16,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >30 hours",
-        "timestamp": "2026-02-17T19:34:02.751Z",
+        "timestamp": "2026-02-17T19:39:02.813Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >48 hours",
-        "timestamp": "2026-02-17T19:34:02.751Z",
+        "message": "Wendy agent offline for >49 hours",
+        "timestamp": "2026-02-17T19:39:02.813Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T19:33:37.581Z"
+      "lastSeen": "2026-02-17T19:37:48.608Z"
     },
     {
       "name": "Anders",
@@ -115,7 +115,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T19:33:37.581Z",
+      "lastActivity": "2026-02-17T19:37:48.608Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T19:34:03.842Z",
+  "generatedAt": "2026-02-17T19:39:03.892Z",
   "version": 2
 }
