@@ -18,9 +18,8 @@ const AGENTS = [
   { id: 'paula', name: 'Paula', role: 'Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
   { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#00A000', initials: 'BO', image: '/os/agents/bobby.png' },
   { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#7B68EE', initials: 'DW', image: '/os/agents/dwight.png' },
-  { id: 'tony', name: 'Tony', role: 'Operations', color: '#F4D03F', initials: 'TN', image: '/os/agents/tony.png' },
   { id: 'dax', name: 'Dax', role: 'Content Writer', color: '#00FFFF', initials: 'DX', image: '/os/agents/dax.png' },
-  { id: 'remy', name: 'Remy', role: 'Marketing', color: '#E53935', initials: 'RM', image: '/os/agents/remy.png' },
+  { id: 'remy', name: 'Remy', role: 'Restaurant Operations', color: '#EAB308', initials: 'RM', image: '/os/agents/remy.png' },
   { id: 'webb', name: 'Webb', role: 'Deep Research', color: '#2979FF', initials: 'WB', image: '/os/agents/webb.png' },
   { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WN', image: '/os/agents/wendy.png' },
 ];

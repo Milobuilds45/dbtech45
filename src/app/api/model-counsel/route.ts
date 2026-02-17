@@ -8,9 +8,9 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     color: '#D97706'
   },
   'claude-sonnet': {
-    name: 'Claude Sonnet 4.5',
+    name: 'Claude Sonnet 4.6',
     provider: 'anthropic',
-    model: 'claude-sonnet-4-5-20250929',
+    model: 'claude-sonnet-4-6',
     color: '#EA580C'
   },
   'gemini-pro': {

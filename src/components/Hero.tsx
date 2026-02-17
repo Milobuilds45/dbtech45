@@ -63,7 +63,7 @@ export default function Hero() {
           </h1>
           <p className="hero-sub">
             I'm Derek. Dad of 7. Futures trader. Restaurant owner.<br />
-            Self-taught builder running 10 AI agents. Shipping daily.
+            Self-taught builder running 9 AI agents. Shipping daily.
           </p>
           <div className="hero-ctas">
             <a href="#projects" className="btn btn-primary">

@@ -16,8 +16,7 @@ const AGENTS: Agent[] = [
   { name: 'Anders', initials: 'AN', color: '#F97316', role: 'Full Stack Dev', description: 'Turns designs into deployed, production-grade code. Ships fast, breaks nothing.', handles: ['Architecture decisions', 'Code reviews', 'Deployments', 'Performance'], motto: 'Ship it.' },
   { name: 'Paula', initials: 'PA', color: '#EC4899', role: 'Design Director', description: 'Brand identity, UI/UX, visual systems. Makes chaos look intentional.', handles: ['Brand guidelines', 'UI design', 'Design systems', 'Visual QA'], motto: 'Less, but better.' },
   { name: 'Bobby', initials: 'BO', color: '#22C55E', role: 'Trading Systems', description: 'Market analysis, signal generation, risk management. Always watching the tape.', handles: ['Trade signals', 'Risk alerts', 'Market research', 'Portfolio tracking'], motto: 'The market is always right.' },
-  { name: 'Remy', initials: 'RE', color: '#EF4444', role: 'Marketing', description: 'Growth strategy, audience building, campaign execution.', handles: ['Content distribution', 'Social strategy', 'Analytics', 'Campaigns'], motto: 'Growth is a process.' },
-  { name: 'Tony', initials: 'TO', color: '#EAB308', role: 'Operations', description: 'Systems, infrastructure, workflows. The invisible hand that keeps it running.', handles: ['Process automation', 'Infrastructure', 'Scheduling', 'Logistics'], motto: 'Systems over effort.' },
+  { name: 'Remy', initials: 'RM', color: '#EAB308', role: 'Restaurant Operations', description: 'Restaurant operations and marketing expertise. Handles kitchen ops, costs, inventory, and promotional strategies.', handles: ['Restaurant ops', 'Food costs', 'Inventory', 'Marketing'], motto: 'Operational excellence with a marketing edge.' },
   { name: 'Dax', initials: 'DA', color: '#06B6D4', role: 'Content', description: 'Newsletters, storytelling, data narratives. Turns ideas into words that land.', handles: ['Newsletter writing', 'Content strategy', 'Data storytelling', 'Copy'], motto: 'Words that work.' },
   { name: 'Webb', initials: 'WE', color: '#3B82F6', role: 'Research', description: 'Deep dives, competitive analysis, data synthesis.', handles: ['Market research', 'Competitive intel', 'Trend analysis', 'Reports'], motto: 'Data before decisions.' },
   { name: 'Dwight', initials: 'DW', color: '#6366F1', role: 'Intel', description: 'Real-time news monitoring, event detection, macro awareness.', handles: ['News scanning', 'Event alerts', 'Macro trends', 'Intel briefs'], motto: 'First to know.' },
@@ -26,7 +25,7 @@ const AGENTS: Agent[] = [
 
 const STATS = [
   { value: '24/7', label: 'Uptime' },
-  { value: '10', label: 'Agents' },
+  { value: '9', label: 'Agents' },
   { value: '\u221E', label: 'Tasks/Day' },
   { value: '0', label: 'Sick Days' },
 ];
@@ -127,7 +126,7 @@ export default function TheTeam() {
           The Swarm
         </h2>
         <p style={{ fontSize: '16px', color: '#A3A3A3', margin: 0, fontFamily: "'Inter', sans-serif" }}>
-          I don&apos;t have a team of 50. I have 10 AI agents who never sleep.
+          I don&apos;t have a team of 50. I have 9 AI agents who never sleep.
         </p>
       </div>
 

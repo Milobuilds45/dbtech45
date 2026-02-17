@@ -21,7 +21,7 @@ interface ModelResponse {
 
 const MODEL_DISPLAY: Record<string, { initials: string; desc: string }> = {
   'claude-opus': { initials: 'OP', desc: 'Deep reasoning and analysis' },
-  'claude-sonnet': { initials: 'SN', desc: 'Balanced speed and capability' },
+  'claude-sonnet': { initials: 'SN', desc: 'Opus-level performance, 1M context' },
   'gemini-pro': { initials: 'GP', desc: 'Advanced reasoning, huge context' },
   'gemini-flash': { initials: 'GF', desc: 'Fast responses, good quality' },
   'gpt-4o': { initials: '4o', desc: 'Strong at code and structure' },

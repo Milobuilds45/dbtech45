@@ -24,9 +24,9 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "DBTech45 — Fueled by Caffeine and Chaos",
+  title: "DBTech45 - Fueled by Caffeine and Chaos",
   description:
-    "Derek Bobola — Dad of 7. Futures trader. Restaurant owner. Self-taught builder running 10 AI agents. Shipping daily.",
+    "Derek Bobola - Dad of 7. Futures trader. Restaurant owner. Self-taught builder running 9 AI agents. Shipping daily.",
   themeColor: "#0A0A0B",
 };
 
