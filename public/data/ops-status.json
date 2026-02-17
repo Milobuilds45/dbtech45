@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T22:49:04.291Z",
+    "lastHeartbeat": "2026-02-17T22:54:03.447Z",
     "totalCrons": 16,
     "activeSessions": 6,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >33 hours",
-        "timestamp": "2026-02-17T22:49:04.290Z",
+        "timestamp": "2026-02-17T22:54:03.447Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >52 hours",
-        "timestamp": "2026-02-17T22:49:04.290Z",
+        "timestamp": "2026-02-17T22:54:03.447Z",
         "resolved": false
       }
     ]
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T22:37:16.826Z"
+      "lastSeen": "2026-02-17T22:52:52.663Z"
     },
     {
       "name": "Tony",
@@ -83,11 +83,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:37:15.656Z"
+      "lastSeen": "2026-02-17T22:53:44.741Z"
     },
     {
       "name": "Remy",
@@ -110,6 +110,28 @@
   ],
   "sessions": [
     {
+      "key": "agent:dax:main",
+      "agent": "Dax",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T22:53:44.741Z",
+      "role": "Social Strategist",
+      "cost": 0,
+      "sessionCount": 25
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T22:52:52.663Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 59
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -119,28 +141,6 @@
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 34
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T22:37:16.826Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 59
-    },
-    {
-      "key": "agent:dax:main",
-      "agent": "Dax",
-      "model": "gemini-3-flash",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:37:15.656Z",
-      "role": "Social Strategist",
-      "cost": 0,
-      "sessionCount": 25
     },
     {
       "key": "agent:bobby:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T22:49:07.521Z",
+  "generatedAt": "2026-02-17T22:54:05.148Z",
   "version": 2
 }
