@@ -4,30 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T14:59:02.479Z",
+    "lastHeartbeat": "2026-02-17T15:04:02.357Z",
     "totalCrons": 17,
-    "activeSessions": 6,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >25 hours",
-        "timestamp": "2026-02-17T14:59:02.479Z",
+        "timestamp": "2026-02-17T15:04:02.356Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >25 hours",
-        "timestamp": "2026-02-17T14:59:02.479Z",
+        "timestamp": "2026-02-17T15:04:02.356Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >44 hours",
-        "timestamp": "2026-02-17T14:59:02.479Z",
+        "timestamp": "2026-02-17T15:04:02.356Z",
         "resolved": false
       }
     ]
@@ -54,7 +54,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -81,7 +81,7 @@
     {
       "name": "Tony",
       "role": "Tech Guru",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -131,7 +131,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T14:30:23.573Z",
       "role": "Trading Advisor",
@@ -175,7 +175,7 @@
       "key": "agent:tony:main",
       "agent": "Tony",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T11:00:26.396Z",
       "role": "Tech Guru",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T14:59:02.616Z",
+  "generatedAt": "2026-02-17T15:04:02.489Z",
   "version": 2
 }
