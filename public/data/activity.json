@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0560f9a3",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:26:40 -0500",
+      "message": "MAJOR: Tony → Remy agent merger - Update all OS sections"
+    },
+    {
+      "type": "commit",
+      "id": "57c940dc",
+      "author": "Milo",
+      "timestamp": "2026-02-17 13:24:06 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "8e9f6655",
       "author": "Milo",
       "timestamp": "2026-02-17 13:19:04 -0500",
@@ -351,20 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "36cd5181",
-      "author": "Milo",
-      "timestamp": "2026-02-17 09:19:02 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "0bb3678b",
-      "author": "Milo",
-      "timestamp": "2026-02-17 09:14:03 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "4822e39c",
       "timestamp": "2026-02-17T13:00:13.839Z",
@@ -421,5 +421,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-17T18:24:06.213Z"
+  "generatedAt": "2026-02-17T18:34:09.225Z"
 }

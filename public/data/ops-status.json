@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T18:24:05.011Z",
+    "lastHeartbeat": "2026-02-17T18:34:06.029Z",
     "totalCrons": 16,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -12,15 +12,15 @@
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >28 hours",
-        "timestamp": "2026-02-17T18:24:05.010Z",
+        "message": "Anders agent offline for >29 hours",
+        "timestamp": "2026-02-17T18:34:06.028Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >47 hours",
-        "timestamp": "2026-02-17T18:24:05.010Z",
+        "timestamp": "2026-02-17T18:34:06.028Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T18:24:04.995Z"
+      "lastSeen": "2026-02-17T18:32:12.180Z"
     },
     {
       "name": "Anders",
@@ -60,7 +60,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T18:21:01.001Z"
+      "lastSeen": "2026-02-17T18:33:59.548Z"
     },
     {
       "name": "Dwight",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T18:24:04.995Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
-    },
-    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T18:21:01.001Z",
+      "lastActivity": "2026-02-17T18:34:06.716Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 20
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-17T18:32:12.180Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 34
     },
     {
       "key": "agent:bobby:main",
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T18:24:06.041Z",
+  "generatedAt": "2026-02-17T18:34:09.029Z",
   "version": 2
 }
