@@ -4,30 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T16:29:02.407Z",
+    "lastHeartbeat": "2026-02-17T16:34:02.408Z",
     "totalCrons": 17,
-    "activeSessions": 4,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >26 hours",
-        "timestamp": "2026-02-17T16:29:02.406Z",
+        "message": "Anders agent offline for >27 hours",
+        "timestamp": "2026-02-17T16:34:02.408Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >26 hours",
-        "timestamp": "2026-02-17T16:29:02.406Z",
+        "message": "Paula agent offline for >27 hours",
+        "timestamp": "2026-02-17T16:34:02.408Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >45 hours",
-        "timestamp": "2026-02-17T16:29:02.406Z",
+        "timestamp": "2026-02-17T16:34:02.408Z",
         "resolved": false
       }
     ]
@@ -99,7 +99,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "idle",
+      "status": "offline",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -153,7 +153,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T12:30:10.684Z",
       "role": "Restaurant Marketing",
@@ -473,6 +473,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T16:29:02.528Z",
+  "generatedAt": "2026-02-17T16:34:02.530Z",
   "version": 2
 }
