@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-17T03:34:02.226Z",
+    "lastHeartbeat": "2026-02-17T03:39:02.242Z",
     "totalCrons": 17,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,49 +13,49 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >14 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >14 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
         "message": "Dwight agent offline for >15 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >16 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >15 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >15 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >32 hours",
-        "timestamp": "2026-02-17T03:34:02.226Z",
+        "message": "Wendy agent offline for >33 hours",
+        "timestamp": "2026-02-17T03:39:02.242Z",
         "resolved": false
       }
     ]
@@ -64,11 +64,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T02:37:20.482Z"
+      "lastSeen": "2026-02-17T03:37:20.662Z"
     },
     {
       "name": "Anders",
@@ -148,9 +148,9 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T02:37:20.482Z",
+      "lastActivity": "2026-02-17T03:37:20.662Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 31
@@ -501,6 +501,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-17T03:34:02.346Z",
+  "generatedAt": "2026-02-17T03:39:02.360Z",
   "version": 2
 }
