@@ -4,30 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T06:34:05.716Z",
+    "lastHeartbeat": "2026-02-18T06:39:05.532Z",
     "totalCrons": 14,
-    "activeSessions": 3,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >41 hours",
-        "timestamp": "2026-02-18T06:34:05.716Z",
+        "timestamp": "2026-02-18T06:39:05.532Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >18 hours",
-        "timestamp": "2026-02-18T06:34:05.716Z",
+        "timestamp": "2026-02-18T06:39:05.532Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >59 hours",
-        "timestamp": "2026-02-18T06:34:05.716Z",
+        "message": "Wendy agent offline for >60 hours",
+        "timestamp": "2026-02-18T06:39:05.532Z",
         "resolved": false
       },
       {
@@ -50,7 +50,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -77,7 +77,7 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
@@ -134,7 +134,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T06:07:48.442Z",
       "role": "Chief of Staff",
@@ -156,7 +156,7 @@
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T02:35:13.786Z",
       "role": "Creative Director",
@@ -442,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T06:34:07.274Z",
+  "generatedAt": "2026-02-18T06:39:07.083Z",
   "version": 2
 }
