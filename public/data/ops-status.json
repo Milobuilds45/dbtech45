@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T17:29:11.173Z",
+    "lastHeartbeat": "2026-02-18T17:34:09.232Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >22 hours",
-        "timestamp": "2026-02-18T17:29:11.170Z",
+        "timestamp": "2026-02-18T17:34:09.231Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >17 hours",
-        "timestamp": "2026-02-18T17:29:11.170Z",
+        "timestamp": "2026-02-18T17:34:09.231Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >70 hours",
-        "timestamp": "2026-02-18T17:29:11.170Z",
+        "timestamp": "2026-02-18T17:34:09.231Z",
         "resolved": false
       },
       {
@@ -54,7 +54,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T17:24:32.638Z"
+      "lastSeen": "2026-02-18T17:33:11.988Z"
     },
     {
       "name": "Anders",
@@ -68,7 +68,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "running",
+      "status": "idle",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -136,7 +136,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T17:24:32.638Z",
+      "lastActivity": "2026-02-18T17:33:11.988Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 37
@@ -145,7 +145,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T17:01:28.926Z",
       "role": "Trading Advisor",
@@ -442,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T17:29:15.508Z",
+  "generatedAt": "2026-02-18T17:34:11.386Z",
   "version": 2
 }
