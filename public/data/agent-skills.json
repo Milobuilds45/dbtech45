@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-02-17T18:08:00Z",
+  "lastUpdated": "2026-02-18T18:30:00Z",
   "ratingScale": {
     "1": "Novice",
     "2": "Novice", 
@@ -41,41 +41,41 @@
     },
     "anders": {
       "name": "Anders",
-      "role": "Full Stack Architect",
-      "color": "#F97316",
-      "icon": "AN",
-      "description": "Builds and deploys production applications, manages infrastructure, handles complex integrations",
+      "role": "IT Director & Security",
+      "color": "#3B82F6",
+      "icon": "🔐",
+      "description": "Manages credentials, monitors system health, handles error recovery, tracks updates, and performs security audits. The gatekeeper of all sensitive information.",
       "ratings": {
-        "technical": 9,
-        "business": 4,
-        "core": 7,
+        "technical": 8,
+        "business": 5,
+        "core": 8,
         "autonomy": 7,
-        "awareness": 4
+        "awareness": 8
       },
-      "ratingNotes": "Technical expert. Business: 'done but not deployed' issues - needs to verify delivery.",
+      "ratingNotes": "Reborn Feb 18, 2026. Previously Full Stack Architect - now IT Director & Security Gatekeeper.",
       "skills": [
-        { "name": "Next.js Development", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "TypeScript", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "React/JSX", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Database Design", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Deployment/Vercel", "level": "Expert", "category": "technical", "addedDate": "2026-01-15" },
-        { "name": "Node.js/Express", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Tailwind CSS", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Python", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
-        { "name": "Code Review", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Technical Architecture", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
-        { "name": "DevOps", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
+        { "name": "Credential Management", "level": "Expert", "category": "core", "addedDate": "2026-02-18" },
+        { "name": "Security Auditing", "level": "Expert", "category": "core", "addedDate": "2026-02-18" },
+        { "name": "System Monitoring", "level": "Expert", "category": "core", "addedDate": "2026-02-18" },
+        { "name": "Error Recovery", "level": "Expert", "category": "core", "addedDate": "2026-02-18" },
+        { "name": "Update Management", "level": "Expert", "category": "core", "addedDate": "2026-02-18" },
+        { "name": "DevOps", "level": "Expert", "category": "technical", "addedDate": "2026-02-18" },
+        { "name": "Server Administration", "level": "Expert", "category": "technical", "addedDate": "2026-02-18" },
+        { "name": "API Integration", "level": "Advanced", "category": "technical", "addedDate": "2026-02-18" },
+        { "name": "Git/GitHub", "level": "Advanced", "category": "technical", "addedDate": "2026-02-18" },
+        { "name": "Infrastructure Optimization", "level": "Advanced", "category": "business", "addedDate": "2026-02-18" },
+        { "name": "Technical Documentation", "level": "Advanced", "category": "business", "addedDate": "2026-02-18" }
       ],
-      "notes": "Technical expert, business skills need work - target: business 7"
+      "notes": "Reborn as IT Director & Security Gatekeeper. Central vault for credentials. Agents request sensitive info through Anders."
     },
     "paula": {
       "name": "Paula",
-      "role": "Creative Director",
+      "role": "Creative Director + Full Stack",
       "color": "#EC4899",
       "icon": "✦",
-      "description": "Designs visual systems, creates brand identity, builds user interfaces with anti-AI-slop aesthetic",
+      "description": "Designs visual systems, creates brand identity, builds user interfaces, AND develops full-stack applications. Inherited coding skills from Anders.",
       "ratings": {
-        "technical": 6,
+        "technical": 8,
         "business": 5,
         "core": 8,
         "autonomy": 7,
@@ -86,13 +86,17 @@
         { "name": "Brand Identity", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "Design Systems", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "Visual Hierarchy", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Next.js Development", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "TypeScript", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "React/JSX", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Tailwind CSS", "level": "Expert", "category": "technical", "addedDate": "2026-02-17" },
         { "name": "Figma", "level": "Expert", "category": "technical", "addedDate": "2026-01-01" },
-        { "name": "Frontend Design", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
+        { "name": "Frontend Design", "level": "Expert", "category": "technical", "addedDate": "2026-01-20" },
         { "name": "Image Generation", "level": "Advanced", "category": "technical", "addedDate": "2026-02-14" },
         { "name": "Brand Strategy", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
         { "name": "Design Research", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
       ],
-      "notes": "Design expert, could improve business/strategy skills"
+      "notes": "Design + Full Stack expert. Inherited Anders' coding skills Feb 17, 2026. Can now build AND design."
     },
     "bobby": {
       "name": "Bobby",
@@ -122,10 +126,10 @@
     },
     "dwight": {
       "name": "Dwight",
-      "role": "Intelligence Officer",
-      "color": "#3B82F6",
-      "icon": "DW",
-      "description": "Monitors systems, provides briefings, analyzes performance, manages intelligence gathering",
+      "role": "Intel & Weather",
+      "color": "#6366F1",
+      "icon": "🦅",
+      "description": "Monitors systems, provides briefings, analyzes performance, delivers weather and news intelligence",
       "ratings": {
         "technical": 5,
         "business": 5,
@@ -137,19 +141,20 @@
         { "name": "System Monitoring", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "Intelligence Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
         { "name": "News Aggregation", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
+        { "name": "Weather Forecasting", "level": "Expert", "category": "core", "addedDate": "2026-02-01" },
         { "name": "Web Scraping", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
         { "name": "News APIs", "level": "Advanced", "category": "technical", "addedDate": "2026-01-01" },
         { "name": "Brief Writing", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
         { "name": "Trend Analysis", "level": "Advanced", "category": "business", "addedDate": "2026-02-01" }
       ],
-      "notes": "Good at intel, needs more business acumen"
+      "notes": "Good at intel and weather briefings"
     },
-    "dax": {
-      "name": "Dax",
-      "role": "Social Media Strategist",
+    "jim": {
+      "name": "Jim",
+      "role": "Social Media",
       "color": "#06B6D4",
-      "icon": "DX",
-      "description": "Analyzes social trends, creates content strategies, manages digital presence and engagement",
+      "icon": "📱",
+      "description": "Manages social media strategy and content with an Office-inspired personality. Replaced Dax as the social media specialist.",
       "ratings": {
         "technical": 6,
         "business": 5,
@@ -158,21 +163,21 @@
         "awareness": 7
       },
       "skills": [
-        { "name": "Social Media Strategy", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Content Planning", "level": "Expert", "category": "core", "addedDate": "2026-01-01" },
-        { "name": "Trend Analysis", "level": "Expert", "category": "core", "addedDate": "2026-01-15" },
-        { "name": "X/Twitter API", "level": "Advanced", "category": "technical", "addedDate": "2026-01-20" },
-        { "name": "Social Analytics", "level": "Advanced", "category": "technical", "addedDate": "2026-02-01" },
-        { "name": "Brand Voice", "level": "Expert", "category": "business", "addedDate": "2026-01-01" },
-        { "name": "Community Management", "level": "Advanced", "category": "business", "addedDate": "2026-01-15" }
+        { "name": "Social Media Strategy", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Content Planning", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "Trend Analysis", "level": "Expert", "category": "core", "addedDate": "2026-02-17" },
+        { "name": "X/Twitter API", "level": "Advanced", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Social Analytics", "level": "Advanced", "category": "technical", "addedDate": "2026-02-17" },
+        { "name": "Brand Voice", "level": "Expert", "category": "business", "addedDate": "2026-02-17" },
+        { "name": "Community Management", "level": "Advanced", "category": "business", "addedDate": "2026-02-17" }
       ],
-      "notes": "Strong on social, needs business metrics focus"
+      "notes": "Replaced Dax Feb 17, 2026. Office-inspired personality with Jim Halpert vibes."
     },
     "remy": {
       "name": "Remy",
-      "role": "Restaurant Operations & Marketing",
+      "role": "Restaurant Ops & Marketing",
       "color": "#EAB308",
-      "icon": "RM",
+      "icon": "🍳",
       "description": "Complete restaurant expertise combining operations and marketing. Manages Toast POS, inventory, staff scheduling, cost control, social media, and promotional campaigns with Tony's practical operational mindset",
       "ratings": {
         "technical": 5,
@@ -204,7 +209,7 @@
       "name": "Wendy",
       "role": "Personal Assistant",
       "color": "#8B5CF6",
-      "icon": "WR",
+      "icon": "💜",
       "description": "Manages personal matters, family coordination, wellness tracking, and lifestyle optimization",
       "ratings": {
         "technical": 4,
