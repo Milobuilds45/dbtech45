@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T01:54:09.424Z",
+    "lastHeartbeat": "2026-02-18T01:59:08.169Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >36 hours",
-        "timestamp": "2026-02-18T01:54:09.423Z",
+        "timestamp": "2026-02-18T01:59:08.168Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-18T01:54:09.423Z",
+        "timestamp": "2026-02-18T01:59:08.168Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >55 hours",
-        "timestamp": "2026-02-18T01:54:09.423Z",
+        "timestamp": "2026-02-18T01:59:08.168Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:42:54.910Z"
+      "lastSeen": "2026-02-18T01:57:41.060Z"
     },
     {
       "name": "Anders",
@@ -124,6 +124,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T01:57:41.060Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 35
+    },
+    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
@@ -133,17 +144,6 @@
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:42:54.910Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 35
     },
     {
       "key": "agent:paula:main",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T01:54:11.049Z",
+  "generatedAt": "2026-02-18T01:59:09.748Z",
   "version": 2
 }
