@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T10:04:09.266Z",
+    "lastHeartbeat": "2026-02-18T10:09:06.790Z",
     "totalCrons": 14,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,28 +13,28 @@
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-18T10:04:09.264Z",
+        "timestamp": "2026-02-18T10:09:06.788Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-18T10:04:09.264Z",
+        "timestamp": "2026-02-18T10:09:06.788Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >22 hours",
-        "timestamp": "2026-02-18T10:04:09.264Z",
+        "timestamp": "2026-02-18T10:09:06.788Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >63 hours",
-        "timestamp": "2026-02-18T10:04:09.264Z",
+        "timestamp": "2026-02-18T10:09:06.788Z",
         "resolved": false
       },
       {
@@ -57,11 +57,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T09:04:43.406Z"
+      "lastSeen": "2026-02-18T10:04:30.534Z"
     },
     {
       "name": "Anders",
@@ -141,9 +141,9 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T09:04:43.406Z",
+      "lastActivity": "2026-02-18T10:04:30.534Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 37
@@ -449,6 +449,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T10:04:10.883Z",
+  "generatedAt": "2026-02-18T10:09:08.668Z",
   "version": 2
 }
