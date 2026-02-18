@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T00:14:03.586Z",
+    "lastHeartbeat": "2026-02-18T00:19:07.835Z",
     "totalCrons": 16,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >34 hours",
-        "timestamp": "2026-02-18T00:14:03.585Z",
+        "timestamp": "2026-02-18T00:19:07.834Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >53 hours",
-        "timestamp": "2026-02-18T00:14:03.585Z",
+        "timestamp": "2026-02-18T00:19:07.834Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T00:13:59.113Z"
+      "lastSeen": "2026-02-18T00:18:26.233Z"
     },
     {
       "name": "Anders",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T00:13:52.560Z"
+      "lastSeen": "2026-02-18T00:18:47.479Z"
     },
     {
       "name": "Tony",
@@ -83,11 +83,11 @@
     {
       "name": "Dax",
       "role": "Social Strategist",
-      "status": "idle",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T22:53:44.741Z"
+      "lastSeen": "2026-02-18T00:16:51.205Z"
     },
     {
       "name": "Remy",
@@ -110,34 +110,34 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T00:13:59.113Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T00:13:52.560Z",
+      "lastActivity": "2026-02-18T00:18:47.479Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
     },
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T00:18:26.233Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 34
+    },
+    {
       "key": "agent:dax:main",
       "agent": "Dax",
       "model": "gemini-3-flash",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-17T22:53:44.741Z",
+      "lastActivity": "2026-02-18T00:16:51.205Z",
       "role": "Social Strategist",
       "cost": 0,
       "sessionCount": 25
@@ -451,6 +451,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T00:14:05.076Z",
+  "generatedAt": "2026-02-18T00:19:11.216Z",
   "version": 2
 }

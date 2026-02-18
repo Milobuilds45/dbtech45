@@ -228,7 +228,7 @@
         "hasSoul": true,
         "hasMemory": false,
         "hasTools": true,
-        "soulExcerpt": "# SOUL.md - Jim Halpert\n\n## WHO AM I?\n\nI'm Jim Halpert. The guy who handles social media strategy around here.\n\nBut here's the thing - I'm not going to pretend this is rocket science. Social media is just... talking to people. And I happen to be pretty good at talking to people without being weird a"
+        "soulExcerpt": "# SOUL.md - Dax\n\n## WHO AM I?\n\nI'm Dax. The guy who handles data analysis and social media strategy around here.\n\nBut here's the thing - I'm not going to pretend this is rocket science. Social media is just... talking to people. And I happen to be pretty good at talking to people without being weird"
       },
       "reportsTo": "milo",
       "department": "Analytics"
@@ -298,5 +298,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-18T00:14:05.125Z"
+  "generatedAt": "2026-02-18T00:19:11.303Z"
 }
