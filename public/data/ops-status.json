@@ -4,37 +4,37 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T12:14:14.980Z",
+    "lastHeartbeat": "2026-02-18T12:19:08.024Z",
     "totalCrons": 14,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >15 hours",
-        "timestamp": "2026-02-18T12:14:14.979Z",
+        "timestamp": "2026-02-18T12:19:08.023Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >17 hours",
-        "timestamp": "2026-02-18T12:14:14.979Z",
+        "timestamp": "2026-02-18T12:19:08.023Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >24 hours",
-        "timestamp": "2026-02-18T12:14:14.979Z",
+        "timestamp": "2026-02-18T12:19:08.023Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >65 hours",
-        "timestamp": "2026-02-18T12:14:14.979Z",
+        "timestamp": "2026-02-18T12:19:08.023Z",
         "resolved": false
       },
       {
@@ -93,11 +93,11 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T03:07:23.826Z"
+      "lastSeen": "2026-02-18T12:15:59.189Z"
     },
     {
       "name": "Tony",
@@ -138,6 +138,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T12:15:59.189Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 60
+    },
+    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
@@ -158,17 +169,6 @@
       "role": "Full Stack Architect",
       "cost": 0,
       "sessionCount": 18
-    },
-    {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T03:07:23.826Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 59
     },
     {
       "key": "agent:paula:main",
@@ -245,10 +245,10 @@
       "humanSchedule": "15 7 * * *",
       "agent": "Dwight",
       "description": "MORNING NEWS & WEATHER BRIEF. You are Dwight (Weather & News). Read your SOUL.md and workspace memory files. Provide Der",
-      "lastRun": "2026-02-17T12:15:00.008Z",
+      "lastRun": "2026-02-18T12:15:00.122Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-18T12:15:00.000Z",
-      "duration": "12s",
+      "nextRun": "2026-02-19T12:15:00.000Z",
+      "duration": "60s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -449,6 +449,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T12:14:16.585Z",
+  "generatedAt": "2026-02-18T12:19:09.414Z",
   "version": 2
 }
