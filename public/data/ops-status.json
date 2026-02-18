@@ -4,37 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T07:59:03.308Z",
+    "lastHeartbeat": "2026-02-18T08:04:10.262Z",
     "totalCrons": 14,
-    "activeSessions": 1,
+    "activeSessions": 2,
     "totalAgents": 9,
     "alerts": [
-      {
-        "id": "offline-anders",
-        "type": "warning",
-        "message": "Anders agent offline for >42 hours",
-        "timestamp": "2026-02-18T07:59:03.308Z",
-        "resolved": false
-      },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >13 hours",
-        "timestamp": "2026-02-18T07:59:03.308Z",
+        "timestamp": "2026-02-18T08:04:10.261Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
-        "message": "Remy agent offline for >19 hours",
-        "timestamp": "2026-02-18T07:59:03.308Z",
+        "message": "Remy agent offline for >20 hours",
+        "timestamp": "2026-02-18T08:04:10.261Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >61 hours",
-        "timestamp": "2026-02-18T07:59:03.308Z",
+        "timestamp": "2026-02-18T08:04:10.261Z",
         "resolved": false
       },
       {
@@ -57,20 +50,20 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T07:07:49.136Z"
+      "lastSeen": "2026-02-18T08:04:08.321Z"
     },
     {
       "name": "Anders",
       "role": "Full Stack Architect",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-16T14:00:47.768Z"
+      "lastSeen": "2026-02-18T08:01:35.936Z"
     },
     {
       "name": "Bobby",
@@ -141,12 +134,23 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "idle",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T07:07:49.136Z",
+      "lastActivity": "2026-02-18T08:04:08.321Z",
       "role": "Chief of Staff",
       "cost": 0,
-      "sessionCount": 35
+      "sessionCount": 36
+    },
+    {
+      "key": "agent:anders:main",
+      "agent": "Anders",
+      "model": "claude-opus-4-6",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T08:01:35.936Z",
+      "role": "Full Stack Architect",
+      "cost": 0,
+      "sessionCount": 18
     },
     {
       "key": "agent:dwight:main",
@@ -213,17 +217,6 @@
       "role": "Restaurant Marketing",
       "cost": 0,
       "sessionCount": 847
-    },
-    {
-      "key": "agent:anders:main",
-      "agent": "Anders",
-      "model": "claude-opus-4-6",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-16T14:00:47.768Z",
-      "role": "Full Stack Architect",
-      "cost": 0,
-      "sessionCount": 18
     },
     {
       "key": "agent:wendy:main",
@@ -449,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T07:59:04.796Z",
+  "generatedAt": "2026-02-18T08:04:11.804Z",
   "version": 2
 }
