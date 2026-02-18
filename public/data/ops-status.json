@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T04:44:06.440Z",
+    "lastHeartbeat": "2026-02-18T04:49:05.258Z",
     "totalCrons": 14,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >39 hours",
-        "timestamp": "2026-02-18T04:44:06.440Z",
+        "timestamp": "2026-02-18T04:49:05.258Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >16 hours",
-        "timestamp": "2026-02-18T04:44:06.440Z",
+        "timestamp": "2026-02-18T04:49:05.258Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >58 hours",
-        "timestamp": "2026-02-18T04:44:06.440Z",
+        "timestamp": "2026-02-18T04:49:05.258Z",
         "resolved": false
       },
       {
@@ -35,6 +35,13 @@
         "type": "error",
         "message": "Cron \"bobby-after-hours-wrap\" failed: Error: Unknown model: anthropic/claude-sonnet-4-6",
         "timestamp": "2026-02-18T01:00:00.009Z",
+        "resolved": false
+      },
+      {
+        "id": "cron-fail-d3941baa",
+        "type": "error",
+        "message": "Cron \"nightly-dbtech45-maintenance\" failed: model not allowed: anthropic/gemini-2.0-flash-exp",
+        "timestamp": "2026-02-18T04:45:00.018Z",
         "resolved": false
       }
     ]
@@ -411,13 +418,13 @@
       "humanSchedule": "45 23 * * *",
       "agent": "Milo",
       "description": "🔧 NIGHTLY DBTECH45.COM MAINTENANCE (11:45 PM)",
-      "lastRun": "2026-02-17T04:45:00.015Z",
-      "lastStatus": "success",
-      "nextRun": "2026-02-18T04:45:00.000Z",
-      "duration": "23s",
+      "lastRun": "2026-02-18T04:45:00.018Z",
+      "lastStatus": "failure",
+      "nextRun": "2026-02-19T04:45:00.000Z",
+      "duration": "0s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": null
+      "lastError": "model not allowed: anthropic/gemini-2.0-flash-exp"
     },
     {
       "id": "bf2521f2-b5a6-492e-ab76-4fc78416a5c2",
@@ -435,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T04:44:08.041Z",
+  "generatedAt": "2026-02-18T04:49:07.013Z",
   "version": 2
 }
