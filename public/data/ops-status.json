@@ -1,33 +1,33 @@
 {
   "system": {
-    "gatewayStatus": "offline",
+    "gatewayStatus": "online",
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T01:29:06.611Z",
+    "lastHeartbeat": "2026-02-18T01:34:03.780Z",
     "totalCrons": 14,
-    "activeSessions": 5,
+    "activeSessions": 4,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >35 hours",
-        "timestamp": "2026-02-18T01:29:06.610Z",
+        "message": "Anders agent offline for >36 hours",
+        "timestamp": "2026-02-18T01:34:03.779Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-18T01:29:06.610Z",
+        "timestamp": "2026-02-18T01:34:03.779Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T01:29:06.610Z",
+        "timestamp": "2026-02-18T01:34:03.779Z",
         "resolved": false
       },
       {
@@ -43,11 +43,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T00:40:41.915Z"
+      "lastSeen": "2026-02-18T01:33:44.934Z"
     },
     {
       "name": "Anders",
@@ -61,7 +61,7 @@
     {
       "name": "Bobby",
       "role": "Trading Advisor",
-      "status": "idle",
+      "status": "offline",
       "model": "claude-opus-4-6",
       "health": "healthy",
       "tasksToday": 0,
@@ -74,7 +74,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:28:28.903Z"
+      "lastSeen": "2026-02-18T01:29:27.107Z"
     },
     {
       "name": "Dwight",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:28:19.750Z"
+      "lastSeen": "2026-02-18T01:33:17.194Z"
     },
     {
       "name": "Tony",
@@ -124,15 +124,15 @@
   ],
   "sessions": [
     {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:28:28.903Z",
-      "role": "Creative Director",
+      "lastActivity": "2026-02-18T01:33:44.934Z",
+      "role": "Chief of Staff",
       "cost": 0,
-      "sessionCount": 20
+      "sessionCount": 35
     },
     {
       "key": "agent:dwight:main",
@@ -140,21 +140,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:28:19.750Z",
+      "lastActivity": "2026-02-18T01:33:17.194Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
     },
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T00:40:41.915Z",
-      "role": "Chief of Staff",
+      "lastActivity": "2026-02-18T01:29:27.107Z",
+      "role": "Creative Director",
       "cost": 0,
-      "sessionCount": 34
+      "sessionCount": 20
     },
     {
       "key": "agent:dax:main",
@@ -171,7 +171,7 @@
       "key": "agent:bobby:main",
       "agent": "Bobby",
       "model": "claude-opus-4-6",
-      "status": "idle",
+      "status": "offline",
       "totalTokens": 0,
       "lastActivity": "2026-02-17T21:33:11.869Z",
       "role": "Trading Advisor",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T01:29:08.227Z",
+  "generatedAt": "2026-02-18T01:34:05.332Z",
   "version": 2
 }
