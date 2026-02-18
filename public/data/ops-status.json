@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T12:34:07.488Z",
+    "lastHeartbeat": "2026-02-18T12:39:08.631Z",
     "totalCrons": 14,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >15 hours",
-        "timestamp": "2026-02-18T12:34:07.488Z",
+        "timestamp": "2026-02-18T12:39:08.629Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >17 hours",
-        "timestamp": "2026-02-18T12:34:07.488Z",
+        "timestamp": "2026-02-18T12:39:08.630Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >65 hours",
-        "timestamp": "2026-02-18T12:34:07.488Z",
+        "message": "Wendy agent offline for >66 hours",
+        "timestamp": "2026-02-18T12:39:08.630Z",
         "resolved": false
       },
       {
@@ -54,7 +54,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T12:33:44.539Z"
+      "lastSeen": "2026-02-18T12:35:48.947Z"
     },
     {
       "name": "Anders",
@@ -90,7 +90,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T12:33:58.517Z"
+      "lastSeen": "2026-02-18T12:35:03.662Z"
     },
     {
       "name": "Tony",
@@ -131,26 +131,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T12:33:58.517Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 60
-    },
-    {
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T12:33:44.539Z",
+      "lastActivity": "2026-02-18T12:35:48.947Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 37
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T12:35:03.662Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 60
     },
     {
       "key": "agent:remy:main",
@@ -442,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T12:34:09.005Z",
+  "generatedAt": "2026-02-18T12:39:10.136Z",
   "version": 2
 }
