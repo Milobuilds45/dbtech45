@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T02:54:03.795Z",
+    "lastHeartbeat": "2026-02-18T02:59:04.029Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >37 hours",
-        "timestamp": "2026-02-18T02:54:03.794Z",
+        "timestamp": "2026-02-18T02:59:04.028Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-18T02:54:03.794Z",
+        "timestamp": "2026-02-18T02:59:04.028Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >56 hours",
-        "timestamp": "2026-02-18T02:54:03.794Z",
+        "timestamp": "2026-02-18T02:59:04.028Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T02:50:44.611Z"
+      "lastSeen": "2026-02-18T02:58:30.134Z"
     },
     {
       "name": "Anders",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T02:52:42.749Z"
+      "lastSeen": "2026-02-18T02:59:04.290Z"
     },
     {
       "name": "Tony",
@@ -129,7 +129,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T02:52:42.749Z",
+      "lastActivity": "2026-02-18T02:59:04.290Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
@@ -140,7 +140,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T02:50:44.611Z",
+      "lastActivity": "2026-02-18T02:58:30.134Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 35
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T02:54:05.345Z",
+  "generatedAt": "2026-02-18T02:59:05.658Z",
   "version": 2
 }
