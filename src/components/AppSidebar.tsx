@@ -74,7 +74,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Quick Links':   <Link2 size={ICON_SIZE} />,
   'Research':      <Search size={ICON_SIZE} />,
-  'Dunder':        <Building2 size={ICON_SIZE} />,
+  'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
 };
 
 // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Nav data Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
@@ -93,7 +93,7 @@ const dashboardItems: NavItem[] = [
   { label: 'Projects', href: '/os/projects', badge: '32' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'Polymarket', href: '/os/polymarket' },
-  { label: 'Dunder', href: '/os/dunder' },
+  { label: 'D.U.N.D.E.R.', href: '/os/dunder' },
 ];
 
 const agentItems: NavItem[] = [
