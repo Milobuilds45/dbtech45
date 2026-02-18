@@ -5,7 +5,7 @@
       "name": "Milo",
       "role": "Chief of Staff",
       "color": "#A855F7",
-      "primaryModel": "anthropic/claude-opus-4-6",
+      "primaryModel": "anthropic/claude-opus-4-5-20251101",
       "fallbacks": [],
       "availableModels": [
         {
@@ -48,7 +48,7 @@
       "name": "Anders",
       "role": "Full Stack Architect",
       "color": "#F97316",
-      "primaryModel": "anthropic/claude-opus-4-6",
+      "primaryModel": "anthropic/claude-opus-4-5-20251101",
       "fallbacks": [],
       "availableModels": [
         {
@@ -79,7 +79,7 @@
       "name": "Bobby",
       "role": "Trading Advisor",
       "color": "#22C55E",
-      "primaryModel": "anthropic/claude-opus-4-6",
+      "primaryModel": "anthropic/claude-opus-4-5-20251101",
       "fallbacks": [],
       "availableModels": [
         {
@@ -110,7 +110,7 @@
       "name": "Paula",
       "role": "Creative Director",
       "color": "#EC4899",
-      "primaryModel": "anthropic/claude-opus-4-6",
+      "primaryModel": "anthropic/claude-opus-4-5-20251101",
       "fallbacks": [],
       "availableModels": [
         {
@@ -141,7 +141,7 @@
       "name": "Dwight",
       "role": "Weather & News",
       "color": "#6366F1",
-      "primaryModel": "anthropic/claude-opus-4-6",
+      "primaryModel": "anthropic/claude-opus-4-5-20251101",
       "fallbacks": [],
       "availableModels": [
         {
@@ -292,5 +292,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-18T17:14:12.329Z"
+  "generatedAt": "2026-02-18T17:19:09.322Z"
 }
