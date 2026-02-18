@@ -641,6 +641,14 @@
       "sizeBytes": 1098
     },
     {
+      "name": "voice-drop",
+      "source": "local",
+      "category": "voice-audio",
+      "description": "Transform voice memos into organized actions automatically. Send a voice note anytime, anywhere — Voice Drop transcribes, classifies, and routes to the right destination.",
+      "lastModified": "2026-02-18T02:13:49.301Z",
+      "sizeBytes": 6113
+    },
+    {
       "name": "wacli",
       "source": "global",
       "category": "voice-audio",
@@ -681,6 +689,6 @@
       "sizeBytes": 1032
     }
   ],
-  "total": 85,
-  "generatedAt": "2026-02-18T02:09:05.552Z"
+  "total": 86,
+  "generatedAt": "2026-02-18T02:14:10.265Z"
 }
