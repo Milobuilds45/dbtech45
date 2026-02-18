@@ -4,37 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T12:29:14.680Z",
+    "lastHeartbeat": "2026-02-18T12:34:07.488Z",
     "totalCrons": 14,
-    "activeSessions": 2,
+    "activeSessions": 3,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >15 hours",
-        "timestamp": "2026-02-18T12:29:14.679Z",
+        "timestamp": "2026-02-18T12:34:07.488Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >17 hours",
-        "timestamp": "2026-02-18T12:29:14.679Z",
-        "resolved": false
-      },
-      {
-        "id": "offline-remy",
-        "type": "warning",
-        "message": "Remy agent offline for >24 hours",
-        "timestamp": "2026-02-18T12:29:14.679Z",
+        "timestamp": "2026-02-18T12:34:07.488Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >65 hours",
-        "timestamp": "2026-02-18T12:29:14.679Z",
+        "timestamp": "2026-02-18T12:34:07.488Z",
         "resolved": false
       },
       {
@@ -61,7 +54,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T12:04:29.633Z"
+      "lastSeen": "2026-02-18T12:33:44.539Z"
     },
     {
       "name": "Anders",
@@ -97,7 +90,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T12:15:59.189Z"
+      "lastSeen": "2026-02-18T12:33:58.517Z"
     },
     {
       "name": "Tony",
@@ -120,11 +113,11 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "offline",
+      "status": "running",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T12:30:10.684Z"
+      "lastSeen": "2026-02-18T12:30:43.642Z"
     },
     {
       "name": "Wendy",
@@ -143,7 +136,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T12:15:59.189Z",
+      "lastActivity": "2026-02-18T12:33:58.517Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 60
@@ -154,10 +147,21 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T12:04:29.633Z",
+      "lastActivity": "2026-02-18T12:33:44.539Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 37
+    },
+    {
+      "key": "agent:remy:main",
+      "agent": "Remy",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T12:30:43.642Z",
+      "role": "Restaurant Marketing",
+      "cost": 0,
+      "sessionCount": 848
     },
     {
       "key": "agent:anders:main",
@@ -215,17 +219,6 @@
       "sessionCount": 26
     },
     {
-      "key": "agent:remy:main",
-      "agent": "Remy",
-      "model": "gemini-3-flash",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T12:30:10.684Z",
-      "role": "Restaurant Marketing",
-      "cost": 0,
-      "sessionCount": 847
-    },
-    {
       "key": "agent:wendy:main",
       "agent": "Wendy",
       "model": "claude-opus-4-5",
@@ -260,10 +253,10 @@
       "humanSchedule": "30 7 * * *",
       "agent": "Remy",
       "description": "🍕 **DAILY RESTAURANT OPERATIONS & MARKETING** (7:30 AM)",
-      "lastRun": "2026-02-17T12:30:00.001Z",
+      "lastRun": "2026-02-18T12:30:00.086Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-18T12:30:00.000Z",
-      "duration": "11s",
+      "nextRun": "2026-02-19T12:30:00.000Z",
+      "duration": "44s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -449,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T12:29:16.137Z",
+  "generatedAt": "2026-02-18T12:34:09.005Z",
   "version": 2
 }
