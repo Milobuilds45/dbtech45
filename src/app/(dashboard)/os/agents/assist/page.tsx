@@ -30,6 +30,7 @@ const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
   { id: 'bobby', name: 'Bobby', color: '#22C55E' },
+  { id: 'anders', name: 'Anders', color: '#F97316' },
   { id: 'dwight', name: 'Dwight K. Schrute', color: '#6366F1' },
   { id: 'jim', name: 'Jim Halpert', color: '#06B6D4' },
   { id: 'michael', name: 'Michael Scott', color: '#EAB308' },

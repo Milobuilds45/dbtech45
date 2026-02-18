@@ -46,7 +46,7 @@ const AGENTS = [
   { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
   { name: 'Paula', role: 'Creative + Full Stack', initials: 'PA', color: '#EC4899' },
   { name: 'Bobby', role: 'Trading Advisor', initials: 'BO', color: '#22C55E' },
-  { name: 'Anders', role: 'IT Director & Security', initials: 'AN', color: '#3B82F6' },
+  { name: 'Anders', role: 'IT Director & Security', initials: 'AN', color: '#F97316' },
   { name: 'Dwight', role: 'Intel & Weather', initials: 'DW', color: '#6366F1' },
   { name: 'Jim', role: 'Social Media', initials: 'JH', color: '#06B6D4' },
   { name: 'Remy', role: 'Restaurant Ops & Marketing', initials: 'RM', color: '#EAB308' },
