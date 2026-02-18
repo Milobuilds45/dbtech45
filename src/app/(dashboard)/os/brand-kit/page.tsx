@@ -44,13 +44,13 @@ const BRAND_ASSETS = [
 
 const AGENTS = [
   { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
-  { name: 'Wendy', role: 'Psychology', initials: 'WR', color: '#8B5CF6' },
-  { name: 'Bobby', role: 'Trading Systems', initials: 'AX', color: '#22C55E' },
-  { name: 'Paula', role: 'Full Stack Architect + Creative Director', initials: 'PA', color: '#EC4899' },
-  { name: 'Remy', role: 'Restaurant Operations', initials: 'RM', color: '#EAB308' },
-  { name: 'Dwight K. Schrute', role: 'Intel & Security', initials: 'DKS', color: '#6366F1' },
-  { name: 'Jim Halpert', role: 'Social Media Specialist', initials: 'JH', color: '#06B6D4' },
-  { name: 'Michael Scott', role: 'TBD (World\'s Best Boss)', initials: 'MS', color: '#EAB308' },
+  { name: 'Paula', role: 'Creative + Full Stack', initials: 'PA', color: '#EC4899' },
+  { name: 'Bobby', role: 'Trading Advisor', initials: 'BO', color: '#22C55E' },
+  { name: 'Anders', role: 'IT Director & Security', initials: 'AN', color: '#3B82F6' },
+  { name: 'Dwight', role: 'Intel & Weather', initials: 'DW', color: '#6366F1' },
+  { name: 'Jim', role: 'Social Media', initials: 'JH', color: '#06B6D4' },
+  { name: 'Remy', role: 'Restaurant Ops & Marketing', initials: 'RM', color: '#EAB308' },
+  { name: 'Wendy', role: 'Personal Assistant', initials: 'WN', color: '#8B5CF6' },
 ];
 
 export default function BrandKitPage() {

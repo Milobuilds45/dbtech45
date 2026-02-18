@@ -45,9 +45,9 @@ const AGENTS = [
   { id: 'milo', name: 'Milo', color: '#A855F7' },
   { id: 'paula', name: 'Paula', color: '#EC4899' },
   { id: 'bobby', name: 'Bobby', color: '#22C55E' },
-  { id: 'dwight', name: 'Dwight K. Schrute', color: '#6366F1' },
-  { id: 'jim', name: 'Jim Halpert', color: '#06B6D4' },
-  { id: 'michael', name: 'Michael Scott', color: '#EAB308' },
+  { id: 'anders', name: 'Anders', color: '#3B82F6' },
+  { id: 'dwight', name: 'Dwight', color: '#6366F1' },
+  { id: 'jim', name: 'Jim', color: '#06B6D4' },
   { id: 'remy', name: 'Remy', color: '#EAB308' },
   { id: 'wendy', name: 'Wendy', color: '#8B5CF6' },
 ];
@@ -66,10 +66,10 @@ const AGENT_REASONING: Record<string, string[]> = {
     '"The market is flooded with mediocre templates. We\'re not making templates — we\'re making systems. Big difference. Clarity over cleverness."',
   ],
   anders: [
-    '"Design-to-code handoff is the biggest bottleneck. Automate it. Save teams weeks. Ship the MVP, get feedback, iterate. Code talks, bullshit walks."',
-    '"Every hour spent on deployment config is an hour not spent building features. Remove the friction. Make shipping effortless."',
-    '"The stack doesn\'t matter if you can\'t ship. Complexity is the enemy. Build simple, deploy fast, scale later."',
-    '"I\'ve seen teams spend more time on infrastructure than product. That\'s backwards. This inverts the ratio."',
+    '"Security isn\'t optional — it\'s infrastructure. Every credential leak is a ticking time bomb. Centralize, audit, protect. That\'s the whole job."',
+    '"Systems fail. The question is how fast you recover. Build monitoring, build alerts, build redundancy. Fix problems before users notice."',
+    '"Scattered credentials are technical debt with compound interest. One vault, one source of truth, one gatekeeper. That\'s me."',
+    '"Updates aren\'t optional maintenance — they\'re survival. The team that patches fastest wins. Stay current or get owned."',
   ],
   dwight: [
     '"Fact: Competitive intelligence is currently either expensive consultants or manual labor. This democratizes enterprise-grade intelligence gathering. Question: Why hasn\'t anyone done this? Answer: They lack my methodology."',

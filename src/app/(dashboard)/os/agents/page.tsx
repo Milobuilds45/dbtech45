@@ -14,12 +14,12 @@ interface ChatMessage {
 
 const AGENTS = [
   { id: 'milo', name: 'Milo', role: 'Chief of Staff', color: '#A855F7', initials: 'MI', image: '/os/agents/milo.png' },
-  { id: 'paula', name: 'Paula', role: 'Full Stack Architect + Creative Director', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
+  { id: 'paula', name: 'Paula', role: 'Creative Director + Full Stack', color: '#E91E8C', initials: 'PA', image: '/os/agents/paula.png' },
   { id: 'bobby', name: 'Bobby', role: 'Trading Advisor', color: '#00A000', initials: 'BO', image: '/os/agents/bobby.png' },
-  { id: 'dwight', name: 'Dwight', role: 'Intelligence', color: '#7B68EE', initials: 'DW', image: '/os/agents/dwight.png' },
-  { id: 'jim', name: 'Jim Halpert', role: 'Social Media Specialist', color: '#06B6D4', initials: 'JH', image: '/os/agents/jim.png' },
-  { id: 'remy', name: 'Remy', role: 'Restaurant Operations', color: '#EAB308', initials: 'RM', image: '/os/agents/remy.png' },
-  { id: 'michael', name: 'Michael Scott', role: 'TBD (World\'s Best Boss)', color: '#EAB308', initials: 'MS', image: '/os/agents/michael.png' },
+  { id: 'anders', name: 'Anders', role: 'IT Director & Security', color: '#3B82F6', initials: 'AN', image: '/os/agents/anders.png' },
+  { id: 'dwight', name: 'Dwight', role: 'Intel & Weather', color: '#7B68EE', initials: 'DW', image: '/os/agents/dwight.png' },
+  { id: 'jim', name: 'Jim', role: 'Social Media', color: '#06B6D4', initials: 'JH', image: '/os/agents/jim.png' },
+  { id: 'remy', name: 'Remy', role: 'Restaurant Ops & Marketing', color: '#EAB308', initials: 'RM', image: '/os/agents/remy.png' },
   { id: 'wendy', name: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6', initials: 'WN', image: '/os/agents/wendy.png' },
 ];
 

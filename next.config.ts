@@ -34,7 +34,7 @@ const nextConfig: NextConfig = {
         source: "/soulsolace/:path*",
         destination: "https://soulsolace.vercel.app/soulsolace/:path*",
       },
-      // DB Tech OS - removed redirects, now using local routes
+      // DB Tech OS - full site on Hetzner/Coolify, DNS points to 178.156.253.81
     ];
   },
 };

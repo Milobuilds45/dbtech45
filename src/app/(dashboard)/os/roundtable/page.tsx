@@ -18,14 +18,14 @@ interface RoundMessage {
 
 // Agent display config (no emojis, solid colors, logo-ready boxes)
 const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: string; color: string }> = {
-  bobby: { initials: 'AX', label: 'Bobby', role: 'Trading', color: '#22C55E' },
-  wendy: { initials: 'WR', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
-  dwight: { initials: 'DKS', label: 'Dwight K. Schrute', role: 'Intel', color: '#6366F1' },
-  jim: { initials: 'JH', label: 'Jim Halpert', role: 'Social Media', color: '#06B6D4' },
-  michael: { initials: 'MS', label: 'Michael Scott', role: 'World\'s Best Boss', color: '#EAB308' },
-  paula: { initials: 'PA', label: 'Paula', role: 'Full Stack Creative', color: '#EC4899' },
-  remy: { initials: 'RM', label: 'Remy', role: 'Restaurant Operations', color: '#EAB308' },
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
+  paula: { initials: 'PA', label: 'Paula', role: 'Creative + Full Stack', color: '#EC4899' },
+  bobby: { initials: 'BO', label: 'Bobby', role: 'Trading Advisor', color: '#22C55E' },
+  anders: { initials: 'AN', label: 'Anders', role: 'IT Director & Security', color: '#3B82F6' },
+  dwight: { initials: 'DW', label: 'Dwight', role: 'Intel & Weather', color: '#6366F1' },
+  jim: { initials: 'JH', label: 'Jim', role: 'Social Media', color: '#06B6D4' },
+  remy: { initials: 'RM', label: 'Remy', role: 'Restaurant Ops & Marketing', color: '#EAB308' },
+  wendy: { initials: 'WN', label: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6' },
 };
 
 export default function RoundtablePage() {

@@ -27,6 +27,7 @@ import {
   Ruler,
   Link2,
   Home,
+  Search,
 } from 'lucide-react';
 
 // ─── Colors ─────────────────────────────────────────────────────────────
@@ -71,6 +72,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Brand Kit':     <Palette size={ICON_SIZE} />,
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Quick Links':   <Link2 size={ICON_SIZE} />,
+  'Research':      <Search size={ICON_SIZE} />,
 };
 
 // ─── Nav data ───────────────────────────────────────────────────────────
@@ -101,6 +103,7 @@ const agentItems: NavItem[] = [
 const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
+  { label: 'Research', href: '/os/research' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
   { label: 'Overnight', href: '/os/agents/overnight' },
@@ -208,7 +211,11 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   const sidebarWidth = collapsed && !isMobile ? COLLAPSED_WIDTH : SIDEBAR_WIDTH;
   const showSidebar = isMobile ? mobileOpen : true;
-  const isActive = (href: string) => pathname === href || pathname.startsWith(href + '/');
+  // Exact match for /os (home) - prevents it highlighting on all child pages
+  const isActive = (href: string) => {
+    if (href === '/os') return pathname === '/os';
+    return pathname === href || pathname.startsWith(href + '/');
+  };
 
   // ─── Render nav item ──────────────────────────────────────────────────
   const renderNavItem = (item: NavItem) => {
