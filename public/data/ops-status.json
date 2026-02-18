@@ -4,30 +4,30 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T01:19:05.434Z",
+    "lastHeartbeat": "2026-02-18T01:24:06.319Z",
     "totalCrons": 14,
-    "activeSessions": 4,
+    "activeSessions": 5,
     "totalAgents": 9,
     "alerts": [
       {
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >35 hours",
-        "timestamp": "2026-02-18T01:19:05.434Z",
+        "timestamp": "2026-02-18T01:24:06.319Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-18T01:19:05.434Z",
+        "timestamp": "2026-02-18T01:24:06.319Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T01:19:05.434Z",
+        "timestamp": "2026-02-18T01:24:06.319Z",
         "resolved": false
       },
       {
@@ -70,11 +70,11 @@
     {
       "name": "Paula",
       "role": "Creative Director",
-      "status": "offline",
+      "status": "running",
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-17T21:15:20.933Z"
+      "lastSeen": "2026-02-18T01:21:57.352Z"
     },
     {
       "name": "Dwight",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:19:07.185Z"
+      "lastSeen": "2026-02-18T01:24:06.660Z"
     },
     {
       "name": "Tony",
@@ -129,10 +129,21 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:19:07.185Z",
+      "lastActivity": "2026-02-18T01:24:06.660Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
+    },
+    {
+      "key": "agent:paula:main",
+      "agent": "Paula",
+      "model": "claude-opus-4-5",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T01:21:57.352Z",
+      "role": "Creative Director",
+      "cost": 0,
+      "sessionCount": 20
     },
     {
       "key": "agent:milo:main",
@@ -166,17 +177,6 @@
       "role": "Trading Advisor",
       "cost": 0,
       "sessionCount": 69
-    },
-    {
-      "key": "agent:paula:main",
-      "agent": "Paula",
-      "model": "claude-opus-4-5",
-      "status": "offline",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-17T21:15:20.933Z",
-      "role": "Creative Director",
-      "cost": 0,
-      "sessionCount": 20
     },
     {
       "key": "agent:tony:main",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T01:19:09.003Z",
+  "generatedAt": "2026-02-18T01:24:07.916Z",
   "version": 2
 }
