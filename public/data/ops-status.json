@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T02:39:03.754Z",
+    "lastHeartbeat": "2026-02-18T02:44:03.784Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >37 hours",
-        "timestamp": "2026-02-18T02:39:03.754Z",
+        "timestamp": "2026-02-18T02:44:03.784Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-18T02:39:03.754Z",
+        "timestamp": "2026-02-18T02:44:03.784Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >56 hours",
-        "timestamp": "2026-02-18T02:39:03.754Z",
+        "timestamp": "2026-02-18T02:44:03.784Z",
         "resolved": false
       },
       {
@@ -43,11 +43,11 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "idle",
+      "status": "running",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:30:09.102Z"
+      "lastSeen": "2026-02-18T02:44:00.443Z"
     },
     {
       "name": "Anders",
@@ -124,6 +124,17 @@
   ],
   "sessions": [
     {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T02:44:00.443Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 35
+    },
+    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
@@ -144,17 +155,6 @@
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 20
-    },
-    {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "idle",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:30:09.102Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
     },
     {
       "key": "agent:dax:main",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T02:39:05.254Z",
+  "generatedAt": "2026-02-18T02:44:05.285Z",
   "version": 2
 }
