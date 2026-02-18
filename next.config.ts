@@ -34,14 +34,14 @@ const nextConfig: NextConfig = {
         source: "/soulsolace/:path*",
         destination: "https://soulsolace.vercel.app/soulsolace/:path*",
       },
-      // DB Tech OS - proxy to Coolify internal app
+      // DB Tech OS - proxy to Coolify internal app (serves at root)
       {
         source: "/os",
-        destination: "http://qs0cowgkgs0w48oc88kswooc.178.156.253.81.sslip.io/os",
+        destination: "http://qs0cowgkgs0w48oc88kswooc.178.156.253.81.sslip.io/",
       },
       {
         source: "/os/:path*",
-        destination: "http://qs0cowgkgs0w48oc88kswooc.178.156.253.81.sslip.io/os/:path*",
+        destination: "http://qs0cowgkgs0w48oc88kswooc.178.156.253.81.sslip.io/:path*",
       },
     ];
   },
