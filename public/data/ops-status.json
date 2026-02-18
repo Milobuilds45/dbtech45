@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T00:59:03.670Z",
+    "lastHeartbeat": "2026-02-18T01:04:03.663Z",
     "totalCrons": 14,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,14 +13,28 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >35 hours",
-        "timestamp": "2026-02-18T00:59:03.669Z",
+        "timestamp": "2026-02-18T01:04:03.663Z",
+        "resolved": false
+      },
+      {
+        "id": "offline-remy",
+        "type": "warning",
+        "message": "Remy agent offline for >13 hours",
+        "timestamp": "2026-02-18T01:04:03.663Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T00:59:03.669Z",
+        "timestamp": "2026-02-18T01:04:03.663Z",
+        "resolved": false
+      },
+      {
+        "id": "cron-fail-866b45c4",
+        "type": "error",
+        "message": "Cron \"bobby-after-hours-wrap\" failed: Error: Unknown model: anthropic/claude-sonnet-4-6",
+        "timestamp": "2026-02-18T01:00:00.009Z",
         "resolved": false
       }
     ]
@@ -322,13 +336,13 @@
       "humanSchedule": "0 20 * * 1-5",
       "agent": "Bobby",
       "description": "AFTER HOURS WRAP (8:00 PM Mon-Fri). You are Bobby (Trading Advisor). Read your SOUL.md and workspace memory files.",
-      "lastRun": "2026-02-17T01:00:00.007Z",
-      "lastStatus": "success",
-      "nextRun": "2026-02-18T01:00:00.000Z",
-      "duration": "23s",
+      "lastRun": "2026-02-18T01:00:00.009Z",
+      "lastStatus": "failure",
+      "nextRun": "2026-02-19T01:00:00.000Z",
+      "duration": "0s",
       "enabled": true,
       "deleteAfterRun": false,
-      "lastError": null
+      "lastError": "Error: Unknown model: anthropic/claude-sonnet-4-6"
     },
     {
       "id": "44fbe02a-c8f8-4921-9a55-2d97efd34b9c",
@@ -421,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T00:59:05.181Z",
+  "generatedAt": "2026-02-18T01:04:05.202Z",
   "version": 2
 }

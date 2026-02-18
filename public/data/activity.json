@@ -1,6 +1,20 @@
 {
   "activity": [
     {
+      "type": "cron_run",
+      "id": "866b45c4",
+      "timestamp": "2026-02-18T01:00:00.271Z",
+      "message": "Cron run: ok",
+      "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
+    },
+    {
+      "type": "commit",
+      "id": "db1bf9ed",
+      "author": "Milo",
+      "timestamp": "2026-02-17 19:59:05 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
       "type": "commit",
       "id": "e699ca50",
       "author": "Milo",
@@ -351,13 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "35723910",
-      "author": "Milo",
-      "timestamp": "2026-02-17 15:47:51 -0500",
-      "message": "fix(dunder): Replace hero image with CGI style matching portraits"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-17T17:01:06.634Z",
@@ -412,14 +419,7 @@
       "timestamp": "2026-02-17T04:45:23.261Z",
       "message": "Cron run: ok",
       "jobId": "d3941baa-0f44-434e-bf32-b5e4e3b57b84"
-    },
-    {
-      "type": "cron_run",
-      "id": "866b45c4",
-      "timestamp": "2026-02-17T01:00:23.246Z",
-      "message": "Cron run: ok",
-      "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-18T00:59:05.297Z"
+  "generatedAt": "2026-02-18T01:04:05.322Z"
 }
