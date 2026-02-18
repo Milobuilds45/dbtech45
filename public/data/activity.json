@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "66469b80",
+      "author": "Milo",
+      "timestamp": "2026-02-18 14:02:43 -0500",
+      "message": "feat: add Dunder to sidebar nav"
+    },
+    {
+      "type": "commit",
+      "id": "692000f0",
+      "author": "Milo",
+      "timestamp": "2026-02-18 13:59:16 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "05d41603",
       "author": "Milo",
       "timestamp": "2026-02-18 13:58:56 -0500",
@@ -351,20 +365,6 @@
       "jobId": "3d56a05b-71d6-4346-9a04-891a58846eed"
     },
     {
-      "type": "commit",
-      "id": "a5e92a22",
-      "author": "Milo",
-      "timestamp": "2026-02-18 09:29:22 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "aafb912b",
-      "author": "Milo",
-      "timestamp": "2026-02-18 09:24:24 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bee7eb71",
       "timestamp": "2026-02-18T12:30:44.185Z",
@@ -414,5 +414,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-18T18:59:15.918Z"
+  "generatedAt": "2026-02-18T19:04:15.615Z"
 }
