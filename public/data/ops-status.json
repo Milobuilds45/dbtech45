@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T10:34:11.842Z",
+    "lastHeartbeat": "2026-02-18T10:39:06.911Z",
     "totalCrons": 14,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,28 +13,28 @@
         "id": "offline-bobby",
         "type": "warning",
         "message": "Bobby agent offline for >13 hours",
-        "timestamp": "2026-02-18T10:34:11.842Z",
+        "timestamp": "2026-02-18T10:39:06.909Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >15 hours",
-        "timestamp": "2026-02-18T10:34:11.842Z",
+        "timestamp": "2026-02-18T10:39:06.909Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >22 hours",
-        "timestamp": "2026-02-18T10:34:11.842Z",
+        "timestamp": "2026-02-18T10:39:06.909Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >63 hours",
-        "timestamp": "2026-02-18T10:34:11.842Z",
+        "message": "Wendy agent offline for >64 hours",
+        "timestamp": "2026-02-18T10:39:06.909Z",
         "resolved": false
       },
       {
@@ -57,7 +57,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -141,7 +141,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T10:04:30.534Z",
       "role": "Chief of Staff",
@@ -449,6 +449,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T10:34:15.981Z",
+  "generatedAt": "2026-02-18T10:39:08.448Z",
   "version": 2
 }
