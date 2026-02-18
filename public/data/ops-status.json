@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T02:59:04.029Z",
+    "lastHeartbeat": "2026-02-18T03:04:04.012Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >37 hours",
-        "timestamp": "2026-02-18T02:59:04.028Z",
+        "timestamp": "2026-02-18T03:04:04.011Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
-        "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-18T02:59:04.028Z",
+        "message": "Remy agent offline for >15 hours",
+        "timestamp": "2026-02-18T03:04:04.011Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >56 hours",
-        "timestamp": "2026-02-18T02:59:04.028Z",
+        "timestamp": "2026-02-18T03:04:04.011Z",
         "resolved": false
       },
       {
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T02:59:04.290Z"
+      "lastSeen": "2026-02-18T03:04:02.622Z"
     },
     {
       "name": "Tony",
@@ -129,7 +129,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T02:59:04.290Z",
+      "lastActivity": "2026-02-18T03:04:04.864Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T02:59:05.658Z",
+  "generatedAt": "2026-02-18T03:04:05.694Z",
   "version": 2
 }
