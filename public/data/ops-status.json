@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T02:24:04.143Z",
+    "lastHeartbeat": "2026-02-18T02:29:04.000Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >36 hours",
-        "timestamp": "2026-02-18T02:24:04.143Z",
+        "timestamp": "2026-02-18T02:29:03.999Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >14 hours",
-        "timestamp": "2026-02-18T02:24:04.143Z",
+        "timestamp": "2026-02-18T02:29:03.999Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >55 hours",
-        "timestamp": "2026-02-18T02:24:04.143Z",
+        "timestamp": "2026-02-18T02:29:03.999Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T02:22:46.650Z"
+      "lastSeen": "2026-02-18T02:28:58.507Z"
     },
     {
       "name": "Anders",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T02:22:20.407Z"
+      "lastSeen": "2026-02-18T02:28:58.930Z"
     },
     {
       "name": "Tony",
@@ -124,26 +124,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T02:22:46.650Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 35
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T02:22:20.407Z",
+      "lastActivity": "2026-02-18T02:28:58.930Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T02:28:58.507Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 35
     },
     {
       "key": "agent:paula:main",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T02:24:05.751Z",
+  "generatedAt": "2026-02-18T02:29:05.744Z",
   "version": 2
 }
