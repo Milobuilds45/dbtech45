@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T00:39:04.509Z",
+    "lastHeartbeat": "2026-02-18T00:44:05.772Z",
     "totalCrons": 14,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,14 +13,14 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >35 hours",
-        "timestamp": "2026-02-18T00:39:04.508Z",
+        "timestamp": "2026-02-18T00:44:05.772Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T00:39:04.508Z",
+        "timestamp": "2026-02-18T00:44:05.772Z",
         "resolved": false
       }
     ]
@@ -33,7 +33,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T00:36:56.443Z"
+      "lastSeen": "2026-02-18T00:40:41.915Z"
     },
     {
       "name": "Anders",
@@ -69,7 +69,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T00:18:47.479Z"
+      "lastSeen": "2026-02-18T00:43:54.447Z"
     },
     {
       "name": "Tony",
@@ -110,26 +110,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:milo:main",
-      "agent": "Milo",
-      "model": "claude-sonnet-4",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T00:36:56.443Z",
-      "role": "Chief of Staff",
-      "cost": 0,
-      "sessionCount": 34
-    },
-    {
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T00:18:47.479Z",
+      "lastActivity": "2026-02-18T00:44:06.561Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
+    },
+    {
+      "key": "agent:milo:main",
+      "agent": "Milo",
+      "model": "claude-sonnet-4",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T00:40:41.915Z",
+      "role": "Chief of Staff",
+      "cost": 0,
+      "sessionCount": 34
     },
     {
       "key": "agent:dax:main",
@@ -421,6 +421,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T00:39:07.892Z",
+  "generatedAt": "2026-02-18T00:44:07.407Z",
   "version": 2
 }

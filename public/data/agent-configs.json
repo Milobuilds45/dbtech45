@@ -5,7 +5,7 @@
       "name": "Milo",
       "role": "Chief of Staff",
       "color": "#A855F7",
-      "primaryModel": "anthropic/claude-sonnet-4-20250514",
+      "primaryModel": "anthropic/claude-sonnet-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -48,7 +48,7 @@
       "name": "Anders",
       "role": "Full Stack Architect",
       "color": "#F97316",
-      "primaryModel": "claude-opus-4-6",
+      "primaryModel": "anthropic/claude-sonnet-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -79,7 +79,7 @@
       "name": "Bobby",
       "role": "Trading Advisor",
       "color": "#22C55E",
-      "primaryModel": "claude-opus-4-6",
+      "primaryModel": "anthropic/claude-sonnet-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -110,7 +110,7 @@
       "name": "Paula",
       "role": "Creative Director",
       "color": "#EC4899",
-      "primaryModel": "claude-opus-4-5",
+      "primaryModel": "anthropic/claude-opus-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -141,10 +141,8 @@
       "name": "Dwight",
       "role": "Weather & News",
       "color": "#6366F1",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
+      "primaryModel": "anthropic/claude-sonnet-4-6",
+      "fallbacks": [],
       "availableModels": [
         {
           "id": "gemini-3-flash-preview",
@@ -205,10 +203,8 @@
       "name": "Dax",
       "role": "Social Strategist",
       "color": "#06B6D4",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
+      "primaryModel": "gemini-3-flash",
+      "fallbacks": [],
       "availableModels": [
         {
           "id": "gemini-3-flash-preview",
@@ -238,10 +234,8 @@
       "name": "Remy",
       "role": "Restaurant Marketing",
       "color": "#EF4444",
-      "primaryModel": "google/gemini-3-flash-preview",
-      "fallbacks": [
-        "anthropic/claude-opus-4-6"
-      ],
+      "primaryModel": "anthropic/claude-sonnet-4-6",
+      "fallbacks": [],
       "availableModels": [
         {
           "id": "gemini-3-flash-preview",
@@ -271,7 +265,7 @@
       "name": "Wendy",
       "role": "Wellness Coach",
       "color": "#8B5CF6",
-      "primaryModel": "claude-opus-4-5",
+      "primaryModel": "anthropic/claude-sonnet-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -298,5 +292,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-18T00:39:07.982Z"
+  "generatedAt": "2026-02-18T00:44:07.492Z"
 }
