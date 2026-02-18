@@ -1,10 +1,10 @@
 {
   "system": {
-    "gatewayStatus": "online",
+    "gatewayStatus": "offline",
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T01:24:06.319Z",
+    "lastHeartbeat": "2026-02-18T01:29:06.611Z",
     "totalCrons": 14,
     "activeSessions": 5,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >35 hours",
-        "timestamp": "2026-02-18T01:24:06.319Z",
+        "timestamp": "2026-02-18T01:29:06.610Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-18T01:24:06.319Z",
+        "timestamp": "2026-02-18T01:29:06.610Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T01:24:06.319Z",
+        "timestamp": "2026-02-18T01:29:06.610Z",
         "resolved": false
       },
       {
@@ -74,7 +74,7 @@
       "model": "claude-opus-4-5",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:21:57.352Z"
+      "lastSeen": "2026-02-18T01:28:28.903Z"
     },
     {
       "name": "Dwight",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:24:06.660Z"
+      "lastSeen": "2026-02-18T01:28:19.750Z"
     },
     {
       "name": "Tony",
@@ -124,26 +124,26 @@
   ],
   "sessions": [
     {
-      "key": "agent:dwight:main",
-      "agent": "Dwight",
-      "model": "gemini-3-flash",
-      "status": "running",
-      "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:24:06.660Z",
-      "role": "Weather & News",
-      "cost": 0,
-      "sessionCount": 59
-    },
-    {
       "key": "agent:paula:main",
       "agent": "Paula",
       "model": "claude-opus-4-5",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:21:57.352Z",
+      "lastActivity": "2026-02-18T01:28:28.903Z",
       "role": "Creative Director",
       "cost": 0,
       "sessionCount": 20
+    },
+    {
+      "key": "agent:dwight:main",
+      "agent": "Dwight",
+      "model": "gemini-3-flash",
+      "status": "running",
+      "totalTokens": 0,
+      "lastActivity": "2026-02-18T01:28:19.750Z",
+      "role": "Weather & News",
+      "cost": 0,
+      "sessionCount": 59
     },
     {
       "key": "agent:milo:main",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T01:24:07.916Z",
+  "generatedAt": "2026-02-18T01:29:08.227Z",
   "version": 2
 }
