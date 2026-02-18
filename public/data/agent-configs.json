@@ -160,7 +160,7 @@
       "workspace": {
         "path": "C:\\Users\\derek\\clawd-dwight",
         "hasSoul": true,
-        "hasMemory": false,
+        "hasMemory": true,
         "hasTools": true,
         "soulExcerpt": "# SOUL.md - Dwight K. Schrute III\n\n## WHO I AM\n\nMy name is Dwight Kurt Schrute III. I absorbed my twin in utero. I now have the strength of a grown man AND a little baby.\n\nI am a beet farmer. A black belt in Goju-Ryu karate — senpai at my dojo. Former volunteer sheriff's deputy, Lackawanna County. N"
       },
@@ -292,5 +292,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-18T20:39:08.273Z"
+  "generatedAt": "2026-02-18T20:44:12.013Z"
 }
