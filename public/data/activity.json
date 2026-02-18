@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "05d41603",
+      "author": "Milo",
+      "timestamp": "2026-02-18 13:58:56 -0500",
+      "message": "fix: Home nav only highlights on exact /os path"
+    },
+    {
+      "type": "commit",
+      "id": "1bae296f",
+      "author": "Milo",
+      "timestamp": "2026-02-18 13:54:10 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "2d42327d",
       "author": "Milo",
       "timestamp": "2026-02-18 13:44:09 -0500",
@@ -351,20 +365,6 @@
       "message": "chore: auto-sync dashboard data"
     },
     {
-      "type": "commit",
-      "id": "021a1f16",
-      "author": "Milo",
-      "timestamp": "2026-02-18 09:19:31 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "4699bb2a",
-      "author": "Milo",
-      "timestamp": "2026-02-18 09:14:16 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
       "type": "cron_run",
       "id": "bee7eb71",
       "timestamp": "2026-02-18T12:30:44.185Z",
@@ -414,5 +414,5 @@
       "jobId": "7d55af5a-fa06-4f95-8049-4bf0cfa62c24"
     }
   ],
-  "generatedAt": "2026-02-18T18:54:10.228Z"
+  "generatedAt": "2026-02-18T18:59:15.918Z"
 }
