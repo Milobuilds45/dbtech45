@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e699ca50",
+      "author": "Milo",
+      "timestamp": "2026-02-17 19:54:09 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "648021b8",
       "author": "Milo",
       "timestamp": "2026-02-17 19:49:08 -0500",
@@ -351,13 +358,6 @@
       "message": "fix(dunder): Replace hero image with CGI style matching portraits"
     },
     {
-      "type": "commit",
-      "id": "562c58fd",
-      "author": "Milo",
-      "timestamp": "2026-02-17 15:45:50 -0500",
-      "message": "fix(dunder): Make all portraits consistent CGI style"
-    },
-    {
       "type": "cron_run",
       "id": "75cf9393",
       "timestamp": "2026-02-17T17:01:06.634Z",
@@ -421,5 +421,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-18T00:54:09.635Z"
+  "generatedAt": "2026-02-18T00:59:05.297Z"
 }
