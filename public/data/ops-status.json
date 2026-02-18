@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T03:34:03.885Z",
+    "lastHeartbeat": "2026-02-18T03:39:03.910Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >38 hours",
-        "timestamp": "2026-02-18T03:34:03.885Z",
+        "timestamp": "2026-02-18T03:39:03.909Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >15 hours",
-        "timestamp": "2026-02-18T03:34:03.885Z",
+        "timestamp": "2026-02-18T03:39:03.909Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >56 hours",
-        "timestamp": "2026-02-18T03:34:03.885Z",
+        "message": "Wendy agent offline for >57 hours",
+        "timestamp": "2026-02-18T03:39:03.909Z",
         "resolved": false
       },
       {
@@ -43,7 +43,7 @@
     {
       "name": "Milo",
       "role": "Chief of Staff",
-      "status": "running",
+      "status": "idle",
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
@@ -79,7 +79,7 @@
     {
       "name": "Dwight",
       "role": "Weather & News",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -127,7 +127,7 @@
       "key": "agent:milo:main",
       "agent": "Milo",
       "model": "claude-sonnet-4",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T03:08:01.721Z",
       "role": "Chief of Staff",
@@ -138,7 +138,7 @@
       "key": "agent:dwight:main",
       "agent": "Dwight",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T03:07:23.826Z",
       "role": "Weather & News",
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T03:34:05.455Z",
+  "generatedAt": "2026-02-18T03:39:05.458Z",
   "version": 2
 }
