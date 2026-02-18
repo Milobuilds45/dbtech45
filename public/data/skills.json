@@ -5,7 +5,7 @@
       "source": "global",
       "category": "design",
       "description": "name: 1password",
-      "lastModified": "2026-02-14T22:07:58.013Z",
+      "lastModified": "2026-02-18T17:11:56.835Z",
       "sizeBytes": 2408
     },
     {
@@ -29,7 +29,7 @@
       "source": "global",
       "category": "design",
       "description": "name: apple-notes",
-      "lastModified": "2026-02-14T22:07:58.015Z",
+      "lastModified": "2026-02-18T17:11:56.837Z",
       "sizeBytes": 1883
     },
     {
@@ -37,7 +37,7 @@
       "source": "global",
       "category": "design",
       "description": "name: apple-reminders",
-      "lastModified": "2026-02-14T22:07:58.016Z",
+      "lastModified": "2026-02-18T17:11:56.839Z",
       "sizeBytes": 2310
     },
     {
@@ -45,7 +45,7 @@
       "source": "global",
       "category": "design",
       "description": "name: bear-notes",
-      "lastModified": "2026-02-14T22:07:58.017Z",
+      "lastModified": "2026-02-18T17:11:56.842Z",
       "sizeBytes": 2454
     },
     {
@@ -53,7 +53,7 @@
       "source": "global",
       "category": "social",
       "description": "name: bird",
-      "lastModified": "2026-02-14T22:07:58.018Z",
+      "lastModified": "2026-02-18T17:11:56.845Z",
       "sizeBytes": 5328
     },
     {
@@ -61,7 +61,7 @@
       "source": "global",
       "category": "design",
       "description": "name: blogwatcher",
-      "lastModified": "2026-02-14T22:07:58.020Z",
+      "lastModified": "2026-02-18T17:11:56.847Z",
       "sizeBytes": 1221
     },
     {
@@ -69,7 +69,7 @@
       "source": "global",
       "category": "design",
       "description": "name: blucli",
-      "lastModified": "2026-02-14T22:07:58.021Z",
+      "lastModified": "2026-02-18T17:11:56.849Z",
       "sizeBytes": 829
     },
     {
@@ -77,7 +77,7 @@
       "source": "global",
       "category": "design",
       "description": "name: bluebubbles",
-      "lastModified": "2026-02-14T22:07:58.023Z",
+      "lastModified": "2026-02-18T17:11:56.850Z",
       "sizeBytes": 2298
     },
     {
@@ -101,7 +101,7 @@
       "source": "global",
       "category": "design",
       "description": "name: camsnap",
-      "lastModified": "2026-02-14T22:07:58.024Z",
+      "lastModified": "2026-02-18T17:11:56.851Z",
       "sizeBytes": 898
     },
     {
@@ -109,7 +109,7 @@
       "source": "global",
       "category": "design",
       "description": "Display HTML content on connected Clawdbot nodes (Mac app, iOS, Android).",
-      "lastModified": "2026-02-14T22:07:58.026Z",
+      "lastModified": "2026-02-18T17:11:56.853Z",
       "sizeBytes": 5294
     },
     {
@@ -125,7 +125,7 @@
       "source": "global",
       "category": "design",
       "description": "name: clawdhub",
-      "lastModified": "2026-02-14T22:07:58.027Z",
+      "lastModified": "2026-02-18T17:11:56.855Z",
       "sizeBytes": 1452
     },
     {
@@ -133,7 +133,7 @@
       "source": "global",
       "category": "design",
       "description": "name: coding-agent",
-      "lastModified": "2026-02-14T22:07:58.029Z",
+      "lastModified": "2026-02-18T17:11:56.857Z",
       "sizeBytes": 9379
     },
     {
@@ -181,7 +181,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: discord",
-      "lastModified": "2026-02-14T22:07:58.031Z",
+      "lastModified": "2026-02-18T17:11:56.859Z",
       "sizeBytes": 9153
     },
     {
@@ -189,7 +189,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: eightctl",
-      "lastModified": "2026-02-14T22:07:58.033Z",
+      "lastModified": "2026-02-18T17:11:56.860Z",
       "sizeBytes": 905
     },
     {
@@ -205,7 +205,7 @@
       "source": "global",
       "category": "design",
       "description": "name: food-order",
-      "lastModified": "2026-02-14T22:07:58.035Z",
+      "lastModified": "2026-02-18T17:11:56.861Z",
       "sizeBytes": 2055
     },
     {
@@ -221,7 +221,7 @@
       "source": "global",
       "category": "design",
       "description": "name: gemini",
-      "lastModified": "2026-02-14T22:07:58.037Z",
+      "lastModified": "2026-02-18T17:11:56.862Z",
       "sizeBytes": 746
     },
     {
@@ -229,7 +229,7 @@
       "source": "global",
       "category": "design",
       "description": "name: gifgrep",
-      "lastModified": "2026-02-14T22:07:58.040Z",
+      "lastModified": "2026-02-18T17:11:56.864Z",
       "sizeBytes": 1882
     },
     {
@@ -237,7 +237,7 @@
       "source": "global",
       "category": "development",
       "description": "name: github",
-      "lastModified": "2026-02-14T22:07:58.042Z",
+      "lastModified": "2026-02-18T17:11:56.865Z",
       "sizeBytes": 1113
     },
     {
@@ -245,7 +245,7 @@
       "source": "global",
       "category": "design",
       "description": "name: gog",
-      "lastModified": "2026-02-14T22:07:58.044Z",
+      "lastModified": "2026-02-18T17:11:56.868Z",
       "sizeBytes": 4377
     },
     {
@@ -253,7 +253,7 @@
       "source": "global",
       "category": "design",
       "description": "name: goplaces",
-      "lastModified": "2026-02-14T22:07:58.045Z",
+      "lastModified": "2026-02-18T17:11:56.869Z",
       "sizeBytes": 1334
     },
     {
@@ -261,7 +261,7 @@
       "source": "global",
       "category": "design",
       "description": "name: himalaya",
-      "lastModified": "2026-02-14T22:07:58.048Z",
+      "lastModified": "2026-02-18T17:11:56.871Z",
       "sizeBytes": 4405
     },
     {
@@ -269,7 +269,7 @@
       "source": "global",
       "category": "design",
       "description": "name: imsg",
-      "lastModified": "2026-02-14T22:07:58.049Z",
+      "lastModified": "2026-02-18T17:11:56.873Z",
       "sizeBytes": 892
     },
     {
@@ -285,7 +285,7 @@
       "source": "global",
       "category": "design",
       "description": "name: local-places",
-      "lastModified": "2026-02-14T22:07:58.050Z",
+      "lastModified": "2026-02-18T17:11:56.874Z",
       "sizeBytes": 2482
     },
     {
@@ -309,7 +309,7 @@
       "source": "global",
       "category": "design",
       "description": "name: mcporter",
-      "lastModified": "2026-02-14T22:07:58.051Z",
+      "lastModified": "2026-02-18T17:11:56.876Z",
       "sizeBytes": 1480
     },
     {
@@ -325,7 +325,7 @@
       "source": "global",
       "category": "design",
       "description": "name: model-usage",
-      "lastModified": "2026-02-14T22:07:58.053Z",
+      "lastModified": "2026-02-18T17:11:56.877Z",
       "sizeBytes": 2046
     },
     {
@@ -349,7 +349,7 @@
       "source": "global",
       "category": "design",
       "description": "name: nano-banana-pro",
-      "lastModified": "2026-02-14T22:07:58.054Z",
+      "lastModified": "2026-02-18T17:11:56.879Z",
       "sizeBytes": 1176
     },
     {
@@ -357,7 +357,7 @@
       "source": "global",
       "category": "design",
       "description": "name: nano-pdf",
-      "lastModified": "2026-02-14T22:07:58.056Z",
+      "lastModified": "2026-02-18T17:11:56.880Z",
       "sizeBytes": 765
     },
     {
@@ -365,7 +365,7 @@
       "source": "global",
       "category": "design",
       "description": "name: notion",
-      "lastModified": "2026-02-14T22:07:58.058Z",
+      "lastModified": "2026-02-18T17:11:56.882Z",
       "sizeBytes": 5039
     },
     {
@@ -373,7 +373,7 @@
       "source": "global",
       "category": "design",
       "description": "name: obsidian",
-      "lastModified": "2026-02-14T22:07:58.060Z",
+      "lastModified": "2026-02-18T17:11:56.884Z",
       "sizeBytes": 2334
     },
     {
@@ -381,7 +381,7 @@
       "source": "global",
       "category": "design",
       "description": "name: openai-image-gen",
-      "lastModified": "2026-02-14T22:07:58.061Z",
+      "lastModified": "2026-02-18T17:11:56.886Z",
       "sizeBytes": 2924
     },
     {
@@ -389,7 +389,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: openai-whisper",
-      "lastModified": "2026-02-14T22:07:58.065Z",
+      "lastModified": "2026-02-18T17:11:56.888Z",
       "sizeBytes": 725
     },
     {
@@ -397,7 +397,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: openai-whisper-api",
-      "lastModified": "2026-02-14T22:07:58.063Z",
+      "lastModified": "2026-02-18T17:11:56.887Z",
       "sizeBytes": 1093
     },
     {
@@ -405,7 +405,7 @@
       "source": "global",
       "category": "design",
       "description": "name: openhue",
-      "lastModified": "2026-02-14T22:07:58.066Z",
+      "lastModified": "2026-02-18T17:11:56.890Z",
       "sizeBytes": 968
     },
     {
@@ -421,7 +421,7 @@
       "source": "global",
       "category": "design",
       "description": "name: oracle",
-      "lastModified": "2026-02-14T22:07:58.067Z",
+      "lastModified": "2026-02-18T17:11:56.893Z",
       "sizeBytes": 4882
     },
     {
@@ -429,7 +429,7 @@
       "source": "global",
       "category": "design",
       "description": "name: ordercli",
-      "lastModified": "2026-02-14T22:07:58.068Z",
+      "lastModified": "2026-02-18T17:11:56.894Z",
       "sizeBytes": 2087
     },
     {
@@ -445,7 +445,7 @@
       "source": "global",
       "category": "design",
       "description": "name: peekaboo",
-      "lastModified": "2026-02-14T22:07:58.070Z",
+      "lastModified": "2026-02-18T17:11:56.896Z",
       "sizeBytes": 5753
     },
     {
@@ -477,7 +477,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: sag",
-      "lastModified": "2026-02-14T22:07:58.071Z",
+      "lastModified": "2026-02-18T17:11:56.897Z",
       "sizeBytes": 2093
     },
     {
@@ -485,7 +485,7 @@
       "source": "global",
       "category": "design",
       "description": "name: session-logs",
-      "lastModified": "2026-02-14T22:07:58.073Z",
+      "lastModified": "2026-02-18T17:11:56.898Z",
       "sizeBytes": 3409
     },
     {
@@ -501,7 +501,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: sherpa-onnx-tts",
-      "lastModified": "2026-02-14T22:07:58.075Z",
+      "lastModified": "2026-02-18T17:11:56.899Z",
       "sizeBytes": 2788
     },
     {
@@ -509,7 +509,7 @@
       "source": "global",
       "category": "design",
       "description": "name: skill-creator",
-      "lastModified": "2026-02-14T22:07:58.077Z",
+      "lastModified": "2026-02-18T17:11:56.901Z",
       "sizeBytes": 18356
     },
     {
@@ -517,7 +517,7 @@
       "source": "global",
       "category": "integration",
       "description": "name: slack",
-      "lastModified": "2026-02-14T22:07:58.078Z",
+      "lastModified": "2026-02-18T17:11:56.902Z",
       "sizeBytes": 2315
     },
     {
@@ -525,7 +525,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: songsee",
-      "lastModified": "2026-02-14T22:07:58.080Z",
+      "lastModified": "2026-02-18T17:11:56.903Z",
       "sizeBytes": 1123
     },
     {
@@ -533,7 +533,7 @@
       "source": "global",
       "category": "design",
       "description": "name: sonoscli",
-      "lastModified": "2026-02-14T22:07:58.081Z",
+      "lastModified": "2026-02-18T17:11:56.905Z",
       "sizeBytes": 940
     },
     {
@@ -557,7 +557,7 @@
       "source": "global",
       "category": "design",
       "description": "name: spotify-player",
-      "lastModified": "2026-02-14T22:07:58.082Z",
+      "lastModified": "2026-02-18T17:11:56.906Z",
       "sizeBytes": 1369
     },
     {
@@ -565,7 +565,7 @@
       "source": "global",
       "category": "design",
       "description": "name: summarize",
-      "lastModified": "2026-02-14T22:07:58.085Z",
+      "lastModified": "2026-02-18T17:11:56.908Z",
       "sizeBytes": 2041
     },
     {
@@ -589,7 +589,7 @@
       "source": "global",
       "category": "design",
       "description": "name: things-mac",
-      "lastModified": "2026-02-14T22:07:58.086Z",
+      "lastModified": "2026-02-18T17:11:56.910Z",
       "sizeBytes": 3350
     },
     {
@@ -597,7 +597,7 @@
       "source": "global",
       "category": "design",
       "description": "name: tmux",
-      "lastModified": "2026-02-14T22:07:58.087Z",
+      "lastModified": "2026-02-18T17:11:56.911Z",
       "sizeBytes": 4112
     },
     {
@@ -605,7 +605,7 @@
       "source": "global",
       "category": "design",
       "description": "name: trello",
-      "lastModified": "2026-02-14T22:07:58.088Z",
+      "lastModified": "2026-02-18T17:11:56.912Z",
       "sizeBytes": 2651
     },
     {
@@ -629,7 +629,7 @@
       "source": "global",
       "category": "design",
       "description": "name: video-frames",
-      "lastModified": "2026-02-14T22:07:58.090Z",
+      "lastModified": "2026-02-18T17:11:56.914Z",
       "sizeBytes": 776
     },
     {
@@ -637,7 +637,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: voice-call",
-      "lastModified": "2026-02-14T22:07:58.092Z",
+      "lastModified": "2026-02-18T17:11:56.915Z",
       "sizeBytes": 1098
     },
     {
@@ -653,7 +653,7 @@
       "source": "global",
       "category": "voice-audio",
       "description": "name: wacli",
-      "lastModified": "2026-02-14T22:07:58.093Z",
+      "lastModified": "2026-02-18T17:11:56.917Z",
       "sizeBytes": 2084
     },
     {
@@ -661,7 +661,7 @@
       "source": "global",
       "category": "design",
       "description": "name: weather",
-      "lastModified": "2026-02-14T22:07:58.095Z",
+      "lastModified": "2026-02-18T17:11:56.918Z",
       "sizeBytes": 1169
     },
     {
@@ -690,5 +690,5 @@
     }
   ],
   "total": 86,
-  "generatedAt": "2026-02-18T16:59:12.248Z"
+  "generatedAt": "2026-02-18T17:14:12.199Z"
 }
