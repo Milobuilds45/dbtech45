@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T16:34:10.820Z",
+    "lastHeartbeat": "2026-02-18T16:39:08.088Z",
     "totalCrons": 14,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -13,28 +13,28 @@
         "id": "offline-paula",
         "type": "warning",
         "message": "Paula agent offline for >14 hours",
-        "timestamp": "2026-02-18T16:34:10.820Z",
+        "timestamp": "2026-02-18T16:39:08.088Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >21 hours",
-        "timestamp": "2026-02-18T16:34:10.820Z",
+        "timestamp": "2026-02-18T16:39:08.088Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >16 hours",
-        "timestamp": "2026-02-18T16:34:10.820Z",
+        "timestamp": "2026-02-18T16:39:08.088Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >69 hours",
-        "timestamp": "2026-02-18T16:34:10.820Z",
+        "message": "Wendy agent offline for >70 hours",
+        "timestamp": "2026-02-18T16:39:08.088Z",
         "resolved": false
       },
       {
@@ -61,7 +61,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T16:32:42.554Z"
+      "lastSeen": "2026-02-18T16:36:11.971Z"
     },
     {
       "name": "Anders",
@@ -143,7 +143,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T16:32:42.554Z",
+      "lastActivity": "2026-02-18T16:36:11.971Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 37
@@ -449,6 +449,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T16:34:12.620Z",
+  "generatedAt": "2026-02-18T16:39:09.801Z",
   "version": 2
 }
