@@ -28,6 +28,7 @@ import {
   Link2,
   Home,
   Search,
+  Building2,
 } from 'lucide-react';
 
 // ─── Colors ─────────────────────────────────────────────────────────────
@@ -73,6 +74,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Brand Spec':    <Ruler size={ICON_SIZE} />,
   'Quick Links':   <Link2 size={ICON_SIZE} />,
   'Research':      <Search size={ICON_SIZE} />,
+  'Dunder':        <Building2 size={ICON_SIZE} />,
 };
 
 // ─── Nav data ───────────────────────────────────────────────────────────
@@ -119,6 +121,7 @@ const intelItems: NavItem[] = [
 ];
 
 const systemItems: NavItem[] = [
+  { label: 'Dunder', href: '/os/dunder' },
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
   { label: 'Quick Links', href: '/os/quick-links' },
