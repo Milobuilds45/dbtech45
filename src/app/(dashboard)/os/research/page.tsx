@@ -529,10 +529,80 @@ export default function ResearchPage() {
           </div>
         )}
 
+        {/* How It Works */}
+        <div style={{ 
+          marginTop: 48, 
+          padding: 24, 
+          background: T.card, 
+          borderRadius: 12, 
+          border: `1px solid ${T.border}`,
+        }}>
+          <h3 style={{ 
+            fontSize: 16, 
+            fontWeight: 700, 
+            color: T.amber, 
+            marginBottom: 16,
+            fontFamily: "'Space Grotesk', system-ui, sans-serif",
+          }}>
+            How It Works
+          </h3>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16, marginBottom: 20 }}>
+            <div style={{ padding: 16, background: T.elevated, borderRadius: 8 }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>🔍</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 4 }}>1. Search Any Topic</div>
+              <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.5 }}>
+                Enter what you want to research — AI tools, trading strategies, trending topics, anything.
+              </div>
+            </div>
+            
+            <div style={{ padding: 16, background: T.elevated, borderRadius: 8 }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>📡</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 4 }}>2. We Scan Everything</div>
+              <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.5 }}>
+                Searches Reddit, X/Twitter, YouTube, and the web for discussions from the last 30 days.
+              </div>
+            </div>
+            
+            <div style={{ padding: 16, background: T.elevated, borderRadius: 8 }}>
+              <div style={{ fontSize: 24, marginBottom: 8 }}>⚡</div>
+              <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 4 }}>3. Get Real Insights</div>
+              <div style={{ fontSize: 12, color: T.secondary, lineHeight: 1.5 }}>
+                See what the community is actually upvoting, sharing, and discussing right now.
+              </div>
+            </div>
+          </div>
+
+          <div style={{ borderTop: `1px solid ${T.border}`, paddingTop: 16 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, color: T.text, marginBottom: 8 }}>💡 Pro Tips</div>
+            <ul style={{ margin: 0, paddingLeft: 20, fontSize: 12, color: T.secondary, lineHeight: 1.8 }}>
+              <li><strong style={{ color: T.text }}>Be specific:</strong> "Claude Code animation techniques" beats "AI coding"</li>
+              <li><strong style={{ color: T.text }}>Use Watchlist:</strong> Track competitors, tools, or trends automatically</li>
+              <li><strong style={{ color: T.text }}>Check frequently:</strong> AI moves fast — research from last month is often outdated</li>
+              <li><strong style={{ color: T.text }}>Look for patterns:</strong> Key Themes show what multiple sources agree on</li>
+            </ul>
+          </div>
+
+          <div style={{ 
+            marginTop: 16, 
+            padding: 12, 
+            background: 'rgba(59, 130, 246, 0.1)', 
+            borderRadius: 8, 
+            border: `1px solid rgba(59, 130, 246, 0.2)`,
+          }}>
+            <div style={{ fontSize: 12, color: T.blue, fontWeight: 600, marginBottom: 4 }}>
+              Powered by /last30days
+            </div>
+            <div style={{ fontSize: 11, color: T.secondary }}>
+              Open-source research skill for Claude Code & OpenClaw. Finds what people are actually saying, not what SEO farms want you to see.
+            </div>
+          </div>
+        </div>
+
         {/* Footer */}
-        <div style={{ marginTop: 40, textAlign: 'center', paddingTop: 20, borderTop: `1px solid ${T.border}` }}>
+        <div style={{ marginTop: 24, textAlign: 'center', paddingTop: 20, borderTop: `1px solid ${T.border}` }}>
           <p style={{ fontSize: 11, color: T.muted, fontFamily: "'JetBrains Mono', monospace" }}>
-            Powered by /last30days • Reddit + X + YouTube + Web
+            Sources: Reddit • X/Twitter • YouTube • Web
           </p>
           <a href="/os" style={{ color: T.amber, textDecoration: 'none', fontSize: 13, fontWeight: 500 }}>
             ← Back to Mission Control
