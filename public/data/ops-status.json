@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T01:34:03.780Z",
+    "lastHeartbeat": "2026-02-18T01:39:03.842Z",
     "totalCrons": 14,
     "activeSessions": 4,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-anders",
         "type": "warning",
         "message": "Anders agent offline for >36 hours",
-        "timestamp": "2026-02-18T01:34:03.779Z",
+        "timestamp": "2026-02-18T01:39:03.842Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >13 hours",
-        "timestamp": "2026-02-18T01:34:03.779Z",
+        "timestamp": "2026-02-18T01:39:03.842Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >54 hours",
-        "timestamp": "2026-02-18T01:34:03.779Z",
+        "message": "Wendy agent offline for >55 hours",
+        "timestamp": "2026-02-18T01:39:03.842Z",
         "resolved": false
       },
       {
@@ -47,7 +47,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:33:44.934Z"
+      "lastSeen": "2026-02-18T01:39:03.044Z"
     },
     {
       "name": "Anders",
@@ -83,7 +83,7 @@
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T01:33:17.194Z"
+      "lastSeen": "2026-02-18T01:38:16.748Z"
     },
     {
       "name": "Tony",
@@ -129,7 +129,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:33:44.934Z",
+      "lastActivity": "2026-02-18T01:39:03.044Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 35
@@ -140,7 +140,7 @@
       "model": "gemini-3-flash",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T01:33:17.194Z",
+      "lastActivity": "2026-02-18T01:38:16.748Z",
       "role": "Weather & News",
       "cost": 0,
       "sessionCount": 59
@@ -435,6 +435,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T01:34:05.332Z",
+  "generatedAt": "2026-02-18T01:39:05.414Z",
   "version": 2
 }
