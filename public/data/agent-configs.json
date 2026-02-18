@@ -5,7 +5,7 @@
       "name": "Milo",
       "role": "Chief of Staff",
       "color": "#A855F7",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-opus-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -48,7 +48,7 @@
       "name": "Anders",
       "role": "Full Stack Architect",
       "color": "#F97316",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-opus-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -79,7 +79,7 @@
       "name": "Bobby",
       "role": "Trading Advisor",
       "color": "#22C55E",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-opus-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -141,7 +141,7 @@
       "name": "Dwight",
       "role": "Weather & News",
       "color": "#6366F1",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-opus-4-6",
       "fallbacks": [],
       "availableModels": [
         {
@@ -234,7 +234,7 @@
       "name": "Remy",
       "role": "Restaurant Marketing",
       "color": "#EF4444",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-sonnet-4-20250514",
       "fallbacks": [],
       "availableModels": [
         {
@@ -265,7 +265,7 @@
       "name": "Wendy",
       "role": "Wellness Coach",
       "color": "#8B5CF6",
-      "primaryModel": "claude-sonnet-4-6",
+      "primaryModel": "anthropic/claude-sonnet-4-20250514",
       "fallbacks": [],
       "availableModels": [
         {
@@ -292,5 +292,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-18T01:39:05.465Z"
+  "generatedAt": "2026-02-18T01:44:05.385Z"
 }
