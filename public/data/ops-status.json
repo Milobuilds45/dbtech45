@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T12:59:10.092Z",
+    "lastHeartbeat": "2026-02-18T13:04:08.250Z",
     "totalCrons": 14,
     "activeSessions": 3,
     "totalAgents": 9,
@@ -12,29 +12,29 @@
       {
         "id": "offline-bobby",
         "type": "warning",
-        "message": "Bobby agent offline for >15 hours",
-        "timestamp": "2026-02-18T12:59:10.091Z",
+        "message": "Bobby agent offline for >16 hours",
+        "timestamp": "2026-02-18T13:04:08.249Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >18 hours",
-        "timestamp": "2026-02-18T12:59:10.091Z",
+        "timestamp": "2026-02-18T13:04:08.249Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
         "message": "Dax agent offline for >13 hours",
-        "timestamp": "2026-02-18T12:59:10.091Z",
+        "timestamp": "2026-02-18T13:04:08.249Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >66 hours",
-        "timestamp": "2026-02-18T12:59:10.091Z",
+        "timestamp": "2026-02-18T13:04:08.249Z",
         "resolved": false
       },
       {
@@ -120,7 +120,7 @@
     {
       "name": "Remy",
       "role": "Restaurant Marketing",
-      "status": "running",
+      "status": "idle",
       "model": "gemini-3-flash",
       "health": "healthy",
       "tasksToday": 0,
@@ -163,7 +163,7 @@
       "key": "agent:remy:main",
       "agent": "Remy",
       "model": "gemini-3-flash",
-      "status": "running",
+      "status": "idle",
       "totalTokens": 0,
       "lastActivity": "2026-02-18T12:30:43.642Z",
       "role": "Restaurant Marketing",
@@ -449,6 +449,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T12:59:13.873Z",
+  "generatedAt": "2026-02-18T13:04:09.774Z",
   "version": 2
 }
