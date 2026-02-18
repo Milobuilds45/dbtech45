@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
@@ -23,6 +23,7 @@ import {
   Brain,
   Wrench,
   Moon,
+  Sun,
   Palette,
   Ruler,
   Link2,
@@ -31,8 +32,8 @@ import {
   Building2,
 } from 'lucide-react';
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Colors Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
-const colors = {
+// â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const voidTheme = {
   void: '#06070b',
   carbon: '#0a0a0f',
   border: 'rgba(245, 158, 11, 0.15)',
@@ -45,10 +46,25 @@ const colors = {
   success: '#22c55e',
 };
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Icon size Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+const emberTheme = {
+  void: '#1a1408',
+  carbon: '#2d2214',
+  border: 'rgba(245, 158, 11, 0.25)',
+  borderHover: 'rgba(245, 158, 11, 0.4)',
+  amber: '#f59e0b',
+  amberDim: 'rgba(245, 158, 11, 0.85)',
+  white: '#fef3c7',
+  smoke: 'rgba(254, 243, 199, 0.7)',
+  dimText: 'rgba(254, 243, 199, 0.5)',
+  success: '#22c55e',
+};
+
+const colors = voidTheme;
+
+// â”€â”€â”€ Icon size â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const ICON_SIZE = 14;
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Section icon map Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€â”€ Section icon map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const NAV_ICONS: Record<string, ReactNode> = {
   'Home':          <Home size={ICON_SIZE} />,
   'Morning Brief': <Newspaper size={ICON_SIZE} />,
@@ -77,7 +93,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
 };
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Nav data Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface NavItem {
   label: string;
   href: string;
@@ -127,7 +143,7 @@ const systemItems: NavItem[] = [
   { label: 'Quick Links', href: '/os/quick-links' },
 ];
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Section config Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€â”€ Section config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 interface SectionConfig {
   key: string;
   number: string;
@@ -145,9 +161,10 @@ const sections: SectionConfig[] = [
   { key: 'system', number: '06', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
-// Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Constants Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+// â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const STORAGE_KEY = 'dbtech-sidebar-collapsed';
 const SECTIONS_KEY = 'dbtech-sidebar-sections-v2';
+const MODE_KEY = 'dbtech-color-mode';
 const SIDEBAR_WIDTH = 280;
 const COLLAPSED_WIDTH = 60;
 
@@ -163,6 +180,10 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   const [cpuMetric, setCpuMetric] = useState('12%');
   const [memMetric, setMemMetric] = useState('44%');
   const [diskMetric, setDiskMetric] = useState('88%');
+  const [colorMode, setColorMode] = useState<'void' | 'ember'>('void');
+  
+  // Theme colors based on mode
+  const theme = colorMode === 'ember' ? emberTheme : voidTheme;
 
   // Hydrate from localStorage
   useEffect(() => {
@@ -171,6 +192,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       if (stored === 'true') setCollapsed(true);
       const storedSections = localStorage.getItem(SECTIONS_KEY);
       if (storedSections) setOpenSections(JSON.parse(storedSections));
+      const storedMode = localStorage.getItem(MODE_KEY);
+      if (storedMode === 'ember') setColorMode('ember');
     } catch {}
   }, []);
 
@@ -201,6 +224,14 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     });
   }, []);
 
+  const toggleColorMode = useCallback(() => {
+    setColorMode(prev => {
+      const next = prev === 'void' ? 'ember' : 'void';
+      try { localStorage.setItem(MODE_KEY, next); } catch {}
+      return next;
+    });
+  }, []);
+
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
@@ -220,7 +251,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     return pathname === href || pathname.startsWith(href + '/');
   };
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Render nav item Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€â”€ Render nav item â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const renderNavItem = (item: NavItem) => {
     const active = isActive(item.href);
     const icon = NAV_ICONS[item.label] || <span style={{ fontWeight: 600 }}>{item.label.charAt(0)}</span>;
@@ -235,8 +266,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             padding: collapsed && !isMobile ? '8px 0' : '8px 20px 8px 48px',
             cursor: 'pointer',
             transition: 'all 0.15s ease',
-            color: active ? colors.carbon : colors.smoke,
-            background: active ? colors.amber : 'transparent',
+            color: active ? theme.carbon : theme.smoke,
+            background: active ? theme.amber : 'transparent',
             fontSize: '12px',
             fontWeight: 500,
             justifyContent: collapsed && !isMobile ? 'center' : 'flex-start',
@@ -252,7 +283,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                   padding: '1px 6px',
                   borderRadius: '4px',
                   background: active ? 'rgba(10, 10, 15, 0.3)' : 'rgba(245, 158, 11, 0.2)',
-                  color: active ? colors.carbon : colors.amber,
+                  color: active ? theme.carbon : theme.amber,
                   fontFamily: "'JetBrains Mono', monospace",
                 }}>{item.badge}</span>
               )}
@@ -263,12 +294,12 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     );
   };
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Render section Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€â”€ Render section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const renderSection = (config: SectionConfig) => {
     const isOpen = openSections[config.key] ?? true;
 
     return (
-      <div key={config.key} style={{ borderBottom: `1px solid ${colors.border}` }}>
+      <div key={config.key} style={{ borderBottom: `1px solid ${theme.border}` }}>
         {/* Section header */}
         <div
           onClick={() => toggleSection(config.key)}
@@ -288,7 +319,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: '10px',
                 fontWeight: 500,
-                color: colors.dimText,
+                color: theme.dimText,
                 width: '24px',
                 flexShrink: 0,
               }}>{config.number}</span>
@@ -296,7 +327,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                 fontFamily: "'Space Grotesk', sans-serif",
                 fontSize: '12px',
                 fontWeight: 600,
-                color: colors.white,
+                color: theme.white,
                 letterSpacing: '0.5px',
                 flex: 1,
               }}>{config.title}</span>
@@ -304,44 +335,79 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                 <span style={{
                   fontFamily: "'JetBrains Mono', monospace",
                   fontSize: '10px',
-                  color: colors.dimText,
+                  color: theme.dimText,
                   marginRight: '12px',
                 }}>{config.badge}</span>
               )}
               <span style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 fontSize: '14px',
-                color: isOpen ? colors.amber : colors.dimText,
+                color: isOpen ? theme.amber : theme.dimText,
                 width: '20px',
                 textAlign: 'center',
-              }}>{isOpen ? '−' : '+'}</span>
+              }}>{isOpen ? '-' : '+'}</span>
             </>
           )}
           {collapsed && !isMobile && (
-            <span style={{ fontSize: '10px', color: colors.dimText }}>{config.number}</span>
+            <span style={{ fontSize: '10px', color: theme.dimText }}>{config.number}</span>
           )}
         </div>
         {/* Section items */}
         <div style={{
-          maxHeight: isOpen ? `${config.items.length * 38}px` : '0px',
+          maxHeight: isOpen ? `${(config.items.length + (config.key === 'system' ? 1 : 0)) * 38}px` : '0px',
           overflow: 'hidden',
           transition: 'max-height 0.25s ease',
           background: 'rgba(0, 0, 0, 0.2)',
         }}>
           {config.items.map(renderNavItem)}
+          {/* Mode toggle for System Config section */}
+          {config.key === 'system' && !(collapsed && !isMobile) && (
+            <div
+              onClick={toggleColorMode}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                padding: '8px 20px 8px 48px',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease',
+                color: theme.smoke,
+                background: 'transparent',
+                fontSize: '12px',
+                fontWeight: 500,
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', opacity: 0.7 }}>
+                {colorMode === 'void' ? <Moon size={14} /> : <Sun size={14} />}
+              </span>
+              <span style={{ flex: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                {colorMode === 'void' ? 'VOID MODE' : 'EMBER MODE'}
+              </span>
+              <span style={{
+                fontSize: '10px',
+                padding: '1px 6px',
+                borderRadius: '4px',
+                background: colorMode === 'ember' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                color: colorMode === 'ember' ? theme.amber : theme.smoke,
+                fontFamily: "'JetBrains Mono', monospace",
+              }}>
+                {colorMode === 'void' ? 'DARK' : 'WARM'}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     );
   };
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Sidebar content Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€â”€ Sidebar content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const sidebarContent = (
     <div
       style={{
         width: `${sidebarWidth}px`,
         minWidth: `${sidebarWidth}px`,
-        background: colors.carbon,
-        borderRight: `1px solid ${colors.border}`,
+        background: theme.carbon,
+        borderRight: `1px solid ${theme.border}`,
         position: 'fixed',
         left: 0,
         top: 0,
@@ -357,7 +423,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       {/* Header */}
       <div style={{
         padding: collapsed && !isMobile ? '16px 8px' : '16px 20px',
-        borderBottom: `1px solid ${colors.border}`,
+        borderBottom: `1px solid ${theme.border}`,
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
@@ -369,7 +435,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             height: '36px',
             borderRadius: '8px',
             overflow: 'hidden',
-            border: `2px solid ${colors.amber}`,
+            border: `2px solid ${theme.amber}`,
             flexShrink: 0,
           }}>
             <Image
@@ -382,8 +448,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           </div>
           {!(collapsed && !isMobile) && (
             <div>
-              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '15px', fontWeight: 700, letterSpacing: '1px', color: colors.white }}>DB TECH OS</div>
-              <div style={{ fontSize: '9px', fontWeight: 500, color: colors.amberDim, textTransform: 'uppercase', letterSpacing: '1.5px' }}>MISSION CONTROL // V.2.4</div>
+              <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '15px', fontWeight: 700, letterSpacing: '1px', color: theme.white }}>DB TECH OS</div>
+              <div style={{ fontSize: '9px', fontWeight: 500, color: theme.amberDim, textTransform: 'uppercase', letterSpacing: '1.5px' }}>MISSION CONTROL // V.2.4</div>
             </div>
           )}
         </Link>
@@ -393,20 +459,20 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       {!(collapsed && !isMobile) && (
         <div style={{
           padding: '12px 20px',
-          borderBottom: `1px solid ${colors.border}`,
+          borderBottom: `1px solid ${theme.border}`,
           background: 'rgba(0, 0, 0, 0.3)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 500, color: colors.dimText, textTransform: 'uppercase', letterSpacing: '1px' }}>System Status</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 600, color: colors.success, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: colors.success, animation: 'pulse 2s ease-in-out infinite' }} />
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 500, color: theme.dimText, textTransform: 'uppercase', letterSpacing: '1px' }}>System Status</span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 600, color: theme.success, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: theme.success, animation: 'pulse 2s ease-in-out infinite' }} />
               OPERATIONAL
             </span>
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: colors.dimText }}>CPU: <span style={{ color: colors.smoke }}>{cpuMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: colors.dimText }}>MEM: <span style={{ color: colors.smoke }}>{memMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: colors.dimText }}>DISK: <span style={{ color: colors.smoke }}>{diskMetric}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>CPU: <span style={{ color: theme.smoke }}>{cpuMetric}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>MEM: <span style={{ color: theme.smoke }}>{memMetric}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>DISK: <span style={{ color: theme.smoke }}>{diskMetric}</span></span>
           </div>
         </div>
       )}
@@ -427,8 +493,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             justifyContent: collapsed ? 'center' : 'flex-start',
             gap: '8px',
             cursor: 'pointer',
-            borderTop: `1px solid ${colors.border}`,
-            color: colors.dimText,
+            borderTop: `1px solid ${theme.border}`,
+            color: theme.dimText,
             fontSize: '12px',
             background: 'rgba(0, 0, 0, 0.3)',
           }}
@@ -440,7 +506,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     </div>
   );
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Mobile Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€â”€ Mobile â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const mobileOverlay = isMobile && mobileOpen ? (
     <div onClick={() => setMobileOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 150 }} />
   ) : null;
@@ -450,8 +516,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       onClick={() => setMobileOpen(prev => !prev)}
       style={{
         position: 'fixed', top: '12px', left: '12px', zIndex: 250,
-        background: colors.carbon, border: `1px solid ${colors.border}`,
-        borderRadius: '8px', padding: '8px', cursor: 'pointer', color: colors.smoke,
+        background: theme.carbon, border: `1px solid ${theme.border}`,
+        borderRadius: '8px', padding: '8px', cursor: 'pointer', color: theme.smoke,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}
     >
@@ -459,9 +525,9 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     </button>
   ) : null;
 
-  // Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬ Layout Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬Ã¢â€â‚¬
+  // â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <div style={{ background: colors.void, color: colors.white, minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ background: theme.void, color: theme.white, minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
       <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
       {mobileToggle}
       {mobileOverlay}
