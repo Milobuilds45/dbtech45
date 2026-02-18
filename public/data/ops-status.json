@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-02-18T08:04:10.262Z",
+    "lastHeartbeat": "2026-02-18T08:09:05.959Z",
     "totalCrons": 14,
     "activeSessions": 2,
     "totalAgents": 9,
@@ -13,21 +13,21 @@
         "id": "offline-tony",
         "type": "warning",
         "message": "Tony agent offline for >13 hours",
-        "timestamp": "2026-02-18T08:04:10.261Z",
+        "timestamp": "2026-02-18T08:09:05.958Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
         "message": "Remy agent offline for >20 hours",
-        "timestamp": "2026-02-18T08:04:10.261Z",
+        "timestamp": "2026-02-18T08:09:05.958Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
         "message": "Wendy agent offline for >61 hours",
-        "timestamp": "2026-02-18T08:04:10.261Z",
+        "timestamp": "2026-02-18T08:09:05.958Z",
         "resolved": false
       },
       {
@@ -54,7 +54,7 @@
       "model": "claude-sonnet-4",
       "health": "healthy",
       "tasksToday": 0,
-      "lastSeen": "2026-02-18T08:04:08.321Z"
+      "lastSeen": "2026-02-18T08:05:57.357Z"
     },
     {
       "name": "Anders",
@@ -136,7 +136,7 @@
       "model": "claude-sonnet-4",
       "status": "running",
       "totalTokens": 0,
-      "lastActivity": "2026-02-18T08:04:08.321Z",
+      "lastActivity": "2026-02-18T08:05:57.357Z",
       "role": "Chief of Staff",
       "cost": 0,
       "sessionCount": 36
@@ -403,10 +403,10 @@
       "humanSchedule": "0 3 * * *",
       "agent": "Milo",
       "description": "🎆 SMART COLLABORATIVE SURPRISE BUILDER (3:00 AM)",
-      "lastRun": "2026-02-17T08:00:00.016Z",
+      "lastRun": "2026-02-18T08:00:00.016Z",
       "lastStatus": "success",
-      "nextRun": "2026-02-18T08:00:00.000Z",
-      "duration": "24s",
+      "nextRun": "2026-02-19T08:00:00.000Z",
+      "duration": "357s",
       "enabled": true,
       "deleteAfterRun": false,
       "lastError": null
@@ -442,6 +442,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-02-18T08:04:11.804Z",
+  "generatedAt": "2026-02-18T08:09:07.549Z",
   "version": 2
 }
