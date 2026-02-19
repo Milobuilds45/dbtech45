@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   // Temporary auth bypass — expires Feb 13 2026 6:40 AM EST
   const bypassUntil = new Date("2026-02-13T11:40:00Z");
   if (new Date() < bypassUntil) {
