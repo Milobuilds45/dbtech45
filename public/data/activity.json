@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "88068be1",
+      "author": "Milo",
+      "timestamp": "2026-02-18 19:14:07 -0500",
+      "message": "chore: auto-sync dashboard data"
+    },
+    {
+      "type": "commit",
       "id": "ed9361a6",
       "author": "Milo",
       "timestamp": "2026-02-18 19:09:11 -0500",
@@ -331,13 +338,6 @@
     },
     {
       "type": "commit",
-      "id": "68a5e117",
-      "author": "Milo",
-      "timestamp": "2026-02-18 15:11:47 -0500",
-      "message": "Fix /os/ rewrite - proxy to root of dbtech-os app"
-    },
-    {
-      "type": "commit",
       "id": "dd21757c",
       "author": "Milo",
       "timestamp": "2026-02-18 15:09:12 -0500",
@@ -407,5 +407,5 @@
       "jobId": "866b45c4-d91c-4178-87df-d55a825b84a2"
     }
   ],
-  "generatedAt": "2026-02-19T00:14:07.747Z"
+  "generatedAt": "2026-02-19T00:19:05.223Z"
 }
