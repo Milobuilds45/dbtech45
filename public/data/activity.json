@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "13b46ed8",
+      "author": "Milo",
+      "timestamp": "2026-02-19 14:04:39 -0500",
+      "message": "fix: cyber mode readability — white content text, green accents only, remove global flicker"
+    },
+    {
+      "type": "commit",
       "id": "acfeb479",
       "author": "Milo",
       "timestamp": "2026-02-19 13:58:36 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 07:04:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "f234abaa",
-      "author": "Milo",
-      "timestamp": "2026-02-19 06:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-19T19:04:17.277Z"
+  "generatedAt": "2026-02-19T21:24:17.192Z"
 }

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Space_Grotesk, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   title: "DBTech45 - Fueled by Caffeine and Chaos",
   description:
     "Derek Bobola - Dad of 7. Futures trader. Restaurant owner. Self-taught builder running 9 AI agents. Shipping daily.",
+};
+
+export const viewport: Viewport = {
   themeColor: "#0A0A0B",
 };
 
