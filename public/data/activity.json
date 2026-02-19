@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "f3783259",
+      "author": "Milo",
+      "timestamp": "2026-02-19 13:04:01 -0500",
+      "message": "feat: replace ember mode with cyber mode (electric blue/teal), rename void to null mode"
+    },
+    {
+      "type": "commit",
       "id": "db1f4966",
       "author": "Milo",
       "timestamp": "2026-02-19 10:54:05 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 06:54:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "b84dc538",
-      "author": "Milo",
-      "timestamp": "2026-02-19 06:49:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-19T17:59:04.772Z"
+  "generatedAt": "2026-02-19T18:54:05.344Z"
 }

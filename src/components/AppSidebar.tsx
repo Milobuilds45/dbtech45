@@ -46,18 +46,18 @@ const voidTheme = {
   success: '#22c55e',
 };
 
-// CYBER MODE — electric blue/teal cybertech palette
+// CYBER MODE — terminal green phosphor CRT aesthetic
 const cyberTheme = {
-  void: '#000d1a',
-  carbon: '#001529',
-  border: 'rgba(0, 212, 255, 0.2)',
-  borderHover: 'rgba(0, 212, 255, 0.45)',
-  amber: '#00d4ff',
-  amberDim: 'rgba(0, 212, 255, 0.7)',
-  white: '#e0f7ff',
-  smoke: 'rgba(160, 240, 255, 0.55)',
-  dimText: 'rgba(100, 200, 230, 0.4)',
-  success: '#00ff9f',
+  void: '#010a04',
+  carbon: '#020f06',
+  border: 'rgba(16, 202, 120, 0.18)',
+  borderHover: 'rgba(16, 202, 120, 0.45)',
+  amber: '#10ca78',
+  amberDim: 'rgba(16, 202, 120, 0.65)',
+  white: '#c8ffdc',
+  smoke: 'rgba(140, 255, 180, 0.5)',
+  dimText: 'rgba(80, 200, 120, 0.4)',
+  success: '#39ff7e',
 };
 
 const colors = voidTheme;
@@ -388,10 +388,11 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                 fontSize: '10px',
                 padding: '1px 6px',
                 borderRadius: '4px',
-                background: colorMode === 'cyber' ? 'rgba(0, 212, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)',
-                color: colorMode === 'cyber' ? theme.amber : theme.smoke,
+                background: colorMode === 'cyber' ? 'rgba(16, 202, 120, 0.12)' : 'rgba(255, 255, 255, 0.08)',
+                color: colorMode === 'cyber' ? '#10ca78' : theme.smoke,
                 fontFamily: "'JetBrains Mono', monospace",
-                border: colorMode === 'cyber' ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid transparent',
+                border: colorMode === 'cyber' ? '1px solid rgba(16, 202, 120, 0.35)' : '1px solid transparent',
+                boxShadow: colorMode === 'cyber' ? '0 0 6px rgba(16, 202, 120, 0.25)' : 'none',
               }}>
                 {colorMode === 'void' ? 'OFF' : 'ON'}
               </span>
@@ -529,8 +530,63 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   // â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <div style={{ background: theme.void, color: theme.white, minHeight: '100vh', fontFamily: "'Inter', sans-serif" }}>
-      <style>{`@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }`}</style>
+    <div style={{ background: theme.void, color: theme.white, minHeight: '100vh', fontFamily: colorMode === 'cyber' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif", position: 'relative' }}>
+      <style>{`
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes scanline {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100vh); }
+        }
+        @keyframes flicker {
+          0%, 100% { opacity: 1; }
+          92% { opacity: 1; }
+          93% { opacity: 0.85; }
+          94% { opacity: 1; }
+          97% { opacity: 0.9; }
+          98% { opacity: 1; }
+        }
+        @keyframes cyberGlow {
+          0%, 100% { text-shadow: 0 0 4px rgba(16, 202, 120, 0.8), 0 0 12px rgba(16, 202, 120, 0.4); }
+          50% { text-shadow: 0 0 8px rgba(16, 202, 120, 1), 0 0 20px rgba(16, 202, 120, 0.6), 0 0 40px rgba(16, 202, 120, 0.2); }
+        }
+        ${colorMode === 'cyber' ? `
+          * { animation: flicker 8s infinite; }
+          .cyber-glow { animation: cyberGlow 3s ease-in-out infinite !important; }
+          ::-webkit-scrollbar { width: 4px; background: #010a04; }
+          ::-webkit-scrollbar-thumb { background: rgba(16, 202, 120, 0.3); border-radius: 2px; }
+          ::selection { background: rgba(16, 202, 120, 0.3); color: #c8ffdc; }
+        ` : ''}
+      `}</style>
+
+      {/* CRT overlay — only in cyber mode */}
+      {colorMode === 'cyber' && (
+        <>
+          {/* Scanlines */}
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 9998, pointerEvents: 'none',
+            backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px)',
+          }} />
+          {/* Moving scanline beam */}
+          <div style={{
+            position: 'fixed', left: 0, right: 0, height: '3px', zIndex: 9999, pointerEvents: 'none',
+            background: 'linear-gradient(transparent, rgba(16, 202, 120, 0.06), transparent)',
+            animation: 'scanline 6s linear infinite',
+          }} />
+          {/* Vignette */}
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 9997, pointerEvents: 'none',
+            background: 'radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.6) 100%)',
+          }} />
+          {/* Noise grain */}
+          <div style={{
+            position: 'fixed', inset: 0, zIndex: 9996, pointerEvents: 'none', opacity: 0.04,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'repeat',
+            backgroundSize: '128px 128px',
+          }} />
+        </>
+      )}
+
       {mobileToggle}
       {mobileOverlay}
       {showSidebar && sidebarContent}
