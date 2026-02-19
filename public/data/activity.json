@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "acfeb479",
+      "author": "Milo",
+      "timestamp": "2026-02-19 13:58:36 -0500",
+      "message": "feat: cyber mode — terminal green phosphor CRT (scanlines, grain, vignette, flicker, glow) full-page"
+    },
+    {
+      "type": "commit",
       "id": "f3783259",
       "author": "Milo",
       "timestamp": "2026-02-19 13:04:01 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 06:59:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "7edd8e0c",
-      "author": "Milo",
-      "timestamp": "2026-02-19 06:54:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-19T18:54:05.344Z"
+  "generatedAt": "2026-02-19T19:04:17.277Z"
 }

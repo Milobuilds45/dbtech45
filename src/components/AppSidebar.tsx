@@ -48,15 +48,15 @@ const voidTheme = {
 
 // CYBER MODE — terminal green phosphor CRT aesthetic
 const cyberTheme = {
-  void: '#010a04',
-  carbon: '#020f06',
-  border: 'rgba(16, 202, 120, 0.18)',
-  borderHover: 'rgba(16, 202, 120, 0.45)',
-  amber: '#10ca78',
-  amberDim: 'rgba(16, 202, 120, 0.65)',
-  white: '#c8ffdc',
-  smoke: 'rgba(140, 255, 180, 0.5)',
-  dimText: 'rgba(80, 200, 120, 0.4)',
+  void: '#050e07',          // very dark green-black bg
+  carbon: '#07120a',        // sidebar bg — just a hint darker
+  border: 'rgba(16, 202, 120, 0.2)',
+  borderHover: 'rgba(16, 202, 120, 0.5)',
+  amber: '#10ca78',         // terminal green — accents, active states, icons
+  amberDim: 'rgba(16, 202, 120, 0.6)',
+  white: '#f0f0f0',         // content text stays CLEAN WHITE — readable
+  smoke: 'rgba(240, 240, 240, 0.55)',
+  dimText: 'rgba(200, 220, 200, 0.4)',
   success: '#39ff7e',
 };
 
@@ -530,7 +530,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   // â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <div style={{ background: theme.void, color: theme.white, minHeight: '100vh', fontFamily: colorMode === 'cyber' ? "'JetBrains Mono', monospace" : "'Inter', sans-serif", position: 'relative' }}>
+    <div className={colorMode === 'cyber' ? 'cyber-body' : ''} style={{ background: theme.void, color: '#f0f0f0', minHeight: '100vh', fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <style>{`
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes scanline {
@@ -550,11 +550,14 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           50% { text-shadow: 0 0 8px rgba(16, 202, 120, 1), 0 0 20px rgba(16, 202, 120, 0.6), 0 0 40px rgba(16, 202, 120, 0.2); }
         }
         ${colorMode === 'cyber' ? `
-          * { animation: flicker 8s infinite; }
           .cyber-glow { animation: cyberGlow 3s ease-in-out infinite !important; }
-          ::-webkit-scrollbar { width: 4px; background: #010a04; }
+          ::-webkit-scrollbar { width: 4px; background: #050e07; }
           ::-webkit-scrollbar-thumb { background: rgba(16, 202, 120, 0.3); border-radius: 2px; }
-          ::selection { background: rgba(16, 202, 120, 0.3); color: #c8ffdc; }
+          ::selection { background: rgba(16, 202, 120, 0.3); color: #f0f0f0; }
+          .cyber-body { animation: flicker 12s infinite; }
+          .cyber-accent { color: #10ca78 !important; }
+          h1, h2, h3, h4, h5, h6 { color: #f0f0f0 !important; }
+          p, span, div, td, th, li { color: inherit; }
         ` : ''}
       `}</style>
 
@@ -590,7 +593,13 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       {mobileToggle}
       {mobileOverlay}
       {showSidebar && sidebarContent}
-      <div style={{ marginLeft: isMobile ? 0 : `${sidebarWidth}px`, transition: 'margin-left 0.2s ease', minHeight: '100vh', paddingTop: isMobile ? '56px' : 0 }}>
+      <div style={{
+        marginLeft: isMobile ? 0 : `${sidebarWidth}px`,
+        transition: 'margin-left 0.2s ease',
+        minHeight: '100vh',
+        paddingTop: isMobile ? '56px' : 0,
+        color: '#f0f0f0',
+      }}>
         {children}
       </div>
     </div>
