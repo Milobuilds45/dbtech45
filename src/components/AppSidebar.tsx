@@ -46,17 +46,18 @@ const voidTheme = {
   success: '#22c55e',
 };
 
-const emberTheme = {
-  void: '#1a1408',
-  carbon: '#2d2214',
-  border: 'rgba(245, 158, 11, 0.25)',
-  borderHover: 'rgba(245, 158, 11, 0.4)',
-  amber: '#f59e0b',
-  amberDim: 'rgba(245, 158, 11, 0.85)',
-  white: '#fef3c7',
-  smoke: 'rgba(254, 243, 199, 0.7)',
-  dimText: 'rgba(254, 243, 199, 0.5)',
-  success: '#22c55e',
+// CYBER MODE — electric blue/teal cybertech palette
+const cyberTheme = {
+  void: '#000d1a',
+  carbon: '#001529',
+  border: 'rgba(0, 212, 255, 0.2)',
+  borderHover: 'rgba(0, 212, 255, 0.45)',
+  amber: '#00d4ff',
+  amberDim: 'rgba(0, 212, 255, 0.7)',
+  white: '#e0f7ff',
+  smoke: 'rgba(160, 240, 255, 0.55)',
+  dimText: 'rgba(100, 200, 230, 0.4)',
+  success: '#00ff9f',
 };
 
 const colors = voidTheme;
@@ -180,10 +181,10 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   const [cpuMetric, setCpuMetric] = useState('12%');
   const [memMetric, setMemMetric] = useState('44%');
   const [diskMetric, setDiskMetric] = useState('88%');
-  const [colorMode, setColorMode] = useState<'void' | 'ember'>('void');
+  const [colorMode, setColorMode] = useState<'void' | 'cyber'>('void');
   
   // Theme colors based on mode
-  const theme = colorMode === 'ember' ? emberTheme : voidTheme;
+  const theme = colorMode === 'cyber' ? cyberTheme : voidTheme;
 
   // Hydrate from localStorage
   useEffect(() => {
@@ -193,7 +194,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       const storedSections = localStorage.getItem(SECTIONS_KEY);
       if (storedSections) setOpenSections(JSON.parse(storedSections));
       const storedMode = localStorage.getItem(MODE_KEY);
-      if (storedMode === 'ember') setColorMode('ember');
+      if (storedMode === 'cyber') setColorMode('cyber');
     } catch {}
   }, []);
 
@@ -226,7 +227,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   const toggleColorMode = useCallback(() => {
     setColorMode(prev => {
-      const next = prev === 'void' ? 'ember' : 'void';
+      const next = prev === 'void' ? 'cyber' : 'void';
       try { localStorage.setItem(MODE_KEY, next); } catch {}
       return next;
     });
@@ -378,20 +379,21 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', opacity: 0.7 }}>
-                {colorMode === 'void' ? <Moon size={14} /> : <Sun size={14} />}
+                {colorMode === 'void' ? <Moon size={14} /> : <Terminal size={14} />}
               </span>
               <span style={{ flex: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                {colorMode === 'void' ? 'VOID MODE' : 'EMBER MODE'}
+                {colorMode === 'void' ? 'NULL MODE' : 'CYBER MODE'}
               </span>
               <span style={{
                 fontSize: '10px',
                 padding: '1px 6px',
                 borderRadius: '4px',
-                background: colorMode === 'ember' ? 'rgba(245, 158, 11, 0.3)' : 'rgba(255, 255, 255, 0.1)',
-                color: colorMode === 'ember' ? theme.amber : theme.smoke,
+                background: colorMode === 'cyber' ? 'rgba(0, 212, 255, 0.15)' : 'rgba(255, 255, 255, 0.1)',
+                color: colorMode === 'cyber' ? theme.amber : theme.smoke,
                 fontFamily: "'JetBrains Mono', monospace",
+                border: colorMode === 'cyber' ? '1px solid rgba(0, 212, 255, 0.3)' : '1px solid transparent',
               }}>
-                {colorMode === 'void' ? 'DARK' : 'WARM'}
+                {colorMode === 'void' ? 'OFF' : 'ON'}
               </span>
             </div>
           )}

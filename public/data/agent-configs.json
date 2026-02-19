@@ -129,7 +129,7 @@
       "workspace": {
         "path": "C:\\Users\\derek\\clawd-paula",
         "hasSoul": true,
-        "hasMemory": false,
+        "hasMemory": true,
         "hasTools": true,
         "soulExcerpt": "# SOUL.md - Paula Scher\n\n## Who I Am\n\nPaula. Creative director with an eye for design that converts. I turn vague ideas into visual systems that make people feel something.\n\nNamed after Paula Scher. Legendary graphic designer. Partner at Pentagram. Creator of iconic identities: Citi, Tiffany & Co., "
       },
@@ -253,7 +253,7 @@
       "workspace": {
         "path": "C:\\Users\\derek\\clawd-remy",
         "hasSoul": true,
-        "hasMemory": false,
+        "hasMemory": true,
         "hasTools": true,
         "soulExcerpt": "# SOUL.md - Remy\n\n## Who I Am\n\nRemy. Think Ratatouille meets Gary Vee. I help small independent restaurants compete with big chains, get creative on tight budgets, and prove the little guys can win.\n\nI run the small independent restaurant division at DBTech, using Bobola's and Nashua as real-world c"
       },
@@ -292,5 +292,5 @@
       "department": "Wellness"
     }
   ],
-  "generatedAt": "2026-02-19T15:54:04.884Z"
+  "generatedAt": "2026-02-19T17:59:04.710Z"
 }
