@@ -218,67 +218,31 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     } catch {}
   }, []);
 
-  // THEME RECOLOR: Override inline styles for cyber and paper modes
+  // CYBER MODE: Recolor all amber (#F59E0B) inline styles to terminal green (#10ca78)
   useEffect(() => {
-    if (colorMode === 'void') return;
+    if (colorMode !== 'cyber') return;
 
-    // === CYBER MODE MAPS ===
-    const cyberColorMap: Record<string, string> = {
+    const colorMap: Record<string, string> = {
       'rgb(245, 158, 11)': 'rgb(16, 202, 120)',   // #F59E0B → #10ca78
       'rgb(251, 191, 36)': 'rgb(57, 255, 126)',   // #FBBF24 → #39ff7e
       'rgb(217, 119, 6)': 'rgb(10, 158, 90)',     // #D97706 → #0a9e5a
       'rgb(234, 179, 8)': 'rgb(16, 202, 120)',    // #EAB308 → #10ca78
     };
-    const cyberBgMap: Record<string, string> = {
-      'rgb(0, 0, 0)': 'rgb(5, 14, 7)',            // #000 → #050e07
-      'rgb(17, 17, 17)': 'rgb(7, 18, 10)',        // #111 → #07120a
-      'rgb(26, 26, 26)': 'rgb(10, 26, 14)',       // #1A1A1A → #0a1a0e
+    const bgMap: Record<string, string> = {
+      'rgb(0, 0, 0)': 'rgb(5, 14, 7)',
+      'rgb(17, 17, 17)': 'rgb(7, 18, 10)',
+      'rgb(26, 26, 26)': 'rgb(10, 26, 14)',
     };
-    const cyberBorderMap: Record<string, string> = {
+    const borderMap: Record<string, string> = {
       'rgb(34, 34, 34)': 'rgba(16, 202, 120, 0.2)',
     };
 
-    // === PAPER MODE MAPS ===
-    const paperColorMap: Record<string, string> = {
-      // Amber accent stays but deepens for white bg contrast
-      'rgb(245, 158, 11)': 'rgb(180, 83, 9)',     // #F59E0B → #B45309
-      'rgb(251, 191, 36)': 'rgb(217, 119, 6)',    // #FBBF24 → #D97706
-      'rgb(217, 119, 6)': 'rgb(146, 64, 14)',     // #D97706 → #92400E
-      'rgb(234, 179, 8)': 'rgb(180, 83, 9)',      // #EAB308 → #B45309
-      // Light text → dark text
-      'rgb(255, 255, 255)': 'rgb(26, 26, 26)',    // white → near-black
-      'rgb(245, 245, 245)': 'rgb(26, 26, 26)',    // #f5f5f5 → dark
-      'rgb(240, 240, 240)': 'rgb(38, 38, 38)',    // #f0f0f0 → dark
-      'rgb(163, 163, 163)': 'rgb(115, 115, 115)', // #A3A3A3 → #737373
-      'rgb(115, 115, 115)': 'rgb(163, 163, 163)', // #737373 → lighter grey
-    };
-    const paperBgMap: Record<string, string> = {
-      'rgb(0, 0, 0)': 'rgb(250, 250, 250)',       // #000 → #FAFAFA
-      'rgb(17, 17, 17)': 'rgb(255, 255, 255)',    // #111 → #FFFFFF
-      'rgb(26, 26, 26)': 'rgb(245, 245, 245)',    // #1A1A1A → #F5F5F5
-      'rgb(5, 14, 7)': 'rgb(250, 250, 250)',      // cyber void → paper
-      'rgb(7, 18, 10)': 'rgb(255, 255, 255)',     // cyber carbon → paper
-      'rgb(10, 26, 14)': 'rgb(245, 245, 245)',    // cyber graphite → paper
-    };
-    const paperBorderMap: Record<string, string> = {
-      'rgb(34, 34, 34)': 'rgb(229, 229, 229)',    // #222 → #E5E5E5
-    };
-
-    const colorMap = colorMode === 'cyber' ? cyberColorMap : paperColorMap;
-    const bgMap = colorMode === 'cyber' ? cyberBgMap : paperBgMap;
-    const borderMap = colorMode === 'cyber' ? cyberBorderMap : paperBorderMap;
-
     function recolorElement(el: HTMLElement) {
       const s = el.style;
-      // Text color
       if (s.color && colorMap[s.color]) s.color = colorMap[s.color];
-      // Background color
       if (s.backgroundColor && colorMap[s.backgroundColor]) s.backgroundColor = colorMap[s.backgroundColor];
       if (s.backgroundColor && bgMap[s.backgroundColor]) s.backgroundColor = bgMap[s.backgroundColor];
-      // Background shorthand
       if (s.background && colorMap[s.background]) s.background = colorMap[s.background];
-      if (s.background && bgMap[s.background]) s.background = bgMap[s.background];
-      // Border color
       if (s.borderColor && colorMap[s.borderColor]) s.borderColor = colorMap[s.borderColor];
       if (s.borderColor && borderMap[s.borderColor]) s.borderColor = borderMap[s.borderColor];
     }
@@ -287,7 +251,6 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       document.querySelectorAll<HTMLElement>('[style]').forEach(recolorElement);
     }
 
-    // Run immediately and on DOM changes
     recolorAll();
     const observer = new MutationObserver(() => requestAnimationFrame(recolorAll));
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
@@ -627,7 +590,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   // â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <div className={colorMode === 'cyber' ? 'cyber-body' : colorMode === 'paper' ? 'paper-body' : ''} style={{ background: theme.void, color: colorMode === 'paper' ? '#1A1A1A' : '#f0f0f0', minHeight: '100vh', fontFamily: "'Inter', sans-serif", position: 'relative' }}>
+    <div className={colorMode === 'cyber' ? 'cyber-body' : ''} style={{ background: theme.void, color: '#f0f0f0', minHeight: '100vh', fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <style>{`
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes scanline {
@@ -655,13 +618,24 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           .cyber-accent { color: #10ca78 !important; }
         ` : ''}
         ${colorMode === 'paper' ? `
-          .paper-body { background: #FAFAFA !important; }
+          /* PAPER MODE: Full invert + hue-rotate to flip dark→light cleanly */
+          .paper-content {
+            filter: invert(1) hue-rotate(180deg);
+            background: #000 !important;
+          }
+          /* Counter-invert images, videos, emojis, and svgs so they look normal */
+          .paper-content img,
+          .paper-content video,
+          .paper-content svg,
+          .paper-content canvas,
+          .paper-content [role="img"],
+          .paper-content picture {
+            filter: invert(1) hue-rotate(180deg);
+          }
           ::-webkit-scrollbar { width: 6px; background: #F5F5F5; }
           ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 3px; }
           ::-webkit-scrollbar-thumb:hover { background: #A3A3A3; }
           ::selection { background: rgba(180, 83, 9, 0.2); color: #1A1A1A; }
-          h1, h2, h3, h4, h5, h6 { color: #1A1A1A !important; }
-          a { color: #B45309; }
         ` : ''}
       `}</style>
 
@@ -697,13 +671,12 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       {mobileToggle}
       {mobileOverlay}
       {showSidebar && sidebarContent}
-      <div style={{
+      <div className={colorMode === 'paper' ? 'paper-content' : ''} style={{
         marginLeft: isMobile ? 0 : `${sidebarWidth}px`,
         transition: 'margin-left 0.2s ease',
         minHeight: '100vh',
         paddingTop: isMobile ? '56px' : 0,
-        color: colorMode === 'paper' ? '#1A1A1A' : '#f0f0f0',
-        background: colorMode === 'paper' ? '#FAFAFA' : 'transparent',
+        color: '#f0f0f0',
       }}>
         {children}
       </div>
