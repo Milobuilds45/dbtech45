@@ -42,28 +42,43 @@ export async function POST(req: NextRequest) {
 
     const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
 
-    // Use yt-dlp to download subtitles
-    const cmd = `yt-dlp --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --quiet`;
+    // Use yt-dlp to download subtitles (use full path for reliability)
+    const ytdlp = process.platform === 'win32'
+      ? 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe'
+      : 'yt-dlp';
+    const cmd = `"${ytdlp}" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
 
+    let cmdResult;
     try {
-      await execAsync(cmd, { timeout: 30000 });
-    } catch {
-      return NextResponse.json({ error: 'Failed to extract subtitles. The video may not have captions.' }, { status: 404 });
+      cmdResult = await execAsync(cmd, { timeout: 45000 });
+      console.log('yt-dlp stdout:', cmdResult.stdout);
+      if (cmdResult.stderr) console.log('yt-dlp stderr:', cmdResult.stderr);
+    } catch (cmdErr: unknown) {
+      const e = cmdErr as { stdout?: string; stderr?: string; message?: string };
+      console.error('yt-dlp failed:', e.stderr || e.stdout || e.message);
+      return NextResponse.json({ error: `Failed to extract subtitles: ${e.stderr || e.message || 'Unknown error'}` }, { status: 404 });
     }
 
-    // Find the subtitle file
-    const subFile = `${outBase}.en.json3`;
+    // Find the subtitle file — yt-dlp may name it .en.json3 or .en-orig.json3 etc.
+    const tmpDirFiles = await fs.readdir(tmpDir);
+    const baseName = path.basename(outBase);
+    const subFiles = tmpDirFiles
+      .filter(f => f.startsWith(baseName) && f.endsWith('.json3'))
+      .sort((a, b) => {
+        // Prefer non-auto (manual) subs — shorter filename usually means manual
+        return a.length - b.length;
+      });
+
+    if (subFiles.length === 0) {
+      return NextResponse.json({ error: 'No English captions found for this video.' }, { status: 404 });
+    }
+
+    const subFile = path.join(tmpDir, subFiles[0]);
     let subData: string;
     try {
       subData = await fs.readFile(subFile, 'utf-8');
     } catch {
-      // Try auto-generated
-      const autoFile = `${outBase}.en.json3`;
-      try {
-        subData = await fs.readFile(autoFile, 'utf-8');
-      } catch {
-        return NextResponse.json({ error: 'No English captions found for this video.' }, { status: 404 });
-      }
+      return NextResponse.json({ error: 'Failed to read subtitle file.' }, { status: 500 });
     }
 
     const json = JSON.parse(subData);
@@ -97,8 +112,10 @@ export async function POST(req: NextRequest) {
       .join('\n');
     const plain = segments.map((s: { text: string }) => s.text).join(' ');
 
-    // Cleanup temp file
-    try { await fs.unlink(subFile); } catch { /* ignore */ }
+    // Cleanup temp files
+    for (const f of subFiles) {
+      try { await fs.unlink(path.join(tmpDir, f)); } catch { /* ignore */ }
+    }
 
     return NextResponse.json({
       videoId,

@@ -320,6 +320,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     return (
       <Link key={item.label} href={item.href} style={{ textDecoration: 'none', color: 'inherit' }}>
         <div
+          className={active && colorMode === 'paper' ? 'paper-nav-active' : ''}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -466,6 +467,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   // â”€â”€â”€ Sidebar content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   const sidebarContent = (
     <div
+      className={colorMode === 'paper' ? 'paper-sidebar' : ''}
       style={{
         width: `${sidebarWidth}px`,
         minWidth: `${sidebarWidth}px`,
@@ -618,12 +620,14 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           .cyber-accent { color: #10ca78 !important; }
         ` : ''}
         ${colorMode === 'paper' ? `
-          /* PAPER MODE: Full invert + hue-rotate to flip dark→light cleanly */
+          /* ═══ PAPER MODE ═══ Clean institutional white ═══ */
+
+          /* Content area: full invert for instant dark→light */
           .paper-content {
             filter: invert(1) hue-rotate(180deg);
             background: #000 !important;
           }
-          /* Counter-invert images, videos, emojis, and svgs so they look normal */
+          /* Counter-invert media so images/icons look normal */
           .paper-content img,
           .paper-content video,
           .paper-content svg,
@@ -632,10 +636,62 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           .paper-content picture {
             filter: invert(1) hue-rotate(180deg);
           }
-          ::-webkit-scrollbar { width: 6px; background: #F5F5F5; }
+
+          /* ─── Sidebar overrides ─── */
+          /* Clean white sidebar with subtle left border */
+          .paper-sidebar {
+            background: #FFFFFF !important;
+            border-right: 1px solid #E8E8E8 !important;
+            box-shadow: 1px 0 8px rgba(0,0,0,0.04) !important;
+          }
+          /* All sidebar text → dark */
+          .paper-sidebar * {
+            color: #444 !important;
+          }
+          /* Section headers */
+          .paper-sidebar [style*="letter-spacing"] {
+            color: #999 !important;
+          }
+          /* Active nav item: subtle warm highlight instead of harsh block */
+          .paper-sidebar .paper-nav-active {
+            background: #FFF7ED !important;
+            color: #B45309 !important;
+            border-left: 3px solid #D97706 !important;
+            font-weight: 600 !important;
+          }
+          .paper-sidebar .paper-nav-active * {
+            color: #B45309 !important;
+          }
+          /* Nav hover */
+          .paper-sidebar a:hover,
+          .paper-sidebar [style*="cursor: pointer"]:hover {
+            background: #F9FAFB !important;
+          }
+          /* Sidebar borders → light grey */
+          .paper-sidebar [style*="border"] {
+            border-color: #F0F0F0 !important;
+          }
+          /* Operational badge */
+          .paper-sidebar .paper-status {
+            color: #16A34A !important;
+          }
+          /* DB TECH OS header */
+          .paper-sidebar .paper-brand {
+            color: #1A1A1A !important;
+            font-weight: 800 !important;
+          }
+          .paper-sidebar .paper-brand-sub {
+            color: #B45309 !important;
+          }
+
+          /* ─── Scrollbars ─── */
+          ::-webkit-scrollbar { width: 6px; background: #FAFAFA; }
           ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 3px; }
           ::-webkit-scrollbar-thumb:hover { background: #A3A3A3; }
-          ::selection { background: rgba(180, 83, 9, 0.2); color: #1A1A1A; }
+          ::selection { background: rgba(217, 119, 6, 0.15); color: #1A1A1A; }
+
+          /* ─── Global paper polish ─── */
+          body { background: #FAFAFA !important; }
         ` : ''}
       `}</style>
 

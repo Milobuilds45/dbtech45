@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "b0715cb8",
+      "author": "Milo",
+      "timestamp": "2026-02-20 16:17:17 -0500",
+      "message": "fix: paper mode uses CSS invert+hue-rotate for clean full-page light mode - no more broken half-dark"
+    },
+    {
+      "type": "commit",
       "id": "7bd5aef3",
       "author": "Milo",
       "timestamp": "2026-02-20 16:08:53 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:04:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "4d2b470b",
-      "author": "Milo",
-      "timestamp": "2026-02-19 07:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-20T21:14:04.968Z"
+  "generatedAt": "2026-02-20T21:19:04.968Z"
 }
