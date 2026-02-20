@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "6b33ce79",
+      "author": "Milo",
+      "timestamp": "2026-02-20 15:41:35 -0500",
+      "message": "fix: cyber mode recolors ALL pages - amber to terminal green via MutationObserver"
+    },
+    {
+      "type": "commit",
       "id": "0e1ec831",
       "author": "Milo",
       "timestamp": "2026-02-20 15:33:20 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 07:54:08 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "91a0cf37",
-      "author": "Milo",
-      "timestamp": "2026-02-19 07:49:18 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-20T20:39:05.011Z"
+  "generatedAt": "2026-02-20T21:04:05.560Z"
 }

@@ -1,6 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
+import {
+  Play, Youtube, Tv, Brain, ChevronDown, ChevronRight, ChevronUp,
+  Copy, Check, Download, FileText, Trash2, ExternalLink, Clock,
+  Loader2, Sparkles, Archive, X, Search
+} from 'lucide-react';
 
 const M = "'JetBrains Mono','Fira Code',monospace";
 
@@ -10,11 +15,22 @@ interface ArchivedTranscript {
   title: string;
   channel: string;
   description: string;
+  summary?: string;
   language: string;
   segmentCount: number;
   timestamped: string;
   plain: string;
   archivedAt: string;
+}
+
+function updateArchiveItem(id: string, updates: Partial<ArchivedTranscript>) {
+  const archive = getArchive();
+  const idx = archive.findIndex(a => a.id === id);
+  if (idx >= 0) {
+    archive[idx] = { ...archive[idx], ...updates };
+    localStorage.setItem('yt-transcripts', JSON.stringify(archive));
+  }
+  return archive;
 }
 
 function getArchive(): ArchivedTranscript[] {
@@ -35,6 +51,58 @@ function removeFromArchive(id: string) {
   localStorage.setItem('yt-transcripts', JSON.stringify(archive));
 }
 
+function SummaryDisplay({ summary }: { summary: string }) {
+  // Parse the summary — each line starting with • or - or * or a number is a bullet
+  const lines = summary.split('\n').filter(l => l.trim().length > 0);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      {lines.map((line, i) => {
+        const trimmed = line.trim();
+        // Check if it's a section header (starts with ** or ## or all caps short line)
+        const isHeader = (trimmed.startsWith('**') && trimmed.endsWith('**')) ||
+          trimmed.startsWith('## ') || trimmed.startsWith('# ');
+        // Check if it's a bullet point
+        const isBullet = /^[•\-\*]\s/.test(trimmed) || /^\d+[\.\)]\s/.test(trimmed);
+        const cleanText = trimmed
+          .replace(/^[•\-\*]\s*/, '')
+          .replace(/^\d+[\.\)]\s*/, '')
+          .replace(/^\*\*/, '')
+          .replace(/\*\*$/, '')
+          .replace(/^##?\s*/, '');
+
+        if (isHeader) {
+          return (
+            <div key={i} style={{
+              color: brand.amber, fontSize: '0.75rem', fontFamily: M,
+              fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em',
+              marginTop: i > 0 ? 8 : 0,
+            }}>
+              {cleanText}
+            </div>
+          );
+        }
+
+        if (isBullet) {
+          return (
+            <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+              <span style={{ color: brand.amber, fontSize: '0.7rem', marginTop: 2, flexShrink: 0 }}>›</span>
+              <span style={{ color: brand.silver, fontSize: '0.8rem', lineHeight: 1.5 }}>{cleanText}</span>
+            </div>
+          );
+        }
+
+        // Regular text line
+        return (
+          <div key={i} style={{ color: brand.silver, fontSize: '0.8rem', lineHeight: 1.5 }}>
+            {trimmed}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function YouTubeTranscriptPage() {
   const [url, setUrl] = useState('');
   const [loading, setLoading] = useState(false);
@@ -52,6 +120,26 @@ export default function YouTubeTranscriptPage() {
   const [archive, setArchive] = useState<ArchivedTranscript[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [tab, setTab] = useState<'extract' | 'archive'>('extract');
+  const [summarizing, setSummarizing] = useState<string | null>(null);
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  async function handleSummarize(item: ArchivedTranscript) {
+    if (item.summary) return;
+    setSummarizing(item.id);
+    try {
+      const res = await fetch('/api/youtube-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: item.title, channel: item.channel, plain: item.plain }),
+      });
+      const data = await res.json();
+      if (res.ok && data.summary) {
+        const updated = updateArchiveItem(item.id, { summary: data.summary });
+        setArchive(updated);
+      }
+    } catch { /* ignore */ }
+    setSummarizing(null);
+  }
 
   useEffect(() => {
     setArchive(getArchive());
@@ -76,7 +164,6 @@ export default function YouTubeTranscriptPage() {
         setError(data.error || 'Failed to fetch transcript');
       } else {
         setResult(data);
-        // Auto-archive
         const item: ArchivedTranscript = {
           id: `${data.videoId}-${Date.now()}`,
           videoId: data.videoId,
@@ -127,6 +214,7 @@ export default function YouTubeTranscriptPage() {
     removeFromArchive(id);
     setArchive(getArchive());
     if (expandedId === id) setExpandedId(null);
+    setDeleteConfirm(null);
   }
 
   function formatDate(iso: string) {
@@ -138,11 +226,11 @@ export default function YouTubeTranscriptPage() {
       <div style={{ ...styles.container, maxWidth: 900 }}>
         {/* Header */}
         <div style={{ marginBottom: '1.5rem' }}>
-          <h1 style={{ color: brand.amber, fontSize: '1.75rem', fontWeight: 700, fontFamily: M, margin: 0 }}>
-            ▶ YouTube Transcript Maker
+          <h1 style={{ color: brand.amber, fontSize: '1.75rem', fontWeight: 700, fontFamily: M, margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <Youtube size={28} /> YouTube Transcript Maker
           </h1>
           <p style={{ color: brand.smoke, fontSize: '0.875rem', marginTop: '0.5rem' }}>
-            Paste a YouTube URL → get the full transcript · auto-archived
+            Paste a YouTube URL &rarr; get the full transcript &middot; auto-archived
           </p>
         </div>
 
@@ -161,8 +249,9 @@ export default function YouTubeTranscriptPage() {
               cursor: 'pointer',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
+              display: 'flex', alignItems: 'center', gap: 6,
             }}>
-              {t === 'extract' ? '→ Extract' : `📁 Archive (${archive.length})`}
+              {t === 'extract' ? <><Search size={14} /> Extract</> : <><Archive size={14} /> Archive ({archive.length})</>}
             </button>
           ))}
         </div>
@@ -194,8 +283,9 @@ export default function YouTubeTranscriptPage() {
                 fontWeight: 700, fontFamily: M, fontSize: '0.875rem',
                 cursor: loading ? 'wait' : 'pointer',
                 opacity: loading || !url.trim() ? 0.5 : 1, whiteSpace: 'nowrap',
+                display: 'flex', alignItems: 'center', gap: 6,
               }}>
-                {loading ? '⏳ Extracting...' : '→ Extract'}
+                {loading ? <><Loader2 size={14} className="animate-spin" /> extracting</> : <><Play size={14} /> Extract</>}
               </button>
             </form>
 
@@ -204,8 +294,9 @@ export default function YouTubeTranscriptPage() {
                 background: 'rgba(239,68,68,0.1)', border: `1px solid ${brand.error}`,
                 borderRadius: 8, padding: '12px 16px', color: brand.error,
                 fontFamily: M, fontSize: '0.8rem', marginBottom: '1.5rem',
+                display: 'flex', alignItems: 'center', gap: 8,
               }}>
-                ✗ {error}
+                <X size={14} /> {error}
               </div>
             )}
 
@@ -219,10 +310,12 @@ export default function YouTubeTranscriptPage() {
                     {result.title}
                   </h2>
                   <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>🌐 {result.language}</span>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>📝 {result.segmentCount} segments</span>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>🔗 {result.videoId}</span>
-                    <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M }}>✓ Auto-archived</span>
+                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.language}</span>
+                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
+                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.videoId}</span>
+                    <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      <Check size={12} /> archived
+                    </span>
                   </div>
                 </div>
 
@@ -231,8 +324,9 @@ export default function YouTubeTranscriptPage() {
                     background: brand.graphite, border: `1px solid ${showTimestamps ? brand.amber : brand.border}`,
                     borderRadius: 6, padding: '8px 14px', color: showTimestamps ? brand.amber : brand.silver,
                     fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: 6,
                   }}>
-                    ⏱ {showTimestamps ? 'Timestamps ON' : 'Timestamps OFF'}
+                    <Clock size={12} /> {showTimestamps ? 'timestamps: on' : 'timestamps: off'}
                   </button>
                   <button onClick={() => handleCopy()} style={{
                     background: copied ? brand.success : brand.graphite,
@@ -240,17 +334,20 @@ export default function YouTubeTranscriptPage() {
                     borderRadius: 6, padding: '8px 14px',
                     color: copied ? brand.void : brand.silver,
                     fontFamily: M, fontSize: '0.75rem', cursor: 'pointer', fontWeight: copied ? 700 : 400,
+                    display: 'flex', alignItems: 'center', gap: 6,
                   }}>
-                    {copied ? '✓ Copied!' : '📋 Copy'}
+                    {copied ? <><Check size={12} /> copied</> : <><Copy size={12} /> copy</>}
                   </button>
                   <button onClick={() => handleDownload('txt')} style={{
                     background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                     padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
-                  }}>⬇ .txt</button>
+                    display: 'flex', alignItems: 'center', gap: 6,
+                  }}><Download size={12} /> .txt</button>
                   <button onClick={() => handleDownload('md')} style={{
                     background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                     padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
-                  }}>⬇ .md</button>
+                    display: 'flex', alignItems: 'center', gap: 6,
+                  }}><FileText size={12} /> .md</button>
                 </div>
 
                 <pre style={{
@@ -283,38 +380,119 @@ export default function YouTubeTranscriptPage() {
                     overflow: 'hidden',
                     transition: 'border-color 0.2s',
                   }}>
-                    {/* Collapsed header — always visible */}
-                    <button
-                      onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
-                      style={{
-                        width: '100%', background: 'none', border: 'none', padding: '14px 16px',
-                        cursor: 'pointer', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
-                        alignItems: 'flex-start', gap: 12,
-                      }}
-                    >
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 4 }}>
-                          <span style={{ color: brand.smoke, fontSize: '0.7rem', fontFamily: M }}>
-                            {formatDate(item.archivedAt)}
-                          </span>
-                          <span style={{ color: brand.amber, fontSize: '0.7rem', fontFamily: M }}>
-                            {item.segmentCount} segments
-                          </span>
+                    {/* Collapsed header */}
+                    <div style={{ padding: '14px 16px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
+                            <span style={{ color: brand.smoke, fontSize: '0.7rem', fontFamily: M }}>
+                              {formatDate(item.archivedAt)}
+                            </span>
+                            <span style={{ color: brand.amber, fontSize: '0.7rem', fontFamily: M }}>
+                              {item.segmentCount} segments
+                            </span>
+                            <a
+                              href={`https://youtube.com/watch?v=${item.videoId}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={e => e.stopPropagation()}
+                              style={{ color: '#f87171', fontSize: '0.7rem', fontFamily: M, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
+                            >
+                              <Play size={10} /> watch on youtube
+                            </a>
+                          </div>
+                          <div style={{ color: brand.white, fontSize: '0.9rem', fontWeight: 600, marginBottom: 3 }}>
+                            {item.title}
+                          </div>
+                          <div style={{ color: brand.amber, fontSize: '0.8rem', fontFamily: M, marginBottom: 6, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 5 }}>
+                            <Tv size={13} /> {item.channel}
+                          </div>
+                          <div style={{ color: brand.silver, fontSize: '0.75rem', lineHeight: 1.4, opacity: 0.7 }}>
+                            {item.description}
+                          </div>
                         </div>
-                        <div style={{ color: brand.white, fontSize: '0.9rem', fontWeight: 600, marginBottom: 3 }}>
-                          {item.title}
-                        </div>
-                        <div style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M, marginBottom: 4 }}>
-                          {item.channel}
-                        </div>
-                        <div style={{ color: brand.silver, fontSize: '0.75rem', lineHeight: 1.4, opacity: 0.7 }}>
-                          {item.description}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0, alignItems: 'flex-end' }}>
+                          <button
+                            onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
+                            style={{ background: 'none', border: 'none', color: brand.amber, cursor: 'pointer', padding: 0 }}
+                          >
+                            {expandedId === item.id ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
+                          </button>
                         </div>
                       </div>
-                      <span style={{ color: brand.amber, fontSize: '1.2rem', flexShrink: 0, marginTop: 4 }}>
-                        {expandedId === item.id ? '▾' : '▸'}
-                      </span>
-                    </button>
+
+                      {/* Action buttons row */}
+                      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                        <button
+                          onClick={() => handleSummarize(item)}
+                          disabled={summarizing === item.id}
+                          style={{
+                            background: item.summary ? 'rgba(16,185,129,0.1)' : brand.graphite,
+                            border: `1px solid ${item.summary ? brand.success : brand.border}`,
+                            borderRadius: 6, padding: '5px 10px',
+                            color: item.summary ? brand.success : brand.silver,
+                            fontFamily: M, fontSize: '0.7rem', cursor: summarizing === item.id ? 'wait' : 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}
+                        >
+                          {summarizing === item.id ? (
+                            <><Loader2 size={11} /> summarizing</>
+                          ) : item.summary ? (
+                            <><Check size={11} /> TL;DR ready</>
+                          ) : (
+                            <><Brain size={11} /> TL;DR</>
+                          )}
+                        </button>
+                        <button
+                          onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
+                          style={{
+                            background: brand.graphite, border: `1px solid ${brand.border}`,
+                            borderRadius: 6, padding: '5px 10px',
+                            color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}
+                        >
+                          {expandedId === item.id ? <><ChevronUp size={11} /> collapse</> : <><ChevronDown size={11} /> full transcript</>}
+                        </button>
+                        <button
+                          onClick={() => {
+                            if (deleteConfirm === item.id) {
+                              handleDelete(item.id);
+                            } else {
+                              setDeleteConfirm(item.id);
+                              setTimeout(() => setDeleteConfirm(null), 3000);
+                            }
+                          }}
+                          style={{
+                            background: deleteConfirm === item.id ? 'rgba(239,68,68,0.15)' : brand.graphite,
+                            border: `1px solid ${deleteConfirm === item.id ? brand.error : brand.border}`,
+                            borderRadius: 6, padding: '5px 10px',
+                            color: deleteConfirm === item.id ? brand.error : 'rgba(239,68,68,0.5)',
+                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 5,
+                            marginLeft: 'auto',
+                          }}
+                          onMouseEnter={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = brand.error }}
+                          onMouseLeave={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = 'rgba(239,68,68,0.5)' }}
+                        >
+                          <Trash2 size={11} /> {deleteConfirm === item.id ? 'confirm delete' : 'delete'}
+                        </button>
+                      </div>
+
+                      {/* Summary display */}
+                      {item.summary && (
+                        <div style={{
+                          marginTop: 10, background: 'rgba(16,185,129,0.05)',
+                          border: `1px solid rgba(16,185,129,0.2)`,
+                          borderRadius: 8, padding: '12px 14px',
+                        }}>
+                          <div style={{ color: brand.success, fontSize: '0.7rem', fontFamily: M, marginBottom: 8, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+                            <Sparkles size={12} /> TL;DR
+                          </div>
+                          <SummaryDisplay summary={item.summary} />
+                        </div>
+                      )}
+                    </div>
 
                     {/* Expanded content */}
                     {expandedId === item.id && (
@@ -323,25 +501,23 @@ export default function YouTubeTranscriptPage() {
                           <button onClick={() => handleCopy(item.timestamped)} style={{
                             background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                          }}>📋 Copy</button>
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}><Copy size={11} /> copy</button>
                           <button onClick={() => handleDownload('txt', item.title, item.videoId, item.timestamped, item.plain)} style={{
                             background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                          }}>⬇ .txt</button>
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}><Download size={11} /> .txt</button>
                           <button onClick={() => handleDownload('md', item.title, item.videoId, item.timestamped, item.plain)} style={{
                             background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                          }}>⬇ .md</button>
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}><FileText size={11} /> .md</button>
                           <a href={`https://youtube.com/watch?v=${item.videoId}`} target="_blank" rel="noopener noreferrer" style={{
                             background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            textDecoration: 'none',
-                          }}>🔗 Video</a>
-                          <button onClick={() => handleDelete(item.id)} style={{
-                            background: 'rgba(239,68,68,0.1)', border: `1px solid ${brand.error}`, borderRadius: 6,
-                            padding: '6px 12px', color: brand.error, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            marginLeft: 'auto',
-                          }}>🗑 Delete</button>
+                            textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5,
+                          }}><ExternalLink size={11} /> video</a>
                         </div>
                         <pre style={{
                           background: brand.void, border: `1px solid ${brand.border}`, borderRadius: 8,

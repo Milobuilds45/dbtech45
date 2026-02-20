@@ -30,6 +30,7 @@ import {
   Home,
   Search,
   Building2,
+  Youtube,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -58,6 +59,20 @@ const cyberTheme = {
   smoke: 'rgba(240, 240, 240, 0.55)',
   dimText: 'rgba(200, 220, 200, 0.4)',
   success: '#39ff7e',
+};
+
+// PAPER MODE — institutional white, Bloomberg-meets-boardroom
+const paperTheme = {
+  void: '#FAFAFA',            // off-white page bg
+  carbon: '#FFFFFF',          // sidebar — pure white
+  border: '#E5E5E5',         // subtle grey borders
+  borderHover: '#D4D4D4',
+  amber: '#D97706',          // deeper amber on white — better contrast than #F59E0B
+  amberDim: 'rgba(217, 119, 6, 0.7)',
+  white: '#1A1A1A',          // INVERTED — text is near-black
+  smoke: '#737373',          // mid-grey for secondary text
+  dimText: '#A3A3A3',        // light grey for tertiary
+  success: '#16A34A',        // darker green for white bg contrast
 };
 
 const colors = voidTheme;
@@ -93,6 +108,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Quick Links':   <Link2 size={ICON_SIZE} />,
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
+  'YT Transcript': <Youtube size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -126,13 +142,14 @@ const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
-  { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'YT Transcript', href: '/os/youtube-transcript' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
-  { label: 'Overnight', href: '/os/agents/overnight' },
 ];
 
 const intelItems: NavItem[] = [
   { label: 'Daily Feed', href: '/os/daily-feed' },
+  { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
+  { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Task Manager', href: '/os/task-manager' },
   { label: 'Memory Bank', href: '/os/memory-bank' },
   { label: 'Second Brain', href: '/os/second-brain' },
@@ -183,10 +200,10 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   const [cpuMetric, setCpuMetric] = useState('12%');
   const [memMetric, setMemMetric] = useState('44%');
   const [diskMetric, setDiskMetric] = useState('88%');
-  const [colorMode, setColorMode] = useState<'void' | 'cyber'>('void');
+  const [colorMode, setColorMode] = useState<'void' | 'cyber' | 'paper'>('void');
   
   // Theme colors based on mode
-  const theme = colorMode === 'cyber' ? cyberTheme : voidTheme;
+  const theme = colorMode === 'cyber' ? cyberTheme : colorMode === 'paper' ? paperTheme : voidTheme;
 
   // Hydrate from localStorage
   useEffect(() => {
@@ -197,38 +214,72 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
       if (storedSections) setOpenSections(JSON.parse(storedSections));
       const storedMode = localStorage.getItem(MODE_KEY);
       if (storedMode === 'cyber') setColorMode('cyber');
+      else if (storedMode === 'paper') setColorMode('paper');
     } catch {}
   }, []);
 
-  // CYBER MODE: Recolor all amber (#F59E0B) inline styles to terminal green (#10ca78)
+  // THEME RECOLOR: Override inline styles for cyber and paper modes
   useEffect(() => {
-    if (colorMode !== 'cyber') return;
+    if (colorMode === 'void') return;
 
-    const amberMap: Record<string, string> = {
+    // === CYBER MODE MAPS ===
+    const cyberColorMap: Record<string, string> = {
       'rgb(245, 158, 11)': 'rgb(16, 202, 120)',   // #F59E0B → #10ca78
       'rgb(251, 191, 36)': 'rgb(57, 255, 126)',   // #FBBF24 → #39ff7e
       'rgb(217, 119, 6)': 'rgb(10, 158, 90)',     // #D97706 → #0a9e5a
       'rgb(234, 179, 8)': 'rgb(16, 202, 120)',    // #EAB308 → #10ca78
     };
-    const bgMap: Record<string, string> = {
+    const cyberBgMap: Record<string, string> = {
       'rgb(0, 0, 0)': 'rgb(5, 14, 7)',            // #000 → #050e07
       'rgb(17, 17, 17)': 'rgb(7, 18, 10)',        // #111 → #07120a
       'rgb(26, 26, 26)': 'rgb(10, 26, 14)',       // #1A1A1A → #0a1a0e
     };
-    const borderMap: Record<string, string> = {
+    const cyberBorderMap: Record<string, string> = {
       'rgb(34, 34, 34)': 'rgba(16, 202, 120, 0.2)',
     };
+
+    // === PAPER MODE MAPS ===
+    const paperColorMap: Record<string, string> = {
+      // Amber accent stays but deepens for white bg contrast
+      'rgb(245, 158, 11)': 'rgb(180, 83, 9)',     // #F59E0B → #B45309
+      'rgb(251, 191, 36)': 'rgb(217, 119, 6)',    // #FBBF24 → #D97706
+      'rgb(217, 119, 6)': 'rgb(146, 64, 14)',     // #D97706 → #92400E
+      'rgb(234, 179, 8)': 'rgb(180, 83, 9)',      // #EAB308 → #B45309
+      // Light text → dark text
+      'rgb(255, 255, 255)': 'rgb(26, 26, 26)',    // white → near-black
+      'rgb(245, 245, 245)': 'rgb(26, 26, 26)',    // #f5f5f5 → dark
+      'rgb(240, 240, 240)': 'rgb(38, 38, 38)',    // #f0f0f0 → dark
+      'rgb(163, 163, 163)': 'rgb(115, 115, 115)', // #A3A3A3 → #737373
+      'rgb(115, 115, 115)': 'rgb(163, 163, 163)', // #737373 → lighter grey
+    };
+    const paperBgMap: Record<string, string> = {
+      'rgb(0, 0, 0)': 'rgb(250, 250, 250)',       // #000 → #FAFAFA
+      'rgb(17, 17, 17)': 'rgb(255, 255, 255)',    // #111 → #FFFFFF
+      'rgb(26, 26, 26)': 'rgb(245, 245, 245)',    // #1A1A1A → #F5F5F5
+      'rgb(5, 14, 7)': 'rgb(250, 250, 250)',      // cyber void → paper
+      'rgb(7, 18, 10)': 'rgb(255, 255, 255)',     // cyber carbon → paper
+      'rgb(10, 26, 14)': 'rgb(245, 245, 245)',    // cyber graphite → paper
+    };
+    const paperBorderMap: Record<string, string> = {
+      'rgb(34, 34, 34)': 'rgb(229, 229, 229)',    // #222 → #E5E5E5
+    };
+
+    const colorMap = colorMode === 'cyber' ? cyberColorMap : paperColorMap;
+    const bgMap = colorMode === 'cyber' ? cyberBgMap : paperBgMap;
+    const borderMap = colorMode === 'cyber' ? cyberBorderMap : paperBorderMap;
 
     function recolorElement(el: HTMLElement) {
       const s = el.style;
       // Text color
-      if (s.color && amberMap[s.color]) s.color = amberMap[s.color];
-      // Background
-      if (s.backgroundColor && amberMap[s.backgroundColor]) s.backgroundColor = amberMap[s.backgroundColor];
+      if (s.color && colorMap[s.color]) s.color = colorMap[s.color];
+      // Background color
+      if (s.backgroundColor && colorMap[s.backgroundColor]) s.backgroundColor = colorMap[s.backgroundColor];
       if (s.backgroundColor && bgMap[s.backgroundColor]) s.backgroundColor = bgMap[s.backgroundColor];
-      if (s.background && amberMap[s.background]) s.background = amberMap[s.background];
-      // Border
-      if (s.borderColor && amberMap[s.borderColor]) s.borderColor = amberMap[s.borderColor];
+      // Background shorthand
+      if (s.background && colorMap[s.background]) s.background = colorMap[s.background];
+      if (s.background && bgMap[s.background]) s.background = bgMap[s.background];
+      // Border color
+      if (s.borderColor && colorMap[s.borderColor]) s.borderColor = colorMap[s.borderColor];
       if (s.borderColor && borderMap[s.borderColor]) s.borderColor = borderMap[s.borderColor];
     }
 
@@ -240,7 +291,6 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     recolorAll();
     const observer = new MutationObserver(() => requestAnimationFrame(recolorAll));
     observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
-    // Also run periodically to catch React re-renders
     const interval = setInterval(recolorAll, 800);
     return () => { observer.disconnect(); clearInterval(interval); };
   }, [colorMode]);
@@ -274,7 +324,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   const toggleColorMode = useCallback(() => {
     setColorMode(prev => {
-      const next = prev === 'void' ? 'cyber' : 'void';
+      const next = prev === 'void' ? 'cyber' : prev === 'cyber' ? 'paper' : 'void';
       try { localStorage.setItem(MODE_KEY, next); } catch {}
       return next;
     });
@@ -426,22 +476,22 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', opacity: 0.7 }}>
-                {colorMode === 'void' ? <Moon size={14} /> : <Terminal size={14} />}
+                {colorMode === 'void' ? <Moon size={14} /> : colorMode === 'cyber' ? <Terminal size={14} /> : <Sun size={14} />}
               </span>
               <span style={{ flex: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                {colorMode === 'void' ? 'NULL MODE' : 'CYBER MODE'}
+                {colorMode === 'void' ? 'NULL MODE' : colorMode === 'cyber' ? 'CYBER MODE' : 'PAPER MODE'}
               </span>
               <span style={{
                 fontSize: '10px',
                 padding: '1px 6px',
                 borderRadius: '4px',
-                background: colorMode === 'cyber' ? 'rgba(16, 202, 120, 0.12)' : 'rgba(255, 255, 255, 0.08)',
-                color: colorMode === 'cyber' ? '#10ca78' : theme.smoke,
+                background: colorMode === 'cyber' ? 'rgba(16, 202, 120, 0.12)' : colorMode === 'paper' ? 'rgba(217, 119, 6, 0.12)' : 'rgba(255, 255, 255, 0.08)',
+                color: colorMode === 'cyber' ? '#10ca78' : colorMode === 'paper' ? '#D97706' : theme.smoke,
                 fontFamily: "'JetBrains Mono', monospace",
-                border: colorMode === 'cyber' ? '1px solid rgba(16, 202, 120, 0.35)' : '1px solid transparent',
+                border: colorMode === 'cyber' ? '1px solid rgba(16, 202, 120, 0.35)' : colorMode === 'paper' ? '1px solid rgba(217, 119, 6, 0.35)' : '1px solid transparent',
                 boxShadow: colorMode === 'cyber' ? '0 0 6px rgba(16, 202, 120, 0.25)' : 'none',
               }}>
-                {colorMode === 'void' ? 'OFF' : 'ON'}
+                {colorMode === 'void' ? '1/3' : colorMode === 'cyber' ? '2/3' : '3/3'}
               </span>
             </div>
           )}
@@ -577,7 +627,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
 
   // â”€â”€â”€ Layout â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   return (
-    <div className={colorMode === 'cyber' ? 'cyber-body' : ''} style={{ background: theme.void, color: '#f0f0f0', minHeight: '100vh', fontFamily: "'Inter', sans-serif", position: 'relative' }}>
+    <div className={colorMode === 'cyber' ? 'cyber-body' : colorMode === 'paper' ? 'paper-body' : ''} style={{ background: theme.void, color: colorMode === 'paper' ? '#1A1A1A' : '#f0f0f0', minHeight: '100vh', fontFamily: "'Inter', sans-serif", position: 'relative' }}>
       <style>{`
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         @keyframes scanline {
@@ -603,6 +653,15 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           ::selection { background: rgba(16, 202, 120, 0.3); color: #f0f0f0; }
           .cyber-body { animation: flicker 12s infinite; }
           .cyber-accent { color: #10ca78 !important; }
+        ` : ''}
+        ${colorMode === 'paper' ? `
+          .paper-body { background: #FAFAFA !important; }
+          ::-webkit-scrollbar { width: 6px; background: #F5F5F5; }
+          ::-webkit-scrollbar-thumb { background: #D4D4D4; border-radius: 3px; }
+          ::-webkit-scrollbar-thumb:hover { background: #A3A3A3; }
+          ::selection { background: rgba(180, 83, 9, 0.2); color: #1A1A1A; }
+          h1, h2, h3, h4, h5, h6 { color: #1A1A1A !important; }
+          a { color: #B45309; }
         ` : ''}
       `}</style>
 
@@ -643,7 +702,8 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
         transition: 'margin-left 0.2s ease',
         minHeight: '100vh',
         paddingTop: isMobile ? '56px' : 0,
-        color: '#f0f0f0',
+        color: colorMode === 'paper' ? '#1A1A1A' : '#f0f0f0',
+        background: colorMode === 'paper' ? '#FAFAFA' : 'transparent',
       }}>
         {children}
       </div>
