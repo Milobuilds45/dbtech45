@@ -27,6 +27,9 @@ interface EarningsHistData { symbol: string; name: string; nextEarnings: string|
 
 const DWL = ['AAPL','NVDA','TSLA','META','AMZN'];
 const DT = ['ES=F','NQ=F','SPY','^VIX','BTC-USD','^TNX'];
+const OVERNIGHT_TICKERS = ['^TWII','^HSI','^GDAXI','^TNX','DX-Y.NYB'];
+const OVERNIGHT_NAMES: Record<string,string> = {'^TWII':'TWII','^HSI':'HSI','^GDAXI':'DAX','^TNX':'US10Y','DX-Y.NYB':'DXY'};
+const OVERNIGHT_FULL: Record<string,string> = {'^TWII':'Taiwan Weighted','^HSI':'Hang Seng','^GDAXI':'DAX 40','^TNX':'10Y Treasury','DX-Y.NYB':'US Dollar Index'};
 const M = "'JetBrains Mono','Fira Code',monospace";
 const SM: Record<string,string> = {XLK:'Tech',XLF:'Finance',XLE:'Energy',XLV:'Health',XLI:'Industrial',XLC:'Comms',XLY:'Cons Disc',XLP:'Cons Stap',XLB:'Materials',XLRE:'Real Est',XLU:'Utilities',SMH:'Semis'};
 const ST = Object.keys(SM);
@@ -94,6 +97,33 @@ export default function Markets() {
   const [ehist,setEhist]=useState<EarningsHistData|null>(null);
   const [ehistLoad,setEhistLoad]=useState(false);
   const [newsTab,setNewsTab]=useState<'news'|'bobby'>('news');
+  const [overnightQ,setOvernightQ]=useState<Quote[]>([]);
+  const [overnightLoad,setOvernightLoad]=useState(true);
+  const [propBalance]=useState(100000);
+  const [propFloor]=useState(95000);
+
+  const fetchOvernight = useCallback(async () => {
+    try {
+      const r = await fetch(`/api/axecap?symbols=${OVERNIGHT_TICKERS.join(',')}&news=false`,{signal:AbortSignal.timeout(10000)});
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const d = await r.json();
+      const oq: Quote[] = [];
+      for(const q of d.quotes||[]) { if(OVERNIGHT_TICKERS.includes(q.symbol)) oq.push(q); }
+      setOvernightQ(oq);
+    } catch(e) { console.error('Overnight fetch error:', e); } finally { setOvernightLoad(false); }
+  },[]);
+
+  const overnightScore = useMemo(() => {
+    if(overnightQ.length===0) return {score:50,label:'LOADING',color:brand.smoke,bg:'rgba(113,113,122,0.1)'};
+    const green = overnightQ.filter(q=>q.changePercent>=0).length;
+    const total = overnightQ.length;
+    if(green>=total) return {score:100,label:'BULLISH',color:'#22C55E',bg:'rgba(34,197,94,0.1)'};
+    if(green>=4) return {score:80,label:'BULLISH',color:'#22C55E',bg:'rgba(34,197,94,0.1)'};
+    if(green===3) return {score:60,label:'LEAN BULLISH',color:brand.amber,bg:'rgba(245,158,11,0.1)'};
+    if(green===2) return {score:40,label:'NEUTRAL',color:brand.smoke,bg:'rgba(113,113,122,0.1)'};
+    if(green===1) return {score:20,label:'LEAN BEARISH',color:'#EF4444',bg:'rgba(239,68,68,0.1)'};
+    return {score:0,label:'BEARISH',color:'#EF4444',bg:'rgba(239,68,68,0.1)'};
+  },[overnightQ]);
 
   const fetchD = useCallback(async (w: string[]) => {
     try { setErr(null); setRfr(true);
@@ -152,7 +182,7 @@ export default function Markets() {
 
   const tickClick = useCallback((s:string) => { if(csym===s){setCsym(null);setCdata(null);setFund(null);setEhist(null);return;} setCsym(s);setSexp('');setFundTab('fundamentals');fetchC(s);fetchFund(s);fetchEhist(s); },[csym,fetchC,fetchFund,fetchEhist]);
   const expChange = useCallback((e:string) => { setSexp(e); if(csym) fetchC(csym,e); },[csym,fetchC]);
-  const refreshAll = useCallback(() => { fetchD(wl);fetchZ();fetchU();fetchS();fetchP();fetchEarn(wl);fetchDivs(wl);setCd(30); },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchEarn,fetchDivs,wl]);
+  const refreshAll = useCallback(() => { fetchD(wl);fetchZ();fetchU();fetchS();fetchP();fetchEarn(wl);fetchDivs(wl);fetchOvernight();setCd(30); },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchEarn,fetchDivs,fetchOvernight,wl]);
 
   const addSym = useCallback(async () => {
     const s=ns.trim().toUpperCase();
@@ -171,17 +201,17 @@ export default function Markets() {
         const { data } = await supabase.from('user_watchlist').select('symbol').order('added_at');
         if (data && data.length > 0) { w = data.map((r: { symbol: string }) => r.symbol); setWl(w); }
       } catch {}
-      fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);fetchEarn(w);fetchDivs(w);
+      fetchD(w);fetchZ();fetchU();fetchS();fetchP();fetchSp(w);fetchEarn(w);fetchDivs(w);fetchOvernight();
     };
     loadWatchlist();
-  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,fetchEarn,fetchDivs]);
+  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,fetchEarn,fetchDivs,fetchOvernight]);
 
   useEffect(() => {
-    const r=setInterval(()=>{fetchD(wl);fetchZ();fetchU();fetchS();fetchP();},30000);
+    const r=setInterval(()=>{fetchD(wl);fetchZ();fetchU();fetchS();fetchP();fetchOvernight();},30000);
     const s=setInterval(()=>fetchSp(wl),60000);
     const t=setInterval(()=>setCd(c=>c<=1?30:c-1),1000);
     return()=>{clearInterval(r);clearInterval(s);clearInterval(t);};
-  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,wl]);
+  },[fetchD,fetchZ,fetchU,fetchS,fetchP,fetchSp,fetchOvernight,wl]);
 
   const se = useMemo(()=>ST.map(t=>({t,n:SM[t],d:sec[t] as SectorQuote|undefined})),[sec]);
   const ths:React.CSSProperties = {textAlign:'right',fontSize:10,color:brand.smoke,fontFamily:M,padding:'6px 8px',borderBottom:`1px solid ${brand.border}`,fontWeight:600,letterSpacing:'0.04em'};
@@ -244,6 +274,106 @@ export default function Markets() {
 
         {/* GEX LEVELS (SPY/QQQ only) */}
         {cdata&&(csym==='SPY'||csym==='QQQ')&&<GexLevels symbol={csym} currentPrice={cdata.currentPrice} calls={cdata.calls} puts={cdata.puts}/>}
+
+        {/* ═══ OVERNIGHT FLOW MATRIX ═══ */}
+        <div style={{...styles.card,padding:0,marginBottom:'1rem',overflow:'hidden'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 16px',borderBottom:`1px solid ${brand.border}`,background:brand.graphite}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:14}}>🌏</span>
+              <span style={{color:brand.amber,fontWeight:700,fontSize:13,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em',textTransform:'uppercase'}}>OVERNIGHT FLOW MATRIX</span>
+            </div>
+            <span style={{fontSize:10,fontFamily:M,color:brand.smoke}}>Global indices · Auto-refresh 30s</span>
+          </div>
+          <div style={{display:'grid',gridTemplateColumns:'repeat(5,1fr)',gap:0}}>
+            {overnightLoad && overnightQ.length===0 ? OVERNIGHT_TICKERS.map((t,i) => (
+              <div key={t} style={{padding:'14px 16px',borderRight:i<4?`1px solid ${brand.border}`:'none',borderBottom:`1px solid ${brand.border}`}}>
+                <div style={{fontSize:12,fontWeight:700,color:brand.amber,fontFamily:M,marginBottom:2}}>{OVERNIGHT_NAMES[t]}</div>
+                <div style={{fontSize:10,color:brand.smoke,marginBottom:6}}>{OVERNIGHT_FULL[t]}</div>
+                <div style={{fontSize:16,fontWeight:700,color:brand.smoke,fontFamily:M}}>Loading...</div>
+              </div>
+            )) : OVERNIGHT_TICKERS.map((t,i) => {
+              const q = overnightQ.find(oq=>oq.symbol===t);
+              const pct = q?.changePercent ?? 0;
+              const pos = pct >= 0;
+              const c = pos ? '#22C55E' : '#EF4444';
+              return (
+                <div key={t} style={{padding:'14px 16px',borderRight:i<4?`1px solid ${brand.border}`:'none',borderBottom:`1px solid ${brand.border}`,background:pos?'rgba(34,197,94,0.03)':'rgba(239,68,68,0.03)',transition:'background 0.3s'}}>
+                  <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:2}}>
+                    <span style={{fontSize:13,fontWeight:700,color:c,fontFamily:M}}>{OVERNIGHT_NAMES[t]}</span>
+                    <span style={{fontSize:16,color:c}}>{pos?'▲':'▼'}</span>
+                  </div>
+                  <div style={{fontSize:10,color:brand.smoke,marginBottom:6}}>{OVERNIGHT_FULL[t]}</div>
+                  <div style={{fontSize:18,fontWeight:700,color:brand.white,fontFamily:M,marginBottom:4}}>{q ? (q.price > 1000 ? q.price.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) : q.price.toFixed(q.price<10?3:2)) : '--'}</div>
+                  <div style={{fontSize:12,fontFamily:M,fontWeight:600,color:c}}>{pos?'+':''}{pct.toFixed(2)}%</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ═══ CONFIDENCE SCORE ═══ */}
+        <div style={{...styles.card,padding:'14px 20px',marginBottom:'1rem',display:'flex',alignItems:'center',gap:16,flexWrap:'wrap'}}>
+          <div style={{display:'flex',alignItems:'center',gap:8}}>
+            <span style={{fontSize:14}}>🎯</span>
+            <span style={{color:brand.amber,fontWeight:700,fontSize:12,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em',textTransform:'uppercase'}}>CONFIDENCE SCORE</span>
+          </div>
+          <div style={{flex:1,minWidth:200}}>
+            <div style={{position:'relative',height:20,background:brand.graphite,borderRadius:10,overflow:'hidden',border:`1px solid ${brand.border}`}}>
+              <div style={{position:'absolute',left:0,top:0,bottom:0,width:`${overnightScore.score}%`,background:overnightScore.score>=60?'linear-gradient(90deg,rgba(34,197,94,0.6),rgba(34,197,94,0.9))':overnightScore.score>=40?'linear-gradient(90deg,rgba(245,158,11,0.6),rgba(245,158,11,0.9))':'linear-gradient(90deg,rgba(239,68,68,0.6),rgba(239,68,68,0.9))',borderRadius:10,transition:'width 0.6s ease'}}/>
+              <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center',fontFamily:M,fontSize:11,fontWeight:700,color:brand.white,textShadow:'0 1px 2px rgba(0,0,0,0.5)'}}>{overnightScore.score}%</div>
+            </div>
+          </div>
+          <span style={{padding:'4px 12px',borderRadius:6,fontSize:11,fontFamily:M,fontWeight:700,background:overnightScore.bg,color:overnightScore.color}}>{overnightScore.label}</span>
+          <span style={{fontSize:10,fontFamily:M,color:brand.smoke}}>{overnightQ.filter(q=>q.changePercent>=0).length}/{overnightQ.length} signals green</span>
+        </div>
+
+        {/* ═══ TRAILING FLOOR MONITOR — Prop Firm Mode ═══ */}
+        <div style={{...styles.card,padding:'14px 20px',marginBottom:'1.5rem'}}>
+          <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',marginBottom:12}}>
+            <div style={{display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:14}}>🏛️</span>
+              <span style={{color:brand.amber,fontWeight:700,fontSize:12,fontFamily:"'Space Grotesk', system-ui, sans-serif",letterSpacing:'0.05em',textTransform:'uppercase'}}>TRAILING FLOOR MONITOR</span>
+              <span style={{padding:'2px 8px',borderRadius:4,fontSize:10,fontFamily:M,fontWeight:600,background:'rgba(168,85,247,0.1)',color:'#A855F7'}}>PROP FIRM MODE</span>
+            </div>
+            <div style={{display:'flex',alignItems:'center',gap:16}}>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:10,color:brand.smoke,fontFamily:M}}>BALANCE</div>
+                <div style={{fontSize:14,fontWeight:700,color:brand.white,fontFamily:M}}>${propBalance.toLocaleString()}</div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:10,color:brand.smoke,fontFamily:M}}>FLOOR</div>
+                <div style={{fontSize:14,fontWeight:700,color:brand.amber,fontFamily:M}}>${propFloor.toLocaleString()}</div>
+              </div>
+              <div style={{textAlign:'right'}}>
+                <div style={{fontSize:10,color:brand.smoke,fontFamily:M}}>BUFFER</div>
+                <div style={{fontSize:14,fontWeight:700,color:((propBalance-propFloor)/propBalance*100)>=5?'#22C55E':((propBalance-propFloor)/propBalance*100)>=3?brand.amber:'#EF4444',fontFamily:M}}>${(propBalance-propFloor).toLocaleString()}</div>
+              </div>
+            </div>
+          </div>
+          {(() => {
+            const pct = (propFloor / propBalance) * 100;
+            const buffer = ((propBalance - propFloor) / propBalance) * 100;
+            const barColor = buffer >= 5 ? '#22C55E' : buffer >= 3 ? brand.amber : '#EF4444';
+            return (
+              <div>
+                <div style={{position:'relative',height:28,background:brand.graphite,borderRadius:8,overflow:'hidden',border:`1px solid ${brand.border}`}}>
+                  <div style={{position:'absolute',left:0,top:0,bottom:0,width:`${pct}%`,background:`linear-gradient(90deg, ${barColor}88, ${barColor})`,borderRadius:8,transition:'width 0.6s ease'}}/>
+                  {/* Floor marker */}
+                  <div style={{position:'absolute',left:`${pct}%`,top:-2,bottom:-2,width:2,background:brand.amber,zIndex:2}}/>
+                  <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'space-between',padding:'0 12px'}}>
+                    <span style={{fontFamily:M,fontSize:10,fontWeight:700,color:brand.white,zIndex:3}}>DRAWDOWN FLOOR: {pct.toFixed(1)}%</span>
+                    <span style={{fontFamily:M,fontSize:10,fontWeight:600,color:brand.white,zIndex:3}}>Buffer: {buffer.toFixed(1)}%</span>
+                  </div>
+                </div>
+                <div style={{display:'flex',justifyContent:'space-between',marginTop:6}}>
+                  <span style={{fontSize:9,fontFamily:M,color:brand.smoke}}>$0</span>
+                  <span style={{fontSize:9,fontFamily:M,color:brand.smoke}}>Max Drawdown Zone</span>
+                  <span style={{fontSize:9,fontFamily:M,color:brand.smoke}}>${propBalance.toLocaleString()}</span>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
 
         {/* SECTOR HEATMAP */}
         <div style={{marginBottom:'1.5rem'}}>
