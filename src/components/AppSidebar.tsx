@@ -200,6 +200,51 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     } catch {}
   }, []);
 
+  // CYBER MODE: Recolor all amber (#F59E0B) inline styles to terminal green (#10ca78)
+  useEffect(() => {
+    if (colorMode !== 'cyber') return;
+
+    const amberMap: Record<string, string> = {
+      'rgb(245, 158, 11)': 'rgb(16, 202, 120)',   // #F59E0B → #10ca78
+      'rgb(251, 191, 36)': 'rgb(57, 255, 126)',   // #FBBF24 → #39ff7e
+      'rgb(217, 119, 6)': 'rgb(10, 158, 90)',     // #D97706 → #0a9e5a
+      'rgb(234, 179, 8)': 'rgb(16, 202, 120)',    // #EAB308 → #10ca78
+    };
+    const bgMap: Record<string, string> = {
+      'rgb(0, 0, 0)': 'rgb(5, 14, 7)',            // #000 → #050e07
+      'rgb(17, 17, 17)': 'rgb(7, 18, 10)',        // #111 → #07120a
+      'rgb(26, 26, 26)': 'rgb(10, 26, 14)',       // #1A1A1A → #0a1a0e
+    };
+    const borderMap: Record<string, string> = {
+      'rgb(34, 34, 34)': 'rgba(16, 202, 120, 0.2)',
+    };
+
+    function recolorElement(el: HTMLElement) {
+      const s = el.style;
+      // Text color
+      if (s.color && amberMap[s.color]) s.color = amberMap[s.color];
+      // Background
+      if (s.backgroundColor && amberMap[s.backgroundColor]) s.backgroundColor = amberMap[s.backgroundColor];
+      if (s.backgroundColor && bgMap[s.backgroundColor]) s.backgroundColor = bgMap[s.backgroundColor];
+      if (s.background && amberMap[s.background]) s.background = amberMap[s.background];
+      // Border
+      if (s.borderColor && amberMap[s.borderColor]) s.borderColor = amberMap[s.borderColor];
+      if (s.borderColor && borderMap[s.borderColor]) s.borderColor = borderMap[s.borderColor];
+    }
+
+    function recolorAll() {
+      document.querySelectorAll<HTMLElement>('[style]').forEach(recolorElement);
+    }
+
+    // Run immediately and on DOM changes
+    recolorAll();
+    const observer = new MutationObserver(() => requestAnimationFrame(recolorAll));
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['style'] });
+    // Also run periodically to catch React re-renders
+    const interval = setInterval(recolorAll, 800);
+    return () => { observer.disconnect(); clearInterval(interval); };
+  }, [colorMode]);
+
   // Update metrics periodically
   useEffect(() => {
     const updateMetrics = () => {
@@ -558,8 +603,6 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           ::selection { background: rgba(16, 202, 120, 0.3); color: #f0f0f0; }
           .cyber-body { animation: flicker 12s infinite; }
           .cyber-accent { color: #10ca78 !important; }
-          h1, h2, h3, h4, h5, h6 { color: #f0f0f0 !important; }
-          p, span, div, td, th, li { color: inherit; }
         ` : ''}
       `}</style>
 

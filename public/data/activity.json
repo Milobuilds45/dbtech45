@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0e1ec831",
+      "author": "Milo",
+      "timestamp": "2026-02-20 15:33:20 -0500",
+      "message": "fix: OS homepage respects cyber mode - yellow switches to terminal green #10ca78"
+    },
+    {
+      "type": "commit",
       "id": "49be0491",
       "author": "Milo",
       "timestamp": "2026-02-20 15:24:48 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 07:49:18 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "9952af22",
-      "author": "Milo",
-      "timestamp": "2026-02-19 07:44:17 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-20T20:29:05.031Z"
+  "generatedAt": "2026-02-20T20:39:05.011Z"
 }
