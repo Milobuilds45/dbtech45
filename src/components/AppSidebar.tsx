@@ -328,11 +328,16 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             padding: collapsed && !isMobile ? '8px 0' : '8px 20px 8px 48px',
             cursor: 'pointer',
             transition: 'all 0.15s ease',
-            color: active ? theme.carbon : theme.smoke,
-            background: active ? theme.amber : 'transparent',
+            color: active
+              ? (colorMode === 'paper' ? '#78350F' : theme.carbon)
+              : (colorMode === 'paper' ? '#374151' : theme.smoke),
+            background: active
+              ? (colorMode === 'paper' ? '#FFF7ED' : theme.amber)
+              : 'transparent',
             fontSize: '12px',
-            fontWeight: 500,
+            fontWeight: active && colorMode === 'paper' ? 600 : 500,
             justifyContent: collapsed && !isMobile ? 'center' : 'flex-start',
+            borderLeft: active && colorMode === 'paper' ? '3px solid #D97706' : 'none',
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', opacity: active ? 1 : 0.7 }}>{icon}</span>
@@ -344,8 +349,12 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                   fontSize: '10px',
                   padding: '1px 6px',
                   borderRadius: '4px',
-                  background: active ? 'rgba(10, 10, 15, 0.3)' : 'rgba(245, 158, 11, 0.2)',
-                  color: active ? theme.carbon : theme.amber,
+                  background: active
+                    ? (colorMode === 'paper' ? 'rgba(217, 119, 6, 0.15)' : 'rgba(10, 10, 15, 0.3)')
+                    : (colorMode === 'paper' ? 'rgba(217, 119, 6, 0.1)' : 'rgba(245, 158, 11, 0.2)'),
+                  color: active
+                    ? (colorMode === 'paper' ? '#92400E' : theme.carbon)
+                    : (colorMode === 'paper' ? '#B45309' : theme.amber),
                   fontFamily: "'JetBrains Mono', monospace",
                 }}>{item.badge}</span>
               )}
