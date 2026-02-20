@@ -126,22 +126,6 @@ export default function OSPage() {
         </div>
       </div>
 
-      {/* Brand Assets */}
-      <div style={{ background: b.carbon, border: `1px solid ${b.border}`, borderRadius: '16px', padding: '32px', marginBottom: '30px' }}>
-        <h2 style={{ color: b.amber, marginBottom: '16px', fontSize: '20px', fontWeight: 600, fontFamily: "'Space Grotesk', system-ui, sans-serif", letterSpacing: '-0.01em' }}>Brand Assets by Paula</h2>
-        <p style={{ color: b.silver, marginBottom: '20px', fontSize: '14px' }}>Complete DBTECH45 brand system</p>
-        <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-          <button style={{ background: b.amber, color: b.void, border: 'none', padding: '12px 24px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}
-            onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/DBTECH45-BRAND-KIT.html', '_blank')}>
-            Brand Kit (Print Ready)
-          </button>
-          <button style={{ background: b.graphite, color: b.amber, border: `1px solid ${b.amber}`, padding: '12px 24px', borderRadius: '8px', cursor: 'pointer', fontWeight: 600, fontSize: '14px' }}
-            onClick={() => window.open('https://7layerlabs.github.io/dbtech45-agent-icons-v3/brand-spec.html', '_blank')}>
-            Design System Spec
-          </button>
-        </div>
-      </div>
-
       {/* Dashboard Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
 
