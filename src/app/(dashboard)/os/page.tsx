@@ -3,14 +3,43 @@
 import { useEffect, useState } from 'react';
 import { supabase, type Goal, type Todo, type Activity } from '@/lib/supabase';
 
+const voidColors = {
+  void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
+  amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
+  white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
+  success: '#10B981', error: '#22C55E', info: '#3B82F6', warning: '#EAB308',
+  border: '#222222',
+};
+
+const cyberColors = {
+  void: '#050e07', carbon: '#07120a', graphite: '#0a1a0e',
+  amber: '#10ca78', amberLight: '#39ff7e', amberDark: '#0a9e5a',
+  white: '#f0f0f0', silver: '#A3A3A3', smoke: '#737373',
+  success: '#39ff7e', error: '#22C55E', info: '#3B82F6', warning: '#10ca78',
+  border: 'rgba(16, 202, 120, 0.2)',
+};
+
 export default function OSPage() {
-  const b = {
-    void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
-    amber: '#F59E0B', amberLight: '#FBBF24', amberDark: '#D97706',
-    white: '#FFFFFF', silver: '#A3A3A3', smoke: '#737373',
-    success: '#10B981', error: '#22C55E', info: '#3B82F6', warning: '#EAB308',
-    border: '#222222',
-  };
+  const [colorMode, setColorMode] = useState<'void' | 'cyber'>('void');
+
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('dbtech-color-mode');
+      if (stored === 'cyber') setColorMode('cyber');
+    } catch {}
+    const handleStorage = () => {
+      try {
+        const stored = localStorage.getItem('dbtech-color-mode');
+        setColorMode(stored === 'cyber' ? 'cyber' : 'void');
+      } catch {}
+    };
+    window.addEventListener('storage', handleStorage);
+    // Also poll for same-tab changes from sidebar toggle
+    const interval = setInterval(handleStorage, 500);
+    return () => { window.removeEventListener('storage', handleStorage); clearInterval(interval); };
+  }, []);
+
+  const b = colorMode === 'cyber' ? cyberColors : voidColors;
 
   const [goals, setGoals] = useState<Goal[]>([]);
   const [todos, setTodos] = useState<Todo[]>([]);
