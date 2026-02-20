@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "56495ebd",
+      "author": "Milo",
+      "timestamp": "2026-02-19 16:26:50 -0500",
+      "message": "fix: rename middleware export to proxy"
+    },
+    {
+      "type": "commit",
+      "id": "381275b2",
+      "author": "Milo",
+      "timestamp": "2026-02-19 16:26:15 -0500",
+      "message": "fix: correct model ID, rename middleware->proxy, move themeColor to viewport"
+    },
+    {
+      "type": "commit",
       "id": "13b46ed8",
       "author": "Milo",
       "timestamp": "2026-02-19 14:04:39 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 07:14:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "50258f70",
-      "author": "Milo",
-      "timestamp": "2026-02-19 07:09:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "85513fdd",
-      "author": "Milo",
-      "timestamp": "2026-02-19 07:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-19T21:24:17.192Z"
+  "generatedAt": "2026-02-20T05:24:05.547Z"
 }

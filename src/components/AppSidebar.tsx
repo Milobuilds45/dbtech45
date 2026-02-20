@@ -75,6 +75,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Agent Ideas':   <Lightbulb size={ICON_SIZE} />,
   'Projects':      <FolderKanban size={ICON_SIZE} />,
   'Markets':       <TrendingUp size={ICON_SIZE} />,
+  'AxeCap Terminal': <Activity size={ICON_SIZE} />,
   'Polymarket':    <TrendingUp size={ICON_SIZE} />,
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
   'Task Manager':  <LayoutDashboard size={ICON_SIZE} />,
@@ -109,6 +110,7 @@ const dashboardItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },
   { label: 'Markets', href: '/os/markets' },
+  { label: 'AxeCap Terminal', href: '/os/axecap' },
   { label: 'Polymarket', href: '/os/polymarket' },
   { label: 'D.U.N.D.E.R.', href: '/os/dunder' },
 ];
