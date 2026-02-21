@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "3a82dc48",
+      "author": "Milo",
+      "timestamp": "2026-02-20 19:17:42 -0500",
+      "message": "fix: remove /s regex flag for typescript compat on production build"
+    },
+    {
+      "type": "commit",
+      "id": "fbcbac0d",
+      "author": "Milo",
+      "timestamp": "2026-02-20 19:14:20 -0500",
+      "message": "feat: youtube transcript - 3-method fallback (direct API, npm package, yt-dlp) for production compatibility"
+    },
+    {
+      "type": "commit",
       "id": "1201a1f8",
       "author": "Milo",
       "timestamp": "2026-02-20 16:26:45 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:24:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "03752080",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:19:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "af17a285",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:14:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T00:14:11.450Z"
+  "generatedAt": "2026-02-21T00:19:05.242Z"
 }
