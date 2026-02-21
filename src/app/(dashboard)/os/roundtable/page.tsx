@@ -16,16 +16,16 @@ interface RoundMessage {
   latencyMs: number;
 }
 
-// Agent display config (no emojis, solid colors, logo-ready boxes)
+// Agent display config (no emojis, solid colors, compact horizontal cards)
 const AGENT_DISPLAY: Record<string, { initials: string; label: string; role: string; color: string }> = {
   milo: { initials: 'MI', label: 'Milo', role: 'Chief of Staff', color: '#A855F7' },
-  paula: { initials: 'PA', label: 'Paula', role: 'Creative + Full Stack', color: '#EC4899' },
-  bobby: { initials: 'BO', label: 'Bobby', role: 'Trading Advisor', color: '#22C55E' },
-  anders: { initials: 'AN', label: 'Anders', role: 'IT Director & Security', color: '#F97316' },
-  dwight: { initials: 'DW', label: 'Dwight', role: 'Intel & Weather', color: '#6366F1' },
-  jim: { initials: 'JH', label: 'Jim', role: 'Social Media', color: '#06B6D4' },
-  remy: { initials: 'RM', label: 'Remy', role: 'Restaurant Ops & Marketing', color: '#EAB308' },
-  wendy: { initials: 'WN', label: 'Wendy', role: 'Personal Assistant', color: '#8B5CF6' },
+  bobby: { initials: 'BO', label: 'Bobby', role: 'Trading', color: '#22C55E' },
+  wendy: { initials: 'WN', label: 'Wendy', role: 'Psychology', color: '#8B5CF6' },
+  dwight: { initials: 'DW', label: 'Dwight', role: 'Intel', color: '#6366F1' },
+  jim: { initials: 'JM', label: 'Jim', role: 'Social', color: '#06B6D4' },
+  paula: { initials: 'PA', label: 'Paula', role: 'Creative', color: '#EC4899' },
+  anders: { initials: 'AN', label: 'Anders', role: 'Architect', color: '#F97316' },
+  remy: { initials: 'RM', label: 'Remy', role: 'Restaurant', color: '#EAB308' },
 };
 
 export default function RoundtablePage() {
@@ -129,7 +129,7 @@ export default function RoundtablePage() {
           <span style={{ fontSize: '11px', fontWeight: 600, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.05em', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>Panelists</span>
           <span style={{ fontSize: '11px', color: b.smoke }}>{selectedAgents.length} selected (min 2)</span>
         </div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px', justifyContent: 'center' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: '8px' }}>
           {Object.keys(AGENT_DISPLAY).map(id => {
             const agent = AGENT_DISPLAY[id];
             const selected = selectedAgents.includes(id);
@@ -138,25 +138,27 @@ export default function RoundtablePage() {
                 key={id}
                 onClick={() => toggleAgent(id)}
                 style={{
-                  width: '100px', height: '100px', display: 'flex', flexDirection: 'column',
-                  alignItems: 'center', justifyContent: 'center', gap: '6px',
-                  borderRadius: '12px', cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', gap: '8px',
+                  padding: '8px 10px',
+                  borderRadius: '10px', cursor: 'pointer',
                   border: selected ? `2px solid ${agent.color}` : `1px solid ${b.border}`,
                   background: selected ? b.carbon : b.void,
-                  opacity: selected ? 1 : 0.4,
+                  opacity: selected ? 1 : 0.35,
                   transition: 'all 0.2s',
                 }}
               >
                 <div style={{
-                  width: '36px', height: '36px', borderRadius: '8px',
+                  width: '28px', height: '28px', borderRadius: '6px', flexShrink: 0,
                   background: '#000000',
                   border: `2px solid ${selected ? agent.color : b.border}`,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: selected ? agent.color : b.smoke,
-                  fontSize: '13px', fontWeight: 700,
+                  fontSize: '11px', fontWeight: 700,
                 }}>{agent.initials}</div>
-                <div style={{ fontSize: '12px', fontWeight: 600, color: selected ? b.white : b.smoke }}>{agent.label}</div>
-                <div style={{ fontSize: '10px', color: b.smoke }}>{agent.role}</div>
+                <div style={{ minWidth: 0, textAlign: 'left' }}>
+                  <div style={{ fontSize: '12px', fontWeight: 600, color: selected ? b.white : b.smoke, lineHeight: 1.2 }}>{agent.label}</div>
+                  <div style={{ fontSize: '9px', color: b.smoke, lineHeight: 1.2 }}>{agent.role}</div>
+                </div>
               </button>
             );
           })}
