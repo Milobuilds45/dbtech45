@@ -23,9 +23,45 @@ async function callAgent(
   systemPrompt: string,
   messages: Array<{ role: string; content: string }>,
 ): Promise<string> {
-  // Use Claude Sonnet for all agents (fast + cheap + good at persona)
+  // Try Gemini 2.0 Flash first (Free/Fast)
+  const googleKey = process.env.GOOGLE_API_KEY;
+  if (googleKey) {
+    try {
+      // Convert messages to Gemini format
+      // System prompt goes into 'system_instruction' or prepended to first user message
+      // Gemini roles: 'user' -> 'user', 'assistant' -> 'model'
+      const contents = messages.map(m => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${googleKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents,
+          system_instruction: { parts: [{ text: systemPrompt }] },
+          generationConfig: { maxOutputTokens: 400, temperature: 0.8 }
+        })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+          return data.candidates[0].content.parts[0].text;
+        }
+      }
+      // If Gemini fails, fall through to Anthropic check
+      const errText = await response.text();
+      console.warn(`Gemini Roundtable failed for ${agentId}: ${errText}`);
+    } catch (e) {
+      console.error('Gemini error:', e);
+    }
+  }
+
+  // Fallback to Anthropic (requires pre-paid credits)
   const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) throw new Error('ANTHROPIC_API_KEY not configured');
+  if (!apiKey) throw new Error('No API keys configured (checked GOOGLE_API_KEY and ANTHROPIC_API_KEY)');
 
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -35,7 +71,7 @@ async function callAgent(
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
+      model: 'claude-sonnet-4-6', // Updated to 4.6
       max_tokens: 300,
       system: systemPrompt,
       messages
@@ -43,27 +79,12 @@ async function callAgent(
   });
 
   if (!response.ok) {
-    // Fallback to Opus if Sonnet is overloaded
-    const retryResponse = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-opus-4-6',
-        max_tokens: 300,
-        system: systemPrompt,
-        messages
-      })
-    });
-    if (!retryResponse.ok) {
-      const error = await retryResponse.text();
-      throw new Error(`Anthropic error: ${error}`);
+    const error = await response.text();
+    // Check specifically for credit balance error
+    if (error.includes('credit balance is too low')) {
+      throw new Error('Anthropic API credit balance is too low. Please add credits or configure GOOGLE_API_KEY for free tier.');
     }
-    const data = await retryResponse.json();
-    return data.content[0].text;
+    throw new Error(`Anthropic error: ${error}`);
   }
 
   const data = await response.json();
@@ -105,7 +126,6 @@ export async function POST(request: Request) {
       if (result.status === 'fulfilled') {
         allMessages.push(result.value);
       } else {
-        // Still add error entries
         const idx = round1Results.indexOf(result);
         allMessages.push({
           agentId: selectedAgents[idx],
