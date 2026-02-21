@@ -43,13 +43,12 @@ async function fetchTranscriptDirect(videoId: string): Promise<{ segments: { tex
     });
     const html = await pageRes.text();
 
-    // Extract captions data from the page
-    const captionsMatch = html.match(/"captions":\s*(\{.*?"playerCaptionsTracklistRenderer".*?\})\s*,\s*"/s);
-    if (!captionsMatch) return null;
+    // Find the captions JSON by counting braces
+    const captionsIdx = html.indexOf('"captions":');
+    if (captionsIdx === -1) return null;
 
-    // Find the captions JSON more carefully
     let depth = 0;
-    let start = html.indexOf('"captions":') + '"captions":'.length;
+    let start = captionsIdx + '"captions":'.length;
     let jsonStart = start;
     // Skip whitespace
     while (html[jsonStart] === ' ') jsonStart++;
