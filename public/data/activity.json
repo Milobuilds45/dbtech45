@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "3df85ca2",
+      "author": "Milo",
+      "timestamp": "2026-02-20 19:44:05 -0500",
+      "message": "chore: add path logging for yt-dlp debugging"
+    },
+    {
+      "type": "commit",
       "id": "0d40e596",
       "author": "Milo",
       "timestamp": "2026-02-20 19:24:46 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:39:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "10d11d3f",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T00:44:05.319Z"
+  "generatedAt": "2026-02-21T12:09:18.319Z"
 }
