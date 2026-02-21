@@ -134,6 +134,9 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
     await execAsync(cmd, { timeout: 45000 });
   } catch (err) {
     console.error('yt-dlp failed:', err);
+    if (process.env.NODE_ENV === 'production') {
+      console.error('SERVER PATH:', process.env.PATH);
+    }
     return null;
   }
 

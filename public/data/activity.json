@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0d40e596",
+      "author": "Milo",
+      "timestamp": "2026-02-20 19:24:46 -0500",
+      "message": "chore: add nixpacks.json to install yt-dlp and ffmpeg for youtube transcript"
+    },
+    {
+      "type": "commit",
       "id": "e1dd7736",
       "author": "Milo",
       "timestamp": "2026-02-20 19:20:07 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:34:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "ed9b01b3",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:29:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T00:24:05.255Z"
+  "generatedAt": "2026-02-21T00:44:05.319Z"
 }
