@@ -14,33 +14,33 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     color: '#EA580C'
   },
   'gemini-pro': {
-    name: 'Gemini 2.5 Pro',
+    name: 'Gemini 3.1 Pro',
     provider: 'google',
-    model: 'gemini-2.5-pro',
+    model: 'gemini-3.1-pro',
     color: '#2563EB'
   },
   'gemini-flash': {
-    name: 'Gemini 2.5 Flash',
+    name: 'Gemini 2.0 Flash',
     provider: 'google',
-    model: 'gemini-2.5-flash',
+    model: 'gemini-2.0-flash',
     color: '#0891B2'
   },
-  'gpt-4o': {
-    name: 'GPT-4o',
+  'gpt-4.1': {
+    name: 'GPT-4.1',
     provider: 'openai',
-    model: 'gpt-4o',
+    model: 'gpt-4.1',
     color: '#059669'
   },
   'grok': {
-    name: 'Grok',
+    name: 'Grok 4.1 Fast',
     provider: 'xai',
-    model: 'grok-3-latest',
+    model: 'grok-4-1-fast',
     color: '#7C3AED'
   },
   'llama': {
-    name: 'Llama 3.3 70B',
+    name: 'Llama 4 Scout',
     provider: 'groq',
-    model: 'llama-3.3-70b-versatile',
+    model: 'meta-llama/llama-4-scout-17b-16e-instruct',
     color: '#6366F1'
   }
 };

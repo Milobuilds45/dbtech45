@@ -22,11 +22,11 @@ interface ModelResponse {
 const MODEL_DISPLAY: Record<string, { initials: string; desc: string }> = {
   'claude-opus': { initials: 'OP', desc: 'Deep reasoning and analysis' },
   'claude-sonnet': { initials: 'SN', desc: 'Opus-level performance, 1M context' },
-  'gemini-pro': { initials: 'GP', desc: 'Advanced reasoning, huge context' },
-  'gemini-flash': { initials: 'GF', desc: 'Fast responses, good quality' },
-  'gpt-4o': { initials: '4o', desc: 'Strong at code and structure' },
-  'grok': { initials: 'GK', desc: 'Real-time knowledge, unfiltered' },
-  'llama': { initials: 'LL', desc: 'Open source via Groq, very fast' },
+  'gemini-pro': { initials: 'GP', desc: 'Google\'s latest, advanced reasoning' },
+  'gemini-flash': { initials: 'GF', desc: 'Fast and free, solid quality' },
+  'gpt-4.1': { initials: '4.1', desc: 'Strong at code and structure' },
+  'grok': { initials: 'GK', desc: 'Real-time X data, unfiltered' },
+  'llama': { initials: 'L4', desc: 'Llama 4 on Groq, blazing fast' },
 };
 
 export default function ModelCounselPage() {
