@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e1dd7736",
+      "author": "Milo",
+      "timestamp": "2026-02-20 19:20:07 -0500",
+      "message": "feat: install python3 + yt-dlp in production container via nixpacks.toml"
+    },
+    {
+      "type": "commit",
       "id": "3a82dc48",
       "author": "Milo",
       "timestamp": "2026-02-20 19:17:42 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:29:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "22872288",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:24:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T00:19:05.242Z"
+  "generatedAt": "2026-02-21T00:24:05.255Z"
 }
