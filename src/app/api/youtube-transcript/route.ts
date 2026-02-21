@@ -30,9 +30,150 @@ function formatTimestamp(ms: number): string {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-export async function POST(req: NextRequest) {
-  const tmpDir = os.tmpdir();
+// ─── METHOD 1: Direct YouTube innertube API (no dependencies) ───
+async function fetchTranscriptDirect(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  try {
+    // Step 1: Get the video page to extract serialized share entity and other params
+    const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    const pageRes = await fetch(watchUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        'Accept-Language': 'en-US,en;q=0.9',
+      },
+    });
+    const html = await pageRes.text();
 
+    // Extract captions data from the page
+    const captionsMatch = html.match(/"captions":\s*(\{.*?"playerCaptionsTracklistRenderer".*?\})\s*,\s*"/s);
+    if (!captionsMatch) return null;
+
+    // Find the captions JSON more carefully
+    let depth = 0;
+    let start = html.indexOf('"captions":') + '"captions":'.length;
+    let jsonStart = start;
+    // Skip whitespace
+    while (html[jsonStart] === ' ') jsonStart++;
+    let i = jsonStart;
+    for (; i < html.length; i++) {
+      if (html[i] === '{') depth++;
+      if (html[i] === '}') depth--;
+      if (depth === 0) break;
+    }
+    const captionsJson = html.substring(jsonStart, i + 1);
+    const captions = JSON.parse(captionsJson);
+
+    const tracks = captions?.playerCaptionsTracklistRenderer?.captionTracks;
+    if (!tracks || tracks.length === 0) return null;
+
+    // Prefer English, then any language
+    const enTrack = tracks.find((t: { languageCode: string }) => t.languageCode === 'en') ||
+                    tracks.find((t: { languageCode: string }) => t.languageCode.startsWith('en')) ||
+                    tracks[0];
+
+    if (!enTrack?.baseUrl) return null;
+
+    // Fetch the transcript XML
+    const transcriptUrl = enTrack.baseUrl + '&fmt=json3';
+    const transcriptRes = await fetch(transcriptUrl);
+    if (!transcriptRes.ok) return null;
+    const transcriptData = await transcriptRes.json();
+
+    const segments = (transcriptData.events || [])
+      .filter((e: { segs?: { utf8: string }[] }) => e.segs && e.segs.length > 0)
+      .map((e: { tStartMs: number; segs: { utf8: string }[] }) => ({
+        text: e.segs.map((s: { utf8: string }) => s.utf8).join('').replace(/\n/g, ' ').trim(),
+        startMs: e.tStartMs || 0,
+      }))
+      .filter((s: { text: string }) => s.text.length > 0 && s.text !== '\n');
+
+    if (segments.length === 0) return null;
+    return { segments };
+  } catch (err) {
+    console.error('Direct transcript fetch failed:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 2: youtube-transcript npm package ───
+async function fetchTranscriptPackage(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  try {
+    const { YoutubeTranscript } = await import('youtube-transcript');
+    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+    if (!transcript || transcript.length === 0) return null;
+
+    const segments = transcript.map((t: { text: string; offset: number }) => ({
+      text: t.text.replace(/\n/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&#39;/g, "'").replace(/&quot;/g, '"').trim(),
+      startMs: Math.round(t.offset),
+    })).filter((s: { text: string }) => s.text.length > 0);
+
+    if (segments.length === 0) return null;
+    return { segments };
+  } catch (err) {
+    console.error('youtube-transcript package failed:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 3: yt-dlp binary (local dev only, fallback) ───
+async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  const tmpDir = os.tmpdir();
+  const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
+
+  // Find yt-dlp
+  let ytdlp = 'yt-dlp';
+  if (process.platform === 'win32') {
+    const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
+    try {
+      await fs.access(winPath);
+      ytdlp = `"${winPath}"`;
+    } catch { /* use PATH */ }
+  }
+
+  const cmd = `${ytdlp} --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
+
+  try {
+    await execAsync(cmd, { timeout: 45000 });
+  } catch (err) {
+    console.error('yt-dlp failed:', err);
+    return null;
+  }
+
+  // Find subtitle files
+  const tmpDirFiles = await fs.readdir(tmpDir);
+  const baseName = path.basename(outBase);
+  const subFiles = tmpDirFiles
+    .filter(f => f.startsWith(baseName) && f.endsWith('.json3'))
+    .sort((a, b) => a.length - b.length);
+
+  if (subFiles.length === 0) return null;
+
+  const subFile = path.join(tmpDir, subFiles[0]);
+  let subData: string;
+  try {
+    subData = await fs.readFile(subFile, 'utf-8');
+  } catch {
+    return null;
+  }
+
+  const json = JSON.parse(subData);
+  const segments = (json.events || [])
+    .filter((e: { segs?: { utf8: string }[] }) => e.segs && e.segs.length > 0)
+    .map((e: { tStartMs: number; segs: { utf8: string }[] }) => ({
+      text: e.segs.map((s: { utf8: string }) => s.utf8).join('').replace(/\n/g, ' ').trim(),
+      startMs: e.tStartMs || 0,
+    }))
+    .filter((s: { text: string }) => s.text.length > 0 && s.text !== '\n');
+
+  // Cleanup
+  for (const f of subFiles) {
+    try { await fs.unlink(path.join(tmpDir, f)); } catch { /* ignore */ }
+  }
+
+  if (segments.length === 0) return null;
+  return { segments };
+}
+
+export async function POST(req: NextRequest) {
   try {
     const { url } = await req.json();
     if (!url) return NextResponse.json({ error: 'URL is required' }, { status: 400 });
@@ -40,61 +181,24 @@ export async function POST(req: NextRequest) {
     const videoId = extractVideoId(url);
     if (!videoId) return NextResponse.json({ error: 'Invalid YouTube URL' }, { status: 400 });
 
-    const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
+    // Try methods in order: direct API → npm package → yt-dlp binary
+    console.log(`[transcript] Trying direct API for ${videoId}...`);
+    let result = await fetchTranscriptDirect(videoId);
 
-    // Use yt-dlp to download subtitles (use full path for reliability)
-    const ytdlp = process.platform === 'win32'
-      ? 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe'
-      : 'yt-dlp';
-    const cmd = `"${ytdlp}" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
-
-    let cmdResult;
-    try {
-      cmdResult = await execAsync(cmd, { timeout: 45000 });
-      console.log('yt-dlp stdout:', cmdResult.stdout);
-      if (cmdResult.stderr) console.log('yt-dlp stderr:', cmdResult.stderr);
-    } catch (cmdErr: unknown) {
-      const e = cmdErr as { stdout?: string; stderr?: string; message?: string };
-      console.error('yt-dlp failed:', e.stderr || e.stdout || e.message);
-      return NextResponse.json({ error: `Failed to extract subtitles: ${e.stderr || e.message || 'Unknown error'}` }, { status: 404 });
+    if (!result) {
+      console.log(`[transcript] Direct failed, trying youtube-transcript package...`);
+      result = await fetchTranscriptPackage(videoId);
     }
 
-    // Find the subtitle file — yt-dlp may name it .en.json3 or .en-orig.json3 etc.
-    const tmpDirFiles = await fs.readdir(tmpDir);
-    const baseName = path.basename(outBase);
-    const subFiles = tmpDirFiles
-      .filter(f => f.startsWith(baseName) && f.endsWith('.json3'))
-      .sort((a, b) => {
-        // Prefer non-auto (manual) subs — shorter filename usually means manual
-        return a.length - b.length;
-      });
-
-    if (subFiles.length === 0) {
-      return NextResponse.json({ error: 'No English captions found for this video.' }, { status: 404 });
+    if (!result) {
+      console.log(`[transcript] Package failed, trying yt-dlp...`);
+      result = await fetchTranscriptYtdlp(videoId);
     }
 
-    const subFile = path.join(tmpDir, subFiles[0]);
-    let subData: string;
-    try {
-      subData = await fs.readFile(subFile, 'utf-8');
-    } catch {
-      return NextResponse.json({ error: 'Failed to read subtitle file.' }, { status: 500 });
-    }
-
-    const json = JSON.parse(subData);
-
-    // Parse json3 format
-    const segments = (json.events || [])
-      .filter((e: { segs?: { utf8: string }[] }) => e.segs && e.segs.length > 0)
-      .map((e: { tStartMs: number; dDurationMs: number; segs: { utf8: string }[] }) => ({
-        text: e.segs.map(s => s.utf8).join('').replace(/\n/g, ' ').trim(),
-        startMs: e.tStartMs || 0,
-        durMs: e.dDurationMs || 0,
-      }))
-      .filter((s: { text: string }) => s.text.length > 0 && s.text !== '\n');
-
-    if (segments.length === 0) {
-      return NextResponse.json({ error: 'Transcript was empty.' }, { status: 404 });
+    if (!result) {
+      return NextResponse.json({
+        error: 'Could not extract transcript. The video may not have captions, or YouTube is blocking requests. Try again in a minute.',
+      }, { status: 404 });
     }
 
     // Get title and channel
@@ -107,22 +211,17 @@ export async function POST(req: NextRequest) {
       if (oembedData.author_name) channel = oembedData.author_name;
     } catch { /* ignore */ }
 
-    const timestamped = segments
-      .map((s: { startMs: number; text: string }) => `[${formatTimestamp(s.startMs)}] ${s.text}`)
+    const timestamped = result.segments
+      .map(s => `[${formatTimestamp(s.startMs)}] ${s.text}`)
       .join('\n');
-    const plain = segments.map((s: { text: string }) => s.text).join(' ');
-
-    // Cleanup temp files
-    for (const f of subFiles) {
-      try { await fs.unlink(path.join(tmpDir, f)); } catch { /* ignore */ }
-    }
+    const plain = result.segments.map(s => s.text).join(' ');
 
     return NextResponse.json({
       videoId,
       title,
       channel,
       language: 'en',
-      segmentCount: segments.length,
+      segmentCount: result.segments.length,
       timestamped,
       plain,
     });
