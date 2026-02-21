@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+const MAX_CHUNK_BYTES = 24 * 1024 * 1024; // 24MB per chunk (buffer under 25MB limit)
+
 function extractVideoId(url: string): string | null {
   const patterns = [
     /(?:youtube\.com\/watch\?v=)([a-zA-Z0-9_-]{11})/,
@@ -68,14 +70,12 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
 
         if (!track?.baseUrl) return { segments: [], title, channel };
 
-        // Try fetching transcript
         const tRes = await fetch(track.baseUrl, {
           headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
         });
         const tText = await tRes.text();
         if (!tText || tText.length === 0) return { segments: [], title, channel };
 
-        // Parse XML
         const segments: { text: string; startMs: number }[] = [];
         const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
         let match;
@@ -93,7 +93,7 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
   }
 }
 
-// ─── METHOD 2: Whisper transcription (download audio → OpenAI Whisper API) ───
+// ─── METHOD 2: Whisper transcription with CHUNKING for any length video ───
 async function transcribeWithWhisper(videoId: string): Promise<{ segments: { text: string; startSec: number }[] } | null> {
   const OPENAI_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_KEY) {
@@ -102,78 +102,99 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
   }
 
   try {
-    // Download audio using @distube/ytdl-core
     const ytdl = (await import('@distube/ytdl-core')).default;
     const url = `https://www.youtube.com/watch?v=${videoId}`;
 
-    if (!ytdl.validateURL(url)) {
-      console.error('[whisper] Invalid URL');
-      return null;
-    }
+    if (!ytdl.validateURL(url)) return null;
 
     const info = await ytdl.getInfo(url);
-    // Get audio-only format, smallest file
     const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
-    if (audioFormats.length === 0) {
-      console.error('[whisper] No audio formats available');
-      return null;
-    }
+    if (audioFormats.length === 0) return null;
 
-    // Pick lowest bitrate audio to minimize download size (Whisper has 25MB limit)
+    // Pick lowest bitrate to keep file small
     const format = audioFormats.sort((a, b) => (a.audioBitrate || 999) - (b.audioBitrate || 999))[0];
-    console.log(`[whisper] Downloading audio: ${format.mimeType}, bitrate: ${format.audioBitrate}kbps`);
+    const bitrate = format.audioBitrate || 48;
+    const durationSec = parseInt(info.videoDetails.lengthSeconds) || 0;
+    console.log(`[whisper] Audio: ${format.mimeType}, ${bitrate}kbps, ${durationSec}s (${(durationSec/60).toFixed(1)} min)`);
 
-    // Download to buffer
+    // Download full audio
     const stream = ytdl.downloadFromInfo(info, { format });
-    const chunks: Buffer[] = [];
+    const bufferChunks: Buffer[] = [];
     for await (const chunk of stream) {
-      chunks.push(Buffer.from(chunk));
+      bufferChunks.push(Buffer.from(chunk));
     }
-    const audioBuffer = Buffer.concat(chunks);
-    console.log(`[whisper] Downloaded ${(audioBuffer.length / 1024 / 1024).toFixed(1)}MB`);
+    const fullAudio = Buffer.concat(bufferChunks);
+    const totalMB = fullAudio.length / 1024 / 1024;
+    console.log(`[whisper] Downloaded ${totalMB.toFixed(1)}MB`);
 
-    // Check size limit (Whisper max 25MB)
-    if (audioBuffer.length > 25 * 1024 * 1024) {
-      console.error('[whisper] Audio too large for Whisper API (>25MB). Video may be too long.');
-      return null;
-    }
-
-    // Determine file extension from mime type
     const ext = format.mimeType?.includes('webm') ? 'webm'
       : format.mimeType?.includes('mp4') ? 'm4a'
       : format.mimeType?.includes('ogg') ? 'ogg' : 'webm';
+    const mimeType = format.mimeType || 'audio/webm';
 
-    // Call Whisper API with verbose_json for timestamps
-    const formData = new FormData();
-    const blob = new Blob([audioBuffer], { type: format.mimeType || 'audio/webm' });
-    formData.append('file', blob, `audio.${ext}`);
-    formData.append('model', 'whisper-1');
-    formData.append('response_format', 'verbose_json');
-    formData.append('timestamp_granularities[]', 'segment');
-    formData.append('language', 'en');
+    // Split into chunks if needed
+    const numChunks = Math.ceil(fullAudio.length / MAX_CHUNK_BYTES);
+    console.log(`[whisper] Splitting into ${numChunks} chunk(s)`);
 
-    console.log('[whisper] Sending to Whisper API...');
-    const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-      method: 'POST',
-      headers: { 'Authorization': `Bearer ${OPENAI_KEY}` },
-      body: formData,
-    });
+    const allSegments: { text: string; startSec: number }[] = [];
 
-    if (!whisperRes.ok) {
-      const errText = await whisperRes.text();
-      console.error(`[whisper] API error ${whisperRes.status}: ${errText}`);
-      return null;
+    for (let i = 0; i < numChunks; i++) {
+      const chunkStart = i * MAX_CHUNK_BYTES;
+      const chunkEnd = Math.min((i + 1) * MAX_CHUNK_BYTES, fullAudio.length);
+      const chunkBuffer = fullAudio.subarray(chunkStart, chunkEnd);
+
+      // Estimate time offset for this chunk based on byte position
+      const timeOffsetSec = durationSec > 0
+        ? (chunkStart / fullAudio.length) * durationSec
+        : 0;
+
+      console.log(`[whisper] Chunk ${i + 1}/${numChunks}: ${(chunkBuffer.length / 1024 / 1024).toFixed(1)}MB, offset: ${formatTimestamp(timeOffsetSec)}`);
+
+      const formData = new FormData();
+      const blob = new Blob([chunkBuffer], { type: mimeType });
+      formData.append('file', blob, `chunk-${i}.${ext}`);
+      formData.append('model', 'whisper-1');
+      formData.append('response_format', 'verbose_json');
+      formData.append('timestamp_granularities[]', 'segment');
+      formData.append('language', 'en');
+
+      const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${OPENAI_KEY}` },
+        body: formData,
+      });
+
+      if (!whisperRes.ok) {
+        const errText = await whisperRes.text();
+        console.error(`[whisper] Chunk ${i + 1} API error ${whisperRes.status}: ${errText}`);
+        // Continue with other chunks even if one fails
+        continue;
+      }
+
+      const whisperData = await whisperRes.json();
+      const chunkSegments = (whisperData.segments || []).map((s: { text: string; start: number }) => ({
+        text: s.text.trim(),
+        startSec: s.start + timeOffsetSec, // Offset by chunk position
+      })).filter((s: { text: string }) => s.text.length > 0);
+
+      console.log(`[whisper] Chunk ${i + 1}: ${chunkSegments.length} segments`);
+      allSegments.push(...chunkSegments);
     }
 
-    const whisperData = await whisperRes.json();
-    console.log(`[whisper] Transcribed: ${whisperData.segments?.length} segments`);
+    // Sort by timestamp and deduplicate overlapping segments
+    allSegments.sort((a, b) => a.startSec - b.startSec);
 
-    const segments = (whisperData.segments || []).map((s: { text: string; start: number }) => ({
-      text: s.text.trim(),
-      startSec: s.start,
-    })).filter((s: { text: string }) => s.text.length > 0);
+    // Remove duplicates (chunks may have overlapping content at boundaries)
+    const deduped: { text: string; startSec: number }[] = [];
+    for (const seg of allSegments) {
+      const last = deduped[deduped.length - 1];
+      if (!last || Math.abs(seg.startSec - last.startSec) > 1 || seg.text !== last.text) {
+        deduped.push(seg);
+      }
+    }
 
-    return { segments };
+    console.log(`[whisper] Total: ${deduped.length} segments from ${numChunks} chunks`);
+    return deduped.length > 0 ? { segments: deduped } : null;
   } catch (err) {
     console.error('[whisper] Error:', err);
     return null;
@@ -218,11 +239,10 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    // Fallback: Whisper transcription
+    // Fallback: Whisper (handles ANY length via chunking)
     console.log(`[transcript] Using Whisper for ${videoId}...`);
     method = 'whisper';
 
-    // Get title/channel if we don't have them
     if (title === 'YouTube Video') {
       try {
         const oembed = await fetch(`https://noembed.com/embed?url=https://youtube.com/watch?v=${videoId}`, {
@@ -238,7 +258,7 @@ export async function POST(req: NextRequest) {
 
     if (!whisperResult || whisperResult.segments.length === 0) {
       return NextResponse.json({
-        error: 'Could not transcribe video. The audio may be too long (>25 min) or the download was blocked.',
+        error: 'Could not transcribe video. Audio download may have been blocked by YouTube.',
       }, { status: 404 });
     }
 

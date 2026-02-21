@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "95a8ec3c",
+      "author": "Milo",
+      "timestamp": "2026-02-21 10:36:41 -0500",
+      "message": "feat: Whisper fallback for YT transcripts - downloads audio via ytdl-core, sends to OpenAI Whisper API. Works on ANY video, no captions needed."
+    },
+    {
+      "type": "commit",
       "id": "127b618b",
       "author": "Milo",
       "timestamp": "2026-02-21 10:32:24 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:59:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "05c7356c",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:54:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T15:34:07.362Z"
+  "generatedAt": "2026-02-21T15:39:06.944Z"
 }
