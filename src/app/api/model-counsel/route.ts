@@ -14,9 +14,9 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     color: '#EA580C'
   },
   'gemini-pro': {
-    name: 'Gemini 3.1 Pro',
+    name: 'Gemini 3.1 Pro Preview',
     provider: 'google',
-    model: 'gemini-3.1-pro',
+    model: 'gemini-3.1-pro-preview',
     color: '#2563EB'
   },
   'gemini-flash': {
@@ -32,9 +32,9 @@ const MODELS: Record<string, { name: string; provider: string; model: string; co
     color: '#059669'
   },
   'grok': {
-    name: 'Grok 4.1 Fast',
+    name: 'Grok 3 (Beta)',
     provider: 'xai',
-    model: 'grok-4-1-fast',
+    model: 'grok-3-beta',
     color: '#7C3AED'
   },
   'llama': {

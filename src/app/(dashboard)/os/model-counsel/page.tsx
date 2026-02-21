@@ -22,10 +22,10 @@ interface ModelResponse {
 const MODEL_DISPLAY: Record<string, { initials: string; desc: string }> = {
   'claude-opus': { initials: 'OP', desc: 'Deep reasoning and analysis' },
   'claude-sonnet': { initials: 'SN', desc: 'Opus-level performance, 1M context' },
-  'gemini-pro': { initials: 'GP', desc: 'Google\'s latest, advanced reasoning' },
+  'gemini-pro': { initials: 'GP', desc: 'Google\'s latest, advanced reasoning (preview)' },
   'gemini-flash': { initials: 'GF', desc: 'Fast and free, solid quality' },
   'gpt-4.1': { initials: '4.1', desc: 'Strong at code and structure' },
-  'grok': { initials: 'GK', desc: 'Real-time X data, unfiltered' },
+  'grok': { initials: 'GK', desc: 'Real-time X data, unfiltered (beta)' },
   'llama': { initials: 'L4', desc: 'Llama 4 on Groq, blazing fast' },
 };
 

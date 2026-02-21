@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "f19005a0",
+      "author": "Milo",
+      "timestamp": "2026-02-21 10:43:53 -0500",
+      "message": "feat: Whisper chunking - transcribe ANY length video, splits audio into 24MB chunks, stitches timestamps back together"
+    },
+    {
+      "type": "commit",
+      "id": "0bdef350",
+      "author": "Milo",
+      "timestamp": "2026-02-21 10:43:28 -0500",
+      "message": "Roundtable: remove Dax/Tony, add Jim Halpert, update model to sonnet-4-6, compact 8-agent single-row grid"
+    },
+    {
+      "type": "commit",
       "id": "95a8ec3c",
       "author": "Milo",
       "timestamp": "2026-02-21 10:36:41 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 09:09:11 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "e017e16d",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "9de5f088",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T15:39:06.944Z"
+  "generatedAt": "2026-02-21T16:04:04.716Z"
 }
