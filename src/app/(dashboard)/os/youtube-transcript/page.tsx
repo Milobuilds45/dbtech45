@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
+import { fetchTranscriptClient } from '@/lib/youtube-client';
 import {
   Play, Youtube, Tv, Brain, ChevronDown, ChevronRight, ChevronUp,
   Copy, Check, Download, FileText, Trash2, ExternalLink, Clock,
@@ -154,33 +155,24 @@ export default function YouTubeTranscriptPage() {
     setCopied(false);
 
     try {
-      const res = await fetch('/api/youtube-transcript', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: url.trim() }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Failed to fetch transcript');
-      } else {
-        setResult(data);
-        const item: ArchivedTranscript = {
-          id: `${data.videoId}-${Date.now()}`,
-          videoId: data.videoId,
-          title: data.title,
-          channel: data.channel || 'Unknown Channel',
-          description: data.plain.substring(0, 200).trim() + '...',
-          language: data.language,
-          segmentCount: data.segmentCount,
-          timestamped: data.timestamped,
-          plain: data.plain,
-          archivedAt: new Date().toISOString(),
-        };
-        saveToArchive(item);
-        setArchive(getArchive());
-      }
-    } catch {
-      setError('Network error. Please try again.');
+      const data = await fetchTranscriptClient(url.trim());
+      setResult(data);
+      const item: ArchivedTranscript = {
+        id: `${data.videoId}-${Date.now()}`,
+        videoId: data.videoId,
+        title: data.title,
+        channel: data.channel || 'Unknown Channel',
+        description: data.plain.substring(0, 200).trim() + '...',
+        language: data.language,
+        segmentCount: data.segmentCount,
+        timestamped: data.timestamped,
+        plain: data.plain,
+        archivedAt: new Date().toISOString(),
+      };
+      saveToArchive(item);
+      setArchive(getArchive());
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch transcript. Please try again.');
     } finally {
       setLoading(false);
     }

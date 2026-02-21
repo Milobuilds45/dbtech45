@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "67d9faf7",
+      "author": "Milo",
+      "timestamp": "2026-02-21 07:10:55 -0500",
+      "message": "fix: rewrite YT transcript API - innertube + XML fallback + proxy APIs, better error handling"
+    },
+    {
+      "type": "commit",
       "id": "3df85ca2",
       "author": "Milo",
       "timestamp": "2026-02-20 19:44:05 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:44:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "1196e7e6",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T12:09:18.319Z"
+  "generatedAt": "2026-02-21T15:29:04.792Z"
 }
