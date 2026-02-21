@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "127b618b",
+      "author": "Milo",
+      "timestamp": "2026-02-21 10:32:24 -0500",
+      "message": "Update Model Counsel to latest models: Gemini 3.1 Pro, GPT-4.1, Grok 4.1, Llama 4 Scout"
+    },
+    {
+      "type": "commit",
+      "id": "c62f7ca0",
+      "author": "Milo",
+      "timestamp": "2026-02-21 10:31:36 -0500",
+      "message": "fix: YT transcript - client-side extraction via Invidious APIs + CORS proxies, bypasses server-side YouTube blocks"
+    },
+    {
+      "type": "commit",
       "id": "67d9faf7",
       "author": "Milo",
       "timestamp": "2026-02-21 07:10:55 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 08:54:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "95daee72",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:49:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "ae1a5686",
-      "author": "Milo",
-      "timestamp": "2026-02-19 08:44:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T15:29:04.792Z"
+  "generatedAt": "2026-02-21T15:34:07.362Z"
 }

@@ -9,6 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.16.12",
     "@google/genai": "^1.40.0",
     "@instantdb/react": "^0.22.126",
     "@supabase/supabase-js": "^2.95.3",
