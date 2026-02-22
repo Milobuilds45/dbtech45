@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "a1306a9e",
+      "author": "Milo",
+      "timestamp": "2026-02-21 20:38:02 -0500",
+      "message": "paper mode: kill dark rgba overlays in sidebar, force white bg, black text throughout"
+    },
+    {
+      "type": "commit",
+      "id": "40bb35c3",
+      "author": "Milo",
+      "timestamp": "2026-02-21 20:34:08 -0500",
+      "message": "paper mode: sidebar text #444 gray -> #111 black, section headers #999 -> #666, inactive nav #374151 -> #111"
+    },
+    {
+      "type": "commit",
       "id": "c675b318",
       "author": "Milo",
       "timestamp": "2026-02-21 19:31:51 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 09:39:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "47ab19a1",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "b4f739fb",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:29:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-22T01:34:05.683Z"
+  "generatedAt": "2026-02-22T01:44:05.461Z"
 }
