@@ -330,7 +330,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             transition: 'all 0.15s ease',
             color: active
               ? (colorMode === 'paper' ? '#78350F' : theme.carbon)
-              : (colorMode === 'paper' ? '#374151' : theme.smoke),
+              : (colorMode === 'paper' ? '#111111' : theme.smoke),
             background: active
               ? (colorMode === 'paper' ? '#FFF7ED' : theme.amber)
               : 'transparent',
@@ -653,13 +653,13 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             border-right: 1px solid #E8E8E8 !important;
             box-shadow: 1px 0 8px rgba(0,0,0,0.04) !important;
           }
-          /* All sidebar text → dark */
+          /* All sidebar text → black */
           .paper-sidebar * {
-            color: #444 !important;
+            color: #111111 !important;
           }
           /* Section headers */
           .paper-sidebar [style*="letter-spacing"] {
-            color: #999 !important;
+            color: #666666 !important;
           }
           /* Active nav item: subtle warm highlight instead of harsh block */
           .paper-sidebar .paper-nav-active {
