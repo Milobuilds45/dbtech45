@@ -126,7 +126,7 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
   const tmpDir = os.tmpdir();
   const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
 
-  let ytdlp = 'yt-dlp';
+  let ytdlp = 'python3 -m yt_dlp';
   if (process.platform === 'win32') {
     const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
     try {
@@ -139,8 +139,8 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
 
   try {
     await execAsync(cmd, { timeout: 45000 });
-  } catch (err) {
-    console.error('[yt-dlp] Error:', err);
+  } catch (err: any) {
+    console.error('[yt-dlp] Error:', err.message || err);
     return null;
   }
 
