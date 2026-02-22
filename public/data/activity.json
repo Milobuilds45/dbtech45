@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "17c1e715",
+      "author": "Milo",
+      "timestamp": "2026-02-21 11:08:16 -0500",
+      "message": "Fix Roundtable: switch to Gemini 2.0 Flash (free tier) to bypass Anthropic credit error"
+    },
+    {
+      "type": "commit",
+      "id": "e31e83ad",
+      "author": "Milo",
+      "timestamp": "2026-02-21 11:06:29 -0500",
+      "message": "Fix Model Counsel API errors: correct Gemini/Grok IDs, update UI descriptions"
+    },
+    {
+      "type": "commit",
       "id": "f19005a0",
       "author": "Milo",
       "timestamp": "2026-02-21 10:43:53 -0500",
@@ -335,21 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 09:19:06 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "d6be43e5",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:14:08 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "9f98d0c9",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:09:11 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-21T16:04:04.716Z"
+  "generatedAt": "2026-02-22T00:24:05.298Z"
 }
