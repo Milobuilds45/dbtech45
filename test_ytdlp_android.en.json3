@@ -1,0 +1,4039 @@
+{
+  "wireMagic": "pb3",
+  "pens": [ {
+  
+  } ],
+  "wsWinStyles": [ {
+  
+  } ],
+  "wpWinPositions": [ {
+  
+  } ],
+  "events": [ {
+    "tStartMs": 150,
+    "dDurationMs": 4627,
+    "segs": [ {
+      "utf8": "- All right, so this is the Humane AI Pin."
+    } ]
+  }, {
+    "tStartMs": 5670,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "It is a brand new product,"
+    } ]
+  }, {
+    "tStartMs": 7290,
+    "dDurationMs": 2760,
+    "segs": [ {
+      "utf8": "and a really, really\ninteresting form factor"
+    } ]
+  }, {
+    "tStartMs": 10050,
+    "dDurationMs": 4740,
+    "segs": [ {
+      "utf8": "of an ultra futuristic wearable computer."
+    } ]
+  }, {
+    "tStartMs": 14790,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "So in a time of all these\ncrazy gadgets and Vision Pro,"
+    } ]
+  }, {
+    "tStartMs": 17850,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "and wearable glasses,"
+    } ]
+  }, {
+    "tStartMs": 19110,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "it's so sick that we get so many"
+    } ]
+  }, {
+    "tStartMs": 20850,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "genuinely new first\ngeneration products like this"
+    } ]
+  }, {
+    "tStartMs": 23400,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "to give a shot."
+    } ]
+  }, {
+    "tStartMs": 24233,
+    "dDurationMs": 4387,
+    "segs": [ {
+      "utf8": "Unfortunately, it's also\nthe new worst product"
+    } ]
+  }, {
+    "tStartMs": 28620,
+    "dDurationMs": 3180,
+    "segs": [ {
+      "utf8": "I think I've ever reviewed,\nin its current state."
+    } ]
+  }, {
+    "tStartMs": 31800,
+    "dDurationMs": 4410,
+    "segs": [ {
+      "utf8": "There's just so many things bad about it."
+    } ]
+  }, {
+    "tStartMs": 36210,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "It's so bad, in fact,"
+    } ]
+  }, {
+    "tStartMs": 37350,
+    "dDurationMs": 1830,
+    "segs": [ {
+      "utf8": "that I think it's actually\nkind of distracting"
+    } ]
+  }, {
+    "tStartMs": 39180,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "to like understand what\nthe point of the device is"
+    } ]
+  }, {
+    "tStartMs": 41580,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "as we go through it."
+    } ]
+  }, {
+    "tStartMs": 42413,
+    "dDurationMs": 2377,
+    "segs": [ {
+      "utf8": "So I'm gonna have to separate\nit out for this video."
+    } ]
+  }, {
+    "tStartMs": 44790,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "First, I'm gonna tell you what it is,"
+    } ]
+  }, {
+    "tStartMs": 47100,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "and what it's supposed to do,"
+    } ]
+  }, {
+    "tStartMs": 49710,
+    "dDurationMs": 3420,
+    "segs": [ {
+      "utf8": "and then I'll tell you what my experience"
+    } ]
+  }, {
+    "tStartMs": 53130,
+    "dDurationMs": 2266,
+    "segs": [ {
+      "utf8": "has actually been using it."
+    } ]
+  }, {
+    "tStartMs": 55396,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 60090,
+    "dDurationMs": 3390,
+    "segs": [ {
+      "utf8": "So this thing is a\nsmall, wearable computer,"
+    } ]
+  }, {
+    "tStartMs": 63480,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "with an AI inside,"
+    } ]
+  }, {
+    "tStartMs": 65190,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "that can help you throughout your day."
+    } ]
+  }, {
+    "tStartMs": 66780,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "It's about the size of a large watch."
+    } ]
+  }, {
+    "tStartMs": 68790,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "It has a camera and a microphone,"
+    } ]
+  }, {
+    "tStartMs": 70680,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "and can interact with\nthe world around you."
+    } ]
+  }, {
+    "tStartMs": 72360,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "But in case you can't use that as input,"
+    } ]
+  }, {
+    "tStartMs": 74160,
+    "dDurationMs": 3690,
+    "segs": [ {
+      "utf8": "there's also a touch pad\nand a projector inside,"
+    } ]
+  }, {
+    "tStartMs": 77850,
+    "dDurationMs": 3990,
+    "segs": [ {
+      "utf8": "with this super new\nstyle of gesture control,"
+    } ]
+  }, {
+    "tStartMs": 81840,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "with the projection on your hand."
+    } ]
+  }, {
+    "tStartMs": 83760,
+    "dDurationMs": 4140,
+    "segs": [ {
+      "utf8": "It costs $700, plus..."
+    } ]
+  }, {
+    "tStartMs": 87900,
+    "dDurationMs": 2460,
+    "segs": [ {
+      "utf8": "A $24 a month subscription plan"
+    } ]
+  }, {
+    "tStartMs": 90360,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "for the data that comes with it,"
+    } ]
+  }, {
+    "tStartMs": 92130,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "and all the services and\nall the online storage."
+    } ]
+  }, {
+    "tStartMs": 95070,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "But yeah, $700, plus a subscription."
+    } ]
+  }, {
+    "tStartMs": 100200,
+    "dDurationMs": 1020,
+    "segs": [ {
+      "utf8": "It's already a fun start."
+    } ]
+  }, {
+    "tStartMs": 101220,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "So one of the big things off the top is,"
+    } ]
+  }, {
+    "tStartMs": 103080,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "this does not pair to\nyour smartphone at all."
+    } ]
+  }, {
+    "tStartMs": 106320,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "This is its own standalone device,"
+    } ]
+  }, {
+    "tStartMs": 108720,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "with its own internet connection,"
+    } ]
+  }, {
+    "tStartMs": 110340,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "with its own phone number."
+    } ]
+  }, {
+    "tStartMs": 112440,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "And so this little AI assistant"
+    } ]
+  }, {
+    "tStartMs": 114630,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "just goes everywhere with\nyou, it's always connected,"
+    } ]
+  }, {
+    "tStartMs": 117180,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "and that's..."
+    } ]
+  }, {
+    "tStartMs": 118013,
+    "dDurationMs": 1897,
+    "segs": [ {
+      "utf8": "You can choose how much\nor how little to use it"
+    } ]
+  }, {
+    "tStartMs": 119910,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "alongside your smartphone."
+    } ]
+  }, {
+    "tStartMs": 122220,
+    "dDurationMs": 870,
+    "segs": [ {
+      "utf8": "So you know, on its face,"
+    } ]
+  }, {
+    "tStartMs": 123090,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "maybe that's kind of\na cool idea, at least."
+    } ]
+  }, {
+    "tStartMs": 126150,
+    "dDurationMs": 2280,
+    "segs": [ {
+      "utf8": "Like the idea is you\ntalk to it like a person,"
+    } ]
+  }, {
+    "tStartMs": 128430,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "it answers questions, it\ngives you historical facts,"
+    } ]
+  }, {
+    "tStartMs": 131220,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "or personalized recommendations,"
+    } ]
+  }, {
+    "tStartMs": 133260,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "or helps you out with things,"
+    } ]
+  }, {
+    "tStartMs": 134550,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "like brainstorming or remembering things."
+    } ]
+  }, {
+    "tStartMs": 136800,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "It can make phone calls,\nand send text messages."
+    } ]
+  }, {
+    "tStartMs": 139920,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "A ton of stuff."
+    } ]
+  }, {
+    "tStartMs": 140753,
+    "dDurationMs": 1147,
+    "segs": [ {
+      "utf8": "The unfortunate reality though,"
+    } ]
+  }, {
+    "tStartMs": 141900,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "is this thing is too much of a pain to use"
+    } ]
+  }, {
+    "tStartMs": 143850,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "to actually want to do most of that stuff"
+    } ]
+  }, {
+    "tStartMs": 147090,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "alongside your phone."
+    } ]
+  }, {
+    "tStartMs": 148260,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "But we'll get there."
+    } ]
+  }, {
+    "tStartMs": 150900,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 156060,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "All right, let me actually\nstart with the hardware."
+    } ]
+  }, {
+    "tStartMs": 157860,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "This little thing, the\nbuild of this thing,"
+    } ]
+  }, {
+    "tStartMs": 160110,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "is actually impressive."
+    } ]
+  }, {
+    "tStartMs": 161580,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "Like genuinely, I think if\nyou're looking for a reason"
+    } ]
+  }, {
+    "tStartMs": 163740,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "to feel like you're\nnot getting ripped off,"
+    } ]
+  }, {
+    "tStartMs": 166350,
+    "dDurationMs": 3330,
+    "segs": [ {
+      "utf8": "the hardware packaging actually\nkind of accomplishes that."
+    } ]
+  }, {
+    "tStartMs": 169680,
+    "dDurationMs": 4170,
+    "segs": [ {
+      "utf8": "Like this pin is solid, it's\naluminum, it's dense feeling."
+    } ]
+  }, {
+    "tStartMs": 173850,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "There's three colors, actually."
+    } ]
+  }, {
+    "tStartMs": 174900,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "There's all matte black,\nwhich is the cheapest one."
+    } ]
+  }, {
+    "tStartMs": 177000,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "Or for a hundred bucks more,"
+    } ]
+  }, {
+    "tStartMs": 178590,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "you can get white or\nthis black and silver one"
+    } ]
+  }, {
+    "tStartMs": 181110,
+    "dDurationMs": 900,
+    "segs": [ {
+      "utf8": "that I'm using."
+    } ]
+  }, {
+    "tStartMs": 182010,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "And then there's a lot of\nsensors packed up there."
+    } ]
+  }, {
+    "tStartMs": 184050,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "There's a camera, there's\nmicrophones, there's lights,"
+    } ]
+  }, {
+    "tStartMs": 186600,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "there's a tiny class 2 laser projector."
+    } ]
+  }, {
+    "tStartMs": 189150,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "So this whole thing is\nlike really densely packed."
+    } ]
+  }, {
+    "tStartMs": 191970,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "And then the magnets also\nthat connect everything,"
+    } ]
+  }, {
+    "tStartMs": 194910,
+    "dDurationMs": 1110,
+    "segs": [ {
+      "utf8": "are super strong."
+    } ]
+  }, {
+    "tStartMs": 196020,
+    "dDurationMs": 4320,
+    "segs": [ {
+      "utf8": "So the back of this pin\nis called a \"booster\"."
+    } ]
+  }, {
+    "tStartMs": 200340,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "It's another battery."
+    } ]
+  }, {
+    "tStartMs": 201630,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "So it's got its own internal battery,"
+    } ]
+  }, {
+    "tStartMs": 203310,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "but then once you attach\nit to your clothes,"
+    } ]
+  }, {
+    "tStartMs": 205350,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "it cleverly, through your\nclothes, magnetizes there."
+    } ]
+  }, {
+    "tStartMs": 208170,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "It makes a nice sound when you do."
+    } ]
+  }, {
+    "tStartMs": 210120,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "And that's how you get it attached."
+    } ]
+  }, {
+    "tStartMs": 211380,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "So you get two of these boosters."
+    } ]
+  }, {
+    "tStartMs": 212760,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "And since there's the internal battery,"
+    } ]
+  }, {
+    "tStartMs": 214230,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "you can literally hot swap between them"
+    } ]
+  }, {
+    "tStartMs": 216240,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "so the thing stays alive."
+    } ]
+  }, {
+    "tStartMs": 217710,
+    "dDurationMs": 1020,
+    "segs": [ {
+      "utf8": "Very clever."
+    } ]
+  }, {
+    "tStartMs": 218730,
+    "dDurationMs": 2970,
+    "segs": [ {
+      "utf8": "And then it also comes with\nthis extremely well-made,"
+    } ]
+  }, {
+    "tStartMs": 221700,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "and also very, very\nreflective charging case."
+    } ]
+  }, {
+    "tStartMs": 224820,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "So you can pop it in there,\nor just your battery in there,"
+    } ]
+  }, {
+    "tStartMs": 227010,
+    "dDurationMs": 1230,
+    "segs": [ {
+      "utf8": "keep it topped off."
+    } ]
+  }, {
+    "tStartMs": 228240,
+    "dDurationMs": 2340,
+    "segs": [ {
+      "utf8": "That charges by USB Type-C."
+    } ]
+  }, {
+    "tStartMs": 230580,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "This thing is nice."
+    } ]
+  }, {
+    "tStartMs": 231413,
+    "dDurationMs": 2347,
+    "segs": [ {
+      "utf8": "And it also comes with this\nlike desktop charging puck,"
+    } ]
+  }, {
+    "tStartMs": 233760,
+    "dDurationMs": 2280,
+    "segs": [ {
+      "utf8": "where you can magnetize in the battery,"
+    } ]
+  }, {
+    "tStartMs": 236040,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "or the whole thing."
+    } ]
+  }, {
+    "tStartMs": 236873,
+    "dDurationMs": 1777,
+    "segs": [ {
+      "utf8": "The pin and the booster at the same time."
+    } ]
+  }, {
+    "tStartMs": 238650,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "So that is a lot of charging"
+    } ]
+  }, {
+    "tStartMs": 240240,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "and battery related accessories,"
+    } ]
+  }, {
+    "tStartMs": 241980,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "but they all come with it."
+    } ]
+  }, {
+    "tStartMs": 243510,
+    "dDurationMs": 960,
+    "segs": [ {
+      "utf8": "And this pin, you know,"
+    } ]
+  }, {
+    "tStartMs": 244470,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "it's also got these\nlights up at the top here"
+    } ]
+  }, {
+    "tStartMs": 246330,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "that light up anytime\nyou're doing anything."
+    } ]
+  }, {
+    "tStartMs": 248100,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "And there's also a small\npin light notification"
+    } ]
+  }, {
+    "tStartMs": 250410,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "for when there's\nsomething waiting for you."
+    } ]
+  }, {
+    "tStartMs": 251880,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "So between the weight of the parts"
+    } ]
+  }, {
+    "tStartMs": 253470,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "and the strength of the magnets,\nhow it all slaps together,"
+    } ]
+  }, {
+    "tStartMs": 255870,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "like you can tell that a lot of effort"
+    } ]
+  }, {
+    "tStartMs": 257340,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "was put into the\ncraftsmanship of this product,"
+    } ]
+  }, {
+    "tStartMs": 260460,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "which I very much appreciate."
+    } ]
+  }, {
+    "tStartMs": 262260,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "It's the best part of the pin, by a lot."
+    } ]
+  }, {
+    "tStartMs": 267389,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 272410,
+    "dDurationMs": 2690,
+    "segs": [ {
+      "utf8": "Okay, I want you to forget\nabout the smartphone"
+    } ]
+  }, {
+    "tStartMs": 275100,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "in your pocket for a second."
+    } ]
+  }, {
+    "tStartMs": 276660,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "Like just for a minute, just\npretend that doesn't exist."
+    } ]
+  }, {
+    "tStartMs": 278520,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "Ignore it, right?"
+    } ]
+  }, {
+    "tStartMs": 279780,
+    "dDurationMs": 4560,
+    "segs": [ {
+      "utf8": "This little pin can do a lot\nof stuff, and is very helpful."
+    } ]
+  }, {
+    "tStartMs": 284340,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "So again, think of this\nthing as an AI assistant"
+    } ]
+  }, {
+    "tStartMs": 286830,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "that's like by your side,\nall the time with you."
+    } ]
+  }, {
+    "tStartMs": 289470,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "So, you can ask it things."
+    } ]
+  }, {
+    "tStartMs": 290910,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "It doesn't have a wake word,"
+    } ]
+  }, {
+    "tStartMs": 292050,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "it only turns the mic on and\nlistens when you touch it."
+    } ]
+  }, {
+    "tStartMs": 294840,
+    "dDurationMs": 1394,
+    "segs": [ {
+      "utf8": "So you can go..."
+    } ]
+  }, {
+    "tStartMs": 296234,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 297067,
+    "dDurationMs": 1605,
+    "segs": [ {
+      "utf8": "How tall is the Empire State Building?"
+    } ]
+  }, {
+    "tStartMs": 298672,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 299505,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "And then when you let go,"
+    } ]
+  }, {
+    "tStartMs": 300338,
+    "dDurationMs": 2032,
+    "segs": [ {
+      "utf8": "it starts sending that\nquery off to the crowd."
+    } ]
+  }, {
+    "tStartMs": 302370,
+    "dDurationMs": 926,
+    "segs": [ {
+      "utf8": "The-"
+    } ]
+  }, {
+    "tStartMs": 303296,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "- [AI Pin] The Empire State Building"
+    } ]
+  }, {
+    "tStartMs": 304129,
+    "dDurationMs": 3971,
+    "segs": [ {
+      "utf8": "is 1,454 feet tall to the tip."
+    } ]
+  }, {
+    "tStartMs": 308100,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "- The Cloud."
+    } ]
+  }, {
+    "tStartMs": 309030,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "And then gets you an\nanswer, which is great."
+    } ]
+  }, {
+    "tStartMs": 310770,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "And it also is multimodal."
+    } ]
+  }, {
+    "tStartMs": 312480,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "So that means it can look at the camera,"
+    } ]
+  }, {
+    "tStartMs": 314250,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "and see things, and interact\nwith the world around you."
+    } ]
+  }, {
+    "tStartMs": 316560,
+    "dDurationMs": 969,
+    "segs": [ {
+      "utf8": "So..."
+    } ]
+  }, {
+    "tStartMs": 317529,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 318362,
+    "dDurationMs": 1437,
+    "segs": [ {
+      "utf8": "Look and tell me what you see."
+    } ]
+  }, {
+    "tStartMs": 319799,
+    "dDurationMs": 1471,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 321270,
+    "dDurationMs": 3270,
+    "segs": [ {
+      "utf8": "So it'll scan the room,\nuse the Cloud again."
+    } ]
+  }, {
+    "tStartMs": 324540,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "That little noise was it\ntaking a little image,"
+    } ]
+  }, {
+    "tStartMs": 326790,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "sending AI image to the Cloud,"
+    } ]
+  }, {
+    "tStartMs": 328500,
+    "dDurationMs": 2670,
+    "segs": [ {
+      "utf8": "analyzing it, getting it back,"
+    } ]
+  }, {
+    "tStartMs": 331170,
+    "dDurationMs": 1230,
+    "segs": [ {
+      "utf8": "then deciding what to tell me."
+    } ]
+  }, {
+    "tStartMs": 332400,
+    "dDurationMs": 840,
+    "segs": [ {
+      "utf8": "- [AI Pin] You are sitting in front"
+    } ]
+  }, {
+    "tStartMs": 333240,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "of a camera and a laptop."
+    } ]
+  }, {
+    "tStartMs": 335010,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "The camera is on a tripod\nand pointed at you."
+    } ]
+  }, {
+    "tStartMs": 337740,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "The laptop is open, and\nyou are looking at it."
+    } ]
+  }, {
+    "tStartMs": 340140,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "There are three pictures of\ndogs on the wall behind you."
+    } ]
+  }, {
+    "tStartMs": 343080,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "There is a window to\nthe left of the camera."
+    } ]
+  }, {
+    "tStartMs": 345390,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "There is a boom mic on\nthe table in front of you."
+    } ]
+  }, {
+    "tStartMs": 347880,
+    "dDurationMs": 1893,
+    "segs": [ {
+      "utf8": "There is a red carpet on the floor."
+    } ]
+  }, {
+    "tStartMs": 352710,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "- Great."
+    } ]
+  }, {
+    "tStartMs": 353543,
+    "dDurationMs": 937,
+    "segs": [ {
+      "utf8": "The camera can also take pictures,"
+    } ]
+  }, {
+    "tStartMs": 354480,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "or up to 15 second videos,"
+    } ]
+  }, {
+    "tStartMs": 356370,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "which it auto uploads while charging."
+    } ]
+  }, {
+    "tStartMs": 358080,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "It can also remember things\nyou tell it to remember."
+    } ]
+  }, {
+    "tStartMs": 360480,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "And all these things will\nshow up in the Humane Center."
+    } ]
+  }, {
+    "tStartMs": 363420,
+    "dDurationMs": 2070,
+    "segs": [ {
+      "utf8": "So it's like this online web portal"
+    } ]
+  }, {
+    "tStartMs": 365490,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "for all things connected to the pin."
+    } ]
+  }, {
+    "tStartMs": 367290,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "There's no app, it's just the website."
+    } ]
+  }, {
+    "tStartMs": 369180,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "So there, you can see a whole\nhistory of who you've called,"
+    } ]
+  }, {
+    "tStartMs": 371490,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "and texted, and what you've listened to,"
+    } ]
+  }, {
+    "tStartMs": 373500,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "and what answers it gave to\nyour most recent requests,"
+    } ]
+  }, {
+    "tStartMs": 376020,
+    "dDurationMs": 1830,
+    "segs": [ {
+      "utf8": "and all the things you\ntold it to remember."
+    } ]
+  }, {
+    "tStartMs": 377850,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "It is pretty well-rounded."
+    } ]
+  }, {
+    "tStartMs": 379230,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "I think probably its best\ntech demo feature though,"
+    } ]
+  }, {
+    "tStartMs": 381720,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "is the translate back and forth."
+    } ]
+  }, {
+    "tStartMs": 383520,
+    "dDurationMs": 2428,
+    "segs": [ {
+      "utf8": "You got a two finger\ngesture, you can go..."
+    } ]
+  }, {
+    "tStartMs": 385948,
+    "dDurationMs": 932,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 386880,
+    "dDurationMs": 1691,
+    "segs": [ {
+      "utf8": "(Marques speaks in Spanish)"
+    } ]
+  }, {
+    "tStartMs": 388571,
+    "dDurationMs": 2059,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 390630,
+    "dDurationMs": 1080,
+    "segs": [ {
+      "utf8": "- [AI Pin] Where's the library?"
+    } ]
+  }, {
+    "tStartMs": 391710,
+    "dDurationMs": 2340,
+    "segs": [ {
+      "utf8": "- So it auto detects the language,\ntranslates it to English,"
+    } ]
+  }, {
+    "tStartMs": 394050,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "and the person who speaks\nback can translate back,"
+    } ]
+  }, {
+    "tStartMs": 396540,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "as long as you hold on the\npin and listen to them."
+    } ]
+  }, {
+    "tStartMs": 398730,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "Pretty cool."
+    } ]
+  }, {
+    "tStartMs": 399563,
+    "dDurationMs": 847,
+    "segs": [ {
+      "utf8": "This is all voice stuff though."
+    } ]
+  }, {
+    "tStartMs": 400410,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "So if at any point you're in a loud area,"
+    } ]
+  }, {
+    "tStartMs": 402570,
+    "dDurationMs": 1110,
+    "segs": [ {
+      "utf8": "or a very private area,"
+    } ]
+  }, {
+    "tStartMs": 403680,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "and you don't wanna interact\nout loud with your voice,"
+    } ]
+  }, {
+    "tStartMs": 406680,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "that's where this projector comes in."
+    } ]
+  }, {
+    "tStartMs": 408990,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "So it seems crazy, but\nyou activate it like that,"
+    } ]
+  }, {
+    "tStartMs": 411930,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "and then you just hold your\nfinger out, your whole palm,"
+    } ]
+  }, {
+    "tStartMs": 415290,
+    "dDurationMs": 2070,
+    "segs": [ {
+      "utf8": "and it becomes a projector screen"
+    } ]
+  }, {
+    "tStartMs": 417360,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "for the laser projector\nbuilt into the pin."
+    } ]
+  }, {
+    "tStartMs": 420090,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "So it takes a little practice,"
+    } ]
+  }, {
+    "tStartMs": 421140,
+    "dDurationMs": 1820,
+    "segs": [ {
+      "utf8": "but eventually you get used\nto holding your hand up"
+    } ]
+  }, {
+    "tStartMs": 422960,
+    "dDurationMs": 1420,
+    "segs": [ {
+      "utf8": "in just the right spot,"
+    } ]
+  }, {
+    "tStartMs": 424380,
+    "dDurationMs": 4830,
+    "segs": [ {
+      "utf8": "and then the UI gets\nprojected in this green 720p"
+    } ]
+  }, {
+    "tStartMs": 429210,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "mini screen on your hand."
+    } ]
+  }, {
+    "tStartMs": 430740,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "So you basically use your hand,"
+    } ]
+  }, {
+    "tStartMs": 432390,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "try to be as flat as possible,"
+    } ]
+  }, {
+    "tStartMs": 433920,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "and then to interact with it,"
+    } ]
+  }, {
+    "tStartMs": 435480,
+    "dDurationMs": 1830,
+    "segs": [ {
+      "utf8": "there are some movement gestures."
+    } ]
+  }, {
+    "tStartMs": 437310,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "So there's a time of flight sensor"
+    } ]
+  }, {
+    "tStartMs": 438630,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "that keeps track of movement,"
+    } ]
+  }, {
+    "tStartMs": 440010,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "and you move your hand around kind of like"
+    } ]
+  }, {
+    "tStartMs": 441720,
+    "dDurationMs": 3930,
+    "segs": [ {
+      "utf8": "rolling a marble around in\nyour hand to select something,"
+    } ]
+  }, {
+    "tStartMs": 445650,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "then pinch to select."
+    } ]
+  }, {
+    "tStartMs": 447180,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "You can then make a fist to go back,"
+    } ]
+  }, {
+    "tStartMs": 449790,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "and then you literally push forward"
+    } ]
+  }, {
+    "tStartMs": 451710,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "to move deeper into a menu."
+    } ]
+  }, {
+    "tStartMs": 453300,
+    "dDurationMs": 2580,
+    "segs": [ {
+      "utf8": "So this is like a 3D UI you have to learn."
+    } ]
+  }, {
+    "tStartMs": 455880,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "This is obviously very\nbrand new for people,"
+    } ]
+  }, {
+    "tStartMs": 458490,
+    "dDurationMs": 3030,
+    "segs": [ {
+      "utf8": "but I think to be fair,\nit is pretty intuitive."
+    } ]
+  }, {
+    "tStartMs": 461520,
+    "dDurationMs": 2370,
+    "segs": [ {
+      "utf8": "I think if you get a\nquick 60 second lesson,"
+    } ]
+  }, {
+    "tStartMs": 463890,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "you kind of already have\nlearned all the things you need."
+    } ]
+  }, {
+    "tStartMs": 466830,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "When you first connect\nthe booster to the pin,"
+    } ]
+  }, {
+    "tStartMs": 468960,
+    "dDurationMs": 3210,
+    "segs": [ {
+      "utf8": "you can unlock it, and\nunlocking it with my pin,"
+    } ]
+  }, {
+    "tStartMs": 472170,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "is like this..."
+    } ]
+  }, {
+    "tStartMs": 474120,
+    "dDurationMs": 3510,
+    "segs": [ {
+      "utf8": "Move your hand through space\nto select the numbers thing."
+    } ]
+  }, {
+    "tStartMs": 477630,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "It's literally like moving back and forth"
+    } ]
+  }, {
+    "tStartMs": 479160,
+    "dDurationMs": 2460,
+    "segs": [ {
+      "utf8": "through a Rolodex of real numbers."
+    } ]
+  }, {
+    "tStartMs": 481620,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "So it's one of those like\nborderline magic things"
+    } ]
+  }, {
+    "tStartMs": 483810,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "where the first time you see it,"
+    } ]
+  }, {
+    "tStartMs": 485010,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "you kind of just get it, and it clicks."
+    } ]
+  }, {
+    "tStartMs": 487620,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "Even if it is a little fidgety,"
+    } ]
+  }, {
+    "tStartMs": 489240,
+    "dDurationMs": 3120,
+    "segs": [ {
+      "utf8": "and a little bit inaccurate\nand kind of slow."
+    } ]
+  }, {
+    "tStartMs": 492360,
+    "dDurationMs": 4264,
+    "segs": [ {
+      "utf8": "But that gets us into the review."
+    } ]
+  }, {
+    "tStartMs": 496624,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 501510,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "So, unfortunately..."
+    } ]
+  }, {
+    "tStartMs": 502950,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "This thing is bad at\nalmost everything it does,"
+    } ]
+  }, {
+    "tStartMs": 509340,
+    "dDurationMs": 1080,
+    "segs": [ {
+      "utf8": "basically all the time."
+    } ]
+  }, {
+    "tStartMs": 510420,
+    "dDurationMs": 990,
+    "segs": [ {
+      "utf8": "Where do I even start?"
+    } ]
+  }, {
+    "tStartMs": 511410,
+    "dDurationMs": 870,
+    "segs": [ {
+      "utf8": "So I guess first of all, okay,"
+    } ]
+  }, {
+    "tStartMs": 512280,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "it's supposed to just\nanswer questions, right?"
+    } ]
+  }, {
+    "tStartMs": 514530,
+    "dDurationMs": 3780,
+    "segs": [ {
+      "utf8": "It can kinda do that sometimes,\nbut one, it's often slow,"
+    } ]
+  }, {
+    "tStartMs": 518310,
+    "dDurationMs": 990,
+    "segs": [ {
+      "utf8": "because most of these requests"
+    } ]
+  }, {
+    "tStartMs": 519300,
+    "dDurationMs": 1110,
+    "segs": [ {
+      "utf8": "go to the Cloud and come back,"
+    } ]
+  }, {
+    "tStartMs": 520410,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "and there's just a long wait."
+    } ]
+  }, {
+    "tStartMs": 521760,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "And two, it's often wrong,"
+    } ]
+  }, {
+    "tStartMs": 523680,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "because AI still can hallucinate,"
+    } ]
+  }, {
+    "tStartMs": 525930,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "and there are still issues with it"
+    } ]
+  }, {
+    "tStartMs": 527190,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "just not understanding correctly,"
+    } ]
+  }, {
+    "tStartMs": 528390,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "or just saying the wrong thing."
+    } ]
+  }, {
+    "tStartMs": 529710,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "And that's not even\nmentioning server timeouts,"
+    } ]
+  }, {
+    "tStartMs": 531630,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "if you have a poor internet connection,"
+    } ]
+  }, {
+    "tStartMs": 532890,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "which happens to me all\nthe time in this studio."
+    } ]
+  }, {
+    "tStartMs": 534930,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "So when they do most of the demos,"
+    } ]
+  }, {
+    "tStartMs": 536070,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "like on their websites\nand in their videos,"
+    } ]
+  }, {
+    "tStartMs": 537990,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "they'll ask a question,\nand then they'll let go,"
+    } ]
+  }, {
+    "tStartMs": 540000,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "and keep talking to fill the silence,"
+    } ]
+  }, {
+    "tStartMs": 541860,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "so it's not awkward as\nyou wait for an answer,"
+    } ]
+  }, {
+    "tStartMs": 543570,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "and realize how long it is."
+    } ]
+  }, {
+    "tStartMs": 545190,
+    "dDurationMs": 3855,
+    "segs": [ {
+      "utf8": "But even on this fast studio wifi here..."
+    } ]
+  }, {
+    "tStartMs": 549045,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 549878,
+    "dDurationMs": 1982,
+    "segs": [ {
+      "utf8": "Who designed the Washington Monument?"
+    } ]
+  }, {
+    "tStartMs": 551860,
+    "dDurationMs": 2583,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 556080,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "- [AI] Finding designer."
+    } ]
+  }, {
+    "tStartMs": 559110,
+    "dDurationMs": 3210,
+    "segs": [ {
+      "utf8": "The Washington Monument was\ndesigned by Robert Mills,"
+    } ]
+  }, {
+    "tStartMs": 562320,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "a prominent 19th century\nAmerican architect"
+    } ]
+  }, {
+    "tStartMs": 565110,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "from South Carolina."
+    } ]
+  }, {
+    "tStartMs": 566610,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "The construction was\neventually completed by-"
+    } ]
+  }, {
+    "tStartMs": 568860,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "- Okay."
+    } ]
+  }, {
+    "tStartMs": 570210,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "So you can just hold your hand up"
+    } ]
+  }, {
+    "tStartMs": 571980,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "to put your answer on your hand,"
+    } ]
+  }, {
+    "tStartMs": 573660,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "and interrupt that it's talking so much."
+    } ]
+  }, {
+    "tStartMs": 575370,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "But even that was like a\npretty good performance"
+    } ]
+  }, {
+    "tStartMs": 578730,
+    "dDurationMs": 990,
+    "segs": [ {
+      "utf8": "for the AI Pin."
+    } ]
+  }, {
+    "tStartMs": 579720,
+    "dDurationMs": 2340,
+    "segs": [ {
+      "utf8": "In ideal, fast wifi conditions."
+    } ]
+  }, {
+    "tStartMs": 582060,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "But there are many, many times"
+    } ]
+  }, {
+    "tStartMs": 584160,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "when I feel like it's way slower,"
+    } ]
+  }, {
+    "tStartMs": 586290,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "and it seems like it goes to the internet"
+    } ]
+  }, {
+    "tStartMs": 588600,
+    "dDurationMs": 840,
+    "segs": [ {
+      "utf8": "for almost everything."
+    } ]
+  }, {
+    "tStartMs": 589440,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "I mean there's a few queries I guess"
+    } ]
+  }, {
+    "tStartMs": 592230,
+    "dDurationMs": 1532,
+    "segs": [ {
+      "utf8": "might be local, like..."
+    } ]
+  }, {
+    "tStartMs": 593762,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 594595,
+    "dDurationMs": 945,
+    "segs": [ {
+      "utf8": "What time is it?"
+    } ]
+  }, {
+    "tStartMs": 595540,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 596373,
+    "dDurationMs": 1467,
+    "segs": [ {
+      "utf8": "- [AI Pin] 11:42 AM."
+    } ]
+  }, {
+    "tStartMs": 597840,
+    "dDurationMs": 1080,
+    "segs": [ {
+      "utf8": "- Like that's pretty fast."
+    } ]
+  }, {
+    "tStartMs": 598920,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "If I ask the battery life,"
+    } ]
+  }, {
+    "tStartMs": 599850,
+    "dDurationMs": 1080,
+    "segs": [ {
+      "utf8": "it can tell me that pretty fast."
+    } ]
+  }, {
+    "tStartMs": 600930,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "But it feels like\nbasically everything else"
+    } ]
+  }, {
+    "tStartMs": 602550,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "is just shoveling it off to the Cloud,"
+    } ]
+  }, {
+    "tStartMs": 604260,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "not computing on the device,\nand it takes a while."
+    } ]
+  }, {
+    "tStartMs": 606900,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "But it's also just wrong all the time."
+    } ]
+  }, {
+    "tStartMs": 609510,
+    "dDurationMs": 3210,
+    "segs": [ {
+      "utf8": "Like, I remember asking it\ndays before the solar eclipse"
+    } ]
+  }, {
+    "tStartMs": 612720,
+    "dDurationMs": 3180,
+    "segs": [ {
+      "utf8": "when the next eclipse\nwas, and it said 2044."
+    } ]
+  }, {
+    "tStartMs": 615900,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "I asked it, \"What's some\ngood Asian food in the area?\""
+    } ]
+  }, {
+    "tStartMs": 618840,
+    "dDurationMs": 2077,
+    "segs": [ {
+      "utf8": "And over and over again it thought I said,"
+    } ]
+  }, {
+    "tStartMs": 620917,
+    "dDurationMs": 1883,
+    "segs": [ {
+      "utf8": "\"What's the best ash?\""
+    } ]
+  }, {
+    "tStartMs": 622800,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "For some reason?"
+    } ]
+  }, {
+    "tStartMs": 623970,
+    "dDurationMs": 1712,
+    "segs": [ {
+      "utf8": "When is the next Nets game?"
+    } ]
+  }, {
+    "tStartMs": 625682,
+    "dDurationMs": 2583,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 630120,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "- [AI Pin] Finding next Nets game."
+    } ]
+  }, {
+    "tStartMs": 631710,
+    "dDurationMs": 3900,
+    "segs": [ {
+      "utf8": "The next Brooklyn Nets game\nis on Sunday, April 14th,"
+    } ]
+  }, {
+    "tStartMs": 635610,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "but no specific opponent\nor location is provided."
+    } ]
+  }, {
+    "tStartMs": 638610,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "- I just Googled it."
+    } ]
+  }, {
+    "tStartMs": 639443,
+    "dDurationMs": 2339,
+    "segs": [ {
+      "utf8": "It says it's the 76ers,\nso that's kind of weird."
+    } ]
+  }, {
+    "tStartMs": 641782,
+    "dDurationMs": 878,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 642660,
+    "dDurationMs": 3053,
+    "segs": [ {
+      "utf8": "What's the traffic to the\nEmpire State Building from here?"
+    } ]
+  }, {
+    "tStartMs": 645713,
+    "dDurationMs": 2583,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 649920,
+    "dDurationMs": 1437,
+    "segs": [ {
+      "utf8": "- [AI Pin] Finding direction."
+    } ]
+  }, {
+    "tStartMs": 651357,
+    "dDurationMs": 2313,
+    "segs": [ {
+      "utf8": "Use the voice command feature of AI Pin"
+    } ]
+  }, {
+    "tStartMs": 653670,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "to ask for traffic information"
+    } ]
+  }, {
+    "tStartMs": 655380,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "to the Empire State Building,"
+    } ]
+  }, {
+    "tStartMs": 657270,
+    "dDurationMs": 2500,
+    "segs": [ {
+      "utf8": "and it will provide you\nwith the details you need."
+    } ]
+  }, {
+    "tStartMs": 660750,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "- I did?"
+    } ]
+  }, {
+    "tStartMs": 661680,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "This stuff happens all the time."
+    } ]
+  }, {
+    "tStartMs": 664080,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "But then, speaking of battery life..."
+    } ]
+  }, {
+    "tStartMs": 666780,
+    "dDurationMs": 861,
+    "segs": [ {
+      "utf8": "Really bad."
+    } ]
+  }, {
+    "tStartMs": 667641,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(Marques laughs)"
+    } ]
+  }, {
+    "tStartMs": 668474,
+    "dDurationMs": 1756,
+    "segs": [ {
+      "utf8": "And inconsistent, which is annoying."
+    } ]
+  }, {
+    "tStartMs": 670230,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "So, it's already kind of bad enough"
+    } ]
+  }, {
+    "tStartMs": 671940,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "that you have another device,"
+    } ]
+  }, {
+    "tStartMs": 673590,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "that you also have to\ncharge every single day."
+    } ]
+  }, {
+    "tStartMs": 676890,
+    "dDurationMs": 1830,
+    "segs": [ {
+      "utf8": "But with this, it's\nactually more than that."
+    } ]
+  }, {
+    "tStartMs": 678720,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "You have to constantly\nbabysit the battery,"
+    } ]
+  }, {
+    "tStartMs": 681510,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "and swap out boosters\nand charge this thing,"
+    } ]
+  }, {
+    "tStartMs": 684150,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "and keep it charged\nmultiple times per day."
+    } ]
+  }, {
+    "tStartMs": 686940,
+    "dDurationMs": 870,
+    "segs": [ {
+      "utf8": "So like I said before,"
+    } ]
+  }, {
+    "tStartMs": 687810,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "you get two of these\nthings that come with it,"
+    } ]
+  }, {
+    "tStartMs": 691170,
+    "dDurationMs": 4410,
+    "segs": [ {
+      "utf8": "and I've had a pin nuke through\nthe entire booster battery"
+    } ]
+  }, {
+    "tStartMs": 695580,
+    "dDurationMs": 4380,
+    "segs": [ {
+      "utf8": "in two hours, while not\nreally doing much of anything."
+    } ]
+  }, {
+    "tStartMs": 699960,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "I've also had it last like four hours"
+    } ]
+  }, {
+    "tStartMs": 701910,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "while doing a whole bunch of, you know,"
+    } ]
+  }, {
+    "tStartMs": 703830,
+    "dDurationMs": 3750,
+    "segs": [ {
+      "utf8": "photos and videos and\nrequests and laser stuff."
+    } ]
+  }, {
+    "tStartMs": 707580,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "And it's also just like constantly warm"
+    } ]
+  }, {
+    "tStartMs": 710820,
+    "dDurationMs": 963,
+    "segs": [ {
+      "utf8": "the whole time."
+    } ]
+  }, {
+    "tStartMs": 712680,
+    "dDurationMs": 840,
+    "segs": [ {
+      "utf8": "Just all the time."
+    } ]
+  }, {
+    "tStartMs": 713520,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "Which is a little bit concerning."
+    } ]
+  }, {
+    "tStartMs": 715080,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "I'll also say, multiple\ntimes in various situations,"
+    } ]
+  }, {
+    "tStartMs": 717780,
+    "dDurationMs": 3510,
+    "segs": [ {
+      "utf8": "I've had it just overheat\nfor seemingly no reason,"
+    } ]
+  }, {
+    "tStartMs": 721290,
+    "dDurationMs": 2460,
+    "segs": [ {
+      "utf8": "and tell me to wait a\nwhile for it to cool down."
+    } ]
+  }, {
+    "tStartMs": 723750,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "I think the heat problem is also amplified"
+    } ]
+  }, {
+    "tStartMs": 725790,
+    "dDurationMs": 3300,
+    "segs": [ {
+      "utf8": "because of the gap\ncreated by whatever fabric"
+    } ]
+  }, {
+    "tStartMs": 729090,
+    "dDurationMs": 2670,
+    "segs": [ {
+      "utf8": "is between the booster and the product,"
+    } ]
+  }, {
+    "tStartMs": 731760,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "that it is actively, inductively charging."
+    } ]
+  }, {
+    "tStartMs": 734070,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "You know, it is a lot of\nvery impressive engineering,"
+    } ]
+  }, {
+    "tStartMs": 735810,
+    "dDurationMs": 2760,
+    "segs": [ {
+      "utf8": "but wireless charging is\nnotoriously inefficient,"
+    } ]
+  }, {
+    "tStartMs": 738570,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "and loses energy via heat,"
+    } ]
+  }, {
+    "tStartMs": 740700,
+    "dDurationMs": 2430,
+    "segs": [ {
+      "utf8": "and that's what's happening\nin here all the time."
+    } ]
+  }, {
+    "tStartMs": 743130,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "So just the fact that it's warm,"
+    } ]
+  }, {
+    "tStartMs": 744600,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "just this warm puck on my chest all day,"
+    } ]
+  }, {
+    "tStartMs": 747600,
+    "dDurationMs": 3660,
+    "segs": [ {
+      "utf8": "was just enough to never quite\nforget that I'm wearing it."
+    } ]
+  }, {
+    "tStartMs": 751260,
+    "dDurationMs": 2100,
+    "segs": [ {
+      "utf8": "Well, that and the weight."
+    } ]
+  }, {
+    "tStartMs": 753360,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "Look, it's well-made, like I said,"
+    } ]
+  }, {
+    "tStartMs": 755610,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "it's really impressive hardware,"
+    } ]
+  }, {
+    "tStartMs": 756900,
+    "dDurationMs": 2220,
+    "segs": [ {
+      "utf8": "but it's just a little..."
+    } ]
+  }, {
+    "tStartMs": 759120,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "I mean, you see that little sag?"
+    } ]
+  }, {
+    "tStartMs": 760470,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "It's just a little too heavy,"
+    } ]
+  }, {
+    "tStartMs": 763110,
+    "dDurationMs": 3420,
+    "segs": [ {
+      "utf8": "in the same way that Vision\nPro is just a bit too heavy."
+    } ]
+  }, {
+    "tStartMs": 766530,
+    "dDurationMs": 2163,
+    "segs": [ {
+      "utf8": "When you're wearing the thing,"
+    } ]
+  }, {
+    "tStartMs": 769560,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "you just wanna make it\nas light as possible."
+    } ]
+  }, {
+    "tStartMs": 771510,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "It's why a lot of this\nstuff is made of plastic."
+    } ]
+  }, {
+    "tStartMs": 773250,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "So when you decide to go\naluminum instead, yeah,"
+    } ]
+  }, {
+    "tStartMs": 776160,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "it's just a little too heavy."
+    } ]
+  }, {
+    "tStartMs": 777870,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "I feel like Humane in\na lot of their videos,"
+    } ]
+  }, {
+    "tStartMs": 779400,
+    "dDurationMs": 3330,
+    "segs": [ {
+      "utf8": "they've got all these thick\nfabrics, and like heavy jackets,"
+    } ]
+  }, {
+    "tStartMs": 782730,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "so it doesn't really pull\ndown and sag nearly as much."
+    } ]
+  }, {
+    "tStartMs": 785460,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "But if you wear some lighter\nweight materials like I do,"
+    } ]
+  }, {
+    "tStartMs": 788250,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "especially when it gets warm outside,"
+    } ]
+  }, {
+    "tStartMs": 790020,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "this is really gonna start to be noticed."
+    } ]
+  }, {
+    "tStartMs": 791910,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "And yes, there are some\noptional accessories"
+    } ]
+  }, {
+    "tStartMs": 793500,
+    "dDurationMs": 870,
+    "segs": [ {
+      "utf8": "that are lighter weight,"
+    } ]
+  }, {
+    "tStartMs": 794370,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "but you never quite forget about it."
+    } ]
+  }, {
+    "tStartMs": 795960,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "This pin cannot set a timer."
+    } ]
+  }, {
+    "tStartMs": 798600,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "This pin cannot set an alarm."
+    } ]
+  }, {
+    "tStartMs": 801660,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "This notification light they\nput up at the corner here,"
+    } ]
+  }, {
+    "tStartMs": 804150,
+    "dDurationMs": 1020,
+    "segs": [ {
+      "utf8": "it's there and it works,"
+    } ]
+  }, {
+    "tStartMs": 805170,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "but it is basically out of my\nperipheral, my field of use,"
+    } ]
+  }, {
+    "tStartMs": 808110,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "so I almost never see it."
+    } ]
+  }, {
+    "tStartMs": 810030,
+    "dDurationMs": 3030,
+    "segs": [ {
+      "utf8": "And you know, they also chose\nthis corner for the light,"
+    } ]
+  }, {
+    "tStartMs": 813060,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "which means it's designed to be worn"
+    } ]
+  }, {
+    "tStartMs": 814650,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "on this half of the body,"
+    } ]
+  }, {
+    "tStartMs": 815700,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "which is fine, and you\nget used to it there,"
+    } ]
+  }, {
+    "tStartMs": 817140,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "but that's also exactly\nwhere most seat belts go,"
+    } ]
+  }, {
+    "tStartMs": 819930,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "in the US anyway."
+    } ]
+  }, {
+    "tStartMs": 820860,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "So, not their fault,"
+    } ]
+  }, {
+    "tStartMs": 821910,
+    "dDurationMs": 2340,
+    "segs": [ {
+      "utf8": "just another annoying\nthing about using it."
+    } ]
+  }, {
+    "tStartMs": 824250,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "The photos look pretty bad,"
+    } ]
+  }, {
+    "tStartMs": 826980,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "and the videos look even worse."
+    } ]
+  }, {
+    "tStartMs": 829290,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "They're square-ish in\naspect ratio, very noisy,"
+    } ]
+  }, {
+    "tStartMs": 832200,
+    "dDurationMs": 2970,
+    "segs": [ {
+      "utf8": "and they max out at 15 seconds."
+    } ]
+  }, {
+    "tStartMs": 835170,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "The hub that everything\nsyncs with, for me,"
+    } ]
+  }, {
+    "tStartMs": 837870,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "just randomly stops working,"
+    } ]
+  }, {
+    "tStartMs": 839520,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "and I have to refresh it\nto get it to work again."
+    } ]
+  }, {
+    "tStartMs": 842160,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "The projector..."
+    } ]
+  }, {
+    "tStartMs": 843510,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "As impressive as a technical\nachievement as it is,"
+    } ]
+  }, {
+    "tStartMs": 846870,
+    "dDurationMs": 2190,
+    "segs": [ {
+      "utf8": "it's just not very readable."
+    } ]
+  }, {
+    "tStartMs": 849060,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "It's not particularly bright outdoors,"
+    } ]
+  }, {
+    "tStartMs": 851310,
+    "dDurationMs": 2520,
+    "segs": [ {
+      "utf8": "and it gets dimmer the\nfurther from your hand it is"
+    } ]
+  }, {
+    "tStartMs": 853830,
+    "dDurationMs": 990,
+    "segs": [ {
+      "utf8": "because of physics."
+    } ]
+  }, {
+    "tStartMs": 854820,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "And unless I knew what\nthose words were saying,"
+    } ]
+  }, {
+    "tStartMs": 857130,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "I really can't read very much."
+    } ]
+  }, {
+    "tStartMs": 859260,
+    "dDurationMs": 905,
+    "segs": [ {
+      "utf8": "And..."
+    } ]
+  }, {
+    "tStartMs": 860165,
+    "dDurationMs": 1255,
+    "segs": [ {
+      "utf8": "(Marques chuckles)"
+    } ]
+  }, {
+    "tStartMs": 861420,
+    "dDurationMs": 1323,
+    "segs": [ {
+      "utf8": "There are no apps."
+    } ]
+  }, {
+    "tStartMs": 864180,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "There just are no apps."
+    } ]
+  }, {
+    "tStartMs": 865620,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "So when you first sign up\nwith your Humane account,"
+    } ]
+  }, {
+    "tStartMs": 868560,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "you get to sync with four accounts."
+    } ]
+  }, {
+    "tStartMs": 870810,
+    "dDurationMs": 3720,
+    "segs": [ {
+      "utf8": "There are your Apple,\nGoogle, Microsoft, and Tidal."
+    } ]
+  }, {
+    "tStartMs": 874530,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "So the first three are\nbasically for your contacts,"
+    } ]
+  }, {
+    "tStartMs": 877230,
+    "dDurationMs": 3780,
+    "segs": [ {
+      "utf8": "and then the last one, Tidal\nis the exclusive music partner."
+    } ]
+  }, {
+    "tStartMs": 881010,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "So there is no Uber access,"
+    } ]
+  }, {
+    "tStartMs": 884250,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "there is no Spotify access,\nthere's no WhatsApp,"
+    } ]
+  }, {
+    "tStartMs": 887850,
+    "dDurationMs": 3480,
+    "segs": [ {
+      "utf8": "there's no calendar, no\nGmail, none of that stuff."
+    } ]
+  }, {
+    "tStartMs": 891330,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "It's just..."
+    } ]
+  }, {
+    "tStartMs": 892620,
+    "dDurationMs": 3180,
+    "segs": [ {
+      "utf8": "I can't book a flight, I\ncan't buy something on Amazon."
+    } ]
+  }, {
+    "tStartMs": 895800,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "It just will not do any of that stuff"
+    } ]
+  }, {
+    "tStartMs": 898530,
+    "dDurationMs": 3511,
+    "segs": [ {
+      "utf8": "that I just do on my phone."
+    } ]
+  }, {
+    "tStartMs": 902041,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 906780,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "So I know I've said like\na bunch of the downsides"
+    } ]
+  }, {
+    "tStartMs": 909480,
+    "dDurationMs": 1110,
+    "segs": [ {
+      "utf8": "and the problems this device has,"
+    } ]
+  }, {
+    "tStartMs": 910590,
+    "dDurationMs": 2580,
+    "segs": [ {
+      "utf8": "but I really genuinely\nthink the biggest problem"
+    } ]
+  }, {
+    "tStartMs": 913170,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "this pin is going to have,"
+    } ]
+  }, {
+    "tStartMs": 914940,
+    "dDurationMs": 4353,
+    "segs": [ {
+      "utf8": "is that smartphones are kind of OP."
+    } ]
+  }, {
+    "tStartMs": 920490,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "The number one thing I've reminded myself"
+    } ]
+  }, {
+    "tStartMs": 922260,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "from the week of using this pin,"
+    } ]
+  }, {
+    "tStartMs": 923820,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "trying to get it to do stuff,"
+    } ]
+  }, {
+    "tStartMs": 925170,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "is that smartphones are not\ngoing anywhere anytime soon."
+    } ]
+  }, {
+    "tStartMs": 928770,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "And I think a lot of the comments online"
+    } ]
+  }, {
+    "tStartMs": 930150,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "have already picked up on this,"
+    } ]
+  }, {
+    "tStartMs": 931320,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "even without testing and\nusing the pin, which is,"
+    } ]
+  }, {
+    "tStartMs": 933810,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "okay, there seems like a lot of overlap"
+    } ]
+  }, {
+    "tStartMs": 935730,
+    "dDurationMs": 4590,
+    "segs": [ {
+      "utf8": "between what this is and\nwhat a smartphone can do."
+    } ]
+  }, {
+    "tStartMs": 940320,
+    "dDurationMs": 4020,
+    "segs": [ {
+      "utf8": "But everything that this pin does,"
+    } ]
+  }, {
+    "tStartMs": 944340,
+    "dDurationMs": 4320,
+    "segs": [ {
+      "utf8": "a modern smartphone\ndoes better and faster,"
+    } ]
+  }, {
+    "tStartMs": 948660,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "and easier and in higher quality,"
+    } ]
+  }, {
+    "tStartMs": 950550,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "and just better in every way."
+    } ]
+  }, {
+    "tStartMs": 951600,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "Like your smartphone obviously"
+    } ]
+  }, {
+    "tStartMs": 952770,
+    "dDurationMs": 2160,
+    "segs": [ {
+      "utf8": "takes better pictures and videos,"
+    } ]
+  }, {
+    "tStartMs": 954930,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "and you can frame things more easily."
+    } ]
+  }, {
+    "tStartMs": 956610,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "Of course, a phone can call\nand text people more easily."
+    } ]
+  }, {
+    "tStartMs": 959970,
+    "dDurationMs": 2850,
+    "segs": [ {
+      "utf8": "You can use it in more\nplaces, loud places,"
+    } ]
+  }, {
+    "tStartMs": 962820,
+    "dDurationMs": 4050,
+    "segs": [ {
+      "utf8": "private places, use it\nwith literally any outfit."
+    } ]
+  }, {
+    "tStartMs": 966870,
+    "dDurationMs": 2490,
+    "segs": [ {
+      "utf8": "Also, a phone, like you\ncan quickly Google things,"
+    } ]
+  }, {
+    "tStartMs": 969360,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "it's faster to message people back."
+    } ]
+  }, {
+    "tStartMs": 971490,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "And of course, it can email people,"
+    } ]
+  }, {
+    "tStartMs": 973140,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "and use all kinds of app experiences."
+    } ]
+  }, {
+    "tStartMs": 975180,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "Do you know what happens\nwhen you try to just"
+    } ]
+  }, {
+    "tStartMs": 978000,
+    "dDurationMs": 3660,
+    "segs": [ {
+      "utf8": "send someone a picture from the AI Pin?"
+    } ]
+  }, {
+    "tStartMs": 981660,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "You already know how\nto do it on your phone."
+    } ]
+  }, {
+    "tStartMs": 983010,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "With the AI Pin, okay,\nyou take the picture,"
+    } ]
+  }, {
+    "tStartMs": 985950,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "then you either try this with your voice,"
+    } ]
+  }, {
+    "tStartMs": 987720,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "or you pull up the picture,"
+    } ]
+  }, {
+    "tStartMs": 989580,
+    "dDurationMs": 4800,
+    "segs": [ {
+      "utf8": "which is just a green\n720p jpeg on your hand."
+    } ]
+  }, {
+    "tStartMs": 994380,
+    "dDurationMs": 2280,
+    "segs": [ {
+      "utf8": "I guess that's a good\nenough preview, sure."
+    } ]
+  }, {
+    "tStartMs": 996660,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "You go to send it, you pick your contact,"
+    } ]
+  }, {
+    "tStartMs": 998670,
+    "dDurationMs": 4590,
+    "segs": [ {
+      "utf8": "or type in the whole phone\nnumber with the gestures."
+    } ]
+  }, {
+    "tStartMs": 1003260,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "Eventually, you go to send,"
+    } ]
+  }, {
+    "tStartMs": 1005210,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "and it has its own internet connection,"
+    } ]
+  }, {
+    "tStartMs": 1006920,
+    "dDurationMs": 4290,
+    "segs": [ {
+      "utf8": "and it sends a link to view the picture"
+    } ]
+  }, {
+    "tStartMs": 1011210,
+    "dDurationMs": 2070,
+    "segs": [ {
+      "utf8": "in the Humane web portal."
+    } ]
+  }, {
+    "tStartMs": 1013280,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "Like the difference in how easy,"
+    } ]
+  }, {
+    "tStartMs": 1016520,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "how frictionless that is here versus here,"
+    } ]
+  }, {
+    "tStartMs": 1019580,
+    "dDurationMs": 960,
+    "segs": [ {
+      "utf8": "it's not even close."
+    } ]
+  }, {
+    "tStartMs": 1020540,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "And there are honestly many times"
+    } ]
+  }, {
+    "tStartMs": 1021590,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "where I'd be trusting this pin,"
+    } ]
+  }, {
+    "tStartMs": 1023060,
+    "dDurationMs": 1800,
+    "segs": [ {
+      "utf8": "like I'm reviewing it,\nI'm living that life,"
+    } ]
+  }, {
+    "tStartMs": 1024860,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "I'm using it, and I'd ask it something,"
+    } ]
+  }, {
+    "tStartMs": 1026450,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "and I would wait so long,"
+    } ]
+  }, {
+    "tStartMs": 1027830,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "and my phone would just\nbe sitting right there,"
+    } ]
+  }, {
+    "tStartMs": 1030380,
+    "dDurationMs": 2240,
+    "segs": [ {
+      "utf8": "where I could just pick it\nup and Google the answer"
+    } ]
+  }, {
+    "tStartMs": 1032620,
+    "dDurationMs": 2140,
+    "segs": [ {
+      "utf8": "in the time it takes me to get hopefully"
+    } ]
+  }, {
+    "tStartMs": 1034760,
+    "dDurationMs": 1020,
+    "segs": [ {
+      "utf8": "the right answer on the pin."
+    } ]
+  }, {
+    "tStartMs": 1035780,
+    "dDurationMs": 1200,
+    "segs": [ {
+      "utf8": "It's just..."
+    } ]
+  }, {
+    "tStartMs": 1036980,
+    "dDurationMs": 1686,
+    "segs": [ {
+      "utf8": "Phones are OP."
+    } ]
+  }, {
+    "tStartMs": 1038666,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 1039499,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "Look and tell me what this is."
+    } ]
+  }, {
+    "tStartMs": 1040669,
+    "dDurationMs": 2583,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 1051050,
+    "dDurationMs": 1713,
+    "segs": [ {
+      "utf8": "Or I'll just do this, I guess."
+    } ]
+  }, {
+    "tStartMs": 1054230,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "Ah..."
+    } ]
+  }, {
+    "tStartMs": 1056630,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "It's a Cybertruck."
+    } ]
+  }, {
+    "tStartMs": 1057463,
+    "dDurationMs": 1807,
+    "segs": [ {
+      "utf8": "- [AI Pin] The photo is of a Cybertruck."
+    } ]
+  }, {
+    "tStartMs": 1059270,
+    "dDurationMs": 2553,
+    "segs": [ {
+      "utf8": "An electric pickup\ntruck produced by Tesla."
+    } ]
+  }, {
+    "tStartMs": 1064730,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "- Yup."
+    } ]
+  }, {
+    "tStartMs": 1065563,
+    "dDurationMs": 2917,
+    "segs": [ {
+      "utf8": "Also, I gotta say, when\nI say phones are OP,"
+    } ]
+  }, {
+    "tStartMs": 1068480,
+    "dDurationMs": 3570,
+    "segs": [ {
+      "utf8": "like screens in your hand."
+    } ]
+  }, {
+    "tStartMs": 1072050,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "So sick."
+    } ]
+  }, {
+    "tStartMs": 1072883,
+    "dDurationMs": 2467,
+    "segs": [ {
+      "utf8": "Just for the last like 10% of any UI,"
+    } ]
+  }, {
+    "tStartMs": 1075350,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "like you can get almost all the way there"
+    } ]
+  }, {
+    "tStartMs": 1077390,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "with just your voice interaction."
+    } ]
+  }, {
+    "tStartMs": 1078740,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "But let's say you call an Uber,"
+    } ]
+  }, {
+    "tStartMs": 1080990,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "and you say, \"Take me to\nthe studio from an Uber.\""
+    } ]
+  }, {
+    "tStartMs": 1083690,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "Even if it could do that, which it can't,"
+    } ]
+  }, {
+    "tStartMs": 1085340,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "but let's say it could."
+    } ]
+  }, {
+    "tStartMs": 1087200,
+    "dDurationMs": 1297,
+    "segs": [ {
+      "utf8": "And as you're waiting, you're like,"
+    } ]
+  }, {
+    "tStartMs": 1088497,
+    "dDurationMs": 1283,
+    "segs": [ {
+      "utf8": "\"I'm gonna just go grab a snack"
+    } ]
+  }, {
+    "tStartMs": 1089780,
+    "dDurationMs": 1980,
+    "segs": [ {
+      "utf8": "from this Starbucks on the corner.\""
+    } ]
+  }, {
+    "tStartMs": 1091760,
+    "dDurationMs": 4890,
+    "segs": [ {
+      "utf8": "How do you adjust your\npickup location with this?"
+    } ]
+  }, {
+    "tStartMs": 1097670,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "Ugh."
+    } ]
+  }, {
+    "tStartMs": 1098503,
+    "dDurationMs": 877,
+    "segs": [ {
+      "utf8": "Just that friction of,"
+    } ]
+  }, {
+    "tStartMs": 1099380,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "I could just do it in\ntwo seconds on my phone."
+    } ]
+  }, {
+    "tStartMs": 1101780,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "Or buying something online is another one."
+    } ]
+  }, {
+    "tStartMs": 1103550,
+    "dDurationMs": 1477,
+    "segs": [ {
+      "utf8": "I've seen a lot of demos\nwhere someone's like,"
+    } ]
+  }, {
+    "tStartMs": 1105027,
+    "dDurationMs": 2243,
+    "segs": [ {
+      "utf8": "\"Plan me a trip to Europe."
+    } ]
+  }, {
+    "tStartMs": 1107270,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "Plan me an expedition.\""
+    } ]
+  }, {
+    "tStartMs": 1108590,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "I don't even wanna buy\ndetergent online on this,"
+    } ]
+  }, {
+    "tStartMs": 1111200,
+    "dDurationMs": 2220,
+    "segs": [ {
+      "utf8": "because I need to check all\nthe ratings and the titles,"
+    } ]
+  }, {
+    "tStartMs": 1113420,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "and make sure I'm ordering the right one."
+    } ]
+  }, {
+    "tStartMs": 1115460,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "I do not trust that with just my voice."
+    } ]
+  }, {
+    "tStartMs": 1117500,
+    "dDurationMs": 4200,
+    "segs": [ {
+      "utf8": "But I think most critically,\nfor the AI assistant part..."
+    } ]
+  }, {
+    "tStartMs": 1121700,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "I actually love the idea\nof a virtual assistant"
+    } ]
+  }, {
+    "tStartMs": 1124700,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "that you can talk to like a human."
+    } ]
+  }, {
+    "tStartMs": 1126410,
+    "dDurationMs": 2940,
+    "segs": [ {
+      "utf8": "Like this is something\nwe've been chasing for years"
+    } ]
+  }, {
+    "tStartMs": 1129350,
+    "dDurationMs": 3330,
+    "segs": [ {
+      "utf8": "with Google Assistant, and Siri and Alexa."
+    } ]
+  }, {
+    "tStartMs": 1132680,
+    "dDurationMs": 2250,
+    "segs": [ {
+      "utf8": "And now with this new\nform factor of, you know,"
+    } ]
+  }, {
+    "tStartMs": 1134930,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "a little AI in a box that\ncan be with you everywhere,"
+    } ]
+  }, {
+    "tStartMs": 1137990,
+    "dDurationMs": 4080,
+    "segs": [ {
+      "utf8": "maybe that can deliver even\nbetter on that specific promise,"
+    } ]
+  }, {
+    "tStartMs": 1142070,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "But the thing about a good assistant"
+    } ]
+  }, {
+    "tStartMs": 1144770,
+    "dDurationMs": 3840,
+    "segs": [ {
+      "utf8": "is it needs to know everything about you."
+    } ]
+  }, {
+    "tStartMs": 1148610,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "That's even true with a human assistant."
+    } ]
+  }, {
+    "tStartMs": 1150320,
+    "dDurationMs": 2040,
+    "segs": [ {
+      "utf8": "Like, it needs to know your schedule,"
+    } ]
+  }, {
+    "tStartMs": 1152360,
+    "dDurationMs": 1860,
+    "segs": [ {
+      "utf8": "it needs to know where you go every day,"
+    } ]
+  }, {
+    "tStartMs": 1154220,
+    "dDurationMs": 2037,
+    "segs": [ {
+      "utf8": "it needs to know who you talk to,"
+    } ]
+  }, {
+    "tStartMs": 1156257,
+    "dDurationMs": 2853,
+    "segs": [ {
+      "utf8": "who your preferences are\npersonally and for products."
+    } ]
+  }, {
+    "tStartMs": 1159110,
+    "dDurationMs": 2640,
+    "segs": [ {
+      "utf8": "Like it needs to know\neverything about you."
+    } ]
+  }, {
+    "tStartMs": 1161750,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "And your smartphone already\nknows a lot of things about you."
+    } ]
+  }, {
+    "tStartMs": 1166850,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "But this is a standalone device"
+    } ]
+  }, {
+    "tStartMs": 1169760,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "that doesn't talk to your phone,"
+    } ]
+  }, {
+    "tStartMs": 1171230,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "and so it doesn't know any\nof the things about you"
+    } ]
+  }, {
+    "tStartMs": 1174230,
+    "dDurationMs": 1050,
+    "segs": [ {
+      "utf8": "that your phone knows."
+    } ]
+  }, {
+    "tStartMs": 1175280,
+    "dDurationMs": 990,
+    "segs": [ {
+      "utf8": "So just from that,"
+    } ]
+  }, {
+    "tStartMs": 1176270,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "it's already at such\na massive disadvantage"
+    } ]
+  }, {
+    "tStartMs": 1178820,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "for the smartphone for being helpful."
+    } ]
+  }, {
+    "tStartMs": 1180770,
+    "dDurationMs": 1290,
+    "segs": [ {
+      "utf8": "I mean, you can do what I did."
+    } ]
+  }, {
+    "tStartMs": 1182060,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "Fully immerse yourself\nfor several days straight,"
+    } ]
+  }, {
+    "tStartMs": 1184190,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "and tell it to remember everything,"
+    } ]
+  }, {
+    "tStartMs": 1185360,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "and call people, text people from it,"
+    } ]
+  }, {
+    "tStartMs": 1187370,
+    "dDurationMs": 3180,
+    "segs": [ {
+      "utf8": "but it will always have that gap."
+    } ]
+  }, {
+    "tStartMs": 1190550,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "And that's not even\nmentioning this, like I said,"
+    } ]
+  }, {
+    "tStartMs": 1192260,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "it has its own phone number,"
+    } ]
+  }, {
+    "tStartMs": 1193850,
+    "dDurationMs": 3630,
+    "segs": [ {
+      "utf8": "and so if you text people\nand call people from this,"
+    } ]
+  }, {
+    "tStartMs": 1197480,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "yeah, it can summarize all of\nyour messages from the day,"
+    } ]
+  }, {
+    "tStartMs": 1200540,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "and all that stuff from\nthese conversations,"
+    } ]
+  }, {
+    "tStartMs": 1203900,
+    "dDurationMs": 3450,
+    "segs": [ {
+      "utf8": "but it doesn't see any\nof these conversations."
+    } ]
+  }, {
+    "tStartMs": 1207350,
+    "dDurationMs": 1740,
+    "segs": [ {
+      "utf8": "So if you're texting here,"
+    } ]
+  }, {
+    "tStartMs": 1209090,
+    "dDurationMs": 2700,
+    "segs": [ {
+      "utf8": "this is not the same thread."
+    } ]
+  }, {
+    "tStartMs": 1211790,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "That gap is always gonna be there."
+    } ]
+  }, {
+    "tStartMs": 1213140,
+    "dDurationMs": 2790,
+    "segs": [ {
+      "utf8": "So I guess that begs the question,"
+    } ]
+  }, {
+    "tStartMs": 1215930,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "why didn't they just make\nthis connect to your phone?"
+    } ]
+  }, {
+    "tStartMs": 1221270,
+    "dDurationMs": 1830,
+    "segs": [ {
+      "utf8": "Everyone has a phone."
+    } ]
+  }, {
+    "tStartMs": 1223100,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "That's the question that I think"
+    } ]
+  }, {
+    "tStartMs": 1224750,
+    "dDurationMs": 1980,
+    "segs": [ {
+      "utf8": "a lot of people are wondering."
+    } ]
+  }, {
+    "tStartMs": 1226730,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "And I think..."
+    } ]
+  }, {
+    "tStartMs": 1228380,
+    "dDurationMs": 4620,
+    "segs": [ {
+      "utf8": "This is my theory, but I\nthink Humane wants this thing"
+    } ]
+  }, {
+    "tStartMs": 1233000,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "to eventually be a very powerful\nstandalone device someday."
+    } ]
+  }, {
+    "tStartMs": 1238790,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "And in order to get it to that future,"
+    } ]
+  }, {
+    "tStartMs": 1240800,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "they can't set the precedent now"
+    } ]
+  }, {
+    "tStartMs": 1243200,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "of connecting it to your\nphone, 'cause then that means"
+    } ]
+  }, {
+    "tStartMs": 1245090,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "they have to remove that\nfeature in the future,"
+    } ]
+  }, {
+    "tStartMs": 1246740,
+    "dDurationMs": 1560,
+    "segs": [ {
+      "utf8": "and they don't wanna do that."
+    } ]
+  }, {
+    "tStartMs": 1248300,
+    "dDurationMs": 3600,
+    "segs": [ {
+      "utf8": "So this device as it exists today"
+    } ]
+  }, {
+    "tStartMs": 1251900,
+    "dDurationMs": 4830,
+    "segs": [ {
+      "utf8": "is hamstrung by its ideal\nfuture version of itself."
+    } ]
+  }, {
+    "tStartMs": 1256730,
+    "dDurationMs": 870,
+    "segs": [ {
+      "utf8": "It's like Vision Pro."
+    } ]
+  }, {
+    "tStartMs": 1257600,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "Like I talked about it\nin the Vision Pro review."
+    } ]
+  }, {
+    "tStartMs": 1259010,
+    "dDurationMs": 2730,
+    "segs": [ {
+      "utf8": "It doesn't actually pair\nto your iPhone in any way."
+    } ]
+  }, {
+    "tStartMs": 1261740,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "It's its own standalone computer."
+    } ]
+  }, {
+    "tStartMs": 1263420,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "And of course, Apple sees down the road,"
+    } ]
+  }, {
+    "tStartMs": 1265340,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "that could just be like a\nlittle pair of smart glasses."
+    } ]
+  }, {
+    "tStartMs": 1267230,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "You don't need an iPhone to use that."
+    } ]
+  }, {
+    "tStartMs": 1269000,
+    "dDurationMs": 3570,
+    "segs": [ {
+      "utf8": "But now, today, this thing is a victim"
+    } ]
+  }, {
+    "tStartMs": 1272570,
+    "dDurationMs": 1718,
+    "segs": [ {
+      "utf8": "of its future ambition."
+    } ]
+  }, {
+    "tStartMs": 1274288,
+    "dDurationMs": 3667,
+    "segs": [ {
+      "utf8": "(mellow instrumental music)"
+    } ]
+  }, {
+    "tStartMs": 1278960,
+    "dDurationMs": 3000,
+    "segs": [ {
+      "utf8": "It was really hard to come up\nwith a title for this video,"
+    } ]
+  }, {
+    "tStartMs": 1281960,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "but I will say, at one point,"
+    } ]
+  }, {
+    "tStartMs": 1283280,
+    "dDurationMs": 2257,
+    "segs": [ {
+      "utf8": "my working title for this was,"
+    } ]
+  }, {
+    "tStartMs": 1285537,
+    "dDurationMs": 3983,
+    "segs": [ {
+      "utf8": "\"This product is either\nthe dumbest thing ever,"
+    } ]
+  }, {
+    "tStartMs": 1289520,
+    "dDurationMs": 2370,
+    "segs": [ {
+      "utf8": "or I'm an idiot.\""
+    } ]
+  }, {
+    "tStartMs": 1291890,
+    "dDurationMs": 5000,
+    "segs": [ {
+      "utf8": "Because yes, it's really,\nreally, really, really bad now."
+    } ]
+  }, {
+    "tStartMs": 1297410,
+    "dDurationMs": 3870,
+    "segs": [ {
+      "utf8": "But every once in a\nwhile, and I mean a while,"
+    } ]
+  }, {
+    "tStartMs": 1301280,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "I would use it,"
+    } ]
+  }, {
+    "tStartMs": 1302210,
+    "dDurationMs": 3180,
+    "segs": [ {
+      "utf8": "and it would do exactly what\nit's supposed to do quickly,"
+    } ]
+  }, {
+    "tStartMs": 1305390,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "and I'd get it."
+    } ]
+  }, {
+    "tStartMs": 1306860,
+    "dDurationMs": 3900,
+    "segs": [ {
+      "utf8": "And I'd really feel like that's\nhow it's supposed to feel,"
+    } ]
+  }, {
+    "tStartMs": 1310760,
+    "dDurationMs": 1110,
+    "segs": [ {
+      "utf8": "and I'd do another request,"
+    } ]
+  }, {
+    "tStartMs": 1311870,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "and it would remind me of reality."
+    } ]
+  }, {
+    "tStartMs": 1313370,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "But here's an example, right?"
+    } ]
+  }, {
+    "tStartMs": 1314870,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "I've said a thousand times, like,"
+    } ]
+  }, {
+    "tStartMs": 1317480,
+    "dDurationMs": 1890,
+    "segs": [ {
+      "utf8": "my best ideas, golden rule,"
+    } ]
+  }, {
+    "tStartMs": 1319370,
+    "dDurationMs": 2370,
+    "segs": [ {
+      "utf8": "they always show up when\nI can't write them down."
+    } ]
+  }, {
+    "tStartMs": 1321740,
+    "dDurationMs": 1680,
+    "segs": [ {
+      "utf8": "Like when I'm about to fall asleep,"
+    } ]
+  }, {
+    "tStartMs": 1323420,
+    "dDurationMs": 3540,
+    "segs": [ {
+      "utf8": "or I'm in the shower, or driving, right?"
+    } ]
+  }, {
+    "tStartMs": 1326960,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "So I'm using the pin,"
+    } ]
+  }, {
+    "tStartMs": 1328340,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "I'm driving to the studio\nand I have an idea."
+    } ]
+  }, {
+    "tStartMs": 1330890,
+    "dDurationMs": 2370,
+    "segs": [ {
+      "utf8": "I'm not trying to write\nit down on my phone"
+    } ]
+  }, {
+    "tStartMs": 1333260,
+    "dDurationMs": 1920,
+    "segs": [ {
+      "utf8": "while driving or pull over,"
+    } ]
+  }, {
+    "tStartMs": 1335180,
+    "dDurationMs": 3302,
+    "segs": [ {
+      "utf8": "but I had the pin, so\nI'm driving and I just..."
+    } ]
+  }, {
+    "tStartMs": 1338482,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 1339315,
+    "dDurationMs": 3275,
+    "segs": [ {
+      "utf8": "\"Remind me of this cool ABC outro idea"
+    } ]
+  }, {
+    "tStartMs": 1342590,
+    "dDurationMs": 1628,
+    "segs": [ {
+      "utf8": "for the Humane review.\""
+    } ]
+  }, {
+    "tStartMs": 1344218,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "(AI Pin beeps)"
+    } ]
+  }, {
+    "tStartMs": 1345051,
+    "dDurationMs": 1619,
+    "segs": [ {
+      "utf8": "And I just kept driving."
+    } ]
+  }, {
+    "tStartMs": 1346670,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "And it wrote it down, and it saved it."
+    } ]
+  }, {
+    "tStartMs": 1348440,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "- [AI Pin] Saving memory."
+    } ]
+  }, {
+    "tStartMs": 1349820,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "- And when I go check the Humane-"
+    } ]
+  }, {
+    "tStartMs": 1351230,
+    "dDurationMs": 2220,
+    "segs": [ {
+      "utf8": "- [AI Pin] The outro idea\nfor the Humane review"
+    } ]
+  }, {
+    "tStartMs": 1353450,
+    "dDurationMs": 1350,
+    "segs": [ {
+      "utf8": "has been saved."
+    } ]
+  }, {
+    "tStartMs": 1354800,
+    "dDurationMs": 900,
+    "segs": [ {
+      "utf8": "- The voice is kind of annoying."
+    } ]
+  }, {
+    "tStartMs": 1355700,
+    "dDurationMs": 1650,
+    "segs": [ {
+      "utf8": "But now that's up in the Humane AI Center,"
+    } ]
+  }, {
+    "tStartMs": 1357350,
+    "dDurationMs": 1140,
+    "segs": [ {
+      "utf8": "so when I arrive at the studio,"
+    } ]
+  }, {
+    "tStartMs": 1358490,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "that thing that I told it to remember,"
+    } ]
+  }, {
+    "tStartMs": 1359990,
+    "dDurationMs": 1980,
+    "segs": [ {
+      "utf8": "is sitting there waiting for me."
+    } ]
+  }, {
+    "tStartMs": 1361970,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "That was nice."
+    } ]
+  }, {
+    "tStartMs": 1362803,
+    "dDurationMs": 1987,
+    "segs": [ {
+      "utf8": "Or the other thing, the\nunique first person videos."
+    } ]
+  }, {
+    "tStartMs": 1364790,
+    "dDurationMs": 2850,
+    "segs": [ {
+      "utf8": "I could put it in the center\nof my chest, and take videos."
+    } ]
+  }, {
+    "tStartMs": 1367640,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "I would never want to\ndistract myself while driving"
+    } ]
+  }, {
+    "tStartMs": 1370880,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "taking a video, but you know,"
+    } ]
+  }, {
+    "tStartMs": 1372500,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "even though the quality's not great,"
+    } ]
+  }, {
+    "tStartMs": 1373880,
+    "dDurationMs": 2010,
+    "segs": [ {
+      "utf8": "that's the most frictionless\nversion of that,"
+    } ]
+  }, {
+    "tStartMs": 1375890,
+    "dDurationMs": 1590,
+    "segs": [ {
+      "utf8": "along with smart glasses."
+    } ]
+  }, {
+    "tStartMs": 1377480,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "That's great."
+    } ]
+  }, {
+    "tStartMs": 1378313,
+    "dDurationMs": 1627,
+    "segs": [ {
+      "utf8": "And I think number one,\non top of all of this,"
+    } ]
+  }, {
+    "tStartMs": 1379940,
+    "dDurationMs": 1087,
+    "segs": [ {
+      "utf8": "is if you ask me like,"
+    } ]
+  }, {
+    "tStartMs": 1381027,
+    "dDurationMs": 1950,
+    "segs": [ {
+      "utf8": "\"Who should buy this device right now?\""
+    } ]
+  }, {
+    "tStartMs": 1384290,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "I mean, nobody should buy\nthis device right now."
+    } ]
+  }, {
+    "tStartMs": 1385670,
+    "dDurationMs": 3270,
+    "segs": [ {
+      "utf8": "But if there's one person\nwho would most consider it,"
+    } ]
+  }, {
+    "tStartMs": 1388940,
+    "dDurationMs": 3060,
+    "segs": [ {
+      "utf8": "it's the person that wants to spend"
+    } ]
+  }, {
+    "tStartMs": 1392000,
+    "dDurationMs": 3270,
+    "segs": [ {
+      "utf8": "as little time as possible\nwith a screen in their hands."
+    } ]
+  }, {
+    "tStartMs": 1395270,
+    "dDurationMs": 2607,
+    "segs": [ {
+      "utf8": "Like as little time as\npossible on their phone."
+    } ]
+  }, {
+    "tStartMs": 1397877,
+    "dDurationMs": 1233,
+    "segs": [ {
+      "utf8": "And that's me sometimes."
+    } ]
+  }, {
+    "tStartMs": 1399110,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "I don't wanna doom scroll"
+    } ]
+  }, {
+    "tStartMs": 1400040,
+    "dDurationMs": 2280,
+    "segs": [ {
+      "utf8": "the second I pull my\nphone out of my pocket."
+    } ]
+  }, {
+    "tStartMs": 1402320,
+    "dDurationMs": 2130,
+    "segs": [ {
+      "utf8": "For that person,"
+    } ]
+  }, {
+    "tStartMs": 1404450,
+    "dDurationMs": 3240,
+    "segs": [ {
+      "utf8": "if they want that at the\nexpense of everything else,"
+    } ]
+  }, {
+    "tStartMs": 1407690,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "this device represents just a glimmer"
+    } ]
+  }, {
+    "tStartMs": 1410570,
+    "dDurationMs": 1047,
+    "segs": [ {
+      "utf8": "of hope for that future."
+    } ]
+  }, {
+    "tStartMs": 1411617,
+    "dDurationMs": 2433,
+    "segs": [ {
+      "utf8": "Now the problem, of course,\nis with this device,"
+    } ]
+  }, {
+    "tStartMs": 1414050,
+    "dDurationMs": 4380,
+    "segs": [ {
+      "utf8": "there's just so much more\nfriction and fumbling"
+    } ]
+  }, {
+    "tStartMs": 1418430,
+    "dDurationMs": 2820,
+    "segs": [ {
+      "utf8": "and annoyance that comes with it,"
+    } ]
+  }, {
+    "tStartMs": 1421250,
+    "dDurationMs": 1320,
+    "segs": [ {
+      "utf8": "that you don't wanna do it,"
+    } ]
+  }, {
+    "tStartMs": 1422570,
+    "dDurationMs": 1620,
+    "segs": [ {
+      "utf8": "even though you would accomplish the goal"
+    } ]
+  }, {
+    "tStartMs": 1424190,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "of less screen time and\nliving in the moment."
+    } ]
+  }, {
+    "tStartMs": 1426590,
+    "dDurationMs": 2550,
+    "segs": [ {
+      "utf8": "But yeah, that's the issue with it."
+    } ]
+  }, {
+    "tStartMs": 1429140,
+    "dDurationMs": 930,
+    "segs": [ {
+      "utf8": "I literally had a moment,"
+    } ]
+  }, {
+    "tStartMs": 1430070,
+    "dDurationMs": 2610,
+    "segs": [ {
+      "utf8": "like we did a shoot in Ohio the other day,"
+    } ]
+  }, {
+    "tStartMs": 1432680,
+    "dDurationMs": 1770,
+    "segs": [ {
+      "utf8": "which was like a travel day."
+    } ]
+  }, {
+    "tStartMs": 1434450,
+    "dDurationMs": 3037,
+    "segs": [ {
+      "utf8": "And I woke up in the\nmorning and I thought like,"
+    } ]
+  }, {
+    "tStartMs": 1437487,
+    "dDurationMs": 2153,
+    "segs": [ {
+      "utf8": "\"I don't want to deal\nwith this pin today.\""
+    } ]
+  }, {
+    "tStartMs": 1439640,
+    "dDurationMs": 2430,
+    "segs": [ {
+      "utf8": "Like I have driving, so the\nseat belt's gonna be annoying,"
+    } ]
+  }, {
+    "tStartMs": 1442070,
+    "dDurationMs": 1380,
+    "segs": [ {
+      "utf8": "and then we're gonna go to the airport,"
+    } ]
+  }, {
+    "tStartMs": 1443450,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "and then probably gotta take it off"
+    } ]
+  }, {
+    "tStartMs": 1444860,
+    "dDurationMs": 1710,
+    "segs": [ {
+      "utf8": "through the metal detector\nand then put it on again,"
+    } ]
+  }, {
+    "tStartMs": 1446570,
+    "dDurationMs": 2340,
+    "segs": [ {
+      "utf8": "which means I have to log\nin with the pin again and..."
+    } ]
+  }, {
+    "tStartMs": 1448910,
+    "dDurationMs": 2013,
+    "segs": [ {
+      "utf8": "Just all this, and I just was like,"
+    } ]
+  }, {
+    "tStartMs": 1451781,
+    "dDurationMs": 1419,
+    "segs": [ {
+      "utf8": "\"I don't wanna have to\ncharge this seven times."
+    } ]
+  }, {
+    "tStartMs": 1453200,
+    "dDurationMs": 1470,
+    "segs": [ {
+      "utf8": "Like , I don't wanna wear it today.\""
+    } ]
+  }, {
+    "tStartMs": 1454670,
+    "dDurationMs": 1410,
+    "segs": [ {
+      "utf8": "So I skipped it."
+    } ]
+  }, {
+    "tStartMs": 1456080,
+    "dDurationMs": 2880,
+    "segs": [ {
+      "utf8": "And you should probably\nskip this product too."
+    } ]
+  }, {
+    "tStartMs": 1458960,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "And never buy a product"
+    } ]
+  }, {
+    "tStartMs": 1460490,
+    "dDurationMs": 3360,
+    "segs": [ {
+      "utf8": "based on the future\npromise of updates to it."
+    } ]
+  }, {
+    "tStartMs": 1463850,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "Obviously, this is a product\nthat has a long way to go,"
+    } ]
+  }, {
+    "tStartMs": 1466760,
+    "dDurationMs": 1170,
+    "segs": [ {
+      "utf8": "and there's a team behind it."
+    } ]
+  }, {
+    "tStartMs": 1467930,
+    "dDurationMs": 2910,
+    "segs": [ {
+      "utf8": "And look, I gotta say,\nas a brand new product,"
+    } ]
+  }, {
+    "tStartMs": 1470840,
+    "dDurationMs": 2400,
+    "segs": [ {
+      "utf8": "and a team trying to make something new..."
+    } ]
+  }, {
+    "tStartMs": 1473240,
+    "dDurationMs": 1230,
+    "segs": [ {
+      "utf8": "That, I respect."
+    } ]
+  }, {
+    "tStartMs": 1474470,
+    "dDurationMs": 1440,
+    "segs": [ {
+      "utf8": "I respect the attempt."
+    } ]
+  }, {
+    "tStartMs": 1475910,
+    "dDurationMs": 2310,
+    "segs": [ {
+      "utf8": "Because we don't get a\nlot of totally new stuff."
+    } ]
+  }, {
+    "tStartMs": 1478220,
+    "dDurationMs": 3390,
+    "segs": [ {
+      "utf8": "But yeah, this has a long way to go."
+    } ]
+  }, {
+    "tStartMs": 1481610,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "They do have a roadmap, actually."
+    } ]
+  }, {
+    "tStartMs": 1483140,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "I'll say."
+    } ]
+  }, {
+    "tStartMs": 1483973,
+    "dDurationMs": 833,
+    "segs": [ {
+      "utf8": "They've shared it."
+    } ]
+  }, {
+    "tStartMs": 1484806,
+    "dDurationMs": 1184,
+    "segs": [ {
+      "utf8": "There's some decent stuff on there,"
+    } ]
+  }, {
+    "tStartMs": 1485990,
+    "dDurationMs": 1980,
+    "segs": [ {
+      "utf8": "including number sharing,"
+    } ]
+  }, {
+    "tStartMs": 1487970,
+    "dDurationMs": 2460,
+    "segs": [ {
+      "utf8": "but that also has no date\nand no other information."
+    } ]
+  }, {
+    "tStartMs": 1490430,
+    "dDurationMs": 2373,
+    "segs": [ {
+      "utf8": "So I'll just say, good luck."
+    } ]
+  }, {
+    "tStartMs": 1494000,
+    "dDurationMs": 1500,
+    "segs": [ {
+      "utf8": "Godspeed."
+    } ]
+  }, {
+    "tStartMs": 1495500,
+    "dDurationMs": 1530,
+    "segs": [ {
+      "utf8": "Thanks for watching."
+    } ]
+  }, {
+    "tStartMs": 1497030,
+    "dDurationMs": 1260,
+    "segs": [ {
+      "utf8": "Catch you in the next one."
+    } ]
+  }, {
+    "tStartMs": 1498290,
+    "dDurationMs": 1048,
+    "segs": [ {
+      "utf8": "Peace."
+    } ]
+  }, {
+    "tStartMs": 1499338,
+    "dDurationMs": 3726,
+    "segs": [ {
+      "utf8": "(calming steel drum music fades)"
+    } ]
+  } ]
+}
