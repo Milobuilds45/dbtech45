@@ -138,7 +138,9 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
   const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
 
   try {
-    await execAsync(cmd, { timeout: 45000 });
+    const { stdout, stderr } = await execAsync(cmd, { timeout: 45000 });
+    console.log('[yt-dlp] stdout:', stdout.substring(0, 300));
+    console.log('[yt-dlp] stderr:', stderr.substring(0, 300));
   } catch (err: any) {
     console.error('[yt-dlp] Error:', err.message || err);
     return null;
