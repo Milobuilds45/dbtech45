@@ -650,16 +650,34 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           /* Clean white sidebar with subtle left border */
           .paper-sidebar {
             background: #FFFFFF !important;
-            border-right: 1px solid #E8E8E8 !important;
+            border-right: 1px solid #E5E7EB !important;
             box-shadow: 1px 0 8px rgba(0,0,0,0.04) !important;
+          }
+          /* Kill ALL dark overlays inside sidebar */
+          .paper-sidebar div,
+          .paper-sidebar span,
+          .paper-sidebar a {
+            background-color: transparent !important;
+          }
+          /* Restore specific backgrounds we want */
+          .paper-sidebar .paper-nav-active {
+            background-color: #FFF7ED !important;
+          }
+          /* Section header open state — subtle warm tint */
+          .paper-sidebar [style*="rgba(245, 158, 11"] {
+            background-color: rgba(217, 119, 6, 0.06) !important;
           }
           /* All sidebar text → black */
           .paper-sidebar * {
             color: #111111 !important;
           }
-          /* Section headers */
+          /* Section headers — slightly lighter */
           .paper-sidebar [style*="letter-spacing"] {
-            color: #666666 !important;
+            color: #555555 !important;
+          }
+          /* Section number badges */
+          .paper-sidebar [style*="flexShrink"] {
+            color: #999999 !important;
           }
           /* Active nav item: subtle warm highlight instead of harsh block */
           .paper-sidebar .paper-nav-active {
