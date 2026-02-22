@@ -151,6 +151,8 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
     const subFiles = tmpDirFiles
       .filter(f => f.startsWith(baseName) && f.endsWith('.json3'))
       .sort((a, b) => a.length - b.length);
+    
+    console.log(`[yt-dlp] Looking for ${baseName}. Found: ${subFiles.length}`);
 
     if (subFiles.length > 0) {
       subData = await fs.readFile(path.join(tmpDir, subFiles[0]), 'utf-8');
@@ -159,8 +161,11 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
       for (const f of subFiles) {
         try { await fs.unlink(path.join(tmpDir, f)); } catch { /* ignore */ }
       }
+    } else {
+      console.log(`[yt-dlp] No JSON3 found! All tmp files:`, tmpDirFiles.filter(f => f.includes('yt-transcript')).join(', '));
     }
-  } catch {
+  } catch (err: any) {
+    console.error('[yt-dlp] Tmp file read error:', err.message);
     return null;
   }
 
