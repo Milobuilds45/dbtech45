@@ -135,7 +135,7 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
     } catch { /* fallback to PATH */ }
   }
 
-  const cmd = `${ytdlp} --extractor-args "youtube:player_client=android,web" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
+  const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
 
   try {
     await execAsync(cmd, { timeout: 45000 });
