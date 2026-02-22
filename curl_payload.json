@@ -1,0 +1,1 @@
+{"command":"python3 -m yt_dlp --list-subs --extractor-args \"youtube:player_client=ios\" https://www.youtube.com/watch?v=XRkJfxgdxzM --no-warnings --no-check-certificates"}

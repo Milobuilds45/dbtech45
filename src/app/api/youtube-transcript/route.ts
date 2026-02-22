@@ -135,7 +135,7 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
     } catch { /* fallback to PATH */ }
   }
 
-  const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
+  const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" --write-subs --write-auto-subs --sub-lang "en.*" --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
 
   try {
     const { stdout, stderr } = await execAsync(cmd, { timeout: 45000 });
@@ -199,32 +199,32 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
     return null;
   }
 
+  const tmpDir = os.tmpdir();
+  const outBase = path.join(tmpDir, `yt-audio-${videoId}-${Date.now()}`);
+  const audioFile = `${outBase}.m4a`;
+
+  let ytdlp = 'python3 -m yt_dlp';
+  if (process.platform === 'win32') {
+    const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
+    try {
+      await fs.access(winPath);
+      ytdlp = `"${winPath}"`;
+    } catch { /* fallback */ }
+  }
+
+  const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" -f "bestaudio[ext=m4a]/bestaudio" -o "${audioFile}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
+
   try {
-    const ytdl = (await import('@distube/ytdl-core')).default;
-    const url = `https://www.youtube.com/watch?v=${videoId}`;
+    console.log(`[whisper] Downloading audio with yt-dlp for ${videoId}...`);
+    await execAsync(cmd, { timeout: 120000 });
+  } catch (err: any) {
+    console.error('[whisper yt-dlp] Error:', err.message || err);
+    return null;
+  }
 
-    if (!ytdl.validateURL(url)) return null;
-
-    const info = await ytdl.getInfo(url);
-    const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
-    if (audioFormats.length === 0) return null;
-
-    const format = audioFormats.sort((a, b) => (a.audioBitrate || 999) - (b.audioBitrate || 999))[0];
-    const bitrate = format.audioBitrate || 48;
-    const durationSec = parseInt(info.videoDetails.lengthSeconds) || 0;
-    console.log(`[whisper] Audio: ${format.mimeType}, ${bitrate}kbps, ${durationSec}s`);
-
-    const stream = ytdl.downloadFromInfo(info, { format });
-    const bufferChunks: Buffer[] = [];
-    for await (const chunk of stream) {
-      bufferChunks.push(Buffer.from(chunk));
-    }
-    const fullAudio = Buffer.concat(bufferChunks);
-
-    const ext = format.mimeType?.includes('webm') ? 'webm'
-      : format.mimeType?.includes('mp4') ? 'm4a'
-      : format.mimeType?.includes('ogg') ? 'ogg' : 'webm';
-    const mimeType = format.mimeType || 'audio/webm';
+  try {
+    const fullAudio = await fs.readFile(audioFile);
+    await fs.unlink(audioFile).catch(() => {});
 
     const numChunks = Math.ceil(fullAudio.length / MAX_CHUNK_BYTES);
     const allSegments: { text: string; startSec: number }[] = [];
@@ -234,30 +234,30 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
       const chunkEnd = Math.min((i + 1) * MAX_CHUNK_BYTES, fullAudio.length);
       const chunkBuffer = fullAudio.subarray(chunkStart, chunkEnd);
 
-      const timeOffsetSec = durationSec > 0
-        ? (chunkStart / fullAudio.length) * durationSec
-        : 0;
-
       const formData = new FormData();
-      const blob = new Blob([chunkBuffer], { type: mimeType });
-      formData.append('file', blob, `chunk-${i}.${ext}`);
+      const blob = new Blob([chunkBuffer], { type: 'audio/mp4' });
+      formData.append('file', blob, `chunk-${i}.m4a`);
       formData.append('model', 'whisper-1');
       formData.append('response_format', 'verbose_json');
       formData.append('timestamp_granularities[]', 'segment');
       formData.append('language', 'en');
 
+      console.log(`[whisper] Transcribing chunk ${i + 1}/${numChunks}...`);
       const whisperRes = await fetch('https://api.openai.com/v1/audio/transcriptions', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${OPENAI_KEY}` },
         body: formData,
       });
 
-      if (!whisperRes.ok) continue;
+      if (!whisperRes.ok) {
+        console.error(`[whisper] API Error: ${whisperRes.status} ${whisperRes.statusText}`);
+        continue;
+      }
 
       const whisperData = await whisperRes.json();
       const chunkSegments = (whisperData.segments || []).map((s: { text: string; start: number }) => ({
         text: s.text.trim(),
-        startSec: s.start + timeOffsetSec,
+        startSec: s.start, // Simplified, rely on Whisper's internal start times
       })).filter((s: { text: string }) => s.text.length > 0);
 
       allSegments.push(...chunkSegments);
