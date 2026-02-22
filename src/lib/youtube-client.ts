@@ -62,7 +62,7 @@ export async function fetchTranscriptClient(url: string): Promise<TranscriptResu
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
-      signal: AbortSignal.timeout(20000),
+      signal: AbortSignal.timeout(300000), // 5 minutes to allow for Whisper fallback
     });
     if (res.ok) {
       const data = await res.json();

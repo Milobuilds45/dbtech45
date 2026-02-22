@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "1d090ab5",
+      "author": "Milo",
+      "timestamp": "2026-02-21 20:47:08 -0500",
+      "message": "update AGENT-BRAND-KIT.md: fix roles, add all 10 agents, correct colors, add CSS vars"
+    },
+    {
+      "type": "commit",
       "id": "a1306a9e",
       "author": "Milo",
       "timestamp": "2026-02-21 20:38:02 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 09:44:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "ab9bbb6b",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-22T01:44:05.461Z"
+  "generatedAt": "2026-02-22T11:54:07.462Z"
 }

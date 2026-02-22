@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import * as fs from 'fs/promises';
+import * as path from 'path';
+import * as os from 'os';
 
-const MAX_CHUNK_BYTES = 24 * 1024 * 1024; // 24MB per chunk (buffer under 25MB limit)
+export const maxDuration = 300; // 5 minutes max duration
+
+const execAsync = promisify(exec);
+const MAX_CHUNK_BYTES = 24 * 1024 * 1024; // 24MB per chunk
 
 function extractVideoId(url: string): string | null {
   const patterns = [
@@ -93,7 +101,90 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
   }
 }
 
-// ─── METHOD 2: Whisper transcription with CHUNKING for any length video ───
+// ─── METHOD 2: youtube-transcript npm package ───
+async function fetchTranscriptPackage(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  try {
+    const { YoutubeTranscript } = await import('youtube-transcript');
+    const transcript = await YoutubeTranscript.fetchTranscript(videoId);
+    if (!transcript || transcript.length === 0) return null;
+
+    const segments = transcript.map((t: { text: string; offset: number }) => ({
+      text: decodeHtmlEntities(t.text),
+      startMs: Math.round(t.offset),
+    })).filter((s: { text: string }) => s.text.length > 0);
+
+    if (segments.length === 0) return null;
+    return { segments };
+  } catch (err) {
+    console.error('[youtube-transcript package] Error:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 3: yt-dlp binary ───
+async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  const tmpDir = os.tmpdir();
+  const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
+
+  let ytdlp = 'yt-dlp';
+  if (process.platform === 'win32') {
+    const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
+    try {
+      await fs.access(winPath);
+      ytdlp = `"${winPath}"`;
+    } catch { /* fallback to PATH */ }
+  }
+
+  const cmd = `${ytdlp} --write-subs --write-auto-subs --sub-lang en --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;
+
+  try {
+    await execAsync(cmd, { timeout: 45000 });
+  } catch (err) {
+    console.error('[yt-dlp] Error:', err);
+    return null;
+  }
+
+  let subData: string | null = null;
+  try {
+    const tmpDirFiles = await fs.readdir(tmpDir);
+    const baseName = path.basename(outBase);
+    const subFiles = tmpDirFiles
+      .filter(f => f.startsWith(baseName) && f.endsWith('.json3'))
+      .sort((a, b) => a.length - b.length);
+
+    if (subFiles.length > 0) {
+      subData = await fs.readFile(path.join(tmpDir, subFiles[0]), 'utf-8');
+      
+      // Cleanup
+      for (const f of subFiles) {
+        try { await fs.unlink(path.join(tmpDir, f)); } catch { /* ignore */ }
+      }
+    }
+  } catch {
+    return null;
+  }
+
+  if (!subData) return null;
+
+  try {
+    const json = JSON.parse(subData);
+    const segments = (json.events || [])
+      .filter((e: { segs?: { utf8: string }[] }) => e.segs && e.segs.length > 0)
+      .map((e: { tStartMs: number; segs: { utf8: string }[] }) => ({
+        text: e.segs.map((s: { utf8: string }) => s.utf8).join('').replace(/\n/g, ' ').trim(),
+        startMs: e.tStartMs || 0,
+      }))
+      .filter((s: { text: string }) => s.text.length > 0 && s.text !== '\n');
+
+    if (segments.length === 0) return null;
+    return { segments };
+  } catch (err) {
+    console.error('[yt-dlp] Parse error:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 4: Whisper transcription with CHUNKING for any length video ───
 async function transcribeWithWhisper(videoId: string): Promise<{ segments: { text: string; startSec: number }[] } | null> {
   const OPENAI_KEY = process.env.OPENAI_API_KEY;
   if (!OPENAI_KEY) {
@@ -111,31 +202,24 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
     const audioFormats = ytdl.filterFormats(info.formats, 'audioonly');
     if (audioFormats.length === 0) return null;
 
-    // Pick lowest bitrate to keep file small
     const format = audioFormats.sort((a, b) => (a.audioBitrate || 999) - (b.audioBitrate || 999))[0];
     const bitrate = format.audioBitrate || 48;
     const durationSec = parseInt(info.videoDetails.lengthSeconds) || 0;
-    console.log(`[whisper] Audio: ${format.mimeType}, ${bitrate}kbps, ${durationSec}s (${(durationSec/60).toFixed(1)} min)`);
+    console.log(`[whisper] Audio: ${format.mimeType}, ${bitrate}kbps, ${durationSec}s`);
 
-    // Download full audio
     const stream = ytdl.downloadFromInfo(info, { format });
     const bufferChunks: Buffer[] = [];
     for await (const chunk of stream) {
       bufferChunks.push(Buffer.from(chunk));
     }
     const fullAudio = Buffer.concat(bufferChunks);
-    const totalMB = fullAudio.length / 1024 / 1024;
-    console.log(`[whisper] Downloaded ${totalMB.toFixed(1)}MB`);
 
     const ext = format.mimeType?.includes('webm') ? 'webm'
       : format.mimeType?.includes('mp4') ? 'm4a'
       : format.mimeType?.includes('ogg') ? 'ogg' : 'webm';
     const mimeType = format.mimeType || 'audio/webm';
 
-    // Split into chunks if needed
     const numChunks = Math.ceil(fullAudio.length / MAX_CHUNK_BYTES);
-    console.log(`[whisper] Splitting into ${numChunks} chunk(s)`);
-
     const allSegments: { text: string; startSec: number }[] = [];
 
     for (let i = 0; i < numChunks; i++) {
@@ -143,12 +227,9 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
       const chunkEnd = Math.min((i + 1) * MAX_CHUNK_BYTES, fullAudio.length);
       const chunkBuffer = fullAudio.subarray(chunkStart, chunkEnd);
 
-      // Estimate time offset for this chunk based on byte position
       const timeOffsetSec = durationSec > 0
         ? (chunkStart / fullAudio.length) * durationSec
         : 0;
-
-      console.log(`[whisper] Chunk ${i + 1}/${numChunks}: ${(chunkBuffer.length / 1024 / 1024).toFixed(1)}MB, offset: ${formatTimestamp(timeOffsetSec)}`);
 
       const formData = new FormData();
       const blob = new Blob([chunkBuffer], { type: mimeType });
@@ -164,27 +245,18 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
         body: formData,
       });
 
-      if (!whisperRes.ok) {
-        const errText = await whisperRes.text();
-        console.error(`[whisper] Chunk ${i + 1} API error ${whisperRes.status}: ${errText}`);
-        // Continue with other chunks even if one fails
-        continue;
-      }
+      if (!whisperRes.ok) continue;
 
       const whisperData = await whisperRes.json();
       const chunkSegments = (whisperData.segments || []).map((s: { text: string; start: number }) => ({
         text: s.text.trim(),
-        startSec: s.start + timeOffsetSec, // Offset by chunk position
+        startSec: s.start + timeOffsetSec,
       })).filter((s: { text: string }) => s.text.length > 0);
 
-      console.log(`[whisper] Chunk ${i + 1}: ${chunkSegments.length} segments`);
       allSegments.push(...chunkSegments);
     }
 
-    // Sort by timestamp and deduplicate overlapping segments
     allSegments.sort((a, b) => a.startSec - b.startSec);
-
-    // Remove duplicates (chunks may have overlapping content at boundaries)
     const deduped: { text: string; startSec: number }[] = [];
     for (const seg of allSegments) {
       const last = deduped[deduped.length - 1];
@@ -193,7 +265,6 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
       }
     }
 
-    console.log(`[whisper] Total: ${deduped.length} segments from ${numChunks} chunks`);
     return deduped.length > 0 ? { segments: deduped } : null;
   } catch (err) {
     console.error('[whisper] Error:', err);
@@ -215,34 +286,40 @@ export async function POST(req: NextRequest) {
     let title = 'YouTube Video';
     let channel = 'Unknown';
     let method = 'captions';
+    let segments: { text: string; startSec: number }[] = [];
 
-    // Try captions first (unless forceWhisper)
+    // Try fast caption methods first (unless forceWhisper)
     if (!forceWhisper) {
-      console.log(`[transcript] Trying captions for ${videoId}...`);
+      console.log(`[transcript] Method 1: direct scrape for ${videoId}...`);
       const captionResult = await fetchCaptions(videoId);
 
-      if (captionResult) {
+      if (captionResult && captionResult.segments.length > 0) {
         title = captionResult.title;
         channel = captionResult.channel;
+        segments = captionResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+        method = 'captions';
+      }
 
-        if (captionResult.segments.length > 0) {
-          const timestamped = captionResult.segments
-            .map(s => `[${formatTimestamp(s.startMs / 1000)}] ${s.text}`)
-            .join('\n');
-          const plain = captionResult.segments.map(s => s.text).join(' ');
+      if (segments.length === 0) {
+        console.log(`[transcript] Method 2: youtube-transcript package for ${videoId}...`);
+        const pkgResult = await fetchTranscriptPackage(videoId);
+        if (pkgResult && pkgResult.segments.length > 0) {
+          segments = pkgResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+          method = 'package';
+        }
+      }
 
-          return NextResponse.json({
-            videoId, title, channel, language: 'en', method: 'captions',
-            segmentCount: captionResult.segments.length, timestamped, plain,
-          });
+      if (segments.length === 0) {
+        console.log(`[transcript] Method 3: yt-dlp binary for ${videoId}...`);
+        const ytdlpResult = await fetchTranscriptYtdlp(videoId);
+        if (ytdlpResult && ytdlpResult.segments.length > 0) {
+          segments = ytdlpResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+          method = 'ytdlp';
         }
       }
     }
 
-    // Fallback: Whisper (handles ANY length via chunking)
-    console.log(`[transcript] Using Whisper for ${videoId}...`);
-    method = 'whisper';
-
+    // Attempt to get title/channel if not retrieved yet
     if (title === 'YouTube Video') {
       try {
         const oembed = await fetch(`https://noembed.com/embed?url=https://youtube.com/watch?v=${videoId}`, {
@@ -254,22 +331,31 @@ export async function POST(req: NextRequest) {
       } catch {}
     }
 
-    const whisperResult = await transcribeWithWhisper(videoId);
+    // Fallback: Whisper (handles ANY length via chunking)
+    if (segments.length === 0) {
+      console.log(`[transcript] Method 4: Using Whisper for ${videoId}...`);
+      const whisperResult = await transcribeWithWhisper(videoId);
 
-    if (!whisperResult || whisperResult.segments.length === 0) {
+      if (whisperResult && whisperResult.segments.length > 0) {
+        segments = whisperResult.segments;
+        method = 'whisper';
+      }
+    }
+
+    if (segments.length === 0) {
       return NextResponse.json({
-        error: 'Could not transcribe video. Audio download may have been blocked by YouTube.',
+        error: 'Could not transcribe video. The video may not have captions, and Whisper audio download may have been blocked.',
       }, { status: 404 });
     }
 
-    const timestamped = whisperResult.segments
+    const timestamped = segments
       .map(s => `[${formatTimestamp(s.startSec)}] ${s.text}`)
       .join('\n');
-    const plain = whisperResult.segments.map(s => s.text).join(' ');
+    const plain = segments.map(s => s.text).join(' ');
 
     return NextResponse.json({
       videoId, title, channel, language: 'en', method,
-      segmentCount: whisperResult.segments.length, timestamped, plain,
+      segmentCount: segments.length, timestamped, plain,
     });
   } catch (err) {
     console.error('[transcript] Error:', err);
