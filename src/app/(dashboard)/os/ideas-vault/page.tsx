@@ -33,12 +33,18 @@ export default function IdeasVaultPage() {
   };
 
   useEffect(() => {
-    fetch('/data/ideas-conversation.json')
-      .then(res => res.json())
-      .then(data => setMessages(data))
-      .catch(console.error);
+    const loadMessages = () => {
+      fetch('/data/ideas-conversation.json', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => setMessages(data))
+        .catch(console.error);
+    };
+
+    loadMessages();
+    const interval = setInterval(loadMessages, 30000);
 
     return () => {
+      clearInterval(interval);
       window.speechSynthesis.cancel();
     };
   }, []);

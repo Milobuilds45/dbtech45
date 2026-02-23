@@ -84,6 +84,8 @@ function Kanban() {
 
   useEffect(() => {
     loadTasks();
+    const interval = setInterval(loadTasks, 30000);
+    return () => clearInterval(interval);
   }, [loadTasks]);
 
   // Accept incoming task from query params

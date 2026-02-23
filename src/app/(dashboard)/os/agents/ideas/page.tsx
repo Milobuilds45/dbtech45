@@ -576,6 +576,8 @@ export default function AgentIdeasPage() {
       setHydrated(true);
     };
     loadIdeas();
+    const interval = setInterval(loadIdeas, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // Save to Supabase when ideas change

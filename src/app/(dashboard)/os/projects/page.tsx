@@ -146,18 +146,26 @@ export default function Projects() {
   const dragOverItem = useRef<number | null>(null);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  const fetchProjects = () => {
     loadProjectsFromDb().then(dbProjects => {
       if (dbProjects) {
         setProjects(dbProjects);
       } else {
         // First load: seed Supabase with defaults
-        setProjects(DEFAULT_PROJECTS);
-        saveProjectsToDb(DEFAULT_PROJECTS);
+        if (!mounted) {
+          setProjects(DEFAULT_PROJECTS);
+          saveProjectsToDb(DEFAULT_PROJECTS);
+        }
       }
       setMounted(true);
     });
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchProjects();
+    const interval = setInterval(fetchProjects, 30000);
+    return () => clearInterval(interval);
+  }, [mounted]);
 
   const updateProjects = (updated: Project[]) => {
     setProjects(updated);

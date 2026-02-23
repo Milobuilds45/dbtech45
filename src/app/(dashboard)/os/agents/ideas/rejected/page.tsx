@@ -87,6 +87,8 @@ export default function RejectedArchive() {
       setHydrated(true);
     };
     loadRejected();
+    const interval = setInterval(loadRejected, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   const restore = async (id: string) => {

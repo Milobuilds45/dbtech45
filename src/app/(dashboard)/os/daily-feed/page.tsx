@@ -96,7 +96,11 @@ export default function DailyFeed() {
     setLoading(false);
   };
 
-  useEffect(() => { loadFeed(selectedDate); }, [selectedDate]);
+  useEffect(() => { 
+    loadFeed(selectedDate); 
+    const interval = setInterval(() => loadFeed(selectedDate), 30000);
+    return () => clearInterval(interval);
+  }, [selectedDate]);
 
   const navigateDay = (offset: number) => {
     const newDate = new Date(selectedDate);

@@ -395,7 +395,8 @@ export default function AgentAssist() {
   // Load from Supabase, seed mock data only if table is truly empty
   useEffect(() => {
     const loadFromDb = async () => {
-      setIsInitialLoad(true);
+      // Don't set initial load true on background refreshes
+      if (resources.length === 0) setIsInitialLoad(true);
       setDbError(null);
 
       try {
@@ -457,6 +458,8 @@ export default function AgentAssist() {
       setIsInitialLoad(false);
     };
     loadFromDb();
+    const interval = setInterval(loadFromDb, 30000);
+    return () => clearInterval(interval);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

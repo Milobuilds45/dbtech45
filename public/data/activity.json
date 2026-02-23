@@ -2,17 +2,66 @@
   "activity": [
     {
       "type": "commit",
-      "id": "115d8ee1",
+      "id": "09d9e46b",
       "author": "Milo",
       "timestamp": "2026-02-22 22:18:17 -0500",
       "message": "feat: Add Ideas Vault Audio Briefing, Ship/Kill, Newsletter, Sniper Queue"
     },
     {
       "type": "commit",
-      "id": "1f27a0c7",
+      "id": "b0013d6c",
       "author": "Milo",
       "timestamp": "2026-02-22 22:18:07 -0500",
       "message": "feat: Add Ideas Vault page with Multi-Agent Voice Briefing"
+    },
+    {
+      "type": "commit",
+      "id": "00341276",
+      "author": "Milo",
+      "timestamp": "2026-02-22 11:20:37 -0500",
+      "message": "fix: rewrite whisper fallback to use yt-dlp ios spoofing for downloading audio to bypass ytdl-core bot blocks"
+    },
+    {
+      "type": "commit",
+      "id": "56ab6f84",
+      "author": "Milo",
+      "timestamp": "2026-02-22 10:02:12 -0500",
+      "message": "chore: log yt-dlp stdout and stderr to debug silent failure"
+    },
+    {
+      "type": "commit",
+      "id": "90cf957c",
+      "author": "Milo",
+      "timestamp": "2026-02-22 09:59:07 -0500",
+      "message": "chore: add tmpdir file logging to debug missing json3 from yt-dlp"
+    },
+    {
+      "type": "commit",
+      "id": "e3ddb57c",
+      "author": "Milo",
+      "timestamp": "2026-02-22 09:55:36 -0500",
+      "message": "fix: change yt-dlp client to ios and add --ignore-no-formats-error to bypass strict datacenter bot blocks"
+    },
+    {
+      "type": "commit",
+      "id": "a4a67a66",
+      "author": "Milo",
+      "timestamp": "2026-02-22 09:34:38 -0500",
+      "message": "chore: remove accidental test artifact"
+    },
+    {
+      "type": "commit",
+      "id": "30513bd2",
+      "author": "Milo",
+      "timestamp": "2026-02-22 09:34:26 -0500",
+      "message": "fix: add yt-dlp android player client bypass to evade YouTube datacenter blocks"
+    },
+    {
+      "type": "commit",
+      "id": "99ac7f55",
+      "author": "Milo",
+      "timestamp": "2026-02-22 09:29:16 -0500",
+      "message": "fix: use python3 -m yt_dlp to bypass path issues"
     },
     {
       "type": "commit",
@@ -300,56 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 10:34:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "c43ec97f",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:29:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "51254f35",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:24:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "8d1ba284",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "2a8f7e0f",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:14:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "04fe94ba",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:09:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "b7615e67",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "3c2c23e4",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-23T03:19:05.759Z"
+  "generatedAt": "2026-02-23T09:04:09.057Z"
 }
