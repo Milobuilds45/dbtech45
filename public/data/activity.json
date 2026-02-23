@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "15d92fc0",
+      "author": "Milo",
+      "timestamp": "2026-02-22 06:58:02 -0500",
+      "message": "fix: restore robust 4-method youtube transcript fallback (api, package, yt-dlp, whisper) to prevent errors"
+    },
+    {
+      "type": "commit",
       "id": "1d090ab5",
       "author": "Milo",
       "timestamp": "2026-02-21 20:47:08 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 09:49:05 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "59fb5057",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:44:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-22T11:54:07.462Z"
+  "generatedAt": "2026-02-23T03:14:06.121Z"
 }
