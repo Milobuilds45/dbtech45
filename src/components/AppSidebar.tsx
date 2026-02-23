@@ -31,6 +31,9 @@ import {
   Search,
   Building2,
   Youtube,
+  Ship,
+  Mail,
+  Crosshair,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -109,6 +112,9 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
   'YT Transcript': <Youtube size={ICON_SIZE} />,
+  'Ship or Kill':  <Ship size={ICON_SIZE} />,
+  'Newsletter':    <Mail size={ICON_SIZE} />,
+  'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -140,6 +146,9 @@ const agentItems: NavItem[] = [
 
 const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
+  { label: 'Ship or Kill', href: '/os/ship-or-kill' },
+  { label: 'Newsletter', href: '/os/newsletter' },
+  { label: 'Sniper Queue', href: '/os/sniper-queue' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
   { label: 'YT Transcript', href: '/os/youtube-transcript' },
