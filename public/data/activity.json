@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "13db2b70",
+      "author": "Milo",
+      "timestamp": "2026-02-23 04:08:44 -0500",
+      "message": "feat(os): add 30s auto-refresh polling to all live dashboard pages"
+    },
+    {
+      "type": "commit",
       "id": "09d9e46b",
       "author": "Milo",
       "timestamp": "2026-02-22 22:18:17 -0500",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-02-19 10:39:04 -0500",
       "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "a40fb2aa",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
     }
   ],
-  "generatedAt": "2026-02-23T09:04:09.057Z"
+  "generatedAt": "2026-02-24T13:24:04.888Z"
 }
