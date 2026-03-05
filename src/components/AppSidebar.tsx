@@ -34,6 +34,8 @@ import {
   Ship,
   Mail,
   Crosshair,
+  CheckSquare,
+  DollarSign,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -115,6 +117,8 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Ship or Kill':  <Ship size={ICON_SIZE} />,
   'Newsletter':    <Mail size={ICON_SIZE} />,
   'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
+  'Habit Tracker': <CheckSquare size={ICON_SIZE} />,
+  'Revenue Tracker': <DollarSign size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -166,6 +170,14 @@ const intelItems: NavItem[] = [
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
 
+const dailyItems: NavItem[] = [
+  { label: 'Habit Tracker', href: '/os/habit-tracker' },
+];
+
+const financeItems: NavItem[] = [
+  { label: 'Revenue Tracker', href: '/os/revenue-tracker' },
+];
+
 const systemItems: NavItem[] = [
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
@@ -187,7 +199,9 @@ const sections: SectionConfig[] = [
   { key: 'agents', number: '03', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
   { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
-  { key: 'system', number: '06', title: 'SYSTEM CONFIG', items: systemItems },
+  { key: 'daily', number: '06', title: 'DAILY', items: dailyItems },
+  { key: 'finance', number: '07', title: 'FINANCE', items: financeItems },
+  { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
 // â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

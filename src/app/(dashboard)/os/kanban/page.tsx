@@ -4,7 +4,7 @@ import { useSearchParams } from "next/navigation";
 import { brand, styles } from "@/lib/brand";
 import { supabase } from "@/lib/supabase";
 
-type ColumnId = 'backlog' | 'in_progress' | 'review' | 'done';
+type ColumnId = 'ideas' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'done';
 type Priority = 'low' | 'medium' | 'high';
 
 interface Task {
@@ -19,10 +19,15 @@ interface Task {
 }
 
 const columns: { id: ColumnId; title: string; color: string }[] = [
-  { id: 'backlog', title: 'To Do', color: brand.error },
-  { id: 'in_progress', title: 'In Progress', color: brand.amber },
-  { id: 'review', title: 'Review', color: brand.info },
-  { id: 'done', title: 'Done', color: brand.success },
+  { id: 'ideas', title: '💡 Ideas', color: brand.amber },
+  { id: 'monday', title: 'Monday', color: brand.info },
+  { id: 'tuesday', title: 'Tuesday', color: brand.info },
+  { id: 'wednesday', title: 'Wednesday', color: brand.info },
+  { id: 'thursday', title: 'Thursday', color: brand.info },
+  { id: 'friday', title: 'Friday', color: brand.info },
+  { id: 'saturday', title: 'Saturday', color: brand.error },
+  { id: 'sunday', title: 'Sunday', color: brand.error },
+  { id: 'done', title: '✅ Done', color: brand.success },
 ];
 
 const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb', 'Dwight', 'Wendy', 'Derek'];
@@ -64,16 +69,21 @@ function Kanban() {
       }
 
       if (data) {
-        setTodos(data.map((row: Record<string, unknown>) => ({
-          id: row.id as string,
-          title: row.title as string,
-          status: (row.status as ColumnId) || 'backlog',
-          priority: (row.priority as Priority) || 'medium',
-          assignee: (row.assignee as string) || null,
-          project: (row.project as string) || undefined,
-          description: row.description as string | null,
-          due_date: row.due_date as string | null,
-        })));
+        setTodos(data.map((row: Record<string, unknown>) => {
+          const loadedStatus = row.status as ColumnId;
+          const status = columns.some(c => c.id === loadedStatus) ? loadedStatus : 'ideas';
+          
+          return {
+            id: row.id as string,
+            title: row.title as string,
+            status,
+            priority: (row.priority as Priority) || 'medium',
+            assignee: (row.assignee as string) || null,
+            project: (row.project as string) || undefined,
+            description: row.description as string | null,
+            due_date: row.due_date as string | null,
+          };
+        }));
       }
     } catch (err) {
       console.error('Load error:', err);
@@ -95,7 +105,7 @@ function Kanban() {
       const task: Task = {
         id: genId(),
         title,
-        status: 'backlog',
+        status: 'ideas',
         priority: 'high',
         assignee: null,
         project: searchParams.get('add_project') || undefined,
@@ -142,7 +152,7 @@ function Kanban() {
     const task: Task = {
       id: genId(),
       title: newTask.trim(),
-      status: 'backlog',
+      status: 'ideas',
       priority: newPriority,
       assignee: newAssignee || null,
     };
@@ -249,7 +259,7 @@ function Kanban() {
     return (
       <div style={styles.page}>
         <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <h1 style={styles.h1}>Kanban Board</h1>
+          <h1 style={styles.h1}>Weekly Planner</h1>
           <div style={{ ...styles.card, textAlign: 'center', padding: '48px' }}>
             <div style={{ color: brand.smoke, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px' }}>
               Loading tasks from database...
@@ -262,12 +272,12 @@ function Kanban() {
 
   return (
     <div style={styles.page}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '100%', margin: '0 auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
           <div>
-            <h1 style={styles.h1}>Kanban Board</h1>
+            <h1 style={styles.h1}>Weekly Planner</h1>
             <p style={styles.subtitle}>
-              Drag cards between columns. Click a card to edit priority and assignee.
+              Plan your week. Drop ideas into days. Click a card to edit.
               {` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
               {saving && <span style={{ marginLeft: '8px', color: brand.amber, fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>Saving...</span>}
             </p>
@@ -289,21 +299,9 @@ function Kanban() {
           </button>
         </div>
 
-        {/* Flow info */}
-        <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
-          <span style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600 }}>FLOW:</span>
-          {columns.map((c, i) => (
-            <span key={c.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: c.color, display: 'inline-block' }} />
-              <span style={{ color: brand.silver, fontSize: '12px' }}>{c.title}</span>
-              {i < columns.length - 1 && <span style={{ color: brand.smoke, fontSize: '12px' }}>{'->'}</span>}
-            </span>
-          ))}
-        </div>
-
         {/* Add Task */}
         <div style={{ ...styles.card, marginBottom: '2rem' }}>
-          <h3 style={{ color: brand.white, marginBottom: '1rem', fontSize: '16px' }}>New Task</h3>
+          <h3 style={{ color: brand.white, marginBottom: '1rem', fontSize: '16px' }}>New Idea / Task</h3>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <input type="text" placeholder="What needs to be done?" value={newTask} onChange={(e) => setNewTask(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addTask()} style={{ ...styles.input, flex: 1, minWidth: '200px' }} />
@@ -318,11 +316,11 @@ function Kanban() {
               <option value="">Unassigned</option>
               {AGENTS.map(a => <option key={a} value={a}>{a}</option>)}
             </select>
-            <button onClick={addTask} style={styles.button}>Add Task</button>
+            <button onClick={addTask} style={styles.button}>Add</button>
           </div>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', overflowX: 'auto', gap: '1.5rem', paddingBottom: '1rem', minHeight: '600px' }}>
           {columns.map(col => {
             const colTasks = getColumnTasks(col.id);
             const isOver = dragOverCol === col.id;
@@ -335,7 +333,8 @@ function Kanban() {
                   backgroundColor: isOver ? 'rgba(245,158,11,0.05)' : brand.carbon,
                   borderRadius: '12px', padding: '1rem',
                   border: `1px solid ${isOver ? brand.amber : brand.border}`,
-                  minHeight: '400px',
+                  minWidth: '280px',
+                  flex: '0 0 auto',
                   transition: 'background-color 0.2s, border-color 0.2s',
                 }}>
                 <h3 style={{ color: col.color, marginBottom: '1rem', borderBottom: `2px solid ${col.color}`, paddingBottom: '0.5rem', fontSize: '14px', fontWeight: 600 }}>
@@ -385,15 +384,14 @@ function Kanban() {
                           </span>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '4px', marginTop: '8px' }}>
-                          {columns.filter(c => c.id !== task.status).map(c => (
-                            <button key={c.id} onClick={() => moveTask(task.id, c.id)}
-                              style={{ flex: 1, padding: '3px 0', borderRadius: '4px', fontSize: '9px', fontWeight: 600, cursor: 'pointer', background: 'transparent', border: `1px solid ${brand.border}`, color: brand.smoke, transition: 'all 0.15s' }}
-                              onMouseEnter={e => { e.currentTarget.style.borderColor = c.color; e.currentTarget.style.color = c.color; }}
-                              onMouseLeave={e => { e.currentTarget.style.borderColor = brand.border; e.currentTarget.style.color = brand.smoke; }}>
-                              {c.title}
-                            </button>
-                          ))}
+                        <div style={{ marginTop: '8px' }}>
+                          <select 
+                            value={task.status} 
+                            onChange={(e) => moveTask(task.id, e.target.value as ColumnId)}
+                            style={{ width: '100%', background: 'transparent', border: `1px solid ${brand.border}`, borderRadius: '4px', padding: '4px', color: brand.smoke, fontSize: '11px', outline: 'none', cursor: 'pointer' }}
+                          >
+                            {columns.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
+                          </select>
                         </div>
 
                         {isEditing && (
