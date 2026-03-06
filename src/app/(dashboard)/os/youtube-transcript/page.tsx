@@ -126,6 +126,8 @@ export default function YouTubeTranscriptPage() {
   const [summarizing, setSummarizing] = useState<string | null>(null);
   const [summarizingCurrent, setSummarizingCurrent] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+  const [showSummary, setShowSummary] = useState<Record<string, boolean>>({});
+  const [showCurrentSummary, setShowCurrentSummary] = useState(true);
 
   async function handleSummarizeCurrent() {
     if (!result || result.summary) return;
@@ -365,24 +367,40 @@ export default function YouTubeTranscriptPage() {
                     padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', gap: 6,
                   }}><FileText size={12} /> .md</button>
-                  <button onClick={handleSummarizeCurrent} disabled={summarizingCurrent || !!result.summary} style={{
-                    background: brand.graphite, border: `1px solid ${result.summary ? brand.success : brand.border}`, borderRadius: 6,
-                    padding: '8px 14px', color: result.summary ? brand.success : brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                  <button onClick={() => {
+                    if (result.summary) {
+                      setShowCurrentSummary(!showCurrentSummary);
+                    } else {
+                      handleSummarizeCurrent();
+                      setShowCurrentSummary(true);
+                    }
+                  }} disabled={summarizingCurrent} style={{
+                    background: result.summary && showCurrentSummary ? 'rgba(245,158,11,0.1)' : brand.graphite,
+                    border: `1px solid ${result.summary ? brand.amber : brand.border}`, borderRadius: 6,
+                    padding: '8px 14px', color: result.summary ? brand.amber : brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', gap: 6,
-                    opacity: summarizingCurrent || result.summary ? 0.7 : 1,
                   }}>
-                    {summarizingCurrent ? <Loader2 size={12} className="animate-spin" /> : <Brain size={12} />}
-                    {result.summary ? 'summarized' : 'ai summarize'}
+                    {summarizingCurrent ? <><Loader2 size={12} className="animate-spin" /> summarizing...</> :
+                     result.summary ? (showCurrentSummary ? <><ChevronUp size={12} /> hide TL;DR</> : <><ChevronDown size={12} /> show TL;DR</>) :
+                     <><Brain size={12} /> ai summarize</>}
                   </button>
                 </div>
 
-                {result.summary && (
+                {result.summary && showCurrentSummary && (
                   <div style={{
                     background: 'rgba(245, 158, 11, 0.05)', border: `1px solid ${brand.amber}`,
                     borderRadius: 8, padding: '16px', marginBottom: '1rem',
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, color: brand.amber, fontFamily: M, fontSize: '0.75rem', fontWeight: 700 }}>
-                      <Brain size={14} /> AI TL;DR
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                      <div style={{ color: brand.amber, fontFamily: M, fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
+                        <Brain size={14} /> AI TL;DR
+                      </div>
+                      <button
+                        onClick={() => setShowCurrentSummary(false)}
+                        style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', padding: 2 }}
+                      >
+                        <X size={14} />
+                      </button>
                     </div>
                     <SummaryDisplay summary={result.summary} />
                   </div>
@@ -501,10 +519,17 @@ export default function YouTubeTranscriptPage() {
                       {/* Action buttons row */}
                       <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
                         <button
-                          onClick={() => handleSummarize(item)}
+                          onClick={() => {
+                            if (item.summary) {
+                              setShowSummary(prev => ({ ...prev, [item.id]: !prev[item.id] }));
+                            } else {
+                              handleSummarize(item);
+                              setShowSummary(prev => ({ ...prev, [item.id]: true }));
+                            }
+                          }}
                           disabled={summarizing === item.id}
                           style={{
-                            background: item.summary ? 'rgba(16,185,129,0.1)' : brand.graphite,
+                            background: item.summary && showSummary[item.id] ? 'rgba(16,185,129,0.1)' : brand.graphite,
                             border: `1px solid ${item.summary ? brand.success : brand.border}`,
                             borderRadius: 6, padding: '5px 10px',
                             color: item.summary ? brand.success : brand.silver,
@@ -515,7 +540,7 @@ export default function YouTubeTranscriptPage() {
                           {summarizing === item.id ? (
                             <><Loader2 size={11} /> summarizing</>
                           ) : item.summary ? (
-                            <><Check size={11} /> TL;DR ready</>
+                            showSummary[item.id] ? <><ChevronUp size={11} /> hide TL;DR</> : <><ChevronDown size={11} /> show TL;DR</>
                           ) : (
                             <><Brain size={11} /> TL;DR</>
                           )}
@@ -557,14 +582,22 @@ export default function YouTubeTranscriptPage() {
                       </div>
 
                       {/* Summary display */}
-                      {item.summary && (
+                      {item.summary && showSummary[item.id] && (
                         <div style={{
                           marginTop: 10, background: 'rgba(16,185,129,0.05)',
                           border: `1px solid rgba(16,185,129,0.2)`,
                           borderRadius: 8, padding: '12px 14px',
                         }}>
-                          <div style={{ color: brand.success, fontSize: '0.7rem', fontFamily: M, marginBottom: 8, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
-                            <Sparkles size={12} /> TL;DR
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                            <div style={{ color: brand.success, fontSize: '0.7rem', fontFamily: M, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
+                              <Sparkles size={12} /> TL;DR
+                            </div>
+                            <button
+                              onClick={() => setShowSummary(prev => ({ ...prev, [item.id]: false }))}
+                              style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', padding: 2 }}
+                            >
+                              <X size={14} />
+                            </button>
                           </div>
                           <SummaryDisplay summary={item.summary} />
                         </div>

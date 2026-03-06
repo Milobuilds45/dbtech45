@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "5a3c6857",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:28:32 -0500",
+      "message": "feat(yt): clickable timestamp links jump to video position + fix yt-dlp en.* rate limit bug"
+    },
+    {
+      "type": "commit",
       "id": "f17c5be3",
       "author": "Milo",
       "timestamp": "2026-03-06 14:24:08 -0500",
@@ -15,5 +22,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T19:24:09.654Z"
+  "generatedAt": "2026-03-06T19:29:14.779Z"
 }
