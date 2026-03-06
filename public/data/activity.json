@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "169e9b7e",
+      "author": "Milo",
+      "timestamp": "2026-03-06 15:10:03 -0500",
+      "message": "feat(yt): move Ask Video chat inline above transcript, add Supabase DB persistence for archive, fix breakdown regen for timestamps"
+    },
+    {
+      "type": "commit",
       "id": "7ade5fcf",
       "author": "Milo",
       "timestamp": "2026-03-06 14:45:45 -0500",
@@ -57,5 +64,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T20:09:15.534Z"
+  "generatedAt": "2026-03-06T20:19:07.628Z"
 }

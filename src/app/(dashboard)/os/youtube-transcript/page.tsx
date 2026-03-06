@@ -187,6 +187,12 @@ export default function YouTubeTranscriptPage() {
   const [chatLoading, setChatLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
+  // Archive chat state (per item)
+  const [archiveChatMessages, setArchiveChatMessages] = useState<Record<string, { role: 'user' | 'ai'; text: string }[]>>({});
+  const [archiveChatInput, setArchiveChatInput] = useState<Record<string, string>>({});
+  const [archiveChatLoading, setArchiveChatLoading] = useState<Record<string, boolean>>({});
+  const [archiveShowChat, setArchiveShowChat] = useState<Record<string, boolean>>({});
+  const archiveChatEndRef = useRef<HTMLDivElement>(null);
 
   async function handleSummarizeCurrent(forceRegenerate = false) {
     if (!result || (result.summary && !forceRegenerate)) return;
@@ -243,6 +249,37 @@ export default function YouTubeTranscriptPage() {
     }
     setChatLoading(false);
     setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+  }
+
+  async function handleArchiveChatSend(item: ArchivedTranscript) {
+    const input = (archiveChatInput[item.id] || '').trim();
+    if (!input || archiveChatLoading[item.id]) return;
+    setArchiveChatInput(prev => ({ ...prev, [item.id]: '' }));
+    setArchiveChatMessages(prev => ({ ...prev, [item.id]: [...(prev[item.id] || []), { role: 'user', text: input }] }));
+    setArchiveChatLoading(prev => ({ ...prev, [item.id]: true }));
+    setTimeout(() => archiveChatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+
+    try {
+      const res = await fetch('/api/youtube-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question: input,
+          title: item.title,
+          channel: item.channel || 'Unknown',
+          timestamped: item.timestamped,
+          plain: item.plain,
+          history: (archiveChatMessages[item.id] || []).slice(-6),
+        }),
+      });
+      const data = await res.json();
+      const answer = (res.ok && data.answer) ? data.answer : 'Sorry, couldn\'t process that. Try again.';
+      setArchiveChatMessages(prev => ({ ...prev, [item.id]: [...(prev[item.id] || []), { role: 'ai', text: answer }] }));
+    } catch {
+      setArchiveChatMessages(prev => ({ ...prev, [item.id]: [...(prev[item.id] || []), { role: 'ai', text: 'Connection error. Please try again.' }] }));
+    }
+    setArchiveChatLoading(prev => ({ ...prev, [item.id]: false }));
+    setTimeout(() => archiveChatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 
   async function handleSummarize(item: ArchivedTranscript) {
@@ -895,7 +932,70 @@ export default function YouTubeTranscriptPage() {
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
                             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5,
                           }}><ExternalLink size={11} /> video</a>
+                          <button onClick={() => setArchiveShowChat(prev => ({ ...prev, [item.id]: !prev[item.id] }))} style={{
+                            background: archiveShowChat[item.id] ? 'rgba(139,92,246,0.1)' : brand.graphite,
+                            border: `1px solid ${archiveShowChat[item.id] ? '#8B5CF6' : brand.border}`, borderRadius: 6,
+                            padding: '6px 12px', color: archiveShowChat[item.id] ? '#8B5CF6' : brand.silver,
+                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}><MessageCircle size={11} /> {archiveShowChat[item.id] ? 'hide chat' : 'ask video'}</button>
                         </div>
+
+                        {/* Archive Ask Video Chat */}
+                        {archiveShowChat[item.id] && (
+                          <div style={{ marginBottom: 12, background: brand.void, border: `1px solid #8B5CF6`, borderRadius: 8, overflow: 'hidden' }}>
+                            <div style={{ padding: '10px 14px', borderBottom: `1px solid ${brand.border}`, background: 'rgba(139,92,246,0.05)', display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <MessageCircle size={12} style={{ color: '#8B5CF6' }} />
+                              <span style={{ color: '#8B5CF6', fontFamily: M, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.05em' }}>ASK THIS VIDEO</span>
+                              <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.6rem', marginLeft: 'auto' }}>gemini flash</span>
+                            </div>
+                            <div style={{ padding: '12px', maxHeight: '300px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, minHeight: (archiveChatMessages[item.id] || []).length === 0 ? 60 : undefined }}>
+                              {(archiveChatMessages[item.id] || []).length === 0 && (
+                                <div style={{ color: brand.smoke, fontFamily: M, fontSize: '0.75rem', textAlign: 'center', padding: '12px 0' }}>
+                                  Ask anything about this video...
+                                </div>
+                              )}
+                              {(archiveChatMessages[item.id] || []).map((msg, mi) => (
+                                <div key={mi} style={{ display: 'flex', flexDirection: 'column', alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
+                                  <div style={{
+                                    background: msg.role === 'user' ? 'rgba(139,92,246,0.15)' : 'rgba(245,158,11,0.05)',
+                                    border: `1px solid ${msg.role === 'user' ? 'rgba(139,92,246,0.3)' : 'rgba(245,158,11,0.15)'}`,
+                                    borderRadius: msg.role === 'user' ? '10px 10px 2px 10px' : '10px 10px 10px 2px',
+                                    padding: '8px 12px', maxWidth: '85%',
+                                  }}>
+                                    <div style={{ color: msg.role === 'user' ? '#C4B5FD' : brand.silver, fontSize: '0.75rem', lineHeight: 1.5, fontFamily: M }}>
+                                      {msg.role === 'ai' ? <SummaryDisplay summary={msg.text} videoId={item.videoId} /> : msg.text}
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                              {archiveChatLoading[item.id] && (
+                                <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: brand.smoke, fontSize: '0.7rem', fontFamily: M }}>
+                                  <Loader2 size={12} className="animate-spin" /> thinking...
+                                </div>
+                              )}
+                              <div ref={archiveChatEndRef} />
+                            </div>
+                            <div style={{ padding: '10px 12px', borderTop: `1px solid ${brand.border}`, display: 'flex', gap: 6 }}>
+                              <input
+                                type="text"
+                                value={archiveChatInput[item.id] || ''}
+                                onChange={e => setArchiveChatInput(prev => ({ ...prev, [item.id]: e.target.value }))}
+                                onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleArchiveChatSend(item); } }}
+                                placeholder="What did they say about..."
+                                style={{ flex: 1, background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 6, padding: '8px 12px', color: brand.white, fontFamily: M, fontSize: '0.75rem', outline: 'none' }}
+                              />
+                              <button
+                                onClick={() => handleArchiveChatSend(item)}
+                                disabled={archiveChatLoading[item.id] || !(archiveChatInput[item.id] || '').trim()}
+                                style={{ background: archiveChatLoading[item.id] ? brand.graphite : '#8B5CF6', border: 'none', borderRadius: 6, padding: '8px 14px', color: '#fff', cursor: 'pointer', display: 'flex', alignItems: 'center', fontFamily: M, fontSize: '0.75rem', fontWeight: 600, opacity: archiveChatLoading[item.id] || !(archiveChatInput[item.id] || '').trim() ? 0.5 : 1 }}
+                              >
+                                <Send size={12} />
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
                         <div style={{
                           background: brand.void, border: `1px solid ${brand.border}`, borderRadius: 8,
                           padding: '14px', fontFamily: M, fontSize: '0.75rem',
