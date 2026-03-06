@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "7ed19bb3",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:30:20 -0500",
+      "message": "fix(yt): TL;DR summary now toggles open/closed, X button to dismiss"
+    },
+    {
+      "type": "commit",
       "id": "5a3c6857",
       "author": "Milo",
       "timestamp": "2026-03-06 14:28:32 -0500",
@@ -22,5 +29,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T19:29:14.779Z"
+  "generatedAt": "2026-03-06T19:34:08.134Z"
 }

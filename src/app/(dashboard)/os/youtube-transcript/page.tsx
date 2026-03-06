@@ -52,18 +52,55 @@ function removeFromArchive(id: string) {
   localStorage.setItem('yt-transcripts', JSON.stringify(archive));
 }
 
-function SummaryDisplay({ summary }: { summary: string }) {
-  // Parse the summary — each line starting with • or - or * or a number is a bullet
+function SummaryDisplay({ summary, videoId }: { summary: string; videoId?: string }) {
   const lines = summary.split('\n').filter(l => l.trim().length > 0);
+
+  // Render text with clickable timestamps
+  function renderWithTimestamps(text: string) {
+    if (!videoId) return <>{text}</>;
+    
+    // Match [0:42], [1:23], [1:23:45] patterns
+    const parts = text.split(/(\[\d+:\d{2}(?::\d{2})?\])/g);
+    
+    return (
+      <>
+        {parts.map((part, j) => {
+          const tsMatch = part.match(/^\[(\d+:\d{2}(?::\d{2})?)\]$/);
+          if (tsMatch) {
+            const tsStr = tsMatch[1];
+            const tsParts = tsStr.split(':').map(Number);
+            const secs = tsParts.length === 3
+              ? tsParts[0] * 3600 + tsParts[1] * 60 + tsParts[2]
+              : tsParts[0] * 60 + tsParts[1];
+            return (
+              <a
+                key={j}
+                href={`https://youtube.com/watch?v=${videoId}&t=${secs}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: brand.amber, textDecoration: 'none', fontWeight: 600,
+                  fontFamily: M, cursor: 'pointer',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
+                onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
+              >
+                {part}
+              </a>
+            );
+          }
+          return <span key={j}>{part}</span>;
+        })}
+      </>
+    );
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       {lines.map((line, i) => {
         const trimmed = line.trim();
-        // Check if it's a section header (starts with ** or ## or all caps short line)
         const isHeader = (trimmed.startsWith('**') && trimmed.endsWith('**')) ||
           trimmed.startsWith('## ') || trimmed.startsWith('# ');
-        // Check if it's a bullet point
         const isBullet = /^[•\-\*]\s/.test(trimmed) || /^\d+[\.\)]\s/.test(trimmed);
         const cleanText = trimmed
           .replace(/^[•\-\*]\s*/, '')
@@ -79,7 +116,7 @@ function SummaryDisplay({ summary }: { summary: string }) {
               fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em',
               marginTop: i > 0 ? 8 : 0,
             }}>
-              {cleanText}
+              {renderWithTimestamps(cleanText)}
             </div>
           );
         }
@@ -88,15 +125,14 @@ function SummaryDisplay({ summary }: { summary: string }) {
           return (
             <div key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
               <span style={{ color: brand.amber, fontSize: '0.7rem', marginTop: 2, flexShrink: 0 }}>›</span>
-              <span style={{ color: brand.silver, fontSize: '0.8rem', lineHeight: 1.5 }}>{cleanText}</span>
+              <span style={{ color: brand.silver, fontSize: '0.8rem', lineHeight: 1.5 }}>{renderWithTimestamps(cleanText)}</span>
             </div>
           );
         }
 
-        // Regular text line
         return (
           <div key={i} style={{ color: brand.silver, fontSize: '0.8rem', lineHeight: 1.5 }}>
-            {trimmed}
+            {renderWithTimestamps(trimmed)}
           </div>
         );
       })}
@@ -136,7 +172,7 @@ export default function YouTubeTranscriptPage() {
       const res = await fetch('/api/youtube-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: result.title, channel: result.channel || 'Unknown', plain: result.plain }),
+        body: JSON.stringify({ title: result.title, channel: result.channel || 'Unknown', plain: result.plain, timestamped: result.timestamped }),
       });
       const data = await res.json();
       if (res.ok && data.summary) {
@@ -158,7 +194,7 @@ export default function YouTubeTranscriptPage() {
       const res = await fetch('/api/youtube-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: item.title, channel: item.channel, plain: item.plain }),
+        body: JSON.stringify({ title: item.title, channel: item.channel, plain: item.plain, timestamped: item.timestamped }),
       });
       const data = await res.json();
       if (res.ok && data.summary) {
@@ -402,7 +438,7 @@ export default function YouTubeTranscriptPage() {
                         <X size={14} />
                       </button>
                     </div>
-                    <SummaryDisplay summary={result.summary} />
+                    <SummaryDisplay summary={result.summary} videoId={result.videoId} />
                   </div>
                 )}
 
@@ -599,7 +635,7 @@ export default function YouTubeTranscriptPage() {
                               <X size={14} />
                             </button>
                           </div>
-                          <SummaryDisplay summary={item.summary} />
+                          <SummaryDisplay summary={item.summary} videoId={item.videoId} />
                         </div>
                       )}
                     </div>
