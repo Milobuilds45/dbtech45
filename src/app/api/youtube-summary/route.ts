@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are summarizing a YouTube video transcript into a TL;DR with timestamped key moments.
+              text: `You are summarizing a YouTube video transcript into a KEY MOMENTS breakdown with timestamps.
 
 RULES:
 - Line 1: A single sentence TL;DR (the one takeaway from the whole video)

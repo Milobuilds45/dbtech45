@@ -59,19 +59,22 @@ function SummaryDisplay({ summary, videoId }: { summary: string; videoId?: strin
   function renderWithTimestamps(text: string) {
     if (!videoId) return <>{text}</>;
     
-    // Match [0:42], [1:23], [1:23:45] patterns
-    const parts = text.split(/(\[\d+:\d{2}(?::\d{2})?\])/g);
+    // Match [0:42], [1:23:45], (0:42), 0:42 — with or without brackets/parens
+    const parts = text.split(/(\[?\(?\d{1,2}:\d{2}(?::\d{2})?\)?\]?)/g);
     
     return (
       <>
         {parts.map((part, j) => {
-          const tsMatch = part.match(/^\[(\d+:\d{2}(?::\d{2})?)\]$/);
-          if (tsMatch) {
+          const tsMatch = part.match(/^\[?\(?(\d{1,2}:\d{2}(?::\d{2})?)\)?\]?$/);
+          if (tsMatch && /\d+:\d{2}/.test(tsMatch[1])) {
             const tsStr = tsMatch[1];
             const tsParts = tsStr.split(':').map(Number);
+            // Sanity check — must be plausible time values
+            if (tsParts.some(p => isNaN(p))) return <span key={j}>{part}</span>;
             const secs = tsParts.length === 3
               ? tsParts[0] * 3600 + tsParts[1] * 60 + tsParts[2]
               : tsParts[0] * 60 + tsParts[1];
+            if (secs > 36000) return <span key={j}>{part}</span>; // Skip if > 10 hours
             return (
               <a
                 key={j}
@@ -80,7 +83,8 @@ function SummaryDisplay({ summary, videoId }: { summary: string; videoId?: strin
                 rel="noopener noreferrer"
                 style={{
                   color: brand.amber, textDecoration: 'none', fontWeight: 600,
-                  fontFamily: M, cursor: 'pointer',
+                  fontFamily: M, cursor: 'pointer', background: 'rgba(245,158,11,0.1)',
+                  padding: '1px 4px', borderRadius: 3,
                 }}
                 onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
                 onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
@@ -360,17 +364,27 @@ export default function YouTubeTranscriptPage() {
                 <div style={{
                   background: brand.carbon, border: `1px solid ${brand.border}`,
                   borderRadius: 8, padding: '16px', marginBottom: '1rem',
+                  display: 'flex', gap: 16, alignItems: 'flex-start',
                 }}>
-                  <h2 style={{ color: brand.white, fontSize: '1rem', fontWeight: 600, margin: 0, marginBottom: 8 }}>
-                    {result.title}
-                  </h2>
-                  <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.language}</span>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
-                    <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.videoId}</span>
-                    <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
-                      <Check size={12} /> archived
-                    </span>
+                  <a href={`https://youtube.com/watch?v=${result.videoId}`} target="_blank" rel="noopener noreferrer" style={{ flexShrink: 0 }}>
+                    <img
+                      src={`https://img.youtube.com/vi/${result.videoId}/mqdefault.jpg`}
+                      alt={result.title}
+                      style={{ width: 180, height: 101, objectFit: 'cover', borderRadius: 6, border: `1px solid ${brand.border}`, display: 'block' }}
+                    />
+                  </a>
+                  <div>
+                    <h2 style={{ color: brand.white, fontSize: '1rem', fontWeight: 600, margin: 0, marginBottom: 8 }}>
+                      {result.title}
+                    </h2>
+                    <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                      <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.language}</span>
+                      <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
+                      <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.videoId}</span>
+                      <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <Check size={12} /> archived
+                      </span>
+                    </div>
                   </div>
                 </div>
 
@@ -417,7 +431,7 @@ export default function YouTubeTranscriptPage() {
                     display: 'flex', alignItems: 'center', gap: 6,
                   }}>
                     {summarizingCurrent ? <><Loader2 size={12} className="animate-spin" /> summarizing...</> :
-                     result.summary ? (showCurrentSummary ? <><ChevronUp size={12} /> hide TL;DR</> : <><ChevronDown size={12} /> show TL;DR</>) :
+                     result.summary ? (showCurrentSummary ? <><ChevronUp size={12} /> hide breakdown</> : <><ChevronDown size={12} /> show breakdown</>) :
                      <><Brain size={12} /> ai summarize</>}
                   </button>
                 </div>
@@ -429,7 +443,7 @@ export default function YouTubeTranscriptPage() {
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ color: brand.amber, fontFamily: M, fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <Brain size={14} /> AI TL;DR
+                        <Brain size={14} /> KEY MOMENTS
                       </div>
                       <button
                         onClick={() => setShowCurrentSummary(false)}
@@ -513,7 +527,25 @@ export default function YouTubeTranscriptPage() {
                   }}>
                     {/* Collapsed header */}
                     <div style={{ padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12 }}>
+                      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
+                        {/* YouTube Thumbnail */}
+                        <a
+                          href={`https://youtube.com/watch?v=${item.videoId}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={e => e.stopPropagation()}
+                          style={{ flexShrink: 0 }}
+                        >
+                          <img
+                            src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
+                            alt={item.title}
+                            style={{
+                              width: 140, height: 79, objectFit: 'cover',
+                              borderRadius: 6, border: `1px solid ${brand.border}`,
+                              display: 'block',
+                            }}
+                          />
+                        </a>
                         <div style={{ flex: 1 }}>
                           <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
                             <span style={{ color: brand.smoke, fontSize: '0.7rem', fontFamily: M }}>
@@ -529,7 +561,7 @@ export default function YouTubeTranscriptPage() {
                               onClick={e => e.stopPropagation()}
                               style={{ color: '#f87171', fontSize: '0.7rem', fontFamily: M, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
                             >
-                              <Play size={10} /> watch on youtube
+                              <Play size={10} /> watch
                             </a>
                           </div>
                           <div style={{ color: brand.white, fontSize: '0.9rem', fontWeight: 600, marginBottom: 3 }}>
@@ -576,9 +608,9 @@ export default function YouTubeTranscriptPage() {
                           {summarizing === item.id ? (
                             <><Loader2 size={11} /> summarizing</>
                           ) : item.summary ? (
-                            showSummary[item.id] ? <><ChevronUp size={11} /> hide TL;DR</> : <><ChevronDown size={11} /> show TL;DR</>
+                            showSummary[item.id] ? <><ChevronUp size={11} /> hide breakdown</> : <><ChevronDown size={11} /> show breakdown</>
                           ) : (
-                            <><Brain size={11} /> TL;DR</>
+                            <><Brain size={11} /> breakdown</>
                           )}
                         </button>
                         <button
@@ -626,7 +658,7 @@ export default function YouTubeTranscriptPage() {
                         }}>
                           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                             <div style={{ color: brand.success, fontSize: '0.7rem', fontFamily: M, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 5 }}>
-                              <Sparkles size={12} /> TL;DR
+                              <Sparkles size={12} /> KEY MOMENTS
                             </div>
                             <button
                               onClick={() => setShowSummary(prev => ({ ...prev, [item.id]: false }))}
