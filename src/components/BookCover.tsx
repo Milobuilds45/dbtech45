@@ -66,7 +66,8 @@ export default function BookCover({ pdfUrl, fallbackColor, title, author, year, 
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        await page.render({ canvasContext: ctx, viewport }).promise;
+        // @ts-ignore - pdfjs render params type mismatch between versions
+        await page.render({ canvasContext: ctx, viewport, canvas }).promise;
 
         if (!cancelled) setLoaded(true);
       } catch {

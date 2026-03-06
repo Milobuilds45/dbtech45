@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "db16ef09",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:42:30 -0500",
+      "message": "feat(yt): add Ask This Video chat - NotebookLM-style Q&A with full transcript context"
+    },
+    {
+      "type": "commit",
       "id": "8a4b6453",
       "author": "Milo",
       "timestamp": "2026-03-06 14:38:11 -0500",
@@ -43,5 +50,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T19:39:08.461Z"
+  "generatedAt": "2026-03-06T19:44:05.545Z"
 }
