@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "8a4b6453",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:38:11 -0500",
+      "message": "feat(yt): rename TL;DR to KEY MOMENTS, add youtube thumbnails to archive+extract, improve timestamp link detection"
+    },
+    {
+      "type": "commit",
+      "id": "75296ca2",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:34:48 -0500",
+      "message": "feat(yt): TL;DR now includes clickable timestamped key moments that jump to video"
+    },
+    {
+      "type": "commit",
       "id": "7ed19bb3",
       "author": "Milo",
       "timestamp": "2026-03-06 14:30:20 -0500",
@@ -29,5 +43,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T19:34:08.134Z"
+  "generatedAt": "2026-03-06T19:39:08.461Z"
 }

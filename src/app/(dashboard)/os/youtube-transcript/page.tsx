@@ -1,11 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { fetchTranscriptClient } from '@/lib/youtube-client';
 import {
   Play, Youtube, Tv, Brain, ChevronDown, ChevronRight, ChevronUp,
   Copy, Check, Download, FileText, Trash2, ExternalLink, Clock,
-  Loader2, Sparkles, Archive, X, Search
+  Loader2, Sparkles, Archive, X, Search, MessageCircle, Send
 } from 'lucide-react';
 
 const M = "'JetBrains Mono','Fira Code',monospace";
@@ -168,6 +168,11 @@ export default function YouTubeTranscriptPage() {
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [showSummary, setShowSummary] = useState<Record<string, boolean>>({});
   const [showCurrentSummary, setShowCurrentSummary] = useState(true);
+  const [chatMessages, setChatMessages] = useState<{ role: 'user' | 'ai'; text: string }[]>([]);
+  const [chatInput, setChatInput] = useState('');
+  const [chatLoading, setChatLoading] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   async function handleSummarizeCurrent() {
     if (!result || result.summary) return;
@@ -189,6 +194,40 @@ export default function YouTubeTranscriptPage() {
       }
     } catch { /* ignore */ }
     setSummarizingCurrent(false);
+  }
+
+  async function handleChatSend() {
+    if (!chatInput.trim() || !result || chatLoading) return;
+    const question = chatInput.trim();
+    setChatInput('');
+    setChatMessages(prev => [...prev, { role: 'user', text: question }]);
+    setChatLoading(true);
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+
+    try {
+      const res = await fetch('/api/youtube-chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          question,
+          title: result.title,
+          channel: result.channel || 'Unknown',
+          timestamped: result.timestamped,
+          plain: result.plain,
+          history: chatMessages.slice(-6),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.answer) {
+        setChatMessages(prev => [...prev, { role: 'ai', text: data.answer }]);
+      } else {
+        setChatMessages(prev => [...prev, { role: 'ai', text: 'Sorry, I couldn\'t process that question. Try again.' }]);
+      }
+    } catch {
+      setChatMessages(prev => [...prev, { role: 'ai', text: 'Connection error. Please try again.' }]);
+    }
+    setChatLoading(false);
+    setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 
   async function handleSummarize(item: ArchivedTranscript) {
@@ -220,6 +259,9 @@ export default function YouTubeTranscriptPage() {
     setError('');
     setResult(null);
     setCopied(false);
+    setChatMessages([]);
+    setShowChat(false);
+    setShowCurrentSummary(true);
 
     try {
       const data = await fetchTranscriptClient(url.trim());
@@ -503,6 +545,118 @@ export default function YouTubeTranscriptPage() {
                     {result.plain}
                   </pre>
                 )}
+
+                {/* === ASK THIS VIDEO === */}
+                <div style={{ marginTop: '1.5rem' }}>
+                  <button
+                    onClick={() => { setShowChat(!showChat); if (!showChat) setTimeout(() => chatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 200); }}
+                    style={{
+                      background: showChat ? 'rgba(139, 92, 246, 0.1)' : brand.graphite,
+                      border: `1px solid ${showChat ? '#8B5CF6' : brand.border}`,
+                      borderRadius: 8, padding: '10px 18px',
+                      color: showChat ? '#8B5CF6' : brand.silver,
+                      fontFamily: M, fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 8, width: '100%',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <MessageCircle size={16} />
+                    {showChat ? 'hide chat' : 'ask this video'}
+                  </button>
+
+                  {showChat && (
+                    <div style={{
+                      marginTop: 12, background: brand.carbon, border: `1px solid #8B5CF6`,
+                      borderRadius: 10, overflow: 'hidden',
+                    }}>
+                      {/* Chat header */}
+                      <div style={{
+                        padding: '12px 16px', borderBottom: `1px solid ${brand.border}`,
+                        background: 'rgba(139, 92, 246, 0.05)',
+                        display: 'flex', alignItems: 'center', gap: 8,
+                      }}>
+                        <MessageCircle size={14} style={{ color: '#8B5CF6' }} />
+                        <span style={{ color: '#8B5CF6', fontFamily: M, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em' }}>
+                          ASK THIS VIDEO
+                        </span>
+                        <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.65rem', marginLeft: 'auto' }}>
+                          powered by gemini flash
+                        </span>
+                      </div>
+
+                      {/* Chat messages */}
+                      <div style={{
+                        padding: '16px', maxHeight: '400px', overflowY: 'auto',
+                        display: 'flex', flexDirection: 'column', gap: 12,
+                        minHeight: chatMessages.length === 0 ? 80 : undefined,
+                      }}>
+                        {chatMessages.length === 0 && (
+                          <div style={{ color: brand.smoke, fontFamily: M, fontSize: '0.8rem', textAlign: 'center', padding: '20px 0' }}>
+                            Ask anything about this video — quotes, facts, timestamps, explanations...
+                          </div>
+                        )}
+                        {chatMessages.map((msg, i) => (
+                          <div key={i} style={{
+                            display: 'flex', flexDirection: 'column',
+                            alignItems: msg.role === 'user' ? 'flex-end' : 'flex-start',
+                          }}>
+                            <div style={{
+                              background: msg.role === 'user' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(245, 158, 11, 0.05)',
+                              border: `1px solid ${msg.role === 'user' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.15)'}`,
+                              borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+                              padding: '10px 14px', maxWidth: '85%',
+                            }}>
+                              <div style={{ color: msg.role === 'user' ? '#C4B5FD' : brand.silver, fontSize: '0.8rem', lineHeight: 1.6, fontFamily: M }}>
+                                {msg.role === 'ai' ? (
+                                  <SummaryDisplay summary={msg.text} videoId={result.videoId} />
+                                ) : msg.text}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                        {chatLoading && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>
+                            <Loader2 size={14} className="animate-spin" /> thinking...
+                          </div>
+                        )}
+                        <div ref={chatEndRef} />
+                      </div>
+
+                      {/* Chat input */}
+                      <div style={{
+                        padding: '12px 16px', borderTop: `1px solid ${brand.border}`,
+                        display: 'flex', gap: 8,
+                      }}>
+                        <input
+                          type="text"
+                          value={chatInput}
+                          onChange={e => setChatInput(e.target.value)}
+                          onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleChatSend(); } }}
+                          placeholder="What did they say about..."
+                          style={{
+                            flex: 1, background: brand.void, border: `1px solid ${brand.border}`,
+                            borderRadius: 8, padding: '10px 14px', color: brand.white,
+                            fontFamily: M, fontSize: '0.8rem', outline: 'none',
+                          }}
+                        />
+                        <button
+                          onClick={handleChatSend}
+                          disabled={chatLoading || !chatInput.trim()}
+                          style={{
+                            background: chatLoading ? brand.graphite : '#8B5CF6',
+                            border: 'none', borderRadius: 8, padding: '10px 16px',
+                            color: '#fff', cursor: chatLoading ? 'wait' : 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 6,
+                            fontFamily: M, fontSize: '0.8rem', fontWeight: 600,
+                            opacity: chatLoading || !chatInput.trim() ? 0.5 : 1,
+                          }}
+                        >
+                          <Send size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </>
