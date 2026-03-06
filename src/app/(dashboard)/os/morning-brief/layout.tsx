@@ -91,10 +91,10 @@ export default function MorningBriefLayout({ children }: { children: React.React
           </div>
         </div>
         <h1 className={isHomePage ? styles.mastheadTitle : styles.mastheadTitleCompact}>
-          THE MORNING <span className={styles.mastheadTitleAccent}>BRIEF</span>
+          THE DAILY <span className={styles.mastheadTitleAccent}>BRIEF</span>
         </h1>
         {isHomePage && (
-          <p className={styles.mastheadTagline}>Trade by day. Build by night. Dad of 7 always.</p>
+          <p className={styles.mastheadTagline}>DBTECH45 · IMAGINATION → IMPLEMENTATION</p>
         )}
       </header>
 

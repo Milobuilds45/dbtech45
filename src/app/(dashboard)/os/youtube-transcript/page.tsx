@@ -862,6 +862,22 @@ export default function YouTubeTranscriptPage() {
                         </button>
                         <button
                           onClick={() => {
+                            if (!expandedId || expandedId !== item.id) setExpandedId(item.id);
+                            setArchiveShowChat(prev => ({ ...prev, [item.id]: !prev[item.id] }));
+                          }}
+                          style={{
+                            background: archiveShowChat[item.id] ? 'rgba(139,92,246,0.1)' : brand.graphite,
+                            border: `1px solid ${archiveShowChat[item.id] ? '#8B5CF6' : brand.border}`,
+                            borderRadius: 6, padding: '5px 10px',
+                            color: archiveShowChat[item.id] ? '#8B5CF6' : brand.silver,
+                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}
+                        >
+                          <MessageCircle size={11} /> {archiveShowChat[item.id] ? 'hide chat' : 'ask video'}
+                        </button>
+                        <button
+                          onClick={() => {
                             if (deleteConfirm === item.id) {
                               handleDelete(item.id);
                             } else {
@@ -932,13 +948,6 @@ export default function YouTubeTranscriptPage() {
                             padding: '6px 12px', color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
                             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5,
                           }}><ExternalLink size={11} /> video</a>
-                          <button onClick={() => setArchiveShowChat(prev => ({ ...prev, [item.id]: !prev[item.id] }))} style={{
-                            background: archiveShowChat[item.id] ? 'rgba(139,92,246,0.1)' : brand.graphite,
-                            border: `1px solid ${archiveShowChat[item.id] ? '#8B5CF6' : brand.border}`, borderRadius: 6,
-                            padding: '6px 12px', color: archiveShowChat[item.id] ? '#8B5CF6' : brand.silver,
-                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 5,
-                          }}><MessageCircle size={11} /> {archiveShowChat[item.id] ? 'hide chat' : 'ask video'}</button>
                         </div>
 
                         {/* Archive Ask Video Chat */}

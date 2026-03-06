@@ -89,7 +89,7 @@ const ICON_SIZE = 14;
 // â”€â”€â”€ Section icon map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const NAV_ICONS: Record<string, ReactNode> = {
   'Home':          <Home size={ICON_SIZE} />,
-  'Morning Brief': <Newspaper size={ICON_SIZE} />,
+  'Daily Brief': <Newspaper size={ICON_SIZE} />,
   'Model Counsel': <Hammer size={ICON_SIZE} />,
   'Roundtable':    <Users size={ICON_SIZE} />,
   'Agent Assist':  <Terminal size={ICON_SIZE} />,
@@ -134,9 +134,8 @@ const commandItems: NavItem[] = [
 ];
 
 const dashboardItems: NavItem[] = [
-  { label: 'Morning Brief', href: '/os/morning-brief' },
+  { label: 'Daily Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },
-  { label: 'D.U.N.D.E.R.', href: '/os/dunder' },
 ];
 
 const agentItems: NavItem[] = [
@@ -150,7 +149,6 @@ const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
   { label: 'Newsletter', href: '/os/newsletter' },
-  { label: 'Sniper Queue', href: '/os/sniper-queue' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
   { label: 'YT Transcript', href: '/os/youtube-transcript' },
@@ -158,7 +156,6 @@ const opsItems: NavItem[] = [
 ];
 
 const intelItems: NavItem[] = [
-  { label: 'Daily Feed', href: '/os/daily-feed' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Task Manager', href: '/os/task-manager' },
@@ -173,7 +170,6 @@ const dailyItems: NavItem[] = [];
 const financeItems: NavItem[] = [
   { label: 'Markets', href: '/os/markets' },
   { label: 'AxeCap Terminal', href: '/os/axecap' },
-  { label: 'Revenue Tracker', href: '/os/revenue-tracker' },
   { label: 'Finance Library', href: '/os/finance-library' },
 ];
 
