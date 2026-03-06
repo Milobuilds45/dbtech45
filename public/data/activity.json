@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "7ade5fcf",
+      "author": "Milo",
+      "timestamp": "2026-03-06 14:45:45 -0500",
+      "message": "fix: BookCover.tsx TypeScript build error - add canvas to render params"
+    },
+    {
+      "type": "commit",
       "id": "db16ef09",
       "author": "Milo",
       "timestamp": "2026-03-06 14:42:30 -0500",
@@ -50,5 +57,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T19:44:05.545Z"
+  "generatedAt": "2026-03-06T20:09:15.534Z"
 }
