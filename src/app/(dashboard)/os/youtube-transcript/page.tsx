@@ -111,10 +111,12 @@ export default function YouTubeTranscriptPage() {
   const [result, setResult] = useState<{
     videoId: string;
     title: string;
+    channel?: string;
     language: string;
     segmentCount: number;
     timestamped: string;
     plain: string;
+    summary?: string;
   } | null>(null);
   const [showTimestamps, setShowTimestamps] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -122,7 +124,30 @@ export default function YouTubeTranscriptPage() {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [tab, setTab] = useState<'extract' | 'archive'>('extract');
   const [summarizing, setSummarizing] = useState<string | null>(null);
+  const [summarizingCurrent, setSummarizingCurrent] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
+
+  async function handleSummarizeCurrent() {
+    if (!result || result.summary) return;
+    setSummarizingCurrent(true);
+    try {
+      const res = await fetch('/api/youtube-summary', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: result.title, channel: result.channel || 'Unknown', plain: result.plain }),
+      });
+      const data = await res.json();
+      if (res.ok && data.summary) {
+        setResult(prev => prev ? { ...prev, summary: data.summary } : null);
+        const archiveList = getArchive();
+        const latestArchive = archiveList.find(a => a.videoId === result.videoId);
+        if (latestArchive) {
+          setArchive(updateArchiveItem(latestArchive.id, { summary: data.summary }));
+        }
+      }
+    } catch { /* ignore */ }
+    setSummarizingCurrent(false);
+  }
 
   async function handleSummarize(item: ArchivedTranscript) {
     if (item.summary) return;
@@ -337,6 +362,33 @@ export default function YouTubeTranscriptPage() {
                   }}><Download size={12} /> .txt</button>
                   <button onClick={() => handleDownload('md')} style={{
                     background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
+                    padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: 6,
+                  }}><FileText size={12} /> .md</button>
+                  <button onClick={handleSummarizeCurrent} disabled={summarizingCurrent || !!result.summary} style={{
+                    background: brand.graphite, border: `1px solid ${result.summary ? brand.success : brand.border}`, borderRadius: 6,
+                    padding: '8px 14px', color: result.summary ? brand.success : brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    opacity: summarizingCurrent || result.summary ? 0.7 : 1,
+                  }}>
+                    {summarizingCurrent ? <Loader2 size={12} className="animate-spin" /> : <Brain size={12} />}
+                    {result.summary ? 'summarized' : 'ai summarize'}
+                  </button>
+                </div>
+
+                {result.summary && (
+                  <div style={{
+                    background: 'rgba(245, 158, 11, 0.05)', border: `1px solid ${brand.amber}`,
+                    borderRadius: 8, padding: '16px', marginBottom: '1rem',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 12, color: brand.amber, fontFamily: M, fontSize: '0.75rem', fontWeight: 700 }}>
+                      <Brain size={14} /> AI TL;DR
+                    </div>
+                    <SummaryDisplay summary={result.summary} />
+                  </div>
+                )}
+
+                <pre style={{
                     padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
                     display: 'flex', alignItems: 'center', gap: 6,
                   }}><FileText size={12} /> .md</button>
