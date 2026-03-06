@@ -36,6 +36,7 @@ import {
   Crosshair,
   CheckSquare,
   DollarSign,
+  BookOpen,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -96,7 +97,6 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Projects':      <FolderKanban size={ICON_SIZE} />,
   'Markets':       <TrendingUp size={ICON_SIZE} />,
   'AxeCap Terminal': <Activity size={ICON_SIZE} />,
-  'Polymarket':    <TrendingUp size={ICON_SIZE} />,
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
   'Task Manager':  <LayoutDashboard size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
@@ -119,6 +119,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
   'Habit Tracker': <CheckSquare size={ICON_SIZE} />,
   'Revenue Tracker': <DollarSign size={ICON_SIZE} />,
+  'Finance Library': <BookOpen size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -135,9 +136,6 @@ const commandItems: NavItem[] = [
 const dashboardItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },
-  { label: 'Markets', href: '/os/markets' },
-  { label: 'AxeCap Terminal', href: '/os/axecap' },
-  { label: 'Polymarket', href: '/os/polymarket' },
   { label: 'D.U.N.D.E.R.', href: '/os/dunder' },
 ];
 
@@ -170,12 +168,13 @@ const intelItems: NavItem[] = [
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
 
-const dailyItems: NavItem[] = [
-  { label: 'Habit Tracker', href: '/os/habit-tracker' },
-];
+const dailyItems: NavItem[] = [];
 
 const financeItems: NavItem[] = [
+  { label: 'Markets', href: '/os/markets' },
+  { label: 'AxeCap Terminal', href: '/os/axecap' },
   { label: 'Revenue Tracker', href: '/os/revenue-tracker' },
+  { label: 'Finance Library', href: '/os/finance-library' },
 ];
 
 const systemItems: NavItem[] = [
@@ -199,9 +198,8 @@ const sections: SectionConfig[] = [
   { key: 'agents', number: '03', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
   { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
-  { key: 'daily', number: '06', title: 'DAILY', items: dailyItems },
-  { key: 'finance', number: '07', title: 'FINANCE', items: financeItems },
-  { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
+  { key: 'finance', number: '06', title: 'FINANCE', items: financeItems },
+  { key: 'system', number: '07', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
 // â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -220,9 +218,9 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [openSections, setOpenSections] = useState<SectionState>(DEFAULT_SECTIONS);
-  const [cpuMetric, setCpuMetric] = useState('12%');
-  const [memMetric, setMemMetric] = useState('44%');
-  const [diskMetric, setDiskMetric] = useState('88%');
+  const [agentCount, setAgentCount] = useState('8');
+  const [lastCommit, setLastCommit] = useState('—');
+  const [gatewayStatus, setGatewayStatus] = useState<'UP' | 'DOWN' | '...'>('...');
   const [colorMode, setColorMode] = useState<'void' | 'cyber' | 'paper'>('void');
   
   // Theme colors based on mode
@@ -281,14 +279,23 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     return () => { observer.disconnect(); clearInterval(interval); };
   }, [colorMode]);
 
-  // Update metrics periodically
+  // Fetch real system status
   useEffect(() => {
-    const updateMetrics = () => {
-      setCpuMetric(`${Math.floor(Math.random() * 25) + 8}%`);
-      setMemMetric(`${Math.floor(Math.random() * 30) + 35}%`);
-      setDiskMetric(`${Math.floor(Math.random() * 10) + 82}%`);
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch('/api/system-status');
+        if (res.ok) {
+          const data = await res.json();
+          setAgentCount(String(data.agents));
+          setLastCommit(data.lastCommit);
+          setGatewayStatus(data.gateway);
+        }
+      } catch {
+        // silent fail — keep last known values
+      }
     };
-    const interval = setInterval(updateMetrics, 30000);
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -567,9 +574,9 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             </span>
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>CPU: <span style={{ color: theme.smoke }}>{cpuMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>MEM: <span style={{ color: theme.smoke }}>{memMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>DISK: <span style={{ color: theme.smoke }}>{diskMetric}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>AGENTS: <span style={{ color: theme.smoke }}>{agentCount}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>COMMIT: <span style={{ color: theme.smoke }}>{lastCommit}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>GW: <span style={{ color: gatewayStatus === 'UP' ? theme.success : '#ef4444' }}>{gatewayStatus}</span></span>
           </div>
         </div>
       )}

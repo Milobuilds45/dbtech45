@@ -388,20 +388,53 @@ export default function YouTubeTranscriptPage() {
                   </div>
                 )}
 
-                <pre style={{
-                    padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
-                    display: 'flex', alignItems: 'center', gap: 6,
-                  }}><FileText size={12} /> .md</button>
-                </div>
-
-                <pre style={{
-                  background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
-                  padding: '16px', color: brand.silver, fontFamily: M, fontSize: '0.8rem',
-                  lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
-                  whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                }}>
-                  {showTimestamps ? result.timestamped : result.plain}
-                </pre>
+                {showTimestamps ? (
+                  <div style={{
+                    background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
+                    padding: '16px', fontFamily: M, fontSize: '0.8rem',
+                    lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
+                  }}>
+                    {result.timestamped.split('\n').map((line, i) => {
+                      const tsMatch = line.match(/^\[(\d+:\d{2}(?::\d{2})?)\]\s*(.*)/);
+                      if (tsMatch) {
+                        const tsStr = tsMatch[1];
+                        const text = tsMatch[2];
+                        const parts = tsStr.split(':').map(Number);
+                        const secs = parts.length === 3
+                          ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+                          : parts[0] * 60 + parts[1];
+                        return (
+                          <div key={i} style={{ marginBottom: 4 }}>
+                            <a
+                              href={`https://youtube.com/watch?v=${result.videoId}&t=${secs}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                color: brand.amber, textDecoration: 'none', fontWeight: 600,
+                                cursor: 'pointer', marginRight: 8,
+                              }}
+                              onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
+                              onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
+                            >
+                              [{tsStr}]
+                            </a>
+                            <span style={{ color: brand.silver }}>{text}</span>
+                          </div>
+                        );
+                      }
+                      return <div key={i} style={{ color: brand.silver, marginBottom: 4 }}>{line}</div>;
+                    })}
+                  </div>
+                ) : (
+                  <pre style={{
+                    background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
+                    padding: '16px', color: brand.silver, fontFamily: M, fontSize: '0.8rem',
+                    lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
+                    whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                  }}>
+                    {result.plain}
+                  </pre>
+                )}
               </div>
             )}
           </>
@@ -563,14 +596,42 @@ export default function YouTubeTranscriptPage() {
                             textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 5,
                           }}><ExternalLink size={11} /> video</a>
                         </div>
-                        <pre style={{
+                        <div style={{
                           background: brand.void, border: `1px solid ${brand.border}`, borderRadius: 8,
-                          padding: '14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem',
+                          padding: '14px', fontFamily: M, fontSize: '0.75rem',
                           lineHeight: 1.6, maxHeight: '50vh', overflowY: 'auto',
-                          whiteSpace: 'pre-wrap', wordBreak: 'break-word',
                         }}>
-                          {item.timestamped}
-                        </pre>
+                          {item.timestamped.split('\n').map((line, li) => {
+                            const tsMatch = line.match(/^\[(\d+:\d{2}(?::\d{2})?)\]\s*(.*)/);
+                            if (tsMatch) {
+                              const tsStr = tsMatch[1];
+                              const text = tsMatch[2];
+                              const parts = tsStr.split(':').map(Number);
+                              const secs = parts.length === 3
+                                ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+                                : parts[0] * 60 + parts[1];
+                              return (
+                                <div key={li} style={{ marginBottom: 3 }}>
+                                  <a
+                                    href={`https://youtube.com/watch?v=${item.videoId}&t=${secs}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    style={{
+                                      color: brand.amber, textDecoration: 'none', fontWeight: 600,
+                                      cursor: 'pointer', marginRight: 8,
+                                    }}
+                                    onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
+                                    onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
+                                  >
+                                    [{tsStr}]
+                                  </a>
+                                  <span style={{ color: brand.silver }}>{text}</span>
+                                </div>
+                              );
+                            }
+                            return <div key={li} style={{ color: brand.silver, marginBottom: 3 }}>{line}</div>;
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>
