@@ -41,7 +41,7 @@ function decodeHtmlEntities(text: string): string {
 }
 
 // ─── METHOD 1: YouTube captions (innertube page scrape) ───
-async function fetchCaptions(videoId: string): Promise<{ segments: { text: string; startMs: number }[]; title: string; channel: string } | null> {
+async function fetchCaptions(videoId: string): Promise<{ segments: { text: string; startMs: number }[]; title: string; channel: string; description?: string; captionUrl?: string } | null> {
   try {
     const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
       headers: {
@@ -61,6 +61,10 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
     const channelMatch = html.match(/"ownerChannelName":"(.*?)"/);
     if (channelMatch) try { channel = JSON.parse(`"${channelMatch[1]}"`); } catch {}
 
+    let description = '';
+    const descMatch = html.match(/"shortDescription":"((?:[^"\\]|\\.)*)"/);
+    if (descMatch) try { description = JSON.parse(`"${descMatch[1]}"`).substring(0, 300); } catch {}
+
     const captionsIdx = html.indexOf('"captions":');
     if (captionsIdx === -1) return null;
 
@@ -72,19 +76,24 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
       if (depth === 0) {
         const captions = JSON.parse(html.substring(start, i + 1));
         const tracks = captions?.playerCaptionsTracklistRenderer?.captionTracks;
-        if (!tracks?.length) return { segments: [], title, channel };
+        if (!tracks?.length) return { segments: [], title, channel, description };
 
         const track = tracks.find((t: { languageCode: string }) => t.languageCode === 'en')
           || tracks.find((t: { languageCode: string }) => t.languageCode?.startsWith('en'))
           || tracks[0];
 
-        if (!track?.baseUrl) return { segments: [], title, channel };
+        if (!track?.baseUrl) return { segments: [], title, channel, description };
 
         const tRes = await fetch(track.baseUrl, {
           headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36' },
         });
         const tText = await tRes.text();
-        if (!tText || tText.length === 0) return { segments: [], title, channel };
+        
+        // If caption XML is empty, return the URL so client can fetch it (ASR ip=0.0.0.0 workaround)
+        if (!tText || tText.length === 0) {
+          console.log('[captions] Caption URL returned empty — returning URL for client-side fetch');
+          return { segments: [], title, channel, description, captionUrl: track.baseUrl };
+        }
 
         const segments: { text: string; startMs: number }[] = [];
         const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
@@ -93,7 +102,7 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
           const text = decodeHtmlEntities(match[2]);
           if (text.length > 0) segments.push({ text, startMs: Math.round(parseFloat(match[1]) * 1000) });
         }
-        return { segments, title, channel };
+        return { segments, title, channel, description };
       }
     }
     return null;
@@ -104,7 +113,7 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
 }
 
 // ─── METHOD 1B: Retry page scrape with consent cookie + different UA (for Vercel) ───
-async function fetchCaptionsRetry(videoId: string): Promise<{ segments: { text: string; startMs: number }[]; title: string; channel: string } | null> {
+async function fetchCaptionsRetry(videoId: string): Promise<{ segments: { text: string; startMs: number }[]; title: string; channel: string; description?: string; captionUrl?: string } | null> {
   try {
     // Try with Linux UA + consent cookie + different referer — bypasses GDPR/bot walls
     const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}&hl=en&gl=US&has_verified=1`, {
@@ -154,7 +163,10 @@ async function fetchCaptionsRetry(videoId: string): Promise<{ segments: { text: 
           headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' },
         });
         const tText = await tRes.text();
-        if (!tText || tText.length === 0) return { segments: [], title, channel };
+        if (!tText || tText.length === 0) {
+          console.log('[retry-scrape] Caption URL returned empty — returning URL for client-side fetch');
+          return { segments: [], title, channel, captionUrl: track.baseUrl };
+        }
 
         const segments: { text: string; startMs: number }[] = [];
         const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
@@ -200,32 +212,38 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
   const tmpDir = os.tmpdir();
   const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
 
-  let ytdlp = 'yt-dlp'; // default: assume in PATH
-  if (process.platform === 'win32') {
-    // Try known Windows paths
-    const winPaths = [
-      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
-      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
-      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\yt-dlp.exe',
-    ];
-    for (const wp of winPaths) {
-      try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
-    }
-  } else {
-    // Linux: try common paths, then python module fallback
-    const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
-    let found = false;
-    for (const lp of linuxPaths) {
-      try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
-    }
-    if (!found) {
-      // Try python module
-      try {
-        await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
-        ytdlp = 'python3 -m yt_dlp';
-      } catch {
-        console.error('[yt-dlp] Not found on this system');
-        return null;
+  // Priority: bundled binary → PATH → system paths → python module
+  const bundledBinary = path.join(process.cwd(), 'bin', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
+  let ytdlp = 'yt-dlp';
+  
+  try {
+    await fs.access(bundledBinary);
+    ytdlp = process.platform === 'win32' ? `"${bundledBinary}"` : bundledBinary;
+    console.log('[yt-dlp] Using bundled binary:', ytdlp);
+  } catch {
+    // Bundled binary not found, try PATH and system locations
+    if (process.platform === 'win32') {
+      const winPaths = [
+        'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
+        'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
+      ];
+      for (const wp of winPaths) {
+        try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
+      }
+    } else {
+      const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
+      let found = false;
+      for (const lp of linuxPaths) {
+        try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
+      }
+      if (!found) {
+        try {
+          await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
+          ytdlp = 'python3 -m yt_dlp';
+        } catch {
+          console.error('[yt-dlp] Not found anywhere');
+          return null;
+        }
       }
     }
   }
@@ -299,28 +317,35 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
   const outBase = path.join(tmpDir, `yt-audio-${videoId}-${Date.now()}`);
   const audioFile = `${outBase}.m4a`;
 
+  const bundledBinary = path.join(process.cwd(), 'bin', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp');
   let ytdlp = 'yt-dlp';
-  if (process.platform === 'win32') {
-    const winPaths = [
-      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
-      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
-    ];
-    for (const wp of winPaths) {
-      try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
-    }
-  } else {
-    const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
-    let found = false;
-    for (const lp of linuxPaths) {
-      try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
-    }
-    if (!found) {
-      try {
-        await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
-        ytdlp = 'python3 -m yt_dlp';
-      } catch {
-        console.error('[whisper] yt-dlp not found, cannot download audio');
-        return null;
+  
+  try {
+    await fs.access(bundledBinary);
+    ytdlp = process.platform === 'win32' ? `"${bundledBinary}"` : bundledBinary;
+  } catch {
+    if (process.platform === 'win32') {
+      const winPaths = [
+        'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
+        'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
+      ];
+      for (const wp of winPaths) {
+        try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
+      }
+    } else {
+      const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
+      let found = false;
+      for (const lp of linuxPaths) {
+        try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
+      }
+      if (!found) {
+        try {
+          await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
+          ytdlp = 'python3 -m yt_dlp';
+        } catch {
+          console.error('[whisper] yt-dlp not found');
+          return null;
+        }
       }
     }
   }
@@ -405,29 +430,39 @@ export async function POST(req: NextRequest) {
 
     let title = 'YouTube Video';
     let channel = 'Unknown';
+    let description = '';
     let method = 'captions';
     let segments: { text: string; startSec: number }[] = [];
+    let captionUrl: string | undefined;
 
     // Try fast caption methods first (unless forceWhisper)
     if (!forceWhisper) {
       console.log(`[transcript] Method 1: direct scrape for ${videoId}...`);
       const captionResult = await fetchCaptions(videoId);
 
-      if (captionResult && captionResult.segments.length > 0) {
+      if (captionResult) {
         title = captionResult.title;
         channel = captionResult.channel;
-        segments = captionResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
-        method = 'captions';
+        if (captionResult.description) description = captionResult.description;
+        if (captionResult.captionUrl) captionUrl = captionResult.captionUrl;
+        if (captionResult.segments.length > 0) {
+          segments = captionResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+          method = 'captions';
+        }
       }
 
       if (segments.length === 0) {
         console.log(`[transcript] Method 1B: retry scrape with consent cookie for ${videoId}...`);
         const retryResult = await fetchCaptionsRetry(videoId);
-        if (retryResult && retryResult.segments.length > 0) {
-          title = retryResult.title;
-          channel = retryResult.channel;
-          segments = retryResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
-          method = 'captions-retry';
+        if (retryResult) {
+          if (retryResult.title !== 'YouTube Video') title = retryResult.title;
+          if (retryResult.channel !== 'Unknown') channel = retryResult.channel;
+          if (retryResult.description) description = retryResult.description;
+          if (retryResult.captionUrl) captionUrl = retryResult.captionUrl;
+          if (retryResult.segments.length > 0) {
+            segments = retryResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+            method = 'captions-retry';
+          }
         }
       }
 
@@ -471,6 +506,16 @@ export async function POST(req: NextRequest) {
         segments = whisperResult.segments;
         method = 'whisper';
       }
+    }
+
+    // If still no segments but we have a caption URL, return it for client-side fetch
+    if (segments.length === 0 && captionUrl) {
+      console.log(`[transcript] Returning captionUrl for client-side fetch`);
+      return NextResponse.json({
+        videoId, title, channel, description, language: 'en',
+        captionUrl, segmentCount: 0,
+        error: 'Server could not fetch captions (IP-locked). Client will retry.',
+      }, { status: 200 }); // 200 so client processes the captionUrl
     }
 
     if (segments.length === 0) {

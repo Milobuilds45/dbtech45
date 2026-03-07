@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e8c011fe",
+      "author": "Milo",
+      "timestamp": "2026-03-07 15:02:11 -0500",
+      "message": "fix: add consent cookie + retry scrape for YouTube transcripts on Vercel (fixes Ras Mic, Clearmud, Matt Wolfe)"
+    },
+    {
+      "type": "commit",
       "id": "9d227aea",
       "author": "Milo",
       "timestamp": "2026-03-07 14:56:06 -0500",
@@ -127,5 +134,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T19:59:05.773Z"
+  "generatedAt": "2026-03-07T20:54:16.283Z"
 }
