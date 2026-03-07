@@ -126,13 +126,34 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
   const tmpDir = os.tmpdir();
   const outBase = path.join(tmpDir, `yt-transcript-${videoId}-${Date.now()}`);
 
-  let ytdlp = 'python3 -m yt_dlp';
+  let ytdlp = 'yt-dlp'; // default: assume in PATH
   if (process.platform === 'win32') {
-    const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
-    try {
-      await fs.access(winPath);
-      ytdlp = `"${winPath}"`;
-    } catch { /* fallback to PATH */ }
+    // Try known Windows paths
+    const winPaths = [
+      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
+      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
+      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\yt-dlp.exe',
+    ];
+    for (const wp of winPaths) {
+      try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
+    }
+  } else {
+    // Linux: try common paths, then python module fallback
+    const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
+    let found = false;
+    for (const lp of linuxPaths) {
+      try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
+    }
+    if (!found) {
+      // Try python module
+      try {
+        await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
+        ytdlp = 'python3 -m yt_dlp';
+      } catch {
+        console.error('[yt-dlp] Not found on this system');
+        return null;
+      }
+    }
   }
 
   const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" --write-subs --write-auto-subs --sub-lang "en" --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
@@ -204,13 +225,30 @@ async function transcribeWithWhisper(videoId: string): Promise<{ segments: { tex
   const outBase = path.join(tmpDir, `yt-audio-${videoId}-${Date.now()}`);
   const audioFile = `${outBase}.m4a`;
 
-  let ytdlp = 'python3 -m yt_dlp';
+  let ytdlp = 'yt-dlp';
   if (process.platform === 'win32') {
-    const winPath = 'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe';
-    try {
-      await fs.access(winPath);
-      ytdlp = `"${winPath}"`;
-    } catch { /* fallback */ }
+    const winPaths = [
+      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\yt-dlp.exe',
+      'C:\\Users\\derek\\AppData\\Local\\Programs\\Python\\Python312\\Scripts\\yt-dlp.exe',
+    ];
+    for (const wp of winPaths) {
+      try { await fs.access(wp); ytdlp = `"${wp}"`; break; } catch { /* try next */ }
+    }
+  } else {
+    const linuxPaths = ['/usr/local/bin/yt-dlp', '/usr/bin/yt-dlp', '/root/.local/bin/yt-dlp'];
+    let found = false;
+    for (const lp of linuxPaths) {
+      try { await fs.access(lp); ytdlp = lp; found = true; break; } catch { /* try next */ }
+    }
+    if (!found) {
+      try {
+        await execAsync('python3 -m yt_dlp --version', { timeout: 5000 });
+        ytdlp = 'python3 -m yt_dlp';
+      } catch {
+        console.error('[whisper] yt-dlp not found, cannot download audio');
+        return null;
+      }
+    }
   }
 
   const cmd = `${ytdlp} --extractor-args "youtube:player_client=ios" -f "bestaudio[ext=m4a]/bestaudio" -o "${audioFile}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates`;

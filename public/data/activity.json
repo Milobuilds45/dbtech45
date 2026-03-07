@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "9d296f52",
+      "author": "Milo",
+      "timestamp": "2026-03-06 19:19:46 -0500",
+      "message": "feat: Daily Brief overhaul, scrolling ticker, sports headlines, finance library Axe Takes for all 161 books"
+    },
+    {
+      "type": "commit",
       "id": "35838d06",
       "author": "Milo",
       "timestamp": "2026-03-06 18:39:24 -0500",
@@ -85,5 +92,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T00:19:07.924Z"
+  "generatedAt": "2026-03-07T00:34:07.998Z"
 }

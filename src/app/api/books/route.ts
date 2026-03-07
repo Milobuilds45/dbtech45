@@ -169,6 +169,16 @@ export async function GET(request: NextRequest) {
 
     // Otherwise, list all categories and books
     if (!fs.existsSync(BOOKS_DIR)) {
+      // Fallback: serve from static catalog (for production/Hetzner where books dir doesn't exist)
+      try {
+        const catalogPath = path.join(process.cwd(), 'public', 'data', 'books-catalog.json');
+        if (fs.existsSync(catalogPath)) {
+          const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf-8'));
+          return NextResponse.json(catalog);
+        }
+      } catch (e) {
+        console.error('Failed to load books catalog fallback:', e);
+      }
       return NextResponse.json({ error: 'Books directory not found' }, { status: 404 });
     }
 
