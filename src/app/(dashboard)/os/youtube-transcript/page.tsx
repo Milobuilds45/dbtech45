@@ -308,37 +308,35 @@ export default function YouTubeTranscriptPage() {
     fetch('/api/transcripts')
       .then(r => r.json())
       .then(data => {
-        if (data.transcripts && data.transcripts.length > 0) {
-          const dbItems: ArchivedTranscript[] = data.transcripts.map((t: any) => ({
-            id: t.id,
-            videoId: t.video_id,
-            title: t.title,
-            channel: t.channel,
-            description: t.description,
-            summary: t.summary,
-            language: t.language,
-            segmentCount: t.segment_count,
-            timestamped: t.timestamped,
-            plain: t.plain,
-            archivedAt: t.archived_at,
-          }));
-          // Merge: DB is source of truth, but keep any localStorage-only items
-          const localArchive = getArchive();
-          const dbIds = new Set(dbItems.map(i => i.id));
-          const localOnly = localArchive.filter(i => !dbIds.has(i.id));
-          // Push local-only items to DB
-          localOnly.forEach(item => {
-            fetch('/api/transcripts', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(item),
-            }).catch(() => {});
-          });
-          const merged = [...dbItems, ...localOnly];
-          merged.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime());
-          localStorage.setItem('yt-transcripts', JSON.stringify(merged));
-          setArchive(merged);
-        }
+        const dbItems: ArchivedTranscript[] = (data.transcripts || []).map((t: any) => ({
+          id: t.id,
+          videoId: t.video_id,
+          title: t.title,
+          channel: t.channel,
+          description: t.description,
+          summary: t.summary,
+          language: t.language,
+          segmentCount: t.segment_count,
+          timestamped: t.timestamped,
+          plain: t.plain,
+          archivedAt: t.archived_at,
+        }));
+        // Merge: DB is source of truth, but keep any localStorage-only items
+        const localArchive = getArchive();
+        const dbIds = new Set(dbItems.map(i => i.id));
+        const localOnly = localArchive.filter(i => !dbIds.has(i.id));
+        // Push local-only items to DB
+        localOnly.forEach(item => {
+          fetch('/api/transcripts', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(item),
+          }).catch(() => {});
+        });
+        const merged = [...dbItems, ...localOnly];
+        merged.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime());
+        localStorage.setItem('yt-transcripts', JSON.stringify(merged));
+        setArchive(merged);
       })
       .catch(() => {}); // DB unavailable — localStorage is fine
   }, []);
