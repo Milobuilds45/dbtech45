@@ -1,307 +1,106 @@
 'use client';
-import { useState, useCallback, useEffect, Suspense } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 import { brand, styles } from "@/lib/brand";
-import { supabase } from "@/lib/supabase";
+import { supabase, type Todo } from "@/lib/supabase";
 
-type ColumnId = 'ideas' | 'monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday' | 'done';
+type ColumnId = 'backlog' | 'in_progress' | 'review' | 'done';
 type Priority = 'low' | 'medium' | 'high';
 
-interface Task {
-  id: string;
-  title: string;
-  status: ColumnId;
-  priority: Priority;
-  assignee: string | null;
-  project?: string;
-  description?: string | null;
-  due_date?: string | null;
-}
-
 const columns: { id: ColumnId; title: string; color: string }[] = [
-  { id: 'ideas', title: '💡 Ideas', color: brand.amber },
-  { id: 'monday', title: 'Monday', color: brand.info },
-  { id: 'tuesday', title: 'Tuesday', color: brand.info },
-  { id: 'wednesday', title: 'Wednesday', color: brand.info },
-  { id: 'thursday', title: 'Thursday', color: brand.info },
-  { id: 'friday', title: 'Friday', color: brand.info },
-  { id: 'saturday', title: 'Saturday', color: brand.error },
-  { id: 'sunday', title: 'Sunday', color: brand.error },
-  { id: 'done', title: '✅ Done', color: brand.success },
+  { id: 'backlog', title: 'To Do', color: brand.error },
+  { id: 'in_progress', title: 'In Progress', color: brand.amber },
+  { id: 'review', title: 'Review', color: brand.info },
+  { id: 'done', title: 'Done', color: brand.success },
 ];
 
-const AGENTS = ['Anders', 'Paula', 'Bobby', 'Milo', 'Remy', 'Tony', 'Dax', 'Webb', 'Dwight', 'Wendy', 'Derek'];
+const AGENTS = ['Derek', 'Milo', 'Paula', 'Bobby', 'Anders', 'Dwight', 'Jim', 'Remy', 'Wendy'];
 
-function genId() { return crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
-
-export default function KanbanPage() {
-  return (
-    <Suspense fallback={<div style={styles.page}><p style={{ color: '#888' }}>Loading...</p></div>}>
-      <Kanban />
-    </Suspense>
-  );
-}
-
-function Kanban() {
-  const searchParams = useSearchParams();
-  const [todos, setTodos] = useState<Task[]>([]);
+export default function Kanban() {
+  const [todos, setTodos] = useState<Todo[]>([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
   const [newTask, setNewTask] = useState('');
   const [newPriority, setNewPriority] = useState<Priority>('medium');
   const [newAssignee, setNewAssignee] = useState('');
   const [draggedId, setDraggedId] = useState<string | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [dragOverCol, setDragOverCol] = useState<ColumnId | null>(null);
 
-  // Load tasks from Supabase
-  const loadTasks = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await supabase
-        .from('todos')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Failed to load tasks:', error);
-        return;
-      }
-
-      if (data) {
-        setTodos(data.map((row: Record<string, unknown>) => {
-          const loadedStatus = row.status as ColumnId;
-          const status = columns.some(c => c.id === loadedStatus) ? loadedStatus : 'ideas';
-          
-          return {
-            id: row.id as string,
-            title: row.title as string,
-            status,
-            priority: (row.priority as Priority) || 'medium',
-            assignee: (row.assignee as string) || null,
-            project: (row.project as string) || undefined,
-            description: row.description as string | null,
-            due_date: row.due_date as string | null,
-          };
-        }));
-      }
-    } catch (err) {
-      console.error('Load error:', err);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadTasks();
-    const interval = setInterval(loadTasks, 30000);
-    return () => clearInterval(interval);
-  }, [loadTasks]);
-
-  // Accept incoming task from query params
-  useEffect(() => {
-    const title = searchParams.get('add_title');
-    if (title && !loading && !todos.some(t => t.title === title)) {
-      const task: Task = {
-        id: genId(),
-        title,
-        status: 'ideas',
-        priority: 'high',
-        assignee: null,
-        project: searchParams.get('add_project') || undefined,
-      };
-      addTaskToDb(task);
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchParams, loading]);
-
-  // Add task to Supabase
-  const addTaskToDb = async (task: Task) => {
-    setSaving(true);
-    const { data, error } = await supabase
-      .from('todos')
-      .insert({
-        title: task.title,
-        status: task.status,
-        priority: task.priority,
-        assignee: task.assignee,
-        project: task.project || null,
-      })
-      .select()
-      .single();
-
-    if (error) {
-      console.error('Insert error:', error);
-    } else if (data) {
-      setTodos(prev => [{
-        id: data.id,
-        title: data.title,
-        status: data.status,
-        priority: data.priority,
-        assignee: data.assignee,
-        project: data.project || undefined,
-        description: data.description,
-        due_date: data.due_date,
-      }, ...prev]);
-    }
-    setSaving(false);
+  const loadTodos = async () => {
+    const { data } = await supabase.from('todos').select('*').order('created_at', { ascending: false });
+    if (data) setTodos(data);
+    setLoading(false);
   };
 
-  const addTask = useCallback(() => {
+  useEffect(() => { loadTodos(); }, []);
+
+  const addTask = async () => {
     if (!newTask.trim()) return;
-    const task: Task = {
-      id: genId(),
+    await supabase.from('todos').insert({
       title: newTask.trim(),
-      status: 'ideas',
+      status: 'backlog',
       priority: newPriority,
       assignee: newAssignee || null,
-    };
-    addTaskToDb(task);
+    });
     setNewTask('');
     setNewPriority('medium');
     setNewAssignee('');
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [newTask, newPriority, newAssignee]);
-
-  // Update task in Supabase
-  const updateTask = async (taskId: string, updates: Partial<Task>) => {
-    // Optimistic update
-    setTodos(prev => prev.map(t => t.id === taskId ? { ...t, ...updates } : t));
-
-    const dbUpdates: Record<string, unknown> = { updated_at: new Date().toISOString() };
-    if (updates.status !== undefined) dbUpdates.status = updates.status;
-    if (updates.priority !== undefined) dbUpdates.priority = updates.priority;
-    if (updates.assignee !== undefined) dbUpdates.assignee = updates.assignee;
-
-    const { error } = await supabase
-      .from('todos')
-      .update(dbUpdates)
-      .eq('id', taskId);
-
-    if (error) {
-      console.error('Update error:', error);
-      loadTasks(); // Revert on error
-    }
+    loadTodos();
   };
 
-  const moveTask = useCallback((taskId: string, newStatus: ColumnId) => {
-    updateTask(taskId, { status: newStatus });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updatePriority = useCallback((taskId: string, priority: Priority) => {
-    updateTask(taskId, { priority });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const updateAssignee = useCallback((taskId: string, assignee: string) => {
-    updateTask(taskId, { assignee: assignee || null });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const deleteTask = useCallback(async (taskId: string) => {
-    setTodos(prev => prev.filter(t => t.id !== taskId));
-    if (editingId === taskId) setEditingId(null);
-
-    const { error } = await supabase
-      .from('todos')
-      .delete()
-      .eq('id', taskId);
-
-    if (error) {
-      console.error('Delete error:', error);
-      loadTasks(); // Revert
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editingId]);
-
-  const handleDragStart = (e: React.DragEvent, id: string) => {
-    setDraggedId(id);
-    e.dataTransfer.effectAllowed = 'move';
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '0.5';
-    }
+  const moveTask = async (taskId: string, newStatus: ColumnId) => {
+    await supabase.from('todos').update({ status: newStatus, updated_at: new Date().toISOString() }).eq('id', taskId);
+    loadTodos();
   };
 
-  const handleDragEnd = (e: React.DragEvent) => {
-    if (e.currentTarget instanceof HTMLElement) {
-      e.currentTarget.style.opacity = '1';
-    }
+  const updatePriority = async (taskId: string, priority: Priority) => {
+    await supabase.from('todos').update({ priority, updated_at: new Date().toISOString() }).eq('id', taskId);
+    loadTodos();
+  };
+
+  const updateAssignee = async (taskId: string, assignee: string) => {
+    await supabase.from('todos').update({ assignee: assignee || null, updated_at: new Date().toISOString() }).eq('id', taskId);
+    loadTodos();
+  };
+
+  const deleteTask = async (taskId: string) => {
+    await supabase.from('todos').delete().eq('id', taskId);
+    loadTodos();
+  };
+
+  const handleDragStart = (id: string) => setDraggedId(id);
+  const handleDrop = (col: ColumnId) => {
+    if (!draggedId) return;
+    moveTask(draggedId, col);
     setDraggedId(null);
-    setDragOverCol(null);
   };
-
-  const handleDragOver = (e: React.DragEvent, col: ColumnId) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDragOverCol(col);
-  };
-
-  const handleDragLeave = () => { setDragOverCol(null); };
-
-  const handleDrop = (e: React.DragEvent, col: ColumnId) => {
-    e.preventDefault();
-    if (draggedId) moveTask(draggedId, col);
-    setDraggedId(null);
-    setDragOverCol(null);
-  };
-
-  const handleTouchMove = useCallback((col: ColumnId) => {
-    if (draggedId) moveTask(draggedId, col);
-    setDraggedId(null);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draggedId, moveTask]);
 
   const priorityColor = (p: string) => p === 'high' ? brand.error : p === 'medium' ? brand.amber : brand.success;
   const getColumnTasks = (col: ColumnId) => todos.filter(t => t.status === col);
 
-  if (loading) {
-    return (
-      <div style={styles.page}>
-        <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-          <h1 style={styles.h1}>Weekly Planner</h1>
-          <div style={{ ...styles.card, textAlign: 'center', padding: '48px' }}>
-            <div style={{ color: brand.smoke, fontFamily: "'JetBrains Mono', monospace", fontSize: '14px' }}>
-              Loading tasks from database...
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div style={styles.page}>
-      <div style={{ maxWidth: '100%', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-          <div>
-            <h1 style={styles.h1}>Weekly Planner</h1>
-            <p style={styles.subtitle}>
-              Plan your week. Drop ideas into days. Click a card to edit.
-              {` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
-              {saving && <span style={{ marginLeft: '8px', color: brand.amber, fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>Saving...</span>}
-            </p>
-          </div>
-          <button
-            onClick={loadTasks}
-            style={{
-              background: 'rgba(245,158,11,0.1)',
-              border: `1px solid ${brand.border}`,
-              borderRadius: '6px',
-              padding: '4px 10px',
-              color: brand.amber,
-              fontSize: '12px',
-              fontFamily: "'JetBrains Mono', monospace",
-              cursor: 'pointer',
-            }}
-          >
-            ↻ Refresh
-          </button>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        <h1 style={styles.h1}>Kanban Board</h1>
+        <p style={styles.subtitle}>
+          Drag cards between columns. Click a card to edit priority and assignee.
+          {!loading && ` ${todos.filter(t => t.status !== 'done').length} active tasks.`}
+        </p>
+
+        {/* Flow info */}
+        <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ color: brand.smoke, fontSize: '12px', fontWeight: 600 }}>FLOW:</span>
+          <span style={{ color: brand.smoke, fontSize: '12px' }}>Ideas Vault &rarr;</span>
+          {columns.map((c, i) => (
+            <span key={c.id} style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: c.color, display: 'inline-block' }} />
+              <span style={{ color: brand.silver, fontSize: '12px' }}>{c.title}</span>
+              {i < columns.length - 1 && <span style={{ color: brand.smoke, fontSize: '12px' }}>&rarr;</span>}
+            </span>
+          ))}
         </div>
 
         {/* Add Task */}
         <div style={{ ...styles.card, marginBottom: '2rem' }}>
-          <h3 style={{ color: brand.white, marginBottom: '1rem', fontSize: '16px' }}>New Idea / Task</h3>
+          <h3 style={{ color: brand.white, marginBottom: '1rem', fontSize: '16px' }}>New Task</h3>
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             <input type="text" placeholder="What needs to be done?" value={newTask} onChange={(e) => setNewTask(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && addTask()} style={{ ...styles.input, flex: 1, minWidth: '200px' }} />
@@ -316,127 +115,123 @@ function Kanban() {
               <option value="">Unassigned</option>
               {AGENTS.map(a => <option key={a} value={a}>{a}</option>)}
             </select>
-            <button onClick={addTask} style={styles.button}>Add</button>
+            <button onClick={addTask} style={styles.button}>Add Task</button>
           </div>
         </div>
 
-        <div style={{ display: 'flex', overflowX: 'auto', gap: '1.5rem', paddingBottom: '1rem', minHeight: '600px' }}>
-          {columns.map(col => {
-            const colTasks = getColumnTasks(col.id);
-            const isOver = dragOverCol === col.id;
-            return (
-              <div key={col.id}
-                onDragOver={(e) => handleDragOver(e, col.id)}
-                onDragLeave={handleDragLeave}
-                onDrop={(e) => handleDrop(e, col.id)}
-                style={{
-                  backgroundColor: isOver ? 'rgba(245,158,11,0.05)' : brand.carbon,
-                  borderRadius: '12px', padding: '1rem',
-                  border: `1px solid ${isOver ? brand.amber : brand.border}`,
-                  minWidth: '280px',
-                  flex: '0 0 auto',
-                  transition: 'background-color 0.2s, border-color 0.2s',
-                }}>
-                <h3 style={{ color: col.color, marginBottom: '1rem', borderBottom: `2px solid ${col.color}`, paddingBottom: '0.5rem', fontSize: '14px', fontWeight: 600 }}>
-                  {col.title} ({colTasks.length})
-                </h3>
-
-                {draggedId && (
-                  <button onClick={() => handleTouchMove(col.id)}
-                    style={{ width: '100%', padding: '8px', marginBottom: '8px', background: 'rgba(245,158,11,0.1)', border: `1px dashed ${brand.amber}`, borderRadius: '6px', color: brand.amber, fontSize: '11px', fontWeight: 600, cursor: 'pointer' }}>
-                    Drop here
-                  </button>
-                )}
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {colTasks.map((task) => {
-                    const isEditing = editingId === task.id;
-                    return (
-                      <div key={task.id} draggable
-                        onDragStart={(e) => handleDragStart(e, task.id)}
-                        onDragEnd={handleDragEnd}
-                        style={{
-                          backgroundColor: isEditing ? '#1a1a2e' : brand.graphite,
-                          padding: '1rem', borderRadius: '8px',
-                          border: `1px solid ${isEditing ? brand.amber : brand.border}`,
-                          cursor: 'grab',
-                          transition: 'border-color 0.2s, opacity 0.2s',
-                          opacity: draggedId === task.id ? 0.5 : 1,
-                        }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                          <div style={{ fontWeight: 600, color: brand.white, fontSize: '14px', flex: 1 }}>{task.title}</div>
-                          <button onClick={() => deleteTask(task.id)}
-                            style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '12px', opacity: 0.4, flexShrink: 0 }}
-                            onMouseEnter={e => (e.currentTarget.style.opacity = '1')}
-                            onMouseLeave={e => (e.currentTarget.style.opacity = '0.4')}>x</button>
-                        </div>
-
-                        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: brand.silver, alignItems: 'center' }}>
-                          <span onClick={() => setEditingId(isEditing ? null : task.id)}
-                            style={{ cursor: 'pointer', borderBottom: `1px dashed ${brand.border}`, paddingBottom: '1px' }}
-                            title="Click to edit">
-                            {task.assignee || 'Unassigned'}
-                          </span>
-                          <span onClick={() => setEditingId(isEditing ? null : task.id)}
-                            style={{ ...styles.badge(priorityColor(task.priority)), cursor: 'pointer' }}
-                            title="Click to edit">
-                            {task.priority}
-                          </span>
-                        </div>
-
-                        <div style={{ marginTop: '8px' }}>
-                          <select 
-                            value={task.status} 
-                            onChange={(e) => moveTask(task.id, e.target.value as ColumnId)}
-                            style={{ width: '100%', background: 'transparent', border: `1px solid ${brand.border}`, borderRadius: '4px', padding: '4px', color: brand.smoke, fontSize: '11px', outline: 'none', cursor: 'pointer' }}
-                          >
-                            {columns.map(c => <option key={c.id} value={c.id}>{c.title}</option>)}
-                          </select>
-                        </div>
-
-                        {isEditing && (
-                          <div style={{ marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${brand.border}`, display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            <div>
-                              <div style={{ fontSize: '11px', color: brand.smoke, marginBottom: '4px', fontWeight: 600 }}>PRIORITY</div>
-                              <div style={{ display: 'flex', gap: '4px' }}>
-                                {(['high', 'medium', 'low'] as Priority[]).map(p => (
-                                  <button key={p} onClick={() => updatePriority(task.id, p)}
-                                    style={{
-                                      padding: '4px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
-                                      cursor: 'pointer', textTransform: 'capitalize',
-                                      border: task.priority === p ? 'none' : `1px solid ${brand.border}`,
-                                      background: task.priority === p ? priorityColor(p) : 'transparent',
-                                      color: task.priority === p ? brand.void : brand.smoke,
-                                      transition: 'all 0.15s',
-                                    }}>{p}</button>
-                                ))}
-                              </div>
-                            </div>
-                            <div>
-                              <div style={{ fontSize: '11px', color: brand.smoke, marginBottom: '4px', fontWeight: 600 }}>ASSIGNEE</div>
-                              <select value={task.assignee || ''} onChange={e => updateAssignee(task.id, e.target.value)}
-                                style={{ width: '100%', background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '6px', padding: '6px 8px', color: brand.silver, fontSize: '12px', outline: 'none' }}>
-                                <option value="">Unassigned</option>
-                                {AGENTS.map(a => <option key={a} value={a}>{a}</option>)}
-                              </select>
-                            </div>
-                            <button onClick={() => setEditingId(null)}
-                              style={{ padding: '4px 12px', borderRadius: '4px', fontSize: '11px', fontWeight: 600, background: brand.amber, color: brand.void, border: 'none', cursor: 'pointer', alignSelf: 'flex-end' }}>Done</button>
+        {loading ? (
+          <div style={{ textAlign: 'center', color: brand.smoke, padding: '40px' }}>Loading from Supabase...</div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem' }}>
+            {columns.map(col => {
+              const colTasks = getColumnTasks(col.id);
+              return (
+                <div key={col.id}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={() => handleDrop(col.id)}
+                  style={{ backgroundColor: brand.carbon, borderRadius: '12px', padding: '1rem', border: `1px solid ${brand.border}`, minHeight: '400px' }}>
+                  <h3 style={{ color: col.color, marginBottom: '1rem', borderBottom: `2px solid ${col.color}`, paddingBottom: '0.5rem', fontSize: '14px', fontWeight: 600 }}>
+                    {col.title} ({colTasks.length})
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {colTasks.map((task) => {
+                      const isEditing = editingId === task.id;
+                      return (
+                        <div key={task.id} draggable onDragStart={() => handleDragStart(task.id)}
+                          style={{
+                            backgroundColor: isEditing ? '#1a1a2e' : brand.graphite,
+                            padding: '1rem', borderRadius: '8px',
+                            border: `1px solid ${isEditing ? brand.amber : brand.border}`,
+                            cursor: 'grab',
+                            transition: 'border-color 0.2s',
+                          }}>
+                          {/* Title + delete */}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
+                            <div style={{ fontWeight: 600, color: brand.white, fontSize: '14px', flex: 1 }}>{task.title}</div>
+                            <button onClick={() => deleteTask(task.id)}
+                              style={{ background: 'none', border: 'none', color: brand.smoke, cursor: 'pointer', fontSize: '12px', opacity: 0.4, flexShrink: 0 }}
+                              onMouseEnter={e => e.currentTarget.style.opacity = '1'}
+                              onMouseLeave={e => e.currentTarget.style.opacity = '0.4'}>x</button>
                           </div>
-                        )}
 
-                        {task.project && <div style={{ fontSize: '11px', color: brand.amber, marginTop: '4px' }}>{task.project}</div>}
-                      </div>
-                    );
-                  })}
+                          {/* Assignee + Priority display (clickable to edit) */}
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: brand.silver, alignItems: 'center' }}>
+                            <span
+                              onClick={() => setEditingId(isEditing ? null : task.id)}
+                              style={{ cursor: 'pointer', borderBottom: `1px dashed ${brand.border}`, paddingBottom: '1px' }}
+                              title="Click to edit">
+                              {task.assignee || 'Unassigned'}
+                            </span>
+                            <span
+                              onClick={() => setEditingId(isEditing ? null : task.id)}
+                              style={{
+                                ...styles.badge(priorityColor(task.priority)),
+                                cursor: 'pointer',
+                              }}
+                              title="Click to edit">
+                              {task.priority}
+                            </span>
+                          </div>
+
+                          {/* Edit panel */}
+                          {isEditing && (
+                            <div style={{
+                              marginTop: '10px', paddingTop: '10px', borderTop: `1px solid ${brand.border}`,
+                              display: 'flex', flexDirection: 'column', gap: '8px',
+                            }}>
+                              {/* Priority buttons */}
+                              <div>
+                                <div style={{ fontSize: '11px', color: brand.smoke, marginBottom: '4px', fontWeight: 600 }}>PRIORITY</div>
+                                <div style={{ display: 'flex', gap: '4px' }}>
+                                  {(['high', 'medium', 'low'] as Priority[]).map(p => (
+                                    <button key={p} onClick={() => updatePriority(task.id, p)}
+                                      style={{
+                                        padding: '4px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
+                                        cursor: 'pointer', textTransform: 'capitalize',
+                                        border: task.priority === p ? 'none' : `1px solid ${brand.border}`,
+                                        background: task.priority === p ? priorityColor(p) : 'transparent',
+                                        color: task.priority === p ? brand.void : brand.smoke,
+                                        transition: 'all 0.15s',
+                                      }}>{p}</button>
+                                  ))}
+                                </div>
+                              </div>
+                              {/* Assignee select */}
+                              <div>
+                                <div style={{ fontSize: '11px', color: brand.smoke, marginBottom: '4px', fontWeight: 600 }}>ASSIGNEE</div>
+                                <select
+                                  value={task.assignee || ''}
+                                  onChange={e => updateAssignee(task.id, e.target.value)}
+                                  style={{
+                                    width: '100%', background: brand.carbon, border: `1px solid ${brand.border}`,
+                                    borderRadius: '6px', padding: '6px 8px', color: brand.silver, fontSize: '12px', outline: 'none',
+                                  }}>
+                                  <option value="">Unassigned</option>
+                                  {AGENTS.map(a => <option key={a} value={a}>{a}</option>)}
+                                </select>
+                              </div>
+                              <button onClick={() => setEditingId(null)}
+                                style={{
+                                  padding: '4px 12px', borderRadius: '4px', fontSize: '11px', fontWeight: 600,
+                                  background: brand.amber, color: brand.void, border: 'none', cursor: 'pointer',
+                                  alignSelf: 'flex-end',
+                                }}>Done</button>
+                            </div>
+                          )}
+
+                          {task.project && <div style={{ fontSize: '11px', color: brand.amber, marginTop: '4px' }}>{task.project}</div>}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
-        <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '11px', color: brand.smoke, fontFamily: "'JetBrains Mono', monospace" }}>
-          All changes saved to database automatically
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <a href="/os" style={styles.backLink}>Back to Mission Control</a>
         </div>
       </div>
     </div>

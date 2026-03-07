@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "bd400dc9",
+      "author": "Milo",
+      "timestamp": "2026-03-06 21:47:31 -0500",
+      "message": "feat: add 35 new trading books from Google Drive, rebuild skills inventory"
+    },
+    {
+      "type": "commit",
       "id": "8c406e5f",
       "author": "Milo",
       "timestamp": "2026-03-06 19:38:56 -0500",
@@ -99,5 +106,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T02:44:05.921Z"
+  "generatedAt": "2026-03-07T19:09:06.528Z"
 }

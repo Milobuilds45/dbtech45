@@ -32,11 +32,13 @@ import {
   Building2,
   Youtube,
   Ship,
+  CalendarDays,
   Mail,
   Crosshair,
   CheckSquare,
   DollarSign,
   BookOpen,
+  BarChart3,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -100,6 +102,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
   'Task Manager':  <LayoutDashboard size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
+  'Calendar':      <CalendarDays size={ICON_SIZE} />,
   'Ideas Vault':   <Sparkles size={ICON_SIZE} />,
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
   'DNA Scanner':   <Dna size={ICON_SIZE} />,
@@ -120,6 +123,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Habit Tracker': <CheckSquare size={ICON_SIZE} />,
   'Revenue Tracker': <DollarSign size={ICON_SIZE} />,
   'Finance Library': <BookOpen size={ICON_SIZE} />,
+  'Apex Trader':   <BarChart3 size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -147,6 +151,7 @@ const agentItems: NavItem[] = [
 
 const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
+  { label: 'Calendar', href: '/os/calendar' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
   { label: 'Newsletter', href: '/os/newsletter' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
@@ -168,6 +173,7 @@ const intelItems: NavItem[] = [
 const dailyItems: NavItem[] = [];
 
 const financeItems: NavItem[] = [
+  { label: 'Apex Trader', href: '/os/apex' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'AxeCap Terminal', href: '/os/axecap' },
   { label: 'Finance Library', href: '/os/finance-library' },
