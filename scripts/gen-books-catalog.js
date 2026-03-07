@@ -41,6 +41,28 @@ const KNOWN_AUTHORS = {
   'epdf.pub_street-smarts-high-probability-short-term-trading-strategies.pdf': 'Laurence Connors & Linda Raschke',
   'mastering-the-trade.pdf': 'John Carter',
   'The_Economics_of_Money_Banking_and_Financial_Markets.pdf': 'Frederic Mishkin',
+  // New books from Google Drive
+  '7 habits of highly effective people.pdf': 'Stephen R. Covey',
+  'A Random Walk Down Wall Street.pdf': 'Burton Malkiel',
+  'A Short Course in Technical Trading - PERRY J KAUFMAN.pdf': 'Perry J. Kaufman',
+  'Daniel Reingold- Confessions of Wall Street Insider.pdf': 'Daniel Reingold',
+  'FOREX THE CORE OF PRICE ACTION WITH 3W SYSTEM - SUMIT DAS.pdf': 'Sumit Das',
+  '[Hoyt_Barber]_Tax_Havens_Today_The_Benefits_and_.pdf': 'Hoyt Barber',
+  'Investment Philosophies - Aswath Damodaran.pdf': 'Aswath Damodaran',
+  'Rich Dad Poor Dad.pdf': 'Robert Kiyosaki',
+  'Secrets of The Millionaire Mind.pdf': 'T. Harv Eker',
+  'The 4 Hour Work Week.pdf': 'Tim Ferriss',
+  'The personal MBA.pdf': 'Josh Kaufman',
+  'The Payoff Why Wall Street Always Wins - Jeff Connaughton.pdf': 'Jeff Connaughton',
+  'Getting Started in Chart Patterns - Thomas Bulkowski.pdf': 'Thomas Bulkowski',
+  'LEFT_Brain_Trading_the_right_mindset.pdf': 'Lewis Borsellino',
+  'Stephen_Vines_Market_Panic__Wild.pdf': 'Stephen Vines',
+  'Sherman,_Howard_J_Economics___an.pdf': 'Howard J. Sherman',
+  'Trade Your Way to Financial Freedom.pdf': 'Van Tharp',
+  'Trade Your Way to Financial Freedom - PDFDrive.com.pdf': 'Van Tharp',
+  'Way of the Turtle.pdf': 'Curtis Faith',
+  'The Psychology of Investing 6th.Ed. - John R. Nofsinger.pdf': 'John R. Nofsinger',
+  'Law of Success.pdf': 'Napoleon Hill',
 };
 
 const HIDDEN = ['CFA Study Materials'];

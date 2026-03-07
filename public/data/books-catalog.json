@@ -1,6 +1,59 @@
 {
   "categories": [
     {
+      "name": "_new_from_drive",
+      "books": [
+        {
+          "title": "Fibonacci Trading How to Master",
+          "author": "",
+          "year": "",
+          "filename": "Fibonacci_Trading___How_to_Master.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/Fibonacci_Trading___How_to_Master.pdf"
+        },
+        {
+          "title": "Getting Started in Chart Patterns - Thomas Bulkowski",
+          "author": "Thomas Bulkowski",
+          "year": "",
+          "filename": "Getting Started in Chart Patterns - Thomas Bulkowski.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/Getting Started in Chart Patterns - Thomas Bulkowski.pdf"
+        },
+        {
+          "title": "Massimo Giuliodori, Frederic S Mishkin",
+          "author": "",
+          "year": "",
+          "filename": "Massimo_Giuliodori,_Frederic_S_Mishkin.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/Massimo_Giuliodori,_Frederic_S_Mishkin.pdf"
+        },
+        {
+          "title": "Minding the Markets",
+          "author": "",
+          "year": "",
+          "filename": "Minding the Markets.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/Minding the Markets.pdf"
+        },
+        {
+          "title": "Naked Forex High Probability Techniques",
+          "author": "",
+          "year": "",
+          "filename": "Naked_Forex_High_Probability_Techniques.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/Naked_Forex_High_Probability_Techniques.pdf"
+        },
+        {
+          "title": "The Psychology of Investing 6th.Ed. - John R. Nofsinger",
+          "author": "John R. Nofsinger",
+          "year": "",
+          "filename": "The Psychology of Investing 6th.Ed. - John R. Nofsinger.pdf",
+          "category": "_new_from_drive",
+          "path": "_new_from_drive/The Psychology of Investing 6th.Ed. - John R. Nofsinger.pdf"
+        }
+      ]
+    },
+    {
       "name": "Algo & Quant Trading",
       "books": [
         {
@@ -18,6 +71,14 @@
           "filename": "Quantitative Finance (2007).pdf",
           "category": "Algo & Quant Trading",
           "path": "Algo & Quant Trading/Quantitative Finance (2007).pdf"
+        },
+        {
+          "title": "The High Frequency Trading Book",
+          "author": "",
+          "year": "",
+          "filename": "The High Frequency Trading Book.pdf",
+          "category": "Algo & Quant Trading",
+          "path": "Algo & Quant Trading/The High Frequency Trading Book.pdf"
         }
       ]
     },
@@ -81,12 +142,28 @@
           "path": "Candlesticks/Candlesticks for Support and Resistance (2000).pdf"
         },
         {
+          "title": "Candlesticks Made Easy",
+          "author": "",
+          "year": "",
+          "filename": "Candlesticks Made Easy.pdf",
+          "category": "Candlesticks",
+          "path": "Candlesticks/Candlesticks Made Easy.pdf"
+        },
+        {
           "title": "Japanese Candlestick Charting Techniques-Steve Nison",
           "author": "Steve Nison",
           "year": "",
           "filename": "Japanese_Candlestick_Charting_Techniques-Steve_Nison.pdf",
           "category": "Candlesticks",
           "path": "Candlesticks/Japanese_Candlestick_Charting_Techniques-Steve_Nison.pdf"
+        },
+        {
+          "title": "THE CANDLESTICK TRADING BIBLE",
+          "author": "",
+          "year": "",
+          "filename": "THE CANDLESTICK TRADING BIBLE.pdf",
+          "category": "Candlesticks",
+          "path": "Candlesticks/THE CANDLESTICK TRADING BIBLE.pdf"
         },
         {
           "title": "The Candlestick Course-Steve Nison",
@@ -299,6 +376,22 @@
           "path": "Day Trading/mastering-the-trade.pdf"
         },
         {
+          "title": "PA",
+          "author": "",
+          "year": "",
+          "filename": "PA.pdf",
+          "category": "Day Trading",
+          "path": "Day Trading/PA.pdf"
+        },
+        {
+          "title": "Price Action Trading",
+          "author": "",
+          "year": "",
+          "filename": "Price Action Trading.pdf",
+          "category": "Day Trading",
+          "path": "Day Trading/Price Action Trading.pdf"
+        },
+        {
           "title": "Professional Trading Strategies",
           "author": "",
           "year": "",
@@ -315,12 +408,28 @@
           "path": "Day Trading/RICHARD_D_WYCOFF_-_THE_DAY_TRADERS_BIBLE-63_PAGES.pdf"
         },
         {
+          "title": "Risk Management in Trading Techniques",
+          "author": "",
+          "year": "",
+          "filename": "Risk_Management_in_Trading_Techniques.pdf",
+          "category": "Day Trading",
+          "path": "Day Trading/Risk_Management_in_Trading_Techniques.pdf"
+        },
+        {
           "title": "Technical Analysis for Short Term Traders",
           "author": "",
           "year": "2000",
           "filename": "Technical Analysis for Short Term Traders (2000).pdf",
           "category": "Day Trading",
           "path": "Day Trading/Technical Analysis for Short Term Traders (2000).pdf"
+        },
+        {
+          "title": "The Blueprint",
+          "author": "",
+          "year": "",
+          "filename": "The Blueprint.pdf",
+          "category": "Day Trading",
+          "path": "Day Trading/The Blueprint.pdf"
         },
         {
           "title": "The Day Trading Course",
@@ -368,12 +477,36 @@
           "path": "Economic Indicators/Guide_to_Economic_Indicators.pdf"
         },
         {
+          "title": "Sherman, Howard J Economics an",
+          "author": "Howard J. Sherman",
+          "year": "",
+          "filename": "Sherman,_Howard_J_Economics___an.pdf",
+          "category": "Economic Indicators",
+          "path": "Economic Indicators/Sherman,_Howard_J_Economics___an.pdf"
+        },
+        {
+          "title": "The Economics of Time and Ignorance",
+          "author": "",
+          "year": "",
+          "filename": "The Economics of Time and Ignorance.pdf",
+          "category": "Economic Indicators",
+          "path": "Economic Indicators/The Economics of Time and Ignorance.pdf"
+        },
+        {
           "title": "The Pocketbook of Economic Indicators",
           "author": "",
           "year": "2002",
           "filename": "The Pocketbook of Economic Indicators (2002).pdf",
           "category": "Economic Indicators",
           "path": "Economic Indicators/The Pocketbook of Economic Indicators (2002).pdf"
+        },
+        {
+          "title": "The Theory of Money and Credit",
+          "author": "",
+          "year": "",
+          "filename": "The Theory of Money and Credit.pdf",
+          "category": "Economic Indicators",
+          "path": "Economic Indicators/The Theory of Money and Credit.pdf"
         },
         {
           "title": "The Secrets of Economic Indicators",
@@ -404,6 +537,14 @@
     {
       "name": "Fibonacci & Harmonics",
       "books": [
+        {
+          "title": "ElWave",
+          "author": "",
+          "year": "",
+          "filename": "ElWave.pdf",
+          "category": "Fibonacci & Harmonics",
+          "path": "Fibonacci & Harmonics/ElWave.pdf"
+        },
         {
           "title": "Fibonacci Analysis",
           "author": "",
@@ -474,12 +615,28 @@
           "path": "Finance & Investing/A First Course in Corporate Finance (2006).pdf"
         },
         {
+          "title": "A Random Walk Down Wall Street",
+          "author": "Burton Malkiel",
+          "year": "",
+          "filename": "A Random Walk Down Wall Street.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/A Random Walk Down Wall Street.pdf"
+        },
+        {
           "title": "Accounting for Decision Making",
           "author": "",
           "year": "2011",
           "filename": "Accounting for Decision Making (2011).pdf",
           "category": "Finance & Investing",
           "path": "Finance & Investing/Accounting for Decision Making (2011).pdf"
+        },
+        {
+          "title": "Daniel Reingold- Confessions of Wall Street Insider",
+          "author": "Daniel Reingold",
+          "year": "",
+          "filename": "Daniel Reingold- Confessions of Wall Street Insider.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/Daniel Reingold- Confessions of Wall Street Insider.pdf"
         },
         {
           "title": "Edwin LeFevre Reminiscences of a Stock Operator",
@@ -530,6 +687,14 @@
           "path": "Finance & Investing/Getting Started in Bonds (2003).pdf"
         },
         {
+          "title": "Investment Philosophies - Aswath Damodaran",
+          "author": "Aswath Damodaran",
+          "year": "",
+          "filename": "Investment Philosophies - Aswath Damodaran.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/Investment Philosophies - Aswath Damodaran.pdf"
+        },
+        {
           "title": "Investments",
           "author": "",
           "year": "2003",
@@ -578,6 +743,30 @@
           "path": "Finance & Investing/Protecting Your Wealth In Good Times And Bad (2003).pdf"
         },
         {
+          "title": "Secrets of Swiss Banking",
+          "author": "",
+          "year": "",
+          "filename": "Secrets of Swiss Banking.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/Secrets of Swiss Banking.pdf"
+        },
+        {
+          "title": "Stephen Vines Market Panic Wild",
+          "author": "Stephen Vines",
+          "year": "",
+          "filename": "Stephen_Vines_Market_Panic__Wild.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/Stephen_Vines_Market_Panic__Wild.pdf"
+        },
+        {
+          "title": "The 4 Pillars of Profit Driven Marketing",
+          "author": "",
+          "year": "",
+          "filename": "The 4 Pillars of Profit Driven Marketing.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/The 4 Pillars of Profit Driven Marketing.pdf"
+        },
+        {
           "title": "The Economist - Guide to Investment Strategy",
           "author": "",
           "year": "2006",
@@ -592,6 +781,14 @@
           "filename": "The Mathematics Of Financial Modeling And Investment Management (2004).pdf",
           "category": "Finance & Investing",
           "path": "Finance & Investing/The Mathematics Of Financial Modeling And Investment Management (2004).pdf"
+        },
+        {
+          "title": "The Payoff Why Wall Street Always Wins - Jeff Connaughton",
+          "author": "Jeff Connaughton",
+          "year": "",
+          "filename": "The Payoff Why Wall Street Always Wins - Jeff Connaughton.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/The Payoff Why Wall Street Always Wins - Jeff Connaughton.pdf"
         },
         {
           "title": "The Stock Market Course",
@@ -664,6 +861,14 @@
           "filename": "William_ONeil_-_How_to_Make_Money_in_Stocks._A_Wining_System_in_Good_Times_or_Bad.pdf",
           "category": "Finance & Investing",
           "path": "Finance & Investing/William_ONeil_-_How_to_Make_Money_in_Stocks._A_Wining_System_in_Good_Times_or_Bad.pdf"
+        },
+        {
+          "title": "[Hoyt Barber] Tax Havens Today The Benefits and",
+          "author": "Hoyt Barber",
+          "year": "",
+          "filename": "[Hoyt_Barber]_Tax_Havens_Today_The_Benefits_and_.pdf",
+          "category": "Finance & Investing",
+          "path": "Finance & Investing/[Hoyt_Barber]_Tax_Havens_Today_The_Benefits_and_.pdf"
         }
       ]
     },
@@ -711,12 +916,28 @@
           "path": "Forex & Currencies/Forex - Online Manual for Successful Trading (2000).pdf"
         },
         {
+          "title": "FOREX THE CORE OF PRICE ACTION WITH 3W SYSTEM - SUMIT DAS",
+          "author": "Sumit Das",
+          "year": "",
+          "filename": "FOREX THE CORE OF PRICE ACTION WITH 3W SYSTEM - SUMIT DAS.pdf",
+          "category": "Forex & Currencies",
+          "path": "Forex & Currencies/FOREX THE CORE OF PRICE ACTION WITH 3W SYSTEM - SUMIT DAS.pdf"
+        },
+        {
           "title": "Forex Trading Techniques",
           "author": "",
           "year": "2003",
           "filename": "Forex Trading Techniques (2003).pdf",
           "category": "Forex & Currencies",
           "path": "Forex & Currencies/Forex Trading Techniques (2003).pdf"
+        },
+        {
+          "title": "Forex Wave Theory",
+          "author": "",
+          "year": "",
+          "filename": "Forex Wave Theory.pdf",
+          "category": "Forex & Currencies",
+          "path": "Forex & Currencies/Forex Wave Theory.pdf"
         },
         {
           "title": "Getting Started in Currency Trading",
@@ -778,6 +999,14 @@
           "filename": "Getting Started in Futures (2005).pdf",
           "category": "Futures & Commodities",
           "path": "Futures & Commodities/Getting Started in Futures (2005).pdf"
+        },
+        {
+          "title": "How to Profit in Gold",
+          "author": "",
+          "year": "",
+          "filename": "How to Profit in Gold.pdf",
+          "category": "Futures & Commodities",
+          "path": "Futures & Commodities/How to Profit in Gold.pdf"
         },
         {
           "title": "The Four Biggest Mistakes In Futures Trading",
@@ -931,6 +1160,14 @@
       "name": "Personal Development",
       "books": [
         {
+          "title": "7 habits of highly effective people",
+          "author": "Stephen R. Covey",
+          "year": "",
+          "filename": "7 habits of highly effective people.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/7 habits of highly effective people.pdf"
+        },
+        {
           "title": "Cant Hurt Me - David Goggins",
           "author": "David Goggins",
           "year": "",
@@ -947,12 +1184,52 @@
           "path": "Personal Development/Deep-Work-Cal-Newport-2016-Grand-Central-Publishing-9a88b43326d3a69ad595042a1bacdd55-Annas-Archive.pdf"
         },
         {
+          "title": "Law of Success",
+          "author": "Napoleon Hill",
+          "year": "",
+          "filename": "Law of Success.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/Law of Success.pdf"
+        },
+        {
+          "title": "Rich Dad Poor Dad",
+          "author": "Robert Kiyosaki",
+          "year": "",
+          "filename": "Rich Dad Poor Dad.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/Rich Dad Poor Dad.pdf"
+        },
+        {
+          "title": "Secrets of The Millionaire Mind",
+          "author": "T. Harv Eker",
+          "year": "",
+          "filename": "Secrets of The Millionaire Mind.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/Secrets of The Millionaire Mind.pdf"
+        },
+        {
           "title": "Soft War",
           "author": "",
           "year": "",
           "filename": "Soft_War.pdf",
           "category": "Personal Development",
           "path": "Personal Development/Soft_War.pdf"
+        },
+        {
+          "title": "The 4 Hour Work Week",
+          "author": "Tim Ferriss",
+          "year": "",
+          "filename": "The 4 Hour Work Week.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/The 4 Hour Work Week.pdf"
+        },
+        {
+          "title": "The personal MBA",
+          "author": "Josh Kaufman",
+          "year": "",
+          "filename": "The personal MBA.pdf",
+          "category": "Personal Development",
+          "path": "Personal Development/The personal MBA.pdf"
         }
       ]
     },
@@ -1066,6 +1343,14 @@
       "name": "Technical Analysis",
       "books": [
         {
+          "title": "A Short Course in Technical Trading - PERRY J KAUFMAN",
+          "author": "Perry J. Kaufman",
+          "year": "",
+          "filename": "A Short Course in Technical Trading - PERRY J KAUFMAN.pdf",
+          "category": "Technical Analysis",
+          "path": "Technical Analysis/A Short Course in Technical Trading - PERRY J KAUFMAN.pdf"
+        },
+        {
           "title": "A Complete Guide to Technical Trading Tactics",
           "author": "",
           "year": "",
@@ -1080,6 +1365,30 @@
           "filename": "John_J_Murphy_-_Intermarket_Technical_Analysis_-_Trading_Strategies.pdf",
           "category": "Technical Analysis",
           "path": "Technical Analysis/John_J_Murphy_-_Intermarket_Technical_Analysis_-_Trading_Strategies.pdf"
+        },
+        {
+          "title": "MajorSignals",
+          "author": "",
+          "year": "",
+          "filename": "MajorSignals.pdf",
+          "category": "Technical Analysis",
+          "path": "Technical Analysis/MajorSignals.pdf"
+        },
+        {
+          "title": "Moving Averages",
+          "author": "",
+          "year": "",
+          "filename": "Moving Averages.pdf",
+          "category": "Technical Analysis",
+          "path": "Technical Analysis/Moving Averages.pdf"
+        },
+        {
+          "title": "Supply and Demand",
+          "author": "",
+          "year": "",
+          "filename": "Supply and Demand.pdf",
+          "category": "Technical Analysis",
+          "path": "Technical Analysis/Supply and Demand.pdf"
         },
         {
           "title": "technical-analysis-masterclass 1",
@@ -1165,6 +1474,30 @@
           "filename": "Disciplined_Trader.pdf",
           "category": "Trading Psychology",
           "path": "Trading Psychology/Disciplined_Trader.pdf"
+        },
+        {
+          "title": "Following The Rules",
+          "author": "",
+          "year": "",
+          "filename": "Following The Rules.pdf",
+          "category": "Trading Psychology",
+          "path": "Trading Psychology/Following The Rules.pdf"
+        },
+        {
+          "title": "Inside a Traders Mind",
+          "author": "",
+          "year": "",
+          "filename": "Inside a Traders Mind.pdf",
+          "category": "Trading Psychology",
+          "path": "Trading Psychology/Inside a Traders Mind.pdf"
+        },
+        {
+          "title": "LEFT Brain Trading the right mindset",
+          "author": "Lewis Borsellino",
+          "year": "",
+          "filename": "LEFT_Brain_Trading_the_right_mindset.pdf",
+          "category": "Trading Psychology",
+          "path": "Trading Psychology/LEFT_Brain_Trading_the_right_mindset.pdf"
         },
         {
           "title": "Mark Douglas - Trading in the Zone complete and formatted",
@@ -1310,5 +1643,5 @@
       ]
     }
   ],
-  "totalBooks": 153
+  "totalBooks": 194
 }
