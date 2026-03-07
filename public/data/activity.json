@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e576c90e",
+      "author": "Milo",
+      "timestamp": "2026-03-07 15:57:32 -0500",
+      "message": "feat: auto-install yt-dlp binary on build (fixes ASR captions on Hetzner)"
+    },
+    {
+      "type": "commit",
       "id": "e8c011fe",
       "author": "Milo",
       "timestamp": "2026-03-07 15:02:11 -0500",
@@ -134,5 +141,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T20:54:16.283Z"
+  "generatedAt": "2026-03-07T21:04:05.369Z"
 }
