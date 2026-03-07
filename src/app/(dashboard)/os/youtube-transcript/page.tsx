@@ -849,83 +849,76 @@ export default function YouTubeTranscriptPage() {
                     return (
                       <div key={channelName}>
                         {/* Channel group header */}
-                        <button
+                        <div
                           onClick={() => setCollapsedChannels(prev => ({ ...prev, [channelName]: !prev[channelName] }))}
                           style={{
-                            width: '100%', background: brand.graphite, border: `1px solid ${brand.border}`,
-                            borderRadius: 8, padding: '10px 16px', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 10, marginBottom: isCollapsed ? 0 : 8,
-                            transition: 'all 0.2s',
+                            display: 'flex', alignItems: 'center', gap: 6,
+                            padding: '0 0 8px', marginBottom: isCollapsed ? 0 : 10,
+                            borderBottom: `2px solid ${brand.amber}`, cursor: 'pointer',
                           }}
-                          onMouseEnter={e => { e.currentTarget.style.borderColor = brand.amber; }}
-                          onMouseLeave={e => { e.currentTarget.style.borderColor = brand.border; }}
                         >
-                          {isCollapsed ? <ChevronRight size={16} style={{ color: brand.amber }} /> : <ChevronDown size={16} style={{ color: brand.amber }} />}
-                          <Youtube size={16} style={{ color: '#f87171' }} />
-                          <span style={{ color: brand.white, fontFamily: M, fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.02em' }}>
+                          <Youtube size={13} style={{ color: '#f87171', flexShrink: 0 }} />
+                          <span style={{ color: brand.white, fontFamily: M, fontSize: '0.78rem', fontWeight: 700, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                             {channelName}
                           </span>
-                          <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.7rem', marginLeft: 'auto' }}>
-                            {items.length} video{items.length !== 1 ? 's' : ''}
+                          <span style={{ background: brand.graphite, color: brand.smoke, fontSize: '0.6rem', fontFamily: M, padding: '2px 6px', borderRadius: 99, flexShrink: 0 }}>
+                            {items.length}
                           </span>
-                        </button>
+                          {isCollapsed ? <ChevronRight size={12} style={{ color: brand.smoke, flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: brand.smoke, flexShrink: 0 }} />}
+                        </div>
                         {!isCollapsed && (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                             {items.map(item => (
                   <div key={item.id} style={{
-                    background: brand.carbon,
-                    border: `1px solid ${expandedId === item.id ? brand.amber : brand.border}`,
-                    borderRadius: 10,
+                    background: brand.graphite,
+                    border: `1px solid ${expandedId === item.id ? brand.amber : 'transparent'}`,
+                    borderRadius: 8,
                     overflow: 'hidden',
-                    transition: 'border-color 0.2s',
-                  }}>
-                    {/* Collapsed header */}
+                    transition: 'border-color 0.15s',
+                  }}
+                  onMouseEnter={e => { if (expandedId !== item.id) (e.currentTarget as HTMLDivElement).style.borderColor = brand.border; }}
+                  onMouseLeave={e => { if (expandedId !== item.id) (e.currentTarget as HTMLDivElement).style.borderColor = 'transparent'; }}
+                  >
+                    {/* Card */}
                     <div>
-                      {/* YouTube Thumbnail — full width on top */}
+                      {/* Thumbnail */}
                       <a
                         href={`https://youtube.com/watch?v=${item.videoId}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={e => e.stopPropagation()}
-                        style={{ display: 'block' }}
+                        style={{ display: 'block', position: 'relative' }}
                       >
                         <img
                           src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
                           alt={item.title}
-                          style={{
-                            width: '100%', aspectRatio: '16/9', objectFit: 'cover',
-                            borderRadius: '10px 10px 0 0', display: 'block',
-                          }}
+                          style={{ width: '100%', aspectRatio: '16/9', objectFit: 'cover', display: 'block' }}
                         />
-                      </a>
-                      <div style={{ padding: '10px 12px' }}>
-                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
-                          <span style={{ color: brand.smoke, fontSize: '0.65rem', fontFamily: M }}>
-                            {formatDate(item.archivedAt)}
-                          </span>
-                          <span style={{ color: brand.amber, fontSize: '0.65rem', fontFamily: M }}>
-                            {item.segmentCount} seg
-                          </span>
-                          <a
-                            href={`https://youtube.com/watch?v=${item.videoId}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={e => e.stopPropagation()}
-                            style={{ color: '#f87171', fontSize: '0.65rem', fontFamily: M, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, marginLeft: 'auto' }}
-                          >
-                            <Play size={9} /> watch
-                          </a>
+                        <div style={{
+                          position: 'absolute', bottom: 5, right: 5,
+                          background: 'rgba(0,0,0,0.75)', color: '#fff',
+                          fontSize: '0.6rem', fontFamily: M, padding: '2px 5px', borderRadius: 4,
+                          display: 'flex', alignItems: 'center', gap: 3,
+                        }}>
+                          <Play size={8} /> watch
                         </div>
-                        <div style={{ color: brand.white, fontSize: '0.82rem', fontWeight: 600, marginBottom: 3, lineHeight: 1.3 }}>
+                      </a>
+                      {/* Info */}
+                      <div style={{ padding: '8px 10px 4px' }}>
+                        <div style={{
+                          color: brand.white, fontSize: '0.78rem', fontWeight: 600,
+                          lineHeight: 1.35, marginBottom: 3,
+                          display: '-webkit-box', WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                        } as React.CSSProperties}>
                           {item.title}
                         </div>
-                        <div style={{ color: brand.amber, fontSize: '0.72rem', fontFamily: M, marginBottom: 6, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4 }}>
-                          <Tv size={11} /> {item.channel}
+                        <div style={{ color: brand.smoke, fontSize: '0.62rem', fontFamily: M }}>
+                          {formatDate(item.archivedAt)}
                         </div>
                       </div>
-
-                      {/* Action buttons row */}
-                      <div style={{ display: 'flex', gap: 6, marginTop: 0, padding: '0 12px 10px', flexWrap: 'wrap' }}>
+                      {/* Action buttons */}
+                      <div style={{ display: 'flex', gap: 4, padding: '6px 10px 10px', flexWrap: 'wrap' }}>
                         <button
                           onClick={() => {
                             if (item.summary) {
