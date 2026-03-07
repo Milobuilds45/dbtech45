@@ -3,16 +3,18 @@ export const dynamic = 'force-dynamic';
 import { createClient } from '@supabase/supabase-js';
 import { NextRequest, NextResponse } from 'next/server';
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+}
 
 // GET — load all trades (optionally filter by account_key)
 export async function GET(req: NextRequest) {
   const accountKey = req.nextUrl.searchParams.get('account');
 
-  let query = supabase
+  let query = getSupabase()
     .from('apex_trades')
     .select('*')
     .order('sold_timestamp', { ascending: false });
@@ -70,7 +72,7 @@ export async function POST(req: NextRequest) {
     sell_fill_id: t.sell_fill_id,
   }));
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from('apex_trades')
     .upsert(rows, { onConflict: 'account_key,buy_fill_id,sell_fill_id' })
     .select();
