@@ -179,6 +179,7 @@ export default function YouTubeTranscriptPage() {
   const [archive, setArchive] = useState<ArchivedTranscript[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [tab, setTab] = useState<'extract' | 'archive'>('extract');
+  const [archiveSearch, setArchiveSearch] = useState('');
   const [summarizing, setSummarizing] = useState<string | null>(null);
   const [summarizingCurrent, setSummarizingCurrent] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -808,7 +809,24 @@ export default function YouTubeTranscriptPage() {
                 No transcripts archived yet. Extract a video to get started.
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              <div>
+                {/* Search bar */}
+                <div style={{ marginBottom: 16 }}>
+                  <input
+                    type="text"
+                    placeholder="Search channels or videos..."
+                    value={archiveSearch}
+                    onChange={e => setArchiveSearch(e.target.value)}
+                    style={{
+                      width: '100%', boxSizing: 'border-box',
+                      background: brand.graphite, border: `1px solid ${brand.border}`,
+                      borderRadius: 8, padding: '9px 14px',
+                      color: brand.white, fontFamily: M, fontSize: '0.85rem',
+                      outline: 'none',
+                    }}
+                  />
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, alignItems: 'start' }}>
                 {(() => {
                   // Group by channel, sort each group by archivedAt descending
                   const grouped: Record<string, ArchivedTranscript[]> = {};
@@ -819,8 +837,12 @@ export default function YouTubeTranscriptPage() {
                   });
                   // Sort each group newest first
                   Object.values(grouped).forEach(items => items.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime()));
+                  // Filter by search term
+                  const q = archiveSearch.toLowerCase().trim();
                   // Sort channel names alphabetically
-                  const channelNames = Object.keys(grouped).sort((a, b) => a.localeCompare(b));
+                  const channelNames = Object.keys(grouped)
+                    .filter(ch => !q || ch.toLowerCase().includes(q) || grouped[ch].some(i => i.title.toLowerCase().includes(q)))
+                    .sort((a, b) => a.localeCompare(b));
                   return channelNames.map(channelName => {
                     const items = grouped[channelName];
                     const isCollapsed = collapsedChannels[channelName];
@@ -848,7 +870,7 @@ export default function YouTubeTranscriptPage() {
                           </span>
                         </button>
                         {!isCollapsed && (
-                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, paddingLeft: 12, borderLeft: `2px solid ${brand.border}`, marginLeft: 8 }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                             {items.map(item => (
                   <div key={item.id} style={{
                     background: brand.carbon,
@@ -1133,6 +1155,7 @@ export default function YouTubeTranscriptPage() {
                     );
                   });
                 })()}
+                </div>
               </div>
             )}
           </div>
