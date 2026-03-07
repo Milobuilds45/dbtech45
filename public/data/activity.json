@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "1d89ba84",
+      "author": "Milo",
+      "timestamp": "2026-03-07 17:10:56 -0500",
+      "message": "feat: rename to YT CLIPD + add no-transcript AI summary fallback"
+    },
+    {
+      "type": "commit",
       "id": "51281df7",
       "author": "Milo",
       "timestamp": "2026-03-07 16:06:42 -0500",
@@ -148,5 +155,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T22:09:08.833Z"
+  "generatedAt": "2026-03-07T22:29:13.589Z"
 }
