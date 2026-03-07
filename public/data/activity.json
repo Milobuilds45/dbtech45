@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "d395a848",
+      "author": "Milo",
+      "timestamp": "2026-03-07 17:42:33 -0500",
+      "message": "fix: move supabase createClient inside handlers to prevent build-time eval failure"
+    },
+    {
+      "type": "commit",
       "id": "27a538df",
       "author": "Milo",
       "timestamp": "2026-03-07 17:33:48 -0500",
@@ -162,5 +169,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T22:39:10.782Z"
+  "generatedAt": "2026-03-07T22:49:09.094Z"
 }

@@ -848,7 +848,7 @@ export default function YouTubeTranscriptPage() {
                           </span>
                         </button>
                         {!isCollapsed && (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 12, borderLeft: `2px solid ${brand.border}`, marginLeft: 8 }}>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, paddingLeft: 12, borderLeft: `2px solid ${brand.border}`, marginLeft: 8 }}>
                             {items.map(item => (
                   <div key={item.id} style={{
                     background: brand.carbon,
@@ -858,66 +858,52 @@ export default function YouTubeTranscriptPage() {
                     transition: 'border-color 0.2s',
                   }}>
                     {/* Collapsed header */}
-                    <div style={{ padding: '14px 16px' }}>
-                      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-                        {/* YouTube Thumbnail */}
-                        <a
-                          href={`https://youtube.com/watch?v=${item.videoId}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          onClick={e => e.stopPropagation()}
-                          style={{ flexShrink: 0 }}
-                        >
-                          <img
-                            src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
-                            alt={item.title}
-                            style={{
-                              width: 140, height: 79, objectFit: 'cover',
-                              borderRadius: 6, border: `1px solid ${brand.border}`,
-                              display: 'block',
-                            }}
-                          />
-                        </a>
-                        <div style={{ flex: 1 }}>
-                          <div style={{ display: 'flex', gap: 10, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
-                            <span style={{ color: brand.smoke, fontSize: '0.7rem', fontFamily: M }}>
-                              {formatDate(item.archivedAt)}
-                            </span>
-                            <span style={{ color: brand.amber, fontSize: '0.7rem', fontFamily: M }}>
-                              {item.segmentCount} segments
-                            </span>
-                            <a
-                              href={`https://youtube.com/watch?v=${item.videoId}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              onClick={e => e.stopPropagation()}
-                              style={{ color: '#f87171', fontSize: '0.7rem', fontFamily: M, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 4 }}
-                            >
-                              <Play size={10} /> watch
-                            </a>
-                          </div>
-                          <div style={{ color: brand.white, fontSize: '0.9rem', fontWeight: 600, marginBottom: 3 }}>
-                            {item.title}
-                          </div>
-                          <div style={{ color: brand.amber, fontSize: '0.8rem', fontFamily: M, marginBottom: 6, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 5 }}>
-                            <Tv size={13} /> {item.channel}
-                          </div>
-                          <div style={{ color: brand.silver, fontSize: '0.75rem', lineHeight: 1.4, opacity: 0.7 }}>
-                            {item.description}
-                          </div>
-                        </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0, alignItems: 'flex-end' }}>
-                          <button
-                            onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
-                            style={{ background: 'none', border: 'none', color: brand.amber, cursor: 'pointer', padding: 0 }}
+                    <div>
+                      {/* YouTube Thumbnail — full width on top */}
+                      <a
+                        href={`https://youtube.com/watch?v=${item.videoId}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
+                        style={{ display: 'block' }}
+                      >
+                        <img
+                          src={`https://img.youtube.com/vi/${item.videoId}/mqdefault.jpg`}
+                          alt={item.title}
+                          style={{
+                            width: '100%', aspectRatio: '16/9', objectFit: 'cover',
+                            borderRadius: '10px 10px 0 0', display: 'block',
+                          }}
+                        />
+                      </a>
+                      <div style={{ padding: '10px 12px' }}>
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginBottom: 4, flexWrap: 'wrap' }}>
+                          <span style={{ color: brand.smoke, fontSize: '0.65rem', fontFamily: M }}>
+                            {formatDate(item.archivedAt)}
+                          </span>
+                          <span style={{ color: brand.amber, fontSize: '0.65rem', fontFamily: M }}>
+                            {item.segmentCount} seg
+                          </span>
+                          <a
+                            href={`https://youtube.com/watch?v=${item.videoId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={e => e.stopPropagation()}
+                            style={{ color: '#f87171', fontSize: '0.65rem', fontFamily: M, textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, marginLeft: 'auto' }}
                           >
-                            {expandedId === item.id ? <ChevronDown size={20} /> : <ChevronRight size={20} />}
-                          </button>
+                            <Play size={9} /> watch
+                          </a>
+                        </div>
+                        <div style={{ color: brand.white, fontSize: '0.82rem', fontWeight: 600, marginBottom: 3, lineHeight: 1.3 }}>
+                          {item.title}
+                        </div>
+                        <div style={{ color: brand.amber, fontSize: '0.72rem', fontFamily: M, marginBottom: 6, fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <Tv size={11} /> {item.channel}
                         </div>
                       </div>
 
                       {/* Action buttons row */}
-                      <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                      <div style={{ display: 'flex', gap: 6, marginTop: 0, padding: '0 12px 10px', flexWrap: 'wrap' }}>
                         <button
                           onClick={() => {
                             if (item.summary) {
