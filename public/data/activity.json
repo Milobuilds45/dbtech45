@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "9d227aea",
+      "author": "Milo",
+      "timestamp": "2026-03-07 14:56:06 -0500",
+      "message": "fix: sync localStorage transcripts to Supabase even when DB is empty"
+    },
+    {
+      "type": "commit",
       "id": "647a2d1a",
       "author": "Milo",
       "timestamp": "2026-03-07 14:18:01 -0500",
@@ -120,5 +127,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T19:54:05.376Z"
+  "generatedAt": "2026-03-07T19:59:05.773Z"
 }

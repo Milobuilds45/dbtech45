@@ -46,7 +46,9 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
     const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
         'Accept-Language': 'en-US,en;q=0.9',
+        'Cookie': 'CONSENT=YES+cb.20210328-17-p0.en+FX+934',
       },
     });
     const html = await pageRes.text();
@@ -97,6 +99,78 @@ async function fetchCaptions(videoId: string): Promise<{ segments: { text: strin
     return null;
   } catch (err) {
     console.error('[captions] Error:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 1B: Retry page scrape with consent cookie + different UA (for Vercel) ───
+async function fetchCaptionsRetry(videoId: string): Promise<{ segments: { text: string; startMs: number }[]; title: string; channel: string } | null> {
+  try {
+    // Try with Linux UA + consent cookie + different referer — bypasses GDPR/bot walls
+    const pageRes = await fetch(`https://www.youtube.com/watch?v=${videoId}&hl=en&gl=US&has_verified=1`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Cookie': 'CONSENT=YES+cb.20210328-17-p0.en+FX+934; PREF=hl=en&gl=US',
+        'Referer': 'https://www.google.com/',
+      },
+    });
+    const html = await pageRes.text();
+
+    let title = 'YouTube Video';
+    const titleMatch = html.match(/"title":"(.*?)"/);
+    if (titleMatch) try { title = JSON.parse(`"${titleMatch[1]}"`); } catch {}
+
+    let channel = 'Unknown';
+    const channelMatch = html.match(/"ownerChannelName":"(.*?)"/);
+    if (channelMatch) try { channel = JSON.parse(`"${channelMatch[1]}"`); } catch {}
+
+    const captionsIdx = html.indexOf('"captions":');
+    if (captionsIdx === -1) {
+      console.log('[retry-scrape] No captions block in page');
+      return null;
+    }
+
+    let depth = 0;
+    const start = html.indexOf('{', captionsIdx);
+    for (let i = start; i < html.length; i++) {
+      if (html[i] === '{') depth++;
+      if (html[i] === '}') depth--;
+      if (depth === 0) {
+        const captions = JSON.parse(html.substring(start, i + 1));
+        const tracks = captions?.playerCaptionsTracklistRenderer?.captionTracks;
+        if (!tracks?.length) return { segments: [], title, channel };
+
+        const track = tracks.find((t: { languageCode: string }) => t.languageCode === 'en')
+          || tracks.find((t: { languageCode: string }) => t.languageCode?.startsWith('en'))
+          || tracks[0];
+
+        if (!track?.baseUrl) return { segments: [], title, channel };
+
+        console.log(`[retry-scrape] Found track: lang=${track.languageCode}, kind=${track.kind || 'manual'}`);
+
+        const tRes = await fetch(track.baseUrl, {
+          headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36' },
+        });
+        const tText = await tRes.text();
+        if (!tText || tText.length === 0) return { segments: [], title, channel };
+
+        const segments: { text: string; startMs: number }[] = [];
+        const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
+        let match;
+        while ((match = regex.exec(tText)) !== null) {
+          const text = decodeHtmlEntities(match[2]);
+          if (text.length > 0) segments.push({ text, startMs: Math.round(parseFloat(match[1]) * 1000) });
+        }
+
+        console.log(`[retry-scrape] Got ${segments.length} segments`);
+        return { segments, title, channel };
+      }
+    }
+    return null;
+  } catch (err) {
+    console.error('[retry-scrape] Error:', err);
     return null;
   }
 }
@@ -344,6 +418,17 @@ export async function POST(req: NextRequest) {
         channel = captionResult.channel;
         segments = captionResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
         method = 'captions';
+      }
+
+      if (segments.length === 0) {
+        console.log(`[transcript] Method 1B: retry scrape with consent cookie for ${videoId}...`);
+        const retryResult = await fetchCaptionsRetry(videoId);
+        if (retryResult && retryResult.segments.length > 0) {
+          title = retryResult.title;
+          channel = retryResult.channel;
+          segments = retryResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+          method = 'captions-retry';
+        }
       }
 
       if (segments.length === 0) {
