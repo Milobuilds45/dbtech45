@@ -519,29 +519,18 @@ export async function POST(req: NextRequest) {
     }
 
     if (segments.length === 0) {
-      // Add detailed diagnostics for debugging production issues
-      const diagnostics = {
-        platform: process.platform,
-        cwd: process.cwd(),
-        bundledBinaryExists: false,
-        bundledBinaryPath: path.join(process.cwd(), 'bin', process.platform === 'win32' ? 'yt-dlp.exe' : 'yt-dlp'),
-        methods: {
-          method1_captions: !!captionUrl ? 'found caption URL but empty XML' : 'no captions found',
-          method2_package: 'skipped or failed',
-          method3_ytdlp: 'not attempted or failed',
-          method4_whisper: 'not attempted or failed',
-        },
-      };
-      
-      try {
-        await fs.access(diagnostics.bundledBinaryPath);
-        diagnostics.bundledBinaryExists = true;
-      } catch { /* bundled binary not found */ }
-
+      // No transcript available — return metadata so UI can show AI web summary instead of an error
       return NextResponse.json({
-        error: 'Could not transcribe video. The video may not have captions, and Whisper audio download may have been blocked.',
-        debug: diagnostics,
-      }, { status: 404 });
+        videoId,
+        title,
+        channel,
+        description,
+        language: 'en',
+        noTranscript: true,
+        segmentCount: 0,
+        timestamped: '',
+        plain: '',
+      }, { status: 200 });
     }
 
     const timestamped = segments

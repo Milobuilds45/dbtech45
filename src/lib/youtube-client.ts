@@ -42,6 +42,7 @@ export interface TranscriptResult {
   segmentCount: number;
   timestamped: string;
   plain: string;
+  noTranscript?: boolean;
 }
 
 // Parse caption XML into segments
@@ -76,7 +77,22 @@ export async function fetchTranscriptClient(url: string): Promise<TranscriptResu
     if (res.ok && data.segmentCount > 0) {
       return data;
     }
-    
+
+    // No transcript available — server already tried all methods, return metadata for AI summary fallback
+    if (res.ok && data.noTranscript) {
+      return {
+        videoId: data.videoId,
+        title: data.title || 'Unknown',
+        channel: data.channel || 'Unknown',
+        description: data.description || '',
+        language: 'en',
+        noTranscript: true,
+        segmentCount: 0,
+        timestamped: '',
+        plain: '',
+      };
+    }
+
     // Server returned captionUrl for client-side fetch (ASR workaround)
     if (data.captionUrl && data.title) {
       console.log('[transcript] Server returned caption URL for client-side fetch...');

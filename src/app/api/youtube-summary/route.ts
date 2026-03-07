@@ -2,18 +2,68 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { title, channel, plain, timestamped } = await req.json();
-    if (!plain && !timestamped) return NextResponse.json({ error: 'No transcript provided' }, { status: 400 });
+    const { title, channel, plain, timestamped, noTranscript, description } = await req.json();
+    if (!plain && !timestamped && !noTranscript) return NextResponse.json({ error: 'No transcript provided' }, { status: 400 });
 
+    const apiKey = process.env.GOOGLE_AI_KEY || process.env.NEXT_PUBLIC_GOOGLE_AI_KEY;
+
+    // ── No-transcript mode: synthesize from web knowledge ──
+    if (noTranscript) {
+      if (!apiKey) {
+        return NextResponse.json({
+          summary: `**No Transcript Available**\n- This video does not have captions or auto-generated subtitles\n- AI summary unavailable without a Google AI key`,
+        });
+      }
+
+      const res = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `You are an AI assistant summarizing a YouTube video based on its title, channel, and description — no transcript is available.
+
+Video: "${title}" by ${channel}
+Description: ${description || 'No description available'}
+
+Based on what you know about this video, channel, and topic, provide a helpful overview. Be upfront that this is based on available metadata and your knowledge, not the actual transcript.
+
+FORMAT:
+- Line 1: One sentence describing what this video is about
+- **What This Video Covers** — 4-6 bullet points on the likely topics covered based on the title/description/channel
+- **About the Channel** — 1-2 sentences about the creator/channel if you know them
+- **Related Topics** — 3-4 bullet points of related concepts a viewer of this video might be interested in
+
+Be specific and helpful. If you don't know details about this specific video, say so honestly but still provide value based on what the title/channel suggests.
+Note at the end: ⚠️ Summary based on video metadata — no transcript was available.`,
+              }],
+            }],
+            generationConfig: {
+              maxOutputTokens: 600,
+              temperature: 0.3,
+            },
+          }),
+        }
+      );
+
+      if (!res.ok) {
+        return NextResponse.json({ summary: '**Summary unavailable** — could not reach AI service.' });
+      }
+      const data = await res.json();
+      const summary = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'Summary unavailable.';
+      return NextResponse.json({ summary });
+    }
+
+    // ── Normal mode: summarize from transcript ──
     // Use timestamped version if available — this lets Gemini reference specific moments
     const source = timestamped || plain;
-    
+
     // Send more of the transcript for better coverage
     const maxChars = source.length > 30000 ? 15000 : source.length > 15000 ? 10000 : source.length;
     const truncated = source.length > maxChars ? source.substring(0, maxChars) + '\n...[truncated]' : source;
 
-    const apiKey = process.env.GOOGLE_AI_KEY || process.env.NEXT_PUBLIC_GOOGLE_AI_KEY;
-    
     if (!apiKey) {
       const sentences = plain.split(/[.!?]+/).filter((s: string) => s.trim().length > 20).slice(0, 5);
       return NextResponse.json({

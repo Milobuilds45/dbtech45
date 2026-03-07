@@ -171,6 +171,8 @@ export default function YouTubeTranscriptPage() {
     timestamped: string;
     plain: string;
     summary?: string;
+    noTranscript?: boolean;
+    description?: string;
   } | null>(null);
   const [showTimestamps, setShowTimestamps] = useState(true);
   const [copied, setCopied] = useState(false);
@@ -203,7 +205,7 @@ export default function YouTubeTranscriptPage() {
       const res = await fetch('/api/youtube-summary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: result.title, channel: result.channel || 'Unknown', plain: result.plain, timestamped: result.timestamped }),
+        body: JSON.stringify({ title: result.title, channel: result.channel || 'Unknown', plain: result.plain, timestamped: result.timestamped, noTranscript: result.noTranscript || false, description: result.description || '' }),
       });
       const data = await res.json();
       if (res.ok && data.summary) {
@@ -234,9 +236,10 @@ export default function YouTubeTranscriptPage() {
           question,
           title: result.title,
           channel: result.channel || 'Unknown',
-          timestamped: result.timestamped,
-          plain: result.plain,
+          timestamped: result.noTranscript ? '' : result.timestamped,
+          plain: result.noTranscript ? (result.summary || 'No transcript available.') : result.plain,
           history: chatMessages.slice(-6),
+          noTranscript: result.noTranscript || false,
         }),
       });
       const data = await res.json();
@@ -360,7 +363,9 @@ export default function YouTubeTranscriptPage() {
         videoId: data.videoId,
         title: data.title,
         channel: data.channel || 'Unknown Channel',
-        description: data.plain.substring(0, 200).trim() + '...',
+        description: data.noTranscript
+          ? (data.description || 'No transcript available')
+          : data.plain.substring(0, 200).trim() + '...',
         language: data.language,
         segmentCount: data.segmentCount,
         timestamped: data.timestamped,
@@ -369,6 +374,23 @@ export default function YouTubeTranscriptPage() {
       };
       saveToArchive(item);
       setArchive(getArchive());
+      // Auto-generate AI summary when no transcript is available
+      if (data.noTranscript) {
+        setSummarizingCurrent(true);
+        setShowCurrentSummary(true);
+        try {
+          const sumRes = await fetch('/api/youtube-summary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title: data.title, channel: data.channel || 'Unknown', plain: '', timestamped: '', noTranscript: true, description: data.description || '' }),
+          });
+          const sumData = await sumRes.json();
+          if (sumRes.ok && sumData.summary) {
+            setResult(prev => prev ? { ...prev, summary: sumData.summary } : null);
+          }
+        } catch { /* ignore */ }
+        setSummarizingCurrent(false);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch transcript. Please try again.');
     } finally {
@@ -417,10 +439,10 @@ export default function YouTubeTranscriptPage() {
         {/* Header */}
         <div style={{ marginBottom: '1.5rem' }}>
           <h1 style={{ color: brand.amber, fontSize: '1.75rem', fontWeight: 700, fontFamily: M, margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Youtube size={28} /> YouTube Transcript Maker
+            <Youtube size={28} /> YT CLIPD
           </h1>
           <p style={{ color: brand.smoke, fontSize: '0.875rem', marginTop: '0.5rem' }}>
-            Paste a YouTube URL &rarr; get the full transcript &middot; auto-archived
+            Paste a YouTube URL &rarr; transcript, summary &amp; AI chat &middot; auto-archived
           </p>
         </div>
 
@@ -510,7 +532,11 @@ export default function YouTubeTranscriptPage() {
                     </h2>
                     <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
                       <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.language}</span>
-                      <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
+                      {result.noTranscript ? (
+                        <span style={{ color: '#F97316', fontSize: '0.75rem', fontFamily: M }}>no transcript</span>
+                      ) : (
+                        <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
+                      )}
                       <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.videoId}</span>
                       <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
                         <Check size={12} /> archived
@@ -519,7 +545,25 @@ export default function YouTubeTranscriptPage() {
                   </div>
                 </div>
 
-                <div style={{ display: 'flex', gap: 8, marginBottom: '1rem', flexWrap: 'wrap' }}>
+                {result.noTranscript && (
+                  <div style={{
+                    background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.35)',
+                    borderRadius: 8, padding: '12px 16px', marginBottom: '1rem',
+                    display: 'flex', alignItems: 'flex-start', gap: 10,
+                  }}>
+                    <span style={{ fontSize: '1.1rem', lineHeight: 1 }}>⚠️</span>
+                    <div>
+                      <div style={{ color: '#F97316', fontFamily: M, fontSize: '0.78rem', fontWeight: 700, marginBottom: 3 }}>
+                        TRANSCRIPT NOT AVAILABLE
+                      </div>
+                      <div style={{ color: brand.smoke, fontFamily: M, fontSize: '0.75rem', lineHeight: 1.5 }}>
+                        This video has no captions or auto-generated subtitles. An AI summary has been generated from web knowledge below — use Ask AI to explore the topic further.
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {!result.noTranscript && <div style={{ display: 'flex', gap: 8, marginBottom: '1rem', flexWrap: 'wrap' }}>
                   <button onClick={() => setShowTimestamps(!showTimestamps)} style={{
                     background: brand.graphite, border: `1px solid ${showTimestamps ? brand.amber : brand.border}`,
                     borderRadius: 6, padding: '8px 14px', color: showTimestamps ? brand.amber : brand.silver,
@@ -578,7 +622,20 @@ export default function YouTubeTranscriptPage() {
                   }}>
                     <MessageCircle size={12} /> {showChat ? 'hide chat' : 'ask video'}
                   </button>
-                </div>
+                </div>}
+
+                {result.noTranscript && (
+                  <div style={{ display: 'flex', gap: 8, marginBottom: '1rem' }}>
+                    <button onClick={() => setShowChat(!showChat)} style={{
+                      background: showChat ? 'rgba(139, 92, 246, 0.1)' : brand.graphite,
+                      border: `1px solid ${showChat ? '#8B5CF6' : brand.border}`, borderRadius: 6,
+                      padding: '8px 14px', color: showChat ? '#8B5CF6' : brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 6,
+                    }}>
+                      <MessageCircle size={12} /> {showChat ? 'hide chat' : 'ask ai about this video'}
+                    </button>
+                  </div>
+                )}
 
                 {result.summary && showCurrentSummary && (
                   <div style={{
@@ -689,7 +746,7 @@ export default function YouTubeTranscriptPage() {
                   </div>
                 )}
 
-                {showTimestamps ? (
+                {!result.noTranscript && showTimestamps ? (
                   <div style={{
                     background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
                     padding: '16px', fontFamily: M, fontSize: '0.8rem',
@@ -726,7 +783,7 @@ export default function YouTubeTranscriptPage() {
                       return <div key={i} style={{ color: brand.silver, marginBottom: 4 }}>{line}</div>;
                     })}
                   </div>
-                ) : (
+                ) : !result.noTranscript ? (
                   <pre style={{
                     background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
                     padding: '16px', color: brand.silver, fontFamily: M, fontSize: '0.8rem',
@@ -735,7 +792,7 @@ export default function YouTubeTranscriptPage() {
                   }}>
                     {result.plain}
                   </pre>
-                )}
+                ) : null}
 
                 {/* Chat is now inline above transcript */}
               </div>

@@ -116,7 +116,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Quick Links':   <Link2 size={ICON_SIZE} />,
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
-  'YT Transcript': <Youtube size={ICON_SIZE} />,
+  'YT CLIPD': <Youtube size={ICON_SIZE} />,
   'Ship or Kill':  <Ship size={ICON_SIZE} />,
   'Newsletter':    <Mail size={ICON_SIZE} />,
   'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
@@ -156,7 +156,7 @@ const opsItems: NavItem[] = [
   { label: 'Newsletter', href: '/os/newsletter' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
-  { label: 'YT Transcript', href: '/os/youtube-transcript' },
+  { label: 'YT CLIPD', href: '/os/youtube-transcript' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
 ];
 

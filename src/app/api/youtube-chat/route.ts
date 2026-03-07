@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    const { question, title, channel, timestamped, plain, history } = await req.json();
+    const { question, title, channel, timestamped, plain, history, noTranscript } = await req.json();
 
-    if (!question || (!timestamped && !plain)) {
+    if (!question || (!timestamped && !plain && !noTranscript)) {
       return NextResponse.json({ error: 'Question and transcript required' }, { status: 400 });
     }
 
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'No AI API key configured' }, { status: 500 });
     }
 
-    const source = timestamped || plain;
+    const source = timestamped || plain || '';
     // Send generous amount of transcript for context
     const maxChars = source.length > 40000 ? 20000 : source.length;
     const transcript = source.length > maxChars ? source.substring(0, maxChars) + '\n...[truncated]' : source;
@@ -32,7 +32,27 @@ export async function POST(req: NextRequest) {
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are an AI assistant that answers questions about a specific YouTube video based on its transcript. You have COMPLETE knowledge of this video's content.
+              text: noTranscript
+                ? `You are an AI assistant answering questions about a YouTube video that has no transcript. You have an AI-generated summary based on metadata and web knowledge.
+
+RULES:
+- Be upfront you cannot quote exact moments or timestamps — no transcript was available
+- Use the summary and your knowledge of the topic/channel to give helpful answers
+- If asked about specific quotes or timestamps, explain you only have an AI summary
+- Be helpful and honest about what you know vs don't know
+
+Video: "${title}" by ${channel}
+
+AI SUMMARY (no transcript available):
+${transcript}
+
+${historyContext ? `CONVERSATION SO FAR:
+${historyContext}
+` : ''}
+User's question: ${question}
+
+Answer:`
+                : `You are an AI assistant that answers questions about a specific YouTube video based on its transcript. You have COMPLETE knowledge of this video's content.
 
 RULES:
 - Answer ONLY based on what's in the transcript. If the answer isn't in the transcript, say so.
@@ -48,7 +68,9 @@ Video: "${title}" by ${channel}
 TRANSCRIPT:
 ${transcript}
 
-${historyContext ? `CONVERSATION SO FAR:\n${historyContext}\n` : ''}
+${historyContext ? `CONVERSATION SO FAR:
+${historyContext}
+` : ''}
 User's question: ${question}
 
 Answer:`,
