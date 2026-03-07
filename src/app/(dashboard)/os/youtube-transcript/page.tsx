@@ -178,8 +178,9 @@ export default function YouTubeTranscriptPage() {
   const [copied, setCopied] = useState(false);
   const [archive, setArchive] = useState<ArchivedTranscript[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [tab, setTab] = useState<'extract' | 'archive'>('extract');
+  const [tab, setTab] = useState<'clip' | 'archive'>('clip');
   const [archiveSearch, setArchiveSearch] = useState('');
+  const [isArchived, setIsArchived] = useState(false);
   const [summarizing, setSummarizing] = useState<string | null>(null);
   const [summarizingCurrent, setSummarizingCurrent] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
@@ -354,27 +355,13 @@ export default function YouTubeTranscriptPage() {
     setCopied(false);
     setChatMessages([]);
     setShowChat(false);
+    setIsArchived(false);
     setShowCurrentSummary(true);
 
     try {
       const data = await fetchTranscriptClient(url.trim());
       setResult(data);
-      const item: ArchivedTranscript = {
-        id: `${data.videoId}-${Date.now()}`,
-        videoId: data.videoId,
-        title: data.title,
-        channel: data.channel || 'Unknown Channel',
-        description: data.noTranscript
-          ? (data.description || 'No transcript available')
-          : data.plain.substring(0, 200).trim() + '...',
-        language: data.language,
-        segmentCount: data.segmentCount,
-        timestamped: data.timestamped,
-        plain: data.plain,
-        archivedAt: new Date().toISOString(),
-      };
-      saveToArchive(item);
-      setArchive(getArchive());
+      setIsArchived(false);
       // Auto-generate AI summary when no transcript is available
       if (data.noTranscript) {
         setSummarizingCurrent(true);
@@ -397,6 +384,28 @@ export default function YouTubeTranscriptPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function handleArchiveCurrent() {
+    if (!result || isArchived) return;
+    const item: ArchivedTranscript = {
+      id: `${result.videoId}-${Date.now()}`,
+      videoId: result.videoId,
+      title: result.title,
+      channel: result.channel || 'Unknown Channel',
+      description: result.noTranscript
+        ? (result.description || 'No transcript available')
+        : result.plain.substring(0, 200).trim() + '...',
+      language: result.language,
+      segmentCount: result.segmentCount,
+      timestamped: result.timestamped,
+      plain: result.plain,
+      summary: result.summary,
+      archivedAt: new Date().toISOString(),
+    };
+    saveToArchive(item);
+    setArchive(getArchive());
+    setIsArchived(true);
   }
 
   function handleCopy(text?: string) {
@@ -443,13 +452,13 @@ export default function YouTubeTranscriptPage() {
             <Youtube size={28} /> YT CLIPD
           </h1>
           <p style={{ color: brand.smoke, fontSize: '0.875rem', marginTop: '0.5rem' }}>
-            Paste a YouTube URL &rarr; transcript, summary &amp; AI chat &middot; auto-archived
+            Paste a YouTube URL &rarr; transcript, summary &amp; AI chat
           </p>
         </div>
 
         {/* Tabs */}
         <div style={{ display: 'flex', gap: 4, marginBottom: '1.5rem', borderBottom: `1px solid ${brand.border}`, paddingBottom: 0 }}>
-          {(['extract', 'archive'] as const).map(t => (
+          {(['clip', 'archive'] as const).map(t => (
             <button key={t} onClick={() => setTab(t)} style={{
               background: tab === t ? brand.graphite : 'transparent',
               border: 'none',
@@ -464,13 +473,13 @@ export default function YouTubeTranscriptPage() {
               letterSpacing: '0.05em',
               display: 'flex', alignItems: 'center', gap: 6,
             }}>
-              {t === 'extract' ? <><Search size={14} /> Extract</> : <><Archive size={14} /> Archive ({archive.length})</>}
+              {t === 'clip' ? <><Search size={14} /> Clip</> : <><Archive size={14} /> Archive ({archive.length})</>}
             </button>
           ))}
         </div>
 
-        {/* === EXTRACT TAB === */}
-        {tab === 'extract' && (
+        {/* === CLIP TAB === */}
+        {tab === 'clip' && (
           <>
             <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, marginBottom: '1.5rem' }}>
               <input
@@ -498,7 +507,7 @@ export default function YouTubeTranscriptPage() {
                 opacity: loading || !url.trim() ? 0.5 : 1, whiteSpace: 'nowrap',
                 display: 'flex', alignItems: 'center', gap: 6,
               }}>
-                {loading ? <><Loader2 size={14} className="animate-spin" /> extracting</> : <><Play size={14} /> Extract</>}
+                {loading ? <><Loader2 size={14} className="animate-spin" /> clipping</> : <><Play size={14} /> Clip</>}
               </button>
             </form>
 
@@ -539,9 +548,23 @@ export default function YouTubeTranscriptPage() {
                         <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.segmentCount} segments</span>
                       )}
                       <span style={{ color: brand.smoke, fontSize: '0.75rem', fontFamily: M }}>{result.videoId}</span>
-                      <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <Check size={12} /> archived
-                      </span>
+                      {isArchived ? (
+                        <span style={{ color: brand.success, fontSize: '0.75rem', fontFamily: M, display: 'flex', alignItems: 'center', gap: 4 }}>
+                          <Check size={12} /> saved to archive
+                        </span>
+                      ) : (
+                        <button
+                          onClick={handleArchiveCurrent}
+                          style={{
+                            background: 'rgba(251,191,36,0.1)', border: `1px solid ${brand.amber}`,
+                            borderRadius: 6, padding: '3px 10px', cursor: 'pointer',
+                            color: brand.amber, fontSize: '0.75rem', fontFamily: M,
+                            display: 'flex', alignItems: 'center', gap: 5,
+                          }}
+                        >
+                          <Archive size={11} /> Save to Archive
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>

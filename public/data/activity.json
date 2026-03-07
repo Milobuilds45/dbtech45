@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "07f613a4",
+      "author": "Milo",
+      "timestamp": "2026-03-07 18:11:28 -0500",
+      "message": "feat: clean archive UI - minimal channel headers, YouTube-style video cards"
+    },
+    {
+      "type": "commit",
       "id": "f9500ff0",
       "author": "Milo",
       "timestamp": "2026-03-07 18:05:01 -0500",
@@ -183,5 +190,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T23:09:06.569Z"
+  "generatedAt": "2026-03-07T23:24:06.255Z"
 }
