@@ -273,6 +273,217 @@ const cyberColors = {
   success: '#39ff7e', border: 'rgba(16, 202, 120, 0.2)',
 };
 
+// ─── Bobby Axelrod Summaries (pre-generated key takeaways) ──
+function getAxelrodSummary(filename: string, title: string, category: string): string {
+  // All 161 books should have specific entries — return it
+  const specific = AXELROD_SUMMARIES[filename];
+  if (specific) return specific;
+
+  // Safety net — should never hit this since all books are covered
+  return `I haven't read this one yet. But if it's on this shelf, it's here for a reason. Crack it open, pull out the three most actionable ideas, and test them. Knowledge without execution is just entertainment. And we're not in the entertainment business.`;
+}
+
+const AXELROD_SUMMARIES: Record<string, string> = {
+  // ── ALGO & QUANT TRADING ──
+  'Chen_Jun__Tsang_Edward_-_Detecting_regime_change_in_computational_finance__data_science_machine_learning_and_algorithmic_trading-CRC_Press_2021Z-Lib.io.pdf': `Markets don't stay the same — they shift regimes. Trending becomes mean-reverting, quiet becomes volatile. This book teaches you to DETECT those shifts with machine learning before your P&L does. Key move: the strategy that worked last month might kill you this month. Regime detection is your early warning system.`,
+  'Quantitative Finance (2007).pdf': `The math behind the money. Stochastic calculus, derivatives pricing, portfolio optimization — this is the language Wall Street actually speaks. You don't need to be a PhD, but you need to understand why your Black-Scholes model breaks in a crisis. This gives you that.`,
+
+  // ── CFA STUDY MATERIALS ──
+  '2018 FinQuiz CFA Level 2 Study Plan.pdf': `CFA Level 2 is where they separate the tourists from the professionals. Equity valuation, fixed income analytics, derivatives — this is the structured path through the material. The credential opens doors, but the knowledge is what keeps you in the room.`,
+  '2018 FinQuiz CFA Level 3 Study Plan.pdf': `Level 3 is portfolio management — the endgame. This is where you learn to think like an allocator, not just an analyst. Behavioral finance, wealth planning, institutional investment. The stuff that makes you dangerous in a boardroom.`,
+  'CFA_Level1_2018_curriculum_updates.pdf': `Level 1 is the foundation. Ethics, quant methods, economics, financial reporting. Boring? Maybe. Essential? Absolutely. You can't build a skyscraper on sand.`,
+  'CFA_Level2_2018_curriculum_updates.pdf': `The Level 2 updates keep the curriculum sharp. Equity valuation and derivatives are where the real edge lives. Stay current or get left behind.`,
+  'CFA_Level3_2018_curriculum_updates.pdf': `Portfolio management and private wealth — this is where theory meets the real world. The updates here reflect how the industry actually operates, not how textbooks wish it did.`,
+
+  // ── CANDLESTICKS ──
+  '17 Money Making Candle Formations (2008).pdf': `17 patterns, each with entry rules, exit rules, and win rates from real data. No fluff. This is a playbook, not a textbook. Memorize these 17, drill them until they're automatic, and you'll see setups the crowd misses.`,
+  '7369608-Mastering-Candlestick-Charts-Part-I.pdf': `Part 1 — the singles and doubles. Doji, hammer, engulfing. These are the building blocks. Master them with volume confirmation and you've got a language the market speaks every single day.`,
+  '7369609-Mastering-Candlestick-Charts-Part-2.pdf': `Part 2 — the complex formations. Multi-candle patterns that tell bigger stories. When you combine these with Western indicators, you're playing chess while everyone else plays checkers.`,
+  'Beyond_Candlesticks-Steve_Nison.pdf': `Nison goes beyond the basics into Kagi, Renko, and Three-Line Break charts. These Japanese methods filter out noise that candlesticks can't. It's like putting on noise-canceling headphones in a crowded trading floor. Suddenly you hear the signal.`,
+  'Candlesticks - The Basics (2000).pdf': `Start here if you're new. Every candle is a story — who showed up, who blinked, who's in control. Once you read candles fluently, you never look at a chart the same way again.`,
+  'Candlesticks Every Trader Should Know (2006).pdf': `The greatest hits. Not all 50+ patterns matter — these are the ones that actually show up and actually work. Quality over quantity. Learn these cold and skip the rest.`,
+  'Candlesticks for Support and Resistance (2000).pdf': `A reversal candle in the middle of nowhere? Noise. A reversal candle AT a key support level? That's a trade. Context is everything. This book teaches you to read candles where they matter most.`,
+  'The_Candlestick_Course-Steve_Nison.pdf': `The workbook companion. Reading about patterns is one thing — drilling them until recognition is instant is another. This turns knowledge into reflex. That speed difference is the edge.`,
+  'Top 12 Candlesticks (2000).pdf': `Twelve patterns. That's all you need. The Pareto principle applies to candlesticks — 20% of patterns generate 80% of the signals worth taking. These are that 20%.`,
+
+  // ── CHART PATTERNS ──
+  'Chart_Patterns_Support_and_Resistance_Trendlines_.pdf': `The holy trinity of technical analysis: patterns, support/resistance, trendlines. This integrates all three into one framework. When they align, you have a trade. When they conflict, you sit on your hands.`,
+  'Chart_Your_Way_to_Profits.pdf': `Practical chart trading — not theory, execution. How to identify the pattern, set the entry, define the stop, and calculate the target. That's a complete trade plan from one chart. Do that consistently and you win.`,
+  'Investors_Guide_To_Buying_Stocks_Using_Launch_Pad_Chart_Patterns.pdf': `Launch pad patterns are bases — tight, coiled energy waiting to release. Think of it like a spring compressed to maximum. When it lets go, the move is explosive. This teaches you to spot the compression before the launch.`,
+  'Trade_Chart_Patterns_Like_the_Pros.pdf': `The gap between knowing a pattern and profiting from it is execution. Entry timing, position sizing, handling failures — this is the professional playbook for turning pattern knowledge into P&L.`,
+  'Trade_What_You_See_How_to_Profit_from_Pattern_Recognition.pdf': `The hardest skill in trading: seeing what IS, not what you WANT to see. Confirmation bias kills more accounts than bad strategy. This teaches objectivity. If you can master that, you're already ahead of 90% of traders.`,
+  'Trading_Classic_Chart_Patterns.pdf': `Head and shoulders, double tops, triangles, flags, wedges — the classics never go out of style because human psychology never changes. Each one has statistical edge and proper management rules. Know them.`,
+  'Visual_Guide_to_Chart_Patterns.pdf': `Heavy on visuals, annotated charts, clear markups. Pattern recognition is a visual skill — you train it with repetition, not reading. Use this as your flash card deck.`,
+  'visual_Guide_to_Chart_Patterns_1.pdf': `More annotated examples across different markets and timeframes. The more charts you study, the faster your pattern recognition becomes. Speed of recognition = edge.`,
+
+  // ── DAY TRADING ──
+  '25 Rules Of Day Trading (2003).pdf': `25 rules. Break any three and you're done. The big ones: never risk more than 2% per trade, always use stops, don't revenge trade, and when in doubt, get out. Tape these to your monitor.`,
+  'A Complete Guide to Day Trading (2008).pdf': `A to Z — desk setup to system development. The business of day trading, not just the strategy. Most people fail because they treat it like a hobby. This treats it like what it is: a profession.`,
+  'After-Hours_Trader.pdf': `The after-hours market is a different animal — thinner, wider spreads, different players. But that's where the edge lives for those who understand the mechanics. Earnings reactions, news plays, gap setups — all born in after-hours.`,
+  'Breakout_Trading_Simple_Proven_Strategies.pdf': `Breakouts are the bread and butter. Consolidation, then expansion. The trick is confirmation — volume, retest, momentum. Fake breakouts kill rookies. This teaches you to tell the difference.`,
+  'Day Trading Ebook (2000).pdf': `Early-era day trading fundamentals. Level II, order routing, basic scalping. The technology has changed but the principles haven't. Supply, demand, and the speed to act on both.`,
+  'Day Trading University (2001).pdf': `Structured like a course. Market mechanics, order types, basic strategies, psychological demands. Before you put real money on the line, go through this program. Paper trading is for amateurs; education is for professionals.`,
+  'Daytrading University - Advanced Daytrading Two-Day Seminar (2001).pdf': `The advanced course. Tape reading, momentum strategies, managing multiple positions simultaneously. This is what the seminar costs thousands to attend. You've got it on your shelf.`,
+  'High_Probability_Trading_Strategies_Entry_to_Exit_Tactics_for_the_Forex_Futures_and_Stock_Markets.pdf': `Robert Miner's method: multiple timeframe momentum + pattern recognition + Fibonacci = high probability. The complete trade lifecycle — entry trigger, stop placement, target projection, exit management. Complete and systematic.`,
+  'High_probability_trading.pdf': `Marcel Link nails the preparation game. Why do most traders lose? Because they show up unprepared. This fixes that. Risk management, systematic thinking, and the discipline to follow the process.`,
+  'KEN_WOLFF_-_Trading_On_Momentum_Advanced_Techniques_For_High_Percentage_Day_TRADING-MCGRAW_HILL.pdf': `Wolff's momentum techniques — finding the stocks that are moving NOW, timing the entry for maximum capture, scaling in and out. Momentum trading is about being in the right place at the right time. This teaches you how to be there.`,
+  'The_Complete_Guide_to_Day_Trading_-_A_Practical_Manual_from_A_Professional_Day_Trading_Coach.pdf': `Written by a coach, not a guru. Built from real experience watching hundreds of traders succeed and fail. The patterns of failure are more valuable than the patterns of success — because avoiding the former guarantees the latter.`,
+  'RICHARD_D_WYCOFF_-_THE_DAY_TRADERS_BIBLE-63_PAGES.pdf': `Wyckoff wrote this over a century ago and it still hits. Tape reading — understanding supply and demand through price and volume in real time. Every electronic order book is just a modern tape. Read it like Wyckoff and you're reading the intentions of every buyer and seller in the market.`,
+  'Learn Day Trading (2000).pdf': `First steps. Market basics, order types, chart reading, your first strategy. Everyone starts somewhere. Start here, but don't stay here. The basics are the floor, not the ceiling.`,
+  'The Day Trading Course (2000).pdf': `Structured progression from fundamentals through execution. Includes simulated trade scenarios. Practice under controlled conditions before the market teaches you the hard way.`,
+  'Winning_the_Day_Trading_Game.pdf': `Trading as a game — preparation, execution, adaptation, scoring. The game metaphor works because the best traders approach it with the same discipline as elite athletes. Prepare, perform, review, improve. Repeat.`,
+  'Professional_Trading_Strategies(2).pdf': `Institutional-level setups, order flow analysis, multi-timeframe approaches. This is how the professionals actually trade — not the simplified version they show on YouTube.`,
+  'Professional_Trading_Strategies.pdf': `Market structure, price action, systematic approaches used by full-time traders. The difference between amateur and professional isn't the strategy — it's the process around the strategy.`,
+  'Technical Analysis for Short Term Traders (2000).pdf': `Not all indicators work on all timeframes. This filters technical analysis for intraday and swing trading specifically. The moving average that works on a daily chart is useless on a 5-minute. Know the difference.`,
+  'The Stock Market Course (2001).pdf': `A comprehensive stock market education. Fundamental analysis, technical analysis, options basics, portfolio construction. Think of it as your MBA in markets — without the $200K tuition and the two years of your life.`,
+  'Trading on Momentum (2002).pdf': `Relative strength, volume confirmation, timing entries to capture the strongest moves. Momentum isn't about chasing — it's about arriving early and riding the wave. This teaches you the difference.`,
+  'Oliver_Kell_-_Victory_in_stock_market.pdf': `Kell won the U.S. Investing Championship. Not theory — results. His process for finding winning stocks, timing entries, and managing risk is documented here. Study what winners do, not what losers teach.`,
+
+  // ── ECONOMIC INDICATORS ──
+  'Guide_to_Economic_Indicators.pdf': `Every number the government releases moves markets. This tells you which ones matter, when they drop, and how to position. The traders who understand macro eat the ones who only read charts.`,
+  'The Pocketbook of Economic Indicators (2002).pdf': `GDP, employment, inflation, housing, manufacturing — how each fits the bigger picture. Compact but thorough. Keep this on your desk for data release days.`,
+  'The_Pocket_Book_Of_Economic_Indicators.pdf': `Quick reference for the numbers that move markets. What to watch, what the consensus expects, and what happens when reality surprises. The spread between expectation and reality — that's where the move lives.`,
+  'The_Secrets_of_Economic_Indicators.pdf': `Baumohl teaches you to read the data BEFORE Wall Street prices it in. That's the edge — interpretation speed. By the time CNBC explains the number, the move is over. Read it yourself, react faster.`,
+  'The_Traders_Guide_to_Key_Economic_Indicators.pdf': `Written for traders, not economists. Which indicators actually move YOUR markets, how to position ahead of releases, and how to trade the reaction. Practical, not academic.`,
+  'Using_Economic_Indicators_to_Improve_Investment_Analysis.pdf': `Leading, lagging, coincident indicators — and how to build a macro framework from them. The economy is the tide. You want to swim WITH it, not against it. This teaches you to read the current.`,
+
+  // ── FIBONACCI & HARMONICS ──
+  'Fibonacci_Analysis.pdf': `Retracements, extensions, projections, time analysis, confluence zones. When multiple Fib levels stack at the same price, that's not coincidence — that's institutional interest. This teaches you to find those zones.`,
+  'Fibonacci_Trading_How_to_Master_the_Time_and_Price_Advantage.pdf': `Carolyn Boroden — the "Fibonacci Queen." She uses time AND price Fibonacci clusters to pinpoint entries. When time and price converge at a Fib level, the probability spikes. That's precision trading.`,
+  'Fibonacci_and_Chart_Pattern_trading_tools.pdf': `Fibonacci + chart patterns = higher probability. A cup-with-handle completing at a 61.8% retracement? That's two independent signals pointing the same direction. Stack the odds.`,
+  'Harmonic_Trading_Volume_1.pdf': `Scott Carney's Gartley, Bat, Butterfly, and Crab patterns. Specific Fibonacci ratios define each pattern. When the math lines up, you enter. When it doesn't, you don't. Rules-based, emotion-free.`,
+  'Harmonic_Trading_Volume_2.pdf': `Advanced harmonics — Shark, 5-0, alternate bat. Pattern validation, completion zones, and trade management. This is the graduate-level course for those who mastered Volume 1.`,
+  'How_To_Identify_High-Profit_Elliott_Wave_Trades_in_Real_Time.pdf': `Elliott Wave theory is complicated. This cuts through the noise to focus on the PROFITABLE wave structures — Wave 3 extensions and Wave C completions. Forget counting every micro-wave. Find the big money moves.`,
+  'Robert_Fisher_-_Fibonacci_Applications_and_Strategies_for_Traders.pdf': `Fischer's systematic Fibonacci approach across markets. His unique combination of Fib ratios with candlestick patterns and moving averages creates a multi-confirmation system. More confirmation = higher probability.`,
+
+  // ── FINANCE & INVESTING ──
+  'A First Course in Corporate Finance (2006).pdf': `Capital budgeting, valuation, capital structure — this is how companies make financial decisions. Understanding this makes you a better investor because you understand what drives the stocks you're trading.`,
+  'Accounting for Decision Making (2011).pdf': `If you can't read a balance sheet, you're trading blind. Income statements, cash flow analysis, ratio analysis — this is the financial literacy that separates investors from gamblers.`,
+  'Edwin_LeFevre_Reminiscences_of_a_Stock_Operator.pdf': `Livermore was the GOAT. Made and lost fortunes multiple times. Key lessons that still hit 100 years later: "It never was my thinking that made the big money for me. It always was my sitting." Patience IS the trade. The market will tell you when to move — your job is to shut up and listen. Also: never average down on a loser. Livermore broke that rule and it broke him.`,
+  'Financial Accounting and Reporting (2011).pdf': `GAAP, IFRS, revenue recognition, asset valuation — the language of financial reporting. Companies tell you everything in their filings. Most people just don't know how to read it. Now you will.`,
+  'Financial Analysis Using Excel  (2002).pdf': `DCF models, sensitivity analysis, scenario planning — all in Excel. The hedge fund associate's toolkit. Build models, stress test assumptions, and make decisions backed by numbers, not feelings.`,
+  'Financial Management (1998).pdf': `Capital structure, working capital, investment appraisal. The fundamentals of how businesses manage money. Every company you trade is running these calculations. Understand them and you understand the company.`,
+  'Fire Your Stock Analyst - Analysing Stocks on Your Own (2006).pdf': `Stop outsourcing your thinking. Wall Street analysts have conflicts of interest you don't. This teaches you to do your own equity research — read the 10-K, analyze the competition, build your own thesis. Independence is alpha.`,
+  'Getting Started in Bonds (2003).pdf': `Bonds drive the world. Treasury yields move EVERYTHING — stocks, forex, commodities. Understanding bonds isn't optional. Duration, yield curves, credit spreads — this is the foundation of macro trading.`,
+  'Investments (2003).pdf': `Academic-level: modern portfolio theory, CAPM, efficient markets, valuation. Know the theory so you know when the market is violating it. Those violations are your opportunities.`,
+  'Investments (2005).pdf': `Updated with asset allocation, security analysis, performance measurement. The institutional approach to managing money. Think like a fund, not like a retail trader.`,
+  'Investments - An Introduction (2014).pdf': `Contemporary introduction covering stocks, bonds, ETFs, real estate, alternatives. The investing landscape has changed — this gives you the modern map.`,
+  'Mastering Corporate Finance (2010).pdf': `M&A valuation, LBO modeling, restructuring. This is investment banker territory. Understanding how deals get done gives you an edge in event-driven trading.`,
+  'Principles of Economics (2003).pdf': `Supply, demand, monetary policy, fiscal policy, trade. The macro forces that move markets. Ignore economics at your own risk — it's the current your boat is floating on.`,
+  'Protecting Your Wealth In Good Times And Bad (2003).pdf': `Making money is one thing. Keeping it is another game entirely. Diversification, tax optimization, estate planning. The smartest trade you'll ever make is protecting what you've already won.`,
+  'The Economist - Guide to Investment Strategy (2006).pdf': `Asset allocation, risk budgeting, behavioral biases. From The Economist — no hype, just data-driven strategy. Build a portfolio aligned with your goals, not your emotions.`,
+  'The_Economics_of_Money_Banking_and_Financial_Markets.pdf': `Mishkin's bible on how the financial system works. Central banking, money supply, interest rates, monetary transmission. Understanding the Fed isn't optional — it's survival. This is your decoder ring.`,
+  'The_Little_Book_of_Bull_Moves_in_Bear_Markets_How_to_keep_your_portfolio_up_when_the_market_is_down.pdf': `Schiff's strategies for bear markets — defensive positioning, short selling, commodities, foreign stocks. The time to learn this is BEFORE the bear market, not during it. Build the ark before the flood.`,
+  'The_Little_Book_of_Stock_Market_Cycles_by_Jeffery_Hirsch.pdf': `Seasonal patterns, presidential cycles, calendar effects — backed by decades of data. "Sell in May" isn't folklore, it's statistics. The market has rhythms. This teaches you to hear them.`,
+  'The Mathematics Of Financial Modeling And Investment Management (2004).pdf': `Stochastic processes, Monte Carlo simulation, optimization, derivatives math. Heavy? Yes. Necessary? If you want to understand why your models work (and when they'll break), absolutely.`,
+  'Understanding Stocks (2004).pdf': `Beginner-friendly but don't skip it. How stocks work, how to evaluate them, how the market operates. Everyone thinks they know this stuff. Most don't. Foundations matter.`,
+  'Using Excel for Business Analysis (2012).pdf': `Financial modeling, scenario planning, data visualization in Excel. Your spreadsheet is your cockpit. Master it and you fly blind no more.`,
+  'Using the Financial Pages (2006).pdf': `How to read financial news, stock tables, earnings reports. Turns the financial media from noise into actionable intelligence. Most people watch the news. You'll read it for edge.`,
+  'William_ONeil_-_How_to_Make_Money_in_Stocks._A_Wining_System_in_Good_Times_or_Bad.pdf': `CAN SLIM. Seven letters that built a fortune. O'Neil's system for finding monster growth stocks: Current earnings, Annual earnings, New products/management, Supply and demand, Leader or laggard, Institutional sponsorship, Market direction. It's a checklist. Run every stock through it. The ones that pass ALL seven? Those are your positions.`,
+  'Weinstein_Secrets_to_Profiting_in_Markets_.pdf': `Weinstein's stage analysis is beautifully simple. Stage 1: basing. Stage 2: advancing — this is where you BUY. Stage 3: topping. Stage 4: declining — this is where you SHORT or get out. That's it. Four stages. Know which one you're in, and you'll never hold a stock through a crash again.`,
+
+  // ── FOREX & CURRENCIES ──
+  '17 Proven Currency Trading Strategies (2013).pdf': `17 strategies with specific rules. Trend-following, counter-trend, range-bound. The forex market doesn't care about your opinion — it cares about your system. Pick the strategy that fits your personality and execute it religiously.`,
+  'Amazing Forex System (2004).pdf': `A mechanical system with defined rules. No discretion, no emotions. Entry rules, exit rules, risk management. The beauty of mechanical systems? They don't panic at 3 AM when the yen is spiking.`,
+  'Currency Strategy (2002).pdf': `Institutional-level currency analysis. Fundamental valuation models, flow analysis, central bank impacts. This is how the banks trade forex — not with RSI crosses on a 15-minute chart.`,
+  'Essentails of Foreign Exchange Trading (2009).pdf': `Pip calculations, lot sizing, leverage management. The mechanical skills of forex trading. Get these wrong and no strategy on earth will save you. Get them right and you have a foundation.`,
+  'Forex - Online Manual for Successful Trading (2000).pdf': `Early comprehensive guide to online forex. Platform basics, technical analysis for currencies, risk management for leveraged trading. The tech has evolved but the leverage will still eat you alive if you're not careful.`,
+  'Forex Trading Techniques (2003).pdf': `Technical and fundamental forex techniques. Chart patterns for currencies, news trading, carry trades. Currencies have their own personality — this teaches you to read it.`,
+  'Getting Started in Currency Trading (2008).pdf': `How currencies are quoted, reading forex charts, choosing a broker, building a plan. The forex market is the biggest in the world. Respect it or it will humble you faster than any other market.`,
+  'Successful Foreign Exchange Dealing  (2001).pdf': `Professional forex dealing — interbank dynamics, order flow, institutional mechanics. This is the other side of your trade. Understanding who's on the other end changes everything.`,
+  'Sure Fire Forex Trading (2000).pdf': `Consistency-focused strategies. Money management rules that protect your capital. The goal isn't to hit home runs — it's to show up tomorrow. Capital preservation first, profits second.`,
+  'The Forex Market Phenomena (2000).pdf': `Why forex behaves differently from stocks. Central bank-created trends, unique market phenomena, tradeable patterns. The 24-hour market has its own rhythm. This teaches you to dance to it.`,
+  'The Forex Trading Course (2008).pdf': `Fundamentals through advanced strategies. Building a complete forex trading plan. A course, not a book — treat it like one. Do the work, build the plan, execute the plan.`,
+
+  // ── FUTURES & COMMODITIES ──
+  'Commodities Demystified  (2008).pdf': `How futures contracts work, what drives commodity prices, how to trade gold, oil, grains. Commodities are the raw materials of the economy. Understanding them gives you a macro edge nobody can take away.`,
+  'Getting Started in Futures (2005).pdf': `Contract specs, margin requirements, hedging vs speculation. Essential for anyone moving from stocks to futures. The leverage is real, the risk is real, and the opportunity is massive — if you respect the instrument.`,
+  'The Four Biggest Mistakes In Futures Trading (2000).pdf': `Overtrading, undercapitalization, no stops, no plan. Four mistakes, four account killers. Short read, potentially the most valuable book on this shelf per word. Read it, memorize it, never make these mistakes.`,
+
+  // ── HEDGE FUNDS ──
+  'Create Your Own Hedge Fund (2005).pdf': `Structure, capital raising, strategy selection, risk management, operations. If you're going to run money, you need to run it like a business. This is the blueprint for building that business.`,
+  'Getting Started in Hedge Funds (2005).pdf': `Fund structures, strategies, due diligence, performance evaluation. Understand the vehicle before you invest in it — or build one yourself. The hedge fund wrapper is a tool. Use it correctly.`,
+  'Hedge Fund Alpha (2009).pdf': `Where does alpha actually come from? Skill, timing, risk management, or just leverage? This examines what drives hedge fund returns. Some of it is real. A lot of it isn't. Know the difference.`,
+  'Hedge Funds - Strategies _ Techniques (2003).pdf': `Long/short, global macro, convertible arb, distressed debt, stat arb. The mechanics behind each approach. Every strategy has a sweet spot and a blow-up scenario. Know both before you deploy capital.`,
+  'Hedges On Hedge Funds (2005).pdf': `Top managers sharing their insights on running successful funds. Risk management philosophy, strategy adaptation, building something that lasts. The best funds survive drawdowns. This teaches you how.`,
+  'Profiting from Hedge Funds (2013).pdf': `Replicate hedge fund strategies in your own portfolio without the 2-and-20 fees. Long/short, merger arb, other strategies — accessible to individual traders. Why pay someone else's Hamptons mortgage?`,
+  'The Hedge Fund Book (2010).pdf': `History, strategies, players, regulation. The comprehensive overview. If you want to understand the industry — who the players are, how they think, what drives them — start here.`,
+  'The Hedge Fund Course (2005).pdf': `Portfolio construction, performance attribution, risk metrics, manager selection. How institutional allocators evaluate hedge funds. Think like the people writing the checks.`,
+  'Trade Like a Hedge Fund (2004).pdf': `Altucher reveals 20 unconventional strategies. Each with rules, backtesting, implementation details. These aren't the strategies everyone knows — that's the point. Edge comes from doing what others don't.`,
+  'Visual Guide to Hedge Funds (2014).pdf': `Infographic-style breakdowns of complex strategies. Payoff diagrams, risk characteristics, visual explanations. Sometimes seeing it is faster than reading it. This makes the complex accessible.`,
+
+  // ── OPTIONS ──
+  'Sheldon_Natenberg-Option_Volatility_and_Pricing__Advanced_Trading_Strategies_and_Techniques-McGraw-H.pdf': `Every options desk on Wall Street has this book. Natenberg breaks down how options are REALLY priced — not the textbook garbage, the actual mechanics. Key takeaways: volatility is the only variable that matters, the Greeks are your risk dashboard, and selling premium works until it doesn't. Know your Greeks or they'll know you.`,
+  'Dynamic_Hedging-Taleb.pdf': `Taleb wrote this before Black Swan made him famous, and honestly it's the better book for traders. This is the manual for managing non-linear risk. Key insight: the risks that blow up accounts are the ones that don't show up in normal distributions. Tail risk isn't theoretical — it's Tuesday. Hedge accordingly.`,
+  'Buy and Hedge (2012).pdf': `Use options to PROTECT your stock portfolio, not just speculate. Protective puts, collars, hedged equity. Stay invested, sleep at night. The insurance costs a few percent a year. The alternative is watching a 40% drawdown and panic selling at the bottom.`,
+  'Options_for_Volatile_Markets_Managing.pdf': `When VIX spikes, most traders freeze. This teaches you to thrive. Strategies that benefit from vol expansion, position management through turbulence, and how to size for the unknown. Volatility isn't risk — not understanding it is.`,
+  'Simple_Options_Trading.pdf': `Calls, puts, basic spreads, income generation. No complex math, just practical application. Options don't have to be complicated. Start simple, execute consistently, add complexity as you grow. The simple strategies make money too.`,
+  'Ultimate-Strategy-Guide-Option-Alpha-compressed.pdf': `Credit spreads, iron condors, strangles — high-probability options strategies with specific management rules. Option Alpha's approach: sell premium, manage risk, let probability do the work. It's not sexy, but it's profitable.`,
+
+  // ── PERSONAL DEVELOPMENT ──
+  'Cant_Hurt_Me_-_David_Goggins(1).pdf': `Goggins isn't a trader but he trades in the currency that matters most — mental toughness. The 40% rule alone is worth the read: when your mind says quit, you're only at 40%. Apply that to taking losses, sticking to your plan when it's ugly, and showing up at 5 AM when you'd rather sleep. This is the pre-market prep for your soul.`,
+  'Deep-Work-Cal-Newport-2016-Grand-Central-Publishing-9a88b43326d3a69ad595042a1bacdd55-Annas-Archive.pdf': `Newport makes the case that deep, focused work is a superpower in an age of distraction. For traders: your analysis quality is directly proportional to your focus quality. Every notification you check during market hours is money you're leaving on the table. Build a fortress around your attention. That's alpha.`,
+  'Soft_War.pdf': `Influence, information warfare, psychological operations. Relevant because the market IS an information war. Media narratives, fake breakouts, institutional deception — understanding psychological warfare makes you harder to manipulate. And the market manipulates everyone.`,
+
+  // ── SHORT SELLING ──
+  'Short Selling - Strategies, Risks _ Rewards (2004).pdf': `The mechanics, the risks, the short squeeze danger, and strategies for finding overvalued stocks. Making money when everyone else is losing — that's power. But short selling will humble you faster than anything if you don't respect the infinite risk. This teaches you to respect it.`,
+  'Short Selling Stocks with ConnorsRSI  (2013).pdf': `Connors' quantitative short selling approach. Specific entry/exit rules, backtesting results, position sizing. Systematic, not emotional. When the model says short, you short. When it says cover, you cover. No opinions required.`,
+
+  // ── SWING & TREND TRADING ──
+  'A_Complete_Guide_to_Trading.pdf': `Market selection, strategy development, execution, risk management. A complete system-building resource. The traders who build systems survive. The traders who wing it don't.`,
+  'Al_Brooks_-_Trading_Price_Action_Trends.pdf': `Brooks is meticulous to the point of obsession — and that's why he's good. Pure price action, no indicators, just reading what the market is telling you bar by bar during trends. Dense, challenging, and worth every page if you commit to learning it.`,
+  'Nail the Market.pdf': `High-conviction setups where multiple factors align. Asymmetric risk/reward opportunities. When everything lines up — pattern, level, momentum, volume — that's when you bet big. This teaches you to recognize those moments.`,
+  'Oliver_Velez_-_Swing_Trading_Tactics-min_1_1.pdf': `Velez's tactical approach to 2-5 day trades. Candlestick-based entries, capturing the meat of the swing. Not trying to catch the whole move — just the highest-probability chunk. Take the best part and move on.`,
+  'Tactical_Trend_Trading.pdf': `Identify emerging trends early, pyramid into winners, trail stops that let trends run. Systematic trend following with tactical entries. The trend is free money — if you have the patience to ride it.`,
+  'The_Complete_Trading_Course_-_Wiley.pdf': `Technical, fundamental, risk management, psychology — all in one structured curriculum. Wiley doesn't mess around. Comprehensive, thorough, and worth the time investment.`,
+  'The_Complete_Turtle_Trader.pdf': `Richard Dennis bet a million bucks he could teach anyone to trade. He won that bet. The Turtles proved that a simple trend-following system, executed with discipline, beats genius. The system is in here. But the real lesson? It's not the system — it's having the guts to follow it when you're in a drawdown and everyone thinks you're an idiot.`,
+  'The_Trend_Following_Bible.pdf': `The philosophy, the systems, the money management, the psychology of trend following. Trends happen in every market, every timeframe. This is the complete guide to capturing them systematically.`,
+  'Trading_for_a_Living.pdf': `Elder's Triple Screen system is elegant: use three timeframes, let the longer timeframe set direction, use the middle for strategy, and the shortest for execution. But the real gem is his psychology framework — the market is a crowd, and crowds are predictable. Just don't become one of them.`,
+  'Trend_Trading_Timing_Market_Tides.pdf': `Timing the start and end of trends, optimal entry points within trends, and recognizing when the tide is turning. The money is in the trend. The skill is in the timing.`,
+
+  // ── TECHNICAL ANALYSIS ──
+  'A_Complete_Guide_to_Technical_Trading_Tactics.pdf': `Indicators, patterns, oscillators — and how to combine them into a coherent system. Most traders throw indicators on a chart randomly. This teaches you to build a toolkit where each tool has a specific purpose.`,
+  'John_J_Murphy_-_Intermarket_Technical_Analysis_-_Trading_Strategies.pdf': `Murphy's masterpiece on market interconnections. Bonds, currencies, commodities, stocks — they're all connected. When bonds break down, stocks follow. When the dollar rallies, commodities fall. Understanding these relationships gives you a 10-second head start on every move.`,
+  'Technical_Analysis.pdf': `The core reference. Chart types, trend analysis, support/resistance, indicators. The foundation everything else is built on. Don't skip the fundamentals.`,
+  'Technical_Analysis_For_Dummies.pdf': `Accessible? Yes. Dumb? No. Covers chart reading, basic indicators, pattern recognition. Everyone starts somewhere. No shame in starting at the beginning — shame is in staying there.`,
+  'Technical_Analysis_for_the_Trading_Professional_Second_Edition_Strategies_and_Techniques_for_Todays_Turbulent_Global_Constance_Brown.pdf': `Constance Brown's professional-level work. Advanced RSI interpretation, Fibonacci confluence, composite indicators. This is what the institutional analysts use that retail traders never learn. The edge is in the details most people skip.`,
+  'Technical_Analysis_of_Stock_Trends_9th_Edition.pdf': `Edwards and Magee — the ORIGINAL bible of technical analysis. First published 1948. Dow Theory, chart patterns, trendlines, volume. The entire field is built on this book. Read it like scripture.`,
+  'The_Art_and_Science_of_Technical_Analysis.pdf': `Adam Grimes backs up technical analysis with rigorous statistics. What works, what doesn't, and what's just market mythology. This is the scientific method applied to trading. Evidence over belief.`,
+  'Trading_with_Ichimoku_Clouds.pdf': `One indicator to replace an entire dashboard. The cloud shows support/resistance, trend direction, momentum, and signal triggers simultaneously. Japanese traders used this for decades before the West caught on. Learn it and simplify your charts.`,
+  'technical-analysis-masterclass_1.pdf': `Advanced pattern analysis, multi-timeframe approaches, professional chart interpretation. Masterclass-level means going deeper than the surface — reading the chart's story, not just its patterns.`,
+
+  // ── TRADING PSYCHOLOGY ──
+  'Mark_Douglas_-_Trading_in_the_Zone_complete_and_formatted.pdf': `This is THE book. If you only read one thing on this shelf, make it this. Douglas nails the one truth 95% of traders never get: the market doesn't care about your feelings. Key moves — Think in probabilities. Accept the risk BEFORE you enter. Every trade is independent. Your job isn't to be right, it's to follow your edge. The five fundamental truths in here will rewire how you think about every single trade.`,
+  'Trading_in_the_Zone_-_Mark_Douglas.pdf': `Douglas figured out what separates winners from losers, and it's not strategy — it's belief structure. The five truths: anything can happen, you don't need to know what happens next, there's a random distribution of wins and losses, an edge is just a probability, every moment is unique. Tattoo that on your forearm.`,
+  'Best_Loser_Wins-Tom_Hougaard.pdf': `The title says it all. The best traders aren't the best winners — they're the best losers. Hougaard flips the script: embrace the loss, make it small, make it fast, and move on. The P&L takes care of itself when you stop trying to be right and start trying to be disciplined. This is the book most traders need but won't read because the truth hurts.`,
+  'Avoiding_Emotional_Trading_1.pdf': `Revenge trading, FOMO, fear of pulling the trigger — every emotional trap that kills accounts, with specific techniques to overcome each one. Your emotions are the market's best weapon against you. Disarm them.`,
+  'Disciplined_Trader.pdf': `Douglas's first book. The foundation for Trading in the Zone. Why traders sabotage themselves and how to develop the mental discipline required. If Zone is the masterpiece, this is the sketches that led to it. Both are essential.`,
+  'Secrets_of_Successful_Traders_1.pdf': `The common traits of consistently profitable traders. Spoiler: it's not intelligence or strategy. It's discipline, process, and the ability to take a loss without it affecting the next trade. Simple. Brutally hard.`,
+  'The_Daily_Trading_Coach_-_PDF_Room.pdf': `Steenbarger's 101 daily exercises for becoming your own coach. Improving discipline, managing stress, building peak performance habits. One lesson per day. In 101 days, you're a different trader.`,
+  'The_Disciplined_Trader.pdf': `Discipline isn't a personality trait — it's a skill. Mark Douglas's framework for building that skill from the ground up. The single most important factor in trading success. Period.`,
+  'The_Mental_Game_of_Trading_A_System_for_Solving_Problems_with_Greed_Fear_Anger_Confidence_and_Discipline_Jared_Tendler_z-lib.org.pdf': `Tendler coached poker pros to World Series wins, then brought the same system to trading. A systematic approach to solving SPECIFIC psychological problems — not vague "be disciplined" advice. Greed, fear, anger, overconfidence — each gets its own diagnosis and treatment. This is psychology with a prescription.`,
+  'The_Psychology_of_Trading_Tools_and_Techniques_for_Minding_the_Markets_by_Brett_Steenbarger.pdf': `Clinical psychology meets trading. Steenbarger combines cognitive behavioral techniques with market experience. Understanding WHY you make the mistakes you make is the first step to not making them again.`,
+  'Trading_Without_Gambling_Develop_a_Game_Plan_for_Ultimate_Trading_Success.pdf': `The line between trading and gambling is a plan. This book draws that line clearly. Statistical edge, testing, disciplined execution. Trading is a business. Gambling is entertainment. Choose one.`,
+
+  // ── VOLUME & MARKET PROFILE ──
+  'A_Complete_Guide_To_Volume_Price_Analysis-Anna_Coulling.pdf': `Coulling's VPA method: when price rises on high volume, it's real. When it rises on low volume, it's a trap. This teaches you to spot smart money accumulation and distribution before the move happens. Volume is the one indicator that doesn't lie.`,
+  'A_Complete_Guide_to_Volume_Price_Analysis_by_Anna_Coulling.pdf': `The comprehensive VPA guide. Institutional intent revealed through volume. When you see the big players loading up, you follow. When you see them distributing, you step aside. Simple concept, powerful execution.`,
+  'Anna_Couling_Complete_Guide_to_Volume_Price_Analysis_key_points.pdf': `The cheat sheet. Key volume-price relationships distilled into quick reference. Pin this to your monitor. When price does X and volume does Y, you do Z. No thinking required.`,
+  'Commitments_of_Traders_Bible.pdf': `The COT report — the ONLY public data showing what commercials, large specs, and small traders are actually doing. When commercials are extreme one way, the market turns the other. It's the closest thing to insider information that's legal.`,
+  'Commitments_of_Traders_Strategies_for_Tracking_the_Market_and_Trading_Profitably.pdf': `Trading strategies built on COT data. Track smart money positioning, identify extreme readings, time entries based on what the biggest players are doing. Why guess when you can follow the money?`,
+  'Trade_Stocks_and_Commodities_With_the_Insiders_Secrets_of_the_COT_Report.pdf': `Larry Williams on using COT data to trade alongside the insiders. The specific patterns in commercial and speculative positioning that precede major moves. This is legal insider trading. Use it.`,
+  'Volume-Profile-The-Insiders-Guide-to-TradingTradersLibrary.pdf': `Volume Profile — where the most trading occurs at specific price levels. Value areas, point of control, high-volume nodes. These are the levels institutional traders defend. Know them and you're trading at the same table.`,
+  'Volume_Price_Analysis.pdf': `Core VPA — reading volume bars, identifying climactic events, understanding the story volume tells. Every big move starts with volume. Every fake move happens without it. This teaches you to see the difference.`,
+  'Wiley_Trading_James_F._Dalton_Eric_T._Jones_Robert_B._Dalton_-_Mind_Over_Markets__Power_Trading_with_Market_Generated_Information_Updated_Edition-Wiley_2013.pdf': `Dalton's "Mind Over Markets" — THE definitive Market Profile guide. How markets auction, what the profile reveals about balance and imbalance, and how to trade using market-generated information. If the market is telling you a story, Market Profile is the language it's speaking in.`,
+
+  // ── DAY TRADING CLASSICS ──
+  'mastering-the-trade.pdf': `John Carter's squeeze setup alone is worth the price of admission. When Bollinger Bands go inside Keltner Channels, the market is coiling. When it releases, you ride. But beyond the setups, Carter teaches the business of trading — managing risk, position sizing, and knowing when the market is giving you nothing. Those days you don't trade? Those are your most profitable days.`,
+  'epdf.pub_street-smarts-high-probability-short-term-trading-strategies.pdf': `Connors and Raschke packed 20+ strategies with SPECIFIC rules into this book. No hand-waving, no "use your judgment." Entry at X, stop at Y, target at Z. That's what separates this from 90% of trading books. The Holy Grail setup and the Turtle Soup pattern alone have paid for this book a thousand times over.`,
+  'Encyclopedia_Of_Chart_Patterns_2nd_Edition.pdf': `Bulkowski did what nobody else bothered to do — he backtested every chart pattern with real data. This isn't theory, it's stats. Head and shoulders works 83% of the time. Double bottoms, 78%. But here's the kicker: the failure rates are just as important as the success rates. Know both, and you have an edge nobody can take from you.`,
+  'Japanese_Candlestick_Charting_Techniques-Steve_Nison.pdf': `Nison brought these techniques from Japan to Wall Street and changed the game. Every candle is a battle between buyers and sellers. A hammer at support isn't just a pattern — it's fear capitulating. A doji at resistance is indecision turning to panic. Read the psychology behind the wax, and you're reading the room.`,
+  'LARRY_WILLIAMS_-_LONG_TERM_SECRETS_FOR_SHORT_TERM_TRADING.pdf': `Williams turned $10K into $1.1 million in one year. That's not theory — that's execution. His secret? Large sample size thinking, proper position sizing, and trading patterns that have edge over hundreds of occurrences. This isn't about one killer trade. It's about a thousand good ones.`,
+};
+
 export default function FinanceLibraryPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [totalBooks, setTotalBooks] = useState(0);
@@ -280,7 +491,7 @@ export default function FinanceLibraryPage() {
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-  const [expandedBook, setExpandedBook] = useState<string | null>(null);
+  const [expandedTab, setExpandedTab] = useState<Record<string, 'about' | 'summarize'>>({});
   const [colorMode, setColorMode] = useState<'void' | 'cyber'>('void');
 
   useEffect(() => {
@@ -465,7 +676,8 @@ export default function FinanceLibraryPage() {
           }}>
             {cat.books.map(book => {
               const catColor = CATEGORY_COLORS[book.category] || b.amber;
-              const isExpanded = expandedBook === book.path;
+              const currentTab = expandedTab[book.path];
+              const isExpanded = !!currentTab;
               const isPdf = book.filename.toLowerCase().endsWith('.pdf');
 
               return (
@@ -478,6 +690,8 @@ export default function FinanceLibraryPage() {
                     overflow: 'hidden',
                     transition: 'all 0.2s ease',
                     cursor: 'pointer',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
                 >
                   {/* Book Cover */}
@@ -497,53 +711,79 @@ export default function FinanceLibraryPage() {
                     />
                   </a>
 
-                  {/* Book Info Below Cover */}
-                  <div style={{ padding: '12px' }}>
+                  {/* Book Info — flex-grow pushes buttons to bottom */}
+                  <div style={{ padding: '12px', display: 'flex', flexDirection: 'column', flex: 1 }}>
                     <div style={{
                       fontSize: '12px', fontWeight: 600, color: b.silver,
                       lineHeight: '1.3', marginBottom: '4px',
                       overflow: 'hidden', textOverflow: 'ellipsis',
                       display: '-webkit-box', WebkitLineClamp: 2,
                       WebkitBoxOrient: 'vertical' as const,
+                      minHeight: '32px',
                     }}>
                       {book.title}
                     </div>
-                    {book.author && (
-                      <div style={{ fontSize: '11px', color: b.smoke, marginBottom: '6px' }}>
-                        {book.author}
-                      </div>
-                    )}
+                    <div style={{ fontSize: '11px', color: book.author ? b.smoke : 'transparent', marginBottom: '6px', userSelect: book.author ? 'auto' : 'none' }}>
+                      {book.author || '\u00A0'}
+                    </div>
 
-                    {/* Expand/Collapse Button */}
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setExpandedBook(isExpanded ? null : book.path);
-                      }}
-                      style={{
-                        width: '100%', padding: '6px', marginTop: '4px',
-                        background: isExpanded ? `${catColor}22` : b.graphite,
-                        border: `1px solid ${isExpanded ? catColor : b.border}`,
-                        borderRadius: '6px', cursor: 'pointer',
-                        color: isExpanded ? catColor : b.smoke,
-                        fontSize: '11px', fontWeight: 600,
-                        fontFamily: "'Space Grotesk', sans-serif",
-                        display: 'flex', alignItems: 'center',
-                        justifyContent: 'center', gap: '4px',
-                        transition: 'all 0.15s',
-                      }}
-                    >
-                      <span style={{
-                        transform: isExpanded ? 'rotate(180deg)' : 'rotate(0)',
-                        transition: 'transform 0.2s', display: 'inline-block',
-                      }}>
-                        &#9660;
-                      </span>
-                      {isExpanded ? 'Less' : 'About'}
-                    </button>
+                    {/* Spacer pushes buttons to bottom of card */}
+                    <div style={{ flex: 1 }} />
 
-                    {/* Expanded Info */}
-                    {isExpanded && (
+                    {/* Tab Buttons — About & Summarize side by side */}
+                    <div style={{ display: 'flex', gap: '4px', marginTop: '4px' }}>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setExpandedTab(prev => {
+                            const copy = { ...prev };
+                            if (copy[book.path] === 'about') { delete copy[book.path]; } else { copy[book.path] = 'about'; }
+                            return copy;
+                          });
+                        }}
+                        style={{
+                          flex: 1, padding: '6px',
+                          background: currentTab === 'about' ? `${catColor}22` : b.graphite,
+                          border: `1px solid ${currentTab === 'about' ? catColor : b.border}`,
+                          borderRadius: '6px', cursor: 'pointer',
+                          color: currentTab === 'about' ? catColor : b.smoke,
+                          fontSize: '10px', fontWeight: 600,
+                          fontFamily: "'Space Grotesk', sans-serif",
+                          display: 'flex', alignItems: 'center',
+                          justifyContent: 'center', gap: '3px',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        📖 About
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setExpandedTab(prev => {
+                            const copy = { ...prev };
+                            if (copy[book.path] === 'summarize') { delete copy[book.path]; } else { copy[book.path] = 'summarize'; }
+                            return copy;
+                          });
+                        }}
+                        style={{
+                          flex: 1, padding: '6px',
+                          background: currentTab === 'summarize' ? `${catColor}22` : b.graphite,
+                          border: `1px solid ${currentTab === 'summarize' ? catColor : b.border}`,
+                          borderRadius: '6px', cursor: 'pointer',
+                          color: currentTab === 'summarize' ? catColor : b.smoke,
+                          fontSize: '10px', fontWeight: 600,
+                          fontFamily: "'Space Grotesk', sans-serif",
+                          display: 'flex', alignItems: 'center',
+                          justifyContent: 'center', gap: '3px',
+                          transition: 'all 0.15s',
+                        }}
+                      >
+                        🪓 Axe Take
+                      </button>
+                    </div>
+
+                    {/* About Panel */}
+                    {currentTab === 'about' && (
                       <div style={{
                         marginTop: '10px', padding: '10px',
                         background: b.graphite, borderRadius: '6px',
@@ -585,6 +825,27 @@ export default function FinanceLibraryPage() {
                         >
                           {isPdf ? 'Open PDF' : 'Play Audio'}
                         </a>
+                      </div>
+                    )}
+
+                    {/* Summarize Panel — Bobby Axelrod style */}
+                    {currentTab === 'summarize' && (
+                      <div style={{
+                        marginTop: '10px', padding: '12px',
+                        background: b.graphite, borderRadius: '6px',
+                        fontSize: '12px', lineHeight: '1.6', color: b.silver,
+                        borderLeft: `3px solid ${catColor}`,
+                      }}>
+                        <div style={{
+                          display: 'flex', alignItems: 'center', gap: '6px',
+                          marginBottom: '8px', fontSize: '10px', fontWeight: 700,
+                          color: catColor, textTransform: 'uppercase', letterSpacing: '1px',
+                        }}>
+                          🪓 AXE&apos;S TAKE
+                        </div>
+                        <div style={{ color: b.silver, lineHeight: '1.7', fontStyle: 'italic' }}>
+                          {getAxelrodSummary(book.filename, book.title, book.category)}
+                        </div>
                       </div>
                     )}
                   </div>

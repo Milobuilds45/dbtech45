@@ -12,6 +12,16 @@ interface Game {
   isBoston: boolean;
 }
 
+interface SportsHeadline {
+  title: string;
+  description: string;
+  url: string;
+  source: string;
+  image: string | null;
+  league: string;
+  published: string;
+}
+
 async function fetchESPN(sport: string, league: string): Promise<Game[]> {
   try {
     const url = `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/scoreboard`;
@@ -80,13 +90,83 @@ async function fetchESPN(sport: string, league: string): Promise<Game[]> {
   }
 }
 
+// ─── ESPN News Headlines ─────────────────────────────────
+async function fetchESPNHeadlines(sport: string, league: string, label: string): Promise<SportsHeadline[]> {
+  try {
+    const url = `https://site.api.espn.com/apis/site/v2/sports/${sport}/${league}/news?limit=10`;
+    const res = await fetch(url, { next: { revalidate: 600 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+
+    return (data.articles || []).map((article: Record<string, unknown>) => {
+      const images = article.images as Record<string, unknown>[] | undefined;
+      const firstImage = images?.[0];
+      const links = article.links as Record<string, unknown> | undefined;
+      const web = links?.web as Record<string, unknown> | undefined;
+
+      return {
+        title: (article.headline as string) || '',
+        description: (article.description as string) || '',
+        url: (web?.href as string) || `https://www.espn.com/${league}`,
+        source: 'ESPN',
+        image: (firstImage?.url as string) || null,
+        league: label,
+        published: (article.published as string) || '',
+      };
+    });
+  } catch {
+    return [];
+  }
+}
+
+// Fetch Red Sox-specific headlines
+async function fetchRedSoxHeadlines(): Promise<SportsHeadline[]> {
+  try {
+    // ESPN team news endpoint for Red Sox (team id = 2)
+    const url = 'https://site.api.espn.com/apis/site/v2/sports/baseball/mlb/teams/2/news?limit=5';
+    const res = await fetch(url, { next: { revalidate: 600 } });
+    if (!res.ok) {
+      // Fallback to general MLB and filter
+      const mlbNews = await fetchESPNHeadlines('baseball', 'mlb', 'MLB');
+      return mlbNews.filter(h =>
+        h.title.toLowerCase().includes('red sox') ||
+        h.title.toLowerCase().includes('boston') ||
+        h.description.toLowerCase().includes('red sox')
+      );
+    }
+    const data = await res.json();
+
+    return (data.articles || []).map((article: Record<string, unknown>) => {
+      const images = article.images as Record<string, unknown>[] | undefined;
+      const firstImage = images?.[0];
+      const links = article.links as Record<string, unknown> | undefined;
+      const web = links?.web as Record<string, unknown> | undefined;
+
+      return {
+        title: (article.headline as string) || '',
+        description: (article.description as string) || '',
+        url: (web?.href as string) || 'https://www.espn.com/mlb/team/_/name/bos/boston-red-sox',
+        source: 'ESPN',
+        image: (firstImage?.url as string) || null,
+        league: 'RED SOX',
+        published: (article.published as string) || '',
+      };
+    });
+  } catch {
+    return [];
+  }
+}
+
 export async function GET() {
   try {
-    const [nba, nhl, mlb, nfl] = await Promise.all([
+    const [nba, nhl, mlb, nfl, nflNews, nbaNews, redSoxNews] = await Promise.all([
       fetchESPN('basketball', 'nba'),
       fetchESPN('hockey', 'nhl'),
       fetchESPN('baseball', 'mlb'),
       fetchESPN('football', 'nfl'),
+      fetchESPNHeadlines('football', 'nfl', 'NFL'),
+      fetchESPNHeadlines('basketball', 'nba', 'NBA'),
+      fetchRedSoxHeadlines(),
     ]);
 
     // Sort: Boston teams first, then by status (live > final > scheduled)
@@ -104,11 +184,26 @@ export async function GET() {
     const live = allGames.filter(g => g.status === 'live' || g.status === 'halftime');
     const upcoming = allGames.filter(g => g.status === 'scheduled');
 
+    // Interleave headlines: NFL, NBA, Red Sox — take top from each, mix them
+    const headlines: SportsHeadline[] = [];
+    const maxPerLeague = 3;
+    const nflSlice = nflNews.slice(0, maxPerLeague);
+    const nbaSlice = nbaNews.slice(0, maxPerLeague);
+    const soxSlice = redSoxNews.slice(0, maxPerLeague);
+
+    // Round-robin interleave for variety
+    for (let i = 0; i < maxPerLeague; i++) {
+      if (nflSlice[i]) headlines.push(nflSlice[i]);
+      if (nbaSlice[i]) headlines.push(nbaSlice[i]);
+      if (soxSlice[i]) headlines.push(soxSlice[i]);
+    }
+
     return NextResponse.json({
       completed,
       live,
       upcoming,
       allGames,
+      headlines,
       updatedAt: new Date().toISOString(),
     });
   } catch (error) {
@@ -118,6 +213,7 @@ export async function GET() {
       live: [],
       upcoming: [],
       allGames: [],
+      headlines: [],
       fallback: true,
     });
   }

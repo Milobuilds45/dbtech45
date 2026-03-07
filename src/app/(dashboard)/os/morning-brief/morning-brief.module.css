@@ -136,14 +136,30 @@
    ============================================ */
 
 .tickerBar {
-    display: flex;
-    gap: 32px;
-    padding: 10px 24px;
+    overflow: hidden;
+    padding: 10px 0;
     background: #0A0A0A;
     border-bottom: 1px solid #262626;
-    overflow-x: auto;
     font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
+    position: relative;
+}
+
+.tickerTrack {
+    display: flex;
+    gap: 32px;
+    animation: tickerScroll 30s linear infinite;
+    width: max-content;
+    padding: 0 24px;
+}
+
+.tickerBar:hover .tickerTrack {
+    animation-play-state: paused;
+}
+
+@keyframes tickerScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
 .tickerItem {

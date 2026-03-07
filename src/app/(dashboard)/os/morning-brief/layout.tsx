@@ -111,26 +111,25 @@ export default function MorningBriefLayout({ children }: { children: React.React
         ))}
       </nav>
 
-      {/* TICKER BAR */}
+      {/* TICKER BAR — auto-scrolling marquee */}
       <div className={styles.tickerBar}>
-        {ticker.length > 0 ? ticker.map(t => (
-          <div key={t.symbol} className={styles.tickerItem}>
-            <span className={styles.tickerSymbol}>{t.symbol}</span>
-            <span className={styles.tickerPrice}>{t.price}</span>
-            <span className={t.direction === 'up' ? styles.tickerChangeUp : styles.tickerChangeDown}>
-              {t.change}
-            </span>
-          </div>
-        )) : (
-          <>
-            {['ES', 'NQ', 'BTC', 'VIX', '10Y'].map(sym => (
-              <div key={sym} className={styles.tickerItem}>
-                <span className={styles.tickerSymbol}>{sym}</span>
-                <span className={styles.tickerPrice}>---</span>
-              </div>
-            ))}
-          </>
-        )}
+        <div className={styles.tickerTrack}>
+          {(ticker.length > 0 ? [...ticker, ...ticker] : []).map((t, i) => (
+            <div key={i} className={styles.tickerItem}>
+              <span className={styles.tickerSymbol}>{t.symbol}</span>
+              <span className={styles.tickerPrice}>{t.price}</span>
+              <span className={t.direction === 'up' ? styles.tickerChangeUp : styles.tickerChangeDown}>
+                {t.change}
+              </span>
+            </div>
+          ))}
+          {ticker.length === 0 && ['ES', 'NQ', 'BTC', 'VIX', '10Y'].map(sym => (
+            <div key={sym} className={styles.tickerItem}>
+              <span className={styles.tickerSymbol}>{sym}</span>
+              <span className={styles.tickerPrice}>---</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* PAGE CONTENT */}
@@ -144,7 +143,7 @@ export default function MorningBriefLayout({ children }: { children: React.React
             <p className={styles.footerAttr}>{quote.attr}</p>
           </>
         )}
-        <div className={styles.footerTagline}>Imagination \u2192 Implementation</div>
+        <div className={styles.footerTagline}>Imagination → Implementation</div>
       </footer>
     </div>
   );

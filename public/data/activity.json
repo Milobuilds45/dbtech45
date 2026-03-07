@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "35838d06",
+      "author": "Milo",
+      "timestamp": "2026-03-06 18:39:24 -0500",
+      "message": "cleanup: remove Daily Feed, Habit Tracker, Revenue Tracker, Sniper Queue from nav. Delete pages. Archive DUNDER (code preserved in _archived/)"
+    },
+    {
+      "type": "commit",
       "id": "8c929087",
       "author": "Milo",
       "timestamp": "2026-03-06 18:28:08 -0500",
@@ -78,5 +85,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-06T23:39:17.315Z"
+  "generatedAt": "2026-03-07T00:19:07.924Z"
 }
