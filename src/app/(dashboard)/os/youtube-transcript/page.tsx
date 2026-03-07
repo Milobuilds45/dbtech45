@@ -192,6 +192,7 @@ export default function YouTubeTranscriptPage() {
   const [archiveChatInput, setArchiveChatInput] = useState<Record<string, string>>({});
   const [archiveChatLoading, setArchiveChatLoading] = useState<Record<string, boolean>>({});
   const [archiveShowChat, setArchiveShowChat] = useState<Record<string, boolean>>({});
+  const [collapsedChannels, setCollapsedChannels] = useState<Record<string, boolean>>({});
   const archiveChatEndRef = useRef<HTMLDivElement>(null);
 
   async function handleSummarizeCurrent(forceRegenerate = false) {
@@ -752,8 +753,48 @@ export default function YouTubeTranscriptPage() {
                 No transcripts archived yet. Extract a video to get started.
               </div>
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {archive.map(item => (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {(() => {
+                  // Group by channel, sort each group by archivedAt descending
+                  const grouped: Record<string, ArchivedTranscript[]> = {};
+                  archive.forEach(item => {
+                    const ch = item.channel || 'Unknown Channel';
+                    if (!grouped[ch]) grouped[ch] = [];
+                    grouped[ch].push(item);
+                  });
+                  // Sort each group newest first
+                  Object.values(grouped).forEach(items => items.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime()));
+                  // Sort channel names alphabetically
+                  const channelNames = Object.keys(grouped).sort((a, b) => a.localeCompare(b));
+                  return channelNames.map(channelName => {
+                    const items = grouped[channelName];
+                    const isCollapsed = collapsedChannels[channelName];
+                    return (
+                      <div key={channelName}>
+                        {/* Channel group header */}
+                        <button
+                          onClick={() => setCollapsedChannels(prev => ({ ...prev, [channelName]: !prev[channelName] }))}
+                          style={{
+                            width: '100%', background: brand.graphite, border: `1px solid ${brand.border}`,
+                            borderRadius: 8, padding: '10px 16px', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: 10, marginBottom: isCollapsed ? 0 : 8,
+                            transition: 'all 0.2s',
+                          }}
+                          onMouseEnter={e => { e.currentTarget.style.borderColor = brand.amber; }}
+                          onMouseLeave={e => { e.currentTarget.style.borderColor = brand.border; }}
+                        >
+                          {isCollapsed ? <ChevronRight size={16} style={{ color: brand.amber }} /> : <ChevronDown size={16} style={{ color: brand.amber }} />}
+                          <Youtube size={16} style={{ color: '#f87171' }} />
+                          <span style={{ color: brand.white, fontFamily: M, fontSize: '0.85rem', fontWeight: 700, letterSpacing: '0.02em' }}>
+                            {channelName}
+                          </span>
+                          <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.7rem', marginLeft: 'auto' }}>
+                            {items.length} video{items.length !== 1 ? 's' : ''}
+                          </span>
+                        </button>
+                        {!isCollapsed && (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 12, borderLeft: `2px solid ${brand.border}`, marginLeft: 8 }}>
+                            {items.map(item => (
                   <div key={item.id} style={{
                     background: brand.carbon,
                     border: `1px solid ${expandedId === item.id ? brand.amber : brand.border}`,
@@ -1045,6 +1086,12 @@ export default function YouTubeTranscriptPage() {
                     )}
                   </div>
                 ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  });
+                })()}
               </div>
             )}
           </div>

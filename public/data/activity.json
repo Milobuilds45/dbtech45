@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "e83d1c85",
+      "author": "Milo",
+      "timestamp": "2026-03-07 14:09:58 -0500",
+      "message": "feat: Apex Trader V2 — multi-account CSV import, dynamic P&L dashboard, equity curves, trade log, calendar view"
+    },
+    {
+      "type": "commit",
       "id": "bd400dc9",
       "author": "Milo",
       "timestamp": "2026-03-06 21:47:31 -0500",
@@ -106,5 +113,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-07T19:09:06.528Z"
+  "generatedAt": "2026-03-07T19:14:05.570Z"
 }
