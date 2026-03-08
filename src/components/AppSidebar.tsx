@@ -34,6 +34,7 @@ import {
   Ship,
   CalendarDays,
   Mail,
+  Rocket,
   Crosshair,
   CheckSquare,
   DollarSign,
@@ -117,6 +118,7 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
   'YT CLIPD': <Youtube size={ICON_SIZE} />,
+  'Agent Initiatives': <Rocket size={ICON_SIZE} />,
   'Ship or Kill':  <Ship size={ICON_SIZE} />,
   'Newsletter':    <Mail size={ICON_SIZE} />,
   'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
@@ -150,14 +152,17 @@ const agentItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
+  { label: 'YT CLIPD', href: '/os/clipd' },
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Calendar', href: '/os/calendar' },
-  { label: 'Ship or Kill', href: '/os/ship-or-kill' },
-  { label: 'Newsletter', href: '/os/newsletter' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
-  { label: 'YT CLIPD', href: '/os/clipd' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
+];
+
+const agentInitiativesItems: NavItem[] = [
+  { label: 'Ship or Kill', href: '/os/ship-or-kill' },
+  { label: 'Newsletter', href: '/os/newsletter' },
 ];
 
 const intelItems: NavItem[] = [
@@ -201,7 +206,8 @@ const sections: SectionConfig[] = [
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
   { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
   { key: 'finance', number: '06', title: 'FINANCE', items: financeItems },
-  { key: 'system', number: '07', title: 'SYSTEM CONFIG', items: systemItems },
+  { key: 'agentinitiatives', number: '07', title: 'AGENT INITIATIVES', items: agentInitiativesItems },
+  { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
 // â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€

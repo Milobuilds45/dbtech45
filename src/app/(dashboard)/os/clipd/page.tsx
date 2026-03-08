@@ -361,7 +361,7 @@ export default function YouTubeTranscriptPage() {
     try {
       const data = await fetchTranscriptClient(url.trim());
       setResult(data);
-      setIsArchived(false);
+      setIsArchived(getArchive().some(a => a.videoId === data.videoId));
       // Auto-generate AI summary when no transcript is available
       if (data.noTranscript) {
         setSummarizingCurrent(true);
@@ -388,6 +388,10 @@ export default function YouTubeTranscriptPage() {
 
   function handleArchiveCurrent() {
     if (!result || isArchived) return;
+    if (getArchive().some(a => a.videoId === result.videoId)) {
+      setIsArchived(true);
+      return;
+    }
     const item: ArchivedTranscript = {
       id: `${result.videoId}-${Date.now()}`,
       videoId: result.videoId,

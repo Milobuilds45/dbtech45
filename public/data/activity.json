@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "87426356",
+      "author": "Milo",
+      "timestamp": "2026-03-07 19:59:28 -0500",
+      "message": "feat: archive two-panel layout + enhanced summary with chapters & key quotes"
+    },
+    {
+      "type": "commit",
       "id": "19845d9e",
       "author": "Milo",
       "timestamp": "2026-03-07 19:46:59 -0500",
@@ -204,5 +211,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-08T00:59:07.104Z"
+  "generatedAt": "2026-03-08T01:04:08.453Z"
 }
