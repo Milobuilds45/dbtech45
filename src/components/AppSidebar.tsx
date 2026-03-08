@@ -161,6 +161,7 @@ const opsItems: NavItem[] = [
 ];
 
 const agentInitiativesItems: NavItem[] = [
+  { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
   { label: 'Newsletter', href: '/os/newsletter' },
 ];
