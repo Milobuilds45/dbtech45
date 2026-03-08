@@ -31,6 +31,8 @@ import {
   Search,
   Building2,
   Youtube,
+  Calendar,
+  Package,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -109,6 +111,8 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
   'YT Transcript': <Youtube size={ICON_SIZE} />,
+  'Calendar': <Calendar size={ICON_SIZE} />,
+  'Agent Initiatives': <Package size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -125,10 +129,12 @@ const commandItems: NavItem[] = [
 const dashboardItems: NavItem[] = [
   { label: 'Morning Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },
+];
+
+const financeItems: NavItem[] = [
   { label: 'Markets', href: '/os/markets' },
   { label: 'AxeCap Terminal', href: '/os/axecap' },
   { label: 'Polymarket', href: '/os/polymarket' },
-  { label: 'D.U.N.D.E.R.', href: '/os/dunder' },
 ];
 
 const agentItems: NavItem[] = [
@@ -140,6 +146,7 @@ const agentItems: NavItem[] = [
 
 const opsItems: NavItem[] = [
   { label: 'Kanban', href: '/os/kanban' },
+  { label: 'Calendar', href: '/os/calendar' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
   { label: 'YT Transcript', href: '/os/youtube-transcript' },
@@ -155,6 +162,11 @@ const intelItems: NavItem[] = [
   { label: 'Second Brain', href: '/os/second-brain' },
   { label: 'DNA', href: '/os/dna' },
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
+];
+
+const agentInitiativesItems: NavItem[] = [
+  // This section is for agent-led "surprise" builds.
+  // It will be populated dynamically when new projects are created.
 ];
 
 const systemItems: NavItem[] = [
@@ -175,10 +187,12 @@ interface SectionConfig {
 const sections: SectionConfig[] = [
   { key: 'command', number: '01', title: 'COMMAND CENTER', items: commandItems },
   { key: 'dashboard', number: '02', title: 'DASHBOARD', items: dashboardItems },
-  { key: 'agents', number: '03', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
+  { key: 'finance', number: '03', title: 'FINANCE', items: financeItems },
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
-  { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
-  { key: 'system', number: '06', title: 'SYSTEM CONFIG', items: systemItems },
+  { key: 'agents', number: '05', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
+  { key: 'intel', number: '06', title: 'INTEL', items: intelItems },
+  { key: 'initiatives', number: '07', title: 'AGENT INITIATIVES', items: agentInitiativesItems },
+  { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
 // â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -189,7 +203,7 @@ const SIDEBAR_WIDTH = 280;
 const COLLAPSED_WIDTH = 60;
 
 type SectionState = Record<string, boolean>;
-const DEFAULT_SECTIONS: SectionState = { command: true, dashboard: true, agents: true, operations: false, intel: false, system: false };
+const DEFAULT_SECTIONS: SectionState = { command: true, dashboard: true, finance: true, operations: false, agents: false, intel: false, initiatives: false, system: false };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
