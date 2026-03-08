@@ -156,7 +156,7 @@ const opsItems: NavItem[] = [
   { label: 'Newsletter', href: '/os/newsletter' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
-  { label: 'YT CLIPD', href: '/os/youtube-transcript' },
+  { label: 'YT CLIPD', href: '/os/clipd' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
 ];
 
