@@ -25,6 +25,8 @@ const groups = [
     { label: "ChatGPT", url: "https://chat.openai.com" },
     { label: "Gemini", url: "https://gemini.google.com" },
     { label: "Grok (xAI)", url: "https://grok.x.ai" },
+    { label: "Artificial Analysis", url: "https://artificialanalysis.ai/" },
+    { label: "ClawHub", url: "https://clawhub.ai/" },
   ]},
   { title: "Brand & Design", links: [
     { label: "Brand Kit", url: "/brand-kit" },
