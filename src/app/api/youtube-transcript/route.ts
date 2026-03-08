@@ -187,7 +187,41 @@ async function fetchCaptionsRetry(videoId: string): Promise<{ segments: { text: 
   }
 }
 
-// ─── METHOD 2: youtube-transcript npm package ───
+// ─── METHOD 2: Python youtube-transcript-api (RELIABLE) ───
+async function fetchTranscriptPython(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
+  try {
+    // Use Python library which bypasses YouTube's cloud IP blocking
+    const pythonScript = `
+from youtube_transcript_api import YouTubeTranscriptApi
+import json
+import sys
+
+try:
+    ytt = YouTubeTranscriptApi()
+    result = ytt.fetch('${videoId}')
+    segments = [{"text": s.text, "startMs": int(s.start * 1000)} for s in result]
+    print(json.dumps(segments))
+except Exception as e:
+    print(json.dumps({"error": str(e)}), file=sys.stderr)
+    sys.exit(1)
+`;
+    
+    const { stdout } = await execAsync(`python3 -c ${JSON.stringify(pythonScript)}`, { timeout: 30000 });
+    const data = JSON.parse(stdout.trim());
+    
+    if (Array.isArray(data) && data.length > 0) {
+      console.log(`[python-transcript] Got ${data.length} segments`);
+      return { segments: data };
+    }
+    
+    return null;
+  } catch (err) {
+    console.error('[python-transcript] Error:', err);
+    return null;
+  }
+}
+
+// ─── METHOD 2B: youtube-transcript npm package (fallback) ───
 async function fetchTranscriptPackage(videoId: string): Promise<{ segments: { text: string; startMs: number }[] } | null> {
   try {
     const { YoutubeTranscript } = await import('youtube-transcript');
@@ -467,7 +501,16 @@ export async function POST(req: NextRequest) {
       }
 
       if (segments.length === 0) {
-        console.log(`[transcript] Method 2: youtube-transcript package for ${videoId}...`);
+        console.log(`[transcript] Method 2: Python youtube-transcript-api for ${videoId}...`);
+        const pythonResult = await fetchTranscriptPython(videoId);
+        if (pythonResult && pythonResult.segments.length > 0) {
+          segments = pythonResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
+          method = 'python';
+        }
+      }
+
+      if (segments.length === 0) {
+        console.log(`[transcript] Method 2B: youtube-transcript package for ${videoId}...`);
         const pkgResult = await fetchTranscriptPackage(videoId);
         if (pkgResult && pkgResult.segments.length > 0) {
           segments = pkgResult.segments.map(s => ({ text: s.text, startSec: s.startMs / 1000 }));
