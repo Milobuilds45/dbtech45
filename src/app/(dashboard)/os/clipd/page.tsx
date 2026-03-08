@@ -887,7 +887,7 @@ export default function YouTubeTranscriptPage() {
                           <Youtube size={11} style={{ color: '#f87171', flexShrink: 0 }} />
                           <span style={{
                             flex: 1, color: ch === activeChannel ? brand.white : brand.smoke,
-                            fontSize: '0.78rem', fontFamily: M, fontWeight: ch === activeChannel ? 600 : 400,
+                            fontSize: '0.88rem', fontFamily: M, fontWeight: ch === activeChannel ? 600 : 400,
                             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                           }}>
                             {ch}
@@ -913,7 +913,7 @@ export default function YouTubeTranscriptPage() {
                             {grouped[activeChannel]?.length} {grouped[activeChannel]?.length === 1 ? 'video' : 'videos'}
                           </span>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, alignItems: 'start' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, alignItems: 'stretch' }}>
                           {activeVideos.map(item => (
                   <div key={item.id} style={{
                     background: brand.graphite,
@@ -921,12 +921,14 @@ export default function YouTubeTranscriptPage() {
                     borderRadius: 8,
                     overflow: 'hidden',
                     transition: 'border-color 0.15s',
+                    display: 'flex',
+                    flexDirection: 'column',
                   }}
                   onMouseEnter={e => { if (expandedId !== item.id) (e.currentTarget as HTMLDivElement).style.borderColor = brand.border; }}
                   onMouseLeave={e => { if (expandedId !== item.id) (e.currentTarget as HTMLDivElement).style.borderColor = 'transparent'; }}
                   >
                     {/* Card */}
-                    <div>
+                    <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                       {/* Thumbnail */}
                       <a
                         href={`https://youtube.com/watch?v=${item.videoId}`}
@@ -963,8 +965,9 @@ export default function YouTubeTranscriptPage() {
                           {formatDate(item.archivedAt)}
                         </div>
                       </div>
-                      {/* Action buttons */}
-                      <div style={{ display: 'flex', gap: 4, padding: '6px 10px 10px', flexWrap: 'wrap' }}>
+                      {/* Action buttons — uniform 2×2 grid */}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4, padding: '8px 10px 10px', marginTop: 'auto' }}>
+                        {/* 1. Breakdown */}
                         <button
                           onClick={() => {
                             if (item.summary) {
@@ -978,31 +981,35 @@ export default function YouTubeTranscriptPage() {
                           style={{
                             background: item.summary && showSummary[item.id] ? 'rgba(16,185,129,0.1)' : brand.graphite,
                             border: `1px solid ${item.summary ? brand.success : brand.border}`,
-                            borderRadius: 6, padding: '5px 10px',
+                            borderRadius: 6, padding: '6px 8px',
                             color: item.summary ? brand.success : brand.silver,
-                            fontFamily: M, fontSize: '0.7rem', cursor: summarizing === item.id ? 'wait' : 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 5,
+                            fontFamily: M, fontSize: '0.68rem', cursor: summarizing === item.id ? 'wait' : 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
                           }}
                         >
                           {summarizing === item.id ? (
-                            <><Loader2 size={11} /> summarizing</>
+                            <><Loader2 size={10} /> summarizing</>
                           ) : item.summary ? (
-                            showSummary[item.id] ? <><ChevronUp size={11} /> hide breakdown</> : <><ChevronDown size={11} /> show breakdown</>
+                            showSummary[item.id] ? <><ChevronUp size={10} /> breakdown</> : <><ChevronDown size={10} /> breakdown</>
                           ) : (
-                            <><Brain size={11} /> breakdown</>
+                            <><Brain size={10} /> breakdown</>
                           )}
                         </button>
+                        {/* 2. Full Transcript */}
                         <button
                           onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}
                           style={{
-                            background: brand.graphite, border: `1px solid ${brand.border}`,
-                            borderRadius: 6, padding: '5px 10px',
-                            color: brand.silver, fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 5,
+                            background: expandedId === item.id ? 'rgba(245,158,11,0.08)' : brand.graphite,
+                            border: `1px solid ${expandedId === item.id ? brand.amber : brand.border}`,
+                            borderRadius: 6, padding: '6px 8px',
+                            color: expandedId === item.id ? brand.amber : brand.silver,
+                            fontFamily: M, fontSize: '0.68rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
                           }}
                         >
-                          {expandedId === item.id ? <><ChevronUp size={11} /> collapse</> : <><ChevronDown size={11} /> full transcript</>}
+                          <FileText size={10} /> full transcript
                         </button>
+                        {/* 3. Ask Video */}
                         <button
                           onClick={() => {
                             if (!expandedId || expandedId !== item.id) setExpandedId(item.id);
@@ -1011,14 +1018,15 @@ export default function YouTubeTranscriptPage() {
                           style={{
                             background: archiveShowChat[item.id] ? 'rgba(139,92,246,0.1)' : brand.graphite,
                             border: `1px solid ${archiveShowChat[item.id] ? '#8B5CF6' : brand.border}`,
-                            borderRadius: 6, padding: '5px 10px',
+                            borderRadius: 6, padding: '6px 8px',
                             color: archiveShowChat[item.id] ? '#8B5CF6' : brand.silver,
-                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 5,
+                            fontFamily: M, fontSize: '0.68rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
                           }}
                         >
-                          <MessageCircle size={11} /> {archiveShowChat[item.id] ? 'hide chat' : 'ask video'}
+                          <MessageCircle size={10} /> ask video
                         </button>
+                        {/* 4. Delete */}
                         <button
                           onClick={() => {
                             if (deleteConfirm === item.id) {
@@ -1031,16 +1039,15 @@ export default function YouTubeTranscriptPage() {
                           style={{
                             background: deleteConfirm === item.id ? 'rgba(239,68,68,0.15)' : brand.graphite,
                             border: `1px solid ${deleteConfirm === item.id ? brand.error : brand.border}`,
-                            borderRadius: 6, padding: '5px 10px',
+                            borderRadius: 6, padding: '6px 8px',
                             color: deleteConfirm === item.id ? brand.error : 'rgba(239,68,68,0.5)',
-                            fontFamily: M, fontSize: '0.7rem', cursor: 'pointer',
-                            display: 'flex', alignItems: 'center', gap: 5,
-                            marginLeft: 'auto',
+                            fontFamily: M, fontSize: '0.68rem', cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4,
                           }}
-                          onMouseEnter={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = brand.error }}
-                          onMouseLeave={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = 'rgba(239,68,68,0.5)' }}
+                          onMouseEnter={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = brand.error; }}
+                          onMouseLeave={e => { if (deleteConfirm !== item.id) e.currentTarget.style.color = 'rgba(239,68,68,0.5)'; }}
                         >
-                          <Trash2 size={11} /> {deleteConfirm === item.id ? 'confirm delete' : 'delete'}
+                          <Trash2 size={10} /> {deleteConfirm === item.id ? 'confirm?' : 'delete'}
                         </button>
                       </div>
 
