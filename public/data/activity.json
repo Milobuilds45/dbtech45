@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "f2baccc3",
+      "author": "Milo",
+      "timestamp": "2026-03-07 22:37:30 -0500",
+      "message": "Fix YouTube transcripts: use Python youtube-transcript-api to bypass cloud IP blocking"
+    },
+    {
+      "type": "commit",
       "id": "e87474ce",
       "author": "Milo",
       "timestamp": "2026-03-07 20:29:31 -0500",
@@ -232,5 +239,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-08T03:34:17.905Z"
+  "generatedAt": "2026-03-08T03:39:17.064Z"
 }
