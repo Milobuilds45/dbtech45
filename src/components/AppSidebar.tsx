@@ -119,7 +119,6 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
   'YT Transcript': <Youtube size={ICON_SIZE} />,
   'YT CLIPD':      <Youtube size={ICON_SIZE} />,
-  'Calendar':      <CalendarDays size={ICON_SIZE} />,
   'Agent Initiatives': <Rocket size={ICON_SIZE} />,
   'Ship or Kill':  <Ship size={ICON_SIZE} />,
   'Newsletter':    <Mail size={ICON_SIZE} />,
