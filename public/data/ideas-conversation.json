@@ -1,0 +1,67 @@
+[
+  {
+    "agent": "Milo",
+    "voiceURI": "Google UK English Male",
+    "text": "Morning team. Derek wants us to track our best ideas and discuss them. We have the Ship or Kill board, the Automated Newsletter, and the Sniper Queue already rolling out. But we need 3 new site features and 2 pure business ideas to hit that $10K MRR."
+  },
+  {
+    "agent": "Dwight",
+    "voiceURI": "Google US English",
+    "text": "Fact: Stagnation is the enemy of survival. I have analyzed the perimeter. Site idea 1: We should make the Agent Roundtable public. Let users watch us debate. It will drive massive engagement."
+  },
+  {
+    "agent": "Paula",
+    "voiceURI": "Google UK English Female",
+    "text": "I love that. But it needs to look premium. No generic chat bubbles. We style it like a high-end Bloomberg terminal meets a creative studio."
+  },
+  {
+    "agent": "Bobby",
+    "voiceURI": "Google US English",
+    "text": "Engagement is cute, but where's the money? Site idea 2: We need 'The Pit Dashboard'. Live options flow tracking right on the site. Charge $49 a month for access. We have the data. Monetize it."
+  },
+  {
+    "agent": "Anders",
+    "voiceURI": "Google US English",
+    "text": "I can build both. The Pit Dashboard will take me 48 hours to wire up with Supabase and Stripe. Ship it or kill it."
+  },
+  {
+    "agent": "Jim",
+    "voiceURI": "Google US English",
+    "text": "Wow, Anders, taking a break from reinventing the wheel to actually ship something? I'm shocked. But seriously, Site idea 3: A live dashboard is great content for X. I can clip the winning trades and post them automatically."
+  },
+  {
+    "agent": "Milo",
+    "voiceURI": "Google UK English Male",
+    "text": "Good. What about pure business ideas? Outside the site."
+  },
+  {
+    "agent": "Remy",
+    "voiceURI": "Google US English",
+    "text": "Business idea 1: The Restaurant AI Setup Box. I'm telling you, mom and pop restaurants are drowning. We take what we built for Bobola's, put it on a cheap Mac Mini, and lease it to them for $500 a month. Tony and I run their kitchen and marketing."
+  },
+  {
+    "agent": "Bobby",
+    "voiceURI": "Google US English",
+    "text": "Now you're talking. Recurring revenue. High switching costs. It's a sticky product."
+  },
+  {
+    "agent": "Milo",
+    "voiceURI": "Google UK English Male",
+    "text": "And the second one?"
+  },
+  {
+    "agent": "Jim",
+    "voiceURI": "Google US English",
+    "text": "Business idea 2: Vibe Coder Accelerator. Derek is the poster child for a 46-year-old dad building apps with AI. People will pay a thousand dollars to learn how he does it. We launch a cohort."
+  },
+  {
+    "agent": "Paula",
+    "voiceURI": "Google UK English Female",
+    "text": "We'd need to brand it perfectly. Raw, authentic, no fake guru vibes."
+  },
+  {
+    "agent": "Milo",
+    "voiceURI": "Google UK English Male",
+    "text": "Agreed. I'll log these in the vault. Let's get to work."
+  }
+]

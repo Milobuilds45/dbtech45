@@ -31,8 +31,15 @@ import {
   Search,
   Building2,
   Youtube,
-  Calendar,
-  Package,
+  CalendarDays,
+  Ship,
+  Mail,
+  Rocket,
+  Crosshair,
+  CheckSquare,
+  DollarSign,
+  BookOpen,
+  BarChart3,
 } from 'lucide-react';
 
 // â”€â”€â”€ Colors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -85,7 +92,7 @@ const ICON_SIZE = 14;
 // â”€â”€â”€ Section icon map â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const NAV_ICONS: Record<string, ReactNode> = {
   'Home':          <Home size={ICON_SIZE} />,
-  'Morning Brief': <Newspaper size={ICON_SIZE} />,
+  'Daily Brief': <Newspaper size={ICON_SIZE} />,
   'Model Counsel': <Hammer size={ICON_SIZE} />,
   'Roundtable':    <Users size={ICON_SIZE} />,
   'Agent Assist':  <Terminal size={ICON_SIZE} />,
@@ -93,10 +100,10 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Projects':      <FolderKanban size={ICON_SIZE} />,
   'Markets':       <TrendingUp size={ICON_SIZE} />,
   'AxeCap Terminal': <Activity size={ICON_SIZE} />,
-  'Polymarket':    <TrendingUp size={ICON_SIZE} />,
   'Daily Feed':    <Newspaper size={ICON_SIZE} />,
   'Task Manager':  <LayoutDashboard size={ICON_SIZE} />,
   'Kanban':        <LayoutDashboard size={ICON_SIZE} />,
+  'Calendar':      <CalendarDays size={ICON_SIZE} />,
   'Ideas Vault':   <Sparkles size={ICON_SIZE} />,
   'Activity Dashboard': <Activity size={ICON_SIZE} />,
   'DNA Scanner':   <Dna size={ICON_SIZE} />,
@@ -111,8 +118,16 @@ const NAV_ICONS: Record<string, ReactNode> = {
   'Research':      <Search size={ICON_SIZE} />,
   'D.U.N.D.E.R.':  <Building2 size={ICON_SIZE} />,
   'YT Transcript': <Youtube size={ICON_SIZE} />,
-  'Calendar': <Calendar size={ICON_SIZE} />,
-  'Agent Initiatives': <Package size={ICON_SIZE} />,
+  'YT CLIPD':      <Youtube size={ICON_SIZE} />,
+  'Calendar':      <CalendarDays size={ICON_SIZE} />,
+  'Agent Initiatives': <Rocket size={ICON_SIZE} />,
+  'Ship or Kill':  <Ship size={ICON_SIZE} />,
+  'Newsletter':    <Mail size={ICON_SIZE} />,
+  'Sniper Queue':  <Crosshair size={ICON_SIZE} />,
+  'Habit Tracker': <CheckSquare size={ICON_SIZE} />,
+  'Revenue Tracker': <DollarSign size={ICON_SIZE} />,
+  'Finance Library': <BookOpen size={ICON_SIZE} />,
+  'Apex Trader':   <BarChart3 size={ICON_SIZE} />,
 };
 
 // â”€â”€â”€ Nav data â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -127,13 +142,15 @@ const commandItems: NavItem[] = [
 ];
 
 const dashboardItems: NavItem[] = [
-  { label: 'Morning Brief', href: '/os/morning-brief' },
+  { label: 'Daily Brief', href: '/os/morning-brief' },
   { label: 'Projects', href: '/os/projects', badge: '32' },
 ];
 
 const financeItems: NavItem[] = [
+  { label: 'Apex Trader', href: '/os/apex' },
   { label: 'Markets', href: '/os/markets' },
   { label: 'AxeCap Terminal', href: '/os/axecap' },
+  { label: 'Finance Library', href: '/os/finance-library' },
   { label: 'Polymarket', href: '/os/polymarket' },
 ];
 
@@ -145,16 +162,21 @@ const agentItems: NavItem[] = [
 ];
 
 const opsItems: NavItem[] = [
+  { label: 'YT CLIPD', href: '/os/clipd' },
   { label: 'Kanban', href: '/os/kanban' },
   { label: 'Calendar', href: '/os/calendar' },
   { label: 'Ideas Vault', href: '/os/ideas-vault' },
   { label: 'Research', href: '/os/research' },
-  { label: 'YT Transcript', href: '/os/youtube-transcript' },
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
 ];
 
+const agentInitiativesItems: NavItem[] = [
+  { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
+  { label: 'Ship or Kill', href: '/os/ship-or-kill' },
+  { label: 'Newsletter', href: '/os/newsletter' },
+];
+
 const intelItems: NavItem[] = [
-  { label: 'Daily Feed', href: '/os/daily-feed' },
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Task Manager', href: '/os/task-manager' },
@@ -164,10 +186,6 @@ const intelItems: NavItem[] = [
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
 
-const agentInitiativesItems: NavItem[] = [
-  // This section is for agent-led "surprise" builds.
-  // It will be populated dynamically when new projects are created.
-];
 
 const systemItems: NavItem[] = [
   { label: 'Brand Kit', href: '/os/brand-kit' },
@@ -211,9 +229,9 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [openSections, setOpenSections] = useState<SectionState>(DEFAULT_SECTIONS);
-  const [cpuMetric, setCpuMetric] = useState('12%');
-  const [memMetric, setMemMetric] = useState('44%');
-  const [diskMetric, setDiskMetric] = useState('88%');
+  const [agentCount, setAgentCount] = useState('8');
+  const [lastCommit, setLastCommit] = useState('—');
+  const [gatewayStatus, setGatewayStatus] = useState<'UP' | 'DOWN' | '...'>('...');
   const [colorMode, setColorMode] = useState<'void' | 'cyber' | 'paper'>('void');
   
   // Theme colors based on mode
@@ -272,14 +290,23 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
     return () => { observer.disconnect(); clearInterval(interval); };
   }, [colorMode]);
 
-  // Update metrics periodically
+  // Fetch real system status
   useEffect(() => {
-    const updateMetrics = () => {
-      setCpuMetric(`${Math.floor(Math.random() * 25) + 8}%`);
-      setMemMetric(`${Math.floor(Math.random() * 30) + 35}%`);
-      setDiskMetric(`${Math.floor(Math.random() * 10) + 82}%`);
+    const fetchStatus = async () => {
+      try {
+        const res = await fetch('/api/system-status');
+        if (res.ok) {
+          const data = await res.json();
+          setAgentCount(String(data.agents));
+          setLastCommit(data.lastCommit);
+          setGatewayStatus(data.gateway);
+        }
+      } catch {
+        // silent fail — keep last known values
+      }
     };
-    const interval = setInterval(updateMetrics, 30000);
+    fetchStatus();
+    const interval = setInterval(fetchStatus, 60000);
     return () => clearInterval(interval);
   }, []);
 
@@ -558,9 +585,9 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
             </span>
           </div>
           <div style={{ display: 'flex', gap: '16px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>CPU: <span style={{ color: theme.smoke }}>{cpuMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>MEM: <span style={{ color: theme.smoke }}>{memMetric}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>DISK: <span style={{ color: theme.smoke }}>{diskMetric}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>AGENTS: <span style={{ color: theme.smoke }}>{agentCount}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>COMMIT: <span style={{ color: theme.smoke }}>{lastCommit}</span></span>
+            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>GW: <span style={{ color: gatewayStatus === 'UP' ? theme.success : '#ef4444' }}>{gatewayStatus}</span></span>
           </div>
         </div>
       )}

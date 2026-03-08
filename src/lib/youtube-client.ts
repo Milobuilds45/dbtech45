@@ -1,5 +1,6 @@
 // Client-side YouTube transcript extraction
-// Fetches via a CORS proxy since YouTube blocks cross-origin requests from browsers
+// Primary: server-side API (has yt-dlp, Whisper, multiple fallbacks)
+// Fallback: server extracts caption URL → client fetches caption XML (avoids ip=0.0.0.0)
 
 function extractVideoId(url: string): string | null {
   const patterns = [
@@ -17,192 +18,127 @@ function extractVideoId(url: string): string | null {
 }
 
 function decodeHtmlEntities(text: string): string {
-  const textarea = document.createElement('textarea');
-  textarea.innerHTML = text;
-  return textarea.value.replace(/\n/g, ' ').trim();
+  return text
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&#x27;/g, "'")
+    .replace(/\n/g, ' ').trim();
 }
 
-function formatTimestamp(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const h = Math.floor(totalSeconds / 3600);
-  const m = Math.floor((totalSeconds % 3600) / 60);
-  const s = totalSeconds % 60;
+function formatTimestamp(seconds: number): string {
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = Math.floor(seconds % 60);
   if (h > 0) return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-interface TranscriptResult {
+export interface TranscriptResult {
   videoId: string;
   title: string;
   channel: string;
+  description: string;
   language: string;
+  method?: string;
   segmentCount: number;
   timestamped: string;
   plain: string;
+  noTranscript?: boolean;
 }
 
-// Approach: Use third-party APIs that reliably extract YouTube transcripts
+// Parse caption XML into segments
+function parseCaptionXml(xml: string): { text: string; startSec: number }[] {
+  const segments: { text: string; startSec: number }[] = [];
+  const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
+  let match;
+  while ((match = regex.exec(xml)) !== null) {
+    const text = decodeHtmlEntities(match[2]);
+    if (text.length > 0) {
+      segments.push({ text, startSec: parseFloat(match[1]) });
+    }
+  }
+  return segments;
+}
+
 export async function fetchTranscriptClient(url: string): Promise<TranscriptResult> {
   const videoId = extractVideoId(url.trim());
   if (!videoId) throw new Error('Invalid YouTube URL. Paste a youtube.com or youtu.be link.');
 
-  // Get title/channel from oembed
-  let title = 'YouTube Video';
-  let channel = 'Unknown';
-  try {
-    const oembed = await fetch(`https://noembed.com/embed?url=https://youtube.com/watch?v=${videoId}`);
-    const oembedData = await oembed.json();
-    if (oembedData.title) title = oembedData.title;
-    if (oembedData.author_name) channel = oembedData.author_name;
-  } catch { /* ignore */ }
-
-  // Method 1: Use our server-side proxy that pipes through YouTube's page
+  // Step 1: Try server-side API (has yt-dlp, Whisper, multiple fallbacks)
   try {
     const res = await fetch('/api/youtube-transcript', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ url }),
-      signal: AbortSignal.timeout(300000), // 5 minutes to allow for Whisper fallback
+      signal: AbortSignal.timeout(120000),
     });
-    if (res.ok) {
-      const data = await res.json();
-      if (data.segmentCount > 0) return data;
+    
+    const data = await res.json();
+    
+    if (res.ok && data.segmentCount > 0) {
+      return data;
     }
-  } catch { /* fall through */ }
 
-  // Method 2: Use Invidious instances (open-source YouTube frontends with APIs)
-  const invidiousInstances = [
-    'https://vid.puffyan.us',
-    'https://invidious.snopyta.org',
-    'https://y.com.sb',
-    'https://invidious.fdn.fr',
-  ];
+    // No transcript available — server already tried all methods, return metadata for AI summary fallback
+    if (res.ok && data.noTranscript) {
+      return {
+        videoId: data.videoId,
+        title: data.title || 'Unknown',
+        channel: data.channel || 'Unknown',
+        description: data.description || '',
+        language: 'en',
+        noTranscript: true,
+        segmentCount: 0,
+        timestamped: '',
+        plain: '',
+      };
+    }
 
-  for (const instance of invidiousInstances) {
-    try {
-      const res = await fetch(`${instance}/api/v1/captions/${videoId}`, {
-        signal: AbortSignal.timeout(8000),
-      });
-      if (!res.ok) continue;
-
-      const data = await res.json();
-      const captions = data.captions || data;
-      if (!Array.isArray(captions) || captions.length === 0) continue;
-
-      // Find English captions
-      const enCap = captions.find((c: { language_code: string }) => c.language_code === 'en')
-        || captions.find((c: { language_code: string }) => c.language_code?.startsWith('en'))
-        || captions[0];
-
-      if (!enCap?.url) continue;
-
-      // Fetch the actual caption content
-      const capUrl = enCap.url.startsWith('http') ? enCap.url : `${instance}${enCap.url}`;
-      const capRes = await fetch(capUrl, { signal: AbortSignal.timeout(8000) });
-      if (!capRes.ok) continue;
-
-      const capText = await capRes.text();
-
-      // Parse XML captions
-      const segments: { text: string; startMs: number }[] = [];
-      const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
-      let match;
-      while ((match = regex.exec(capText)) !== null) {
-        const text = decodeHtmlEntities(match[2]);
-        if (text.length > 0) {
-          segments.push({ text, startMs: Math.round(parseFloat(match[1]) * 1000) });
+    // Server returned captionUrl for client-side fetch (ASR workaround)
+    if (data.captionUrl && data.title) {
+      console.log('[transcript] Server returned caption URL for client-side fetch...');
+      try {
+        const captionRes = await fetch(data.captionUrl, {
+          signal: AbortSignal.timeout(15000),
+        });
+        const xml = await captionRes.text();
+        const segments = parseCaptionXml(xml);
+        
+        if (segments.length > 0) {
+          console.log(`[transcript] Client-side caption fetch: ${segments.length} segments`);
+          const timestamped = segments.map(s => `[${formatTimestamp(s.startSec)}] ${s.text}`).join('\n');
+          const plain = segments.map(s => s.text).join(' ');
+          return {
+            videoId,
+            title: data.title,
+            channel: data.channel || 'Unknown',
+            description: data.description || '',
+            language: data.language || 'en',
+            method: 'client-caption',
+            segmentCount: segments.length,
+            timestamped,
+            plain,
+          };
         }
+      } catch (err) {
+        console.error('[transcript] Client caption fetch failed:', err);
       }
-
-      if (segments.length > 0) {
-        return {
-          videoId,
-          title,
-          channel,
-          language: enCap.language_code || 'en',
-          segmentCount: segments.length,
-          timestamped: segments.map(s => `[${formatTimestamp(s.startMs)}] ${s.text}`).join('\n'),
-          plain: segments.map(s => s.text).join(' '),
-        };
-      }
-    } catch { continue; }
+    }
+    
+    console.log('[transcript] Server API failed, no client fallback available');
+  } catch (err: unknown) {
+    const error = err as Error;
+    console.log('[transcript] Server error:', error.message);
   }
 
-  // Method 3: Use a CORS proxy to fetch YouTube page directly from browser
-  const corsProxies = [
-    (u: string) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
-    (u: string) => `https://corsproxy.io/?${encodeURIComponent(u)}`,
-  ];
+  // Step 3: Get at least title/channel for error context
+  let title = 'this video';
+  try {
+    const oembed = await fetch(`https://noembed.com/embed?url=https://youtube.com/watch?v=${videoId}`, {
+      signal: AbortSignal.timeout(5000),
+    });
+    const data = await oembed.json();
+    if (data.title) title = `"${data.title}"`;
+  } catch { /* ignore */ }
 
-  for (const proxyFn of corsProxies) {
-    try {
-      const ytUrl = `https://www.youtube.com/watch?v=${videoId}`;
-      const res = await fetch(proxyFn(ytUrl), {
-        signal: AbortSignal.timeout(15000),
-      });
-      if (!res.ok) continue;
-
-      const html = await res.text();
-      const captionsIdx = html.indexOf('"captions":');
-      if (captionsIdx === -1) continue;
-
-      let depth = 0;
-      const start = html.indexOf('{', captionsIdx);
-      for (let i = start; i < html.length; i++) {
-        if (html[i] === '{') depth++;
-        if (html[i] === '}') depth--;
-        if (depth === 0) {
-          const captions = JSON.parse(html.substring(start, i + 1));
-          const tracks = captions?.playerCaptionsTracklistRenderer?.captionTracks;
-          if (!tracks || tracks.length === 0) break;
-
-          const track = tracks.find((t: { languageCode: string }) => t.languageCode === 'en') || tracks[0];
-          if (!track?.baseUrl) break;
-
-          // Fetch transcript through proxy
-          const capRes = await fetch(proxyFn(track.baseUrl), { signal: AbortSignal.timeout(10000) });
-          if (!capRes.ok) break;
-
-          const capText = await capRes.text();
-          if (capText.length === 0) break;
-
-          const segments: { text: string; startMs: number }[] = [];
-
-          // Try JSON3 parse
-          try {
-            const data = JSON.parse(capText);
-            for (const e of data.events || []) {
-              if (e.segs) {
-                const text = e.segs.map((s: { utf8: string }) => s.utf8).join('').replace(/\n/g, ' ').trim();
-                if (text.length > 0) segments.push({ text, startMs: e.tStartMs || 0 });
-              }
-            }
-          } catch {
-            // Parse as XML
-            const regex = /<text start="([\d.]+)"[^>]*>([\s\S]*?)<\/text>/g;
-            let match;
-            while ((match = regex.exec(capText)) !== null) {
-              const text = decodeHtmlEntities(match[2]);
-              if (text.length > 0) segments.push({ text, startMs: Math.round(parseFloat(match[1]) * 1000) });
-            }
-          }
-
-          if (segments.length > 0) {
-            return {
-              videoId,
-              title,
-              channel,
-              language: track.languageCode || 'en',
-              segmentCount: segments.length,
-              timestamped: segments.map(s => `[${formatTimestamp(s.startMs)}] ${s.text}`).join('\n'),
-              plain: segments.map(s => s.text).join(' '),
-            };
-          }
-          break;
-        }
-      }
-    } catch { continue; }
-  }
-
-  throw new Error('Could not extract transcript. YouTube may be blocking requests. Try a different video.');
+  throw new Error(`Could not extract transcript for ${title}. The video may not have any captions (manual or auto-generated).`);
 }

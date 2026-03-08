@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node scripts/install-ytdlp.js && (pip3 install -r requirements.txt 2>/dev/null || pip install -r requirements.txt 2>/dev/null || true)"
   },
   "dependencies": {
     "@distube/ytdl-core": "^4.16.12",
@@ -18,12 +19,15 @@
     "jspdf": "^4.1.0",
     "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "pdfjs-dist": "^5.5.207",
     "posthog-js": "^1.342.1",
     "react": "19.2.3",
     "react-chartjs-2": "^5.3.1",
     "react-dom": "19.2.3",
+    "recharts": "^3.7.0",
     "simple-icons": "^16.8.0",
     "youtube-transcript": "^1.2.1",
+    "youtube-transcript-plus": "^1.2.0",
     "youtubei.js": "^16.0.1"
   },
   "devDependencies": {

@@ -67,6 +67,8 @@ export default function OvernightPlanning() {
 
   useEffect(() => {
     fetchPlan(selectedDate);
+    const interval = setInterval(() => fetchPlan(selectedDate), 30000);
+    return () => clearInterval(interval);
   }, [selectedDate, fetchPlan]);
 
   const navigateDate = (direction: 'prev' | 'next') => {

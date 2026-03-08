@@ -2,354 +2,249 @@
   "activity": [
     {
       "type": "commit",
-      "id": "1d090ab5",
+      "id": "91761f69",
       "author": "Milo",
-      "timestamp": "2026-02-21 20:47:08 -0500",
-      "message": "update AGENT-BRAND-KIT.md: fix roles, add all 10 agents, correct colors, add CSS vars"
+      "timestamp": "2026-03-07 22:42:36 -0500",
+      "message": "Add Python youtube-transcript-api dependency for server deployment"
     },
     {
       "type": "commit",
-      "id": "a1306a9e",
+      "id": "f2baccc3",
       "author": "Milo",
-      "timestamp": "2026-02-21 20:38:02 -0500",
-      "message": "paper mode: kill dark rgba overlays in sidebar, force white bg, black text throughout"
+      "timestamp": "2026-03-07 22:37:30 -0500",
+      "message": "Fix YouTube transcripts: use Python youtube-transcript-api to bypass cloud IP blocking"
     },
     {
       "type": "commit",
-      "id": "40bb35c3",
+      "id": "e87474ce",
       "author": "Milo",
-      "timestamp": "2026-02-21 20:34:08 -0500",
-      "message": "paper mode: sidebar text #444 gray -> #111 black, section headers #999 -> #666, inactive nav #374151 -> #111"
+      "timestamp": "2026-03-07 20:29:31 -0500",
+      "message": "Fix archive card uniform height with flex-column layout"
     },
     {
       "type": "commit",
-      "id": "c675b318",
+      "id": "d9959eaf",
       "author": "Milo",
-      "timestamp": "2026-02-21 19:31:51 -0500",
-      "message": "add: Dwight Schrute icon options - beet, glasses, combo"
+      "timestamp": "2026-03-07 20:16:42 -0500",
+      "message": "feat: add Artificial Analysis and ClawHub to Quick Links AI Tools"
     },
     {
       "type": "commit",
-      "id": "1da65049",
+      "id": "36832a77",
       "author": "Milo",
-      "timestamp": "2026-02-21 19:28:46 -0500",
-      "message": "add: Jim Halpert icon options for DUNDER page review"
+      "timestamp": "2026-03-07 20:08:41 -0500",
+      "message": "feat: sidebar Agent Initiatives tab + YT CLIPD first + no duplicate archive"
     },
     {
       "type": "commit",
-      "id": "17c1e715",
+      "id": "87426356",
       "author": "Milo",
-      "timestamp": "2026-02-21 11:08:16 -0500",
-      "message": "Fix Roundtable: switch to Gemini 2.0 Flash (free tier) to bypass Anthropic credit error"
+      "timestamp": "2026-03-07 19:59:28 -0500",
+      "message": "feat: archive two-panel layout + enhanced summary with chapters & key quotes"
     },
     {
       "type": "commit",
-      "id": "e31e83ad",
+      "id": "19845d9e",
       "author": "Milo",
-      "timestamp": "2026-02-21 11:06:29 -0500",
-      "message": "Fix Model Counsel API errors: correct Gemini/Grok IDs, update UI descriptions"
+      "timestamp": "2026-03-07 19:46:59 -0500",
+      "message": "refactor: rename /os/youtube-transcript to /os/clipd"
     },
     {
       "type": "commit",
-      "id": "f19005a0",
+      "id": "e640fef2",
       "author": "Milo",
-      "timestamp": "2026-02-21 10:43:53 -0500",
-      "message": "feat: Whisper chunking - transcribe ANY length video, splits audio into 24MB chunks, stitches timestamps back together"
+      "timestamp": "2026-03-07 18:26:27 -0500",
+      "message": "feat: rename Extract->Clip tab, manual archive button instead of auto-save"
     },
     {
       "type": "commit",
-      "id": "0bdef350",
+      "id": "07f613a4",
       "author": "Milo",
-      "timestamp": "2026-02-21 10:43:28 -0500",
-      "message": "Roundtable: remove Dax/Tony, add Jim Halpert, update model to sonnet-4-6, compact 8-agent single-row grid"
+      "timestamp": "2026-03-07 18:11:28 -0500",
+      "message": "feat: clean archive UI - minimal channel headers, YouTube-style video cards"
     },
     {
       "type": "commit",
-      "id": "95a8ec3c",
+      "id": "f9500ff0",
       "author": "Milo",
-      "timestamp": "2026-02-21 10:36:41 -0500",
-      "message": "feat: Whisper fallback for YT transcripts - downloads audio via ytdl-core, sends to OpenAI Whisper API. Works on ANY video, no captions needed."
+      "timestamp": "2026-03-07 18:05:01 -0500",
+      "message": "feat: archive 4-column channel grid + search bar"
     },
     {
       "type": "commit",
-      "id": "127b618b",
+      "id": "1a9628d8",
       "author": "Milo",
-      "timestamp": "2026-02-21 10:32:24 -0500",
-      "message": "Update Model Counsel to latest models: Gemini 3.1 Pro, GPT-4.1, Grok 4.1, Llama 4 Scout"
+      "timestamp": "2026-03-07 17:52:34 -0500",
+      "message": "feat: archive 4-column grid layout with vertical thumbnail cards"
     },
     {
       "type": "commit",
-      "id": "c62f7ca0",
+      "id": "d395a848",
       "author": "Milo",
-      "timestamp": "2026-02-21 10:31:36 -0500",
-      "message": "fix: YT transcript - client-side extraction via Invidious APIs + CORS proxies, bypasses server-side YouTube blocks"
+      "timestamp": "2026-03-07 17:42:33 -0500",
+      "message": "fix: move supabase createClient inside handlers to prevent build-time eval failure"
     },
     {
       "type": "commit",
-      "id": "67d9faf7",
+      "id": "27a538df",
       "author": "Milo",
-      "timestamp": "2026-02-21 07:10:55 -0500",
-      "message": "fix: rewrite YT transcript API - innertube + XML fallback + proxy APIs, better error handling"
+      "timestamp": "2026-03-07 17:33:48 -0500",
+      "message": "fix: add force-dynamic to apex API routes to prevent build-time static render failure"
     },
     {
       "type": "commit",
-      "id": "3df85ca2",
+      "id": "1d89ba84",
       "author": "Milo",
-      "timestamp": "2026-02-20 19:44:05 -0500",
-      "message": "chore: add path logging for yt-dlp debugging"
+      "timestamp": "2026-03-07 17:10:56 -0500",
+      "message": "feat: rename to YT CLIPD + add no-transcript AI summary fallback"
     },
     {
       "type": "commit",
-      "id": "0d40e596",
+      "id": "51281df7",
       "author": "Milo",
-      "timestamp": "2026-02-20 19:24:46 -0500",
-      "message": "chore: add nixpacks.json to install yt-dlp and ffmpeg for youtube transcript"
+      "timestamp": "2026-03-07 16:06:42 -0500",
+      "message": "debug: add diagnostics to YouTube transcript errors"
     },
     {
       "type": "commit",
-      "id": "e1dd7736",
+      "id": "e576c90e",
       "author": "Milo",
-      "timestamp": "2026-02-20 19:20:07 -0500",
-      "message": "feat: install python3 + yt-dlp in production container via nixpacks.toml"
+      "timestamp": "2026-03-07 15:57:32 -0500",
+      "message": "feat: auto-install yt-dlp binary on build (fixes ASR captions on Hetzner)"
     },
     {
       "type": "commit",
-      "id": "3a82dc48",
+      "id": "e8c011fe",
       "author": "Milo",
-      "timestamp": "2026-02-20 19:17:42 -0500",
-      "message": "fix: remove /s regex flag for typescript compat on production build"
+      "timestamp": "2026-03-07 15:02:11 -0500",
+      "message": "fix: add consent cookie + retry scrape for YouTube transcripts on Vercel (fixes Ras Mic, Clearmud, Matt Wolfe)"
     },
     {
       "type": "commit",
-      "id": "fbcbac0d",
+      "id": "9d227aea",
       "author": "Milo",
-      "timestamp": "2026-02-20 19:14:20 -0500",
-      "message": "feat: youtube transcript - 3-method fallback (direct API, npm package, yt-dlp) for production compatibility"
+      "timestamp": "2026-03-07 14:56:06 -0500",
+      "message": "fix: sync localStorage transcripts to Supabase even when DB is empty"
     },
     {
       "type": "commit",
-      "id": "1201a1f8",
+      "id": "647a2d1a",
       "author": "Milo",
-      "timestamp": "2026-02-20 16:26:45 -0500",
-      "message": "fix: paper mode active nav - dark text on light highlight, amber left border, readable badges"
+      "timestamp": "2026-03-07 14:18:01 -0500",
+      "message": "feat: YouTube archive grouped by channel name, sorted newest-first within each group"
     },
     {
       "type": "commit",
-      "id": "53b21d6e",
+      "id": "e83d1c85",
       "author": "Milo",
-      "timestamp": "2026-02-20 16:21:52 -0500",
-      "message": "polish: paper mode v2 - clean white sidebar with warm amber accents, subtle active states, proper institutional look"
+      "timestamp": "2026-03-07 14:09:58 -0500",
+      "message": "feat: Apex Trader V2 — multi-account CSV import, dynamic P&L dashboard, equity curves, trade log, calendar view"
     },
     {
       "type": "commit",
-      "id": "b0715cb8",
+      "id": "bd400dc9",
       "author": "Milo",
-      "timestamp": "2026-02-20 16:17:17 -0500",
-      "message": "fix: paper mode uses CSS invert+hue-rotate for clean full-page light mode - no more broken half-dark"
+      "timestamp": "2026-03-06 21:47:31 -0500",
+      "message": "feat: add 35 new trading books from Google Drive, rebuild skills inventory"
     },
     {
       "type": "commit",
-      "id": "7bd5aef3",
+      "id": "8c406e5f",
       "author": "Milo",
-      "timestamp": "2026-02-20 16:08:53 -0500",
-      "message": "feat: PAPER MODE - third theme option. White institutional aesthetic. NULL → CYBER → PAPER cycle."
+      "timestamp": "2026-03-06 19:38:56 -0500",
+      "message": "fix: books catalog fallback for prod, cross-platform yt-dlp, add ffmpeg to build"
     },
     {
       "type": "commit",
-      "id": "6b33ce79",
+      "id": "9d296f52",
       "author": "Milo",
-      "timestamp": "2026-02-20 15:41:35 -0500",
-      "message": "fix: cyber mode recolors ALL pages - amber to terminal green via MutationObserver"
+      "timestamp": "2026-03-06 19:19:46 -0500",
+      "message": "feat: Daily Brief overhaul, scrolling ticker, sports headlines, finance library Axe Takes for all 161 books"
     },
     {
       "type": "commit",
-      "id": "0e1ec831",
+      "id": "35838d06",
       "author": "Milo",
-      "timestamp": "2026-02-20 15:33:20 -0500",
-      "message": "fix: OS homepage respects cyber mode - yellow switches to terminal green #10ca78"
+      "timestamp": "2026-03-06 18:39:24 -0500",
+      "message": "cleanup: remove Daily Feed, Habit Tracker, Revenue Tracker, Sniper Queue from nav. Delete pages. Archive DUNDER (code preserved in _archived/)"
     },
     {
       "type": "commit",
-      "id": "49be0491",
+      "id": "8c929087",
       "author": "Milo",
-      "timestamp": "2026-02-20 15:24:48 -0500",
-      "message": "Merge branch 'master' of https://github.com/Milobuilds45/dbtech45"
+      "timestamp": "2026-03-06 18:28:08 -0500",
+      "message": "feat: Daily Brief overhaul - dynamic headlines, timestamps, remove layout duplication"
     },
     {
       "type": "commit",
-      "id": "f3b37f6f",
+      "id": "01459f68",
       "author": "Milo",
-      "timestamp": "2026-02-20 15:24:21 -0500",
-      "message": "remove: Brand Assets section from OS Command Center homepage - already in system config"
+      "timestamp": "2026-03-06 15:19:42 -0500",
+      "message": "feat(yt): add Ask Video chat to archive expanded view - chat any archived transcript"
     },
     {
       "type": "commit",
-      "id": "c2c62f65",
+      "id": "169e9b7e",
       "author": "Milo",
-      "timestamp": "2026-02-20 09:13:43 -0500",
-      "message": "feat: add Overnight Flow Matrix, Confidence Score, and Trailing Floor Monitor to AxeCap Terminal"
+      "timestamp": "2026-03-06 15:10:03 -0500",
+      "message": "feat(yt): move Ask Video chat inline above transcript, add Supabase DB persistence for archive, fix breakdown regen for timestamps"
     },
     {
       "type": "commit",
-      "id": "62199d4d",
+      "id": "7ade5fcf",
       "author": "Milo",
-      "timestamp": "2026-02-20 07:40:09 -0500",
-      "message": "fix: move OS proxy to fallback rewrites so Next.js /os/axecap page takes priority over Hetzner proxy"
+      "timestamp": "2026-03-06 14:45:45 -0500",
+      "message": "fix: BookCover.tsx TypeScript build error - add canvas to render params"
     },
     {
       "type": "commit",
-      "id": "2a4a6350",
+      "id": "db16ef09",
       "author": "Milo",
-      "timestamp": "2026-02-20 07:35:40 -0500",
-      "message": "chore: trigger Vercel redeploy for AxeCap Terminal"
+      "timestamp": "2026-03-06 14:42:30 -0500",
+      "message": "feat(yt): add Ask This Video chat - NotebookLM-style Q&A with full transcript context"
     },
     {
       "type": "commit",
-      "id": "e9d9a2e8",
+      "id": "8a4b6453",
       "author": "Milo",
-      "timestamp": "2026-02-20 00:26:12 -0500",
-      "message": "feat: AxeCap Command Terminal - Overnight Flow Algorithm v1.1"
+      "timestamp": "2026-03-06 14:38:11 -0500",
+      "message": "feat(yt): rename TL;DR to KEY MOMENTS, add youtube thumbnails to archive+extract, improve timestamp link detection"
     },
     {
       "type": "commit",
-      "id": "56495ebd",
+      "id": "75296ca2",
       "author": "Milo",
-      "timestamp": "2026-02-19 16:26:50 -0500",
-      "message": "fix: rename middleware export to proxy"
+      "timestamp": "2026-03-06 14:34:48 -0500",
+      "message": "feat(yt): TL;DR now includes clickable timestamped key moments that jump to video"
     },
     {
       "type": "commit",
-      "id": "381275b2",
+      "id": "7ed19bb3",
       "author": "Milo",
-      "timestamp": "2026-02-19 16:26:15 -0500",
-      "message": "fix: correct model ID, rename middleware->proxy, move themeColor to viewport"
+      "timestamp": "2026-03-06 14:30:20 -0500",
+      "message": "fix(yt): TL;DR summary now toggles open/closed, X button to dismiss"
     },
     {
       "type": "commit",
-      "id": "13b46ed8",
+      "id": "5a3c6857",
       "author": "Milo",
-      "timestamp": "2026-02-19 14:04:39 -0500",
-      "message": "fix: cyber mode readability — white content text, green accents only, remove global flicker"
+      "timestamp": "2026-03-06 14:28:32 -0500",
+      "message": "feat(yt): clickable timestamp links jump to video position + fix yt-dlp en.* rate limit bug"
     },
     {
       "type": "commit",
-      "id": "acfeb479",
+      "id": "f17c5be3",
       "author": "Milo",
-      "timestamp": "2026-02-19 13:58:36 -0500",
-      "message": "feat: cyber mode — terminal green phosphor CRT (scanlines, grain, vignette, flicker, glow) full-page"
+      "timestamp": "2026-03-06 14:24:08 -0500",
+      "message": "feat(os): add AI summarize button directly to youtube transcript extract view"
     },
     {
       "type": "commit",
-      "id": "f3783259",
+      "id": "e90b81ea",
       "author": "Milo",
-      "timestamp": "2026-02-19 13:04:01 -0500",
-      "message": "feat: replace ember mode with cyber mode (electric blue/teal), rename void to null mode"
-    },
-    {
-      "type": "commit",
-      "id": "db1f4966",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:54:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "45c30e4d",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:49:09 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "d5d47bae",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:44:14 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "20ad74f7",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:39:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "a40fb2aa",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:34:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "c43ec97f",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:29:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "51254f35",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:24:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "8d1ba284",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:19:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "2a8f7e0f",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:14:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "04fe94ba",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:09:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "b7615e67",
-      "author": "Milo",
-      "timestamp": "2026-02-19 10:04:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "3c2c23e4",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:59:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "c5b0e5e1",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:54:04 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "24e8f9fb",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:49:05 -0500",
-      "message": "chore: auto-sync dashboard data"
-    },
-    {
-      "type": "commit",
-      "id": "59fb5057",
-      "author": "Milo",
-      "timestamp": "2026-02-19 09:44:04 -0500",
-      "message": "chore: auto-sync dashboard data"
+      "timestamp": "2026-03-04 22:14:08 -0500",
+      "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-02-22T11:54:07.462Z"
+  "generatedAt": "2026-03-08T12:09:06.285Z"
 }
