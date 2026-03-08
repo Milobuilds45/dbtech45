@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "19845d9e",
+      "author": "Milo",
+      "timestamp": "2026-03-07 19:46:59 -0500",
+      "message": "refactor: rename /os/youtube-transcript to /os/clipd"
+    },
+    {
+      "type": "commit",
       "id": "e640fef2",
       "author": "Milo",
       "timestamp": "2026-03-07 18:26:27 -0500",
@@ -197,5 +204,5 @@
       "message": "feat: add habit tracker and revenue tracker to OS"
     }
   ],
-  "generatedAt": "2026-03-08T00:44:07.049Z"
+  "generatedAt": "2026-03-08T00:59:07.104Z"
 }

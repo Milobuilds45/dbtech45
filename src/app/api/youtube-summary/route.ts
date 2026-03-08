@@ -81,38 +81,55 @@ Note at the end: ⚠️ Summary based on video metadata — no transcript was av
         body: JSON.stringify({
           contents: [{
             parts: [{
-              text: `You are summarizing a YouTube video transcript into a KEY MOMENTS breakdown with timestamps.
+              text: `You are summarizing a YouTube video transcript. Produce a clean, structured breakdown.
+
+OUTPUT FORMAT (use exactly these section headers):
+
+Line 1: One sentence TL;DR — the single most important takeaway.
+
+**CHAPTERS**
+List the major chapters/topics${hasTimestamps ? ' with real timestamps from the transcript' : ''}.
+Format: - [TIMESTAMP] Chapter title (3-5 words)
+- 3-8 chapters depending on video length
+
+**KEY MOMENTS**
+The most important specific facts, demos, announcements, or insights.
+- EVERY bullet starts with [TIMESTAMP]
+- Be SPECIFIC — names, numbers, prices, features, quotes
+- No filler like "the speaker discusses"
+- 5 min video: 4-5 bullets | 15 min: 6-8 | 30+ min: 10-12 | 60+ min: 14-16
+
+**KEY QUOTES**
+3-5 verbatim quotes from the speaker. Pick the most insightful, surprising, or memorable lines.
+Format: › "Exact quote from video" [TIMESTAMP]
 
 RULES:
-- Line 1: A single sentence TL;DR (the one takeaway from the whole video)
-- Then list KEY MOMENTS as bullet points
-- EVERY bullet MUST start with a timestamp in [M:SS] or [H:MM:SS] format${hasTimestamps ? ' — use the actual timestamps from the transcript' : ''}
-- Format: - [TIMESTAMP] Short description of what happens/is said (max 15 words)
-- For longer videos (20+ min), group bullets under section headers using **Header**
-- Be SPECIFIC — include product names, version numbers, features, prices, people mentioned
-- No filler like "the speaker discusses" — just the facts
-- Pick the MOST IMPORTANT moments — announcements, key features, opinions, conclusions
-- For a 5 min video: 4-5 timestamped bullets
-- For a 15 min video: 6-8 timestamped bullets
-- For a 30+ min video: 8-12 timestamped bullets with section headers
-- For a 60+ min video: 12-16 timestamped bullets with section headers
+- ${hasTimestamps ? 'Use actual timestamps from the transcript' : 'Estimate timestamps based on position in transcript'}
+- Be specific — include product names, version numbers, prices, people
+- Quotes must be verbatim (or very close) — not paraphrased
 
-EXAMPLE OUTPUT:
-GPT-5 is here with native multimodal reasoning, but 5.4 is the real leap with autonomous agents.
+EXAMPLE:
+GPT-5 is here and the $200/month Pro tier is already causing controversy.
 
-**GPT-5 Launch**
-- [0:42] OpenAI officially announces GPT-5 with 1M token context window
-- [2:15] Pricing: $30/month for Plus, API at $15/1M tokens
-- [4:08] Live demo shows native image understanding without plugins
+**CHAPTERS**
+- [0:00] Intro & context
+- [2:15] GPT-5 launch announcement
+- [8:30] Autonomous agent features
+- [18:40] Benchmark comparisons
+- [22:10] Pricing breakdown
 
-**GPT-5.4 Features**
-- [8:30] Autonomous agent mode can browse web, write code, execute tasks
-- [11:22] "Computer Use" feature similar to Claude but faster
-- [14:05] Sam Altman says 5.4 is "the most capable AI system ever built"
+**KEY MOMENTS**
+- [0:42] OpenAI announces GPT-5 with 1M token context window
+- [2:15] Pricing: $30/month Plus, API at $15/1M tokens
+- [4:08] Live demo: native image understanding without plugins
+- [8:30] Agent mode browses web, writes code, executes tasks
+- [14:05] Sam Altman calls it "the most capable AI system ever built"
+- [22:10] Pro tier jumps from $20 to $200/month — community backlash
 
-**Reactions**
-- [18:40] Benchmark comparison: beats Claude 3.5 on MMLU by 4 points
-- [22:10] Pricing controversy — Pro tier jumps to $200/month
+**KEY QUOTES**
+› "This is the model we've been building toward for three years" [1:22]
+› "Computer Use is faster than Claude's implementation by 40%" [9:45]
+› "We're not ready to talk about GPT-6 yet, but it's coming" [25:10]
 
 Video: "${title}" by ${channel}
 Transcript length: ~${Math.round((plain || '').length / 5)} words
@@ -122,7 +139,7 @@ ${truncated}`,
             }],
           }],
           generationConfig: {
-            maxOutputTokens: 800,
+            maxOutputTokens: 1200,
             temperature: 0.2,
           },
         }),

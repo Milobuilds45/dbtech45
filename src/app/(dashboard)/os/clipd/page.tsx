@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { fetchTranscriptClient } from '@/lib/youtube-client';
 import {
-  Play, Youtube, Tv, Brain, ChevronDown, ChevronRight, ChevronUp,
+  Play, Youtube, Tv, Brain, ChevronDown, ChevronUp,
   Copy, Check, Download, FileText, Trash2, ExternalLink, Clock,
   Loader2, Sparkles, Archive, X, Search, MessageCircle, Send
 } from 'lucide-react';
@@ -196,7 +196,7 @@ export default function YouTubeTranscriptPage() {
   const [archiveChatInput, setArchiveChatInput] = useState<Record<string, string>>({});
   const [archiveChatLoading, setArchiveChatLoading] = useState<Record<string, boolean>>({});
   const [archiveShowChat, setArchiveShowChat] = useState<Record<string, boolean>>({});
-  const [collapsedChannels, setCollapsedChannels] = useState<Record<string, boolean>>({});
+  const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const archiveChatEndRef = useRef<HTMLDivElement>(null);
 
   async function handleSummarizeCurrent(forceRegenerate = false) {
@@ -445,7 +445,7 @@ export default function YouTubeTranscriptPage() {
 
   return (
     <div style={styles.page}>
-      <div style={{ ...styles.container, maxWidth: 900 }}>
+      <div style={{ ...styles.container, maxWidth: 1100 }}>
         {/* Header */}
         <div style={{ marginBottom: '1.5rem' }}>
           <h1 style={{ color: brand.amber, fontSize: '1.75rem', fontWeight: 700, fontFamily: M, margin: 0, display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -668,7 +668,7 @@ export default function YouTubeTranscriptPage() {
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                       <div style={{ color: brand.amber, fontFamily: M, fontSize: '0.75rem', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6 }}>
-                        <Brain size={14} /> KEY MOMENTS
+                        <Brain size={14} /> BREAKDOWN
                       </div>
                       <button
                         onClick={() => setShowCurrentSummary(false)}
@@ -831,67 +831,86 @@ export default function YouTubeTranscriptPage() {
               <div style={{ textAlign: 'center', padding: '3rem', color: brand.smoke, fontFamily: M, fontSize: '0.85rem' }}>
                 No transcripts archived yet. Extract a video to get started.
               </div>
-            ) : (
-              <div>
-                {/* Search bar */}
-                <div style={{ marginBottom: 16 }}>
-                  <input
-                    type="text"
-                    placeholder="Search channels or videos..."
-                    value={archiveSearch}
-                    onChange={e => setArchiveSearch(e.target.value)}
-                    style={{
-                      width: '100%', boxSizing: 'border-box',
-                      background: brand.graphite, border: `1px solid ${brand.border}`,
-                      borderRadius: 8, padding: '9px 14px',
-                      color: brand.white, fontFamily: M, fontSize: '0.85rem',
-                      outline: 'none',
-                    }}
-                  />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, alignItems: 'start' }}>
-                {(() => {
-                  // Group by channel, sort each group by archivedAt descending
-                  const grouped: Record<string, ArchivedTranscript[]> = {};
-                  archive.forEach(item => {
-                    const ch = item.channel || 'Unknown Channel';
-                    if (!grouped[ch]) grouped[ch] = [];
-                    grouped[ch].push(item);
-                  });
-                  // Sort each group newest first
-                  Object.values(grouped).forEach(items => items.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime()));
-                  // Filter by search term
-                  const q = archiveSearch.toLowerCase().trim();
-                  // Sort channel names alphabetically
-                  const channelNames = Object.keys(grouped)
-                    .filter(ch => !q || ch.toLowerCase().includes(q) || grouped[ch].some(i => i.title.toLowerCase().includes(q)))
-                    .sort((a, b) => a.localeCompare(b));
-                  return channelNames.map(channelName => {
-                    const items = grouped[channelName];
-                    const isCollapsed = collapsedChannels[channelName];
-                    return (
-                      <div key={channelName}>
-                        {/* Channel group header */}
+            ) : (() => {
+              const grouped: Record<string, ArchivedTranscript[]> = {};
+              archive.forEach(item => {
+                const ch = item.channel || 'Unknown Channel';
+                if (!grouped[ch]) grouped[ch] = [];
+                grouped[ch].push(item);
+              });
+              Object.values(grouped).forEach(items => items.sort((a, b) => new Date(b.archivedAt).getTime() - new Date(a.archivedAt).getTime()));
+              const q = archiveSearch.toLowerCase().trim();
+              const channelNames = Object.keys(grouped)
+                .filter(ch => !q || ch.toLowerCase().includes(q) || grouped[ch].some(i => i.title.toLowerCase().includes(q)))
+                .sort((a, b) => a.localeCompare(b));
+              const activeChannel = (selectedChannel && grouped[selectedChannel]) ? selectedChannel : channelNames[0];
+              const activeVideos = activeChannel
+                ? grouped[activeChannel].filter(item => !q || item.title.toLowerCase().includes(q) || activeChannel.toLowerCase().includes(q))
+                : [];
+              return (
+                <div style={{ display: 'flex', gap: 0, minHeight: 400 }}>
+                  {/* Left rail: channel list */}
+                  <div style={{ width: 190, flexShrink: 0, borderRight: `1px solid ${brand.border}`, paddingRight: 0 }}>
+                    <div style={{ paddingBottom: 10 }}>
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={archiveSearch}
+                        onChange={e => setArchiveSearch(e.target.value)}
+                        style={{
+                          width: '100%', boxSizing: 'border-box',
+                          background: brand.graphite, border: `1px solid ${brand.border}`,
+                          borderRadius: 6, padding: '7px 10px',
+                          color: brand.white, fontFamily: M, fontSize: '0.75rem', outline: 'none',
+                        }}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+                      {channelNames.map(ch => (
                         <div
-                          onClick={() => setCollapsedChannels(prev => ({ ...prev, [channelName]: !prev[channelName] }))}
+                          key={ch}
+                          onClick={() => setSelectedChannel(ch)}
                           style={{
-                            display: 'flex', alignItems: 'center', gap: 6,
-                            padding: '0 0 8px', marginBottom: isCollapsed ? 0 : 10,
-                            borderBottom: `2px solid ${brand.amber}`, cursor: 'pointer',
+                            padding: '9px 12px', cursor: 'pointer',
+                            background: ch === activeChannel ? 'rgba(245,158,11,0.08)' : 'transparent',
+                            borderLeft: `2px solid ${ch === activeChannel ? brand.amber : 'transparent'}`,
+                            display: 'flex', alignItems: 'center', gap: 7,
+                            transition: 'background 0.15s',
                           }}
+                          onMouseEnter={e => { if (ch !== activeChannel) (e.currentTarget as HTMLDivElement).style.background = 'rgba(255,255,255,0.04)'; }}
+                          onMouseLeave={e => { if (ch !== activeChannel) (e.currentTarget as HTMLDivElement).style.background = 'transparent'; }}
                         >
-                          <Youtube size={13} style={{ color: '#f87171', flexShrink: 0 }} />
-                          <span style={{ color: brand.white, fontFamily: M, fontSize: '0.78rem', fontWeight: 700, flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                            {channelName}
+                          <Youtube size={11} style={{ color: '#f87171', flexShrink: 0 }} />
+                          <span style={{
+                            flex: 1, color: ch === activeChannel ? brand.white : brand.smoke,
+                            fontSize: '0.78rem', fontFamily: M, fontWeight: ch === activeChannel ? 600 : 400,
+                            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                          }}>
+                            {ch}
                           </span>
-                          <span style={{ background: brand.graphite, color: brand.smoke, fontSize: '0.6rem', fontFamily: M, padding: '2px 6px', borderRadius: 99, flexShrink: 0 }}>
-                            {items.length}
+                          <span style={{
+                            background: brand.graphite, color: brand.smoke,
+                            fontSize: '0.6rem', fontFamily: M, padding: '1px 5px', borderRadius: 99, flexShrink: 0,
+                          }}>
+                            {grouped[ch].length}
                           </span>
-                          {isCollapsed ? <ChevronRight size={12} style={{ color: brand.smoke, flexShrink: 0 }} /> : <ChevronDown size={12} style={{ color: brand.smoke, flexShrink: 0 }} />}
                         </div>
-                        {!isCollapsed && (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                            {items.map(item => (
+                      ))}
+                    </div>
+                  </div>
+                  {/* Right panel: videos grid */}
+                  <div style={{ flex: 1, paddingLeft: 16, minWidth: 0 }}>
+                    {activeChannel && (
+                      <>
+                        <div style={{ marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8, paddingBottom: 10, borderBottom: `1px solid ${brand.border}` }}>
+                          <Youtube size={13} style={{ color: '#f87171' }} />
+                          <span style={{ color: brand.white, fontFamily: M, fontSize: '0.85rem', fontWeight: 700 }}>{activeChannel}</span>
+                          <span style={{ color: brand.smoke, fontSize: '0.72rem', fontFamily: M }}>
+                            {grouped[activeChannel]?.length} {grouped[activeChannel]?.length === 1 ? 'video' : 'videos'}
+                          </span>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, alignItems: 'start' }}>
+                          {activeVideos.map(item => (
                   <div key={item.id} style={{
                     background: brand.graphite,
                     border: `1px solid ${expandedId === item.id ? brand.amber : 'transparent'}`,
@@ -1164,16 +1183,14 @@ export default function YouTubeTranscriptPage() {
                       </div>
                     )}
                   </div>
-                ))}
-                          </div>
-                        )}
-                      </div>
-                    );
-                  });
-                })()}
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </div>
         )}
       </div>
