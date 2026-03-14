@@ -14,7 +14,12 @@ export async function POST(req: NextRequest) {
     const { cookies } = body;
 
     if (!cookies || typeof cookies !== 'string') {
-      return NextResponse.json({ error: 'Invalid cookies data' }, { status: 400 });
+      console.error('[cookie-upload] Invalid cookies data. Type:', typeof cookies, 'Body keys:', Object.keys(body));
+      return NextResponse.json({ 
+        error: 'Invalid cookies data', 
+        received: typeof cookies,
+        bodyKeys: Object.keys(body)
+      }, { status: 400 });
     }
 
     await fs.writeFile('/tmp/youtube_cookies.txt', cookies, 'utf-8');
