@@ -11,23 +11,28 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { cookies } = body;
+    const { cookies, cookiesBase64 } = body;
 
-    if (!cookies || typeof cookies !== 'string') {
+    let cookieContent: string;
+    
+    if (cookiesBase64) {
+      // Decode from base64
+      cookieContent = Buffer.from(cookiesBase64, 'base64').toString('utf-8');
+    } else if (cookies && typeof cookies === 'string') {
+      cookieContent = cookies;
+    } else {
       console.error('[cookie-upload] Invalid cookies data. Type:', typeof cookies, 'Body keys:', Object.keys(body));
       return NextResponse.json({ 
-        error: 'Invalid cookies data', 
-        received: typeof cookies,
-        bodyKeys: Object.keys(body)
+        error: 'Invalid cookies data - provide either "cookies" or "cookiesBase64"'
       }, { status: 400 });
     }
 
-    await fs.writeFile('/tmp/youtube_cookies.txt', cookies, 'utf-8');
+    await fs.writeFile('/tmp/youtube_cookies.txt', cookieContent, 'utf-8');
     
     return NextResponse.json({ 
       success: true, 
       message: 'Cookies uploaded successfully',
-      lines: cookies.split('\n').length 
+      lines: cookieContent.split('\n').length 
     });
   } catch (err: any) {
     console.error('[cookie-upload] Error:', err);
