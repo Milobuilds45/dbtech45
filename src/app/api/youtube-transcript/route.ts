@@ -282,14 +282,18 @@ async function fetchTranscriptYtdlp(videoId: string): Promise<{ segments: { text
     }
   }
 
-  const cmd = `${ytdlp} --cookies /tmp/youtube_cookies.txt --write-subs --write-auto-subs --sub-lang "en" --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-warnings --no-check-certificates --ignore-no-formats-error`;
+  const cmd = `${ytdlp} --cookies /tmp/youtube_cookies.txt --write-subs --write-auto-subs --sub-lang "en" --skip-download --sub-format json3 -o "${outBase}" "https://www.youtube.com/watch?v=${videoId}" --no-check-certificates --ignore-no-formats-error --print after_move:filepath --verbose 2>&1`;
 
+  console.log('[yt-dlp] Running command:', cmd);
+  
   try {
     const { stdout, stderr } = await execAsync(cmd, { timeout: 45000 });
-    console.log('[yt-dlp] stdout:', stdout.substring(0, 300));
-    console.log('[yt-dlp] stderr:', stderr.substring(0, 300));
+    console.log('[yt-dlp] FULL OUTPUT:', stdout);
+    if (stderr) console.log('[yt-dlp] STDERR:', stderr);
   } catch (err: any) {
     console.error('[yt-dlp] Warning/Error from executable (may still have output):', err.message || err);
+    if (err.stdout) console.log('[yt-dlp] Error stdout:', err.stdout);
+    if (err.stderr) console.log('[yt-dlp] Error stderr:', err.stderr);
     // DO NOT return null here. yt-dlp often throws a non-zero exit code if it fails to grab 
     // secondary subtitle tracks (like en-orig vs en), but the primary .json3 file may still have been written.
   }
