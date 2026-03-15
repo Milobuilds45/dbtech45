@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "ee42ca58",
+      "author": "Milo",
+      "timestamp": "2026-03-15 15:38:48 -0400",
+      "message": "Add restaurant tools: Menu Autopilot, Slow Night SOS, Competitor Radar"
+    },
+    {
+      "type": "commit",
+      "id": "134af41b",
+      "author": "Milo",
+      "timestamp": "2026-03-15 15:34:17 -0400",
+      "message": "feat: add 20-Year Clock, Pattern Mirror, Decision Audit pages under /os"
+    },
+    {
+      "type": "commit",
       "id": "dc1dccac",
       "author": "Milo",
       "timestamp": "2026-03-15 15:28:38 -0400",
@@ -64,5 +78,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-15T19:34:08.138Z"
+  "generatedAt": "2026-03-15T19:44:08.062Z"
 }
