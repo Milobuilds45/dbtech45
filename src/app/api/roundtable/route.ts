@@ -24,7 +24,7 @@ async function callAgent(
   messages: Array<{ role: string; content: string }>,
 ): Promise<string> {
   // Try Gemini 2.0 Flash first (Free/Fast)
-  const googleKey = process.env.GOOGLE_API_KEY;
+  const googleKey = (process.env.GOOGLE_AI_KEY || process.env.GOOGLE_API_KEY);
   if (googleKey) {
     try {
       // Convert messages to Gemini format
