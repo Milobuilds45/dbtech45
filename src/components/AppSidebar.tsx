@@ -172,6 +172,13 @@ const opsItems: NavItem[] = [
 
 const agentInitiativesItems: NavItem[] = [
   { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
+  { label: '💰 Bobby', href: '/os/agent-initiatives#bobby' },
+  { label: '🎨 Paula', href: '/os/agent-initiatives#paula' },
+  { label: '⚙️ Anders', href: '/os/agent-initiatives#anders' },
+  { label: '🧘 Wendy', href: '/os/agent-initiatives#wendy' },
+  { label: '🍽️ Remy', href: '/os/agent-initiatives#remy' },
+  { label: '🕵️ Dwight', href: '/os/agent-initiatives#dwight' },
+  { label: '📋 Milo', href: '/os/agent-initiatives#milo' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
   { label: 'Newsletter', href: '/os/newsletter' },
 ];
