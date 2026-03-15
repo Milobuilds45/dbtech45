@@ -43,14 +43,15 @@ const BRAND_ASSETS = [
 ];
 
 const AGENTS = [
-  { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7' },
-  { name: 'Paula', role: 'Creative + Full Stack', initials: 'PA', color: '#EC4899' },
-  { name: 'Bobby', role: 'Trading Advisor', initials: 'BO', color: '#22C55E' },
-  { name: 'Anders', role: 'IT Director & Security', initials: 'AN', color: '#F97316' },
-  { name: 'Dwight', role: 'Intel & Weather', initials: 'DW', color: '#6366F1' },
-  { name: 'Jim', role: 'Social Media', initials: 'JH', color: '#06B6D4' },
-  { name: 'Remy', role: 'Restaurant Ops & Marketing', initials: 'RM', color: '#EAB308' },
-  { name: 'Wendy', role: 'Personal Assistant', initials: 'WN', color: '#8B5CF6' },
+  { name: 'Ted', role: 'President / COO', initials: 'TD', color: '#F59E0B', hasAvatar: true },
+  { name: 'Milo', role: 'Chief of Staff', initials: 'MI', color: '#A855F7', hasAvatar: false },
+  { name: 'Paula', role: 'Creative + Full Stack', initials: 'PA', color: '#EC4899', hasAvatar: false },
+  { name: 'Bobby', role: 'Trading Advisor', initials: 'BO', color: '#22C55E', hasAvatar: false },
+  { name: 'Anders', role: 'IT Director & Security', initials: 'AN', color: '#F97316', hasAvatar: false },
+  { name: 'Dwight', role: 'Intel & Weather', initials: 'DW', color: '#6366F1', hasAvatar: false },
+  { name: 'Jim', role: 'Social Media', initials: 'JH', color: '#06B6D4', hasAvatar: false },
+  { name: 'Remy', role: 'Restaurant Ops & Marketing', initials: 'RM', color: '#EAB308', hasAvatar: false },
+  { name: 'Wendy', role: 'Personal Assistant', initials: 'WN', color: '#8B5CF6', hasAvatar: false },
 ];
 
 export default function BrandKitPage() {
@@ -202,12 +203,25 @@ export default function BrandKitPage() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '12px' }}>
             {AGENTS.map(a => (
               <div key={a.name} style={{ ...styles.card, display: 'flex', alignItems: 'center', gap: '12px', padding: '14px' }}>
-                <div style={{
-                  width: '40px', height: '40px', borderRadius: '10px', background: brand.void,
-                  border: `2px solid ${a.color}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: a.color, fontWeight: 700, fontSize: '13px', flexShrink: 0,
-                }}>{a.initials}</div>
+                {a.hasAvatar ? (
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '10px', overflow: 'hidden',
+                    border: `2px solid ${a.color}`, flexShrink: 0, background: brand.graphite,
+                  }}>
+                    <img 
+                      src={`/os/agents/${a.name.toLowerCase()}.png`}
+                      alt={a.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </div>
+                ) : (
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '10px', background: brand.void,
+                    border: `2px solid ${a.color}`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    color: a.color, fontWeight: 700, fontSize: '13px', flexShrink: 0,
+                  }}>{a.initials}</div>
+                )}
                 <div>
                   <div style={{ color: brand.white, fontWeight: 600, fontSize: '14px' }}>{a.name}</div>
                   <div style={{ color: brand.smoke, fontSize: '11px' }}>{a.role}</div>

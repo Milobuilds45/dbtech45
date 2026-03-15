@@ -138,6 +138,7 @@ interface NavItem {
 
 const commandItems: NavItem[] = [
   { label: 'Home', href: '/os' },
+  { label: 'Org Structure', href: '/os/org-structure' },
 ];
 
 const dashboardItems: NavItem[] = [
