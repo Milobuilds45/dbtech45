@@ -180,6 +180,9 @@ const agentInitiativesItems: NavItem[] = [
   { label: '🕵️ Dwight', href: '/os/agent-initiatives#dwight' },
   { label: '📋 Milo', href: '/os/agent-initiatives#milo' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
+  { label: '🕐 20-Year Clock', href: '/os/twenty-year-clock' },
+  { label: '🪞 Pattern Mirror', href: '/os/pattern-mirror' },
+  { label: '⚖️ Decision Audit', href: '/os/decision-audit' },
   { label: 'Newsletter', href: '/os/newsletter' },
 ];
 
