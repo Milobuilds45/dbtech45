@@ -155,6 +155,65 @@ export default function OSPage() {
         </div>
       </div>
 
+      {/* Restaurant Tools */}
+      <div style={{ marginBottom: '30px' }}>
+        <div style={{ fontSize: '12px', fontWeight: 700, color: b.smoke, textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: "'Space Grotesk', system-ui, sans-serif", marginBottom: '14px' }}>
+          Restaurant Tools — Powered by Remy
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+          {[
+            {
+              title: 'Menu Autopilot',
+              desc: 'Weekly menu brief. Push this, drop that, watch the money move.',
+              badge: 'LIVE DATA',
+              badgeColor: b.success,
+              href: '/os/menu-autopilot',
+              icon: 'MA',
+            },
+            {
+              title: 'Slow Night SOS',
+              desc: 'Know you\'re having a slow night by 3pm. Fire an offer before it\'s too late.',
+              badge: 'REAL-TIME',
+              badgeColor: b.warning,
+              href: '/os/slow-night-sos',
+              icon: 'SOS',
+            },
+            {
+              title: 'Competitor Radar',
+              desc: 'What your competition is promoting, what customers hate, and where the gaps are.',
+              badge: 'NASHUA, NH',
+              badgeColor: b.info,
+              href: '/os/competitor-radar',
+              icon: 'CR',
+            },
+          ].map((tool, i) => (
+            <div
+              key={i}
+              onClick={() => window.location.href = tool.href}
+              style={{
+                background: b.carbon,
+                border: `1px solid ${b.border}`,
+                borderRadius: '12px',
+                padding: '20px',
+                cursor: 'pointer',
+                transition: 'border-color 0.2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = b.amber)}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = b.border)}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '10px' }}>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: tool.badgeColor, background: `${tool.badgeColor}15`, border: `1px solid ${tool.badgeColor}40`, padding: '2px 8px', borderRadius: '4px', letterSpacing: '0.04em' }}>
+                  {tool.badge}
+                </div>
+                <div style={{ fontSize: '22px', color: b.amber, fontFamily: "'Space Grotesk', system-ui, sans-serif", fontWeight: 700, opacity: 0.15 }}>{tool.icon}</div>
+              </div>
+              <div style={{ fontSize: '16px', fontWeight: 700, color: b.white, marginBottom: '6px', fontFamily: "'Space Grotesk', system-ui, sans-serif" }}>{tool.title}</div>
+              <div style={{ fontSize: '13px', color: b.smoke, lineHeight: 1.5 }}>{tool.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* Dashboard Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
 
