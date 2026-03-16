@@ -170,19 +170,72 @@ const opsItems: NavItem[] = [
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
 ];
 
+// Agent initiative sub-groups — each agent owns their builds
+interface AgentGroup {
+  label: string;
+  builds: NavItem[];
+}
+
+const agentInitiativeGroups: AgentGroup[] = [
+  {
+    label: '💰 Bobby',
+    builds: [
+      { label: 'Ghost Trades', href: '/os/ghost-trades' },
+      { label: 'Earnings Wall', href: '/os/earnings-wall' },
+      { label: 'Flow Radar', href: '/os/flow-radar' },
+    ],
+  },
+  {
+    label: '🎨 Paula',
+    builds: [
+      { label: 'Design DNA', href: '/os/design-dna' },
+      { label: 'Brand Chameleon', href: '/os/brand-chameleon' },
+      { label: 'Prototype → Prod', href: '/os/prototype-to-prod' },
+    ],
+  },
+  {
+    label: '⚙️ Anders',
+    builds: [
+      { label: 'Agent Health', href: '/os/agent-health' },
+    ],
+  },
+  {
+    label: '🧘 Wendy',
+    builds: [
+      { label: 'Pattern Mirror', href: '/os/pattern-mirror' },
+      { label: 'Decision Audit', href: '/os/decision-audit' },
+      { label: '20-Year Clock', href: '/os/twenty-year-clock' },
+    ],
+  },
+  {
+    label: '🍽️ Remy',
+    builds: [
+      { label: 'Menu Autopilot', href: '/os/menu-autopilot' },
+      { label: 'Slow Night SOS', href: '/os/slow-night-sos' },
+      { label: 'Competitor Radar', href: '/os/competitor-radar' },
+    ],
+  },
+  {
+    label: '🕵️ Dwight',
+    builds: [
+      { label: 'Threat Intel Daily', href: '/os/threat-intel-daily' },
+      { label: 'Commodity Radar', href: '/os/commodity-radar' },
+      { label: 'Agent Audit Log', href: '/os/agent-audit-log' },
+    ],
+  },
+  {
+    label: '📋 Milo',
+    builds: [
+      { label: 'Time Machine', href: '/os/time-machine' },
+      { label: 'Live Dashboard', href: '/os/live-dashboard' },
+      { label: 'The Forge', href: '/os/the-forge' },
+    ],
+  },
+];
+
 const agentInitiativesItems: NavItem[] = [
   { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
-  { label: '💰 Bobby', href: '/os/agent-initiatives#bobby' },
-  { label: '🎨 Paula', href: '/os/agent-initiatives#paula' },
-  { label: '⚙️ Anders', href: '/os/agent-initiatives#anders' },
-  { label: '🧘 Wendy', href: '/os/agent-initiatives#wendy' },
-  { label: '🍽️ Remy', href: '/os/agent-initiatives#remy' },
-  { label: '🕵️ Dwight', href: '/os/agent-initiatives#dwight' },
-  { label: '📋 Milo', href: '/os/agent-initiatives#milo' },
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
-  { label: '🕐 20-Year Clock', href: '/os/twenty-year-clock' },
-  { label: '🪞 Pattern Mirror', href: '/os/pattern-mirror' },
-  { label: '⚖️ Decision Audit', href: '/os/decision-audit' },
   { label: 'Newsletter', href: '/os/newsletter' },
 ];
 
@@ -232,6 +285,83 @@ const COLLAPSED_WIDTH = 60;
 
 type SectionState = Record<string, boolean>;
 const DEFAULT_SECTIONS: SectionState = { command: true, dashboard: true, finance: true, operations: false, agents: false, intel: false, initiatives: false, system: false };
+
+// ─── Initiatives sub-nav with agent groups ──────────────────────────────────
+function InitiativesNav({
+  items, agentGroups, isActive, renderNavItem, theme, colorMode,
+}: {
+  items: NavItem[];
+  agentGroups: AgentGroup[];
+  isActive: (href: string) => boolean;
+  renderNavItem: (item: NavItem) => React.ReactNode;
+  theme: typeof voidTheme;
+  colorMode: string;
+}) {
+  const [openAgents, setOpenAgents] = useState<Record<string, boolean>>({});
+  const toggleAgent = (label: string) => setOpenAgents(prev => ({ ...prev, [label]: !prev[label] }));
+
+  return (
+    <>
+      {items.map(renderNavItem)}
+      {agentGroups.map(group => {
+        const agentOpen = openAgents[group.label] ?? false;
+        const hasActiveChild = group.builds.some(b => isActive(b.href));
+        return (
+          <div key={group.label}>
+            <div
+              onClick={() => toggleAgent(group.label)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 20px 8px 36px',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: 600,
+                color: hasActiveChild ? theme.amber : theme.white,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <span style={{ fontSize: '10px', color: agentOpen ? theme.amber : theme.dimText }}>
+                {agentOpen ? '▾' : '▸'}
+              </span>
+              <span style={{ textTransform: 'uppercase', letterSpacing: '0.5px' }}>{group.label}</span>
+              <span style={{
+                fontFamily: "'JetBrains Mono', monospace",
+                fontSize: '9px',
+                color: theme.dimText,
+                marginLeft: 'auto',
+              }}>{group.builds.length}</span>
+            </div>
+            {agentOpen && group.builds.map(build => {
+              const active = isActive(build.href);
+              return (
+                <Link key={build.href} href={build.href} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '6px 20px 6px 56px',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    fontWeight: active ? 600 : 400,
+                    color: active ? theme.amber : theme.smoke,
+                    background: active ? 'rgba(245, 158, 11, 0.12)' : 'transparent',
+                    transition: 'all 0.15s ease',
+                    borderLeft: active ? `2px solid ${theme.amber}` : '2px solid transparent',
+                  }}>
+                    <span style={{ opacity: 0.5 }}>·</span>
+                    {build.label}
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        );
+      })}
+    </>
+  );
+}
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -476,12 +606,22 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
         </div>
         {/* Section items */}
         <div style={{
-          maxHeight: isOpen ? `${(config.items.length + (config.key === 'system' ? 1 : 0)) * 38}px` : '0px',
+          maxHeight: isOpen ? '2000px' : '0px',
           overflow: 'hidden',
-          transition: 'max-height 0.25s ease',
+          transition: 'max-height 0.3s ease',
           background: 'rgba(0, 0, 0, 0.2)',
         }}>
-          {config.items.map(renderNavItem)}
+          {config.key !== 'initiatives' && config.items.map(renderNavItem)}
+          {config.key === 'initiatives' && !(collapsed && !isMobile) && (
+            <InitiativesNav
+              items={config.items}
+              agentGroups={agentInitiativeGroups}
+              isActive={isActive}
+              renderNavItem={renderNavItem}
+              theme={theme}
+              colorMode={colorMode}
+            />
+          )}
           {/* Mode toggle for System Config section */}
           {config.key === 'system' && !(collapsed && !isMobile) && (
             <div

@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "3a28600a",
+      "author": "Milo",
+      "timestamp": "2026-03-15 23:25:14 -0400",
+      "message": "Redesign org chart - department-based room layout"
+    },
+    {
+      "type": "commit",
       "id": "95bb4dd4",
       "author": "Milo",
       "timestamp": "2026-03-15 22:53:15 -0400",
@@ -120,5 +127,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-16T03:24:05.615Z"
+  "generatedAt": "2026-03-16T03:34:11.400Z"
 }

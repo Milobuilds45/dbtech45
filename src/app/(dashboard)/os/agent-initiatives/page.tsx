@@ -56,7 +56,7 @@ const agents: Agent[] = [
         title: 'Earnings Whisper Wall',
         description: 'Crowdsourced earnings predictions. Users submit estimates before reports. Crowd consensus vs Wall Street vs actual — visualized in real-time.',
         status: 'building',
-        href: '/os/earnings-whisper-wall',
+        href: '/os/earnings-wall',
         icon: <BarChart3 size={18} />,
       },
       {
@@ -81,7 +81,7 @@ const agents: Agent[] = [
         title: 'Prototype → Production',
         description: 'Design a component in Figma or screenshot it. AI generates production-ready Next.js + Tailwind code in seconds. No more design→dev handoff friction.',
         status: 'building',
-        href: '/os/prototype-to-production',
+        href: '/os/prototype-to-prod',
         icon: <Code2 size={18} />,
       },
       {
@@ -97,7 +97,7 @@ const agents: Agent[] = [
         title: 'Design DNA Scanner',
         description: 'Upload any website screenshot and get a full design system breakdown — colors, typography, spacing, components — as a downloadable Tailwind config.',
         status: 'building',
-        href: '/os/design-dna-scanner',
+        href: '/os/design-dna',
         icon: <Palette size={18} />,
       },
     ],
@@ -115,6 +115,7 @@ const agents: Agent[] = [
         description: 'Single button creates a new agent — Telegram bot, OpenClaw workspace, SOUL.md, config files — live in under 60 seconds.',
         status: 'building',
         href: '/os/one-click-deploy',
+        // TODO: Anders didn't build this yet
         icon: <Zap size={18} />,
       },
       {
@@ -122,7 +123,7 @@ const agents: Agent[] = [
         title: 'Agent Health Monitor',
         description: 'Real-time swarm dashboard. See all agents\' status, current tasks, API usage, costs, and last heartbeat. Click an agent to see live logs.',
         status: 'building',
-        href: '/os/agent-health-monitor',
+        href: '/os/agent-health',
         icon: <Monitor size={18} />,
       },
       {
@@ -131,6 +132,7 @@ const agents: Agent[] = [
         description: 'Secure web interface for agent credential management. Grant/revoke access per agent with expiration times and full audit trails.',
         status: 'building',
         href: '/os/credential-vault',
+        // TODO: Anders didn't build this yet
         icon: <Shield size={18} />,
       },
     ],
