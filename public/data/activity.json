@@ -2,6 +2,20 @@
   "activity": [
     {
       "type": "commit",
+      "id": "6fca4c5e",
+      "author": "Milo",
+      "timestamp": "2026-03-15 23:37:58 -0400",
+      "message": "feat: complete Anders' 3 builds - Credential Vault UI + One-Click Agent Deploy"
+    },
+    {
+      "type": "commit",
+      "id": "a676fd4f",
+      "author": "Milo",
+      "timestamp": "2026-03-15 23:34:59 -0400",
+      "message": "fix: restructure sidebar - each agent owns their builds, fix 6 broken links, add missing pages"
+    },
+    {
+      "type": "commit",
       "id": "3a28600a",
       "author": "Milo",
       "timestamp": "2026-03-15 23:25:14 -0400",
@@ -127,5 +141,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-16T03:34:11.400Z"
+  "generatedAt": "2026-03-16T03:44:05.557Z"
 }

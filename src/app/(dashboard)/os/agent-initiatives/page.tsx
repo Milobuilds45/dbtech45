@@ -1,459 +1,645 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
-import Link from 'next/link';
-import { useState } from 'react';
+import { supabase } from '@/lib/supabase';
 import {
-  Rocket, ChevronDown, ChevronRight,
-  TrendingUp, BarChart3, Radio,
-  Palette, Paintbrush, Code2,
-  Monitor, Shield, Zap,
-  Brain, Scale, Clock,
-  ChefHat, Bell, Radar,
-  FileSearch, Wheat, ClipboardCheck,
-  Database, Satellite, Flame,
-  Users
+  ChevronDown, ChevronRight, Plus, X, Trash2, ArrowRight,
+  User, Clock, Lightbulb, CheckCircle2, XCircle,
 } from 'lucide-react';
 
-const M = "'JetBrains Mono','Fira Code',monospace";
-
-interface Initiative {
+// ─── Types ────────────────────────────────────────────────────────────────────
+interface Pitch {
   id: string;
+  agentId: string;
+  agentName: string;
   title: string;
-  description: string;
-  status: 'building' | 'shipped' | 'planning';
-  href: string;
-  icon: React.ReactNode;
+  tldr: string; // 3 sentences max
+  fullPlan: string; // comprehensive plan
+  date: string; // ISO date
+  time: string; // HH:MM
+  status: 'pending' | 'approved' | 'nixed';
 }
 
-interface Agent {
-  id: string;
-  name: string;
-  role: string;
-  emoji: string;
-  color: string;
-  initiatives: Initiative[];
-}
-
-const agents: Agent[] = [
-  {
-    id: 'bobby',
-    name: 'Bobby Axelrod',
-    role: 'Chief Investment Officer',
-    emoji: '💰',
-    color: '#10B981',
-    initiatives: [
-      {
-        id: 'ghost-trades',
-        title: 'Ghost Trades',
-        description: 'Paper trading simulator with leaderboard. $100K fake capital, real market data, public rankings. Fantasy football for options traders.',
-        status: 'building',
-        href: '/os/ghost-trades',
-        icon: <TrendingUp size={18} />,
-      },
-      {
-        id: 'earnings-whisper-wall',
-        title: 'Earnings Whisper Wall',
-        description: 'Crowdsourced earnings predictions. Users submit estimates before reports. Crowd consensus vs Wall Street vs actual — visualized in real-time.',
-        status: 'building',
-        href: '/os/earnings-wall',
-        icon: <BarChart3 size={18} />,
-      },
-      {
-        id: 'flow-radar',
-        title: 'Flow Radar',
-        description: 'Unusual options activity feed with AI translation. Big bets translated from raw data into plain English one-liners. Bloomberg Terminal for normal people.',
-        status: 'building',
-        href: '/os/flow-radar',
-        icon: <Radio size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'paula',
-    name: 'Paula',
-    role: 'Creative & Design',
-    emoji: '🎨',
-    color: '#EC4899',
-    initiatives: [
-      {
-        id: 'prototype-to-production',
-        title: 'Prototype → Production',
-        description: 'Design a component in Figma or screenshot it. AI generates production-ready Next.js + Tailwind code in seconds. No more design→dev handoff friction.',
-        status: 'building',
-        href: '/os/prototype-to-prod',
-        icon: <Code2 size={18} />,
-      },
-      {
-        id: 'brand-chameleon',
-        title: 'Brand Chameleon',
-        description: 'Upload a logo/brand and the entire Mission Control instantly re-skins itself to match. Live preview before committing. Perfect for white-label demos.',
-        status: 'building',
-        href: '/os/brand-chameleon',
-        icon: <Paintbrush size={18} />,
-      },
-      {
-        id: 'design-dna-scanner',
-        title: 'Design DNA Scanner',
-        description: 'Upload any website screenshot and get a full design system breakdown — colors, typography, spacing, components — as a downloadable Tailwind config.',
-        status: 'building',
-        href: '/os/design-dna',
-        icon: <Palette size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'anders',
-    name: 'Anders',
-    role: 'IT / DevOps / Engineering',
-    emoji: '⚙️',
-    color: '#3B82F6',
-    initiatives: [
-      {
-        id: 'one-click-deploy',
-        title: 'One-Click Agent Deploy',
-        description: 'Single button creates a new agent — Telegram bot, OpenClaw workspace, SOUL.md, config files — live in under 60 seconds.',
-        status: 'building',
-        href: '/os/one-click-deploy',
-        // TODO: Anders didn't build this yet
-        icon: <Zap size={18} />,
-      },
-      {
-        id: 'agent-health-monitor',
-        title: 'Agent Health Monitor',
-        description: 'Real-time swarm dashboard. See all agents\' status, current tasks, API usage, costs, and last heartbeat. Click an agent to see live logs.',
-        status: 'building',
-        href: '/os/agent-health',
-        icon: <Monitor size={18} />,
-      },
-      {
-        id: 'credential-vault',
-        title: 'Credential Vault UI',
-        description: 'Secure web interface for agent credential management. Grant/revoke access per agent with expiration times and full audit trails.',
-        status: 'building',
-        href: '/os/credential-vault',
-        // TODO: Anders didn't build this yet
-        icon: <Shield size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'wendy',
-    name: 'Wendy',
-    role: 'Personal & Wellness',
-    emoji: '🧘',
-    color: '#8B5CF6',
-    initiatives: [
-      {
-        id: 'twenty-year-clock',
-        title: 'The 20-Year Clock',
-        description: 'Life prioritization tool. If you had 20 years left, what would you stop doing today? Ruthless priority stack with weekly accountability.',
-        status: 'building',
-        href: '/os/twenty-year-clock',
-        icon: <Clock size={18} />,
-      },
-      {
-        id: 'decision-audit',
-        title: 'The Decision Audit',
-        description: 'Pre-decision framework. Five diagnostic questions that separate fear from intuition. Outputs clear-headed summary — a $500/hr coach in a page.',
-        status: 'building',
-        href: '/os/decision-audit',
-        icon: <Scale size={18} />,
-      },
-      {
-        id: 'pattern-mirror',
-        title: 'The Pattern Mirror',
-        description: 'Weekly emotional debrief — 3 questions, 90 seconds. AI analyzes recurring themes. Monthly mirror report shows blind spots in plain language.',
-        status: 'building',
-        href: '/os/pattern-mirror',
-        icon: <Brain size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'remy',
-    name: 'Remy',
-    role: 'Restaurant Ops & Marketing',
-    emoji: '🍽️',
-    color: '#F97316',
-    initiatives: [
-      {
-        id: 'slow-night-sos',
-        title: 'Slow Night SOS',
-        description: 'Detects when a restaurant trends 30% below pace by 3pm. Auto-triggers same-day customer outreach. Turns dead nights into recoverable nights.',
-        status: 'building',
-        href: '/os/slow-night-sos',
-        icon: <Bell size={18} />,
-      },
-      {
-        id: 'competitor-radar',
-        title: 'Competitor Radar',
-        description: 'Weekly automated scan of competing restaurants\' social, reviews, and specials by zip code. Market intelligence that chains pay $10K/month for.',
-        status: 'building',
-        href: '/os/competitor-radar',
-        icon: <Radar size={18} />,
-      },
-      {
-        id: 'menu-autopilot',
-        title: 'Menu Autopilot',
-        description: 'AI reads Toast POS sales data weekly and generates "push this, drop that" menu recommendations. What to feature, what to 86, what combos boost average check.',
-        status: 'building',
-        href: '/os/menu-autopilot',
-        icon: <ChefHat size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'dwight',
-    name: 'Dwight K. Schrute III',
-    role: 'Research & Intelligence',
-    emoji: '🕵️',
-    color: '#EAB308',
-    initiatives: [
-      {
-        id: 'threat-intel-daily',
-        title: 'Threat Intel Daily',
-        description: 'Hyperlocal AI intelligence brief every morning — weather, news, traffic, crime, supply chain disruptions — customized per zip code for busy operators.',
-        status: 'building',
-        href: '/os/threat-intel-daily',
-        icon: <FileSearch size={18} />,
-      },
-      {
-        id: 'commodity-radar',
-        title: 'Commodity Radar',
-        description: 'Real-time USDA + futures data translator. Converts food commodity price movements into plain English alerts for restaurant owners.',
-        status: 'building',
-        href: '/os/commodity-radar',
-        icon: <Wheat size={18} />,
-      },
-      {
-        id: 'agent-audit-log',
-        title: 'Agent Audit Log',
-        description: 'Public-facing dashboard showing what the AI team actually did today — commits, briefs delivered, tasks completed. Proof of work for potential clients.',
-        status: 'building',
-        href: '/os/agent-audit-log',
-        icon: <ClipboardCheck size={18} />,
-      },
-    ],
-  },
-  {
-    id: 'milo',
-    name: 'Milo',
-    role: 'Senior Advisor & Systems',
-    emoji: '📋',
-    color: '#6366F1',
-    initiatives: [
-      {
-        id: 'the-forge',
-        title: 'The Forge',
-        description: 'Idea → Shipped Product pipeline. Drop a raw idea in, system generates spec, assigns agents, tracks progress, deploys. Derek only approves checkpoints.',
-        status: 'shipped',
-        href: '/os/the-forge',
-        icon: <Flame size={18} />,
-      },
-      {
-        id: 'time-machine',
-        title: 'Time Machine',
-        description: 'Rewind any agent, project, or decision to any point in history. Full context reconstruction from memory files, git, and transcripts.',
-        status: 'shipped',
-        href: '/os/time-machine',
-        icon: <Database size={18} />,
-      },
-      {
-        id: 'mission-control-live',
-        title: 'Mission Control (Live)',
-        description: 'Real-time operational feed — token usage, active sessions, cron jobs, deployments, blockers. Air traffic control for the swarm.',
-        status: 'shipped',
-        href: '/os/live-dashboard',
-        icon: <Satellite size={18} />,
-      },
-    ],
-  },
+// ─── Agent Registry ───────────────────────────────────────────────────────────
+const agents = [
+  { id: 'bobby', name: 'Bobby Axelrod', emoji: '💰', role: 'Chief Investment Officer', color: '#10B981' },
+  { id: 'paula', name: 'Paula', emoji: '🎨', role: 'Creative & Design', color: '#EC4899' },
+  { id: 'anders', name: 'Anders', emoji: '⚙️', role: 'IT / DevOps', color: '#3B82F6' },
+  { id: 'wendy', name: 'Wendy', emoji: '🧘', role: 'Personal & Wellness', color: '#8B5CF6' },
+  { id: 'remy', name: 'Remy', emoji: '🍽️', role: 'Restaurant Ops', color: '#F97316' },
+  { id: 'dwight', name: 'Dwight', emoji: '🕵️', role: 'Research & Intel', color: '#EAB308' },
+  { id: 'milo', name: 'Milo', emoji: '📋', role: 'Senior Advisor & Systems', color: '#6366F1' },
+  { id: 'ted', name: 'Ted', emoji: '⚽', role: 'President & COO', color: '#F59E0B' },
 ];
 
-const statusColor = (status: Initiative['status']) => {
-  if (status === 'shipped') return brand.success;
-  if (status === 'building') return brand.amber;
-  return brand.smoke;
-};
+const STORAGE_KEY = 'agent-pitches-v2';
+const NIXED_KEY = 'agent-pitches-nixed';
 
-const statusLabel = (status: Initiative['status']) => {
-  if (status === 'shipped') return '✅ Shipped';
-  if (status === 'building') return '🔨 Building';
-  return '📋 Planning';
-};
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function formatDate(iso: string) {
+  const d = new Date(iso);
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
 
+function formatTime(t: string) {
+  const [h, m] = t.split(':');
+  const hour = parseInt(h);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const h12 = hour % 12 || 12;
+  return `${h12}:${m} ${ampm}`;
+}
+
+// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function AgentInitiativesPage() {
-  const [openAgents, setOpenAgents] = useState<Set<string>>(new Set(agents.map(a => a.id)));
+  const [pitches, setPitches] = useState<Pitch[]>([]);
+  const [nixedPitches, setNixedPitches] = useState<Pitch[]>([]);
+  const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
+  const [expandedPitch, setExpandedPitch] = useState<string | null>(null);
+  const [kanbanMsg, setKanbanMsg] = useState<string | null>(null);
+  const [nixMsg, setNixMsg] = useState<string | null>(null);
 
-  const toggleAgent = (id: string) => {
-    setOpenAgents(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
+  // Load from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) setPitches(JSON.parse(stored));
+      const storedNixed = localStorage.getItem(NIXED_KEY);
+      if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+    } catch {}
+  }, []);
+
+  // Save to localStorage
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pitches));
+  }, [pitches]);
+  useEffect(() => {
+    localStorage.setItem(NIXED_KEY, JSON.stringify(nixedPitches));
+  }, [nixedPitches]);
+
+  // Filter pitches for selected agent
+  const agentPitches = selectedAgent
+    ? pitches.filter(p => p.agentId === selectedAgent && p.status === 'pending')
+    : [];
+
+  const approvedPitches = selectedAgent
+    ? pitches.filter(p => p.agentId === selectedAgent && p.status === 'approved')
+    : [];
+
+  const agentNixed = selectedAgent
+    ? nixedPitches.filter(p => p.agentId === selectedAgent)
+    : [];
+
+  // Get pitch counts per agent
+  const getPitchCount = (agentId: string) =>
+    pitches.filter(p => p.agentId === agentId && p.status === 'pending').length;
+
+  // Add to Kanban (Supabase todos table)
+  const addToKanban = async (pitch: Pitch) => {
+    const { error } = await supabase.from('todos').insert({
+      title: pitch.title,
+      description: `**${pitch.agentName}'s Pitch**\n\n${pitch.tldr}\n\n---\n\n${pitch.fullPlan}`,
+      assignee: pitch.agentName,
+      priority: 'medium',
+      status: 'backlog',
+      project: 'Agent Initiatives',
+      tags: ['initiative', pitch.agentId],
     });
+
+    if (!error) {
+      setPitches(prev => prev.map(p =>
+        p.id === pitch.id ? { ...p, status: 'approved' as const } : p
+      ));
+      setKanbanMsg(`"${pitch.title}" added to Kanban → To Do`);
+      setTimeout(() => setKanbanMsg(null), 3000);
+    }
   };
 
-  const totalInitiatives = agents.reduce((sum, a) => sum + a.initiatives.length, 0);
-  const shippedCount = agents.reduce((sum, a) => sum + a.initiatives.filter(i => i.status === 'shipped').length, 0);
-  const buildingCount = agents.reduce((sum, a) => sum + a.initiatives.filter(i => i.status === 'building').length, 0);
+  // Nix idea
+  const nixIdea = (pitch: Pitch) => {
+    setPitches(prev => prev.filter(p => p.id !== pitch.id));
+    setNixedPitches(prev => [...prev, { ...pitch, status: 'nixed' as const }]);
+    setNixMsg(`"${pitch.title}" nixed`);
+    setTimeout(() => setNixMsg(null), 2000);
+  };
+
+  // Restore nixed idea
+  const restoreIdea = (pitch: Pitch) => {
+    setNixedPitches(prev => prev.filter(p => p.id !== pitch.id));
+    setPitches(prev => [...prev, { ...pitch, status: 'pending' as const }]);
+  };
+
+  const selectedAgentData = agents.find(a => a.id === selectedAgent);
+  const totalPending = pitches.filter(p => p.status === 'pending').length;
+  const totalApproved = pitches.filter(p => p.status === 'approved').length;
+  const totalNixed = nixedPitches.length;
 
   return (
-    <div style={styles.page}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{
+      minHeight: '100vh',
+      background: brand.void,
+      color: brand.white,
+      fontFamily: "'Inter', sans-serif",
+    }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '30px' }}>
         {/* Header */}
-        <div style={{ marginBottom: '2rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
-            <Rocket size={28} style={{ color: brand.amber }} />
-            <h1 style={styles.h1}>Agent Initiatives</h1>
-          </div>
-          <p style={styles.subtitle}>
-            Agent-driven products and features. Built autonomously, shipped with Derek&apos;s approval.
+        <div style={{ marginBottom: '30px' }}>
+          <h1 style={{
+            fontFamily: "'Space Grotesk', sans-serif",
+            fontSize: '24px',
+            fontWeight: 700,
+            color: brand.amber,
+            marginBottom: '8px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
+          }}>
+            Agent Initiatives
+          </h1>
+          <p style={{ fontSize: '14px', color: brand.smoke }}>
+            Agents pitch ideas. You decide what gets built.
           </p>
 
           {/* Stats bar */}
           <div style={{
-            display: 'flex', gap: '2rem', marginTop: '1rem',
-            padding: '0.75rem 1.25rem', backgroundColor: brand.carbon,
-            borderRadius: 8, border: `1px solid ${brand.border}`,
-            fontFamily: M, fontSize: '0.8rem',
+            display: 'flex',
+            gap: '24px',
+            marginTop: '16px',
+            fontSize: '12px',
+            fontFamily: "'JetBrains Mono', monospace",
           }}>
-            <div>
-              <span style={{ color: brand.smoke }}>Total: </span>
-              <span style={{ color: brand.white, fontWeight: 700 }}>{totalInitiatives}</span>
-            </div>
-            <div>
-              <span style={{ color: brand.smoke }}>Shipped: </span>
-              <span style={{ color: brand.success, fontWeight: 700 }}>{shippedCount}</span>
-            </div>
-            <div>
-              <span style={{ color: brand.smoke }}>Building: </span>
-              <span style={{ color: brand.amber, fontWeight: 700 }}>{buildingCount}</span>
-            </div>
-            <div>
-              <span style={{ color: brand.smoke }}>Agents: </span>
-              <span style={{ color: brand.white, fontWeight: 700 }}>{agents.length}</span>
-            </div>
+            <span style={{ color: brand.silver }}>
+              PENDING <span style={{ color: brand.amber, fontWeight: 600 }}>{totalPending}</span>
+            </span>
+            <span style={{ color: brand.silver }}>
+              APPROVED <span style={{ color: brand.success, fontWeight: 600 }}>{totalApproved}</span>
+            </span>
+            <span style={{ color: brand.silver }}>
+              NIXED <span style={{ color: brand.error, fontWeight: 600 }}>{totalNixed}</span>
+            </span>
           </div>
         </div>
 
-        {/* Agent Accordions */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {agents.map(agent => {
-            const isOpen = openAgents.has(agent.id);
-            const agentShipped = agent.initiatives.filter(i => i.status === 'shipped').length;
-            const agentBuilding = agent.initiatives.filter(i => i.status === 'building').length;
+        {/* Toast messages */}
+        {kanbanMsg && (
+          <div style={{
+            position: 'fixed', top: '20px', right: '20px', zIndex: 1000,
+            padding: '12px 20px', background: brand.success, color: '#000',
+            borderRadius: '8px', fontSize: '13px', fontWeight: 600,
+            display: 'flex', alignItems: 'center', gap: '8px',
+            boxShadow: '0 4px 20px rgba(16, 185, 129, 0.4)',
+          }}>
+            <CheckCircle2 size={16} /> {kanbanMsg}
+          </div>
+        )}
+        {nixMsg && (
+          <div style={{
+            position: 'fixed', top: '20px', right: '20px', zIndex: 1000,
+            padding: '12px 20px', background: brand.error, color: '#fff',
+            borderRadius: '8px', fontSize: '13px', fontWeight: 600,
+            display: 'flex', alignItems: 'center', gap: '8px',
+            boxShadow: '0 4px 20px rgba(239, 68, 68, 0.4)',
+          }}>
+            <XCircle size={16} /> {nixMsg}
+          </div>
+        )}
 
-            return (
-              <div key={agent.id} style={{
-                backgroundColor: brand.carbon,
-                borderRadius: 12,
-                border: `1px solid ${isOpen ? agent.color + '40' : brand.border}`,
-                overflow: 'hidden',
-                transition: 'border-color 0.2s',
-              }}>
-                {/* Agent Header (clickable) */}
-                <button
-                  onClick={() => toggleAgent(agent.id)}
+        {/* Main layout: agent list + pitch feed */}
+        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px' }}>
+          {/* Left: Agent list */}
+          <div style={{
+            background: brand.carbon,
+            border: `1px solid ${brand.border}`,
+            borderRadius: '12px',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              padding: '14px 16px',
+              borderBottom: `1px solid ${brand.border}`,
+              fontSize: '11px',
+              fontWeight: 600,
+              color: brand.smoke,
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              fontFamily: "'Space Grotesk', sans-serif",
+            }}>
+              The Team
+            </div>
+            {agents.map(agent => {
+              const count = getPitchCount(agent.id);
+              const isSelected = selectedAgent === agent.id;
+              return (
+                <div
+                  key={agent.id}
+                  onClick={() => setSelectedAgent(isSelected ? null : agent.id)}
                   style={{
-                    width: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 12,
-                    padding: '1.25rem 1.5rem',
-                    background: 'none',
-                    border: 'none',
+                    gap: '12px',
+                    padding: '12px 16px',
                     cursor: 'pointer',
-                    color: brand.white,
-                    textAlign: 'left',
+                    background: isSelected ? 'rgba(245, 158, 11, 0.1)' : 'transparent',
+                    borderLeft: isSelected ? `3px solid ${agent.color}` : '3px solid transparent',
+                    transition: 'all 0.15s ease',
                   }}
                 >
-                  {isOpen
-                    ? <ChevronDown size={20} style={{ color: agent.color, flexShrink: 0 }} />
-                    : <ChevronRight size={20} style={{ color: brand.smoke, flexShrink: 0 }} />
-                  }
-                  <span style={{ fontSize: '1.5rem', flexShrink: 0 }}>{agent.emoji}</span>
+                  <span style={{ fontSize: '18px' }}>{agent.emoji}</span>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: '1rem', fontWeight: 700, color: isOpen ? agent.color : brand.white }}>
+                    <div style={{
+                      fontSize: '13px',
+                      fontWeight: isSelected ? 600 : 500,
+                      color: isSelected ? brand.white : brand.silver,
+                    }}>
                       {agent.name}
                     </div>
-                    <div style={{ fontSize: '0.8rem', color: brand.smoke, marginTop: 2 }}>
+                    <div style={{
+                      fontSize: '10px',
+                      color: brand.smoke,
+                      marginTop: '2px',
+                    }}>
                       {agent.role}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
-                    {agentShipped > 0 && (
-                      <span style={{
-                        fontSize: '0.7rem', fontFamily: M, color: brand.success,
-                        background: `${brand.success}15`, padding: '3px 8px', borderRadius: 4,
-                      }}>
-                        {agentShipped} shipped
-                      </span>
-                    )}
-                    {agentBuilding > 0 && (
-                      <span style={{
-                        fontSize: '0.7rem', fontFamily: M, color: brand.amber,
-                        background: `${brand.amber}15`, padding: '3px 8px', borderRadius: 4,
-                      }}>
-                        {agentBuilding} building
-                      </span>
-                    )}
-                  </div>
-                </button>
+                  {count > 0 && (
+                    <span style={{
+                      fontSize: '11px',
+                      fontWeight: 600,
+                      fontFamily: "'JetBrains Mono', monospace",
+                      color: brand.amber,
+                      background: 'rgba(245, 158, 11, 0.15)',
+                      padding: '2px 8px',
+                      borderRadius: '10px',
+                    }}>
+                      {count}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
 
-                {/* Initiatives Dropdown */}
-                {isOpen && (
-                  <div style={{ padding: '0 1.5rem 1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                    {agent.initiatives.map(initiative => (
-                      <Link key={initiative.id} href={initiative.href} style={{ textDecoration: 'none' }}>
-                        <div
+          {/* Right: Pitch feed */}
+          <div>
+            {!selectedAgent ? (
+              /* No agent selected — overview */
+              <div style={{
+                background: brand.carbon,
+                border: `1px solid ${brand.border}`,
+                borderRadius: '12px',
+                padding: '60px 40px',
+                textAlign: 'center',
+              }}>
+                <Lightbulb size={48} color={brand.smoke} style={{ marginBottom: '16px' }} />
+                <h2 style={{
+                  fontFamily: "'Space Grotesk', sans-serif",
+                  fontSize: '20px',
+                  fontWeight: 600,
+                  color: brand.white,
+                  marginBottom: '8px',
+                }}>
+                  Select an agent to see their pitches
+                </h2>
+                <p style={{ fontSize: '14px', color: brand.smoke, maxWidth: '400px', margin: '0 auto' }}>
+                  Each agent submits ideas with a brief summary. You decide what gets built by adding it to the Kanban board — or nix it.
+                </p>
+
+                {/* Quick overview: agents with pending pitches */}
+                {totalPending > 0 && (
+                  <div style={{ marginTop: '30px' }}>
+                    <div style={{
+                      fontSize: '11px', color: brand.smoke, textTransform: 'uppercase',
+                      letterSpacing: '1px', marginBottom: '12px',
+                      fontFamily: "'Space Grotesk', sans-serif",
+                    }}>
+                      Agents with pending pitches
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                      {agents.filter(a => getPitchCount(a.id) > 0).map(a => (
+                        <button
+                          key={a.id}
+                          onClick={() => setSelectedAgent(a.id)}
                           style={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: 12,
-                            padding: '1rem 1.25rem',
-                            backgroundColor: brand.graphite,
-                            borderRadius: 8,
-                            border: `1px solid ${brand.border}`,
-                            cursor: 'pointer',
-                            transition: 'border-color 0.2s',
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '8px 14px', background: brand.graphite,
+                            border: `1px solid ${brand.border}`, borderRadius: '8px',
+                            color: brand.white, fontSize: '13px', cursor: 'pointer',
                           }}
-                          onMouseEnter={e => (e.currentTarget.style.borderColor = agent.color)}
-                          onMouseLeave={e => (e.currentTarget.style.borderColor = brand.border)}
                         >
-                          <div style={{ color: agent.color, flexShrink: 0, marginTop: 2 }}>
-                            {initiative.icon}
-                          </div>
-                          <div style={{ flex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                              <span style={{ fontSize: '0.95rem', fontWeight: 600, color: brand.white }}>
-                                {initiative.title}
-                              </span>
-                              <span style={{
-                                fontSize: '0.65rem', fontFamily: M,
-                                color: statusColor(initiative.status),
-                                background: `${statusColor(initiative.status)}15`,
-                                padding: '2px 8px', borderRadius: 4,
-                                fontWeight: 600, textTransform: 'uppercase',
-                              }}>
-                                {statusLabel(initiative.status)}
-                              </span>
-                            </div>
-                            <p style={{ fontSize: '0.82rem', color: brand.smoke, lineHeight: 1.5, margin: 0 }}>
-                              {initiative.description}
-                            </p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
+                          <span>{a.emoji}</span> {a.name}
+                          <span style={{
+                            fontSize: '11px', fontWeight: 600, color: brand.amber,
+                            fontFamily: "'JetBrains Mono', monospace",
+                          }}>
+                            {getPitchCount(a.id)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
-            );
-          })}
+            ) : (
+              /* Agent selected — show their pitches */
+              <div>
+                {/* Agent header */}
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: '16px',
+                  marginBottom: '20px', padding: '16px 20px',
+                  background: brand.carbon, border: `1px solid ${brand.border}`,
+                  borderRadius: '12px', borderLeft: `4px solid ${selectedAgentData?.color}`,
+                }}>
+                  <span style={{ fontSize: '32px' }}>{selectedAgentData?.emoji}</span>
+                  <div>
+                    <h2 style={{
+                      fontFamily: "'Space Grotesk', sans-serif",
+                      fontSize: '20px', fontWeight: 700, color: brand.white,
+                    }}>
+                      {selectedAgentData?.name}
+                    </h2>
+                    <div style={{ fontSize: '12px', color: brand.smoke }}>{selectedAgentData?.role}</div>
+                  </div>
+                  <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px', fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>
+                    <span style={{ color: brand.amber }}>PENDING {agentPitches.length}</span>
+                    <span style={{ color: brand.success }}>APPROVED {approvedPitches.length}</span>
+                    <span style={{ color: brand.error }}>NIXED {agentNixed.length}</span>
+                  </div>
+                </div>
+
+                {/* Pending pitches */}
+                {agentPitches.length === 0 && approvedPitches.length === 0 && agentNixed.length === 0 ? (
+                  <div style={{
+                    background: brand.carbon, border: `1px solid ${brand.border}`,
+                    borderRadius: '12px', padding: '40px', textAlign: 'center',
+                  }}>
+                    <div style={{ fontSize: '32px', marginBottom: '12px' }}>💤</div>
+                    <p style={{ color: brand.smoke, fontSize: '14px' }}>
+                      No pitches from {selectedAgentData?.name} yet. They&apos;ll show up here when submitted.
+                    </p>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {/* Pending section */}
+                    {agentPitches.length > 0 && (
+                      <>
+                        <div style={{
+                          fontSize: '11px', color: brand.smoke, textTransform: 'uppercase',
+                          letterSpacing: '1px', padding: '0 4px',
+                          fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600,
+                        }}>
+                          Pending Review
+                        </div>
+                        {agentPitches.map(pitch => (
+                          <PitchCard
+                            key={pitch.id}
+                            pitch={pitch}
+                            expanded={expandedPitch === pitch.id}
+                            onToggle={() => setExpandedPitch(expandedPitch === pitch.id ? null : pitch.id)}
+                            onApprove={() => addToKanban(pitch)}
+                            onNix={() => nixIdea(pitch)}
+                            agentColor={selectedAgentData?.color || brand.amber}
+                          />
+                        ))}
+                      </>
+                    )}
+
+                    {/* Approved section */}
+                    {approvedPitches.length > 0 && (
+                      <>
+                        <div style={{
+                          fontSize: '11px', color: brand.success, textTransform: 'uppercase',
+                          letterSpacing: '1px', padding: '12px 4px 0',
+                          fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600,
+                        }}>
+                          ✅ Approved — On Kanban
+                        </div>
+                        {approvedPitches.map(pitch => (
+                          <div key={pitch.id} style={{
+                            background: brand.carbon, border: `1px solid rgba(16, 185, 129, 0.3)`,
+                            borderRadius: '10px', padding: '14px 18px',
+                            opacity: 0.7,
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <CheckCircle2 size={16} color={brand.success} />
+                              <span style={{ fontSize: '14px', fontWeight: 600, color: brand.white }}>{pitch.title}</span>
+                              <span style={{
+                                fontSize: '10px', color: brand.smoke, marginLeft: 'auto',
+                                fontFamily: "'JetBrains Mono', monospace",
+                              }}>
+                                {formatDate(pitch.date)}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+
+                    {/* Nixed section */}
+                    {agentNixed.length > 0 && (
+                      <>
+                        <div style={{
+                          fontSize: '11px', color: brand.error, textTransform: 'uppercase',
+                          letterSpacing: '1px', padding: '12px 4px 0',
+                          fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600,
+                        }}>
+                          ❌ Nixed
+                        </div>
+                        {agentNixed.map(pitch => (
+                          <div key={pitch.id} style={{
+                            background: brand.carbon, border: `1px solid rgba(239, 68, 68, 0.2)`,
+                            borderRadius: '10px', padding: '14px 18px',
+                            opacity: 0.5,
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <XCircle size={16} color={brand.error} />
+                              <span style={{ fontSize: '14px', color: brand.silver, textDecoration: 'line-through' }}>{pitch.title}</span>
+                              <button
+                                onClick={() => restoreIdea(pitch)}
+                                style={{
+                                  marginLeft: 'auto', fontSize: '11px', color: brand.smoke,
+                                  background: 'none', border: `1px solid ${brand.border}`,
+                                  borderRadius: '6px', padding: '4px 10px', cursor: 'pointer',
+                                }}
+                              >
+                                Restore
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
+    </div>
+  );
+}
+
+// ─── Pitch Card Component ─────────────────────────────────────────────────────
+function PitchCard({
+  pitch, expanded, onToggle, onApprove, onNix, agentColor,
+}: {
+  pitch: Pitch;
+  expanded: boolean;
+  onToggle: () => void;
+  onApprove: () => void;
+  onNix: () => void;
+  agentColor: string;
+}) {
+  return (
+    <div style={{
+      background: brand.carbon,
+      border: `1px solid ${expanded ? agentColor : brand.border}`,
+      borderRadius: '10px',
+      overflow: 'hidden',
+      transition: 'border-color 0.2s ease',
+    }}>
+      {/* Summary row: Date - Time - Name - TLDR */}
+      <div
+        onClick={onToggle}
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          gap: '16px',
+          padding: '16px 18px',
+          cursor: 'pointer',
+          transition: 'background 0.15s ease',
+        }}
+      >
+        {/* Date/Time block */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          minWidth: '80px',
+          flexShrink: 0,
+        }}>
+          <span style={{
+            fontSize: '11px',
+            fontFamily: "'JetBrains Mono', monospace",
+            color: brand.smoke,
+          }}>
+            {formatDate(pitch.date)}
+          </span>
+          <span style={{
+            fontSize: '10px',
+            fontFamily: "'JetBrains Mono', monospace",
+            color: brand.smoke,
+            opacity: 0.6,
+          }}>
+            {formatTime(pitch.time)}
+          </span>
+        </div>
+
+        {/* Divider */}
+        <div style={{ width: '1px', height: '36px', background: brand.border, flexShrink: 0 }} />
+
+        {/* Title + TLDR */}
+        <div style={{ flex: 1 }}>
+          <div style={{
+            fontSize: '15px',
+            fontWeight: 600,
+            color: brand.white,
+            marginBottom: '4px',
+            fontFamily: "'Space Grotesk', sans-serif",
+          }}>
+            {pitch.title}
+          </div>
+          <div style={{
+            fontSize: '13px',
+            color: brand.silver,
+            lineHeight: 1.5,
+          }}>
+            {pitch.tldr}
+          </div>
+        </div>
+
+        {/* Expand arrow */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          color: expanded ? agentColor : brand.smoke,
+          transition: 'transform 0.2s ease, color 0.2s ease',
+          transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+          flexShrink: 0,
+          marginTop: '4px',
+        }}>
+          <ChevronDown size={20} />
+        </div>
+      </div>
+
+      {/* Expanded: full plan + actions */}
+      {expanded && (
+        <div style={{
+          borderTop: `1px solid ${brand.border}`,
+          padding: '20px 18px',
+          background: brand.graphite,
+        }}>
+          {/* Full plan */}
+          <div style={{
+            fontSize: '13px',
+            color: brand.silver,
+            lineHeight: 1.8,
+            whiteSpace: 'pre-wrap',
+            marginBottom: '20px',
+          }}>
+            {pitch.fullPlan}
+          </div>
+
+          {/* Action buttons */}
+          <div style={{
+            display: 'flex',
+            gap: '12px',
+            paddingTop: '16px',
+            borderTop: `1px solid ${brand.border}`,
+          }}>
+            <button
+              onClick={(e) => { e.stopPropagation(); onApprove(); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                background: brand.amber,
+                color: brand.void,
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: "'Inter', sans-serif",
+                transition: 'background 0.15s ease',
+              }}
+            >
+              <Plus size={16} />
+              Add to Kanban
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); onNix(); }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 20px',
+                background: 'transparent',
+                color: brand.error,
+                border: `1px solid ${brand.error}`,
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontWeight: 600,
+                cursor: 'pointer',
+                fontFamily: "'Inter', sans-serif",
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <Trash2 size={16} />
+              Nix Idea
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
