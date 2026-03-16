@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "ee9b192f",
+      "author": "Milo",
+      "timestamp": "2026-03-15 18:33:40 -0400",
+      "message": "fix: update Gemini model to 2.0-flash and fix GOOGLE_API_KEY env variable across all API routes"
+    },
+    {
+      "type": "commit",
       "id": "ae29d9d2",
       "author": "Milo",
       "timestamp": "2026-03-15 17:29:30 -0400",
@@ -106,5 +113,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-15T22:29:05.132Z"
+  "generatedAt": "2026-03-16T02:49:05.459Z"
 }
