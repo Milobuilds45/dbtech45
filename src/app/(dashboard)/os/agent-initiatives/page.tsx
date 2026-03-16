@@ -59,14 +59,54 @@ export default function AgentInitiativesPage() {
   const [kanbanMsg, setKanbanMsg] = useState<string | null>(null);
   const [nixMsg, setNixMsg] = useState<string | null>(null);
 
-  // Load from localStorage
+  // Load from JSON file + localStorage
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) setPitches(JSON.parse(stored));
-      const storedNixed = localStorage.getItem(NIXED_KEY);
-      if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
-    } catch {}
+    const load = async () => {
+      try {
+        // Load from static JSON file (agent submissions)
+        const res = await fetch('/data/agent-pitches.json');
+        if (res.ok) {
+          const filePitches: Pitch[] = await res.json();
+          // Load localStorage overrides (approved/nixed status)
+          const stored = localStorage.getItem(STORAGE_KEY);
+          const localPitches: Pitch[] = stored ? JSON.parse(stored) : [];
+          const storedNixed = localStorage.getItem(NIXED_KEY);
+          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+
+          // Merge: file pitches are the source of truth, but localStorage tracks status changes
+          const localIds = new Set(localPitches.map(p => p.id));
+          const nixedIds = new Set((storedNixed ? JSON.parse(storedNixed) : []).map((p: Pitch) => p.id));
+          const approvedIds = new Set(localPitches.filter(p => p.status === 'approved').map(p => p.id));
+
+          const merged = filePitches.map(p => {
+            if (nixedIds.has(p.id)) return { ...p, status: 'nixed' as const };
+            if (approvedIds.has(p.id)) return { ...p, status: 'approved' as const };
+            return p;
+          });
+
+          // Also include any localStorage-only pitches (manual adds)
+          const fileIds = new Set(filePitches.map(p => p.id));
+          const localOnly = localPitches.filter(p => !fileIds.has(p.id));
+
+          setPitches([...merged, ...localOnly]);
+        } else {
+          // Fallback to localStorage only
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored) setPitches(JSON.parse(stored));
+          const storedNixed = localStorage.getItem(NIXED_KEY);
+          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+        }
+      } catch {
+        // Fallback to localStorage
+        try {
+          const stored = localStorage.getItem(STORAGE_KEY);
+          if (stored) setPitches(JSON.parse(stored));
+          const storedNixed = localStorage.getItem(NIXED_KEY);
+          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+        } catch {}
+      }
+    };
+    load();
   }, []);
 
   // Save to localStorage
