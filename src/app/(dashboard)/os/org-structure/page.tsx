@@ -68,8 +68,8 @@ const rooms: Room[] = [
     color: '#F59E0B',
     x: 160,
     y: 250,
-    w: 220,
-    h: 104,
+    w: 240,
+    h: 120,
     members: [
       { name: 'Derek', role: 'CEO / Founder', initials: 'D', color: '#F59E0B', hasAvatar: true },
     ],
@@ -80,11 +80,11 @@ const rooms: Room[] = [
     color: '#34D399',
     x: 450,
     y: 250,
-    w: 300,
-    h: 196,
+    w: 340,
+    h: 220,
     members: [
       { name: 'Ted', role: 'COO', initials: 'TD', color: '#d4a574', hasAvatar: true },
-      { name: 'Milo', role: 'Senior Advisor', initials: 'MI', color: '#A855F7' },
+      { name: 'Milo', role: 'Senior Advisor', initials: 'MI', color: '#A855F7', hasAvatar: true },
     ],
     notes: [
       'Routes priority work across all rooms',
@@ -98,12 +98,12 @@ const rooms: Room[] = [
     label: 'Creative + Tech Wing',
     color: '#F59E0B',
     x: 780,
-    y: 135,
-    w: 230,
-    h: 186,
+    y: 115,
+    w: 260,
+    h: 210,
     members: [
-      { name: 'Paula', role: 'Creative Director', initials: 'PA', color: '#EC4899' },
-      { name: 'Anders', role: 'IT / Engineering', initials: 'AN', color: '#F97316' },
+      { name: 'Paula', role: 'Creative Director', initials: 'PA', color: '#EC4899', hasAvatar: true },
+      { name: 'Anders', role: 'IT / Engineering', initials: 'AN', color: '#F97316', hasAvatar: true },
     ],
     notes: ['Brand systems', 'Build + implementation'],
     addSlotLabel: 'Add builder',
@@ -114,11 +114,11 @@ const rooms: Room[] = [
     color: '#60A5FA',
     x: 780,
     y: 355,
-    w: 250,
-    h: 220,
+    w: 280,
+    h: 250,
     members: [
-      { name: 'Bobby', role: 'Trading', initials: 'BO', color: '#22C55E' },
-      { name: 'Remy', role: 'Restaurant Ops', initials: 'RM', color: '#EAB308' },
+      { name: 'Bobby', role: 'Trading', initials: 'BO', color: '#22C55E', hasAvatar: true },
+      { name: 'Remy', role: 'Restaurant Ops', initials: 'RM', color: '#EAB308', hasAvatar: true },
       { name: 'Trent', role: 'Intel', initials: 'TR', color: '#EF4444' },
     ],
     notes: ['Markets', 'Operations', 'Intel'],
@@ -129,12 +129,12 @@ const rooms: Room[] = [
     label: 'Growth + Social Wing',
     color: '#34D399',
     x: 780,
-    y: 600,
-    w: 320,
-    h: 220,
+    y: 620,
+    w: 340,
+    h: 250,
     members: [
       { name: 'Michael', role: 'Sales', initials: 'MS', color: '#F59E0B' },
-      { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1' },
+      { name: 'Dwight', role: 'Intel', initials: 'DW', color: '#6366F1', hasAvatar: true },
       { name: 'Jim', role: 'Social', initials: 'JH', color: '#06B6D4' },
     ],
     notes: ['Audience growth', 'Sales / outreach'],
@@ -145,12 +145,12 @@ const rooms: Room[] = [
     label: 'Personal Suite',
     color: '#8B5CF6',
     x: 450,
-    y: 575,
-    w: 230,
-    h: 148,
+    y: 600,
+    w: 260,
+    h: 170,
     isolated: true,
     members: [
-      { name: 'Wendy', role: 'Personal', initials: 'WN', color: '#8B5CF6' },
+      { name: 'Wendy', role: 'Personal', initials: 'WN', color: '#8B5CF6', hasAvatar: true },
     ],
     notes: ['Private lane'],
     addSlotLabel: 'Add support',
@@ -187,8 +187,8 @@ function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) 
     return (
       <div
         style={{
-          width: 36,
-          height: 36,
+          width: 44,
+          height: 44,
           borderRadius: 8,
           overflow: 'hidden',
           border: `1.5px solid ${member.color}`,
@@ -204,15 +204,15 @@ function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) 
   return (
     <div
       style={{
-        width: 36,
-        height: 36,
+        width: 44,
+        height: 44,
         borderRadius: 8,
         background: member.color,
         color: '#05070b',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        fontSize: 12,
+        fontSize: 14,
         fontWeight: 800,
         fontFamily: "'JetBrains Mono', monospace",
         flexShrink: 0,
@@ -230,17 +230,17 @@ function MemberCard({ member, theme }: { member: Member; theme: typeof themeVoid
         background: theme.card,
         border: `1px solid ${member.color}45`,
         borderRadius: 10,
-        padding: '10px 12px',
+        padding: '12px 14px',
         display: 'flex',
         alignItems: 'center',
-        gap: 10,
-        minHeight: 58,
+        gap: 12,
+        minHeight: 64,
       }}
     >
       <Avatar member={member} theme={theme} />
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ color: theme.text, fontSize: 12, fontWeight: 700, lineHeight: 1.15 }}>{member.name}</div>
-        <div style={{ color: theme.muted, fontSize: 10, marginTop: 3, lineHeight: 1.1 }}>{member.role}</div>
+        <div style={{ color: theme.text, fontSize: 13, fontWeight: 700, lineHeight: 1.15 }}>{member.name}</div>
+        <div style={{ color: theme.muted, fontSize: 11, marginTop: 4, lineHeight: 1.1 }}>{member.role}</div>
       </div>
       <div
         style={{
@@ -264,16 +264,16 @@ function AddSlot({ label, theme }: { label?: string; theme: typeof themeVoid }) 
         border: `1px dashed ${theme.border}`,
         background: theme.cardSoft,
         borderRadius: 10,
-        padding: '12px 10px',
+        padding: '14px 12px',
         color: theme.muted,
-        fontSize: 10,
+        fontSize: 11,
         fontWeight: 700,
         letterSpacing: 0.3,
         textTransform: 'uppercase',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        minHeight: 48,
+        minHeight: 54,
       }}
     >
       + {label}
@@ -313,42 +313,42 @@ export default function OrgStructurePage() {
       id: 'execToCommand',
       color: '#34D399',
       path: path([
-        [278, 250],
-        [292, 250],
+        [280, 250],
+        [280, 250],
       ])
     },
     {
       id: 'commandToCreative',
       color: '#F59E0B',
       path: path([
-        [608, 210],
-        [635, 210],
-        [635, 135],
-        [657, 135],
+        [620, 210],
+        [650, 210],
+        [650, 115],
+        [650, 115],
       ])
     },
     {
       id: 'commandToOps',
       color: '#60A5FA',
       path: path([
-        [608, 295],
-        [647, 295],
+        [620, 295],
+        [640, 295],
       ])
     },
     {
       id: 'opsToGrowth',
       color: '#34D399',
       path: path([
-        [780, 473],
-        [780, 482],
+        [780, 480],
+        [780, 495],
       ])
     },
     {
       id: 'commandToPersonal',
       color: '#8B5CF6',
       path: path([
-        [450, 356],
-        [450, 493],
+        [450, 360],
+        [450, 515],
       ])
     }
   ], []);
@@ -488,6 +488,17 @@ export default function OrgStructurePage() {
                   </path>
                 </g>
               ))}
+
+              <Port x={280} y={250} color="#F59E0B" />
+              <Port x={280} y={250} color="#34D399" />
+              <Port x={620} y={210} color="#34D399" />
+              <Port x={650} y={115} color="#F59E0B" />
+              <Port x={620} y={295} color="#34D399" />
+              <Port x={640} y={355} color="#60A5FA" />
+              <Port x={780} y={480} color="#60A5FA" />
+              <Port x={780} y={495} color="#34D399" />
+              <Port x={450} y={360} color="#34D399" />
+              <Port x={450} y={515} color="#8B5CF6" />
             </svg>
 
             {rooms.map((room) => {
