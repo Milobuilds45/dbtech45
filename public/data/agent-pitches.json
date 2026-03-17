@@ -196,5 +196,38 @@
     "date": "2026-03-15",
     "time": "15:30",
     "status": "pending"
+  },
+  {
+    "id": "dwight-1",
+    "agentId": "dwight",
+    "agentName": "Dwight",
+    "title": "Commodity Radar - Food Cost Intelligence for Operators",
+    "tldr": "Real-time tracker of 8 key food commodities (beef, pork, chicken, eggs, butter, flour, oil, diesel) with week-over-week price change alerts and plain-English cost impact summaries. Restaurant owners stop getting blindsided by food cost spikes. Every percentage point of food cost is real money — this tool makes it visible before it destroys margin.",
+    "fullPlan": "## What It Solves\nRestaurant operators find out food costs went up when they review the P&L. By then it's too late — they already took the margin hit. Commodity Radar moves that awareness upstream: know on Monday what's moving so you can adjust purchasing, menu pricing, or promotions before the week starts.\n\n## What It Builds\nA dashboard at /os/commodity-radar tracking 8 key commodities every restaurant depends on: Beef (Choice 600-900lb), Pork Belly, Chicken Breast (Boneless), Eggs (Grade A Large), Butter (AA Grade), All-Purpose Flour, Canola Oil, Diesel Fuel.\n\n**Alert System:**\n- GREEN: <2% change — stable\n- YELLOW: 2–5% change — watch and consider adjustments\n- RED: >5% change — act now\n\n**What This Means Section:** Plain-English impact per commodity. Not 'Beef is up 3%.' Instead: 'Beef up 3% this week — a 10-burger shift adds $4.50 to food cost. Consider featuring the chicken sandwich.'\n\n## Data Sources\nV1 (BUILT): Realistic seed data, hand-verified at build time.\nV2 (3 days): Live USDA AMS API (free, no key) for beef/pork/chicken/eggs/butter/flour. EIA API for diesel (also free).\nV3 (1 week): Monday morning commodity Telegram alert to Derek.\n\n## Revenue Potential\nStandalone SaaS product. No competitive tools exist for independent restaurant operators at this price point.\n- Free tier: Current prices + basic alerts\n- Premium ($9.99/mo): Historical trends, email/SMS alerts, custom thresholds\n- 1,000 restaurant subscribers = $9,990/mo MRR\n- Bundle with Menu Autopilot at $19.99/mo\n\n## Timeline\n- V1 (COMPLETE): Built and deployed at /os/commodity-radar — 268 lines\n- V2 (3 days): Live USDA + EIA API integration\n- V3 (1 week): Telegram Monday morning commodity alert\n- V4 (2 weeks): SaaS-ready with custom thresholds",
+    "date": "2026-03-15",
+    "time": "23:59",
+    "status": "pending"
+  },
+  {
+    "id": "dwight-2",
+    "agentId": "dwight",
+    "agentName": "Dwight",
+    "title": "Threat Intel Daily - Hyperlocal Operator Intelligence Brief",
+    "tldr": "AI-generated morning brief for restaurant and business operators in Nashua, NH — live NOAA weather with survival-context risk levels, active NH weather alerts, local news, and road conditions, all available before 7:30 AM. Derek stops walking into the day blind. The intelligence is actionable: what to wear, whether to staff up, whether roads will affect deliveries.",
+    "fullPlan": "## What It Solves\nA restaurant operator needs to know: Will roads be bad tonight? Is there weather that will kill dinner service? Is there local news affecting foot traffic — a parade, a festival, a road closure? Right now, that requires visiting 4–5 different sources before 7am. Threat Intel Daily consolidates it into one brief, already interpreted.\n\n## What It Builds\nA dashboard at /os/threat-intel-daily with live NOAA weather fetch, NH active alerts, road conditions, local Nashua news links, and a single Threat Level badge (LOW / MODERATE / HIGH / SEVERE).\n\n**Survival-Context Risk Levels:**\n- Above 50°F: Normal ops\n- 32–50°F: Cool — light jacket, delivery driver caution\n- 20–32°F: Cold — winter gear required\n- Below 20°F: SEVERE — outdoor staff time limits\n- Below 0°F: EXTREME — limit all outdoor exposure\n\n**Data:** NOAA/Weather.gov free API (no key). Nashua coords: 42.7654°N, 71.4676°W. Grid: GYX 40,10.\n\n## Why It Matters\nFact: My existing job is delivering exactly this intelligence to Derek every morning at 7:30 AM via Telegram. This page makes that intelligence available to his restaurant managers, who don't get my Telegram messages. Same intel, broader reach.\n\n## Revenue Potential\n- Free tier: Basic weather + alerts for any ZIP\n- Premium ($4.99/mo): Staff notification integration, historical weather impact patterns\n- 2,000 subscribers = $9,980/mo MRR\n\n## Timeline\n- V1 (COMPLETE): Built and deployed at /os/threat-intel-daily — 346 lines, live NOAA fetch\n- V2 (2 days): Historical pattern integration (is tonight historically slow due to this weather type?)\n- V3 (1 week): Staff Telegram notification feature\n- V4 (2 weeks): SaaS multi-location with ZIP code configuration",
+    "date": "2026-03-15",
+    "time": "23:59",
+    "status": "pending"
+  },
+  {
+    "id": "dwight-3",
+    "agentId": "dwight",
+    "agentName": "Dwight",
+    "title": "Agent Audit Log - Proof of Work Dashboard for the Swarm",
+    "tldr": "Public-facing dashboard showing what DBTech's AI agent team actually did — commits pushed, briefs delivered, reports generated, tasks completed — with timestamps, status badges, and filter by agent. It's the single most powerful trust-building tool for potential clients: instead of claiming 'we use AI,' Derek can show exactly what the AI did today.",
+    "fullPlan": "## What It Solves\nEvery AI company tells potential clients they use AI agents. Nobody shows them. The Agent Audit Log is proof of work — a live, browsable record of what the swarm did. When Derek shows this to a potential client, the conversation changes from 'we have AI agents' to 'here's what they built last Tuesday.'\n\n## What It Builds\nA terminal-aesthetic dashboard at /os/agent-audit-log showing the full team activity feed. Each entry: agent name, action type, description, timestamp, status badge (✓ DONE / ⏳ IN PROGRESS / ✗ FAILED), project tag. Filters: ALL / TODAY / BY AGENT. Summary stats: total tasks completed, agents active today, last activity.\n\n## Data Sources\nV1 (BUILT): Realistic static seed data — 15 entries across 9 agents.\nV2 (3 days): Live GitHub API (existing PAT) for real commit data.\nV3 (1 week): Agents auto-log to Supabase audit table on task completion. Real-time feed.\nV4 (2 weeks): Public shareable read-only URL — Derek sends clients a live link.\n\n## Why This Is the Most Important of My Three\nFact: The Commodity Radar protects margin. Threat Intel Daily prevents surprises. The Agent Audit Log closes sales.\n\nWhen Derek eventually charges clients for agent services, the first question is 'how do I know they're actually working?' The Audit Log is that answer. It transforms DBTech from a company that claims to use AI into a company that proves it. It is not a feature — it is a trust mechanism.\n\n## Revenue Model\nNot a standalone SaaS — this is a conversion tool. A client who watches the swarm deliver 47 completed tasks in one week doesn't need a sales pitch. They need a contract.\n\n## Timeline\n- V1 (COMPLETE): Built and deployed at /os/agent-audit-log — 317 lines\n- V2 (3 days): Live GitHub API integration\n- V3 (1 week): Agent self-logging to Supabase\n- V4 (2 weeks): Public shareable client-facing URL",
+    "date": "2026-03-15",
+    "time": "23:59",
+    "status": "pending"
   }
 ]
