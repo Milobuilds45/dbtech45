@@ -68,8 +68,8 @@ const rooms: Room[] = [
     color: '#F59E0B',
     x: 160,
     y: 250,
-    w: 240,
-    h: 120,
+    w: 280,
+    h: 150,
     members: [
       { name: 'Derek', role: 'CEO / Founder', initials: 'D', color: '#F59E0B', hasAvatar: true },
     ],
@@ -165,8 +165,22 @@ function pctY(n: number) {
   return `${(n / VIEW_H) * 100}%`;
 }
 
-function path(points: Array<[number, number]>) {
-  return points.map(([x, y], i) => `${i === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ');
+function smoothVerticalCurve(points: Array<[number, number]>) {
+  if (points.length < 2) return '';
+  const [start, end] = points;
+  
+  // Vertical-first Bezier curve (for top/bottom connections)
+  const curvature = Math.abs(start[1] - end[1]) * 0.5;
+  return `M ${start[0]} ${start[1]} C ${start[0]} ${start[1] + curvature}, ${end[0]} ${end[1] - curvature}, ${end[0]} ${end[1]}`;
+}
+
+function cubicBezierPath(points: Array<[number, number]>) {
+  if (points.length < 2) return '';
+  const [start, end] = points;
+  
+  // Horizontal-first Bezier curve (for side connections)
+  const curvature = Math.abs(start[0] - end[0]) * 0.5;
+  return `M ${start[0]} ${start[1]} C ${start[0] + curvature} ${start[1]}, ${end[0] - curvature} ${end[1]}, ${end[0]} ${end[1]}`;
 }
 
 function Port({ x, y, color }: { x: number; y: number; color: string }) {
@@ -312,33 +326,31 @@ export default function OrgStructurePage() {
     {
       id: 'execToCommand',
       color: '#34D399',
-      path: path([
-        [280, 250],
+      path: cubicBezierPath([
+        [300, 250],
         [280, 250],
       ])
     },
     {
       id: 'commandToCreative',
       color: '#F59E0B',
-      path: path([
+      path: cubicBezierPath([
         [620, 210],
-        [650, 210],
-        [650, 115],
         [650, 115],
       ])
     },
     {
       id: 'commandToOps',
       color: '#60A5FA',
-      path: path([
+      path: cubicBezierPath([
         [620, 295],
-        [640, 295],
+        [640, 355],
       ])
     },
     {
       id: 'opsToGrowth',
       color: '#34D399',
-      path: path([
+      path: smoothVerticalCurve([
         [780, 480],
         [780, 495],
       ])
@@ -346,7 +358,7 @@ export default function OrgStructurePage() {
     {
       id: 'commandToPersonal',
       color: '#8B5CF6',
-      path: path([
+      path: smoothVerticalCurve([
         [450, 360],
         [450, 515],
       ])
@@ -490,7 +502,7 @@ export default function OrgStructurePage() {
               ))}
 
               <Port x={280} y={250} color="#F59E0B" />
-              <Port x={280} y={250} color="#34D399" />
+              <Port x={300} y={250} color="#34D399" />
               <Port x={620} y={210} color="#34D399" />
               <Port x={650} y={115} color="#F59E0B" />
               <Port x={620} y={295} color="#34D399" />

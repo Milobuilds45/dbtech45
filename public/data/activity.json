@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "10a37808",
+      "author": "Milo",
+      "timestamp": "2026-03-17 11:27:55 -0400",
+      "message": "UI tweak: enlarge org chart cards, fix growth+social gap, add connecting ports"
+    },
+    {
+      "type": "commit",
       "id": "24bdbc68",
       "author": "Milo",
       "timestamp": "2026-03-17 09:06:27 -0400",
@@ -211,5 +218,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-17T15:24:07.451Z"
+  "generatedAt": "2026-03-17T15:29:12.647Z"
 }
