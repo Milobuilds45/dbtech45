@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "7b5fadb2",
+      "author": "Milo",
+      "timestamp": "2026-03-17 11:31:43 -0400",
+      "message": "UI tweak: make executive suite larger, change orthogonal lines to n8n-style bezier curves"
+    },
+    {
+      "type": "commit",
       "id": "10a37808",
       "author": "Milo",
       "timestamp": "2026-03-17 11:27:55 -0400",
@@ -218,5 +225,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-17T15:29:12.647Z"
+  "generatedAt": "2026-03-17T21:09:06.303Z"
 }

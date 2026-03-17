@@ -158,7 +158,6 @@ const agentItems: NavItem[] = [
   { label: 'Model Counsel', href: '/os/model-counsel' },
   { label: 'Roundtable', href: '/os/roundtable' },
   { label: 'Agent Assist', href: '/os/agents/assist' },
-  { label: 'Agent Ideas', href: '/os/agents/ideas' },
 ];
 
 const opsItems: NavItem[] = [
@@ -207,9 +206,9 @@ const sections: SectionConfig[] = [
   { key: 'dashboard', number: '02', title: 'DASHBOARD', items: dashboardItems },
   { key: 'finance', number: '03', title: 'FINANCE', items: financeItems },
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
-  { key: 'agents', number: '05', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
-  { key: 'intel', number: '06', title: 'INTEL', items: intelItems },
-  { key: 'initiatives', number: '07', title: 'AGENT INITIATIVES', items: agentInitiativesItems },
+  { key: 'initiatives', number: '05', title: 'AGENT INITIATIVES', items: agentInitiativesItems },
+  { key: 'agents', number: '06', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
+  { key: 'intel', number: '07', title: 'INTEL', items: intelItems },
   { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
