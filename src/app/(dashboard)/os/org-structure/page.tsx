@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Member = {
   name: string;
@@ -24,50 +24,13 @@ type Room = {
   addSlotLabel?: string;
 };
 
-const VIEW_W = 1000;
-const VIEW_H = 700;
-
-const themeVoid = {
-  page: '#060a11',
-  panel: '#0b1019',
-  room: '#101724',
-  card: '#161f30',
-  cardSoft: '#121a29',
-  border: '#22314b',
-  borderSoft: '#172233',
-  text: '#f7f9fc',
-  muted: '#7f8ba5',
-  grid: 'rgba(135, 151, 180, 0.07)',
-  hall: 'rgba(180, 188, 204, 0.08)',
-  hallLine: 'rgba(210, 217, 230, 0.18)',
-  success: '#10B981',
-  amber: '#F59E0B',
-};
-
-const themeCyber = {
-  page: '#050e07',
-  panel: '#08150b',
-  room: '#0a1a10',
-  card: '#0e2216',
-  cardSoft: '#0a180f',
-  border: 'rgba(16, 202, 120, 0.24)',
-  borderSoft: 'rgba(16, 202, 120, 0.15)',
-  text: '#effff4',
-  muted: '#7ea08a',
-  grid: 'rgba(16, 202, 120, 0.06)',
-  hall: 'rgba(16, 202, 120, 0.08)',
-  hallLine: 'rgba(16, 202, 120, 0.20)',
-  success: '#39ff7e',
-  amber: '#10ca78',
-};
-
 const rooms: Room[] = [
   {
     id: 'executive',
     label: 'Executive Suite',
     color: '#F59E0B',
-    x: 160,
-    y: 250,
+    x: 140,
+    y: 350,
     w: 280,
     h: 150,
     members: [
@@ -78,8 +41,8 @@ const rooms: Room[] = [
     id: 'command',
     label: 'Central Command',
     color: '#34D399',
-    x: 450,
-    y: 250,
+    x: 500,
+    y: 350,
     w: 340,
     h: 220,
     members: [
@@ -96,9 +59,9 @@ const rooms: Room[] = [
   {
     id: 'creative-tech',
     label: 'Creative + Tech Wing',
-    color: '#F59E0B',
-    x: 780,
-    y: 115,
+    color: '#EC4899',
+    x: 870,
+    y: 120,
     w: 260,
     h: 210,
     members: [
@@ -112,8 +75,8 @@ const rooms: Room[] = [
     id: 'ops-intel',
     label: 'Ops + Intel Wing',
     color: '#60A5FA',
-    x: 780,
-    y: 355,
+    x: 870,
+    y: 370,
     w: 280,
     h: 250,
     members: [
@@ -128,8 +91,8 @@ const rooms: Room[] = [
     id: 'growth-social',
     label: 'Growth + Social Wing',
     color: '#34D399',
-    x: 780,
-    y: 620,
+    x: 870,
+    y: 650,
     w: 340,
     h: 250,
     members: [
@@ -144,8 +107,8 @@ const rooms: Room[] = [
     id: 'personal',
     label: 'Personal Suite',
     color: '#8B5CF6',
-    x: 450,
-    y: 600,
+    x: 500,
+    y: 700,
     w: 260,
     h: 170,
     isolated: true,
@@ -157,42 +120,35 @@ const rooms: Room[] = [
   },
 ];
 
-function pctX(n: number) {
-  return `${(n / VIEW_W) * 100}%`;
+// Connections: solid colored bezier curves, n8n style
+const connections: Array<{ from: [number, number]; to: [number, number]; color: string }> = [
+  // Executive → Command
+  { from: [280, 350], to: [330, 350], color: '#F59E0B' },
+  // Command → Creative
+  { from: [670, 280], to: [740, 120], color: '#EC4899' },
+  // Command → Ops
+  { from: [670, 400], to: [730, 400], color: '#60A5FA' },
+  // Ops → Growth
+  { from: [870, 570], to: [870, 590], color: '#34D399' },
+  // Command → Personal
+  { from: [500, 460], to: [500, 615], color: '#8B5CF6' },
+];
+
+function bezierPath(from: [number, number], to: [number, number]) {
+  const dx = Math.abs(to[0] - from[0]);
+  const dy = Math.abs(to[1] - from[1]);
+  const cx = Math.max(dx, dy) * 0.5;
+
+  if (dx > dy) {
+    // Horizontal-dominant
+    return `M ${from[0]} ${from[1]} C ${from[0] + cx} ${from[1]}, ${to[0] - cx} ${to[1]}, ${to[0]} ${to[1]}`;
+  } else {
+    // Vertical-dominant
+    return `M ${from[0]} ${from[1]} C ${from[0]} ${from[1] + cx}, ${to[0]} ${to[1] - cx}, ${to[0]} ${to[1]}`;
+  }
 }
 
-function pctY(n: number) {
-  return `${(n / VIEW_H) * 100}%`;
-}
-
-function smoothVerticalCurve(points: Array<[number, number]>) {
-  if (points.length < 2) return '';
-  const [start, end] = points;
-  
-  // Vertical-first Bezier curve (for top/bottom connections)
-  const curvature = Math.abs(start[1] - end[1]) * 0.5;
-  return `M ${start[0]} ${start[1]} C ${start[0]} ${start[1] + curvature}, ${end[0]} ${end[1] - curvature}, ${end[0]} ${end[1]}`;
-}
-
-function cubicBezierPath(points: Array<[number, number]>) {
-  if (points.length < 2) return '';
-  const [start, end] = points;
-  
-  // Horizontal-first Bezier curve (for side connections)
-  const curvature = Math.abs(start[0] - end[0]) * 0.5;
-  return `M ${start[0]} ${start[1]} C ${start[0] + curvature} ${start[1]}, ${end[0] - curvature} ${end[1]}, ${end[0]} ${end[1]}`;
-}
-
-function Port({ x, y, color }: { x: number; y: number; color: string }) {
-  return (
-    <g>
-      <rect x={x - 6} y={y - 6} width={12} height={12} rx={3} fill={color} opacity="0.18" />
-      <rect x={x - 3} y={y - 3} width={6} height={6} rx={1.5} fill={color} opacity="0.9" />
-    </g>
-  );
-}
-
-function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) {
+function Avatar({ member }: { member: Member }) {
   if (member.hasAvatar) {
     const src = member.name === 'Derek'
       ? '/derek-avatar.png'
@@ -206,7 +162,7 @@ function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) 
           borderRadius: 8,
           overflow: 'hidden',
           border: `1.5px solid ${member.color}`,
-          background: theme.page,
+          background: '#000',
           flexShrink: 0,
         }}
       >
@@ -222,7 +178,7 @@ function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) 
         height: 44,
         borderRadius: 8,
         background: member.color,
-        color: '#05070b',
+        color: '#000',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -237,11 +193,11 @@ function Avatar({ member, theme }: { member: Member; theme: typeof themeVoid }) 
   );
 }
 
-function MemberCard({ member, theme }: { member: Member; theme: typeof themeVoid }) {
+function MemberCard({ member }: { member: Member }) {
   return (
     <div
       style={{
-        background: theme.card,
+        background: 'rgba(20, 28, 45, 0.7)',
         border: `1px solid ${member.color}45`,
         borderRadius: 10,
         padding: '12px 14px',
@@ -251,18 +207,18 @@ function MemberCard({ member, theme }: { member: Member; theme: typeof themeVoid
         minHeight: 64,
       }}
     >
-      <Avatar member={member} theme={theme} />
+      <Avatar member={member} />
       <div style={{ minWidth: 0, flex: 1 }}>
-        <div style={{ color: theme.text, fontSize: 13, fontWeight: 700, lineHeight: 1.15 }}>{member.name}</div>
-        <div style={{ color: theme.muted, fontSize: 11, marginTop: 4, lineHeight: 1.1 }}>{member.role}</div>
+        <div style={{ color: '#f7f9fc', fontSize: 13, fontWeight: 700, lineHeight: 1.15 }}>{member.name}</div>
+        <div style={{ color: '#7f8ba5', fontSize: 11, marginTop: 4, lineHeight: 1.1 }}>{member.role}</div>
       </div>
       <div
         style={{
           width: 6,
           height: 6,
           borderRadius: 999,
-          background: theme.success,
-          boxShadow: `0 0 8px ${theme.success}`,
+          background: '#10B981',
+          boxShadow: '0 0 8px #10B981',
           flexShrink: 0,
         }}
       />
@@ -270,20 +226,20 @@ function MemberCard({ member, theme }: { member: Member; theme: typeof themeVoid
   );
 }
 
-function AddSlot({ label, theme }: { label?: string; theme: typeof themeVoid }) {
+function AddSlot({ label }: { label?: string }) {
   if (!label) return null;
   return (
     <div
       style={{
-        border: `1px dashed ${theme.border}`,
-        background: theme.cardSoft,
+        border: '1px dashed #22314b',
+        background: 'rgba(10, 14, 22, 0.4)',
         borderRadius: 10,
         padding: '14px 12px',
-        color: theme.muted,
+        color: '#7f8ba5',
         fontSize: 11,
         fontWeight: 700,
         letterSpacing: 0.3,
-        textTransform: 'uppercase',
+        textTransform: 'uppercase' as const,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -296,104 +252,36 @@ function AddSlot({ label, theme }: { label?: string; theme: typeof themeVoid }) 
 }
 
 export default function OrgStructurePage() {
-  const [colorMode, setColorMode] = useState<'void' | 'cyber'>('void');
   const [hoveredRoom, setHoveredRoom] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      const stored = localStorage.getItem('dbtech-color-mode');
-      if (stored === 'cyber') setColorMode('cyber');
-    } catch {}
-
-    const handleStorage = () => {
-      try {
-        const stored = localStorage.getItem('dbtech-color-mode');
-        setColorMode(stored === 'cyber' ? 'cyber' : 'void');
-      } catch {}
-    };
-
-    window.addEventListener('storage', handleStorage);
-    const interval = setInterval(handleStorage, 500);
-    return () => {
-      window.removeEventListener('storage', handleStorage);
-      clearInterval(interval);
-    };
-  }, []);
-
-  const theme = colorMode === 'cyber' ? themeCyber : themeVoid;
-
-  const hallways = useMemo(() => [
-    {
-      id: 'execToCommand',
-      color: '#34D399',
-      path: cubicBezierPath([
-        [300, 250],
-        [280, 250],
-      ])
-    },
-    {
-      id: 'commandToCreative',
-      color: '#F59E0B',
-      path: cubicBezierPath([
-        [620, 210],
-        [650, 115],
-      ])
-    },
-    {
-      id: 'commandToOps',
-      color: '#60A5FA',
-      path: cubicBezierPath([
-        [620, 295],
-        [640, 355],
-      ])
-    },
-    {
-      id: 'opsToGrowth',
-      color: '#34D399',
-      path: smoothVerticalCurve([
-        [780, 480],
-        [780, 495],
-      ])
-    },
-    {
-      id: 'commandToPersonal',
-      color: '#8B5CF6',
-      path: smoothVerticalCurve([
-        [450, 360],
-        [450, 515],
-      ])
-    }
-  ], []);
-
-  const chips = rooms.map((room) => ({ id: room.id, label: room.label, color: room.color }));
 
   return (
     <div
       style={{
         minHeight: '100vh',
-        background: theme.page,
+        background: '#000000',
         padding: 18,
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
       <div
         style={{
-          background: theme.panel,
-          border: `1px solid ${theme.border}`,
+          background: '#000000',
+          border: '1px solid #1a2235',
           borderRadius: 16,
           overflow: 'hidden',
         }}
       >
+        {/* Header */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 14,
             padding: '14px 18px',
-            borderBottom: `1px solid ${theme.borderSoft}`,
+            borderBottom: '1px solid #111827',
           }}
         >
-          <div style={{ color: theme.text, fontSize: 17, fontWeight: 800, letterSpacing: 0.2 }}>
+          <div style={{ color: '#f7f9fc', fontSize: 17, fontWeight: 800, letterSpacing: 0.2 }}>
             ARCHITECTURAL ORG PLAN
           </div>
 
@@ -401,11 +289,11 @@ export default function OrgStructurePage() {
             style={{
               flex: 1,
               maxWidth: 360,
-              background: theme.page,
-              border: `1px solid ${theme.border}`,
+              background: '#000000',
+              border: '1px solid #1a2235',
               borderRadius: 10,
               padding: '10px 12px',
-              color: theme.muted,
+              color: '#7f8ba5',
               fontSize: 12,
             }}
           >
@@ -419,9 +307,9 @@ export default function OrgStructurePage() {
                 style={{
                   padding: '8px 12px',
                   borderRadius: 999,
-                  border: `1px solid ${pill === 'GPT' ? '#1f7a5a' : theme.border}`,
-                  background: pill === 'GPT' ? 'rgba(16,185,129,0.12)' : theme.page,
-                  color: pill === 'GPT' ? '#7ef3bf' : theme.muted,
+                  border: `1px solid ${pill === 'GPT' ? '#1f7a5a' : '#1a2235'}`,
+                  background: pill === 'GPT' ? 'rgba(16,185,129,0.12)' : '#000000',
+                  color: pill === 'GPT' ? '#7ef3bf' : '#7f8ba5',
                   fontSize: 11,
                   fontWeight: 700,
                 }}
@@ -432,89 +320,94 @@ export default function OrgStructurePage() {
           </div>
         </div>
 
+        {/* Room chips */}
         <div style={{ padding: '12px 18px 6px', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-          {chips.map((chip) => (
+          {rooms.map((room) => (
             <div
-              key={chip.id}
+              key={room.id}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
                 padding: '8px 12px',
                 borderRadius: 8,
-                background: theme.page,
-                border: `1px solid ${theme.border}`,
-                color: theme.text,
+                background: '#000000',
+                border: '1px solid #1a2235',
+                color: '#f7f9fc',
                 fontSize: 11,
                 fontWeight: 700,
               }}
             >
-              <span style={{ width: 8, height: 8, borderRadius: 2, background: chip.color, display: 'inline-block' }} />
-              {chip.label}
+              <span style={{ width: 8, height: 8, borderRadius: 2, background: room.color, display: 'inline-block' }} />
+              {room.label}
             </div>
           ))}
         </div>
 
+        {/* Canvas */}
         <div style={{ padding: '10px 18px 18px' }}>
           <div
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: `${VIEW_W} / ${VIEW_H}`,
-              background: theme.page,
+              aspectRatio: '1200 / 900',
+              background: '#000000',
               borderRadius: 14,
-              border: `1px solid ${theme.borderSoft}`,
+              border: '1px solid #111827',
               overflow: 'hidden',
             }}
           >
-            <div
-              style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundImage: `linear-gradient(${theme.grid} 1px, transparent 1px), linear-gradient(90deg, ${theme.grid} 1px, transparent 1px)`,
-                backgroundSize: '40px 40px',
-              }}
-            />
+            {/* SVG Connections - solid colored bezier curves */}
+            <svg
+              viewBox="0 0 1200 900"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+            >
+              <defs>
+                <filter id="glow">
+                  <feGaussianBlur stdDeviation="4" result="blur" />
+                  <feMerge>
+                    <feMergeNode in="blur" />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
+                </filter>
+              </defs>
 
-            <svg viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
-              {hallways.map((hw) => (
-                <g key={hw.id}>
-                  <path
-                    d={hw.path}
-                    fill="none"
-                    stroke={theme.hall}
-                    strokeWidth="18"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                  <path
-                    d={hw.path}
-                    fill="none"
-                    stroke={hw.color}
-                    strokeWidth="2"
-                    strokeDasharray="6 8"
-                    strokeLinecap="round"
-                    opacity="0.6"
-                  >
-                    <animate attributeName="stroke-dashoffset" from="0" to="-28" dur="2.4s" repeatCount="indefinite" />
-                  </path>
-                </g>
-              ))}
-
-              <Port x={280} y={250} color="#F59E0B" />
-              <Port x={300} y={250} color="#34D399" />
-              <Port x={620} y={210} color="#34D399" />
-              <Port x={650} y={115} color="#F59E0B" />
-              <Port x={620} y={295} color="#34D399" />
-              <Port x={640} y={355} color="#60A5FA" />
-              <Port x={780} y={480} color="#60A5FA" />
-              <Port x={780} y={495} color="#34D399" />
-              <Port x={450} y={360} color="#34D399" />
-              <Port x={450} y={515} color="#8B5CF6" />
+              {connections.map((conn, i) => {
+                const d = bezierPath(conn.from, conn.to);
+                return (
+                  <g key={i}>
+                    {/* Glow layer */}
+                    <path
+                      d={d}
+                      fill="none"
+                      stroke={conn.color}
+                      strokeWidth="6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.25"
+                      filter="url(#glow)"
+                    />
+                    {/* Solid line */}
+                    <path
+                      d={d}
+                      fill="none"
+                      stroke={conn.color}
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      opacity="0.9"
+                    />
+                  </g>
+                );
+              })}
             </svg>
 
+            {/* Rooms */}
             {rooms.map((room) => {
               const isHovered = hoveredRoom === room.id;
+              const pctX = `${(room.x / 1200) * 100}%`;
+              const pctY = `${(room.y / 900) * 100}%`;
+
               return (
                 <div
                   key={room.id}
@@ -522,20 +415,24 @@ export default function OrgStructurePage() {
                   onMouseLeave={() => setHoveredRoom(null)}
                   style={{
                     position: 'absolute',
-                    left: pctX(room.x),
-                    top: pctY(room.y),
-                    width: `${room.w}px`,
-                    height: `${room.h}px`,
+                    left: pctX,
+                    top: pctY,
+                    width: room.w,
+                    height: room.h,
                     transform: 'translate(-50%, -50%)',
-                    background: `linear-gradient(180deg, ${room.color}10, ${theme.room})`,
+                    background: '#0d111a',
                     border: `1px solid ${isHovered ? room.color : room.color + '40'}`,
                     borderStyle: room.isolated ? 'dashed' : 'solid',
                     borderRadius: 14,
-                    boxShadow: isHovered ? `0 12px 34px ${room.color}18` : '0 8px 26px rgba(0,0,0,0.18)',
+                    boxShadow: isHovered
+                      ? `0 0 35px ${room.color}40`
+                      : `0 0 15px ${room.color}15`,
+                    zIndex: isHovered ? 10 : 1,
                     padding: 14,
                     transition: 'all 0.22s ease',
                   }}
                 >
+                  {/* Room header */}
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
                     <div
                       style={{
@@ -545,47 +442,61 @@ export default function OrgStructurePage() {
                         fontSize: 10,
                         fontWeight: 800,
                         letterSpacing: 0.6,
-                        textTransform: 'uppercase',
+                        textTransform: 'uppercase' as const,
                         color: room.color,
                       }}
                     >
                       <span style={{ width: 7, height: 7, borderRadius: 2, background: room.color, display: 'inline-block' }} />
                       {room.label}
                     </div>
-                    <div style={{ color: theme.muted, fontSize: 10 }}>{room.members?.length || 0} active</div>
+                    <div style={{ color: '#7f8ba5', fontSize: 10 }}>{room.members?.length || 0} active</div>
                   </div>
 
-                  {room.id === 'executive' && room.members?.[0] ? (
-                    <div style={{ maxWidth: 160, margin: '10px auto 0' }}>
-                      <MemberCard member={room.members[0]} theme={theme} />
+                  {/* Executive - single centered card */}
+                  {room.id === 'executive' && room.members?.[0] && (
+                    <div style={{ maxWidth: 200, margin: '10px auto 0' }}>
+                      <MemberCard member={room.members[0]} />
                     </div>
-                  ) : null}
+                  )}
 
-                  {room.id === 'command' ? (
+                  {/* Command - 2 col layout with notes */}
+                  {room.id === 'command' && (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, height: 'calc(100% - 34px)' }}>
                       <div style={{ display: 'grid', gap: 10, alignContent: 'start' }}>
-                        {room.members?.map((member) => <MemberCard key={member.name} member={member} theme={theme} />)}
-                        <AddSlot label={room.addSlotLabel} theme={theme} />
+                        {room.members?.map((m) => <MemberCard key={m.name} member={m} />)}
+                        <AddSlot label={room.addSlotLabel} />
                       </div>
-                      <div style={{ background: theme.card, border: `1px solid ${theme.borderSoft}`, borderRadius: 10, padding: 12 }}>
-                        <div style={{ color: theme.text, fontSize: 11, fontWeight: 800, marginBottom: 8 }}>Command Notes</div>
+                      <div style={{ background: 'rgba(20, 28, 45, 0.7)', border: '1px solid #172233', borderRadius: 10, padding: 12 }}>
+                        <div style={{ color: '#f7f9fc', fontSize: 11, fontWeight: 800, marginBottom: 8 }}>Command Notes</div>
                         <div style={{ display: 'grid', gap: 8 }}>
                           {room.notes?.map((note) => (
                             <div key={note} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                               <span style={{ width: 6, height: 6, borderRadius: 999, background: room.color, marginTop: 5, flexShrink: 0 }} />
-                              <span style={{ color: theme.muted, fontSize: 10, lineHeight: 1.45 }}>{note}</span>
+                              <span style={{ color: '#7f8ba5', fontSize: 10, lineHeight: 1.45 }}>{note}</span>
                             </div>
                           ))}
                         </div>
                       </div>
                     </div>
-                  ) : null}
+                  )}
 
-                  {room.id !== 'executive' && room.id !== 'command' && room.id !== 'growth-social' ? (
+                  {/* Growth+Social - Michael top, Dwight left, Jim right */}
+                  {room.id === 'growth-social' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: 'calc(100% - 34px)' }}>
+                      {room.members?.[0] && <MemberCard member={room.members[0]} />}
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                        {room.members?.[1] && <MemberCard member={room.members[1]} />}
+                        {room.members?.[2] && <MemberCard member={room.members[2]} />}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* All other rooms - stacked cards */}
+                  {room.id !== 'executive' && room.id !== 'command' && room.id !== 'growth-social' && (
                     <>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 10 }}>
-                        {room.members?.map((member) => <MemberCard key={member.name} member={member} theme={theme} />)}
-                        <AddSlot label={room.addSlotLabel} theme={theme} />
+                        {room.members?.map((m) => <MemberCard key={m.name} member={m} />)}
+                        <AddSlot label={room.addSlotLabel} />
                       </div>
                       {room.notes?.length ? (
                         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginTop: 10 }}>
@@ -594,11 +505,11 @@ export default function OrgStructurePage() {
                               key={note}
                               style={{
                                 fontSize: 10,
-                                color: theme.muted,
+                                color: '#7f8ba5',
                                 padding: '6px 8px',
                                 borderRadius: 8,
-                                background: theme.cardSoft,
-                                border: `1px solid ${theme.borderSoft}`,
+                                background: 'rgba(10, 14, 22, 0.4)',
+                                border: '1px solid #172233',
                               }}
                             >
                               {note}
@@ -607,17 +518,7 @@ export default function OrgStructurePage() {
                         </div>
                       ) : null}
                     </>
-                  ) : null}
-
-                  {room.id === 'growth-social' ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 10, height: 'calc(100% - 34px)' }}>
-                      {room.members?.[0] && <MemberCard member={room.members[0]} theme={theme} />}
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                        {room.members?.[1] && <MemberCard member={room.members[1]} theme={theme} />}
-                        {room.members?.[2] && <MemberCard member={room.members[2]} theme={theme} />}
-                      </div>
-                    </div>
-                  ) : null}
+                  )}
                 </div>
               );
             })}

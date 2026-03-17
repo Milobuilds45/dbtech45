@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "8ee4bb98",
+      "author": "Milo",
+      "timestamp": "2026-03-17 17:13:54 -0400",
+      "message": "merge Agent Ideas generator into Agent Initiatives + move to sidebar #05"
+    },
+    {
+      "type": "commit",
       "id": "7b5fadb2",
       "author": "Milo",
       "timestamp": "2026-03-17 11:31:43 -0400",
@@ -225,5 +232,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-17T21:09:06.303Z"
+  "generatedAt": "2026-03-17T21:39:05.534Z"
 }
