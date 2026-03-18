@@ -34,14 +34,15 @@ interface DiscussMessage {
 
 // ─── Agent Registry ───────────────────────────────────────────────────────────
 const agents: { id: string; name: string; icon: LucideIcon; role: string; color: string }[] = [
-  { id: 'bobby', name: 'Bobby Axelrod', icon: TrendingUp, role: 'Chief Investment Officer', color: '#10B981' },
+  { id: 'ted', name: 'Ted', icon: Shield, role: 'Chief Executive Officer', color: '#F59E0B' },
+  { id: 'milo', name: 'Milo', icon: Brain, role: 'Senior Advisor & Systems', color: '#6366F1' },
   { id: 'paula', name: 'Paula', icon: Palette, role: 'Creative & Design', color: '#EC4899' },
   { id: 'anders', name: 'Anders', icon: Wrench, role: 'IT / DevOps', color: '#3B82F6' },
-  { id: 'wendy', name: 'Wendy', icon: Heart, role: 'Personal & Wellness', color: '#8B5CF6' },
+  { id: 'bobby', name: 'Bobby Axelrod', icon: TrendingUp, role: 'Chief Investment Officer', color: '#10B981' },
   { id: 'remy', name: 'Remy', icon: UtensilsCrossed, role: 'Restaurant Ops', color: '#F97316' },
+  { id: 'wendy', name: 'Wendy', icon: Heart, role: 'Personal & Wellness', color: '#8B5CF6' },
   { id: 'dwight', name: 'Dwight', icon: Search, role: 'Research & Intel', color: '#EAB308' },
-  { id: 'milo', name: 'Milo', icon: Brain, role: 'Senior Advisor & Systems', color: '#6366F1' },
-  { id: 'dax', name: 'Dax', icon: BarChart3, role: 'Data & Analytics', color: '#06B6D4' },
+  { id: 'jim', name: 'Jim', icon: BarChart3, role: 'Data & Analytics', color: '#06B6D4' },
 ];
 
 const STORAGE_KEY = 'agent-pitches-v2';
@@ -63,6 +64,44 @@ interface IdeaTemplate {
 }
 
 const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
+  ted: {
+    simple: {
+      title: 'LaunchPad Weekly',
+      description: 'Weekly accountability sprint for solo founders. Set 3 goals Monday, ship by Friday.',
+      plainEnglish: 'Every Monday you set 3 goals. Every Friday you show what you shipped. An AI accountability partner that doesn\'t let you hide behind "busy."',
+      problemSolved: 'Solo founders procrastinate because nobody holds them accountable',
+      targetMarket: 'Solo founders and indie hackers building side projects',
+      businessModel: '$14/month subscription with community tier at $29',
+      revenueProjection: 'Conservative: $84K/yr (500 subs). Aggressive: $522K/yr (1,500 subs + community)',
+      competitiveAdvantage: 'AI-driven accountability with real consequences (public commits, streak-based reputation)',
+      developmentTime: '24-48 hours for MVP',
+      riskAssessment: 'Low risk — proven demand in accountability space, differentiated by AI enforcement.',
+    },
+    creative: {
+      title: 'FounderOS',
+      description: 'Operating system for solo founders — combines task management, metrics, and AI advisor in one dashboard.',
+      plainEnglish: 'One screen that shows your revenue, your tasks, and an AI that tells you what to focus on today. Built for people running a business alone.',
+      problemSolved: 'Solo founders juggle 6 tools and still miss the most important thing each day',
+      targetMarket: 'Solo founders doing $1K-$50K/month revenue',
+      businessModel: '$39/month individual, $99/month with AI coaching calls',
+      revenueProjection: 'Conservative: $234K/yr. Aggressive: $1.8M/yr',
+      competitiveAdvantage: 'Purpose-built for one-person businesses — not a stripped-down enterprise tool',
+      developmentTime: '3-5 days MVP, 2 weeks for integrations',
+      riskAssessment: 'Moderate — crowded productivity space, but the solo-founder niche is underserved.',
+    },
+    experimental: {
+      title: 'AgentForge',
+      description: 'Platform where anyone can build, train, and deploy their own AI agent team — no code required.',
+      plainEnglish: 'Build your own team of AI agents like Derek did. Describe what each agent does, connect them together, and let them run your business while you sleep.',
+      problemSolved: 'Only technical people can build multi-agent systems, locking out 99% of business owners',
+      targetMarket: 'Business owners who want AI automation but can\'t code',
+      businessModel: '$199/month platform + $49/agent/month compute',
+      revenueProjection: 'Conservative: $720K/yr. Aggressive: $8M/yr',
+      competitiveAdvantage: 'First no-code multi-agent builder with real business templates (not toy demos)',
+      developmentTime: '1-2 weeks MVP, 1 month for agent marketplace',
+      riskAssessment: 'HIGH RISK — multi-agent orchestration is genuinely hard. UX must hide enormous complexity.',
+    },
+  },
   bobby: {
     simple: {
       title: 'Ticker Whisperer',
@@ -215,7 +254,7 @@ const T: Record<string, Record<CreativityLevel, IdeaTemplate>> = {
       riskAssessment: 'HIGH RISK — two-sided marketplace cold start. Security concerns limit enterprise adoption.',
     },
   },
-  dax: {
+  jim: {
     simple: {
       title: 'ChartDrop',
       description: 'Paste data, pick style, download beautiful chart. Three clicks.',
