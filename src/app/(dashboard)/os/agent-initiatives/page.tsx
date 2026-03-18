@@ -597,56 +597,79 @@ export default function AgentInitiativesPage() {
   const [creativity, setCreativity] = useState<CreativityLevel>('creative');
   const [isGenerating, setIsGenerating] = useState(false);
 
-  // Load
+  // ─── Supabase sync helpers ─────────────────────────────────────────────
+  const savePitchToSupabase = async (pitch: Pitch) => {
+    await supabase.from('todos').upsert({
+      id: pitch.id,
+      title: `[PITCH] ${pitch.title}`,
+      description: JSON.stringify(pitch),
+      assignee: pitch.agentName,
+      priority: 'medium',
+      status: pitch.status === 'pending' ? 'backlog' : pitch.status === 'approved' ? 'done' : pitch.status === 'building' ? 'in_progress' : 'backlog',
+      project: 'agent-pitches',
+      tags: ['pitch', pitch.agentId, pitch.status],
+    }, { onConflict: 'id' });
+  };
+
+  const loadPitchesFromSupabase = async (): Promise<Pitch[]> => {
+    const { data } = await supabase
+      .from('todos')
+      .select('*')
+      .eq('project', 'agent-pitches')
+      .order('created_at', { ascending: false });
+    if (!data) return [];
+    return data.map((row: { description: string }) => {
+      try { return JSON.parse(row.description) as Pitch; } catch { return null; }
+    }).filter(Boolean) as Pitch[];
+  };
+
+  // ─── Load ─────────────────────────────────────────────────────────────
   useEffect(() => {
     const load = async () => {
+      // 1. Try Supabase first
+      const sbPitches = await loadPitchesFromSupabase();
+
+      // 2. Also load from static JSON + localStorage as fallback
+      let filePitches: Pitch[] = [];
       try {
         const res = await fetch('/data/agent-pitches.json');
-        if (res.ok) {
-          const filePitches: Pitch[] = await res.json();
-          const stored = localStorage.getItem(STORAGE_KEY);
-          const localPitches: Pitch[] = stored ? JSON.parse(stored) : [];
-          const storedNixed = localStorage.getItem(NIXED_KEY);
-          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
-          const storedBuilding = localStorage.getItem(BUILDING_KEY);
-          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
-          const nixedIds = new Set((storedNixed ? JSON.parse(storedNixed) : []).map((p: Pitch) => p.id));
-          const approvedIds = new Set(localPitches.filter(p => p.status === 'approved').map(p => p.id));
-          const buildingIds = new Set((storedBuilding ? JSON.parse(storedBuilding) : []).map((p: Pitch) => p.id));
-          const merged = filePitches.map(p => {
-            if (nixedIds.has(p.id)) return { ...p, status: 'nixed' as const };
-            if (approvedIds.has(p.id)) return { ...p, status: 'approved' as const };
-            if (buildingIds.has(p.id)) return { ...p, status: 'building' as const };
-            return p;
-          });
-          const fileIds = new Set(filePitches.map(p => p.id));
-          const localOnly = localPitches.filter(p => !fileIds.has(p.id));
-          setPitches([...merged, ...localOnly]);
-        } else {
-          const stored = localStorage.getItem(STORAGE_KEY);
-          if (stored) setPitches(JSON.parse(stored));
-          const storedNixed = localStorage.getItem(NIXED_KEY);
-          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
-          const storedBuilding = localStorage.getItem(BUILDING_KEY);
-          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
-        }
-      } catch {
-        try {
-          const stored = localStorage.getItem(STORAGE_KEY);
-          if (stored) setPitches(JSON.parse(stored));
-          const storedNixed = localStorage.getItem(NIXED_KEY);
-          if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
-          const storedBuilding = localStorage.getItem(BUILDING_KEY);
-          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
-        } catch {}
-      }
+        if (res.ok) filePitches = await res.json();
+      } catch {}
+
+      const stored = localStorage.getItem(STORAGE_KEY);
+      const localPitches: Pitch[] = stored ? JSON.parse(stored) : [];
+
+      // 3. Merge: Supabase is source of truth, fill in from file/local
+      const sbIds = new Set(sbPitches.map(p => p.id));
+      const fileOnly = filePitches.filter(p => !sbIds.has(p.id));
+      const localOnly = localPitches.filter(p => !sbIds.has(p.id) && !filePitches.find(f => f.id === p.id));
+      const all = [...sbPitches, ...fileOnly, ...localOnly];
+
+      const pending = all.filter(p => p.status === 'pending' || !p.status);
+      const approved = all.filter(p => p.status === 'approved');
+      const nixed = all.filter(p => p.status === 'nixed');
+      const building = all.filter(p => p.status === 'building');
+
+      setPitches([...pending, ...approved]);
+      setNixedPitches(nixed);
+      setBuildingPitches(building);
     };
     load();
   }, []);
 
-  useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(pitches)); }, [pitches]);
-  useEffect(() => { localStorage.setItem(NIXED_KEY, JSON.stringify(nixedPitches)); }, [nixedPitches]);
-  useEffect(() => { localStorage.setItem(BUILDING_KEY, JSON.stringify(buildingPitches)); }, [buildingPitches]);
+  // Persist to localStorage + Supabase on changes
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(pitches));
+    pitches.forEach(p => savePitchToSupabase(p));
+  }, [pitches]);
+  useEffect(() => {
+    localStorage.setItem(NIXED_KEY, JSON.stringify(nixedPitches));
+    nixedPitches.forEach(p => savePitchToSupabase(p));
+  }, [nixedPitches]);
+  useEffect(() => {
+    localStorage.setItem(BUILDING_KEY, JSON.stringify(buildingPitches));
+    buildingPitches.forEach(p => savePitchToSupabase(p));
+  }, [buildingPitches]);
 
   // Filtered
   const agentPitches = selectedAgent ? pitches.filter(p => p.agentId === selectedAgent && p.status === 'pending') : [];
@@ -787,7 +810,7 @@ export default function AgentInitiativesPage() {
             {label}
           </button>
         ))}
-        <div style={{ width: '1px', height: '16px', background: brand.border }} />
+        <div style={{ width: '1px', height: '16px', background: brand.smoke, opacity: 0.4 }} />
         <span style={{ color: brand.smoke, fontSize: '10px', fontWeight: 600, textTransform: 'uppercase' }}>Level</span>
         {(['simple', 'creative', 'experimental'] as CreativityLevel[]).map(val => (
           <button key={val} onClick={() => setCreativity(val)} style={{

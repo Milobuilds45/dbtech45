@@ -4,7 +4,7 @@
     "gatewayPort": 18789,
     "bind": "loopback",
     "uptime": 7200,
-    "lastHeartbeat": "2026-03-18T13:59:03.772Z",
+    "lastHeartbeat": "2026-03-18T15:34:12.229Z",
     "totalCrons": 14,
     "activeSessions": 0,
     "totalAgents": 9,
@@ -12,64 +12,64 @@
       {
         "id": "offline-milo",
         "type": "warning",
-        "message": "Milo agent offline for >668 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Milo agent offline for >670 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-anders",
         "type": "warning",
-        "message": "Anders agent offline for >678 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Anders agent offline for >680 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-bobby",
         "type": "warning",
-        "message": "Bobby agent offline for >669 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Bobby agent offline for >671 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-paula",
         "type": "warning",
-        "message": "Paula agent offline for >669 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Paula agent offline for >671 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-dwight",
         "type": "warning",
-        "message": "Dwight agent offline for >670 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Dwight agent offline for >671 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-tony",
         "type": "warning",
-        "message": "Tony agent offline for >691 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Tony agent offline for >692 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-dax",
         "type": "warning",
-        "message": "Dax agent offline for >686 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Dax agent offline for >687 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-remy",
         "type": "warning",
-        "message": "Remy agent offline for >673 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Remy agent offline for >675 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
         "id": "offline-wendy",
         "type": "warning",
-        "message": "Wendy agent offline for >739 hours",
-        "timestamp": "2026-03-18T13:59:03.772Z",
+        "message": "Wendy agent offline for >740 hours",
+        "timestamp": "2026-03-18T15:34:12.227Z",
         "resolved": false
       },
       {
@@ -484,6 +484,6 @@
       "lastError": null
     }
   ],
-  "generatedAt": "2026-03-18T13:59:05.358Z",
+  "generatedAt": "2026-03-18T15:34:14.613Z",
   "version": 2
 }
