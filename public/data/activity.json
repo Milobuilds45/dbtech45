@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "4d99343b",
+      "author": "Milo",
+      "timestamp": "2026-03-18 12:03:00 -0400",
+      "message": "fix: auto-select agent after generate, show collab results immediately"
+    },
+    {
+      "type": "commit",
       "id": "0b70aedf",
       "author": "Milo",
       "timestamp": "2026-03-18 11:34:52 -0400",
@@ -281,5 +288,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-18T15:59:17.964Z"
+  "generatedAt": "2026-03-18T16:44:08.336Z"
 }
