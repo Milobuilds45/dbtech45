@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "d8fa724c",
+      "author": "Milo",
+      "timestamp": "2026-03-17 20:02:32 -0400",
+      "message": "sidebar: rename Team Initiatives #07 (Ship or Kill + Newsletter), move Agent Initiatives under Agents #06"
+    },
+    {
+      "type": "commit",
       "id": "a4fb4acf",
       "author": "Milo",
       "timestamp": "2026-03-17 17:40:18 -0400",
@@ -239,5 +246,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-17T23:59:15.663Z"
+  "generatedAt": "2026-03-18T13:24:12.398Z"
 }

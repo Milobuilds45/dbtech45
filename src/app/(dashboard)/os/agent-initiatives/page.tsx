@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 import { brand, styles } from '@/lib/brand';
 import { supabase } from '@/lib/supabase';
 import {
-  ChevronDown, Plus, Trash2,
-  User, Users, Lightbulb, CheckCircle2, XCircle, Zap, Shield, Sparkles,
+  ChevronDown, Plus, Trash2, Hammer, MessageSquare, Send,
+  User, Users, Lightbulb, CheckCircle2, XCircle, Zap, Shield, Sparkles, X,
 } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
@@ -19,11 +19,16 @@ interface Pitch {
   fullPlan: string;
   date: string;
   time: string;
-  status: 'pending' | 'approved' | 'nixed';
+  status: 'pending' | 'approved' | 'nixed' | 'building';
 }
 
 type IdeaMode = 'individual' | 'collaborative';
 type CreativityLevel = 'simple' | 'creative' | 'experimental';
+
+interface DiscussMessage {
+  role: 'user' | 'agent';
+  text: string;
+}
 
 // ─── Agent Registry ───────────────────────────────────────────────────────────
 const agents = [
@@ -39,6 +44,7 @@ const agents = [
 
 const STORAGE_KEY = 'agent-pitches-v2';
 const NIXED_KEY = 'agent-pitches-nixed';
+const BUILDING_KEY = 'agent-pitches-building';
 
 // ─── Idea Templates (per agent × creativity level) ───────────────────────────
 interface IdeaTemplate {
@@ -446,14 +452,35 @@ function formatTime(t: string) {
   return `${h12}:${m} ${ampm}`;
 }
 
+// ─── Simulated agent responses for Discuss ───────────────────────────────────
+function simulateAgentReply(agentId: string, pitchTitle: string, userMsg: string): string {
+  const agent = agents.find(a => a.id === agentId);
+  const name = agent?.name || 'Agent';
+  const responses = [
+    `Great question. The core value prop of ${pitchTitle} is solving a problem people don't even realize they have yet. Let me break it down further...`,
+    `I've been thinking about this a lot. The biggest risk is market timing, but if we move fast on the MVP — 48 hours max — we can validate before competitors even notice.`,
+    `Here's what I'd suggest: start with the smallest possible version. One feature, one audience. Nail that, then expand. ${pitchTitle} has legs but we need to be disciplined about scope.`,
+    `The revenue model could be even stronger. I'm seeing an opportunity for a usage-based tier on top of the subscription. Want me to sketch that out?`,
+    `Competitive landscape is thin right now. That's either a signal (no demand) or an opportunity (untapped market). My research says opportunity — here's why...`,
+  ];
+  return `**${name}:** ${responses[Math.floor(Math.random() * responses.length)]}`;
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function AgentInitiativesPage() {
   const [pitches, setPitches] = useState<Pitch[]>([]);
   const [nixedPitches, setNixedPitches] = useState<Pitch[]>([]);
+  const [buildingPitches, setBuildingPitches] = useState<Pitch[]>([]);
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [expandedPitch, setExpandedPitch] = useState<string | null>(null);
   const [kanbanMsg, setKanbanMsg] = useState<string | null>(null);
   const [nixMsg, setNixMsg] = useState<string | null>(null);
+  const [buildMsg, setBuildMsg] = useState<string | null>(null);
+
+  // Discuss state
+  const [discussPitchId, setDiscussPitchId] = useState<string | null>(null);
+  const [discussMessages, setDiscussMessages] = useState<Record<string, DiscussMessage[]>>({});
+  const [discussInput, setDiscussInput] = useState('');
 
   // Generator state
   const [genAgents, setGenAgents] = useState<string[]>(agents.map(a => a.id));
@@ -472,12 +499,15 @@ export default function AgentInitiativesPage() {
           const localPitches: Pitch[] = stored ? JSON.parse(stored) : [];
           const storedNixed = localStorage.getItem(NIXED_KEY);
           if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
-          const localIds = new Set(localPitches.map(p => p.id));
+          const storedBuilding = localStorage.getItem(BUILDING_KEY);
+          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
           const nixedIds = new Set((storedNixed ? JSON.parse(storedNixed) : []).map((p: Pitch) => p.id));
           const approvedIds = new Set(localPitches.filter(p => p.status === 'approved').map(p => p.id));
+          const buildingIds = new Set((storedBuilding ? JSON.parse(storedBuilding) : []).map((p: Pitch) => p.id));
           const merged = filePitches.map(p => {
             if (nixedIds.has(p.id)) return { ...p, status: 'nixed' as const };
             if (approvedIds.has(p.id)) return { ...p, status: 'approved' as const };
+            if (buildingIds.has(p.id)) return { ...p, status: 'building' as const };
             return p;
           });
           const fileIds = new Set(filePitches.map(p => p.id));
@@ -488,6 +518,8 @@ export default function AgentInitiativesPage() {
           if (stored) setPitches(JSON.parse(stored));
           const storedNixed = localStorage.getItem(NIXED_KEY);
           if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+          const storedBuilding = localStorage.getItem(BUILDING_KEY);
+          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
         }
       } catch {
         try {
@@ -495,6 +527,8 @@ export default function AgentInitiativesPage() {
           if (stored) setPitches(JSON.parse(stored));
           const storedNixed = localStorage.getItem(NIXED_KEY);
           if (storedNixed) setNixedPitches(JSON.parse(storedNixed));
+          const storedBuilding = localStorage.getItem(BUILDING_KEY);
+          if (storedBuilding) setBuildingPitches(JSON.parse(storedBuilding));
         } catch {}
       }
     };
@@ -503,18 +537,21 @@ export default function AgentInitiativesPage() {
 
   useEffect(() => { localStorage.setItem(STORAGE_KEY, JSON.stringify(pitches)); }, [pitches]);
   useEffect(() => { localStorage.setItem(NIXED_KEY, JSON.stringify(nixedPitches)); }, [nixedPitches]);
+  useEffect(() => { localStorage.setItem(BUILDING_KEY, JSON.stringify(buildingPitches)); }, [buildingPitches]);
 
   // Filtered
   const agentPitches = selectedAgent ? pitches.filter(p => p.agentId === selectedAgent && p.status === 'pending') : [];
   const approvedPitches = selectedAgent ? pitches.filter(p => p.agentId === selectedAgent && p.status === 'approved') : [];
+  const agentBuilding = selectedAgent ? buildingPitches.filter(p => p.agentId === selectedAgent) : [];
   const agentNixed = selectedAgent ? nixedPitches.filter(p => p.agentId === selectedAgent) : [];
   const getPitchCount = (agentId: string) => pitches.filter(p => p.agentId === agentId && p.status === 'pending').length;
   const totalPending = pitches.filter(p => p.status === 'pending').length;
   const totalApproved = pitches.filter(p => p.status === 'approved').length;
+  const totalBuilding = buildingPitches.length;
   const totalNixed = nixedPitches.length;
   const selectedAgentData = agents.find(a => a.id === selectedAgent);
 
-  // Kanban
+  // Actions
   const addToKanban = async (pitch: Pitch) => {
     const { error } = await supabase.from('todos').insert({
       title: pitch.title,
@@ -527,9 +564,28 @@ export default function AgentInitiativesPage() {
     });
     if (!error) {
       setPitches(prev => prev.map(p => p.id === pitch.id ? { ...p, status: 'approved' as const } : p));
-      setKanbanMsg(`"${pitch.title}" added to Kanban → To Do`);
+      setKanbanMsg(`"${pitch.title}" added to Kanban`);
       setTimeout(() => setKanbanMsg(null), 3000);
     }
+  };
+
+  const agentBuild = async (pitch: Pitch) => {
+    // Move to building state
+    setPitches(prev => prev.filter(p => p.id !== pitch.id));
+    setBuildingPitches(prev => [...prev, { ...pitch, status: 'building' as const }]);
+    setBuildMsg(`"${pitch.title}" → Agent Build queued`);
+    setTimeout(() => setBuildMsg(null), 3000);
+
+    // Create a Supabase record so the sidebar can link to it
+    await supabase.from('todos').insert({
+      title: `[BUILD] ${pitch.title}`,
+      description: `**Agent Build — ${pitch.agentName}**\n\nBuilding V1 of: ${pitch.title}\n\n${pitch.tldr}\n\n---\n\n${pitch.fullPlan}`,
+      assignee: pitch.agentName,
+      priority: 'high',
+      status: 'in_progress',
+      project: 'Team Initiatives',
+      tags: ['agent-build', pitch.agentId, 'v1'],
+    });
   };
 
   const nixIdea = (pitch: Pitch) => {
@@ -542,6 +598,20 @@ export default function AgentInitiativesPage() {
   const restoreIdea = (pitch: Pitch) => {
     setNixedPitches(prev => prev.filter(p => p.id !== pitch.id));
     setPitches(prev => [...prev, { ...pitch, status: 'pending' as const }]);
+  };
+
+  // Discuss
+  const openDiscuss = (pitchId: string) => {
+    setDiscussPitchId(discussPitchId === pitchId ? null : pitchId);
+  };
+
+  const sendDiscussMessage = (pitch: Pitch) => {
+    if (!discussInput.trim()) return;
+    const msgs = discussMessages[pitch.id] || [];
+    const userMsg: DiscussMessage = { role: 'user', text: discussInput.trim() };
+    const agentReply: DiscussMessage = { role: 'agent', text: simulateAgentReply(pitch.agentId, pitch.title, discussInput) };
+    setDiscussMessages(prev => ({ ...prev, [pitch.id]: [...msgs, userMsg, agentReply] }));
+    setDiscussInput('');
   };
 
   // Generator
@@ -569,6 +639,110 @@ export default function AgentInitiativesPage() {
     { value: 'experimental', label: 'Experimental', Icon: Sparkles, color: '#A855F7' },
   ];
 
+  // ─── Generator Hub Component (reusable) ─────────────────────────────────
+  const GeneratorHub = ({ compact }: { compact?: boolean }) => (
+    <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: compact ? '20px' : '32px' }}>
+      <div style={{ textAlign: 'center', marginBottom: compact ? '16px' : '24px' }}>
+        <Zap size={compact ? 24 : 32} color={brand.amber} style={{ marginBottom: '8px' }} />
+        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: compact ? '16px' : '20px', fontWeight: 600, color: brand.white, marginBottom: '6px' }}>
+          Generate Ideas
+        </h2>
+        {!compact && (
+          <p style={{ fontSize: '14px', color: brand.smoke, maxWidth: '460px', margin: '0 auto' }}>
+            Force your agents to brainstorm new initiatives. Select agents, pick a mode, and generate.
+          </p>
+        )}
+      </div>
+
+      {/* Agent selector */}
+      <div style={{ textAlign: 'center', marginBottom: compact ? '16px' : '24px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '10px' }}>
+          <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Select Agents</span>
+          <button onClick={() => setGenAgents(allGenSelected ? [] : agents.map(a => a.id))} style={{ background: 'transparent', border: 'none', color: brand.amber, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', cursor: 'pointer', padding: 0 }}>
+            {allGenSelected ? 'CLEAR' : 'ALL'}
+          </button>
+        </div>
+        <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
+          {agents.map(agent => {
+            const on = genAgents.includes(agent.id);
+            return (
+              <button key={agent.id} onClick={() => toggleGenAgent(agent.id)} style={{
+                background: on ? `${agent.color}15` : brand.graphite,
+                color: brand.white, border: on ? `2px solid ${agent.color}` : `1px solid ${brand.border}`,
+                borderRadius: '8px', padding: compact ? '5px 10px' : '7px 14px', fontSize: compact ? '12px' : '13px', fontWeight: 600, cursor: 'pointer',
+                opacity: on ? 1 : 0.5, boxShadow: on ? `0 0 12px ${agent.color}20` : 'none', transition: 'all 0.2s',
+              }}>
+                {agent.name}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Mode + Creativity */}
+      <div style={{ display: 'flex', gap: compact ? '24px' : '40px', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: compact ? '16px' : '28px' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ flex: 1, height: '1px', background: brand.border }} />
+            <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Mode</span>
+            <div style={{ flex: 1, height: '1px', background: brand.border }} />
+          </div>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {([['individual', 'Individual', User] as const, ['collaborative', 'Collab', Users] as const]).map(([val, label, Icon]) => (
+              <button key={val} onClick={() => setIdeaMode(val)} style={{
+                background: ideaMode === val ? `${brand.amber}15` : brand.graphite,
+                color: ideaMode === val ? brand.amber : brand.white,
+                border: ideaMode === val ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
+                borderRadius: '8px', padding: '6px 12px', fontSize: '12px', fontWeight: 600,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
+                opacity: ideaMode === val ? 1 : 0.5, transition: 'all 0.2s',
+              }}>
+                <Icon size={13} />{label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+            <div style={{ flex: 1, height: '1px', background: brand.border }} />
+            <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Creativity</span>
+            <div style={{ flex: 1, height: '1px', background: brand.border }} />
+          </div>
+          <div style={{ display: 'flex', gap: '6px' }}>
+            {creativityConfig.map(({ value, label, Icon, color }) => (
+              <button key={value} onClick={() => setCreativity(value)} style={{
+                background: creativity === value ? `${color}15` : brand.graphite,
+                color: creativity === value ? color : brand.white,
+                border: creativity === value ? `2px solid ${color}` : `1px solid ${brand.border}`,
+                borderRadius: '8px', padding: '6px 12px', fontSize: '12px', fontWeight: 600,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
+                opacity: creativity === value ? 1 : 0.5, transition: 'all 0.2s',
+              }}>
+                <Icon size={13} />{label}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Generate button */}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <button onClick={handleGenerate} disabled={isGenerating || genAgents.length === 0} style={{
+          background: (isGenerating || genAgents.length === 0) ? brand.smoke : brand.amber,
+          color: brand.void, border: 'none', borderRadius: '10px', padding: compact ? '10px 24px' : '14px 36px',
+          fontSize: compact ? '14px' : '16px', fontWeight: 700, cursor: (isGenerating || genAgents.length === 0) ? 'not-allowed' : 'pointer',
+          display: 'flex', alignItems: 'center', gap: '8px',
+          opacity: (isGenerating || genAgents.length === 0) ? 0.5 : 1,
+          boxShadow: (isGenerating || genAgents.length === 0) ? 'none' : `0 0 20px ${brand.amber}40`,
+          transition: 'all 0.2s',
+        }}>
+          <Zap size={16} />
+          {isGenerating ? 'Generating...' : `Generate ${ideaMode === 'collaborative' ? 'Collab' : 'Individual'} (${genAgents.length})`}
+        </button>
+      </div>
+    </div>
+  );
+
   return (
     <div style={{ minHeight: '100vh', background: brand.void, color: brand.white, fontFamily: "'Inter', sans-serif" }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '30px' }}>
@@ -579,13 +753,14 @@ export default function AgentInitiativesPage() {
             fontFamily: "'Space Grotesk', sans-serif", fontSize: '24px', fontWeight: 700,
             color: brand.amber, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px',
           }}>
-            Team Initiatives
+            Agent Initiatives
           </h1>
           <p style={{ fontSize: '14px', color: brand.smoke }}>
-            Generate ideas on the fly, review agent pitches, approve or nix.
+            Generate ideas, review pitches, build V1s, or discuss with agents.
           </p>
           <div style={{ display: 'flex', gap: '24px', marginTop: '16px', fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>
             <span style={{ color: brand.silver }}>PENDING <span style={{ color: brand.amber, fontWeight: 600 }}>{totalPending}</span></span>
+            <span style={{ color: brand.silver }}>BUILDING <span style={{ color: brand.info, fontWeight: 600 }}>{totalBuilding}</span></span>
             <span style={{ color: brand.silver }}>APPROVED <span style={{ color: brand.success, fontWeight: 600 }}>{totalApproved}</span></span>
             <span style={{ color: brand.silver }}>NIXED <span style={{ color: brand.error, fontWeight: 600 }}>{totalNixed}</span></span>
           </div>
@@ -602,12 +777,17 @@ export default function AgentInitiativesPage() {
             <XCircle size={16} /> {nixMsg}
           </div>
         )}
+        {buildMsg && (
+          <div style={{ position: 'fixed', top: 20, right: 20, zIndex: 1000, padding: '12px 20px', background: brand.info, color: '#fff', borderRadius: 8, fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 4px 20px rgba(59,130,246,0.4)' }}>
+            <Hammer size={16} /> {buildMsg}
+          </div>
+        )}
 
         {/* Main layout */}
         <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr', gap: '24px' }}>
 
           {/* Left: Agent list */}
-          <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', overflow: 'hidden' }}>
+          <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', overflow: 'hidden', alignSelf: 'start' }}>
             <div style={{ padding: '14px 16px', borderBottom: `1px solid ${brand.border}`, fontSize: '11px', fontWeight: 600, color: brand.smoke, textTransform: 'uppercase', letterSpacing: '1px', fontFamily: "'Space Grotesk', sans-serif" }}>
               The Team
             </div>
@@ -635,137 +815,34 @@ export default function AgentInitiativesPage() {
           </div>
 
           {/* Right panel */}
-          <div>
-            {!selectedAgent ? (
-              /* ─── Generator Hub (when no agent selected) ─── */
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-                {/* Generator card */}
-                <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: '32px' }}>
-                  <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                    <Zap size={32} color={brand.amber} style={{ marginBottom: '12px' }} />
-                    <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '20px', fontWeight: 600, color: brand.white, marginBottom: '8px' }}>
-                      Generate Ideas
-                    </h2>
-                    <p style={{ fontSize: '14px', color: brand.smoke, maxWidth: '460px', margin: '0 auto' }}>
-                      Force your agents to brainstorm new initiatives. Select agents, pick a mode, and generate.
-                    </p>
-                  </div>
+            {/* Generator Hub — ALWAYS visible */}
+            <GeneratorHub compact={!!selectedAgent} />
 
-                  {/* Agent selector */}
-                  <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '14px' }}>
-                      <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Select Agents</span>
-                      <button onClick={() => setGenAgents(allGenSelected ? [] : agents.map(a => a.id))} style={{ background: 'transparent', border: 'none', color: brand.amber, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', cursor: 'pointer', padding: 0 }}>
-                        {allGenSelected ? 'CLEAR' : 'ALL'}
-                      </button>
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      {agents.map(agent => {
-                        const on = genAgents.includes(agent.id);
-                        return (
-                          <button key={agent.id} onClick={() => toggleGenAgent(agent.id)} style={{
-                            background: on ? `${agent.color}15` : brand.graphite,
-                            color: brand.white, border: on ? `2px solid ${agent.color}` : `1px solid ${brand.border}`,
-                            borderRadius: '8px', padding: '7px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
-                            opacity: on ? 1 : 0.5, boxShadow: on ? `0 0 12px ${agent.color}20` : 'none', transition: 'all 0.2s',
-                          }}>
-                            {agent.name}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Mode + Creativity */}
-                  <div style={{ display: 'flex', gap: '40px', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: '28px' }}>
-                    {/* Mode */}
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                        <div style={{ flex: 1, height: '1px', background: brand.border }} />
-                        <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Mode</span>
-                        <div style={{ flex: 1, height: '1px', background: brand.border }} />
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        {([['individual', 'Individual', User] as const, ['collaborative', 'Collaborative', Users] as const]).map(([val, label, Icon]) => (
-                          <button key={val} onClick={() => setIdeaMode(val)} style={{
-                            background: ideaMode === val ? `${brand.amber}15` : brand.graphite,
-                            color: ideaMode === val ? brand.amber : brand.white,
-                            border: ideaMode === val ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
-                            borderRadius: '8px', padding: '7px 14px', fontSize: '13px', fontWeight: 600,
-                            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                            opacity: ideaMode === val ? 1 : 0.5, transition: 'all 0.2s',
-                          }}>
-                            <Icon size={14} />{label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Creativity */}
-                    <div style={{ textAlign: 'center' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
-                        <div style={{ flex: 1, height: '1px', background: brand.border }} />
-                        <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Creativity</span>
-                        <div style={{ flex: 1, height: '1px', background: brand.border }} />
-                      </div>
-                      <div style={{ display: 'flex', gap: '8px' }}>
-                        {creativityConfig.map(({ value, label, Icon, color }) => (
-                          <button key={value} onClick={() => setCreativity(value)} style={{
-                            background: creativity === value ? `${color}15` : brand.graphite,
-                            color: creativity === value ? color : brand.white,
-                            border: creativity === value ? `2px solid ${color}` : `1px solid ${brand.border}`,
-                            borderRadius: '8px', padding: '7px 14px', fontSize: '13px', fontWeight: 600,
-                            cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '6px',
-                            opacity: creativity === value ? 1 : 0.5, transition: 'all 0.2s',
-                          }}>
-                            <Icon size={14} />{label}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Generate button */}
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <button onClick={handleGenerate} disabled={isGenerating || genAgents.length === 0} style={{
-                      background: (isGenerating || genAgents.length === 0) ? brand.smoke : brand.amber,
-                      color: brand.void, border: 'none', borderRadius: '10px', padding: '14px 36px',
-                      fontSize: '16px', fontWeight: 700, cursor: (isGenerating || genAgents.length === 0) ? 'not-allowed' : 'pointer',
-                      display: 'flex', alignItems: 'center', gap: '8px',
-                      opacity: (isGenerating || genAgents.length === 0) ? 0.5 : 1,
-                      boxShadow: (isGenerating || genAgents.length === 0) ? 'none' : `0 0 20px ${brand.amber}40`,
-                      transition: 'all 0.2s',
-                    }}>
-                      <Zap size={18} />
-                      {isGenerating ? 'Generating...' : `Generate ${ideaMode === 'collaborative' ? 'Collaborative' : 'Individual'} Ideas (${genAgents.length})`}
-                    </button>
-                  </div>
+            {/* Quick overview when no agent selected */}
+            {!selectedAgent && totalPending > 0 && (
+              <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: '30px', textAlign: 'center' }}>
+                <div style={{ fontSize: '11px', color: brand.smoke, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '14px', fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Agents with pending pitches
                 </div>
-
-                {/* Quick overview: agents with pending pitches */}
-                {totalPending > 0 && (
-                  <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: '30px', textAlign: 'center' }}>
-                    <div style={{ fontSize: '11px', color: brand.smoke, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '14px', fontFamily: "'Space Grotesk', sans-serif" }}>
-                      Agents with pending pitches
-                    </div>
-                    <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                      {agents.filter(a => getPitchCount(a.id) > 0).map(a => (
-                        <button key={a.id} onClick={() => setSelectedAgent(a.id)} style={{
-                          display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px',
-                          background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: '8px',
-                          color: brand.white, fontSize: '13px', cursor: 'pointer',
-                        }}>
-                          <span>{a.emoji}</span> {a.name}
-                          <span style={{ fontSize: '11px', fontWeight: 600, color: brand.amber, fontFamily: "'JetBrains Mono', monospace" }}>{getPitchCount(a.id)}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
+                  {agents.filter(a => getPitchCount(a.id) > 0).map(a => (
+                    <button key={a.id} onClick={() => setSelectedAgent(a.id)} style={{
+                      display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 14px',
+                      background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: '8px',
+                      color: brand.white, fontSize: '13px', cursor: 'pointer',
+                    }}>
+                      <span>{a.emoji}</span> {a.name}
+                      <span style={{ fontSize: '11px', fontWeight: 600, color: brand.amber, fontFamily: "'JetBrains Mono', monospace" }}>{getPitchCount(a.id)}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-            ) : (
-              /* ─── Agent selected: show their pitches ─── */
+            )}
+
+            {/* Agent selected: show their pitches below the generator */}
+            {selectedAgent && (
               <div>
                 <div style={{
                   display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '20px', padding: '16px 20px',
@@ -777,20 +854,22 @@ export default function AgentInitiativesPage() {
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '20px', fontWeight: 700, color: brand.white }}>{selectedAgentData?.name}</h2>
                     <div style={{ fontSize: '12px', color: brand.smoke }}>{selectedAgentData?.role}</div>
                   </div>
-                  <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px', fontSize: '12px', fontFamily: "'JetBrains Mono', monospace" }}>
+                  <div style={{ marginLeft: 'auto', display: 'flex', gap: '12px', fontSize: '11px', fontFamily: "'JetBrains Mono', monospace", flexWrap: 'wrap' }}>
                     <span style={{ color: brand.amber }}>PENDING {agentPitches.length}</span>
+                    <span style={{ color: brand.info }}>BUILDING {agentBuilding.length}</span>
                     <span style={{ color: brand.success }}>APPROVED {approvedPitches.length}</span>
                     <span style={{ color: brand.error }}>NIXED {agentNixed.length}</span>
                   </div>
                 </div>
 
-                {agentPitches.length === 0 && approvedPitches.length === 0 && agentNixed.length === 0 ? (
+                {agentPitches.length === 0 && approvedPitches.length === 0 && agentNixed.length === 0 && agentBuilding.length === 0 ? (
                   <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: '40px', textAlign: 'center' }}>
                     <div style={{ fontSize: '32px', marginBottom: '12px' }}>💤</div>
-                    <p style={{ color: brand.smoke, fontSize: '14px' }}>No pitches from {selectedAgentData?.name} yet.</p>
+                    <p style={{ color: brand.smoke, fontSize: '14px' }}>No pitches from {selectedAgentData?.name} yet. Generate some above!</p>
                   </div>
                 ) : (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    {/* Pending */}
                     {agentPitches.length > 0 && (
                       <>
                         <div style={{ fontSize: '11px', color: brand.smoke, textTransform: 'uppercase', letterSpacing: '1px', padding: '0 4px', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
@@ -799,11 +878,37 @@ export default function AgentInitiativesPage() {
                         {agentPitches.map(pitch => (
                           <PitchCard key={pitch.id} pitch={pitch} expanded={expandedPitch === pitch.id}
                             onToggle={() => setExpandedPitch(expandedPitch === pitch.id ? null : pitch.id)}
-                            onApprove={() => addToKanban(pitch)} onNix={() => nixIdea(pitch)}
+                            onApprove={() => addToKanban(pitch)}
+                            onBuild={() => agentBuild(pitch)}
+                            onNix={() => nixIdea(pitch)}
+                            onDiscuss={() => openDiscuss(pitch.id)}
+                            discussOpen={discussPitchId === pitch.id}
+                            discussMessages={discussMessages[pitch.id] || []}
+                            discussInput={discussInput}
+                            onDiscussInputChange={setDiscussInput}
+                            onDiscussSend={() => sendDiscussMessage(pitch)}
                             agentColor={selectedAgentData?.color || brand.amber} />
                         ))}
                       </>
                     )}
+                    {/* Building */}
+                    {agentBuilding.length > 0 && (
+                      <>
+                        <div style={{ fontSize: '11px', color: brand.info, textTransform: 'uppercase', letterSpacing: '1px', padding: '12px 4px 0', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
+                          🔨 Building V1
+                        </div>
+                        {agentBuilding.map(pitch => (
+                          <div key={pitch.id} style={{ background: brand.carbon, border: '1px solid rgba(59,130,246,0.3)', borderRadius: '10px', padding: '14px 18px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                              <Hammer size={16} color={brand.info} />
+                              <span style={{ fontSize: '14px', fontWeight: 600, color: brand.white }}>{pitch.title}</span>
+                              <span style={{ fontSize: '10px', color: brand.info, fontFamily: "'JetBrains Mono', monospace", marginLeft: 'auto', background: 'rgba(59,130,246,0.15)', padding: '2px 8px', borderRadius: '6px' }}>IN PROGRESS</span>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    {/* Approved */}
                     {approvedPitches.length > 0 && (
                       <>
                         <div style={{ fontSize: '11px', color: brand.success, textTransform: 'uppercase', letterSpacing: '1px', padding: '12px 4px 0', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
@@ -820,6 +925,7 @@ export default function AgentInitiativesPage() {
                         ))}
                       </>
                     )}
+                    {/* Nixed */}
                     {agentNixed.length > 0 && (
                       <>
                         <div style={{ fontSize: '11px', color: brand.error, textTransform: 'uppercase', letterSpacing: '1px', padding: '12px 4px 0', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
@@ -851,8 +957,10 @@ export default function AgentInitiativesPage() {
 }
 
 // ─── Pitch Card ───────────────────────────────────────────────────────────────
-function PitchCard({ pitch, expanded, onToggle, onApprove, onNix, agentColor }: {
-  pitch: Pitch; expanded: boolean; onToggle: () => void; onApprove: () => void; onNix: () => void; agentColor: string;
+function PitchCard({ pitch, expanded, onToggle, onApprove, onBuild, onNix, onDiscuss, discussOpen, discussMessages, discussInput, onDiscussInputChange, onDiscussSend, agentColor }: {
+  pitch: Pitch; expanded: boolean; onToggle: () => void; onApprove: () => void; onBuild: () => void; onNix: () => void;
+  onDiscuss: () => void; discussOpen: boolean; discussMessages: DiscussMessage[]; discussInput: string;
+  onDiscussInputChange: (v: string) => void; onDiscussSend: () => void; agentColor: string;
 }) {
   return (
     <div style={{ background: brand.carbon, border: `1px solid ${expanded ? agentColor : brand.border}`, borderRadius: '10px', overflow: 'hidden', transition: 'border-color 0.2s ease' }}>
@@ -873,20 +981,85 @@ function PitchCard({ pitch, expanded, onToggle, onApprove, onNix, agentColor }: 
       {expanded && (
         <div style={{ borderTop: `1px solid ${brand.border}`, padding: '20px 18px', background: brand.graphite }}>
           <div style={{ fontSize: '13px', color: brand.silver, lineHeight: 1.8, whiteSpace: 'pre-wrap', marginBottom: '20px' }}>{pitch.fullPlan}</div>
-          <div style={{ display: 'flex', gap: '12px', paddingTop: '16px', borderTop: `1px solid ${brand.border}` }}>
+
+          {/* 4 Action Buttons */}
+          <div style={{ display: 'flex', gap: '10px', paddingTop: '16px', borderTop: `1px solid ${brand.border}`, flexWrap: 'wrap' }}>
             <button onClick={(e) => { e.stopPropagation(); onApprove(); }} style={{
-              display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: brand.amber, color: brand.void,
-              border: 'none', borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', background: brand.amber, color: brand.void,
+              border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
             }}>
-              <Plus size={16} /> Add to Kanban
+              <Plus size={14} /> Kanban
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); onBuild(); }} style={{
+              display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', background: 'transparent', color: brand.info,
+              border: `1px solid ${brand.info}`, borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+            }}>
+              <Hammer size={14} /> Agent Build
             </button>
             <button onClick={(e) => { e.stopPropagation(); onNix(); }} style={{
-              display: 'flex', alignItems: 'center', gap: '8px', padding: '10px 20px', background: 'transparent', color: brand.error,
-              border: `1px solid ${brand.error}`, borderRadius: '8px', fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', background: 'transparent', color: brand.error,
+              border: `1px solid ${brand.error}`, borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
             }}>
-              <Trash2 size={16} /> Nix Idea
+              <Trash2 size={14} /> Nix
+            </button>
+            <button onClick={(e) => { e.stopPropagation(); onDiscuss(); }} style={{
+              display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', background: 'transparent', color: '#A855F7',
+              border: '1px solid #A855F7', borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+            }}>
+              <MessageSquare size={14} /> Discuss
             </button>
           </div>
+
+          {/* Discuss Panel */}
+          {discussOpen && (
+            <div style={{ marginTop: '16px', borderTop: `1px solid ${brand.border}`, paddingTop: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+                <span style={{ fontSize: '11px', color: '#A855F7', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px', fontFamily: "'Space Grotesk', sans-serif" }}>
+                  Discussion — {pitch.agentName}
+                </span>
+              </div>
+
+              {/* Messages */}
+              {discussMessages.length > 0 && (
+                <div style={{ maxHeight: '240px', overflowY: 'auto', marginBottom: '12px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {discussMessages.map((msg, i) => (
+                    <div key={i} style={{
+                      padding: '10px 14px', borderRadius: '8px', fontSize: '13px', lineHeight: 1.6,
+                      background: msg.role === 'user' ? 'rgba(245,158,11,0.1)' : 'rgba(168,85,247,0.1)',
+                      borderLeft: msg.role === 'user' ? `3px solid ${brand.amber}` : '3px solid #A855F7',
+                      color: brand.silver,
+                    }}>
+                      {msg.role === 'user' && <span style={{ fontSize: '10px', color: brand.amber, fontWeight: 600, display: 'block', marginBottom: '4px' }}>YOU</span>}
+                      {msg.text}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Input */}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  type="text"
+                  value={discussInput}
+                  onChange={(e) => onDiscussInputChange(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === 'Enter') { e.stopPropagation(); onDiscussSend(); } }}
+                  onClick={(e) => e.stopPropagation()}
+                  placeholder={`Ask ${pitch.agentName} about this idea...`}
+                  style={{
+                    flex: 1, padding: '10px 14px', background: brand.void, border: `1px solid ${brand.border}`,
+                    borderRadius: '8px', color: brand.white, fontSize: '13px', fontFamily: "'Inter', sans-serif",
+                    outline: 'none',
+                  }}
+                />
+                <button onClick={(e) => { e.stopPropagation(); onDiscussSend(); }} style={{
+                  padding: '10px 16px', background: '#A855F7', color: '#fff', border: 'none',
+                  borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center',
+                }}>
+                  <Send size={16} />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
