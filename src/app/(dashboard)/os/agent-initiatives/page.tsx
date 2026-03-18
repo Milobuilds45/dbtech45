@@ -750,6 +750,8 @@ export default function AgentInitiativesPage() {
   const toggleGenAgent = (id: string) => setGenAgents(p => p.includes(id) ? p.filter(x => x !== id) : [...p, id]);
   const allGenSelected = genAgents.length === agents.length;
 
+  const [justGenerated, setJustGenerated] = useState<Pitch[]>([]);
+
   const handleGenerate = () => {
     if (genAgents.length === 0) return;
     setIsGenerating(true);
@@ -761,7 +763,14 @@ export default function AgentInitiativesPage() {
         newPitches = genIndividual(genAgents, creativity);
       }
       setPitches(prev => [...newPitches, ...prev]);
+      setJustGenerated(newPitches);
       setIsGenerating(false);
+      // Auto-select the first agent if individual mode
+      if (ideaMode === 'individual' && newPitches.length > 0) {
+        setSelectedAgent(newPitches[0].agentId);
+      } else {
+        setSelectedAgent(null);
+      }
     }, 600);
   };
 
@@ -916,6 +925,29 @@ export default function AgentInitiativesPage() {
 
             {/* Generator Hub — ALWAYS visible */}
             <GeneratorHub compact={!!selectedAgent} />
+
+            {/* Show just-generated collab pitches when no agent selected */}
+            {!selectedAgent && justGenerated.length > 0 && justGenerated[0].agentId === 'collaborative' && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ fontSize: '11px', color: brand.amber, textTransform: 'uppercase', letterSpacing: '1px', padding: '0 4px', fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}>
+                  Just Generated — Collaborative
+                </div>
+                {justGenerated.map(pitch => (
+                  <PitchCard key={pitch.id} pitch={pitch} expanded={expandedPitch === pitch.id}
+                    onToggle={() => setExpandedPitch(expandedPitch === pitch.id ? null : pitch.id)}
+                    onApprove={() => addToKanban(pitch)}
+                    onBuild={() => agentBuild(pitch)}
+                    onNix={() => nixIdea(pitch)}
+                    onDiscuss={() => openDiscuss(pitch.id)}
+                    discussOpen={discussPitchId === pitch.id}
+                    discussMessages={discussMessages[pitch.id] || []}
+                    discussInput={discussInput}
+                    onDiscussInputChange={setDiscussInput}
+                    onDiscussSend={() => sendDiscussMessage(pitch)}
+                    agentColor={brand.amber} />
+                ))}
+              </div>
+            )}
 
             {/* Quick overview when no agent selected */}
             {!selectedAgent && totalPending > 0 && (

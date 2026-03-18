@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0b70aedf",
+      "author": "Milo",
+      "timestamp": "2026-03-18 11:34:52 -0400",
+      "message": "divider between mode/level, Supabase sync for pitches via todos table, cleanup unused API routes"
+    },
+    {
+      "type": "commit",
       "id": "837157a1",
       "author": "Milo",
       "timestamp": "2026-03-18 10:00:38 -0400",
@@ -274,5 +281,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-18T15:34:14.953Z"
+  "generatedAt": "2026-03-18T15:59:17.964Z"
 }
