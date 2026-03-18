@@ -6,6 +6,8 @@ import { supabase } from '@/lib/supabase';
 import {
   ChevronDown, Plus, Trash2, Hammer, MessageSquare, Send,
   User, Users, Lightbulb, CheckCircle2, XCircle, Zap, Shield, Sparkles, X,
+  TrendingUp, Palette, Wrench, Heart, UtensilsCrossed, Search, Brain, BarChart3,
+  type LucideIcon,
 } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
@@ -31,15 +33,15 @@ interface DiscussMessage {
 }
 
 // ─── Agent Registry ───────────────────────────────────────────────────────────
-const agents = [
-  { id: 'bobby', name: 'Bobby Axelrod', emoji: '💰', role: 'Chief Investment Officer', color: '#10B981' },
-  { id: 'paula', name: 'Paula', emoji: '🎨', role: 'Creative & Design', color: '#EC4899' },
-  { id: 'anders', name: 'Anders', emoji: '⚙️', role: 'IT / DevOps', color: '#3B82F6' },
-  { id: 'wendy', name: 'Wendy', emoji: '🧘', role: 'Personal & Wellness', color: '#8B5CF6' },
-  { id: 'remy', name: 'Remy', emoji: '🍽️', role: 'Restaurant Ops', color: '#F97316' },
-  { id: 'dwight', name: 'Dwight', emoji: '🕵️', role: 'Research & Intel', color: '#EAB308' },
-  { id: 'milo', name: 'Milo', emoji: '📋', role: 'Senior Advisor & Systems', color: '#6366F1' },
-  { id: 'dax', name: 'Dax', emoji: '📊', role: 'Data & Analytics', color: '#06B6D4' },
+const agents: { id: string; name: string; icon: LucideIcon; role: string; color: string }[] = [
+  { id: 'bobby', name: 'Bobby Axelrod', icon: TrendingUp, role: 'Chief Investment Officer', color: '#10B981' },
+  { id: 'paula', name: 'Paula', icon: Palette, role: 'Creative & Design', color: '#EC4899' },
+  { id: 'anders', name: 'Anders', icon: Wrench, role: 'IT / DevOps', color: '#3B82F6' },
+  { id: 'wendy', name: 'Wendy', icon: Heart, role: 'Personal & Wellness', color: '#8B5CF6' },
+  { id: 'remy', name: 'Remy', icon: UtensilsCrossed, role: 'Restaurant Ops', color: '#F97316' },
+  { id: 'dwight', name: 'Dwight', icon: Search, role: 'Research & Intel', color: '#EAB308' },
+  { id: 'milo', name: 'Milo', icon: Brain, role: 'Senior Advisor & Systems', color: '#6366F1' },
+  { id: 'dax', name: 'Dax', icon: BarChart3, role: 'Data & Analytics', color: '#06B6D4' },
 ];
 
 const STORAGE_KEY = 'agent-pitches-v2';
@@ -641,103 +643,68 @@ export default function AgentInitiativesPage() {
 
   // ─── Generator Hub Component (reusable) ─────────────────────────────────
   const GeneratorHub = ({ compact }: { compact?: boolean }) => (
-    <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: compact ? '20px' : '32px' }}>
-      <div style={{ textAlign: 'center', marginBottom: compact ? '16px' : '24px' }}>
-        <Zap size={compact ? 24 : 32} color={brand.amber} style={{ marginBottom: '8px' }} />
-        <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: compact ? '16px' : '20px', fontWeight: 600, color: brand.white, marginBottom: '6px' }}>
-          Generate Ideas
-        </h2>
-        {!compact && (
-          <p style={{ fontSize: '14px', color: brand.smoke, maxWidth: '460px', margin: '0 auto' }}>
-            Force your agents to brainstorm new initiatives. Select agents, pick a mode, and generate.
-          </p>
-        )}
+    <div style={{ background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px', padding: '16px 20px' }}>
+      {/* Row 1: Agents — inline toggles */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+        <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginRight: '4px' }}>Agents</span>
+        <button onClick={() => setGenAgents(allGenSelected ? [] : agents.map(a => a.id))} style={{ background: 'none', border: 'none', color: brand.amber, fontSize: '10px', fontWeight: 700, cursor: 'pointer', padding: 0, textTransform: 'uppercase' }}>
+          {allGenSelected ? 'Clear' : 'All'}
+        </button>
+        <div style={{ width: '1px', height: '16px', background: brand.border }} />
+        {agents.map(agent => {
+          const on = genAgents.includes(agent.id);
+          return (
+            <button key={agent.id} onClick={() => toggleGenAgent(agent.id)} style={{
+              background: on ? brand.graphite : 'transparent',
+              color: on ? brand.white : brand.smoke,
+              border: on ? `1px solid ${brand.border}` : '1px solid transparent',
+              borderRadius: '6px', padding: '3px 8px', fontSize: '11px', fontWeight: 500, cursor: 'pointer',
+              opacity: on ? 1 : 0.4, transition: 'all 0.15s',
+            }}>
+              {agent.name.split(' ')[0]}
+            </button>
+          );
+        })}
       </div>
 
-      {/* Agent selector */}
-      <div style={{ textAlign: 'center', marginBottom: compact ? '16px' : '24px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', marginBottom: '10px' }}>
-          <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Select Agents</span>
-          <button onClick={() => setGenAgents(allGenSelected ? [] : agents.map(a => a.id))} style={{ background: 'transparent', border: 'none', color: brand.amber, fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', cursor: 'pointer', padding: 0 }}>
-            {allGenSelected ? 'CLEAR' : 'ALL'}
+      {/* Row 2: Mode + Creativity + Generate — all on one line */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+        <span style={{ color: brand.smoke, fontSize: '10px', fontWeight: 600, textTransform: 'uppercase' }}>Mode</span>
+        {([['individual', 'Individual'] as const, ['collaborative', 'Collab'] as const]).map(([val, label]) => (
+          <button key={val} onClick={() => setIdeaMode(val)} style={{
+            background: ideaMode === val ? brand.graphite : 'transparent',
+            color: ideaMode === val ? brand.white : brand.smoke,
+            border: ideaMode === val ? `1px solid ${brand.border}` : '1px solid transparent',
+            borderRadius: '6px', padding: '4px 10px', fontSize: '11px', fontWeight: 500, cursor: 'pointer',
+          }}>
+            {label}
           </button>
-        </div>
-        <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', flexWrap: 'wrap' }}>
-          {agents.map(agent => {
-            const on = genAgents.includes(agent.id);
-            return (
-              <button key={agent.id} onClick={() => toggleGenAgent(agent.id)} style={{
-                background: on ? `${agent.color}15` : brand.graphite,
-                color: brand.white, border: on ? `2px solid ${agent.color}` : `1px solid ${brand.border}`,
-                borderRadius: '8px', padding: compact ? '5px 10px' : '7px 14px', fontSize: compact ? '12px' : '13px', fontWeight: 600, cursor: 'pointer',
-                opacity: on ? 1 : 0.5, boxShadow: on ? `0 0 12px ${agent.color}20` : 'none', transition: 'all 0.2s',
-              }}>
-                {agent.name}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Mode + Creativity */}
-      <div style={{ display: 'flex', gap: compact ? '24px' : '40px', justifyContent: 'center', alignItems: 'flex-start', flexWrap: 'wrap', marginBottom: compact ? '16px' : '28px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <div style={{ flex: 1, height: '1px', background: brand.border }} />
-            <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Mode</span>
-            <div style={{ flex: 1, height: '1px', background: brand.border }} />
-          </div>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {([['individual', 'Individual', User] as const, ['collaborative', 'Collab', Users] as const]).map(([val, label, Icon]) => (
-              <button key={val} onClick={() => setIdeaMode(val)} style={{
-                background: ideaMode === val ? `${brand.amber}15` : brand.graphite,
-                color: ideaMode === val ? brand.amber : brand.white,
-                border: ideaMode === val ? `2px solid ${brand.amber}` : `1px solid ${brand.border}`,
-                borderRadius: '8px', padding: '6px 12px', fontSize: '12px', fontWeight: 600,
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
-                opacity: ideaMode === val ? 1 : 0.5, transition: 'all 0.2s',
-              }}>
-                <Icon size={13} />{label}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-            <div style={{ flex: 1, height: '1px', background: brand.border }} />
-            <span style={{ color: brand.smoke, fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', whiteSpace: 'nowrap' }}>Creativity</span>
-            <div style={{ flex: 1, height: '1px', background: brand.border }} />
-          </div>
-          <div style={{ display: 'flex', gap: '6px' }}>
-            {creativityConfig.map(({ value, label, Icon, color }) => (
-              <button key={value} onClick={() => setCreativity(value)} style={{
-                background: creativity === value ? `${color}15` : brand.graphite,
-                color: creativity === value ? color : brand.white,
-                border: creativity === value ? `2px solid ${color}` : `1px solid ${brand.border}`,
-                borderRadius: '8px', padding: '6px 12px', fontSize: '12px', fontWeight: 600,
-                cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '5px',
-                opacity: creativity === value ? 1 : 0.5, transition: 'all 0.2s',
-              }}>
-                <Icon size={13} />{label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Generate button */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        ))}
+        <div style={{ width: '1px', height: '16px', background: brand.border }} />
+        <span style={{ color: brand.smoke, fontSize: '10px', fontWeight: 600, textTransform: 'uppercase' }}>Level</span>
+        {(['simple', 'creative', 'experimental'] as CreativityLevel[]).map(val => (
+          <button key={val} onClick={() => setCreativity(val)} style={{
+            background: creativity === val ? brand.graphite : 'transparent',
+            color: creativity === val ? brand.white : brand.smoke,
+            border: creativity === val ? `1px solid ${brand.border}` : '1px solid transparent',
+            borderRadius: '6px', padding: '4px 10px', fontSize: '11px', fontWeight: 500, cursor: 'pointer',
+            textTransform: 'capitalize',
+          }}>
+            {val}
+          </button>
+        ))}
+        <div style={{ flex: 1 }} />
         <button onClick={handleGenerate} disabled={isGenerating || genAgents.length === 0} style={{
-          background: (isGenerating || genAgents.length === 0) ? brand.smoke : brand.amber,
-          color: brand.void, border: 'none', borderRadius: '10px', padding: compact ? '10px 24px' : '14px 36px',
-          fontSize: compact ? '14px' : '16px', fontWeight: 700, cursor: (isGenerating || genAgents.length === 0) ? 'not-allowed' : 'pointer',
-          display: 'flex', alignItems: 'center', gap: '8px',
+          background: (isGenerating || genAgents.length === 0) ? brand.graphite : brand.amber,
+          color: (isGenerating || genAgents.length === 0) ? brand.smoke : brand.void,
+          border: 'none', borderRadius: '6px', padding: '6px 16px',
+          fontSize: '12px', fontWeight: 600, cursor: (isGenerating || genAgents.length === 0) ? 'not-allowed' : 'pointer',
+          display: 'flex', alignItems: 'center', gap: '6px',
           opacity: (isGenerating || genAgents.length === 0) ? 0.5 : 1,
-          boxShadow: (isGenerating || genAgents.length === 0) ? 'none' : `0 0 20px ${brand.amber}40`,
-          transition: 'all 0.2s',
+          transition: 'all 0.15s',
         }}>
-          <Zap size={16} />
-          {isGenerating ? 'Generating...' : `Generate ${ideaMode === 'collaborative' ? 'Collab' : 'Individual'} (${genAgents.length})`}
+          <Zap size={13} />
+          {isGenerating ? 'Generating...' : 'Generate'}
         </button>
       </div>
     </div>
@@ -801,7 +768,7 @@ export default function AgentInitiativesPage() {
                   borderLeft: isSelected ? `3px solid ${agent.color}` : '3px solid transparent',
                   transition: 'all 0.15s ease',
                 }}>
-                  <span style={{ fontSize: '18px' }}>{agent.emoji}</span>
+                  <agent.icon size={18} color={isSelected ? agent.color : brand.smoke} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: '13px', fontWeight: isSelected ? 600 : 500, color: isSelected ? brand.white : brand.silver }}>{agent.name}</div>
                     <div style={{ fontSize: '10px', color: brand.smoke, marginTop: '2px' }}>{agent.role}</div>
@@ -833,7 +800,7 @@ export default function AgentInitiativesPage() {
                       background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: '8px',
                       color: brand.white, fontSize: '13px', cursor: 'pointer',
                     }}>
-                      <span>{a.emoji}</span> {a.name}
+                      <a.icon size={14} color={a.color} /> {a.name}
                       <span style={{ fontSize: '11px', fontWeight: 600, color: brand.amber, fontFamily: "'JetBrains Mono', monospace" }}>{getPitchCount(a.id)}</span>
                     </button>
                   ))}
@@ -849,7 +816,7 @@ export default function AgentInitiativesPage() {
                   background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: '12px',
                   borderLeft: `4px solid ${selectedAgentData?.color}`,
                 }}>
-                  <span style={{ fontSize: '32px' }}>{selectedAgentData?.emoji}</span>
+                  {selectedAgentData && <selectedAgentData.icon size={28} color={selectedAgentData.color} />}
                   <div>
                     <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: '20px', fontWeight: 700, color: brand.white }}>{selectedAgentData?.name}</h2>
                     <div style={{ fontSize: '12px', color: brand.smoke }}>{selectedAgentData?.role}</div>
