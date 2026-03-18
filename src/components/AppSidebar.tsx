@@ -157,6 +157,7 @@ const financeItems: NavItem[] = [
 const agentItems: NavItem[] = [
   { label: 'Model Counsel', href: '/os/model-counsel' },
   { label: 'Roundtable', href: '/os/roundtable' },
+  { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
   { label: 'Agent Assist', href: '/os/agents/assist' },
 ];
 
@@ -169,8 +170,7 @@ const opsItems: NavItem[] = [
   { label: 'DNA Scanner', href: '/tools/dna-scanner' },
 ];
 
-const agentInitiativesItems: NavItem[] = [
-  { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
+const teamInitiativesItems: NavItem[] = [
   { label: 'Ship or Kill', href: '/os/ship-or-kill' },
   { label: 'Newsletter', href: '/os/newsletter' },
 ];
@@ -206,9 +206,9 @@ const sections: SectionConfig[] = [
   { key: 'dashboard', number: '02', title: 'DASHBOARD', items: dashboardItems },
   { key: 'finance', number: '03', title: 'FINANCE', items: financeItems },
   { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
-  { key: 'initiatives', number: '05', title: 'AGENT INITIATIVES', items: agentInitiativesItems },
+  { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
   { key: 'agents', number: '06', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
-  { key: 'intel', number: '07', title: 'INTEL', items: intelItems },
+  { key: 'initiatives', number: '07', title: 'TEAM INITIATIVES', items: teamInitiativesItems },
   { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 

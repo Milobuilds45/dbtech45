@@ -579,7 +579,7 @@ export default function AgentInitiativesPage() {
             fontFamily: "'Space Grotesk', sans-serif", fontSize: '24px', fontWeight: 700,
             color: brand.amber, marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px',
           }}>
-            Agent Initiatives
+            Team Initiatives
           </h1>
           <p style={{ fontSize: '14px', color: brand.smoke }}>
             Generate ideas on the fly, review agent pitches, approve or nix.

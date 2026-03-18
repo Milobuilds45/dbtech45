@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "a4fb4acf",
+      "author": "Milo",
+      "timestamp": "2026-03-17 17:40:18 -0400",
+      "message": "org-structure: solid black bg + n8n bezier connectors + dark blue boxes"
+    },
+    {
+      "type": "commit",
       "id": "8ee4bb98",
       "author": "Milo",
       "timestamp": "2026-03-17 17:13:54 -0400",
@@ -232,5 +239,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-17T21:39:05.534Z"
+  "generatedAt": "2026-03-17T23:59:15.663Z"
 }
