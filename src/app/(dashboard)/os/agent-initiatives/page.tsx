@@ -11,6 +11,14 @@ import {
 } from 'lucide-react';
 import { generateCollaborativeIdea as generateRealCollaboration } from '@/lib/agent-collaboration';
 
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Separator } from '@/components/ui/separator';
+import { type DeepPitch, deepPitches } from '@/lib/agent-pitches-data';
+import { DeepPitchDashboard } from '@/components/DeepPitchDashboard';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Pitch {
   id: string;
@@ -19,6 +27,7 @@ interface Pitch {
   title: string;
   tldr: string;
   fullPlan: string;
+  deepPitch?: DeepPitch; // New deep data
   date: string;
   time: string;
   status: 'pending' | 'approved' | 'nixed' | 'building';
@@ -490,6 +499,7 @@ function genIndividual(agentIds: string[], creativity: CreativityLevel): Pitch[]
       agentName: agent.name,
       title: tmpl.title,
       tldr: `${tmpl.plainEnglish || tmpl.description}`,
+      deepPitch: deepPitches[agentId]?.[creativity], // Attach deep data if available
       fullPlan: (() => {
         const v = agentVoice[agentId] || agentVoice['ted'];
         return [
@@ -1169,10 +1179,15 @@ function PitchCard({ pitch, expanded, onToggle, onApprove, onBuild, onNix, onDis
       </div>
       {expanded && (
         <div style={{ borderTop: `1px solid ${brand.border}`, padding: '20px 18px', background: brand.graphite }}>
-          <div style={{ fontSize: '13px', color: brand.silver, lineHeight: 1.8, whiteSpace: 'pre-wrap', marginBottom: '20px' }}>{pitch.fullPlan}</div>
+          
+          {pitch.deepPitch ? (
+            <DeepPitchDashboard pitch={pitch.deepPitch} color={agentColor} />
+          ) : (
+            <div style={{ fontSize: '13px', color: brand.silver, lineHeight: 1.8, whiteSpace: 'pre-wrap', marginBottom: '20px' }}>{pitch.fullPlan}</div>
+          )}
 
           {/* 4 Action Buttons */}
-          <div style={{ display: 'flex', gap: '10px', paddingTop: '16px', borderTop: `1px solid ${brand.border}`, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '10px', paddingTop: '16px', borderTop: `1px solid ${brand.border}`, flexWrap: 'wrap', marginTop: pitch.deepPitch ? '20px' : '0' }}>
             <button onClick={(e) => { e.stopPropagation(); onApprove(); }} style={{
               display: 'flex', alignItems: 'center', gap: '6px', padding: '9px 16px', background: brand.amber, color: brand.void,
               border: 'none', borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
