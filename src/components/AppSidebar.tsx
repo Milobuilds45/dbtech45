@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, type ReactNode } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+
 import {
   ChevronLeft,
   ChevronRight,
@@ -568,28 +569,6 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
           )}
         </Link>
       </div>
-
-      {/* System Status Bar */}
-      {!(collapsed && !isMobile) && (
-        <div style={{
-          padding: '12px 20px',
-          borderBottom: `1px solid ${theme.border}`,
-          background: 'rgba(0, 0, 0, 0.3)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 500, color: theme.dimText, textTransform: 'uppercase', letterSpacing: '1px' }}>System Status</span>
-            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontFamily: "'JetBrains Mono', monospace", fontSize: '10px', fontWeight: 600, color: theme.success, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: theme.success, animation: 'pulse 2s ease-in-out infinite' }} />
-              OPERATIONAL
-            </span>
-          </div>
-          <div style={{ display: 'flex', gap: '16px' }}>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>AGENTS: <span style={{ color: theme.smoke }}>{agentCount}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>COMMIT: <span style={{ color: theme.smoke }}>{lastCommit}</span></span>
-            <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', color: theme.dimText }}>GW: <span style={{ color: gatewayStatus === 'UP' ? theme.success : '#ef4444' }}>{gatewayStatus}</span></span>
-          </div>
-        </div>
-      )}
 
       {/* Nav sections */}
       <div style={{ flex: 1, overflowY: 'auto' }}>

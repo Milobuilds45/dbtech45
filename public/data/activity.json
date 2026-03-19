@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "bfc88d85",
+      "author": "Milo",
+      "timestamp": "2026-03-18 23:01:41 -0400",
+      "message": "feat: usage cockpit — real-time token/cost tracking gauges (API + sidebar + full cockpit) [NOT DEPLOYED]"
+    },
+    {
+      "type": "commit",
       "id": "91d4501a",
       "author": "Milo",
       "timestamp": "2026-03-18 13:42:03 -0400",
@@ -316,5 +323,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-19T02:59:05.689Z"
+  "generatedAt": "2026-03-19T15:09:08.821Z"
 }
