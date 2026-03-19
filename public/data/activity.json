@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "91d4501a",
+      "author": "Milo",
+      "timestamp": "2026-03-18 13:42:03 -0400",
+      "message": "fix: deep pitch dashboard layout - scores in 4-col row, proper spacing, inline styles for reliability"
+    },
+    {
+      "type": "commit",
       "id": "9ceb8ff5",
       "author": "Milo",
       "timestamp": "2026-03-18 13:25:31 -0400",
@@ -309,5 +316,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-18T17:39:18.034Z"
+  "generatedAt": "2026-03-19T02:59:05.689Z"
 }
