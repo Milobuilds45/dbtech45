@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "7f07577f",
+      "author": "Milo",
+      "timestamp": "2026-03-20 13:30:06 -0400",
+      "message": "fix(org-structure): restore N8N canvas vibe — floating nodes on dot grid, real SVG wires"
+    },
+    {
+      "type": "commit",
       "id": "94f30d14",
       "author": "Milo",
       "timestamp": "2026-03-20 13:27:24 -0400",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-03-14 13:07:58 -0400",
       "message": "feat: add cookie upload endpoint for YouTube transcript bypass"
-    },
-    {
-      "type": "commit",
-      "id": "b03b9544",
-      "author": "Milo",
-      "timestamp": "2026-03-13 18:45:16 -0400",
-      "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-20T17:29:09.515Z"
+  "generatedAt": "2026-03-20T17:34:07.337Z"
 }
