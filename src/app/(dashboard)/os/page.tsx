@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { supabase, type Goal, type Todo, type Activity } from '@/lib/supabase';
+import { UsageCockpit } from '@/components/UsageCockpit';
 
 const voidColors = {
   void: '#000000', carbon: '#111111', graphite: '#1A1A1A',
@@ -91,6 +92,11 @@ export default function OSPage() {
       <div style={{ marginBottom: '30px' }}>
         <div style={{ fontSize: '28px', fontWeight: 700, color: b.white, fontFamily: "'Space Grotesk', system-ui, sans-serif", textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>Derek OS</div>
         <div style={{ color: b.smoke, marginTop: '4px' }}>Operating system for Derek's AI agent ecosystem -- {goals.length} goals, {todos.length} todos tracked</div>
+      </div>
+
+      {/* USAGE COCKPIT */}
+      <div style={{ background: b.carbon, border: `1px solid ${b.border}`, borderRadius: '16px', padding: '24px', marginBottom: '30px' }}>
+        <UsageCockpit />
       </div>
 
       {/* MILO Mission Control - NEW! */}

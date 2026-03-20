@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>dbtech45.com | Terminal System</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;700&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#00ff40",
+                        "background-light": "#0A0A0B",
+                        "background-dark": "#0A0A0B",
+                        "accent-amber": "#ffb000",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "mono": ["JetBrains Mono", "monospace"],
+                        "ui": ["Roboto Mono", "monospace"],
+                    },
+                    borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+                },
+            },
+        }
+    </script>
+<style>
+        .terminal-glow {
+            box-shadow: 0 0 15px rgba(0, 255, 64, 0.2);
+            border: 1px solid rgba(0, 255, 64, 0.3);
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 64, 0.1);
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        .text-glow {
+            text-shadow: 0 0 8px rgba(0, 255, 64, 0.6);
+        }
+    </style>
+</head>
+<body class="bg-background-dark font-ui text-slate-100 selection:bg-primary selection:text-background-dark overflow-x-hidden">
+<div class="relative flex min-h-screen w-full flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between border-b border-primary/20 bg-background-dark/80 backdrop-blur-md px-6 md:px-12 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-3xl">terminal</span>
+<h2 class="text-primary font-mono text-xl font-bold tracking-tighter text-glow">dbtech45.com</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8 font-mono">
+<a class="text-primary/70 hover:text-primary transition-colors" href="#">$ home</a>
+<a class="text-primary/70 hover:text-primary transition-colors" href="#">$ agents</a>
+<a class="text-primary/70 hover:text-primary transition-colors" href="#">$ docs</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-background-dark px-4 py-2 rounded-sm font-bold text-sm hover:bg-primary/90 transition-all active:scale-95">
+                &gt; Get Started
+            </button>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col items-center">
+<!-- Hero Section -->
+<section class="w-full max-w-6xl px-6 py-16 md:py-24">
+<div class="relative terminal-glow bg-black/40 p-8 md:p-12 rounded-lg overflow-hidden">
+<div class="scanline"></div>
+<div class="font-mono space-y-4">
+<p class="text-primary/60 text-sm">SYSTEM_LOAD_SUCCESS // v4.5.0</p>
+<h1 class="text-4xl md:text-6xl font-bold text-primary text-glow leading-tight">
+                        TERMINAL_SYSTEM_INIT<br/>
+<span class="text-white">OPENCLAW_GATEWAY</span>
+</h1>
+<p class="text-slate-400 max-w-2xl text-lg leading-relaxed">
+                        Initializing secure connection to the Cyberpunk Agent Swarm. Deploy, monitor, and scale autonomous neural agents across the edge.
+                    </p>
+<div class="flex flex-wrap gap-4 pt-6">
+<button class="bg-primary text-background-dark px-6 py-3 rounded-sm font-bold hover:shadow-[0_0_20px_rgba(0,255,64,0.4)] transition-all">
+                            &gt; GET_STARTED
+                        </button>
+<button class="border border-primary text-primary px-6 py-3 rounded-sm font-bold hover:bg-primary/10 transition-all">
+                            &gt; DEPLOY_AGENT
+                        </button>
+</div>
+</div>
+<div class="absolute top-4 right-4 opacity-10 select-none">
+<span class="material-symbols-outlined text-9xl">shield_person</span>
+</div>
+</div>
+</section>
+<!-- Setup Guide Section -->
+<section class="w-full max-w-6xl px-6 py-12">
+<h2 class="text-primary font-mono text-2xl mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined">settings_input_component</span>
+                $ openclaw --setup-guide
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+<div class="space-y-4 font-mono">
+<div class="flex items-center gap-4 group cursor-pointer">
+<span class="text-primary/40 group-hover:text-primary transition-colors">01</span>
+<div class="flex-1 p-3 bg-primary/5 border border-primary/20 rounded hover:border-primary/50 transition-colors">
+<p class="text-primary">$ npm install -g openclaw</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer">
+<span class="text-primary/40 group-hover:text-primary transition-colors">02</span>
+<div class="flex-1 p-3 bg-primary/5 border border-primary/20 rounded hover:border-primary/50 transition-colors">
+<p class="text-primary">$ openclaw init</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer">
+<span class="text-primary/40 group-hover:text-primary transition-colors">03</span>
+<div class="flex-1 p-3 bg-primary/5 border border-primary/20 rounded hover:border-primary/50 transition-colors">
+<p class="text-primary">$ openclaw gateway start</p>
+</div>
+</div>
+<div class="flex items-center gap-4 group cursor-pointer">
+<span class="text-primary/40 group-hover:text-primary transition-colors">04</span>
+<div class="flex-1 p-3 bg-primary/5 border border-primary/20 rounded hover:border-primary/50 transition-colors">
+<p class="text-primary">$ openclaw agents create</p>
+</div>
+</div>
+</div>
+<div class="relative h-64 md:h-full min-h-[300px] rounded-lg border border-primary/10 bg-primary/5 overflow-hidden flex items-center justify-center">
+<div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: radial-gradient(circle at 2px 2px, #00ff40 1px, transparent 0); background-size: 24px 24px;"></div>
+<div class="z-10 text-center p-6">
+<span class="material-symbols-outlined text-primary text-6xl mb-4">memory</span>
+<p class="font-mono text-primary/80">CORE_MODULE_READY</p>
+<p class="text-xs text-primary/40 mt-2">AWAITING CONNECTION...</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature Cards -->
+<section class="w-full max-w-6xl px-6 py-12">
+<h2 class="text-primary font-mono text-2xl mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined">dashboard_customize</span>
+                $ list --features
+            </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1 -->
+<div class="terminal-glow bg-black/60 rounded-sm border-t-2 border-primary">
+<div class="bg-primary/10 px-3 py-1 flex justify-between items-center border-b border-primary/20">
+<span class="text-[10px] font-mono text-primary font-bold">AGENT_SWARM.EXE</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+</div>
+</div>
+<div class="p-5 space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">hub</span>
+<h3 class="text-primary font-mono font-bold">Agent Swarm</h3>
+<p class="text-slate-400 text-xs font-mono leading-relaxed">Multi-agent coordination protocols for complex task distribution and resolution.</p>
+<div class="pt-2">
+<div class="w-full bg-primary/10 h-1 rounded-full overflow-hidden">
+<div class="bg-primary w-3/4 h-full"></div>
+</div>
+<p class="text-[10px] text-primary/60 mt-1 font-mono">STATUS: OPTIMIZED</p>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="terminal-glow bg-black/60 rounded-sm border-t-2 border-accent-amber">
+<div class="bg-accent-amber/10 px-3 py-1 flex justify-between items-center border-b border-accent-amber/20">
+<span class="text-[10px] font-mono text-accent-amber font-bold">GATEWAY_STATUS.LOG</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-accent-amber/30"></div>
+<div class="w-2 h-2 rounded-full bg-accent-amber/30"></div>
+</div>
+</div>
+<div class="p-5 space-y-3">
+<span class="material-symbols-outlined text-accent-amber text-3xl">router</span>
+<h3 class="text-accent-amber font-mono font-bold">Gateway Status</h3>
+<p class="text-slate-400 text-xs font-mono leading-relaxed">Real-time telemetry of ingress/egress data flows across your private net.</p>
+<div class="pt-2">
+<p class="text-[10px] text-accent-amber font-mono">UPLINK: ACTIVE [99.9%]</p>
+<p class="text-[10px] text-accent-amber/60 font-mono">LATENCY: 12ms</p>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="terminal-glow bg-black/60 rounded-sm border-t-2 border-primary">
+<div class="bg-primary/10 px-3 py-1 flex justify-between items-center border-b border-primary/20">
+<span class="text-[10px] font-mono text-primary font-bold">MONITOR.SYS</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+</div>
+</div>
+<div class="p-5 space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">query_stats</span>
+<h3 class="text-primary font-mono font-bold">Real-time Monitoring</h3>
+<p class="text-slate-400 text-xs font-mono leading-relaxed">Visualized neural patterns and decision-making logic streams in real-time.</p>
+<div class="flex gap-1 mt-2">
+<div class="h-8 w-1 bg-primary/60"></div>
+<div class="h-6 w-1 bg-primary/40"></div>
+<div class="h-10 w-1 bg-primary"></div>
+<div class="h-4 w-1 bg-primary/20"></div>
+<div class="h-7 w-1 bg-primary/50"></div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="terminal-glow bg-black/60 rounded-sm border-t-2 border-primary">
+<div class="bg-primary/10 px-3 py-1 flex justify-between items-center border-b border-primary/20">
+<span class="text-[10px] font-mono text-primary font-bold">VAULT_LOCK.SH</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+<div class="w-2 h-2 rounded-full bg-primary/30"></div>
+</div>
+</div>
+<div class="p-5 space-y-3">
+<span class="material-symbols-outlined text-primary text-3xl">encrypted</span>
+<h3 class="text-primary font-mono font-bold">Credential Vault</h3>
+<p class="text-slate-400 text-xs font-mono leading-relaxed">Military-grade encryption for agent identity keys and API authentication tokens.</p>
+<div class="flex items-center gap-2 pt-2">
+<span class="material-symbols-outlined text-xs text-primary/40">lock</span>
+<span class="text-[10px] text-primary/40 font-mono tracking-widest">********-AES256</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer / System Stats -->
+<footer class="mt-auto border-t border-primary/20 bg-black py-8 px-6 md:px-12">
+<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 font-mono text-[10px] tracking-wider uppercase text-primary/50">
+<div class="flex flex-wrap justify-center gap-8">
+<div class="flex flex-col">
+<span class="text-primary/30">SYSTEM_UPTIME</span>
+<span class="text-primary text-sm font-bold">428:12:05:33</span>
+</div>
+<div class="flex flex-col">
+<span class="text-primary/30">ACTIVE_AGENTS</span>
+<span class="text-primary text-sm font-bold">1,024</span>
+</div>
+<div class="flex flex-col">
+<span class="text-primary/30">API_CALLS_24H</span>
+<span class="text-primary text-sm font-bold">8.4M</span>
+</div>
+<div class="flex flex-col">
+<span class="text-primary/30">SECURITY_LEVEL</span>
+<span class="text-accent-amber text-sm font-bold">MAXIMUM</span>
+</div>
+</div>
+<div class="text-center md:text-right">
+<p>© 2024 DBTECH45 // CORE_OS</p>
+<p class="mt-1">LOCATION: <span class="text-primary">NEO-TOKYO_GRID</span></p>
+</div>
+</div>
+</footer>
+</div>
+</body></html>

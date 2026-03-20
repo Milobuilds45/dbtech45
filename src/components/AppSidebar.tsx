@@ -137,46 +137,19 @@ interface NavItem {
   badge?: string;
 }
 
-const commandItems: NavItem[] = [
+const dashboardItems: NavItem[] = [
   { label: 'Home', href: '/os' },
   { label: 'Org Structure', href: '/os/org-structure' },
-];
-
-const dashboardItems: NavItem[] = [
   { label: 'Daily Brief', href: '/os/morning-brief' },
-  { label: 'Projects', href: '/os/projects', badge: '32' },
 ];
 
 const financeItems: NavItem[] = [
-  { label: 'Apex Trader', href: '/os/apex' },
-  { label: 'Markets', href: '/os/markets' },
-  { label: 'AxeCap Terminal', href: '/os/axecap' },
-  { label: 'Finance Library', href: '/os/finance-library' },
-  { label: 'Polymarket', href: '/os/polymarket' },
+  // All finance items moved to /ops
 ];
 
-const agentItems: NavItem[] = [
-  { label: 'Model Counsel', href: '/os/model-counsel' },
-  { label: 'Roundtable', href: '/os/roundtable' },
-  { label: 'Agent Initiatives', href: '/os/agent-initiatives' },
-  { label: 'Agent Assist', href: '/os/agents/assist' },
-];
+
 
 const opsItems: NavItem[] = [
-  { label: 'YT CLIPD', href: '/os/clipd' },
-  { label: 'Kanban', href: '/os/kanban' },
-  { label: 'Calendar', href: '/os/calendar' },
-  { label: 'Ideas Vault', href: '/os/ideas-vault' },
-  { label: 'Research', href: '/os/research' },
-  { label: 'DNA Scanner', href: '/tools/dna-scanner' },
-];
-
-const teamInitiativesItems: NavItem[] = [
-  { label: 'Ship or Kill', href: '/os/ship-or-kill' },
-  { label: 'Newsletter', href: '/os/newsletter' },
-];
-
-const intelItems: NavItem[] = [
   { label: 'Activity Dashboard', href: '/os/activity-dashboard' },
   { label: 'Overnight', href: '/os/agents/overnight' },
   { label: 'Task Manager', href: '/os/task-manager' },
@@ -186,11 +159,14 @@ const intelItems: NavItem[] = [
   { label: 'Skills Inventory', href: '/os/skills-inventory' },
 ];
 
-
-const systemItems: NavItem[] = [
+const intelItems: NavItem[] = [
   { label: 'Brand Kit', href: '/os/brand-kit' },
   { label: 'Brand Spec', href: '/os/brand-spec' },
   { label: 'Quick Links', href: '/os/quick-links' },
+];
+
+const systemItems: NavItem[] = [
+  // Settings and config will go here
 ];
 
 // â”€â”€â”€ Section config â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -203,14 +179,10 @@ interface SectionConfig {
 }
 
 const sections: SectionConfig[] = [
-  { key: 'command', number: '01', title: 'COMMAND CENTER', items: commandItems },
-  { key: 'dashboard', number: '02', title: 'DASHBOARD', items: dashboardItems },
-  { key: 'finance', number: '03', title: 'FINANCE', items: financeItems },
-  { key: 'operations', number: '04', title: 'OPERATIONS', items: opsItems },
-  { key: 'intel', number: '05', title: 'INTEL', items: intelItems },
-  { key: 'agents', number: '06', title: 'AGENTS', items: agentItems, badge: '[ 9 ]' },
-  { key: 'initiatives', number: '07', title: 'TEAM INITIATIVES', items: teamInitiativesItems },
-  { key: 'system', number: '08', title: 'SYSTEM CONFIG', items: systemItems },
+  { key: 'dashboard', number: '01', title: 'DASHBOARD', items: dashboardItems },
+  { key: 'operations', number: '02', title: 'OPERATIONS', items: opsItems },
+  { key: 'intel', number: '03', title: 'INTEL', items: intelItems },
+  { key: 'system', number: '04', title: 'SYSTEM CONFIG', items: systemItems },
 ];
 
 // â”€â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
@@ -221,7 +193,7 @@ const SIDEBAR_WIDTH = 280;
 const COLLAPSED_WIDTH = 60;
 
 type SectionState = Record<string, boolean>;
-const DEFAULT_SECTIONS: SectionState = { command: true, dashboard: true, finance: true, operations: false, agents: false, intel: false, initiatives: false, system: false };
+const DEFAULT_SECTIONS: SectionState = { dashboard: true, operations: false, intel: false, system: false };
 
 export default function AppSidebar({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -493,7 +465,7 @@ export default function AppSidebar({ children }: { children: React.ReactNode }) 
                 {colorMode === 'void' ? <Moon size={14} /> : colorMode === 'cyber' ? <Terminal size={14} /> : <Sun size={14} />}
               </span>
               <span style={{ flex: 1, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
-                {colorMode === 'void' ? 'NULL MODE' : colorMode === 'cyber' ? 'CYBER MODE' : 'PAPER MODE'}
+                {colorMode === 'void' ? 'DARK MODE' : colorMode === 'cyber' ? 'TECH MODE' : 'LIGHT MODE'}
               </span>
               <span style={{
                 fontSize: '10px',

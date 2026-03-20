@@ -14,8 +14,8 @@ export async function POST(req: NextRequest) {
     }
 
     const source = timestamped || plain || '';
-    // Send generous amount of transcript for context
-    const maxChars = source.length > 40000 ? 20000 : source.length;
+    // Gemini Pro handles up to 1M tokens — send the full transcript
+    const maxChars = 200000;
     const transcript = source.length > maxChars ? source.substring(0, maxChars) + '\n...[truncated]' : source;
 
     // Build conversation history for multi-turn
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
       .join('\n');
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-preview:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,8 +77,8 @@ Answer:`,
             }],
           }],
           generationConfig: {
-            maxOutputTokens: 1000,
-            temperature: 0.3,
+            maxOutputTokens: 4000,
+            temperature: 0.2,
           },
         }),
       }

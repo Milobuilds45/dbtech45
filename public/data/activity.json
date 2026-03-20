@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "b645f607",
+      "author": "Milo",
+      "timestamp": "2026-03-20 13:44:28 -0400",
+      "message": "fix(org-structure): 3 cols x 2 rows — Exec/Command/Creative top, Personal/Growth/Ops bottom"
+    },
+    {
+      "type": "commit",
       "id": "6cdb803c",
       "author": "Milo",
       "timestamp": "2026-03-20 13:43:19 -0400",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-03-14 13:15:03 -0400",
       "message": "feat: support base64 cookie upload"
-    },
-    {
-      "type": "commit",
-      "id": "82bd1c54",
-      "author": "Milo",
-      "timestamp": "2026-03-14 13:14:44 -0400",
-      "message": "debug: add error logging to cookie upload"
     }
   ],
-  "generatedAt": "2026-03-20T17:44:08.572Z"
+  "generatedAt": "2026-03-20T23:29:05.158Z"
 }

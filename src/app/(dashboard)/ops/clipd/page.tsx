@@ -175,6 +175,7 @@ export default function YouTubeTranscriptPage() {
     description?: string;
   } | null>(null);
   const [showTimestamps, setShowTimestamps] = useState(true);
+  const [showTranscript, setShowTranscript] = useState(true);
   const [copied, setCopied] = useState(false);
   const [archive, setArchive] = useState<ArchivedTranscript[]>([]);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -190,12 +191,14 @@ export default function YouTubeTranscriptPage() {
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [copiedChatIdx, setCopiedChatIdx] = useState<number | null>(null);
   const chatEndRef = useRef<HTMLDivElement>(null);
   // Archive chat state (per item)
   const [archiveChatMessages, setArchiveChatMessages] = useState<Record<string, { role: 'user' | 'ai'; text: string }[]>>({});
   const [archiveChatInput, setArchiveChatInput] = useState<Record<string, string>>({});
   const [archiveChatLoading, setArchiveChatLoading] = useState<Record<string, boolean>>({});
   const [archiveShowChat, setArchiveShowChat] = useState<Record<string, boolean>>({});
+  const [copiedArchiveChatIdx, setCopiedArchiveChatIdx] = useState<Record<string, number | null>>({});
   const [selectedChannel, setSelectedChannel] = useState<string | null>(null);
   const archiveChatEndRef = useRef<HTMLDivElement>(null);
 
@@ -288,8 +291,8 @@ export default function YouTubeTranscriptPage() {
     setTimeout(() => archiveChatEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
   }
 
-  async function handleSummarize(item: ArchivedTranscript) {
-    if (item.summary) return;
+  async function handleSummarize(item: ArchivedTranscript, forceRegenerate = false) {
+    if (item.summary && !forceRegenerate) return;
     setSummarizing(item.id);
     try {
       const res = await fetch('/api/youtube-summary', {
@@ -592,6 +595,14 @@ export default function YouTubeTranscriptPage() {
                 )}
 
                 {!result.noTranscript && <div style={{ display: 'flex', gap: 8, marginBottom: '1rem', flexWrap: 'wrap' }}>
+                  <button onClick={() => setShowTranscript(!showTranscript)} style={{
+                    background: brand.graphite, border: `1px solid ${brand.border}`,
+                    borderRadius: 6, padding: '8px 14px', color: brand.silver,
+                    fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', gap: 6,
+                  }}>
+                    {showTranscript ? <><ChevronUp size={12} /> hide transcript</> : <><ChevronDown size={12} /> show transcript</>}
+                  </button>
                   <button onClick={() => setShowTimestamps(!showTimestamps)} style={{
                     background: brand.graphite, border: `1px solid ${showTimestamps ? brand.amber : brand.border}`,
                     borderRadius: 6, padding: '8px 14px', color: showTimestamps ? brand.amber : brand.silver,
@@ -622,13 +633,7 @@ export default function YouTubeTranscriptPage() {
                   }}><FileText size={12} /> .md</button>
                   <button onClick={() => {
                     if (result.summary) {
-                      // If summary exists but has no timestamps, regenerate
-                      const hasTimestamps = /\[\d+:\d{2}/.test(result.summary);
-                      if (!hasTimestamps && !showCurrentSummary) {
-                        handleSummarizeCurrent(true);
-                      } else {
-                        setShowCurrentSummary(!showCurrentSummary);
-                      }
+                      setShowCurrentSummary(!showCurrentSummary);
                     } else {
                       handleSummarizeCurrent();
                     }
@@ -642,6 +647,15 @@ export default function YouTubeTranscriptPage() {
                      result.summary ? (showCurrentSummary ? <><ChevronUp size={12} /> hide breakdown</> : <><ChevronDown size={12} /> show breakdown</>) :
                      <><Brain size={12} /> ai summarize</>}
                   </button>
+                  {result.summary && (
+                    <button onClick={() => handleSummarizeCurrent(true)} disabled={summarizingCurrent} style={{
+                      background: brand.graphite, border: `1px solid ${brand.border}`, borderRadius: 6,
+                      padding: '8px 14px', color: brand.silver, fontFamily: M, fontSize: '0.75rem', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 6,
+                    }}>
+                      <Sparkles size={12} /> regenerate
+                    </button>
+                  )}
                   <button onClick={() => { setShowChat(!showChat); }} style={{
                     background: showChat ? 'rgba(139, 92, 246, 0.1)' : brand.graphite,
                     border: `1px solid ${showChat ? '#8B5CF6' : brand.border}`, borderRadius: 6,
@@ -701,7 +715,7 @@ export default function YouTubeTranscriptPage() {
                         ASK THIS VIDEO
                       </span>
                       <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.65rem', marginLeft: 'auto' }}>
-                        powered by gemini flash
+                        powered by gemini pro
                       </span>
                     </div>
                     <div style={{
@@ -724,12 +738,41 @@ export default function YouTubeTranscriptPage() {
                             border: `1px solid ${msg.role === 'user' ? 'rgba(139, 92, 246, 0.3)' : 'rgba(245, 158, 11, 0.15)'}`,
                             borderRadius: msg.role === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
                             padding: '10px 14px', maxWidth: '85%',
+                            position: 'relative',
                           }}>
                             <div style={{ color: msg.role === 'user' ? '#C4B5FD' : brand.silver, fontSize: '0.8rem', lineHeight: 1.6, fontFamily: M }}>
                               {msg.role === 'ai' ? (
                                 <SummaryDisplay summary={msg.text} videoId={result.videoId} />
                               ) : msg.text}
                             </div>
+                            {msg.role === 'ai' && (
+                              <button
+                                onClick={() => {
+                                  navigator.clipboard.writeText(msg.text);
+                                  setCopiedChatIdx(i);
+                                  setTimeout(() => setCopiedChatIdx(null), 2000);
+                                }}
+                                style={{
+                                  position: 'absolute',
+                                  top: 8,
+                                  right: 8,
+                                  background: copiedChatIdx === i ? brand.success : 'rgba(0,0,0,0.3)',
+                                  border: 'none',
+                                  borderRadius: 4,
+                                  padding: '4px 8px',
+                                  color: copiedChatIdx === i ? brand.void : brand.silver,
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: 4,
+                                  fontSize: '0.7rem',
+                                  fontFamily: M,
+                                  fontWeight: 600,
+                                }}
+                              >
+                                {copiedChatIdx === i ? <><Check size={10} /> copied</> : <Copy size={10} />}
+                              </button>
+                            )}
                           </div>
                         </div>
                       ))}
@@ -774,53 +817,55 @@ export default function YouTubeTranscriptPage() {
                   </div>
                 )}
 
-                {!result.noTranscript && showTimestamps ? (
-                  <div style={{
-                    background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
-                    padding: '16px', fontFamily: M, fontSize: '0.8rem',
-                    lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
-                  }}>
-                    {result.timestamped.split('\n').map((line, i) => {
-                      const tsMatch = line.match(/^\[(\d+:\d{2}(?::\d{2})?)\]\s*(.*)/);
-                      if (tsMatch) {
-                        const tsStr = tsMatch[1];
-                        const text = tsMatch[2];
-                        const parts = tsStr.split(':').map(Number);
-                        const secs = parts.length === 3
-                          ? parts[0] * 3600 + parts[1] * 60 + parts[2]
-                          : parts[0] * 60 + parts[1];
-                        return (
-                          <div key={i} style={{ marginBottom: 4 }}>
-                            <a
-                              href={`https://youtube.com/watch?v=${result.videoId}&t=${secs}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              style={{
-                                color: brand.amber, textDecoration: 'none', fontWeight: 600,
-                                cursor: 'pointer', marginRight: 8,
-                              }}
-                              onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
-                              onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
-                            >
-                              [{tsStr}]
-                            </a>
-                            <span style={{ color: brand.silver }}>{text}</span>
-                          </div>
-                        );
-                      }
-                      return <div key={i} style={{ color: brand.silver, marginBottom: 4 }}>{line}</div>;
-                    })}
-                  </div>
-                ) : !result.noTranscript ? (
-                  <pre style={{
-                    background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
-                    padding: '16px', color: brand.silver, fontFamily: M, fontSize: '0.8rem',
-                    lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
-                    whiteSpace: 'pre-wrap', wordBreak: 'break-word',
-                  }}>
-                    {result.plain}
-                  </pre>
-                ) : null}
+                {!result.noTranscript && showTranscript && (
+                  showTimestamps ? (
+                    <div style={{
+                      background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
+                      padding: '16px', fontFamily: M, fontSize: '0.8rem',
+                      lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
+                    }}>
+                      {result.timestamped.split('\n').map((line, i) => {
+                        const tsMatch = line.match(/^\[(\d+:\d{2}(?::\d{2})?)\]\s*(.*)/);
+                        if (tsMatch) {
+                          const tsStr = tsMatch[1];
+                          const text = tsMatch[2];
+                          const parts = tsStr.split(':').map(Number);
+                          const secs = parts.length === 3
+                            ? parts[0] * 3600 + parts[1] * 60 + parts[2]
+                            : parts[0] * 60 + parts[1];
+                          return (
+                            <div key={i} style={{ marginBottom: 4 }}>
+                              <a
+                                href={`https://youtube.com/watch?v=${result.videoId}&t=${secs}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                style={{
+                                  color: brand.amber, textDecoration: 'none', fontWeight: 600,
+                                  cursor: 'pointer', marginRight: 8,
+                                }}
+                                onMouseEnter={e => { e.currentTarget.style.textDecoration = 'underline'; }}
+                                onMouseLeave={e => { e.currentTarget.style.textDecoration = 'none'; }}
+                              >
+                                [{tsStr}]
+                              </a>
+                              <span style={{ color: brand.silver }}>{text}</span>
+                            </div>
+                          );
+                        }
+                        return <div key={i} style={{ color: brand.silver, marginBottom: 4 }}>{line}</div>;
+                      })}
+                    </div>
+                  ) : (
+                    <pre style={{
+                      background: brand.carbon, border: `1px solid ${brand.border}`, borderRadius: 8,
+                      padding: '16px', color: brand.silver, fontFamily: M, fontSize: '0.8rem',
+                      lineHeight: 1.7, maxHeight: '60vh', overflowY: 'auto',
+                      whiteSpace: 'pre-wrap', wordBreak: 'break-word',
+                    }}>
+                      {result.plain}
+                    </pre>
+                  )
+                )}
 
                 {/* Chat is now inline above transcript */}
               </div>
@@ -1106,7 +1151,7 @@ export default function YouTubeTranscriptPage() {
                             <div style={{ padding: '10px 14px', borderBottom: `1px solid ${brand.border}`, background: 'rgba(139,92,246,0.05)', display: 'flex', alignItems: 'center', gap: 6 }}>
                               <MessageCircle size={12} style={{ color: '#8B5CF6' }} />
                               <span style={{ color: '#8B5CF6', fontFamily: M, fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.05em' }}>ASK THIS VIDEO</span>
-                              <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.6rem', marginLeft: 'auto' }}>gemini flash</span>
+                              <span style={{ color: brand.smoke, fontFamily: M, fontSize: '0.6rem', marginLeft: 'auto' }}>gemini pro</span>
                             </div>
                             <div style={{ padding: '12px', maxHeight: '300px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 10, minHeight: (archiveChatMessages[item.id] || []).length === 0 ? 60 : undefined }}>
                               {(archiveChatMessages[item.id] || []).length === 0 && (
@@ -1121,10 +1166,39 @@ export default function YouTubeTranscriptPage() {
                                     border: `1px solid ${msg.role === 'user' ? 'rgba(139,92,246,0.3)' : 'rgba(245,158,11,0.15)'}`,
                                     borderRadius: msg.role === 'user' ? '10px 10px 2px 10px' : '10px 10px 10px 2px',
                                     padding: '8px 12px', maxWidth: '85%',
+                                    position: 'relative',
                                   }}>
                                     <div style={{ color: msg.role === 'user' ? '#C4B5FD' : brand.silver, fontSize: '0.75rem', lineHeight: 1.5, fontFamily: M }}>
                                       {msg.role === 'ai' ? <SummaryDisplay summary={msg.text} videoId={item.videoId} /> : msg.text}
                                     </div>
+                                    {msg.role === 'ai' && (
+                                      <button
+                                        onClick={() => {
+                                          navigator.clipboard.writeText(msg.text);
+                                          setCopiedArchiveChatIdx(prev => ({ ...prev, [item.id]: mi }));
+                                          setTimeout(() => setCopiedArchiveChatIdx(prev => ({ ...prev, [item.id]: null })), 2000);
+                                        }}
+                                        style={{
+                                          position: 'absolute',
+                                          top: 6,
+                                          right: 6,
+                                          background: copiedArchiveChatIdx[item.id] === mi ? brand.success : 'rgba(0,0,0,0.3)',
+                                          border: 'none',
+                                          borderRadius: 4,
+                                          padding: '3px 7px',
+                                          color: copiedArchiveChatIdx[item.id] === mi ? brand.void : brand.silver,
+                                          cursor: 'pointer',
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          gap: 3,
+                                          fontSize: '0.65rem',
+                                          fontFamily: M,
+                                          fontWeight: 600,
+                                        }}
+                                      >
+                                        {copiedArchiveChatIdx[item.id] === mi ? <><Check size={9} /> copied</> : <Copy size={9} />}
+                                      </button>
+                                    )}
                                   </div>
                                 </div>
                               ))}

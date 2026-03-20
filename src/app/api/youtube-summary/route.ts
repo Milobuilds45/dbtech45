@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
       }
 
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-preview:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -41,7 +41,7 @@ Note at the end: ⚠️ Summary based on video metadata — no transcript was av
               }],
             }],
             generationConfig: {
-              maxOutputTokens: 600,
+              maxOutputTokens: 1200,
               temperature: 0.3,
             },
           }),
@@ -60,8 +60,8 @@ Note at the end: ⚠️ Summary based on video metadata — no transcript was av
     // Use timestamped version if available — this lets Gemini reference specific moments
     const source = timestamped || plain;
 
-    // Send more of the transcript for better coverage
-    const maxChars = source.length > 30000 ? 15000 : source.length > 15000 ? 10000 : source.length;
+    // Gemini Pro handles massive context — send the full transcript
+    const maxChars = 200000;
     const truncated = source.length > maxChars ? source.substring(0, maxChars) + '\n...[truncated]' : source;
 
     if (!apiKey) {
@@ -74,7 +74,7 @@ Note at the end: ⚠️ Summary based on video metadata — no transcript was av
     const hasTimestamps = !!timestamped;
 
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-pro-preview:generateContent?key=${apiKey}`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -139,7 +139,7 @@ ${truncated}`,
             }],
           }],
           generationConfig: {
-            maxOutputTokens: 1200,
+            maxOutputTokens: 4000,
             temperature: 0.2,
           },
         }),

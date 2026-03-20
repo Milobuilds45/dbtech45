@@ -822,26 +822,75 @@ export default function AgentInitiativesPage() {
 
   const [justGenerated, setJustGenerated] = useState<Pitch[]>([]);
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (genAgents.length === 0) return;
     setIsGenerating(true);
-    setTimeout(() => {
-      let newPitches: Pitch[];
-      if (ideaMode === 'collaborative') {
-        newPitches = [genCollab(genAgents, creativity)];
-      } else {
-        newPitches = genIndividual(genAgents, creativity);
-      }
+
+    // Collect existing titles to avoid duplicates
+    const existingTitles = pitches.map(p => p.title);
+
+    if (ideaMode === 'collaborative') {
+      // Collab mode: use local generator (fast)
+      const newPitches = [genCollab(genAgents, creativity)];
       setPitches(prev => [...newPitches, ...prev]);
       setJustGenerated(newPitches);
+      setSelectedAgent(null);
       setIsGenerating(false);
-      // Auto-select the first agent if individual mode
-      if (ideaMode === 'individual' && newPitches.length > 0) {
-        setSelectedAgent(newPitches[0].agentId);
-      } else {
-        setSelectedAgent(null);
+    } else {
+      // Individual mode: call AI API for each selected agent
+      try {
+        const results: Pitch[] = [];
+        for (const agentId of genAgents) {
+          const agent = agents.find(a => a.id === agentId);
+          if (!agent) continue;
+          try {
+            const res = await fetch('/api/generate-pitch', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ agentId, creativity, existingTitles }),
+            });
+            if (res.ok) {
+              const deepPitch = await res.json();
+              const now = new Date();
+              const pitch: Pitch = {
+                id: `${agentId}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                agentId,
+                agentName: agent.name,
+                title: deepPitch.title,
+                tldr: deepPitch.tldr,
+                deepPitch,
+                fullPlan: deepPitch.executiveSummary.join('\n\n'),
+                date: now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                time: now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }),
+                status: 'pending' as const,
+              };
+              results.push(pitch);
+              existingTitles.push(deepPitch.title);
+            } else {
+              // API failed — fall back to local generator
+              const fallback = genIndividual([agentId], creativity);
+              results.push(...fallback);
+            }
+          } catch {
+            // Network error — fall back to local generator
+            const fallback = genIndividual([agentId], creativity);
+            results.push(...fallback);
+          }
+        }
+        setPitches(prev => [...results, ...prev]);
+        setJustGenerated(results);
+        if (results.length > 0) {
+          setSelectedAgent(results[0].agentId);
+        }
+      } catch {
+        // Total failure — fall back to local
+        const newPitches = genIndividual(genAgents, creativity);
+        setPitches(prev => [...newPitches, ...prev]);
+        setJustGenerated(newPitches);
+        if (newPitches.length > 0) setSelectedAgent(newPitches[0].agentId);
       }
-    }, 600);
+      setIsGenerating(false);
+    }
   };
 
   const creativityConfig: { value: CreativityLevel; label: string; Icon: typeof Shield; color: string }[] = [

@@ -26,6 +26,8 @@ export default function Header() {
     { label: "about", href: "#about" },
     { label: "projects", href: "#projects" },
     { label: "swarm", href: "#swarm" },
+    { label: "agents", href: "/agents" },
+    { label: "ops", href: "/ops" },
     { label: "os", href: "/os" },
   ];
 
