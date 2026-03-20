@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "94f30d14",
+      "author": "Milo",
+      "timestamp": "2026-03-20 13:27:24 -0400",
+      "message": "fix(org-structure): CSS grid layout, DOM-measured SVG connectors, no more clipping"
+    },
+    {
+      "type": "commit",
       "id": "fdc94f72",
       "author": "Milo",
       "timestamp": "2026-03-20 13:23:24 -0400",
@@ -344,5 +351,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-20T17:24:09.197Z"
+  "generatedAt": "2026-03-20T17:29:09.515Z"
 }
