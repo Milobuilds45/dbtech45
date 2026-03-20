@@ -120,32 +120,51 @@ const rooms: Room[] = [
   },
 ];
 
-// Connections: solid colored bezier curves, n8n style
+// Connections: N8N-style orthogonal lines with rounded corners
 const connections: Array<{ from: [number, number]; to: [number, number]; color: string }> = [
-  // Executive → Command
-  { from: [280, 350], to: [330, 350], color: '#F59E0B' },
-  // Command → Creative
-  { from: [670, 280], to: [740, 120], color: '#EC4899' },
-  // Command → Ops
-  { from: [670, 400], to: [730, 400], color: '#60A5FA' },
-  // Ops → Growth
-  { from: [870, 570], to: [870, 590], color: '#34D399' },
-  // Command → Personal
-  { from: [500, 460], to: [500, 615], color: '#8B5CF6' },
+  // Executive → Command (horizontal)
+  { from: [280, 420], to: [330, 460], color: '#F59E0B' },
+  // Command → Creative (up-right)
+  { from: [670, 390], to: [740, 225], color: '#EC4899' },
+  // Command → Ops (right)
+  { from: [670, 490], to: [730, 495], color: '#60A5FA' },
+  // Ops → Growth (down)
+  { from: [1010, 570], to: [1010, 650], color: '#34D399' },
+  // Command → Personal (down)
+  { from: [570, 570], to: [570, 700], color: '#8B5CF6' },
 ];
 
-function bezierPath(from: [number, number], to: [number, number]) {
-  const dx = Math.abs(to[0] - from[0]);
-  const dy = Math.abs(to[1] - from[1]);
-  const cx = Math.max(dx, dy) * 0.5;
+const CORNER = 10; // rounded corner radius on connector bends
 
-  if (dx > dy) {
-    // Horizontal-dominant
-    return `M ${from[0]} ${from[1]} C ${from[0] + cx} ${from[1]}, ${to[0] - cx} ${to[1]}, ${to[0]} ${to[1]}`;
-  } else {
-    // Vertical-dominant
-    return `M ${from[0]} ${from[1]} C ${from[0]} ${from[1] + cx}, ${to[0]} ${to[1] - cx}, ${to[0]} ${to[1]}`;
-  }
+function orthogonalPath(from: [number, number], to: [number, number]) {
+  const [x1, y1] = from;
+  const [x2, y2] = to;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+
+  // Pure horizontal
+  if (Math.abs(dy) < 2) return `M ${x1} ${y1} L ${x2} ${y2}`;
+  // Pure vertical
+  if (Math.abs(dx) < 2) return `M ${x1} ${y1} L ${x2} ${y2}`;
+
+  const midX = x1 + dx / 2;
+  const r = Math.min(CORNER, Math.abs(dx) / 2, Math.abs(dy) / 2);
+
+  const goRight = dx > 0;
+  const goDown = dy > 0;
+
+  // Path: horizontal to midX with rounded turn, then vertical to y2 with rounded turn
+  const hDir = goRight ? 1 : -1;
+  const vDir = goDown ? 1 : -1;
+
+  return [
+    `M ${x1} ${y1}`,
+    `L ${midX - hDir * r} ${y1}`,
+    `Q ${midX} ${y1} ${midX} ${y1 + vDir * r}`,
+    `L ${midX} ${y2 - vDir * r}`,
+    `Q ${midX} ${y2} ${midX + hDir * r} ${y2}`,
+    `L ${x2} ${y2}`,
+  ].join(' ');
 }
 
 function Avatar({ member }: { member: Member }) {
@@ -259,7 +278,7 @@ export default function OrgStructurePage() {
       style={{
         minHeight: '100vh',
         background: '#000000',
-        padding: 18,
+        padding: '24px 28px',
         fontFamily: "'Inter', system-ui, sans-serif",
       }}
     >
@@ -321,7 +340,7 @@ export default function OrgStructurePage() {
         </div>
 
         {/* Room chips */}
-        <div style={{ padding: '12px 18px 6px', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+        <div style={{ padding: '14px 22px 8px', display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {rooms.map((room) => (
             <div
               key={room.id}
@@ -345,59 +364,36 @@ export default function OrgStructurePage() {
         </div>
 
         {/* Canvas */}
-        <div style={{ padding: '10px 18px 18px' }}>
+        <div style={{ padding: '8px 22px 24px' }}>
           <div
             style={{
               position: 'relative',
               width: '100%',
-              aspectRatio: '1200 / 900',
+              aspectRatio: '1200 / 920',
               background: '#000000',
               borderRadius: 14,
               border: '1px solid #111827',
               overflow: 'hidden',
             }}
           >
-            {/* SVG Connections - solid colored bezier curves */}
+            {/* SVG Connections — N8N-style orthogonal, thin, clean */}
             <svg
               viewBox="0 0 1200 900"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
             >
-              <defs>
-                <filter id="glow">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                  </feMerge>
-                </filter>
-              </defs>
-
               {connections.map((conn, i) => {
-                const d = bezierPath(conn.from, conn.to);
+                const d = orthogonalPath(conn.from, conn.to);
                 return (
-                  <g key={i}>
-                    {/* Glow layer */}
-                    <path
-                      d={d}
-                      fill="none"
-                      stroke={conn.color}
-                      strokeWidth="6"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      opacity="0.25"
-                      filter="url(#glow)"
-                    />
-                    {/* Solid line */}
-                    <path
-                      d={d}
-                      fill="none"
-                      stroke={conn.color}
-                      strokeWidth="3"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      opacity="0.9"
-                    />
-                  </g>
+                  <path
+                    key={i}
+                    d={d}
+                    fill="none"
+                    stroke={conn.color}
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    opacity="0.55"
+                  />
                 );
               })}
             </svg>

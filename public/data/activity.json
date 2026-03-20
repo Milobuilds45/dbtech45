@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "0c2a3bf8",
+      "author": "Milo",
+      "timestamp": "2026-03-20 12:28:57 -0400",
+      "message": "feat(org-chart): N8N-style orthogonal connectors, pan/zoom canvas, dot grid background"
+    },
+    {
+      "type": "commit",
       "id": "8ea42655",
       "author": "Milo",
       "timestamp": "2026-03-19 11:12:38 -0400",
@@ -330,5 +337,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-20T16:24:11.732Z"
+  "generatedAt": "2026-03-20T17:19:07.068Z"
 }
