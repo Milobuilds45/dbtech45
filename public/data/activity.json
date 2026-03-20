@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "fdc94f72",
+      "author": "Milo",
+      "timestamp": "2026-03-20 13:23:24 -0400",
+      "message": "fix(org-structure): N8N orthogonal connectors, strip glow, tighten spacing"
+    },
+    {
+      "type": "commit",
       "id": "0c2a3bf8",
       "author": "Milo",
       "timestamp": "2026-03-20 12:28:57 -0400",
@@ -337,5 +344,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-20T17:19:07.068Z"
+  "generatedAt": "2026-03-20T17:24:09.197Z"
 }
