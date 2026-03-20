@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "6cdb803c",
+      "author": "Milo",
+      "timestamp": "2026-03-20 13:43:19 -0400",
+      "message": "fix(org-structure): 2-col 3-row layout, Growth moved under Command, fits on screen"
+    },
+    {
+      "type": "commit",
       "id": "ea6bcd8c",
       "author": "Milo",
       "timestamp": "2026-03-20 13:35:57 -0400",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-03-14 13:14:44 -0400",
       "message": "debug: add error logging to cookie upload"
-    },
-    {
-      "type": "commit",
-      "id": "59a0845b",
-      "author": "Milo",
-      "timestamp": "2026-03-14 13:13:32 -0400",
-      "message": "feat: cookie upload script"
     }
   ],
-  "generatedAt": "2026-03-20T17:39:07.864Z"
+  "generatedAt": "2026-03-20T17:44:08.572Z"
 }
