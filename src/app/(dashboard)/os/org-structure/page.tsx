@@ -58,33 +58,42 @@ interface RoomDef {
   tags?: string[];
 }
 
+// Layout: 2 columns × 3 rows
+//
+//  COL LEFT (x=60)          COL RIGHT (x=420)
+//  ──────────────────────   ──────────────────────
+//  ROW 1  [ Executive    ]  [ Creative + Tech     ]
+//  ROW 2  [ Command      ]  [ Ops + Intel         ]
+//  ROW 3  [ Personal     ]  [ Growth + Social     ]
+//
+//  Wires:
+//    Derek  → Command       (right → left)
+//    Derek  → Wendy         (bottom → top)
+//    Command → Creative     (right → left)
+//    Command → Ops          (right → left)
+//    Command → Growth       (right → left)
+
+const COL_L = 60;
+const COL_R = 420;
+const ROW_1 = 60;
+const ROW_2 = 340;
+const ROW_3 = 700;
+
 const ROOMS: RoomDef[] = [
-  // COL 0
+  // LEFT COLUMN
   {
     id: 'executive',
     label: 'Executive Suite',
     color: '#F59E0B',
-    left: 60, top: 80,
+    left: COL_L, top: ROW_1,
     members: [DEREK],
     addSlot: 'Your seat',
   },
   {
-    id: 'personal',
-    label: 'Personal Suite',
-    color: '#8B5CF6',
-    left: 60, top: 310,
-    isolated: true,
-    members: [WENDY],
-    tags: ['Private lane'],
-    addSlot: 'Add support',
-  },
-
-  // COL 1
-  {
     id: 'command',
     label: 'Central Command',
     color: '#34D399',
-    left: 400, top: 80,
+    left: COL_L, top: ROW_2,
     members: [TED, MILO_M],
     notes: [
       'Routes priority work across all rooms',
@@ -93,13 +102,23 @@ const ROOMS: RoomDef[] = [
     ],
     addSlot: 'Add chief',
   },
+  {
+    id: 'personal',
+    label: 'Personal Suite',
+    color: '#8B5CF6',
+    left: COL_L, top: ROW_3,
+    isolated: true,
+    members: [WENDY],
+    tags: ['Private lane'],
+    addSlot: 'Add support',
+  },
 
-  // COL 2
+  // RIGHT COLUMN
   {
     id: 'creative',
     label: 'Creative + Tech Wing',
     color: '#EC4899',
-    left: 760, top: 60,
+    left: COL_R, top: ROW_1,
     members: [PAULA, ANDERS],
     tags: ['Brand systems', 'Build + implementation'],
     addSlot: 'Add builder',
@@ -108,7 +127,7 @@ const ROOMS: RoomDef[] = [
     id: 'ops',
     label: 'Ops + Intel Wing',
     color: '#60A5FA',
-    left: 760, top: 380,
+    left: COL_R, top: ROW_2,
     members: [BOBBY, REMY_M, TRENT],
     tags: ['Markets', 'Operations', 'Intel'],
     addSlot: 'Add operator',
@@ -117,7 +136,7 @@ const ROOMS: RoomDef[] = [
     id: 'growth',
     label: 'Growth + Social Wing',
     color: '#34D399',
-    left: 760, top: 730,
+    left: COL_R, top: ROW_3,
     members: [MICHAEL, DWIGHT, JIM],
     tags: ['Audience growth', 'Sales / outreach'],
     addSlot: 'Add closer',
@@ -131,15 +150,15 @@ const ROOMS: RoomDef[] = [
 type Edge = 'top' | 'bottom' | 'left' | 'right';
 
 const WIRES: Array<[string, Edge, string, Edge, string]> = [
-  // Derek → Command
-  ['executive', 'right', 'command',  'left',  '#F59E0B'],
-  // Derek → Wendy (direct, private)
-  ['executive', 'bottom', 'personal', 'top',   '#8B5CF6'],
-  // Command → Creative
-  ['command',   'right',  'creative', 'left',  '#EC4899'],
-  // Command → Ops
+  // Derek → Command (down left col)
+  ['executive', 'bottom', 'command',  'top',   '#F59E0B'],
+  // Derek → Creative (across, row 1)
+  ['executive', 'right',  'creative', 'left',  '#EC4899'],
+  // Command → Ops (across, row 2)
   ['command',   'right',  'ops',      'left',  '#60A5FA'],
-  // Command → Growth
+  // Command → Wendy / Personal (down left col)
+  ['command',   'bottom', 'personal', 'top',   '#8B5CF6'],
+  // Command → Growth (across, row 3 — elbow wire)
   ['command',   'right',  'growth',   'left',  '#34D399'],
 ];
 
@@ -310,8 +329,8 @@ function RoomNode({ room, hovered, onHover }: {
 
 // ─── Main ─────────────────────────────────────────────────────────────────
 
-const CANVAS_W = 1120;
-const CANVAS_H = 1040;
+const CANVAS_W = 780;
+const CANVAS_H = 1020;
 
 export default function OrgStructurePage() {
   const [hovered, setHovered] = useState<string | null>(null);
