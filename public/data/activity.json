@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "8ea42655",
+      "author": "Milo",
+      "timestamp": "2026-03-19 11:12:38 -0400",
+      "message": "Remove usage gauges from sidebar"
+    },
+    {
+      "type": "commit",
       "id": "bfc88d85",
       "author": "Milo",
       "timestamp": "2026-03-18 23:01:41 -0400",
@@ -323,5 +330,5 @@
       "message": "fix: use cookies to bypass YouTube datacenter bot blocks"
     }
   ],
-  "generatedAt": "2026-03-19T15:09:08.821Z"
+  "generatedAt": "2026-03-20T16:24:11.732Z"
 }
