@@ -2,6 +2,13 @@
   "activity": [
     {
       "type": "commit",
+      "id": "2476458f",
+      "author": "Milo",
+      "timestamp": "2026-03-20 19:31:46 -0400",
+      "message": "refactor: restructure /os → /ops + /agents sections, new API routes, Stitch integration, usage gauge"
+    },
+    {
+      "type": "commit",
       "id": "b645f607",
       "author": "Milo",
       "timestamp": "2026-03-20 13:44:28 -0400",
@@ -342,14 +349,7 @@
       "author": "Milo",
       "timestamp": "2026-03-14 14:16:56 -0400",
       "message": "debug: add verbose yt-dlp logging to diagnose subtitle extraction"
-    },
-    {
-      "type": "commit",
-      "id": "814c143a",
-      "author": "Milo",
-      "timestamp": "2026-03-14 13:15:03 -0400",
-      "message": "feat: support base64 cookie upload"
     }
   ],
-  "generatedAt": "2026-03-20T23:29:05.158Z"
+  "generatedAt": "2026-03-21T01:39:05.342Z"
 }
